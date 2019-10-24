@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\StatusIndication.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>all</name>
+      <member>
+        <project>StatusIndication</project>
+        <configuration>K850_R1FA035</configuration>
+      </member>
+      <member>
+        <project>StatusIndication</project>
+        <configuration>W595_R3EF001</configuration>
+      </member>
+      <member>
+        <project>StatusIndication</project>
+        <configuration>W760_R3EF001</configuration>
+      </member>
+      <member>
+        <project>StatusIndication</project>
+        <configuration>W910_R1FA037</configuration>
+      </member>
+      <member>
+        <project>StatusIndication</project>
+        <configuration>C702_R3EF001</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>
+
+

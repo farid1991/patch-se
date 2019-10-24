@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>2775551418</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\asm\g502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\g502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\MusicApp_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\MusicApp_Shortcut.elf</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\g502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\..\include\book\MusicApplication_book.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ICBMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\SMS.elf</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 21</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 6 26 25</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 3 9 10 28 30 29 31 35 36 37 34 0 27 38 39 12 19 11</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 24 3 9 10 28 30 29 31 35 36 14 37 32 34 33 0 27 20 18 38 39 17 12 19 11</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\g502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 4 8</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\MusicApp_Shortcut.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 21</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\MusicApp_Shortcut.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 23 4 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\SMS.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 23 4 6</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>W595_R3EA037_HK</name>
+    <outputs>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\asm\g502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\W595_R3EA037_HK\Exe\patch.elf</file>
+      <file>$PROJ_DIR$\W595_R3EA037_HK\Obj\g502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\W595_R3EA037_HK\Obj\main.r79</file>
+      <file>$PROJ_DIR$\W595_R3EA037_HK\Obj\MusicApp_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\W595_R3EA037_HK\Obj\main.pbi</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 2 3 4</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\g502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 6</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 5</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W595_R3EA037_HK\Obj\MusicApp_Shortcut.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

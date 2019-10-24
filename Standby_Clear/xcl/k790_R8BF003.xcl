@@ -1,0 +1,19 @@
+-carm
+
+//Тело патча
+-Z(CODE)ZAMAIN,CODE,DATA_C,INITTAB=45CF0800
+
+//Создаем свой пункт
+-Z(CODE)PATCH_Standby=45ADA044-45ADA047
+-Z(CODE)PATCH_StandbyFunc=45ADA048-45ADA04B
+
+/*
+-Z(CODE)Get_BigClock=4542514C //Большие часы
+-Z(CODE)Get_Time=45425190     //Время
+-Z(CODE)Get_Date=454251B8     //Дата
+-Z(CODE)Get_Alarm=45425310    //Будильник
+-Z(CODE)Get_Talk=45426AAC     //Время разговора
+-Z(CODE)Get_Timer=45426ECC    //Таймер
+*/
+
+-Z(CODE)PATCH_SET_TEXT=4532FAE4

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>2655559437</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\asm\w660_r8bb001_Orange.asm</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\w660_r8bb001_Orange.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\LogoChanger.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\LogoChanger.pbd</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\LogoChanger.map</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\LogoChanger.elf</file>
+      <file>$PROJ_DIR$\LogoChanger.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\LogoChanger.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\LogoChanger.i</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\LogoChanger.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\classes.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IUIImage.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichTextLayout.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichText.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFont.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControl.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ICBMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServerManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\RichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMusicServer_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIRichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\MusicServer_types.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 16 7</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 43 45 44 46</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 38</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 1 13 17 18 19 25 20 22 31 27 39 48 21 23 49 50 29 30 24 41 33 26 32 51 35 47 34 28 36 37</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 17 18 19 25 20 22 21 29 30 23 24 33 26 34 37</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\w660_r8bb001_Orange.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 4</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\LogoChanger.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 38</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\LogoChanger.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 8</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 14 16 43</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\LogoChanger.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 5 12 11</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 1 13 17 18 19 25 20 22 31 27 39 21 23 40 29 30 24 41 33 26 32 42 35 34 28 36</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 17 18 19 25 20 22 21 29 30 23 24 33 26 34 28 36</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 9 8</file>
+        </tool>
+      </outputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>W660_R8BB001_Orange</name>
+    <outputs>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\w660_r8bb001_Orange.asm</file>
+      <file>$PROJ_DIR$\LogoChanger.c</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Obj\w660_r8bb001_Orange.r79</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\List\LogoChanger.i</file>
+      <file>$PROJ_DIR$\Types.h</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\List\LogoChanger.lst</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\List\LogoChanger.map</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Obj\LogoChanger.pbi</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Obj\LogoChanger.r79</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Obj\LogoChanger.pbd</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\List\LogoChanger.s79</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\List\w660_r8bb001_Orange.lst</file>
+      <file>$PROJ_DIR$\Target\W660_R8BB001_Orange.h</file>
+      <file>$PROJ_DIR$\xcl\W660_R8BB001_Orange.xcl</file>
+      <file>$PROJ_DIR$\W660_R8BB001_Orange\Exe\LogoChanger.elf</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 10</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\w660_r8bb001_Orange.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 4 14</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\LogoChanger.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 11 5 13 7</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 9</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 15 6 3</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 6 3</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 8 17</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W660_R8BB001_Orange\Obj\LogoChanger.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W660_R8BB001_Orange\Exe\LogoChanger.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 8</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 16 11 4</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

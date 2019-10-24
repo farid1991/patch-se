@@ -1,0 +1,58 @@
+#ifndef _SETTING_H_
+#define _SETTING_H_
+
+typedef enum
+{
+  ITEM_ARTIST = 0,
+  ITEM_TITLE,
+  ITEM_ALBUM,
+  ITEM_YEAR,
+  ITEM_GENRE,
+  ITEM_EXT,
+  ITEM_TOTAL,
+  ITEM_ELAPSED,
+  ITEM_REMAINING,
+  ITEM_BITRATE,
+  ITEM_SAMPLERATE,
+  ITEM_AUDIOOUTPUT,
+  ITEM_TIME_PROGRESS,
+  ITEM_VOLUME_PROGRESS,
+  ITEM_COVER,
+  ITEM_FRAME,
+  ITEM_ARTIST_ICN,
+  ITEM_TITLE_ICN,
+  ITEM_ALBUM_ICN,
+  ITEM_PLAYERSTATE_ICN,
+  ITEM_BACKROUND,
+  ITEM_ADDITIONAL,
+  ITEM_LAST
+}ITEM_SETTING;
+
+typedef enum
+{
+  TYPE_IMAGE = 0,
+  TYPE_THEME,
+  TYPE_COLOR
+}BACKGROUND_TYPE;
+
+#define SETTING_COUNT ITEM_LAST
+#define TEXT_COUNT 5
+#define PROGRESS_COUNT 6
+#define IMAGE_COUNT 2
+#define BACKGROUND_COUNT 3
+#define ADDITIONAL_COUNT 3
+
+typedef struct _SETTING_BOOK : BOOK
+{
+  GUI_LIST* gui_set;
+  GUI_LIST* gui_elem;
+  GUI* gui_question;
+  GUI_ONEOFMANY* gui_oom;
+  
+  int element;
+  bool change;
+}SETTING_BOOK;
+
+void DBPlayer_Setting(BOOK* book, GUI* gui);
+
+#endif

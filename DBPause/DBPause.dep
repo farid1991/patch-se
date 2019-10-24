@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1259232777</fileChecksum>
+  <configuration>
+    <name>C510_R1HA035</name>
+    <outputs>
+      <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Exe\DBPause.elf</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\C510_R1HA035.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\DBPause.pbd</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.i</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\C510_R1HA035.lst</file>
+      <file>$PROJ_DIR$\Target\C510_R1HA035.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.lst</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 5 23</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 2 22 31</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 4</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 24 8 7 9 10 11 12 13 17 18 25 19 26 14 28 16 15 27 29 20 21 30</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 8 7 9 10 11 12 13 17 18 19 14 16 15 20 21</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 3</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\C510_R1HA035\Obj\DBPause.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 4</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1284895591</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\asm\g502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\lib.asm</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\SMS.elf</file>
+      <file>$PROJ_DIR$\target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\g502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\default.asm</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\lib.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SMS_Management.pbd</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbd</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\g502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\default.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\patch.elf</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\asm\g502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 6 17</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 11 7 10</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 4 8 15 18 19 22 23 24 28 29 33 30 35 25 36 27 26 34 37 31 32 38</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 8 15 18 19 22 23 24 28 29 30 25 27 26 31 32</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\lib.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 13</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\SMS.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 5 6 11</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\default.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 20</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 3</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\SMS_Management.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 12</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\main.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 12</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\patch.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 5 6 11</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+</project>
+
+

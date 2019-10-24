@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1223140172</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichTextLayout.h</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\OLED.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\IRoot.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\OLED.pbd</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IUIImage.h</file>
+      <file>$PROJ_DIR$\..\include\classes.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\OLED.elf</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\OLED.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\OLED.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\OLED.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMusicServer_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Time_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\OLED.map</file>
+      <file>$PROJ_DIR$\..\include\interface\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\OLED.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\..\include\interface\ICBMusicServer.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\OLED.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\..\include\interface\types\RichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFont.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControl.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichText.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServerManager.h</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 24 32 40 39</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 60 14 17 19 21 25 28 34 35 36 29 31 30 26 27 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 18 60 14 17 19 21 25 28 34 35 61 36 62 29 64 31 30 63 65 26 27 66 16</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 46 11</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\OLED.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 15</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\OLED.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 50 46 24</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 13 43</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\OLED.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 33 38 48 4</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 60 14 10 5 20 9 12 1 23 22 57 55 59 56 58</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 18 60 14 10 5 20 9 12 8 52 53 1 57 51 23 22 55 49 59 56 47 41 42 58 54 44</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+  </configuration>
+  <configuration>
+    <name>J105_R1HA035</name>
+    <outputs>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\OLED.i</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\OLED.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\OLED.pbd</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Exe\OLED.elf</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\J105_R1HA035.lst</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\OLED.map</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tptinl8f.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\OLED.pbi</file>
+      <file>$PROJ_DIR$\Target\J105_R1HA035.h</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\OLED.lst</file>
+      <file>$PROJ_DIR$\xcl\J105_R1HA035.xcl</file>
+      <file>$PROJ_DIR$\OLED.c</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 10 6</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 9 8</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 11 7</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\J105_R1HA035\Obj\OLED.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\J105_R1HA035\Exe\OLED.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 11</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 16 9 3 12</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\OLED.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 3 2 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18 5</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 14 18 5</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

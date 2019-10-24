@@ -1,0 +1,25 @@
+#include "..\\include\classes\IUnknown.h"
+#include "..\\include\classes\IFontManager.h"
+#include "..\\include\classes\IRichTextLayout.h"
+#include "..\\include\classes\ITextRenderingManager.h"
+#include "..\\include\classes\IMetaData.h"
+#include "..\\include\classes\IMusicServerManager.h"
+#include "..\\include\classes\IAudioControlManager.h"
+
+class IShell;
+class IMusicServer;
+class ICBMusicServer;
+class IRichText;
+class IRichTextLayout;
+class ITheme;
+class IFont;
+class IFontFactory;
+class IFontManager;
+class ITextRenderingFactory;
+class ITextRenderingManager;
+class IImageManager;
+class IUIImage;
+class IMetaData;
+class IMusicServerManager;
+class IIndicationDeviceManager;
+class ILedControlDevice;

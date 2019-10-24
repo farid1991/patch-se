@@ -1,0 +1,26 @@
+#ifndef G502_R1FA037
+#error G502_R1FA037 configuration needed for this header!
+#else
+#ifndef _G502_R1FA037_
+#define _G502_R1FA037_
+
+#define ACTION_LONG_BACK        0xFAF
+#define ACTION_SELECT1          0xFC2
+#define ACTION_ACCEPT           0xFAC
+#define ACTION_DELETE           0xFB4
+#define ACTION_BACK             0xFC0
+#define ACTION_YES              0xFC5
+#define ACTION_NO               0xFBE
+
+#define RETURN_TO_STANDBY_EVENT 0x841
+#define CANCEL_EVENT            0x4
+#define PAGE_ENTER_EVENT        0xE
+#define NIL_EVENT               0
+
+#define PATH 			0x11987FC4
+#define SYNC_INT              	0x11A8331C
+
+#define page_MSG_UI_MessageAlert 0x11AE59F8
+
+#endif
+#endif

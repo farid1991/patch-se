@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>3896376621</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\SMSBackup.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SMSBackup.map</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SMSBackup.i</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SMSBackup.pbi</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SMSBackup.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SMSBackup.lst</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SMSBackup.pbd</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tptinl8f.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SMSBackup.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\SMSBackup.elf</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 22</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 21 14 35</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 33 34 37 36 38 39 9 23 24 41 40 18 26 27</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 0 16 33 34 37 36 38 39 9 23 28 24 25 41 30 40 18 29 32 26 27 31</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 4 11</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\SMSBackup.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 8</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 19 6 10 12</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 0 16 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\SMSBackup.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 22</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 5 20</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\SMSBackup.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 5</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 7 4 19 17</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

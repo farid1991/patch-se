@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1299640111</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\include\func.asm</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\DrawFuncs.c</file>
+      <file>$PROJ_DIR$\..\deleaker\mem2.cpp</file>
+      <file>$PROJ_DIR$\ReadFile.c</file>
+      <file>$PROJ_DIR$\config_data.c</file>
+      <file>$PROJ_DIR$\conf_loader.cpp</file>
+      <file>$PROJ_DIR$\Debug\Exe\Test List_Debug.elf</file>
+      <file>$PROJ_DIR$\Debug\List\_cpp2.lst</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbd</file>
+      <file>$PROJ_DIR$\Debug\List\func.lst</file>
+      <file>$PROJ_DIR$\..\deleaker\mem2.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\conf_loader.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\main.s79</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.r79</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\_cpp2.pbi</file>
+      <file>$PROJ_DIR$\MyFuncs.c</file>
+      <file>$PROJ_DIR$\..\include\DYN_tag.h</file>
+      <file>$PROJ_DIR$\..\include\IAudioDevice_Interface.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\Volume Settings_Debug.elf</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\..\include\IRoot_Interface.h</file>
+      <file>$PROJ_DIR$\..\include\dir.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\conf_loader.r79</file>
+      <file>$PROJ_DIR$\Debug\List\main.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\_cpp2.r79</file>
+      <file>$PROJ_DIR$\Debug\List\DrawFuncs.s79</file>
+      <file>$PROJ_DIR$\Debug\List\DrawFuncs.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\DrawFuncs.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\DrawFuncs.r79</file>
+      <file>$PROJ_DIR$\DrawFuncs.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\mem2.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\_cpp2.s79</file>
+      <file>$PROJ_DIR$\..\deleaker\Lib_Clara_original.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\Test Cue_Debug.elf</file>
+      <file>$PROJ_DIR$\Debug\Obj\MyFuncs.r79</file>
+      <file>$PROJ_DIR$\Debug\List\MyFuncs.s79</file>
+      <file>$PROJ_DIR$\Debug\Exe\main.elf</file>
+      <file>$PROJ_DIR$\Debug\Exe\MyLog_Debug.elf</file>
+      <file>$PROJ_DIR$\..\include\DYN_mac.asm</file>
+      <file>$PROJ_DIR$\Debug\Exe\Cue Viewer_Debug.elf</file>
+      <file>$PROJ_DIR$\conf_loader.h</file>
+      <file>$PROJ_DIR$\..\C++\_cpp2.cpp</file>
+      <file>$PROJ_DIR$\Debug\List\mem2.s79</file>
+      <file>$PROJ_DIR$\Debug\List\mem2.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\config_data.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\func.r79</file>
+      <file>$PROJ_DIR$\Debug\Exe\Cue Viewer.elf</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tpainl8n.r79</file>
+      <file>$PROJ_DIR$\config_data.h</file>
+      <file>$PROJ_DIR$\Debug\List\MyFuncs.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\mem2.r79</file>
+      <file>$PROJ_DIR$\..\include\1.xcl</file>
+      <file>$PROJ_DIR$\..\include\DYN_ext.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\cfg_items.h</file>
+      <file>$PROJ_DIR$\..\include\obsolete.h</file>
+      <file>$PROJ_DIR$\..\include\Lib_Clara.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\config_data.r79</file>
+      <file>$PROJ_DIR$\Debug\Exe\Player Info_Debug.elf</file>
+      <file>$PROJ_DIR$\Debug\Obj\MyFuncs.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\Volume Settings_Debug.map</file>
+      <file>$PROJ_DIR$\ReadFile.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ReadFile.r79</file>
+      <file>$PROJ_DIR$\Debug\Obj\ReadFile.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\ReadFile.lst</file>
+      <file>$PROJ_DIR$\Debug\List\ReadFile.s79</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\include\func.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 48 11</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>AARM</name>
+          <file> 19 41</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 15 26</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 59 9 55 19 56 58 24 23 20 64 32 22</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 59 9 55 19 56 58 35 24 23 20 64 32 22</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DrawFuncs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 30</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 28 29</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 59 9 55 19 56 58 35</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\deleaker\mem2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 33</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 53 45 46</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12 59 9 55 19 56 58 35 24</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 59 9 55 19 56 58 35 24</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ReadFile.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 66</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 65 68 67</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 64</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 59 9 55 19 56 58 35 64</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\config_data.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 47</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 57 9 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\conf_loader.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 25</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 59 9 55 19 56 58 24 57 43</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Test List_Debug.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\main.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 30 66 16 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\MyFuncs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 62</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 38 52</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 59 9 55 19 56 58 35</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 21 63</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Volume Settings_Debug.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 63</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 31 65 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Test Cue_Debug.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 25 60 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\main.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 25 60 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\MyLog_Debug.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 25 60 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Cue Viewer_Debug.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 25 60 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\C++\_cpp2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 27 34 8</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 59 9 55 19 56 58</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 59 9 55 19 56 58</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Cue Viewer.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 37 25 60 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Player Info_Debug.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 54 31 48 15 53 50</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\include\func.asm</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\DrawFuncs.c</file>
+      <file>$PROJ_DIR$\..\deleaker\mem2.cpp</file>
+      <file>$PROJ_DIR$\ReadFile.c</file>
+      <file>$PROJ_DIR$\config_data.c</file>
+      <file>$PROJ_DIR$\conf_loader.cpp</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\..\deleaker\mem2.h</file>
+      <file>$PROJ_DIR$\MyFuncs.c</file>
+      <file>$PROJ_DIR$\..\include\DYN_tag.h</file>
+      <file>$PROJ_DIR$\..\include\var_arg.h</file>
+      <file>$PROJ_DIR$\Release\Obj\cl.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\inc\ctype.h</file>
+      <file>$PROJ_DIR$\util.c</file>
+      <file>$PROJ_DIR$\Release\Obj\util.r79</file>
+      <file>$PROJ_DIR$\Release\List\main.s79</file>
+      <file>$PROJ_DIR$\Release\List\Editor.lst</file>
+      <file>$PROJ_DIR$\Release\Obj\main.pbd</file>
+      <file>$PROJ_DIR$\Release\List\_cpp2.s79</file>
+      <file>$PROJ_DIR$\Release\Obj\config_data.r79</file>
+      <file>$PROJ_DIR$\Release\List\mem2.s79</file>
+      <file>$PROJ_DIR$\Editor.h</file>
+      <file>$PROJ_DIR$\..\..\..\Embedded Workbench 4.0 Evaluation\SE_ELF\include\func.asm</file>
+      <file>$TOOLKIT_DIR$\inc\ysizet.h</file>
+      <file>$PROJ_DIR$\Release\Obj\MyFuncs.pbi</file>
+      <file>$PROJ_DIR$\Release\List\MyFuncs.s79</file>
+      <file>$TOOLKIT_DIR$\inc\xmtx.h</file>
+      <file>$PROJ_DIR$\Release\Exe\WriteTest.elf</file>
+      <file>$PROJ_DIR$\Release\List\config_data.s79</file>
+      <file>$PROJ_DIR$\Release\Exe\Player Info.elf</file>
+      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\conf_loader.r79</file>
+      <file>$PROJ_DIR$\Release\List\DrawFuncs.s79</file>
+      <file>$PROJ_DIR$\Release\List\DrawFuncs.lst</file>
+      <file>$PROJ_DIR$\Release\Exe\MinimizeBooks.elf</file>
+      <file>$PROJ_DIR$\..\&#x42D;&#x43B;&#x44C;&#x444;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x435;&#x43D;&#x438;&#x435;\Embedded Workbench 4.0 Evaluation\SE_ELF\include\func.asm</file>
+      <file>$PROJ_DIR$\Release\Obj\DrawFuncs.r79</file>
+      <file>$PROJ_DIR$\Release\Obj\DrawFuncs.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\MyLogs.elf</file>
+      <file>$TOOLKIT_DIR$\inc\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\Release\List\conf_loader.s79</file>
+      <file>$PROJ_DIR$\Release\Exe\Test List.elf</file>
+      <file>$PROJ_DIR$\Release\Exe\Cue Viewer.elf</file>
+      <file>$PROJ_DIR$\Release\Obj\cl.r79</file>
+      <file>$PROJ_DIR$\Release\Obj\_cpp2.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\Test Cue.elf</file>
+      <file>$PROJ_DIR$\Release\Obj\mem2.pbi</file>
+      <file>$PROJ_DIR$\..\classlib\cl.h</file>
+      <file>$PROJ_DIR$\Release\List\main.lst</file>
+      <file>$PROJ_DIR$\Release\List\mem2.lst</file>
+      <file>$PROJ_DIR$\Release\List\Editor.s79</file>
+      <file>$PROJ_DIR$\Release\List\func.lst</file>
+      <file>$PROJ_DIR$\Release\Exe\BookKeys.elf</file>
+      <file>$PROJ_DIR$\Release\List\cl.s79</file>
+      <file>$PROJ_DIR$\..\classlib\cl.cpp</file>
+      <file>$TOOLKIT_DIR$\inc\time.h</file>
+      <file>$PROJ_DIR$\..\..\..\Embedded Workbench 4.0 Evaluation\SE_ELF\C++\_cpp2.cpp</file>
+      <file>$PROJ_DIR$\Release\Exe\MyLog.elf</file>
+      <file>$PROJ_DIR$\Release\Obj\func.r79</file>
+      <file>$PROJ_DIR$\..\&#x42D;&#x43B;&#x44C;&#x444;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x435;&#x43D;&#x438;&#x435;\Embedded Workbench 4.0 Evaluation\SE_ELF\C++\_cpp2.cpp</file>
+      <file>$TOOLKIT_DIR$\inc\wchar.h</file>
+      <file>$PROJ_DIR$\Release\Obj\config_data.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\_cpp2.r79</file>
+      <file>$PROJ_DIR$\Release\List\_cpp2.lst</file>
+      <file>$PROJ_DIR$\Release\Exe\CamerakeyBlock.elf</file>
+      <file>$PROJ_DIR$\Release\Obj\Editor.r79</file>
+      <file>$PROJ_DIR$\Release\Obj\Editor.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\xtls.h</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tpainl8n.h</file>
+      <file>$PROJ_DIR$\..\include\IAudioDevice_Interface.h</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\..\include\IRoot_Interface.h</file>
+      <file>$PROJ_DIR$\..\include\dir.h</file>
+      <file>$PROJ_DIR$\DrawFuncs.h</file>
+      <file>$PROJ_DIR$\..\deleaker\Lib_Clara_original.h</file>
+      <file>$PROJ_DIR$\..\include\DYN_mac.asm</file>
+      <file>$PROJ_DIR$\conf_loader.h</file>
+      <file>$PROJ_DIR$\..\C++\_cpp2.cpp</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tpainl8n.r79</file>
+      <file>$PROJ_DIR$\config_data.h</file>
+      <file>$PROJ_DIR$\..\include\1.xcl</file>
+      <file>$PROJ_DIR$\..\include\DYN_ext.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\cfg_items.h</file>
+      <file>$PROJ_DIR$\..\include\obsolete.h</file>
+      <file>$PROJ_DIR$\..\include\Lib_Clara.h</file>
+      <file>$PROJ_DIR$\ReadFile.h</file>
+      <file>$PROJ_DIR$\Release\List\cl.lst</file>
+      <file>$PROJ_DIR$\Release\Obj\MyFuncs.r79</file>
+      <file>$TOOLKIT_DIR$\inc\stdlib.h</file>
+      <file>$PROJ_DIR$\Release\Obj\mem2.r79</file>
+      <file>$PROJ_DIR$\Release\Obj\main.r79</file>
+      <file>$TOOLKIT_DIR$\inc\yvals.h</file>
+      <file>$PROJ_DIR$\Release\List\config_data.lst</file>
+      <file>$PROJ_DIR$\Release\Obj\conf_loader.pbi</file>
+      <file>$PROJ_DIR$\Release\List\conf_loader.lst</file>
+      <file>$PROJ_DIR$\Release\List\util.lst</file>
+      <file>$TOOLKIT_DIR$\inc\xencoding_limits.h</file>
+      <file>$PROJ_DIR$\Release\Exe\Player Loop A-B.elf</file>
+      <file>$PROJ_DIR$\Editor.c</file>
+      <file>$PROJ_DIR$\Release\List\ReadFile.s79</file>
+      <file>$PROJ_DIR$\Release\List\ReadFile.lst</file>
+      <file>$PROJ_DIR$\Release\Exe\Volume Settings.elf</file>
+      <file>$PROJ_DIR$\Release\List\Volume Settings.map</file>
+      <file>$PROJ_DIR$\Release\Obj\ReadFile.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\ReadFile.r79</file>
+      <file>$PROJ_DIR$\Release\Obj\util.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\xtinfo.h</file>
+      <file>$TOOLKIT_DIR$\inc\xlocale_c.h</file>
+      <file>$TOOLKIT_DIR$\inc\xlocaleuse.h</file>
+      <file>$TOOLKIT_DIR$\inc\DLib_Threads.h</file>
+      <file>$TOOLKIT_DIR$\inc\xlocale.h</file>
+      <file>$PROJ_DIR$\Release\List\MyFuncs.lst</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\include\func.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 60 53</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>AARM</name>
+          <file> 10 77</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 93 17 50</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 7 83 10 84 86 74 73 71 88 75 72</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 74 73 71 88 75 72</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DrawFuncs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 38 34 35</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\deleaker\mem2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 92 22 51</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 7 83 10 84 86</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\ReadFile.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 106</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 107 102 103</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 88</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 88</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\config_data.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 63</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 21 30 95</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 85 7 81</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 85 81</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\conf_loader.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 96</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 33 42 97</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 7 83 10 84 86 74 85 78</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 74 85 78</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\MyFuncs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 26</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 90 27 114</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\util.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 108</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 16 98</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 94 41 13 99 112 113 69 28 91 25 111 110 109 57 62</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 14 94 41 70 13 99 112 113 69 28 91 25 111 110 109 57 62</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Obj\main.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 39 106 32 48</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\Embedded Workbench 4.0 Evaluation\SE_ELF\include\func.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\WriteTest.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Player Info.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 38 107 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\MinimizeBooks.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 64 33 21 60 93 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\&#x42D;&#x43B;&#x44C;&#x444;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x435;&#x43D;&#x438;&#x435;\Embedded Workbench 4.0 Evaluation\SE_ELF\include\func.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\MyLogs.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 64 33 21 60 93 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Test List.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Cue Viewer.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 90 33 21 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Test Cue.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 33 21 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\BookKeys.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 64 60 93 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\classlib\cl.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 45 55 89</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 8 87 7 83 10 84 86 76 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 49</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\Embedded Workbench 4.0 Evaluation\SE_ELF\C++\_cpp2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\MyLog.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 33 21 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\&#x42D;&#x43B;&#x44C;&#x444;&#x43e;&#x441;&#x442;&#x440;&#x43e;&#x435;&#x43D;&#x438;&#x435;\Embedded Workbench 4.0 Evaluation\SE_ELF\C++\_cpp2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\CamerakeyBlock.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 64 60 93 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 104 105</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\C++\_cpp2.cpp</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64 20 65</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 7 83 10 84 86</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 87 7 83 10 84 86</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Player Loop A-B.elf</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 33 21 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Editor.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 68</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 67 52 18</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 7 83 10 84 86 74 11 23</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 87 7 83 10 84 86 76 74 11 23</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\Volume Settings.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 105</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 82 38 107 60 93 92 80</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\C++\_cpp2.cpp</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

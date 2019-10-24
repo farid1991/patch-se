@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1818190351</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\SaveLoad.c</file>
+      <file>$PROJ_DIR$\Visual.c</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\W890_R1FA035.asm</file>
+      <file>$PROJ_DIR$\Viz.c</file>
+      <file>$PROJ_DIR$\Walkman.c</file>
+      <file>$PROJ_DIR$\Gui_Editor.c</file>
+      <file>$PROJ_DIR$\..\include\MetaData.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Walkman.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Walkman.pbd</file>
+      <file>$PROJ_DIR$\DB3150_FONT_GUI.c</file>
+      <file>$PROJ_DIR$\..\include\interface\IUIImage.h</file>
+      <file>$PROJ_DIR$\Viz.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DB3150_FONT_GUI.i</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Walkman.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\InternalFunction.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\InternalFunction.s79</file>
+      <file>$PROJ_DIR$\LNG.h</file>
+      <file>$PROJ_DIR$\..\include\InternalFunction.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Walkman.r79</file>
+      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichText.h</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Viz.i</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tptinl8n.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Gui_Editor.pbi</file>
+      <file>$PROJ_DIR$\..\include\interface\ICBMusicServer.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DB3150_FONT_GUI.lst</file>
+      <file>$PROJ_DIR$\..\include\classes.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControl.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\MetaData.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Viz.lst</file>
+      <file>$PROJ_DIR$\strlib.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\MetaData.pbi</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Gui_Editor.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Walkman.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Visual.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Visual.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServer.h</file>
+      <file>$PROJ_DIR$\SaveLoad.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Visual.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\MetaData.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Viz.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\Gui_Editor.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Visual.r79</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SaveLoad.r79</file>
+      <file>$PROJ_DIR$\..\include\book\MusicApplication_Book.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServerManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DB3150_FONT_GUI.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\SaveLoad.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\DB3150_FONT_GUI.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SaveLoad.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Gui_Editor.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\IFont.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\InternalFunction.i</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Gui_Editor.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\Walkman.elf</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\DB3150_FONT_GUI.pbi</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Gui_Editor.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\MetaData.s79</file>
+      <file>$PROJ_DIR$\EN_LNG.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichTextLayout.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Viz.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Walkman.map</file>
+      <file>$PROJ_DIR$\Walkman.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SaveLoad.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\Walkman.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingFactory.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMetaData.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\MetaData.r79</file>
+      <file>$PROJ_DIR$\..\include\InternalFunction.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\SaveLoad.i</file>
+      <file>$PROJ_DIR$\Colors.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\InternalFunction.r79</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\InternalFunction.lst</file>
+      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\Visual.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Visual.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Viz.r79</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\strlib.r79</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\strlib.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\strlib.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.lst</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\SaveLoad.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 60</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 88 62 80</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 106 105 107 108 112 113 114 109 111 110 115 116 100 18 73 45 95 12 79 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 106 105 107 108 112 113 70 114 14 109 83 111 110 66 39 115 116 38 100 18 73 45 95 12 79 57</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Visual.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 96</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 52 46 43 42</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 106 105 107 108 112 113 114 109 111 110 115 116 100 18 73 45 95 12 79 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 106 105 107 108 112 113 70 114 14 109 83 111 110 66 39 115 116 38 100 18 73 45 95 12 79 57</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 94 50</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Viz.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 77</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 97 25 48 35</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 106 105 107 108 112 113 114 109 111 110 115 116 57 100 18 73 45 95 12 79</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 106 105 107 108 112 113 70 114 14 109 83 111 110 66 39 115 116 38 57 100 18 73 45 95 12 79</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Walkman.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 20 8 81 41</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 106 105 107 108 112 113 114 109 111 110 115 116 14 57 100 18 73 45 95 12 79</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 106 105 107 108 112 113 70 114 14 109 83 111 110 66 39 115 116 38 57 100 18 73 45 95 12 79</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Gui_Editor.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 27</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 67 71 40 63</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 51 79 57 89 45</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 51 79 57 44 31 70 28 38 39 66 89 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\include\MetaData.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 37</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 86 33 72 47</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 85 83</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 85 31 70 83</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\Walkman.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 60 96 77 15</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DB3150_FONT_GUI.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 69</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 61 13 59 29</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 100 79 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 100 79 57 44 31 70 28 38 39 66</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\include\InternalFunction.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 90 65 17 92</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 87 30 31 11 53 76 49 82 23 85 58 44 55</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 87 30 31 70 11 53 84 64 54 21 76 23 74 93 49 82 85 83 58 44 28 38 39 66 55 32 14</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 68 78</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\Walkman.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 78</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 24 94 56 52 97 20 26</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\strlib.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 99 34 103 104</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91 22 75 79 57 36</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98 91 22 75 79 57 44 31 70 28 38 39 66 36</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>W890_R1FA035</name>
+    <outputs>
+      <file>$PROJ_DIR$\SaveLoad.c</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\W890_R1FA035.asm</file>
+      <file>$PROJ_DIR$\Viz.c</file>
+      <file>$PROJ_DIR$\Walkman.c</file>
+      <file>$PROJ_DIR$\Gui_Editor.c</file>
+      <file>$PROJ_DIR$\DB3150_FONT_GUI.c</file>
+      <file>$PROJ_DIR$\Viz.h</file>
+      <file>$PROJ_DIR$\LNG.h</file>
+      <file>$TOOLKIT_DIR$\lib\dl5tptinl8n.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\SaveLoad.pbi</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\W890_R1FA035.lst</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Viz.lst</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\DB3150_FONT_GUI.i</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Walkman.pbi</file>
+      <file>$PROJ_DIR$\SaveLoad.h</file>
+      <file>$PROJ_DIR$\Gui_Editor.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\SaveLoad.lst</file>
+      <file>$PROJ_DIR$\Types.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\SaveLoad.i</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Gui_Editor.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Internal_Function.lst</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Viz.i</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Walkman.map</file>
+      <file>$PROJ_DIR$\PL_LNG.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Viz.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Walkman.lst</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Viz.s79</file>
+      <file>$PROJ_DIR$\Internal_Function.h</file>
+      <file>$PROJ_DIR$\xcl\W890_R1FA035.xcl</file>
+      <file>$PROJ_DIR$\Target\W890_R1FA035.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Walkman.s79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\DB3150_FONT_GUI.lst</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\SaveLoad.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Gui_Editor.s79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Gui_Editor.pbi</file>
+      <file>$PROJ_DIR$\classes.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Internal_Function.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Walkman.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\W890_R1FA035.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Gui_Editor.i</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\DB3150_FONT_GUI.s79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Internal_Function.s79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\SaveLoad.s79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Viz.pbi</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Walkman.i</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\DB3150_FONT_GUI.pbi</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Walkman.pbd</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Exe\Walkman.elf</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\DB3150_FONT_GUI.r79</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Internal_Function.i</file>
+      <file>$PROJ_DIR$\Internal_Function.c</file>
+      <file>$PROJ_DIR$\W890_R1FA035\List\Gui_Editor.lst</file>
+      <file>$PROJ_DIR$\Walkman.h</file>
+      <file>$PROJ_DIR$\Colors.h</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\W890_R1FA035\Obj\Internal_Function.pbi</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\SaveLoad.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 10</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 34 20 44 18</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 17 54 29</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 17 54 29</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\W890_R1FA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 40 11</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Viz.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 26 23 28 12</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 54 29 7 8 25</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 54 29 7 8 25</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Walkman.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 39 46 32 27</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 54 29 16 7 8 25</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 54 29 16 7 8 25</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Gui_Editor.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 36</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 21 41 35 53</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 17 54 29 55 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 17 54 29 55 16</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DB3150_FONT_GUI.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 47</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 50 13 42 33</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 17 54 29 55 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 17 54 29 55 16</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 24 49</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W890_R1FA035\Obj\Walkman.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 47 36 57 10 45 15</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W890_R1FA035\Exe\Walkman.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 24</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 30 50 21 38 34 26 40 39 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Internal_Function.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 38 51 43 22</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 37 56 29 54</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31 19 37 56 29 54</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>4086464683</fileChecksum>
+  <configuration>
+    <name>G502_R1FA037</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DataCounter.s79</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\IRoot.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DataCounter.map</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\DataCounter.r79</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\DataCounter.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\DataCounter.elf</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\DataCounter.pbi</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DataCounter.lst</file>
+      <file>$PROJ_DIR$\..\include\classes.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFontManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichTextLayout.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IFont.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\DataCounter.pbd</file>
+      <file>$PROJ_DIR$\..\include\interface\ICBMusicServer.h</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\DataCounter.i</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IUIImage.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServer.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControl.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\..\include\interface\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IRichText.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\RichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMusicServer_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IMusicServerManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\interface\ITextRenderingFactory.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\interface\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 52</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 53 19 31 33</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 4 0 56 57 58 54 59 63 64 65 60 62 61 66 67</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 9 4 0 16 6 55 29 18 17 23 47 35 20 38 36 50 43 44 39 49 42 30 25 51 26 21 46 32 22</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 11 5</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\DataCounter.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8 27 3 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 4 0 16 6 28 29 18 20 43 44 38 39 42 30 46 32 48</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 9 4 0 16 6 28 29 18 17 23 37 20 38 40 43 44 39 45 42 30 25 41 34 46 32 48</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Exe\DataCounter.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 14 11 53</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\G502_R1FA037\Obj\DataCounter.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 52</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 7 12</file>
+        </tool>
+      </outputs>
+    </file>
+  </configuration>
+</project>
+
+

@@ -1,0 +1,40 @@
+11168B56
+
+Locks_CreatePhoneLock
+Locks_CreateSimLock
+
+ISimServices_HasSimChanged
+ISimServices_IsUSIM
+
+ISimUtilityCsp_Get
+
+ISimUtilityManager_GetSimServices
+ISimUtilityManager_GetMobileNetwork
+ISimUtilityManager_GetAls
+ISimUtilityManager_GetCsp
+
+ISimApplication_QueryInterface
+
+
+aC3daudioeffect DCB "C3dAudioEffect_imp.c"
+aC3daudiolisten DCB "C3dAudioListener_imp.c"
+aC3daudiosource DCB "C3dAudioSource_imp.c"
+aC3daudioworld_ DCB "C3dAudioWorld_imp.c"
+aCaacaudioencod DCB "CAacAudioEncoderProfile_imp.c"
+aCamraudioencod DCB "CAmrAudioEncoderProfile_imp.c"
+aCaudiochannel_ DCB "CAudioChannel_imp.c"
+aCaudioconnecti DCB "CAudioConnection_imp.c"
+aCaudiodevice_i DCB "CAudioDevice_imp.c"
+aCaudiovirtuali DCB "CAudioVirtualizationEffect_imp.c"
+aCchoruseffect_ DCB "CChorusEffect_imp.c"
+aCequalisereffe DCB "CEqualiserEffect_imp.c"
+aCexternaldev_0 DCB "CExternalDeviceManager_imp.c"
+
+aCinterfacelist DCB "CInterfaceList_imp.c"
+aCcameramanager DCB "CCameraManager_imp.c"
+aCledcontroldev DCB "CLedControlDevice_imp.c"
+aCsimlock_imp_c DCB "CSimLock_imp.c"
+aCsimmanager_im DCB "CSimManager_imp.c"
+aCstack_imp_c   DCB "CStack_imp.c"
+aCusbmassstorag DCB "CUsbMassStorage_imp.c"
+aCvibratordevic DCB "CVibratorDevice_imp.c"
