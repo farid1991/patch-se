@@ -1,3 +1,11 @@
+;Fm Radio Layout Editor
+;- Ability to hide/show all items.
+;- Ability to change coordinates of each item in realtime.
+;- Ability to choose Text color, font, etc.
+;- Ability to use color or Theme Image on the background.
+;v. 1.2
+;(c) farid
+
 FPATH: /usb/other/ZBin/Config/FmRadio
 
 Images:

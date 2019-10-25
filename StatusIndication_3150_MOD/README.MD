@@ -1,3 +1,8 @@
+;Ability to move,show/hide items on standby
+;(c) Ploik, BigHercules
+;(e) farid
+
+Changelog
 v1.03
  +fix Showing item Music Player and FmRadio
  +Added item Statusrow BG (Idea by Riddick and Thilina)
