@@ -1,3 +1,19 @@
+/*
+;A2 Walkman skinner
+;Adds possibility to edit the Position,Color,Font
+;Enable/Disable Title,Artist,Album,Genre,Total/Elapsed/Remaining time,Extension,Bit-rate,Total/Current track number,progress-bar,Album art
+;Adds new items of Genre,Extension,Bit-rate,Overlay image to Walkman
+;Adds possibility to edit position of icons shuffle/EQ/loop/state/wheel,Title/Artist/Album/Background/Overlay image
+;Adds possibility to use skins in Walkman Player
+;Adds skin editor for easy loading & editing of skins
+;Adds possibility to use Walkman 4 visualization
+;Redraws everything in Walkman,optimized for better Walkman experience
+;v.1.3.3 mod
+;(c) blacklizard
+;(r) KreN
+;(e) farid, D3mon, blacklizard
+*/
+
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
