@@ -1,3 +1,9 @@
+/*
+;Ability to move,show/hide items on standby
+;(c) Ploik, BigHercules
+;(e) farid
+*/
+
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
@@ -6,7 +12,7 @@
 
 #include "cfg_items.h"
 #include "Function.h"
-#include "new_func.h"
+#include "GetSignalQuality.h"
 #include "StatusIndication.h"
 #include "editor.h"
 

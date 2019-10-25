@@ -1,3 +1,9 @@
+/*
+;Ability to move,show/hide items on standby
+;(c) Ploik, BigHercules
+;(e) farid
+*/
+
 #include "..\\include\Types.h"
 #include "cfg_items.h"
 #include "StatusIndication.h"

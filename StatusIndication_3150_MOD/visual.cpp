@@ -1,3 +1,9 @@
+/*
+;Ability to move,show/hide items on standby
+;(c) Ploik, BigHercules
+;(e) farid
+*/
+
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
@@ -5,8 +11,6 @@
 #include "StatusIndication.h"
 #include "editor.h"
 #include "visual.h"
-
-
 
 int ColorGuiOnCreate( DISP_OBJ_COLOR* db )
 {
