@@ -160,7 +160,7 @@ union SIGNAL
   struct GET_SIGNAL_QUALITY_SIGNAL hsig;
 };
 
-int GetSignalQuality_dll( char * rssi, char * ber )
+int dll_GetSignalQuality( char * rssi, char * ber )
 {
   static const SIGSELECT sg[]={1,GetSignalQuality_Receive_SignalID};
   char res=0;

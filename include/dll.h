@@ -5,6 +5,6 @@ void dll_DrawString(TEXTID text, int font, TUITextAlignment align, int x1, int y
 void dll_GC_PutChar(GC* gc, int x, int y, int width, int height, wchar_t imageID);
 int dll_GetImageHeight(wchar_t imageID);
 int dll_GetImageWidth(wchar_t imageID);
-int GetSignalQuality_dll( char * rssi, char * ber );
+int dll_GetSignalQuality( char * rssi, char * ber )
 
 #endif
