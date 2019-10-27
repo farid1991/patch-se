@@ -118,6 +118,7 @@ typedef struct _FmRadio_Data
   int cstep;
   
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  IFont* pFont;
   int style_bold;
   int style_italic;
 #endif

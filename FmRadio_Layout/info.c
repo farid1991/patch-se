@@ -32,19 +32,21 @@ TEXTID Get_ChannelName(FmRadio_Data* Data)
 
 TEXTID Get_CurrentFrequency(FmRadio_Data* Data)
 {
-  Uint16_t CurrentFrequency  = Data->FmRadioBook->ProgramInfo.Frequency;
-  snwprintf(Data->buf, MAXELEMS(Data->buf), L"%d", CurrentFrequency );
+  Uint16_t CurrentFrequency  = Data->FmRadioBook->CurrentFrequency;
   
-  int len = wstrlen(Data->buf);
+  wchar_t buffer[10];
+  snwprintf(buffer, MAXELEMS(buffer), L"%d", CurrentFrequency );
+  
+  int len = wstrlen(buffer);
   
   wchar_t* freq = (wchar_t*)malloc(sizeof(wchar_t)*len+1); 
   for(int i=0; i<len; i++)
   {
-    freq[i]=Data->buf[i];
+    freq[i]=buffer[i];
     if(i==(len-1))
     {
       freq[i]= 0x2e;
-      freq[i+1] = Data->buf[i];
+      freq[i+1] = buffer[i];
       freq[len+1] = L'\0';
     }
   }

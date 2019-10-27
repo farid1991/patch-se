@@ -153,7 +153,17 @@ void DrawImage(int x, int y, IMAGEID img)
   if(img!=NOIMAGE) GC_DrawIcon(x,y,img);
 #endif
 }
-
+/*
+void dump(FmRadio_Book* FmRadio)
+{
+  int myFile = w_fopen( L"/usb/other/FmRadio.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
+    if ( myFile >= NULL )
+    {
+      w_fwrite( myFile, FmRadio, 0x512 );
+      w_fclose( myFile );
+    }
+}
+*/
 extern "C"
 void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 {
@@ -196,15 +206,15 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   }
   
   char mode = disp_fm->key_mode;
-  int key = disp_fm->key_pressed;
+  FUint16 key_pressed = disp_fm->key_pressed;
   if (data->setting.arrow_left.state) // Left ICN
   {
     DrawImage(data->setting.arrow_left.pos.x,
               data->setting.arrow_left.pos.y,
               data->Image[8].ID );
-    if(key==KEY_LEFT)
+    if(key_pressed==KEY_LEFT)
     {
-      if(mode == KBD_SHORT_PRESS)
+      if(disp_fm->key_mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_left.pos.x,
                   data->setting.arrow_left.pos.y,
@@ -223,9 +233,9 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawImage(data->setting.arrow_right.pos.x,
               data->setting.arrow_right.pos.y,
               data->Image[11].ID );
-    if(key==KEY_RIGHT)
+    if(disp_fm->key_pressed==KEY_RIGHT)
     {
-      if(mode == KBD_SHORT_PRESS)
+      if(disp_fm->key_mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
@@ -244,7 +254,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawImage(data->setting.arrow_up.pos.x,
                 data->setting.arrow_up.pos.y,
                 data->Image[14].ID );
-    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key==KEY_UP)
+    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key_pressed==KEY_UP)
     {
       DrawImage(data->setting.arrow_up.pos.x,
                 data->setting.arrow_up.pos.y,
@@ -256,7 +266,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawImage(data->setting.arrow_down.pos.x,
                 data->setting.arrow_down.pos.y,
                 data->Image[16].ID );
-    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key==KEY_DOWN)
+    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key_pressed==KEY_DOWN)
     {
       DrawImage(data->setting.arrow_down.pos.x,
                 data->setting.arrow_down.pos.y,
@@ -267,7 +277,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   if (data->setting.freq_indicator.state) // Freq Indicator
   {
     DrawProgressBar(data,
-                    (data->FmRadioBook->ProgramInfo.Frequency)-875,
+                    (data->FmRadioBook->CurrentFrequency)-875,
                     (1080-875),
                     data->setting.freq_indicator.progress_rect,
                     data->setting.freq_indicator.progress_bcolor,
@@ -367,6 +377,9 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       clEmpty,
                       0);
     TextID_Destroy(data->Buffer_Text);
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    if(data->pFont) data->pFont->Release();
+#endif
   }
   
   if (data->text)
@@ -378,14 +391,19 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 extern "C"
 void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int mode)
 {
+  DISP_OBJ_FMRADIO* disp_fm = (DISP_OBJ_FMRADIO*)disp_obj;
+  
+  disp_fm->key_mode = mode;
+  disp_fm->key_pressed = key;
+  
   FmRadio_Data* data = Get_Data();
   
   if(data->edit_visual)
   {
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
     {
-      int scr_w = 240; //SCN_WIDTH;
-      int scr_h = 320; //SCN_HEIGHT;
+      int scr_w = Display_GetWidth(UIDisplay_Main);
+      int scr_h = Display_GetHeight(UIDisplay_Main);
       
       int rect_w = data->temp.x2 - data->temp.x1;
       int rect_h = data->temp.y2 - data->temp.y1;
@@ -455,6 +473,31 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         }
         else data->temp.x1 += data->cstep;
         break;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+      case KEY_DEL:
+        if (data->text)
+        {
+          if ((!data->style_bold) && (!data->style_italic))
+          {
+            data->style_bold = 1;
+          }
+          else if ((data->style_bold) && (!data->style_italic))
+          {
+            data->style_bold = 0;
+            data->style_italic = 1;
+          }
+          else if ((!data->style_bold) && (data->style_italic))
+          {
+            data->style_bold = 1;
+          }
+          else if ((data->style_bold) && (data->style_italic))
+          {
+            data->style_bold = 0;
+            data->style_italic = 0;
+          }
+        }
+        break;
+#endif
       case KEY_ENTER:
         if (data->text)
         {
@@ -486,8 +529,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
         data->temp.font = (data->cur_pos + 1) * font_step + (data->style_bold<<8) + (data->style_italic<<9);
 #else
-        FONT_DESC* font = GETFONTDESC; 
-        data->temp.font = font[data->cur_pos].id; 
+        data->temp.font = GetFontDesc()[data->cur_pos].id;
 #endif
       }
       
@@ -523,7 +565,7 @@ int New_FmRadio_Main__PAGE_ENTER_EVENT(void* data, BOOK* book)
 {
   FmRadio_Data* Data = Get_Data();
   Data->FmRadioBook = (FmRadio_Book*)book;
-  
+  //dump(Data->FmRadioBook);
   pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);
   return 1;
 }

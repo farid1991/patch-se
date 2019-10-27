@@ -13,6 +13,12 @@ void dll_SetFont(int font_size, IFont** ppFont)
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
   
+  if (*ppFont)
+  {
+    (*ppFont)->Release();
+    *ppFont = NULL;
+  }
+  
   CoCreateInstance(&CID_CUIFontManager, &IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
   
@@ -29,33 +35,38 @@ void dll_SetFont(int font_size, IFont** ppFont)
 
 // DrawString ----------------------------------------------------
 
-void dll_DrawString(TEXTID text, int font, TUITextAlignment align, int x1, int y1, int x2, int y2, int pen_color)
+void dll_DrawString(IFont *pFont, TEXTID text, int font, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   UUID IID_ITextRenderingManager={0xCE,0x91,0x7B,0x62,0xE3,0x3A,0x4D,0xC7,0x85,0x24,0x79,0x1E,0x6F,0x01,0x03,0x09};
   UUID CID_CTextRenderingManager={0xCF,0xDC,0xCD,0x9D,0xAE,0x6D,0x40,0xAE,0xB3,0x97,0x38,0xB0,0x5D,0x2D,0x35,0x9D};
   
-  GC* gc = get_DisplayGC();
   TUIRectangle rect;
   int lineWidth = x2 - x1;
   
   ITextRenderingManager* pTextRenderingManager = NULL;
   ITextRenderingFactory* pTextRenderingFactory = NULL;
-  IRichTextLayout* pRichTextLayout = NULL;
   IRichText* pTextObject = NULL;
+  IRichTextLayout* pRichTextLayout = NULL;
+  IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
   IUnknown* pGC = NULL;
-  IFont* pFont = NULL;
+  //IFont* pFont = NULL;
   
   dll_SetFont(font, &pFont);
   
   CoCreateInstance(&CID_CTextRenderingManager, &IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
-  pTextRenderingFactory->CreateRichTextLayout(pTextObject, 0, 0, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichTextLayoutOptions(&pIUIRichTextLayoutOptions);
+  pTextRenderingFactory->CreateRichTextLayout(pTextObject,0,pIUIRichTextLayoutOptions,&pRichTextLayout);
   
   TextObject_SetText(pTextObject, text);
   TextObject_SetFont(pTextObject, pFont, START_INDEX, END_INDEX);
   pTextObject->SetTextColor(pen_color, START_INDEX, END_INDEX);
+  
   pTextObject->SetAlignment(align, START_INDEX, END_INDEX);
+  
+  pIUIRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
+  
   pRichTextLayout->Compose(lineWidth);
   
   rect.Point.X = x1;
@@ -63,12 +74,13 @@ void dll_DrawString(TEXTID text, int font, TUITextAlignment align, int x1, int y
   rect.Size.Width = x2 - x1;
   rect.Size.Height = y2 - y1;
   
-  DisplayGC_AddRef(gc, &pGC);
+  DisplayGC_AddRef(get_DisplayGC(), &pGC);
   pRichTextLayout->Display(pGC, x1, y1, &rect);
   
   if (pTextRenderingManager) pTextRenderingManager->Release();
   if (pTextRenderingFactory) pTextRenderingFactory->Release();
   if (pRichTextLayout) pRichTextLayout->Release();
+  if (pIUIRichTextLayoutOptions) pIUIRichTextLayoutOptions->Release();
   if (pTextObject) pTextObject->Release();
   if (pGC) pGC->Release();
 }
@@ -141,8 +153,6 @@ int dll_GetImageWidth(wchar_t imageID)
   
   return image_width;
 }
-
-// GetSignalQuality ----------------------------------------------------
 
 struct GET_SIGNAL_QUALITY_SIGNAL
 {

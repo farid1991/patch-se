@@ -17,7 +17,7 @@
 
 #include "data.h"
 #include "main.h"
-
+/*
 int divide(int nu, int de) 
 {
   int temp = 1;
@@ -44,11 +44,11 @@ int divide(int nu, int de)
   }
   return quotient;
 }
-
+*/
 void DrawProgressBar(FmRadio_Data* data, int cur_value, int total_value, RECT rect, int Bcolor, int Ecolor)
 {
-  //int bar = rect.x1 + (cur_value * (rect.x2-rect.x1) / total_value);
-  int bar = rect.x1 + divide(cur_value*(rect.x2-rect.x1), total_value);
+  int bar = rect.x1 + (cur_value * (rect.x2-rect.x1) / total_value);
+  //int bar = rect.x1 + divide(cur_value*(rect.x2-rect.x1), total_value);
   
   if (data->setting.freq_indicator.round)
   {
@@ -84,28 +84,29 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   {
     int y2 = y1 + (font&0xFF);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    FmRadio_Data* data = Get_Data();
     switch(overlay) //??? ??????? (Overlay type)
     {
     case 1: //?????? (Full) v1
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
       break;
     case 2: //?????? (Full) v2
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 + 1, y1, x2, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 - 1, y1, x2, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1 - 1, x2, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1 - 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
       break;
     case 3: //???? (Shadow)
-      dll_DrawString(text, font, (TUITextAlignment)align, x1 + 1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
       break;
     default: //??? (No)
-      dll_DrawString(text, font, (TUITextAlignment)align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
       break;
     }
 #else 

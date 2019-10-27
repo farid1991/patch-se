@@ -514,7 +514,7 @@ void SetVisual(SETTING_BOOK* m_bk)
     data->style_bold = style_flags&bold;
     data->style_italic = (style_flags&italic) >> 1;
 #else
-    data->total_fonts = *GETFONTCOUNT;
+    data->total_fonts = *GetFontCount();
     data->cur_pos = GetIdByFontId(data->temp.font);
 #endif
     data->text = TRUE;
