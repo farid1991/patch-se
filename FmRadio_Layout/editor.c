@@ -482,10 +482,10 @@ wchar_t* Font_GetNameByFontId(int id)
 int GetIdByFontId( int id )
 {
   int r = NULL;
-  FONT_DESC* font = GETFONTDESC;
-  for (int i = 0, max = *GETFONTCOUNT; i < max; i++)
+  FONT_DESC* font_desc = GetFontDesc();
+  for (int i = 0, max = *GetFontCount(); i < max; i++)
   {
-    if (id == font[i].id)
+    if (id == font_desc[i].id)
     {
       r = i;
       break;
@@ -508,8 +508,8 @@ void SetVisual(SETTING_BOOK* m_bk)
   else
   {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    data->total_fonts = max_size / font_step;
-    data->cur_pos = (data->temp.font&0xFF) / font_step - 1;
+    data->total_fonts = max_size/font_step;
+    data->cur_pos = (data->temp.font&0xFF)/font_step - 1;
     int style_flags = data->temp.font >> 8;
     data->style_bold = style_flags&bold;
     data->style_italic = (style_flags&italic) >> 1;

@@ -57,7 +57,7 @@ typedef struct _FmRadio_Book : BOOK
   int unk_0x354;                // 0x354
   void* pIAccessoryServer;	// 0x358
   FmRadio_Settings Settings;    // 0x35C
-  char dummy_3[0x2];            // 0x360
+  FUint16 unk_0x362;            // 0x360
   FUint16 TimerID;              // 0x362
   FUint16 FrequencySearch;      // 0x364
   FUint16 unk_0x366;            // 0x366

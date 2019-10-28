@@ -25,7 +25,7 @@ typedef struct TEXT_ITEM_DATA
 
 typedef struct IMG_ITEM_DATA
 {
-  char state;
+  bool state;
   POINT pos;
 } IMG_ITEM_DATA;
 

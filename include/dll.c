@@ -16,7 +16,7 @@ void dll_SetFont(int font_size, IFont** ppFont)
   if (*ppFont)
   {
     (*ppFont)->Release();
-    *ppFont = NULL;
+    (*ppFont) = NULL;
   }
   
   CoCreateInstance(&CID_CUIFontManager, &IID_IUIFontManager, PPINTERFACE(&pFontManager));
@@ -51,7 +51,7 @@ void dll_DrawString(IFont *pFont, TEXTID text, int font, int align, int x1, int 
   IUnknown* pGC = NULL;
   //IFont* pFont = NULL;
   
-  dll_SetFont(font, &pFont);
+  if(!pFont) dll_SetFont(font, &pFont);
   
   CoCreateInstance(&CID_CTextRenderingManager, &IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);

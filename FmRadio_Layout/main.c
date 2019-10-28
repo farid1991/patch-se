@@ -377,9 +377,6 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       clEmpty,
                       0);
     TextID_Destroy(data->Buffer_Text);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    if(data->pFont) data->pFont->Release();
-#endif
   }
   
   if (data->text)
@@ -473,8 +470,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         }
         else data->temp.x1 += data->cstep;
         break;
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-      case KEY_DEL:
+      case KEY_DIGITAL_0 + 1:
         if (data->text)
         {
           if ((!data->style_bold) && (!data->style_italic))
@@ -497,7 +493,6 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
           }
         }
         break;
-#endif
       case KEY_ENTER:
         if (data->text)
         {
@@ -548,8 +543,7 @@ extern "C"
 void New_FmRadio_Gui_OnLayout(DISP_OBJ* disp_obj, void* layoutstruct)
 {
   FmRadio_Data* Data = Get_Data();
-  if (Data->setting.background.state== TYPE_COLOR)
-    DispObject_SetLayerColor(disp_obj, Data->setting.background_color);
+  if (Data->setting.background.state== TYPE_COLOR) DispObject_SetLayerColor(disp_obj, Data->setting.background_color);
   //FmRadio_Gui_OnLayout(disp_obj,layoutstruct);
 }
 
@@ -565,7 +559,7 @@ int New_FmRadio_Main__PAGE_ENTER_EVENT(void* data, BOOK* book)
 {
   FmRadio_Data* Data = Get_Data();
   Data->FmRadioBook = (FmRadio_Book*)book;
-  //dump(Data->FmRadioBook);
+
   pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);
   return 1;
 }
