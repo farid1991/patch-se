@@ -1,14 +1,17 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
+
 #include "data.h"
-#include "main.h"
-#include "lang.h"
-#include "info.h"
-#include "setting.h"
 #include "drow.h"
-#include "info.h"
 #include "editor.h"
+#include "info.h"
+#include "lang.h"
+#include "main.h"
+#include "setting.h"
 #include "time.h"
 
 __thumb void* malloc(int size)
@@ -153,7 +156,11 @@ void DBPlayer_onClose(DISP_OBJ_DBP* disp_obj)
 
 void DrawImage(int x, int y, IMAGEID img)
 {
+#if defined (DB3200) || defined (DB3210) || defined (DB3350)
+  if(img!=NOIMAGE) dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img );
+#else
   if(img!=NOIMAGE) GC_DrawIcon(x,y,img);
+#endif
 }
 
 void DBPlayer_onRedraw(DISP_OBJ_DBP* disp_obj, int, int, int)
@@ -164,7 +171,7 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP* disp_obj, int, int, int)
   
   disp_obj->media_volume = GetMediaVolume();
   
-  GC* pGraphicCanvas = get_DisplayGC();
+  GC* pGC = get_DisplayGC();
   
   if (data->setting.background.state == TYPE_IMAGE) // Background
     DrawImage(data->setting.background.pos.x,
@@ -177,12 +184,21 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP* disp_obj, int, int, int)
   
   if (data->setting.cover) // Album Art
   {
-    GC_PutChar(pGraphicCanvas,
+#if defined (DB3200) || defined (DB3210) || defined (DB3350)
+    dll_GC_PutChar(pGC,
+                   data->setting.cover_rect.x1,
+                   data->setting.cover_rect.y1,
+                   data->setting.cover_rect.x2 - data->setting.cover_rect.x1,
+                   data->setting.cover_rect.y2 - data->setting.cover_rect.y1,
+                   data->CoverArtID);
+#else
+    GC_PutChar(pGC,
                data->setting.cover_rect.x1,
                data->setting.cover_rect.y1,
                data->setting.cover_rect.x2 - data->setting.cover_rect.x1,
                data->setting.cover_rect.y2 - data->setting.cover_rect.y1,
                data->CoverArtID);
+#endif
   }
   
   if (data->setting.frame.state) // Frame
@@ -379,7 +395,18 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP* disp_obj, int, int, int)
   {
     if (data->text)
     {
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+      int font_size = (data->cur_pos+1)*font_step + (data->style_bold<<8) + (data->style_italic<<9); //data->temp.font&0xFF;
+      int style = font_size >> 8; //data->temp.font>>8;
+      if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+      else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      disp_obj->buf_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
+#else
       disp_obj->buf_text = TextID_Create(Font_GetNameByFontId(data->temp.font), ENC_UCS2, TEXTID_ANY_LEN);
+#endif
+
     }
     else
     {
@@ -501,8 +528,8 @@ void DBPlayer_onKey(DISP_OBJ_DBP* disp_obj, int key, int unk, int repeat, int mo
   {
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
     {
-      int scr_w = SCR_WIDTH;
-      int scr_h = SCR_HEIGHT;
+      int scr_w = Display_GetWidth(UIDisplay_Main);
+      int scr_h = Display_GetHeight(UIDisplay_Main);
       
       int rect_w = data->temp.x2 - data->temp.x1;
       int rect_h = data->temp.y2 - data->temp.y1;
@@ -602,8 +629,11 @@ void DBPlayer_onKey(DISP_OBJ_DBP* disp_obj, int key, int unk, int repeat, int mo
       
       if (data->text)
       {
-        FONT_DESC* font = GETFONTDESC; 
-        data->temp.font = font[data->cur_pos].id; 
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+        data->temp.font = (data->cur_pos + 1) * font_step + (data->style_bold<<8) + (data->style_italic<<9);
+#else
+        data->temp.font = GetFontDesc()[data->cur_pos].id;
+#endif
       }
       
       if (mode == KBD_LONG_RELEASE) disp_obj->cstep = 1;

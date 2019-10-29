@@ -1,6 +1,10 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
+
 #include "data.h"
 //#include "main.h"
 
@@ -24,9 +28,13 @@ void DrawProgressBar(DBP_DATA* data, int cur_value, int total_value, RECT rect, 
   if (data->setting.time.slider || data->setting.volume.slider)
   {
     IMAGEID image = data->Image[8].ID;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    int blob_x = bar - (dll_GetImageHeight(image) / 2);
+    int blob_y = (rect.y1 - (dll_GetImageWidth(image) / 2)) + ((rect.y2 - rect.y1) / 2);
+#else
     int blob_x = bar - (GetImageHeight(image) / 2);
     int blob_y = (rect.y1 - (GetImageWidth(image) / 2)) + ((rect.y2 - rect.y1) / 2);
-    GC_DrawImage(blob_x, blob_y, image);
+#endif
   }
 }
 
@@ -35,6 +43,34 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   if (text && text!=EMPTY_TEXTID)
   {
     int y2 = y1 + (font&0xFF);
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    DBP_DATA* data = GetData();
+    dll_SetFont(font, &data->pFont);
+    switch(overlay) //??? ??????? (Overlay type)
+    {
+    case 1: //?????? (Full) v1
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+      break;
+    case 2: //?????? (Full) v2
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1 - 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+      break;
+    case 3: //???? (Shadow)
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+      break;
+    default: //??? (No)
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+      break;
+    }
+#else 
     switch(overlay) //(Overlay type)
     {
     case 1: //(Full) v1
@@ -63,5 +99,6 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
       DrawString( text, align, x1, y1, x2, y2, 0, 0, tcolor, 0);
       break;
     }
+#endif
   }
 }

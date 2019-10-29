@@ -5015,6 +5015,11 @@
     </file>
     <file>
       <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <excluded>
+        <configuration>C901_R1GA028</configuration>
+        <configuration>J105_R1HA035</configuration>
+        <configuration>C510_R1HA035</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
@@ -5039,6 +5044,9 @@
   </group>
   <file>
     <name>$PROJ_DIR$\data.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\include\dll.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\drow.c</name>

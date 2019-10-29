@@ -1,6 +1,8 @@
 #ifndef _EDITOR_H_
 #define _EDITOR_H_
 
+#include "setting.h"
+
 #define COLOR_GET_A(x) ((unsigned int)x>>24)
 #define COLOR_GET_R(x) (((unsigned int)x>>16)&0xFF)
 #define COLOR_GET_G(x) (((unsigned int)x>>8)&0xFF)

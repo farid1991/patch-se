@@ -631,7 +631,7 @@ a       EQU b
 	defadr DEFAULT_VOLUMEONPAGENTER,0x116DFB24+1
         
         defadr GC_DrawIcon,0x1169F3E4+1
-        defadr GC_DrawImage,0x1169F3E4+1
+        defadr GC_DrawImage,GC_DrawIcon
         
         defadr MetaData_GetTags,0x110278A4+1
         defadr MetaData_GetCover,0x115BB5C0+1

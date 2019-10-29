@@ -137,6 +137,12 @@ typedef struct _DBP_DATA
   int AudioOutput;
   
   wchar_t buf[64];
+  
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  IFont* pFont;
+  int style_bold;
+  int style_italic;
+#endif
 } DBP_DATA;
 
 DBP_DATA* GetData();

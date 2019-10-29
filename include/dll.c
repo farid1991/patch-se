@@ -3,6 +3,7 @@
 
 // SetFont ----------------------------------------------------
 
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 void dll_SetFont(int font_size, IFont** ppFont)
 {
   UUID IID_IUIFontManager = {0x95,0xD0,0x5F,0xCA,0x0F,0x30,0x4F,0x92,0x94,0x3B,0x13,0x89,0x21,0x2F,0x09,0xD7};
@@ -152,7 +153,9 @@ int dll_GetImageWidth(wchar_t imageID)
   
   return image_width;
 }
+#endif
 
+#ifdef USE_GETSIGNAL
 struct GET_SIGNAL_QUALITY_SIGNAL
 {
   SIGSELECT signo;
@@ -189,3 +192,4 @@ int dll_GetSignalQuality( char * rssi, char * ber )
   free_buf(&rec_buf);
   return(res);
 }
+#endif

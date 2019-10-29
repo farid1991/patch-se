@@ -36,30 +36,10 @@
 #define TEXT_SCREEN           0x4ED   // L"На весь экран"
 #define TEXT_ANIMATION        0x14CF  // L"Анимация"
 
-// interface id ----------------------------------------------------
-
-#define CID_CUIFontManager (PUUID)0x15AC227C
-#define IID_IUIFontManager (PUUID)0x15AFB108
-#define CID_CUIImageManager (PUUID)0x15AC4F1C
-#define IID_IUIImageManager (PUUID)0x15AFD4C4
-#define CID_CTextRenderingManager (PUUID)0x15AC99C4
-#define IID_ITextRenderingManager (PUUID)0x15AFFFA4
-#define CID_CRegistryManager (PUUID)0x15AB0808
-#define IID_IRegistryManager (PUUID)0x15AF0B20
-#define CID_CMetaData (PUUID)0x15A9EEE0
-#define IID_IMetaData (PUUID)0x15AE2FFC
-#define CID_CPlayerManager (PUUID)0x15A83AE8
-#define IID_IPlayerManager (PUUID)0x15A84F90
-#define CID_CAudioControlManager (PUUID)0x15A915C4
-#define IID_IAudioControlManager (PUUID)0x15ACC7A0
-#define CID_CCopsManager (PUUID)0x15A839A8
-#define IID_ICopsManager (PUUID)0x15A84A20
-#define CID_CIndicationDeviceManager (PUUID)0x15A83A28
-#define IID_IIndicationDeviceManager (PUUID)0x15A84C00
-#define CID_CIlluminationControl (PUUID)0x15A97F4C
-#define IID_IIlluminationControl (PUUID)0x15ADE21C
-#define CID_CFlashLightControl (PUUID)0x15A97F00
-#define IID_IFlashLightControl (PUUID)0x15ADE1EC
+#define TEXT_THEME            0x27C4   // L"?? ????"
+#define TEXT_ON_OOM           0x85E     // L"????????"
+#define TEXT_OFF_OOM          0x85C   // L"?????????"
+#define TEXT_UNKNOWN          0x110
 
 // function ----------------------------------------------------
 

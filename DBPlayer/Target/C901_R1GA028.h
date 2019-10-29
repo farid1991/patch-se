@@ -36,15 +36,6 @@
 #define TEXT_SCREEN           0x4ED   // L"На весь экран"
 #define TEXT_ANIMATION        0x14CE  // L"Анимация"
 
-#define CID_CUIFontManager (PUUID)0x15AA6DF4
-#define IID_IUIFontManager (PUUID)0x15ADFD88
-#define CID_CUIImageManager (PUUID)0x15AA9A94
-#define IID_IUIImageManager (PUUID)0x15AE2144
-#define CID_CTextRenderingManager (PUUID)0x15AAE53C
-#define IID_ITextRenderingManager (PUUID)0x15AE4C98
-#define CID_CMetaData (PUUID)0x15A83A90
-#define IID_IMetaData (PUUID)0x15AC7D0C
-
 #define KEY_DIEZ 0x23
 #define KBD_LONG_PRESS 0x1
 #define ACTION_SELECT1 0xFC2

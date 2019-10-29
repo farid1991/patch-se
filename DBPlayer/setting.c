@@ -101,7 +101,17 @@ int Text_OnMessage(GUI_MESSAGE* msg)
         else if (item == 4) // Визуальные
         {
           first_text = TextID_Global(ID_VISUAL);
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+          int font_size = (data->cur_pos+1)*font_step + (data->style_bold<<8) + (data->style_italic<<9); //data->temp.font&0xFF;
+          int style = font_size >> 8; //data->temp.font>>8;
+          if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+          else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+          else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+          else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+          second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
+#else 
           second_text = TextID_Create(Font_GetNameByFontId(data->temp.font), ENC_UCS2, TEXTID_ANY_LEN);
+#endif
         }
         if (!data->temp.activate1) GUIonMessage_SetItemDisabled(msg, TRUE);
       }

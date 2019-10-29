@@ -1,6 +1,10 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
+
 #include "setting.h"
 #include "data.h"
 #include "lang.h"
@@ -213,6 +217,18 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
     disp_obj->buf_text = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
     disp_obj->need_str = 0;
   }
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  DBP_DATA* data = GetData();
+  dll_SetFont(FONT_E_20R, &data->pFont);
+  dll_DrawString(data->pFont,
+                 disp_obj->buf_text,
+                 UITextAlignment_Center,
+                 x1 + 1,
+                 y1 + 1,
+                 x1 + scr_w - 1,
+                 y1 + 1 + fsize + 1,
+                 clBlack);
+#else
   SetFont(FONT_E_20R);
   DrawString(disp_obj->buf_text,
              UITextAlignment_Center,
@@ -223,6 +239,7 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
              0,0,
              clBlack,
              clEmpty);
+#endif
   fsize += 3;
   
   for (int i = 0; i != 4; i++)
@@ -407,11 +424,12 @@ void SetActiveSoft(DBP_DATA* data, BOOL mode)
   }
 }
 
+#if defined(DB3150v1) || defined(DB3150) || defined(DB2020)
 wchar_t* Font_GetNameByFontId(int id)
 {
   wchar_t* txt = L"Undefined";
-  FONT_DESC* font = GETFONTDESC;
-  for (int i = 0, max = *GETFONTCOUNT; i < max; i++)
+  FONT_DESC* font = GetFontDesc();
+  for (int i = 0, max = *GetFontCount(); i < max; i++)
   {
     if (id == font[i].id)
     {
@@ -425,8 +443,8 @@ wchar_t* Font_GetNameByFontId(int id)
 int GetIdByFontId( int id )
 {
   int r = NULL;
-  FONT_DESC* font = GETFONTDESC;
-  for (int i = 0, max = *GETFONTCOUNT; i < max; i++)
+  FONT_DESC* font = GetFontDesc();
+  for (int i = 0, max = *GetFontCount(); i < max; i++)
   {
     if (id == font[i].id)
     {
@@ -436,6 +454,7 @@ int GetIdByFontId( int id )
   }
   return r;
 }
+#endif
 
 void SetVisual(SETTING_BOOK* m_bk)
 {
@@ -452,8 +471,16 @@ void SetVisual(SETTING_BOOK* m_bk)
   }
   else
   {
-    data->total_fonts = *GETFONTCOUNT;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    data->total_fonts = max_size / font_step;
+    data->cur_pos = (data->temp.font&0xFF) / font_step - 1;
+    int style_flags = data->temp.font >> 8;
+    data->style_bold = style_flags&bold;
+    data->style_italic = (style_flags&italic) >> 1;
+#else
+    data->total_fonts = *GetFontCount();
     data->cur_pos = GetIdByFontId(data->temp.font);
+#endif
     data->text = TRUE;
   }
   

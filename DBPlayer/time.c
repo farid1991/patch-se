@@ -38,7 +38,7 @@ void Time_OnRedraw(DISP_OBJ_TIME* disp_obj, int, int, int)
   disp_obj->buf_text = TextID_Create(disp_obj->buf, ENC_UCS2, TEXTID_ANY_LEN);
   
   DrawString_Params(disp_obj->buf_text,
-                    FONT_E_30R,
+                    FONT_E_20R,
                     UITextAlignment_Center,
                     55,
                     135,
