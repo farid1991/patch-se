@@ -17,38 +17,10 @@
 
 #include "data.h"
 #include "main.h"
-/*
-int divide(int nu, int de) 
-{
-  int temp = 1;
-  int quotient = 0;
-  
-  while (de <= nu) 
-  {
-    de <<= 1;
-    temp <<= 1;
-  }
-  
-  //printf("%d %d\n",de,temp,nu);
-  while (temp > 1) 
-  {
-    de >>= 1;
-    temp >>= 1;
 
-    if (nu >= de) 
-    {
-      nu -= de;
-      //printf("%d %d\n",quotient,temp);
-      quotient += temp;
-    }
-  }
-  return quotient;
-}
-*/
 void DrawProgressBar(FmRadio_Data* data, int cur_value, int total_value, RECT rect, int Bcolor, int Ecolor)
 {
   int bar = rect.x1 + (cur_value * (rect.x2-rect.x1) / total_value);
-  //int bar = rect.x1 + divide(cur_value*(rect.x2-rect.x1), total_value);
   
   if (data->setting.freq_indicator.round)
   {
@@ -85,28 +57,29 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
     int y2 = y1 + (font&0xFF);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
     FmRadio_Data* data = Get_Data();
+    dll_SetFont(font, &data->pFont);
     switch(overlay) //??? ??????? (Overlay type)
     {
     case 1: //?????? (Full) v1
-      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
       break;
     case 2: //?????? (Full) v2
-      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1 - 1, y1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1, y1 - 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1 - 1, y1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1 - 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
       break;
     case 3: //???? (Shadow)
-      dll_DrawString(data->pFont, text, font, align, x1 + 1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
       break;
     default: //??? (No)
-      dll_DrawString(data->pFont, text, font, align, x1, y1, x2, y2, tcolor);
+      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
       break;
     }
 #else 

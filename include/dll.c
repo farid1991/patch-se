@@ -35,7 +35,7 @@ void dll_SetFont(int font_size, IFont** ppFont)
 
 // DrawString ----------------------------------------------------
 
-void dll_DrawString(IFont *pFont, TEXTID text, int font, int align, int x1, int y1, int x2, int y2, int pen_color)
+void dll_DrawString(IFont *pFont, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   UUID IID_ITextRenderingManager={0xCE,0x91,0x7B,0x62,0xE3,0x3A,0x4D,0xC7,0x85,0x24,0x79,0x1E,0x6F,0x01,0x03,0x09};
   UUID CID_CTextRenderingManager={0xCF,0xDC,0xCD,0x9D,0xAE,0x6D,0x40,0xAE,0xB3,0x97,0x38,0xB0,0x5D,0x2D,0x35,0x9D};
@@ -49,9 +49,8 @@ void dll_DrawString(IFont *pFont, TEXTID text, int font, int align, int x1, int 
   IRichTextLayout* pRichTextLayout = NULL;
   IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
   IUnknown* pGC = NULL;
-  //IFont* pFont = NULL;
   
-  if(!pFont) dll_SetFont(font, &pFont);
+  if(!pFont) dll_SetFont(20, &pFont);
   
   CoCreateInstance(&CID_CTextRenderingManager, &IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
@@ -173,12 +172,12 @@ union SIGNAL
 int dll_GetSignalQuality( char * rssi, char * ber )
 {
   static const SIGSELECT sg[]={1,GetSignalQuality_Receive_SignalID};
-  char res=0;
+  char res = 0;
   PROCESS pid;
   
   hunt("LNH_ACC_SIDE/SL_Process",0,&pid,0);
   union SIGNAL * mem = alloc(8,GetSignalQuality_Send_SignalID);
-  mem->hsig.null=0;
+  mem->hsig.null = 0;
   send(&mem,pid);
   union SIGNAL * rec_buf = receive(sg);
   if (rec_buf->signo==GetSignalQuality_Receive_SignalID)

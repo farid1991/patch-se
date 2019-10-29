@@ -51,6 +51,11 @@ void SaveData(bool save, int item)
 {
   FmRadio_Data* data = Get_Data();
   
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#define temp_font data->temp.font + (data->style_bold<<8) + (data->style_italic<<9);
+#else
+#define temp_font data->temp.font;
+#endif
   if (item == ITEM_FREQUENCY)
   {
     data->setting.frequency.state = data->temp.activate1;
@@ -58,7 +63,7 @@ void SaveData(bool save, int item)
     data->setting.frequency.tcolor = data->temp.color1;
     data->setting.frequency.ocolor = data->temp.color2;
     data->setting.frequency.overlay = data->temp.overlay;
-    data->setting.frequency.font = data->temp.font;
+    data->setting.frequency.font = temp_font;
     data->setting.frequency.coord.x1 = data->temp.x1;
     data->setting.frequency.coord.y1 = data->temp.y1;
     data->setting.frequency.coord.x2 = data->temp.x2;
@@ -70,7 +75,7 @@ void SaveData(bool save, int item)
     data->setting.channel.tcolor = data->temp.color1;
     data->setting.channel.ocolor = data->temp.color2;
     data->setting.channel.overlay = data->temp.overlay;
-    data->setting.channel.font = data->temp.font;
+    data->setting.channel.font = temp_font;
     data->setting.channel.coord.x1 = data->temp.x1;
     data->setting.channel.coord.y1 = data->temp.y1;
     data->setting.channel.coord.x2 = data->temp.x2;
@@ -82,7 +87,7 @@ void SaveData(bool save, int item)
     data->setting.channel_name.tcolor = data->temp.color1;
     data->setting.channel_name.ocolor = data->temp.color2;
     data->setting.channel_name.overlay = data->temp.overlay;
-    data->setting.channel_name.font = data->temp.font;
+    data->setting.channel_name.font = temp_font;
     data->setting.channel_name.coord.x1 = data->temp.x1;
     data->setting.channel_name.coord.y1 = data->temp.y1;
     data->setting.channel_name.coord.x2 = data->temp.x2;
@@ -94,7 +99,7 @@ void SaveData(bool save, int item)
     data->setting.RDS_data.tcolor = data->temp.color1;
     data->setting.RDS_data.ocolor = data->temp.color2;
     data->setting.RDS_data.overlay = data->temp.overlay;
-    data->setting.RDS_data.font = data->temp.font;
+    data->setting.RDS_data.font = temp_font;
     data->setting.RDS_data.coord.x1 = data->temp.x1;
     data->setting.RDS_data.coord.y1 = data->temp.y1;
     data->setting.RDS_data.coord.x2 = data->temp.x2;
@@ -184,11 +189,11 @@ void SaveData(bool save, int item)
 
 void LoadData()
 {
-  FmRadio_Data* Data = Get_Data();
+  FmRadio_Data* data = Get_Data();
   int file = _fopen( FILE_PATH, FILE_NAME, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL );
-  if(file >= NULL) 
+  if(file >= 0) 
   {
-    fread(file, &Data->setting, sizeof(SETTING_DATA));
+    fread(file, &data->setting, sizeof(SETTING_DATA));
     fclose(file);
   }
 }

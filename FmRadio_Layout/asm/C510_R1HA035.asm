@@ -108,12 +108,15 @@ a       EQU     b
         defadr Display_GetWidth,0x140C93AC+1
         defadr GUIObject_SoftKeys_SetInfoText,0x141283F0+1
         
+        defadr DispObject_GetGUI,0x142A8F2C+1
+        
         defadr FSX_IsFileExists,0x14411678+1
         defadr CreatePalette,0x157089D0+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x1527FEA8+1
 	defadr TextID_CreateIntegerID,0x1401F5BC+1
         
         defadr MessageBox_NoImage,0x14CE140C+1
+        defadr GUIObject_GetBook,0x140CAEC8+1
 
 //------------------------------------------------------------------------------
 
@@ -135,6 +138,7 @@ a       EQU     b
         EXTERN New_FmRadio_Gui_OnRefresh
         
         EXTERN FmRadio_NewSoftKey
+        EXTERN FmRadio_UpdateSoftKeys
         
         EXTERN LoadData
         EXTERN DeleteData
@@ -243,10 +247,11 @@ update_softkey:
          LDR	R3, =GUIObject_SoftKeys_SetVisible
          BLX	R3
          LDR    R0, [R4,#0x18]
-         ADD    R2, R5, #0
-         MOV    R1, #0x1F
-         LDR	R3, =GUIObject_SoftKeys_SetVisible
-         BLX	R3
+         ADD    R1, R5, #0
+         BL     FmRadio_UpdateSoftKeys
+         //MOV    R1, #0x11
+         //LDR	R3, =GUIObject_SoftKeys_SetVisible
+         //BLX	R3
          LDR	R3, =0x1554AC76+1
          BX	R3
         

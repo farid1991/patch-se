@@ -180,7 +180,6 @@ void OneOfMany_SetMode(SETTING_BOOK* m_bk, int type)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
 int Color_OnCreate(DISP_OBJ_COLOR* disp_obj)
 {
   disp_obj->buf_text = EMPTY_TEXTID;
@@ -233,6 +232,19 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
     disp_obj->buf_text = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
     disp_obj->need_str = 0;
   }
+
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  FmRadio_Data* data = Get_Data();
+  dll_SetFont(FONT_E_20R, &data->pFont);
+  dll_DrawString(data->pFont,
+                 disp_obj->buf_text,
+                 UITextAlignment_Center,
+                 x1 + 1,
+                 y1 + 1,
+                 x1 + scr_w - 1,
+                 y1 + 1 + fsize + 1,
+                 clBlack);
+#else
   SetFont(FONT_E_20R);
   DrawString(disp_obj->buf_text,
              UITextAlignment_Center,
@@ -243,6 +255,7 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
              0,0,
              clBlack,
              clEmpty);
+#endif
   fsize += 3;
   
   for (int i = 0; i != 4; i++)
@@ -368,8 +381,6 @@ void Color_OnSelect(BOOK* book, GUI* gui)
   m_bk->change = TRUE;
 }
 
-*/
-
 void Color_OnSelect(BOOK* book, color_t pcolor)
 {
   SETTING_BOOK* m_bk = (SETTING_BOOK*)book;
@@ -392,19 +403,18 @@ void Color_OnSelect(BOOK* book, color_t pcolor)
   
   snwprintf(data->buf, MAXELEMS(data->buf), L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
   ListMenu_SetItemSecondLineText(m_bk->gui_elem, item, TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN));
-  FREE_GUI(m_bk->palette);
+  FREE_GUI(m_bk->color);
   m_bk->change = TRUE;
 }
 
 void Color_onBack( BOOK* book, void* )
 {
   SETTING_BOOK* m_bk = (SETTING_BOOK*)book;
-  FREE_GUI(m_bk->palette);
+  FREE_GUI(m_bk->color);
 }
 
 void SetColor(SETTING_BOOK* m_bk, int type)
 {
-  /*
   GUI* gui_color = (GUI*)malloc(sizeof(GUI));
   if(!GUIObject_Create(gui_color, Color_destroy, Color_create, m_bk, NULL, UIDisplay_Main, NULL)) mfree(gui_color);
   
@@ -437,10 +447,9 @@ void SetColor(SETTING_BOOK* m_bk, int type)
   GUIObject_SoftKeys_SetText(gui_color, ACTION_SELECT1, STR("OK"));
   GUIObject_SoftKeys_SetAction(gui_color, ACTION_BACK, OnBack);
   GUIObject_Show(gui_color);
-  */
-  m_bk->color_type = type;
-  m_bk->palette = CreatePalette( m_bk, TEXT_COLOR, COLOR_LIST, 0x1C, 0, Color_onBack, Color_onBack, Color_OnSelect );
-  GUIObject_Show(m_bk->palette);
+  //m_bk->color_type = type;
+  //m_bk->palette = CreatePalette( m_bk, TEXT_COLOR, COLOR_LIST, 0x1C, 0, Color_onBack, Color_onBack, Color_OnSelect );
+  //GUIObject_Show(m_bk->palette);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -508,8 +517,8 @@ void SetVisual(SETTING_BOOK* m_bk)
   else
   {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    data->total_fonts = max_size/font_step;
-    data->cur_pos = (data->temp.font&0xFF)/font_step - 1;
+    data->total_fonts = max_size / font_step;
+    data->cur_pos = (data->temp.font&0xFF) / font_step - 1;
     int style_flags = data->temp.font >> 8;
     data->style_bold = style_flags&bold;
     data->style_italic = (style_flags&italic) >> 1;
@@ -522,6 +531,8 @@ void SetVisual(SETTING_BOOK* m_bk)
   
   FreeBook(m_bk);
   //SetActiveSoft(data, FALSE);
-  GUIObject_SoftKeys_SetVisible(data->FmRadioBook->FmRadio_Gui,ACTION_BACK,FALSE);
+  
+  FmRadio_Book* fmbook = (FmRadio_Book*)data->FmRadioBook;
+  GUIObject_SoftKeys_SetVisible(fmbook->FmRadio_Gui,ACTION_BACK,FALSE);
   FmRadio_SetActiveSoftKeys(data->FmRadioBook,FALSE);
 }

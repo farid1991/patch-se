@@ -112,7 +112,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
   LoadData();
   
   FmRadio_Data* Data = Get_Data();
-  Data->DispObj_FmRadio = (DISP_OBJ_FMRADIO*)disp_obj;
+  Data->DispObj_FmRadio = disp_obj;
   
   Data->Channel = EMPTY_TEXTID;
   Data->ChannelName = EMPTY_TEXTID;
@@ -124,8 +124,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
   LoadImage(Data);
   DispObject_SetRefreshTimer(disp_obj, 1000);
   
-  FmRadio_Gui_OnCreate(disp_obj);
-  return 1;
+  return FmRadio_Gui_OnCreate(disp_obj);
 }
 
 extern "C"
@@ -153,21 +152,14 @@ void DrawImage(int x, int y, IMAGEID img)
   if(img!=NOIMAGE) GC_DrawIcon(x,y,img);
 #endif
 }
-/*
-void dump(FmRadio_Book* FmRadio)
-{
-  int myFile = w_fopen( L"/usb/other/FmRadio.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
-    if ( myFile >= NULL )
-    {
-      w_fwrite( myFile, FmRadio, 0x512 );
-      w_fclose( myFile );
-    }
-}
-*/
+
 extern "C"
 void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 {
   DISP_OBJ_FMRADIO* disp_fm = (DISP_OBJ_FMRADIO*)disp_obj;
+  
+  GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
+  FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
   
   FmRadio_Data* data = Get_Data();
   
@@ -214,7 +206,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
               data->Image[8].ID );
     if(key_pressed==KEY_LEFT)
     {
-      if(disp_fm->key_mode == KBD_SHORT_PRESS)
+      if(mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_left.pos.x,
                   data->setting.arrow_left.pos.y,
@@ -233,9 +225,9 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawImage(data->setting.arrow_right.pos.x,
               data->setting.arrow_right.pos.y,
               data->Image[11].ID );
-    if(disp_fm->key_pressed==KEY_RIGHT)
+    if(key_pressed==KEY_RIGHT)
     {
-      if(disp_fm->key_mode == KBD_SHORT_PRESS)
+      if(mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
@@ -277,7 +269,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   if (data->setting.freq_indicator.state) // Freq Indicator
   {
     DrawProgressBar(data,
-                    (data->FmRadioBook->CurrentFrequency)-875,
+                    (fmbook->CurrentFrequency)-875,
                     (1080-875),
                     data->setting.freq_indicator.progress_rect,
                     data->setting.freq_indicator.progress_bcolor,
@@ -345,12 +337,12 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     if (data->text)
     {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-      int style = data->temp.font>>8;
-      int font_size = data->temp.font&0xFF;
-      if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, data->temp.font);
-      else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
-      else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
-      else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+      int font_size = (data->cur_pos+1)*font_step + (data->style_bold<<8) + (data->style_italic<<9); //data->temp.font&0xFF;
+      int style = font_size >> 8; //data->temp.font>>8;
+      if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+      else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
       data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 #else
       data->Buffer_Text = TextID_Create(Font_GetNameByFontId(data->temp.font), ENC_UCS2, TEXTID_ANY_LEN);
@@ -366,7 +358,6 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawRect(0, 247, 240, 272, clBlack, 0x35FFFFFF);
     
     //2a3f6d30
-    
     DrawString_Params(data->Buffer_Text,
                       FONT_E_18R,
                       UITextAlignment_Center,
@@ -388,14 +379,16 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 extern "C"
 void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int mode)
 {
-  DISP_OBJ_FMRADIO* disp_fm = (DISP_OBJ_FMRADIO*)disp_obj;
-  
-  disp_fm->key_mode = mode;
-  disp_fm->key_pressed = key;
-  
   FmRadio_Data* data = Get_Data();
+  GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
+  FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
   
-  if(data->edit_visual)
+  if(!data->edit_visual)
+  {
+    FmRadio_Gui_OnKey(disp_obj, key, unk, repeat, mode);
+    
+  }
+  else
   {
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
     {
@@ -470,7 +463,8 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         }
         else data->temp.x1 += data->cstep;
         break;
-      case KEY_DIGITAL_0 + 1:
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+      case KEY_DEL:
         if (data->text)
         {
           if ((!data->style_bold) && (!data->style_italic))
@@ -493,6 +487,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
           }
         }
         break;
+#endif
       case KEY_ENTER:
         if (data->text)
         {
@@ -505,8 +500,8 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         data->rect = FALSE;
         SaveData(TRUE, data->element);
         MessageBox_NoImage(EMPTY_TEXTID, TEXT_SAVE, 0, 1500, NULL);
-        GUIObject_SoftKeys_SetVisible(data->FmRadioBook->FmRadio_Gui,ACTION_BACK,TRUE);
-        FmRadio_SetActiveSoftKeys(data->FmRadioBook,TRUE);
+        GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
+        FmRadio_SetActiveSoftKeys(fmbook,TRUE); //
         break;
       case KEY_DIGITAL_0:
         data->edit_visual = FALSE;
@@ -514,8 +509,8 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         data->rect = FALSE;
         LoadData();
         MessageBox_NoImage(EMPTY_TEXTID, TEXT_CANCEL, 0, 1500, NULL);
-        GUIObject_SoftKeys_SetVisible(data->FmRadioBook->FmRadio_Gui,ACTION_BACK,TRUE);
-        FmRadio_SetActiveSoftKeys(data->FmRadioBook,TRUE);
+        GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
+        FmRadio_SetActiveSoftKeys(fmbook,TRUE);
         break;
       }
       
@@ -532,10 +527,6 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
       if (data->edit_visual) SaveData(FALSE, data->element);
       DispObject_InvalidateRect(disp_obj, NULL);
     }
-  }
-  else
-  {
-    FmRadio_Gui_OnKey(disp_obj, key, unk, repeat, mode);
   }
 }
 
@@ -560,16 +551,14 @@ int New_FmRadio_Main__PAGE_ENTER_EVENT(void* data, BOOK* book)
   FmRadio_Data* Data = Get_Data();
   Data->FmRadioBook = (FmRadio_Book*)book;
 
-  pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);
-  return 1;
+  return pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);
 }
 
 /*
 extern "C"
 int New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT(void* data, BOOK* book)
 {
-  pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT(data,book);
-  return 1;
+  return pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT(data,book);
 }
 
 */

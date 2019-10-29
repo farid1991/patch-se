@@ -104,8 +104,8 @@ typedef struct NEW_KEY
 
 typedef struct _FmRadio_Data
 {
-  FmRadio_Book* FmRadioBook;
-  DISP_OBJ_FMRADIO* DispObj_FmRadio;
+  BOOK* FmRadioBook;
+  DISP_OBJ* DispObj_FmRadio;
 
   TEMP_DATA temp;
   SETTING_DATA setting;
