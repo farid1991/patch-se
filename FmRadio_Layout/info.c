@@ -37,7 +37,6 @@ TEXTID Get_CurrentFrequency(FmRadio_Data* Data)
   FmRadio_Book* fmbook = (FmRadio_Book*)Data->FmRadioBook;
   FUint16 CurrentFrequency  = fmbook->CurrentFrequency;
   
-  //wchar_t buffer[10];
   snwprintf(Data->buf, MAXELEMS(Data->buf), L"%d", CurrentFrequency );
   
   int len = wstrlen(Data->buf);

@@ -21,7 +21,7 @@
 
 #define EMP_NAME "FmRadio"
 
-FmRadio_Data* Create_Data()
+FmRadio_Data* CreateData()
 {
   FmRadio_Data* Data = (FmRadio_Data*)malloc(sizeof(FmRadio_Data));
   memset(Data, NULL, sizeof(FmRadio_Data));
@@ -29,11 +29,11 @@ FmRadio_Data* Create_Data()
   return Data;
 }
 
-FmRadio_Data* Get_Data()
+FmRadio_Data* GetData()
 {
   FmRadio_Data* Data = (FmRadio_Data*) get_envp(NULL, EMP_NAME);
   if (Data) return Data;
-  return Create_Data();
+  return CreateData();
 }
 
 extern "C"
@@ -49,7 +49,7 @@ void DeleteData()
 
 void SaveData(bool save, int item)
 {
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 #define temp_font data->temp.font + (data->style_bold<<8) + (data->style_italic<<9);
@@ -189,7 +189,7 @@ void SaveData(bool save, int item)
 
 void LoadData()
 {
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   int file = _fopen( FILE_PATH, FILE_NAME, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL );
   if(file >= 0) 
   {

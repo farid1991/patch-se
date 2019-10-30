@@ -73,13 +73,13 @@ int Text_OnMessage(GUI_MESSAGE* msg)
   switch(GUIonMessage_GetMsg(msg))
   {
     case LISTMSG_GetItem:
-      FmRadio_Data* data = Get_Data();
+      FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
       TEXTID first_text = EMPTY_TEXTID;
       TEXTID second_text = EMPTY_TEXTID;
       
-      if (item == 0) // Отображение
+      if (item == 0)
       {
         first_text = TextID_Global(ID_SHOW);
         if (data->temp.activate1) second_text = TEXT_ON;
@@ -90,12 +90,12 @@ int Text_OnMessage(GUI_MESSAGE* msg)
         if (item == 1 || item == 2)
         {
           color_t color;
-          if (item == 1) // Цвет текста
+          if (item == 1)
           {
             first_text = TEXT_COLOR_TEXT;
             color = data->temp.color1;
           }
-          else // Цвет обводки
+          else
           {
             first_text = TextID_Global(ID_COLOR_OVERLAY);
             color = data->temp.color2;
@@ -103,14 +103,14 @@ int Text_OnMessage(GUI_MESSAGE* msg)
           snwprintf(data->buf, MAXELEMS(data->buf)-1, L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
           second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
         }
-        else if (item == 3) // Выравнивание
+        else if (item == 3)
         {
           first_text = TextID_Global(ID_ALIGN);
           if (data->temp.align == 0) second_text = TEXT_LEFT;
           else if (data->temp.align == 1) second_text = TEXT_RIGHT;
           else if (data->temp.align == 2) second_text = TEXT_CENTRE;
         }
-        else if (item == 4) // Визуальные
+        else if (item == 4)
         {
           first_text = TextID_Global(ID_VISUAL);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
@@ -139,7 +139,7 @@ int Progress_OnMessage(GUI_MESSAGE* msg)
   switch(GUIonMessage_GetMsg(msg))
   {
     case LISTMSG_GetItem:
-      FmRadio_Data* data = Get_Data();
+      FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
       TEXTID first_text = EMPTY_TEXTID;
@@ -198,7 +198,7 @@ int Image_OnMessage(GUI_MESSAGE* msg)
   switch(GUIonMessage_GetMsg(msg))
   {
     case LISTMSG_GetItem:
-      FmRadio_Data* data = Get_Data();
+      FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
       TEXTID first_text = EMPTY_TEXTID;
@@ -230,7 +230,7 @@ int Background_OnMessage(GUI_MESSAGE* msg)
   switch(GUIonMessage_GetMsg(msg))
   {
     case LISTMSG_GetItem:
-      FmRadio_Data* data = Get_Data();
+      FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
       TEXTID first_text = EMPTY_TEXTID;
@@ -269,7 +269,7 @@ int Additional_OnMessage(GUI_MESSAGE* msg)
   switch(GUIonMessage_GetMsg(msg))
   {
     case LISTMSG_GetItem:
-      FmRadio_Data* data = Get_Data();
+      FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
       TEXTID first_text = EMPTY_TEXTID;
@@ -370,7 +370,7 @@ void Setting_OnSelect(BOOK* book, GUI* gui)
   FMSettings_Book->element = item;
   FMSettings_Book->change = FALSE;
   
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   data->temp.activate1 = NULL;
   data->temp.activate2 = NULL;
   data->temp.activate3 = NULL;
@@ -520,7 +520,7 @@ void Question_OnYes(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   SaveData(TRUE, FMSettings_Book->element);
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   LoadData();
   
   if((DISP_OBJ*)data->DispObj_FmRadio) DispObject_InvalidateRect((DISP_OBJ*)data->DispObj_FmRadio,NULL);
@@ -550,7 +550,7 @@ void Question_OnYes(BOOK* book, GUI* gui)
 void Question_OnNo(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   LoadData();
   
   if((DISP_OBJ*)data->DispObj_FmRadio) DispObject_InvalidateRect((DISP_OBJ*)data->DispObj_FmRadio,NULL);

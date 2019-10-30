@@ -56,30 +56,28 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   {
     int y2 = y1 + (font&0xFF);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    FmRadio_Data* data = Get_Data();
-    dll_SetFont(font, &data->pFont);
-    switch(overlay) //??? ??????? (Overlay type)
+    switch(overlay) // (Overlay type)
     {
-    case 1: //?????? (Full) v1
-      dll_DrawString(data->pFont, text, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+    case 1: // (Full) v1
+      dll_DrawString(text, font, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
+      dll_DrawString(text, font, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
+      dll_DrawString(text, font, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
+      dll_DrawString(text, font, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
+      dll_DrawString(text, font, align, x1, y1, x2, y2, tcolor);
       break;
-    case 2: //?????? (Full) v2
-      dll_DrawString(data->pFont, text, align, x1 + 1, y1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1 - 1, y1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1, y1 - 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+    case 2: // (Full) v2
+      dll_DrawString(text, font, align, x1 + 1, y1, x2, y2, ocolor);
+      dll_DrawString(text, font, align, x1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(text, font, align, x1 - 1, y1, x2, y2, ocolor);
+      dll_DrawString(text, font, align, x1, y1 - 1, x2, y2, ocolor);
+      dll_DrawString(text, font, align, x1, y1, x2, y2, tcolor);
       break;
-    case 3: //???? (Shadow)
-      dll_DrawString(data->pFont, text, align, x1 + 1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+    case 3: // (Shadow)
+      dll_DrawString(text, font, align, x1 + 1, y1 + 1, x2, y2, ocolor);
+      dll_DrawString(text, font, align, x1, y1, x2, y2, tcolor);
       break;
-    default: //??? (No)
-      dll_DrawString(data->pFont, text, align, x1, y1, x2, y2, tcolor);
+    default: // (No)
+      dll_DrawString(text, font, align, x1, y1, x2, y2, tcolor);
       break;
     }
 #else 

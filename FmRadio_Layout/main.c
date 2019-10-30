@@ -111,7 +111,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
 {
   LoadData();
   
-  FmRadio_Data* Data = Get_Data();
+  FmRadio_Data* Data = GetData();
   Data->DispObj_FmRadio = disp_obj;
   
   Data->Channel = EMPTY_TEXTID;
@@ -130,7 +130,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
 extern "C"
 void New_FmRadio_Gui_OnClose(DISP_OBJ* disp_obj)
 {
-  FmRadio_Data* Data = Get_Data();
+  FmRadio_Data* Data = GetData();
   
   TEXT_FREE(Data->Frequency);
   TEXT_FREE(Data->Channel);
@@ -161,7 +161,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
   FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
   
-  FmRadio_Data* data = Get_Data();
+  FmRadio_Data* data = GetData();
   
   if (data->setting.background.state == TYPE_IMAGE) // Background
   {
@@ -169,10 +169,12 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
               data->setting.background.pos.y,
               data->Image[0].ID);
   }
+#if defined(DB3150v1)
   else if (data->setting.background.state == TYPE_THEME)
   {
-    //DispObject_SetThemeImage(disp_obj, 0x1E);
+    DispObject_SetThemeImage(disp_obj, 0x1E);
   }
+#endif
   else if (data->setting.background.state == TYPE_COLOR)
   {
     DispObject_SetLayerColor(disp_obj, data->setting.background_color);
@@ -224,20 +226,20 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   {
     DrawImage(data->setting.arrow_right.pos.x,
               data->setting.arrow_right.pos.y,
-              data->Image[11].ID );
+              data->Image[11].ID);
     if(key_pressed==KEY_RIGHT)
     {
       if(mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
-                  data->Image[12].ID );
+                  data->Image[12].ID);
       }
       else if(mode == KBD_LONG_PRESS || mode == KBD_REPEAT)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
-                  data->Image[13].ID );
+                  data->Image[13].ID);
       }
     }
   }
@@ -246,23 +248,29 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
     DrawImage(data->setting.arrow_up.pos.x,
                 data->setting.arrow_up.pos.y,
                 data->Image[14].ID );
-    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key_pressed==KEY_UP)
+    if(key_pressed==KEY_UP)
     {
-      DrawImage(data->setting.arrow_up.pos.x,
-                data->setting.arrow_up.pos.y,
-                data->Image[15].ID );
+      if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
+      {
+        DrawImage(data->setting.arrow_up.pos.x,
+                  data->setting.arrow_up.pos.y,
+                  data->Image[15].ID);
+      }
     }
   }
   if (data->setting.arrow_down.state) // Down ICN
   {
     DrawImage(data->setting.arrow_down.pos.x,
                 data->setting.arrow_down.pos.y,
-                data->Image[16].ID );
-    if((mode == KBD_SHORT_PRESS || mode == KBD_REPEAT) && key_pressed==KEY_DOWN)
+                data->Image[16].ID);
+    if(key_pressed==KEY_DOWN)
     {
-      DrawImage(data->setting.arrow_down.pos.x,
-                data->setting.arrow_down.pos.y,
-                data->Image[17].ID );
+      if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
+      {
+        DrawImage(data->setting.arrow_down.pos.x,
+                  data->setting.arrow_down.pos.y,
+                  data->Image[17].ID);
+      }
     }
   }
   
@@ -379,10 +387,8 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 extern "C"
 void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int mode)
 {
-  FmRadio_Data* data = Get_Data();
-  GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
-  FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
-  
+  FmRadio_Data* data = GetData();
+
   if(!data->edit_visual)
   {
     FmRadio_Gui_OnKey(disp_obj, key, unk, repeat, mode);
@@ -390,6 +396,9 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
   }
   else
   {
+    GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
+    FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
+    
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
     {
       int scr_w = Display_GetWidth(UIDisplay_Main);
@@ -533,7 +542,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
 extern "C"
 void New_FmRadio_Gui_OnLayout(DISP_OBJ* disp_obj, void* layoutstruct)
 {
-  FmRadio_Data* Data = Get_Data();
+  FmRadio_Data* Data = GetData();
   if (Data->setting.background.state== TYPE_COLOR) DispObject_SetLayerColor(disp_obj, Data->setting.background_color);
   //FmRadio_Gui_OnLayout(disp_obj,layoutstruct);
 }
@@ -548,7 +557,7 @@ void New_FmRadio_Gui_OnRefresh(DISP_OBJ* disp_obj)
 extern "C"
 int New_FmRadio_Main__PAGE_ENTER_EVENT(void* data, BOOK* book)
 {
-  FmRadio_Data* Data = Get_Data();
+  FmRadio_Data* Data = GetData();
   Data->FmRadioBook = (FmRadio_Book*)book;
 
   return pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);

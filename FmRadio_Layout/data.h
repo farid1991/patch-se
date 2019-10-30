@@ -6,20 +6,16 @@
 #define FILE_PATH L"/usb/other/ZBin/Config/FmRadio"
 #define FILE_NAME L"FMRadio_Display.cfg"
 
-//#define EMP_NAME "DBP_emp"
-
 #define IMG_COUNT 18
-
-//typedef struct GUI GUI_DBP;
 
 typedef struct TEXT_ITEM_DATA
 {
   bool state;
-  char align;
+  int align;
   color_t tcolor;
   color_t ocolor;
-  char overlay;
-  Uint16_t font;
+  int overlay;
+  int font;
   RECT coord;
 } TEXT_ITEM_DATA;
 
@@ -74,33 +70,25 @@ typedef struct _FILE_INFO
 
 typedef struct _TEMP_DATA
 {
-  char activate1;
-  char activate2;
-  char activate3;
-  char align;
+  bool activate1;
+  bool activate2;
+  bool activate3;
+  int align;
   color_t color1;
   color_t color2;
-  char overlay;
-  char font;
-  Int16_t x1;
-  Int16_t y1;
-  Int16_t x2;
-  Int16_t y2;
+  int overlay;
+  int font;
+  int x1;
+  int y1;
+  int x2;
+  int y2;
 } TEMP_DATA;
 
 typedef struct _IMG
 {
   IMAGEID ID;
-  Uint16_t Handle;
+  u16 Handle;
 } IMG;
-
-typedef struct NEW_KEY
-{
-  bool left;
-  bool right;
-  bool up;
-  bool down;
-} NEW_KEY;
 
 typedef struct _FmRadio_Data
 {
@@ -118,7 +106,6 @@ typedef struct _FmRadio_Data
   int cstep;
   
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  IFont* pFont;
   int style_bold;
   int style_italic;
 #endif
@@ -140,10 +127,8 @@ typedef struct _FmRadio_Data
   
 } FmRadio_Data;
 
-FmRadio_Data* Get_Data();
+FmRadio_Data* GetData();
 void SaveData(bool save, int item);
-
-//extern "C"
 void LoadData();
 
 #endif
