@@ -14,12 +14,6 @@ void dll_SetFont(int font_size, IFont** ppFont)
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
   
-  if (*ppFont)
-  {
-    (*ppFont)->Release();
-    (*ppFont) = NULL;
-  }
-  
   CoCreateInstance(&CID_CUIFontManager, &IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
   
@@ -36,7 +30,7 @@ void dll_SetFont(int font_size, IFont** ppFont)
 
 // DrawString ----------------------------------------------------
 
-void dll_DrawString(IFont *pFont, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
+void dll_DrawString(TEXTID text, int font, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   UUID IID_ITextRenderingManager={0xCE,0x91,0x7B,0x62,0xE3,0x3A,0x4D,0xC7,0x85,0x24,0x79,0x1E,0x6F,0x01,0x03,0x09};
   UUID CID_CTextRenderingManager={0xCF,0xDC,0xCD,0x9D,0xAE,0x6D,0x40,0xAE,0xB3,0x97,0x38,0xB0,0x5D,0x2D,0x35,0x9D};
@@ -51,7 +45,9 @@ void dll_DrawString(IFont *pFont, TEXTID text, int align, int x1, int y1, int x2
   IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
   IUnknown* pGC = NULL;
   
-  if(!pFont) dll_SetFont(20, &pFont);
+  //if(!pFont) dll_SetFont(20, &pFont);
+  IFont* pFont = NULL;
+  dll_SetFont(font, &pFont);
   
   CoCreateInstance(&CID_CTextRenderingManager, &IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);

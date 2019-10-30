@@ -10,9 +10,13 @@
 ;(c) IronMaster, E1kolyan
 */
 
-#include "..\\include\color.h"
+#include "..\\include\Colors.h"
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
+
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
 
 #include "main.h"
 
@@ -109,7 +113,11 @@ void UnregisterImage(DISP_OBJ_BRIGHT* disp_obj)
 
 void SetBrightness(int bright)
 {
+#if defined(DB3200)
+  Display_SetBrightness(UIDisplay_Main, bright);
+#else
   Display_SetBrightness(bright);
+#endif
   SaveBrightness(bright);
 }
 
@@ -142,19 +150,33 @@ void Bright_onClose(DISP_OBJ_BRIGHT* disp_obj)
 
 void DrawString_Params( TEXTID text, int font, int align, int x1, int y1, int x2, int y2, unsigned int tcolor, unsigned int ocolor )
 {
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  dll_DrawString(text, font, align, x1 + 1, y1, x2, y2, ocolor);
+  dll_DrawString(text, font, align, x1, y1 + 1, x2, y2, ocolor);
+  dll_DrawString(text, font, align, x1 - 1, y1, x2, y2, ocolor);
+  dll_DrawString(text, font, align, x1, y1 - 1, x2, y2, ocolor);
+  dll_DrawString(text, font, align, x1, y1, x2, y2, tcolor);
+#else
   SetFont(font);
   DrawString(text, align, x1 + 1, y1, x2, y2, 0, 0, ocolor, 0);
   DrawString(text, align, x1, y1 + 1, x2, y2, 0, 0, ocolor, 0);
   DrawString(text, align, x1 - 1, y1, x2, y2, 0, 0, ocolor, 0);
   DrawString(text, align, x1, y1 - 1, x2, y2, 0, 0, ocolor, 0);
   DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, 0);
+#endif
 }
 
 void Bright_onRedraw(DISP_OBJ_BRIGHT* disp_obj, int, int, int)
 {
+#if defined(DB2020) || defined(DB3150)
   GC_DrawIcon( disp_obj->data->Icon_Background_x, disp_obj->data->Icon_Background_y, disp_obj->Images[0].ImageID);
   GC_DrawIcon( disp_obj->data->Icon_Level_x, disp_obj->data->Icon_Level_y, disp_obj->image);
-
+#else
+  GC* pGC = get_DisplayGC();
+  dll_GC_PutChar(pGC, disp_obj->data->Icon_Background_x, disp_obj->data->Icon_Background_y, 0, 0, disp_obj->Images[0].ImageID);
+  dll_GC_PutChar(pGC, disp_obj->data->Icon_Level_x, disp_obj->data->Icon_Level_y, 0, 0, disp_obj->image);
+#endif
+  
   TextID_Destroy(disp_obj->text);
   disp_obj->text = TextID_CreateIntegerID(disp_obj->bright);
   DrawString_Params(disp_obj->text,
@@ -224,7 +246,7 @@ void Bright_constr(DISP_DESC* desc)
   DISP_DESC_SetOnCreate(desc, (DISP_OBJ_ONCREATE_METHOD) Bright_onCreate);
   DISP_DESC_SetOnClose(desc, (DISP_OBJ_ONCLOSE_METHOD) Bright_onClose);
   DISP_DESC_SetOnRedraw(desc, (DISP_OBJ_ONREDRAW_METHOD) Bright_onRedraw);
-  DISP_DESC_SetOnLayout(desc, (DISP_OBJ_METHOD) Bright_OnLayout);
+  DISP_DESC_SetOnLayout(desc, (DISP_OBJ_ONLAYOUT_METHOD) Bright_OnLayout);
   DISP_DESC_SetOnKey(desc, (DISP_OBJ_ONKEY_METHOD) Bright_onKey);
 }
 
@@ -271,7 +293,8 @@ int VisualBrightness(void* data, SetBook* book)
   GUIObject_Show(book->gui);
   return 1;
 }
-/*
+
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 extern "C"
 void SecondLineText(DYNAMIC_MENU_ELEMENT* dme)
 {
@@ -279,4 +302,4 @@ void SecondLineText(DYNAMIC_MENU_ELEMENT* dme)
   snwprintf(buf, MAXELEMS(buf), L"Brightness: %d%%", Display_GetBrightness(UIDisplay_Main));
   DynamicMenu_SetElement_SecondLineText(dme, TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN));
 }
-*/
+#endif
