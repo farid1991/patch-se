@@ -38,10 +38,16 @@
 #define TEXT_SCREEN           0x4ED   // L"На весь экран"
 #define TEXT_ANIMATION        0x14CF  // L"Анимация"
 
-#define TEXT_LAYOUT           0x962
-#define TEXT_ON_OOM           0x85E     // L"????????"
-#define TEXT_OFF_OOM          0x85C   // L"?????????"
-#define TEXT_THEME            0x27C4   // L"?? ????"
+#define TEXT_LAYOUT           0x78E
+#define TEXT_ON_OOM           0x1E8     // L"????????"
+#define TEXT_OFF_OOM          0x1E5     // L"?????????"
+#define TEXT_THEME            0x10C7    // L"?? ????"
+
+#define TEXT_RDS          0x94F
+#define TEXT_NAV_LEFT     0x1C57
+#define TEXT_NAV_RIGHT    0x1C5B
+#define TEXT_NAV_UP       0x1C5F
+#define TEXT_NAV_DOWN     0x1C54
 
 // interface id ----------------------------------------------------
 /*
@@ -883,11 +889,6 @@
 #define VC_SUPPRESS_MAGICWORD_EVENT 0x84DB
 #define VOLUMECONTROL_DECREASE_REPEAT_SECOND_EVENT 0x5EF8
 
-#define TEXT_RDS          0xB97
-#define TEXT_NAV_LEFT     0x22B0
-#define TEXT_NAV_RIGHT    0x22B8
-#define TEXT_NAV_UP       0x22BC
-#define TEXT_NAV_DOWN     0x22AC
 
 #endif
 #endif

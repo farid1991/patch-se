@@ -245,7 +245,7 @@ a       EQU b
         defadr SBY_GetStatusIndication,0x112A13F8+1
         defadr REQUEST_PHONEBOOK_ACCESSSTATUS_TOTAL_GET,0x10EDAF98+1
         defadr PID_MMI,0x2A2775F0
-        defadr DISP_OBJ_GetGUI,0x1169BC14+1
+        defadr DispObject_GetGUI,0x1169BC14+1
         defadr Display_GetFocusedDispObject,0x1169BB60+1
         defadr DispObject_GetVisible,0x1169C1B8+1
         defadr DispObject_GetDESC,0x100B8C68+1

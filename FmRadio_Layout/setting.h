@@ -42,7 +42,7 @@ typedef struct _SETTING_BOOK : BOOK
   GUI_LIST* gui_elem;
   GUI* gui_question;
   GUI_ONEOFMANY* gui_oom;
-  GUI* color;
+  GUI* gui_color;
   int color_type;
   
   int element;

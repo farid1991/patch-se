@@ -60,7 +60,7 @@ void RegisterImage(IMG* img, wchar_t* path, wchar_t* fname)
       if (error_code) img->Handle = NOIMAGE;
 }
 
-void FreeImage(FmRadio_Data* Data)
+void UnRegisterImage(FmRadio_Data* Data)
 {
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
@@ -117,6 +117,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
   Data->Channel = EMPTY_TEXTID;
   Data->ChannelName = EMPTY_TEXTID;
   Data->Frequency = EMPTY_TEXTID;
+  Data->PSName = EMPTY_TEXTID;
   Data->Buffer_Text = EMPTY_TEXTID;
   
   Data->cstep = 1;
@@ -140,16 +141,21 @@ void New_FmRadio_Gui_OnClose(DISP_OBJ* disp_obj)
   
   DispObject_KillRefreshTimer(disp_obj);
   
-  FreeImage(Data);
+  UnRegisterImage(Data);
   FmRadio_Gui_OnClose(disp_obj);
 }
 
-void DrawImage(int x, int y, IMAGEID img)
+void DrawImage(int width, int height, IMAGEID imageID)
 {
 #if defined (DB3200) || defined (DB3210) || defined (DB3350)
-  if(img!=NOIMAGE) dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img );
+  if(imageID!=NOIMAGE) dll_GC_PutChar(get_DisplayGC(),
+                                      width,
+                                      height,
+                                      0,
+                                      0,
+                                      imageID );
 #else
-  if(img!=NOIMAGE) GC_DrawIcon(x,y,img);
+  if(imageID!=NOIMAGE) GC_DrawIcon(width,height,imageID);
 #endif
 }
 
@@ -163,11 +169,16 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   FmRadio_Data* data = GetData();
   
+  //Get_Channel(data);
+  //Get_CurrentFrequency(data);
+  //Get_ChannelName(data);
+  //Get_GetPSName(data);
+   
   if (data->setting.background.state == TYPE_IMAGE) // Background
   {
     DrawImage(data->setting.background.pos.x,
               data->setting.background.pos.y,
-              data->Image[0].ID);
+              data->Image[BACKGROUND_ICN].ID);
   }
 #if defined(DB3150v1)
   else if (data->setting.background.state == TYPE_THEME)
@@ -201,75 +212,75 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   char mode = disp_fm->key_mode;
   FUint16 key_pressed = disp_fm->key_pressed;
-  if (data->setting.arrow_left.state) // Left ICN
+  if (data->setting.arrow_left.state)
   {
     DrawImage(data->setting.arrow_left.pos.x,
               data->setting.arrow_left.pos.y,
-              data->Image[8].ID );
+              data->Image[ARROW_LEFT_IDLE_ICN].ID );
     if(key_pressed==KEY_LEFT)
     {
       if(mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_left.pos.x,
                   data->setting.arrow_left.pos.y,
-                  data->Image[9].ID );
+                  data->Image[ARROW_LEFT_MANUAL_ICN].ID );
       }
       else if(mode == KBD_LONG_PRESS || mode == KBD_REPEAT)
       {
         DrawImage(data->setting.arrow_left.pos.x,
                   data->setting.arrow_left.pos.y,
-                  data->Image[10].ID );
+                  data->Image[ARROW_LEFT_AUTOSEEK_ICN].ID );
       }
     }
   }
-  if (data->setting.arrow_right.state) // Right ICN
+  if (data->setting.arrow_right.state)
   {
     DrawImage(data->setting.arrow_right.pos.x,
               data->setting.arrow_right.pos.y,
-              data->Image[11].ID);
+              data->Image[ARROW_RIGHT_IDLE_ICN].ID);
     if(key_pressed==KEY_RIGHT)
     {
       if(mode == KBD_SHORT_PRESS)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
-                  data->Image[12].ID);
+                  data->Image[ARROW_RIGHT_MANUAL_ICN].ID);
       }
       else if(mode == KBD_LONG_PRESS || mode == KBD_REPEAT)
       {
         DrawImage(data->setting.arrow_right.pos.x,
                   data->setting.arrow_right.pos.y,
-                  data->Image[13].ID);
+                  data->Image[ARROW_RIGHT_AUTOSEEK_ICN].ID);
       }
     }
   }
-  if (data->setting.arrow_up.state) // Up ICN
+  if (data->setting.arrow_up.state)
   {
     DrawImage(data->setting.arrow_up.pos.x,
                 data->setting.arrow_up.pos.y,
-                data->Image[14].ID );
+                data->Image[ARROW_UP_IDLE_ICN].ID );
     if(key_pressed==KEY_UP)
     {
       if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
       {
         DrawImage(data->setting.arrow_up.pos.x,
                   data->setting.arrow_up.pos.y,
-                  data->Image[15].ID);
+                  data->Image[ARROW_UP_ACTIVE_ICN].ID);
       }
     }
   }
-  if (data->setting.arrow_down.state) // Down ICN
+  if (data->setting.arrow_down.state)
   {
     DrawImage(data->setting.arrow_down.pos.x,
                 data->setting.arrow_down.pos.y,
-                data->Image[16].ID);
+                data->Image[ARROW_DOWN_IDLE_ICN].ID);
     if(key_pressed==KEY_DOWN)
     {
       if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
       {
         DrawImage(data->setting.arrow_down.pos.x,
                   data->setting.arrow_down.pos.y,
-                  data->Image[17].ID);
+                  data->Image[ARROW_DOWN_ACTIVE_ICN].ID);
       }
     }
   }
@@ -286,7 +297,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   if (data->setting.frequency.state)     // Current Freq
   {
-    data->Frequency = Get_CurrentFrequency(data);
+    Get_CurrentFrequency(data);
     DrawString_Params(data->Frequency,
                       data->setting.frequency.font,
                       data->setting.frequency.align,
@@ -300,7 +311,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   if (data->setting.channel.state)      // Channel Number
   {
-    data->Channel = Get_Channel(data);
+    Get_Channel(data);
     DrawString_Params(data->Channel,
                       data->setting.channel.font,
                       data->setting.channel.align,
@@ -314,7 +325,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   if (data->setting.channel_name.state)   // Chanel Name
   {
-    data->ChannelName = Get_ChannelName(data);
+    Get_ChannelName(data);
     DrawString_Params(data->ChannelName,
                       data->setting.channel_name.font,
                       data->setting.channel_name.align,
@@ -328,7 +339,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   if (data->setting.RDS_data.state)   // PS Name
   {
-    data->PSName = Get_GetPSName(data);
+    Get_GetPSName(data);
     DrawString_Params(data->PSName,
                       data->setting.RDS_data.font,
                       data->setting.RDS_data.align,
@@ -508,7 +519,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         data->text = FALSE;
         data->rect = FALSE;
         SaveData(TRUE, data->element);
-        MessageBox_NoImage(EMPTY_TEXTID, TEXT_SAVE, 0, 1500, NULL);
+        MessageBox_NoImage(EMPTY_TEXTID, TEXT_SAVE, 0, 1500, fmbook);
         GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
         FmRadio_SetActiveSoftKeys(fmbook,TRUE); //
         break;
@@ -517,7 +528,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         data->text = FALSE;
         data->rect = FALSE;
         LoadData();
-        MessageBox_NoImage(EMPTY_TEXTID, TEXT_CANCEL, 0, 1500, NULL);
+        MessageBox_NoImage(EMPTY_TEXTID, TEXT_CANCEL, 0, 1500, fmbook);
         GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
         FmRadio_SetActiveSoftKeys(fmbook,TRUE);
         break;

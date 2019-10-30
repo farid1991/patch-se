@@ -25,10 +25,8 @@
 #include "Function.h"
 
 
-void RefreshList(BOOK* book, int count)
+void RefreshList(SETTING_BOOK* set_book, int count)
 {
-  SETTING_BOOK* set_book = (SETTING_BOOK*)book;
-  
   int pos = ListMenu_GetSelectedItem(set_book->gui_elem);
   ListMenu_DestroyItems(set_book->gui_elem);
   ListMenu_SetItemCount(set_book->gui_elem, count);
@@ -75,13 +73,13 @@ void SetActivate(SETTING_BOOK* set_book, int count)
     {
       if (set_book->element == ITEM_FREQ_INDICATOR) text = TextID_Global(ID_PTYPE_1);
       else text = TEXT_OFF;
-      data->temp.activate3 = 0;
+      data->temp.activate3 = FALSE;
     }
     else
     {
       if (set_book->element == ITEM_FREQ_INDICATOR) text = TextID_Global(ID_PTYPE_2);
       else text = TEXT_ON;
-      data->temp.activate3 = 1;
+      data->temp.activate3 = TRUE;
     }
   }
   RefreshList(set_book,count);
@@ -97,7 +95,7 @@ void BackgroundType_OnSelect(BOOK* book, GUI* gui)
   
   SETTING_BOOK* set_book = (SETTING_BOOK*)book;
   data->temp.activate1 = OneOfMany_GetSelected(set_book->gui_oom);
-  GUIObject_Destroy(set_book->gui_oom);
+  FREE_GUI(set_book->gui_oom);
   
   RefreshList(set_book, BACKGROUND_COUNT);
 }
@@ -108,9 +106,9 @@ void Show_OnSelect(BOOK* book, GUI* gui)
   
   SETTING_BOOK* set_book = (SETTING_BOOK*)book;
   data->temp.activate1 = OneOfMany_GetSelected(set_book->gui_oom);
-  GUIObject_Destroy(set_book->gui_oom);
+  FREE_GUI(set_book->gui_oom);
   
-  RefreshList(book, TEXT_COUNT);
+  RefreshList(set_book, TEXT_COUNT);
 }
 
 void Align_OnSelect(BOOK* book, GUI* gui)
@@ -124,6 +122,7 @@ void Align_OnSelect(BOOK* book, GUI* gui)
   else if (data->temp.align == 2) text = TEXT_CENTRE;
   ListMenu_SetItemSecondLineText(set_book->gui_elem, 3, text);
   FREE_GUI(set_book->gui_oom);
+  
   set_book->change = TRUE;
 }
 
@@ -142,11 +141,11 @@ void OneOfMany_SetMode(SETTING_BOOK* set_book, int type)
   {
     GUIObject_SetTitleText(set_book->gui_oom, TEXT_MODE);
     
-    TEXTID strid[3];
-    strid[0] = TEXT_IMAGE;
-    strid[1] = TEXT_THEME;
-    strid[2] = TEXT_COLOR;
-    OneOfMany_SetTexts(set_book->gui_oom, strid, 3);
+    TEXTID texts[3];
+    texts[0] = TEXT_IMAGE;
+    texts[1] = TEXT_THEME;
+    texts[2] = TEXT_COLOR;
+    OneOfMany_SetTexts(set_book->gui_oom, texts, 3);
     OneOfMany_SetChecked(set_book->gui_oom, data->temp.activate1);
     GUIObject_SoftKeys_SetAction(set_book->gui_oom, ACTION_SELECT1, BackgroundType_OnSelect);
   }
@@ -154,11 +153,11 @@ void OneOfMany_SetMode(SETTING_BOOK* set_book, int type)
   {
     GUIObject_SetTitleText(set_book->gui_oom, TextID_Global(ID_ALIGN));
     
-    TEXTID strid[3];
-    strid[0] = TEXT_LEFT;
-    strid[1] = TEXT_RIGHT;
-    strid[2] = TEXT_CENTRE;
-    OneOfMany_SetTexts(set_book->gui_oom, strid, 3);
+    TEXTID texts[3];
+    texts[0] = TEXT_LEFT;
+    texts[1] = TEXT_RIGHT;
+    texts[2] = TEXT_CENTRE;
+    OneOfMany_SetTexts(set_book->gui_oom, texts, 3);
     OneOfMany_SetChecked(set_book->gui_oom, data->temp.align);
     GUIObject_SoftKeys_SetAction(set_book->gui_oom, ACTION_SELECT1, Align_OnSelect);
   }
@@ -166,10 +165,10 @@ void OneOfMany_SetMode(SETTING_BOOK* set_book, int type)
   {
     GUIObject_SetTitleText(set_book->gui_oom, TextID_Global(ID_SHOW));
     
-    TEXTID strid[2];
-    strid[0] = TEXT_OFF_OOM;
-    strid[1] = TEXT_ON_OOM;
-    OneOfMany_SetTexts(set_book->gui_oom, strid, 2);
+    TEXTID texts[2];
+    texts[0] = TEXT_OFF_OOM;
+    texts[1] = TEXT_ON_OOM;
+    OneOfMany_SetTexts(set_book->gui_oom, texts, 2);
     OneOfMany_SetChecked(set_book->gui_oom, data->temp.activate1);
     GUIObject_SoftKeys_SetAction(set_book->gui_oom, ACTION_SELECT1, Show_OnSelect);
   }
@@ -191,7 +190,7 @@ int Color_OnCreate(DISP_OBJ_COLOR* disp_obj)
 
 void Color_OnClose(DISP_OBJ_COLOR* disp_obj)
 {
-  TextID_Destroy( disp_obj->buf_text );
+  TEXT_FREE( disp_obj->buf_text );
 }
 
 void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
@@ -199,7 +198,7 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
   RECT rc_old;
   int gc_xx;
   int fsize = 20;
-  GC* gc = get_DisplayGC();
+  GC* pGC = get_DisplayGC();
   int column_height, column_width;
   int start_column, y_line;
   wchar_t ustr[32];
@@ -213,9 +212,9 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
     0x80C6AAAF
   };
   
-  GC_GetRect(gc, &rc_old);
-  gc_xx = GC_GetXX(gc);
-  GC_SetXX(gc, 1);
+  GC_GetRect(pGC, &rc_old);
+  gc_xx = GC_GetXX(pGC);
+  GC_SetXX(pGC, 1);
   x1 = rc_old.x1;
   y1 = rc_old.y1;
   scr_w = rc_old.x2 - x1;
@@ -259,9 +258,9 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
   for (int i = 0; i != 4; i++)
   {
     start_column = column_width + 2 * i * column_width + 4;
-    column_height++; // Какая то фигня с DrawRect, координаты не совпадают с DrawLine. Оно и понятно, DrawRect не GC_.
+    column_height++;
     if (disp_obj->current_column == i) DrawRect(x1 + start_column - 2, y1 + fsize - 2 + 50, x1 + start_column + column_width + 2, y1 + fsize + column_height + 2, clBlack, clWhite); // Столбик
-    DrawRect(x1 + start_column, y1 + fsize + 50, x1 + start_column + column_width, y1 + fsize + column_height, clBlack, colors[i]); // Рамка
+    DrawRect(x1 + start_column, y1 + fsize + 50, x1 + start_column + column_width, y1 + fsize + column_height, clBlack, colors[i]);
     column_height--;
     
     switch(i)
@@ -272,15 +271,15 @@ void Color_OnRedraw(DISP_OBJ_COLOR* disp_obj, int, int, int)
     case 3: y_line = fsize + column_height - (disp_obj->a * (column_height - 50)) / 0xFF; break;
     }
     
-    int old_pen = GC_GetPenColor(gc);
-    GC_SetPenColor(gc, clBlack);
-    GC_DrawLine(gc, x1 + start_column, y1 + y_line, x1 + start_column + column_width - 1, y1 + y_line);
-    GC_SetPenColor(gc, old_pen);
+    int old_pen = GC_GetPenColor(pGC);
+    GC_SetPenColor(pGC, clBlack);
+    GC_DrawLine(pGC, x1 + start_column, y1 + y_line, x1 + start_column + column_width - 1, y1 + y_line);
+    GC_SetPenColor(pGC, old_pen);
   }
   
   int testcolor = COLOR_RGBA(disp_obj->r, disp_obj->g, disp_obj->b, disp_obj->a);
   DrawRect(x1 + 20, y1 + 1 + 30, x1 + scr_w - 20, y1 + fsize + 30, clBlack, testcolor);
-  GC_SetXX(gc, gc_xx);
+  GC_SetXX(pGC, gc_xx);
 }
 
 void Color_OnKey(DISP_OBJ_COLOR* disp_obj, int key, int, int repeat, int mode)
@@ -355,7 +354,7 @@ void Color_OnSelect(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* set_book = (SETTING_BOOK*)book;
   FmRadio_Data* data = GetData();
-  DISP_OBJ_COLOR* disp_obj = (DISP_OBJ_COLOR*)GUIObject_GetDispObject(gui);
+  DISP_OBJ_COLOR* disp_obj = (DISP_OBJ_COLOR*)GUIObject_GetDispObject(set_book->gui_color);
   
   color_t color;
   int item;
@@ -375,40 +374,14 @@ void Color_OnSelect(BOOK* book, GUI* gui)
   
   snwprintf(data->buf, MAXELEMS(data->buf), L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
   ListMenu_SetItemSecondLineText(set_book->gui_elem, item, TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN));
-  GUIObject_Destroy(gui);
+  FREE_GUI(set_book->gui_color);
   set_book->change = TRUE;
 }
 
-void Color_OnSelect(BOOK* book, color_t pcolor)
+void Color_onBack( BOOK* book, GUI* )
 {
   SETTING_BOOK* set_book = (SETTING_BOOK*)book;
-  FmRadio_Data* data = GetData();
-  color_t color;
-  int item;
-  
-  if ((set_book->color_type == 0) || (set_book->color_type == 1))
-  {
-    if (set_book->element == ITEM_FREQ_INDICATOR) item = 3;
-    else item = 1;
-    color = data->temp.color1 = pcolor;
-  }
-  else
-  {
-    if (set_book->element == ITEM_FREQ_INDICATOR ) item = 4;
-    else item = 2;
-    color = data->temp.color2 = pcolor;
-  }
-  
-  snwprintf(data->buf, MAXELEMS(data->buf), L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
-  ListMenu_SetItemSecondLineText(set_book->gui_elem, item, TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN));
-  FREE_GUI(set_book->color);
-  set_book->change = TRUE;
-}
-
-void Color_onBack( BOOK* book, void* )
-{
-  SETTING_BOOK* set_book = (SETTING_BOOK*)book;
-  FREE_GUI(set_book->color);
+  FREE_GUI(set_book->gui_color);
 }
 
 void SetColor(SETTING_BOOK* set_book, int type)
@@ -416,8 +389,10 @@ void SetColor(SETTING_BOOK* set_book, int type)
   GUI* gui_color = (GUI*)malloc(sizeof(GUI));
   if(!GUIObject_Create(gui_color, Color_destroy, Color_create, set_book, NULL, UIDisplay_Main, NULL)) mfree(gui_color);
   
+  set_book->gui_color = gui_color;
+  
   FmRadio_Data* data = GetData();
-  DISP_OBJ_COLOR* disp_obj = (DISP_OBJ_COLOR*)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR* disp_obj = (DISP_OBJ_COLOR*)GUIObject_GetDispObject(set_book->gui_color);
   disp_obj->type = type;
   
   if ((type == 0) || (type == 1))
@@ -439,36 +414,18 @@ void SetColor(SETTING_BOOK* set_book, int type)
   
   if (set_book) BookObj_AddGUIObject(set_book, gui_color);
   
-  GUIObject_SetTitleText(gui_color, TEXT_COLOR);
-  GUIObject_SetTitleType(gui_color, UI_TitleMode_Small);
-  GUIObject_SoftKeys_SetAction(gui_color, ACTION_SELECT1, Color_OnSelect);
-  GUIObject_SoftKeys_SetText(gui_color, ACTION_SELECT1, STR("OK"));
-  GUIObject_SoftKeys_SetAction(gui_color, ACTION_BACK, OnBack);
-  GUIObject_Show(gui_color);
+  GUIObject_SetTitleText(set_book->gui_color, TEXT_COLOR);
+  GUIObject_SetTitleType(set_book->gui_color, UI_TitleMode_Small);
+  GUIObject_SoftKeys_SetAction(set_book->gui_color, ACTION_SELECT1, Color_OnSelect);
+  GUIObject_SoftKeys_SetText(set_book->gui_color, ACTION_SELECT1, STR("OK"));
+  GUIObject_SoftKeys_SetAction(set_book->gui_color, ACTION_BACK, Color_onBack);
+  GUIObject_Show(set_book->gui_color);
   //set_book->color_type = type;
   //set_book->palette = CreatePalette( set_book, TEXT_COLOR, COLOR_LIST, 0x1C, 0, Color_onBack, Color_onBack, Color_OnSelect );
   //GUIObject_Show(set_book->palette);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-void SetActiveSoft(FmRadio_Data* data, BOOL mode)
-{
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_STOP, mode);
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_SETTINGS, mode);
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_TAG, mode);
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_TIME, mode);
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_TURN, mode);
-  GUIObject_SoftKeys_SetVisible(data->gui, ACTION_LONG_BACK, mode);
-  
-  if (data->setting.soft)
-  {
-    if (mode) GUIObject_SoftKeys_Show(data->gui);
-    else GUIObject_SoftKeys_Hide(data->gui);
-  }
-}
-*/
 
 #if defined(DB3150v1) || defined(DB3150) || defined(DB2020)
 wchar_t* Font_GetNameByFontId(int id)
@@ -488,17 +445,17 @@ wchar_t* Font_GetNameByFontId(int id)
 
 int GetIdByFontId( int id )
 {
-  int r = NULL;
+  int ret = NULL;
   FONT_DESC* font_desc = GetFontDesc();
   for (int i = 0, max = *GetFontCount(); i < max; i++)
   {
     if (id == font_desc[i].id)
     {
-      r = i;
+      ret = i;
       break;
     }
   }
-  return r;
+  return ret;
 }
 #endif
 
@@ -508,9 +465,11 @@ void SetVisual(SETTING_BOOK* set_book)
   data->edit_visual = TRUE;
   data->element = set_book->element;
   
-  if (set_book->element > ITEM_RDS_DATA)
+  //if (set_book->element > ITEM_RDS_DATA)
+  //{
+  if ( set_book->element == ITEM_FREQ_INDICATOR ) 
   {
-    if ( set_book->element == ITEM_FREQ_INDICATOR ) data->rect = TRUE;
+      data->rect = TRUE;
   }
   else
   {
@@ -529,7 +488,7 @@ void SetVisual(SETTING_BOOK* set_book)
   
   FreeBook(set_book);
   
-  FmRadio_Book* fmbook = (FmRadio_Book*)data->FmRadioBook;
-  GUIObject_SoftKeys_SetVisible(fmbook->FmRadio_Gui,ACTION_BACK,FALSE);
-  FmRadio_SetActiveSoftKeys(data->FmRadioBook,FALSE);
+  FmRadio_Book* FMbook = (FmRadio_Book*)data->FmRadioBook;
+  GUIObject_SoftKeys_SetVisible(FMbook->FmRadio_Gui,ACTION_BACK,FALSE);
+  FmRadio_SetActiveSoftKeys(FMbook,FALSE);
 }

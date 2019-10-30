@@ -304,11 +304,7 @@ void Editor_OnBack(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   if (FMSettings_Book->change) SaveData(FALSE, FMSettings_Book->element);
-  if (FMSettings_Book->gui_elem)
-  {
-    GUIObject_Destroy(FMSettings_Book->gui_elem);
-    FMSettings_Book->gui_elem = NULL;
-  }
+  FREE_GUI (FMSettings_Book->gui_elem);
 }
 
 void CreateEditor(FmRadio_Data* data, SETTING_BOOK* FMSettings_Book, int type, int count)
@@ -580,7 +576,7 @@ void Setting_OnBack(BOOK* book, GUI* gui)
   else FreeBook(FMSettings_Book);
 }
 
-int FmRadio_Settings_onCreate(void* data, BOOK* book)
+int pg_FmRadio_Settings_EnterAction(void* data, BOOK* book)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   FMSettings_Book->gui_set = CreateListMenu(FMSettings_Book, UIDisplay_Main);
@@ -595,9 +591,28 @@ int FmRadio_Settings_onCreate(void* data, BOOK* book)
   return 1;
 }
 
+int pg_FmRadio_Settings_ExitAction(void* data, BOOK* book)
+{
+  SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
+  
+  FREE_GUI (FMSettings_Book->gui_set);
+  FREE_GUI (FMSettings_Book->gui_elem);
+  FREE_GUI (FMSettings_Book->gui_question);
+  FREE_GUI (FMSettings_Book->gui_oom);
+  FREE_GUI (FMSettings_Book->gui_color);
+  
+  return 1;
+}
+
+int pg_FmRadio_Settings_PreviousAction(void* data, BOOK* book)
+{
+  BookObj_ReturnPage(book,CANCEL_EVENT);
+  return 1;
+}
+
 //******************************************************************************
 
-int Cancel_BasePage(void* data, BOOK* book)
+int pg_FmRadio_Settings_CancelAction(void* data, BOOK* book)
 {
   FreeBook(book);
   return 1;
@@ -605,13 +620,16 @@ int Cancel_BasePage(void* data, BOOK* book)
 
 const PAGE_MSG base_evlist[] =
 {
-  RETURN_TO_STANDBY_EVENT,  Cancel_BasePage,
+  RETURN_TO_STANDBY_EVENT,  pg_FmRadio_Settings_CancelAction,
   NIL_EVENT,                NULL
 };
 
 const PAGE_MSG main_evlist[] =
 {
-  PAGE_ENTER_EVENT, FmRadio_Settings_onCreate,
+  PAGE_ENTER_EVENT, pg_FmRadio_Settings_EnterAction,
+  PAGE_EXIT_EVENT,  pg_FmRadio_Settings_ExitAction,
+  PREVIOUS_EVENT,   pg_FmRadio_Settings_PreviousAction,
+  CANCEL_EVENT,     pg_FmRadio_Settings_CancelAction,
   NIL_EVENT,        NULL
 };
 
@@ -620,21 +638,8 @@ const PAGE_DESC FmRadio_Settings_Main_Page = {"FmRadio_Layout_Main_Page", NULL, 
 
 void SettingBook_onClose(BOOK* book)
 {
-  SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  
-  if (FMSettings_Book->gui_set)
-  {
-    GUIObject_Destroy(FMSettings_Book->gui_set);
-    FMSettings_Book->gui_set = NULL;
-  }
-  
-  if (FMSettings_Book->gui_elem) 
-  {
-    GUIObject_Destroy(FMSettings_Book->gui_elem);
-    FMSettings_Book->gui_elem = NULL;
-  }
-  
-  FreeBook(FMSettings_Book);
+  pg_FmRadio_Settings_ExitAction(NULL, book);
+  FreeBook(book);
 }
 
 void FmRadio_LayoutSetting(BOOK* book, GUI* gui)

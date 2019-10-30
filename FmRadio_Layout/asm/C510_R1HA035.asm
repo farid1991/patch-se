@@ -235,8 +235,8 @@ new_softkey:
         
         RSEG PATCH_FmRadio_UpdateSoftKey
 	CODE16
-	LDR	R3, =update_softkey
-	BX	R3
+	LDR	R0, =update_softkey
+	BX	R0
 
         RSEG  CODE
         CODE16
@@ -249,11 +249,8 @@ update_softkey:
          LDR    R0, [R4,#0x18]
          ADD    R1, R5, #0
          BL     FmRadio_UpdateSoftKeys
-         //MOV    R1, #0x11
-         //LDR	R3, =GUIObject_SoftKeys_SetVisible
-         //BLX	R3
-         LDR	R3, =0x1554AC76+1
-         BX	R3
+         LDR	R0, =0x1554AC76+1
+         BX	R0
         
 #endif
         END

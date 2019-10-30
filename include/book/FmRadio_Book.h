@@ -3,21 +3,16 @@
 
 #include "..\\include\types\IFMRadio_types.h"
 
-#if defined(DB3150v1)
 typedef struct _DISP_OBJ_FMRADIO
 {
-  char dummy_1[0x138];
-  FUint16 key_pressed;
-  char key_mode;
-} DISP_OBJ_FMRADIO;
-#elif defined(DB3200) || defined(DB3210) || defined(DB3350)
-typedef struct _DISP_OBJ_FMRADIO
-{
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
   char dummy_1[0x194];
+#elif defined(DB3150v1)
+  char dummy_1[0x138];
+#endif
   FUint16 key_pressed;
   char key_mode;
 } DISP_OBJ_FMRADIO;
-#endif
 
 typedef struct FmRadio_Settings
 {

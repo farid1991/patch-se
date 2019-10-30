@@ -1,9 +1,9 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
-// SetFont ----------------------------------------------------
-
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
+
+// SetFont ----------------------------------------------------
 void dll_SetFont(int font_size, IFont** ppFont)
 {
   UUID IID_IUIFontManager = {0x95,0xD0,0x5F,0xCA,0x0F,0x30,0x4F,0x92,0x94,0x3B,0x13,0x89,0x21,0x2F,0x09,0xD7};
@@ -29,7 +29,6 @@ void dll_SetFont(int font_size, IFont** ppFont)
 }
 
 // DrawString ----------------------------------------------------
-
 void dll_DrawString(TEXTID text, int font, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   UUID IID_ITextRenderingManager={0xCE,0x91,0x7B,0x62,0xE3,0x3A,0x4D,0xC7,0x85,0x24,0x79,0x1E,0x6F,0x01,0x03,0x09};
@@ -81,8 +80,7 @@ void dll_DrawString(TEXTID text, int font, int align, int x1, int y1, int x2, in
   if (pGC) pGC->Release();
 }
 
-// GC_PutChar ----------------------------------------------------
-
+// GC_PutChar & GetImageWidthHeight --------------------------------------------
 void Get_IUIImageManager(IUIImageManager** ppIUIImageManager)
 {
   UUID IID_IUIImageManager={0x63,0xEF,0xA5,0x31,0xFF,0xD1,0x4E,0x25,0xA6,0x24,0x60,0x0A,0x96,0x81,0x3F,0xC5};
@@ -90,33 +88,7 @@ void Get_IUIImageManager(IUIImageManager** ppIUIImageManager)
   CoCreateInstance(&CID_CUIImageManager, &IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
 }
 
-void dll_GC_PutChar(GC* gc, int x, int y, int width, int height, wchar_t imageID)
-{  
-  IUIImageManager* pIUIImageManager = NULL;
-  IUIImage* pUIImage = NULL;
-  IUnknown* pGC = NULL;
-  
-  TUIRectangle rect;
-  rect.Point.X = x;
-  rect.Point.Y = y;
-  rect.Size.Width = width;
-  rect.Size.Height = height;
-  
-  Get_IUIImageManager(&pIUIImageManager);
-  pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
-  
-  DisplayGC_AddRef(gc, &pGC);
-  
-  pIUIImageManager->Draw(pUIImage, pGC, rect);
-  
-  if (pIUIImageManager) pIUIImageManager->Release();
-  if (pUIImage) pUIImage->Release();
-  if (pGC) pGC->Release();
-}
-
-// GetImageWidthHeight ----------------------------------------------------
-
-int dll_GetImageHeight(wchar_t imageID)
+int dll_GetImageHeight(IMAGEID imageID)
 {
   IUIImage* pUIImage = NULL;
   IUIImageManager* pIUIImageManager = NULL;
@@ -133,7 +105,7 @@ int dll_GetImageHeight(wchar_t imageID)
   return image_height;
 }
 
-int dll_GetImageWidth(wchar_t imageID)
+int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage* pUIImage = NULL;
   IUIImageManager* pIUIImageManager = NULL;
@@ -148,6 +120,31 @@ int dll_GetImageWidth(wchar_t imageID)
   if (pUIImage) pUIImage->Release();
   
   return image_width;
+}
+
+void dll_GC_PutChar(GC* gc, int x, int y, int width, int height, IMAGEID imageID)
+{  
+  IUIImageManager* pIUIImageManager = NULL;
+  IUIImage* pUIImage = NULL;
+  IUnknown* pGC = NULL;
+  
+  TUIRectangle rect;
+  rect.Point.X = x;
+  rect.Point.Y = y;
+  
+  rect.Size.Width = width;
+  rect.Size.Height = height;
+  
+  Get_IUIImageManager(&pIUIImageManager);
+  pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
+  
+  DisplayGC_AddRef(gc, &pGC);
+  
+  pIUIImageManager->Draw(pUIImage, pGC, rect);
+  
+  if (pIUIImageManager) pIUIImageManager->Release();
+  if (pUIImage) pUIImage->Release();
+  if (pGC) pGC->Release();
 }
 #endif
 

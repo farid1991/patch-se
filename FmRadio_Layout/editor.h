@@ -9,7 +9,7 @@
 #define COLOR_GET_B(x) ((unsigned int)x&0xFF)
 #define COLOR_RGBA(r, g, b, a) (((unsigned int)r<<16)|((unsigned int)g<<8)|((unsigned int)b)|((unsigned int)a<<24))
 
-static const char GuiName_Color[] = "GUI_Color";
+static const char GuiName_Color[] = "GUI_SelectColor";
 
 #define font_step 1
 #define max_size 100
