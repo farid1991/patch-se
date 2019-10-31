@@ -117,6 +117,8 @@ a       EQU     b
         
         defadr MessageBox_NoImage,0x14CE140C+1
         defadr GUIObject_GetBook,0x140CAEC8+1
+        
+        defadr DispObject_SetThemeImage,0x144815C4+1
 
 //------------------------------------------------------------------------------
 

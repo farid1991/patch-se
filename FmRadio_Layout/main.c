@@ -169,28 +169,36 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   
   FmRadio_Data* data = GetData();
   
-  //Get_Channel(data);
-  //Get_CurrentFrequency(data);
-  //Get_ChannelName(data);
-  //Get_GetPSName(data);
-   
+  switch(data->setting.background.state)
+  {
+  case TYPE_IMAGE:
+    DrawImage(data->setting.background.pos.x,
+              data->setting.background.pos.y,
+              data->Image[BACKGROUND_ICN].ID);
+    break;
+  case TYPE_THEME:
+    DispObject_SetThemeImage(disp_obj, 0x1E);
+    break;
+  case TYPE_COLOR:
+    DispObject_SetLayerColor(disp_obj, data->setting.background_color);
+    break;
+  }
+  /*
   if (data->setting.background.state == TYPE_IMAGE) // Background
   {
     DrawImage(data->setting.background.pos.x,
               data->setting.background.pos.y,
               data->Image[BACKGROUND_ICN].ID);
   }
-#if defined(DB3150v1)
   else if (data->setting.background.state == TYPE_THEME)
   {
     DispObject_SetThemeImage(disp_obj, 0x1E);
   }
-#endif
   else if (data->setting.background.state == TYPE_COLOR)
   {
     DispObject_SetLayerColor(disp_obj, data->setting.background_color);
   }
-  
+  */
   if (data->setting.rds_icn.state) // RDS ICN
   {
     DrawImage(data->setting.rds_icn.pos.x,

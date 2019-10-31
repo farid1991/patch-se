@@ -3,10 +3,10 @@
 ;- Ability to change coordinates of each item in realtime.
 ;- Ability to choose Text color, font, etc.
 ;- Ability to use color or Theme Image on the background.
-;v. 1.2
+;v. 1.5
 ;(c) farid
 
-FPATH: /usb/other/ZBin/Config/FmRadio
+Images and Config path: /usb/other/ZBin/Config/FmRadio
 
 Images:
 BACKGROUND_ICN.png
@@ -33,6 +33,7 @@ Management Key:
 4, 6 - move left / right
 5 - save the changes
 0 - undo changes
+C - change font style (Bold, Italic, Bold Italic) DB32XX Only
 Joystick Up / Down - increase / decrease the font size and the frequency indicator
 Joystick left / right - increase / decrease the width frequency indicator and Text
 Joystick - Type of Overlay
