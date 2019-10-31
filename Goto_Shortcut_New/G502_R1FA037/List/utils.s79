@@ -1,0 +1,1841 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   31/Oct/2019  22:49:23 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c        /
+//    Command line    =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c -D A2  /
+//                       -D DB3150v1 -D G502_R1FA037 --preprocess=cl         /
+//                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\L /
+//                       ist\ -lC E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_ /
+//                       R1FA037\List\ -lA E:\SE\Port\elf2vkp\Goto_Shortcut_ /
+//                       New\G502_R1FA037\List\ -o                           /
+//                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\O /
+//                       bj\ -z9 --debug --cpu_mode thumb --endian little    /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --preinclude E:\SE\Port\elf2vkp\Goto_Shortcut_New\T /
+//                       arget\G502_R1FA037.h -I "E:\SE\Embedded Workbench   /
+//                       4.0 Evaluation\ARM\INC\" --inline_threshold=2       /
+//    List file       =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\L /
+//                       ist\utils.s79                                       /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME utils
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??CreateElem
+        FUNCTION ??CreateElem,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??CreateElem??rA
+        PUBLIC ??Create_JavaList
+        FUNCTION ??Create_JavaList,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??Create_JavaList??rA
+        MULTWEAK ??DataBrowserDesc_Create??rT
+        MULTWEAK ??DataBrowserDesc_Destroy??rT
+        MULTWEAK ??DataBrowserDesc_Menu_AddFSFunctions??rT
+        MULTWEAK ??DataBrowserDesc_Menu_AddMarkFiles??rT
+        MULTWEAK ??DataBrowserDesc_Menu_AddNewFolder??rT
+        MULTWEAK ??DataBrowserDesc_SetFolders??rT
+        MULTWEAK ??DataBrowserDesc_SetFoldersNumber??rT
+        MULTWEAK ??DataBrowserDesc_SetHeaderText??rT
+        MULTWEAK ??DataBrowserDesc_SetSelectAction??rT
+        MULTWEAK ??DataBrowser_Create??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+        PUBLIC ??ExecuteEvent
+        FUNCTION ??ExecuteEvent,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??ExecuteEvent??rA
+        PUBLIC ??FreeList
+        FUNCTION ??FreeList,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??FreeList??rA
+        MULTWEAK ??ImageID_Free??rT
+        PUBLIC ??ItemFilter
+        FUNCTION ??ItemFilter,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??ItemFilter??rA
+        MULTWEAK ??JavaAppDesc_GetFirstApp??rT
+        MULTWEAK ??JavaAppDesc_GetJavaAppID??rT
+        MULTWEAK ??JavaAppDesc_GetJavaAppInfo??rT
+        MULTWEAK ??JavaAppDesc_GetNextApp??rT
+        MULTWEAK ??JavaApp_LogoImageID_Get??rT
+        MULTWEAK ??JavaDialog_Close??rT
+        MULTWEAK ??JavaDialog_Open??rT
+        PUBLIC ??JavaFree
+        FUNCTION ??JavaFree,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??JavaFree??rA
+        MULTWEAK ??List_Create??rT
+        MULTWEAK ??List_Destroy??rT
+        MULTWEAK ??List_DestroyElements??rT
+        MULTWEAK ??List_Get??rT
+        MULTWEAK ??List_InsertLast??rT
+        PUBLIC ??LoadConfig
+        FUNCTION ??LoadConfig,0203H
+        LOCFRAME CSTACK, 64, STACK
+        MULTWEAK ??LoadConfig??rA
+        PUBLIC ??OpenFolger
+        FUNCTION ??OpenFolger,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??OpenFolger??rA
+        MULTWEAK ??REQUEST_UI_OAF_START_APPLICATION??rT
+        PUBLIC ??RunShortcut
+        FUNCTION ??RunShortcut,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??RunShortcut??rA
+        PUBLIC ??SHORTCUT_DESC_A2_Init
+        FUNCTION ??SHORTCUT_DESC_A2_Init,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??SHORTCUT_DESC_A2_Init??rA
+        PUBLIC ??SaveConfig
+        FUNCTION ??SaveConfig,0203H
+        LOCFRAME CSTACK, 32, STACK
+        MULTWEAK ??SaveConfig??rA
+        MULTWEAK ??Shortcut_Run??rT
+        PUBLIC ??StartElf
+        FUNCTION ??StartElf,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??StartElf??rT
+        PUBLIC ??StartJava_ByName
+        FUNCTION ??StartJava_ByName,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??StartJava_ByName??rA
+        MULTWEAK ??StringAlloc??rT
+        MULTWEAK ??StringFree??rT
+        MULTWEAK ??StringLength??rT
+        MULTWEAK ??TextID_Create??rT
+        MULTWEAK ??UI_Event??rT
+        MULTWEAK ??_fopen??rT
+        MULTWEAK ??fclose??rT
+        MULTWEAK ??fread??rT
+        MULTWEAK ??fstat??rT
+        MULTWEAK ??fwrite??rT
+        MULTWEAK ??malloc??rT
+        MULTWEAK ??memset??rT
+        MULTWEAK ??mfree??rT
+        MULTWEAK ??wstr2h??rT
+        MULTWEAK ??wstrcmp??rT
+        MULTWEAK ??wstrcpy??rT
+        MULTWEAK ??wstrlen??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+DataBrowserDesc_Create SYMBOL "DataBrowserDesc_Create"
+DataBrowserDesc_Destroy SYMBOL "DataBrowserDesc_Destroy"
+DataBrowserDesc_Menu_AddFSFunctions SYMBOL "DataBrowserDesc_Menu_AddFSFunctions"
+DataBrowserDesc_Menu_AddMarkFiles SYMBOL "DataBrowserDesc_Menu_AddMarkFiles"
+DataBrowserDesc_Menu_AddNewFolder SYMBOL "DataBrowserDesc_Menu_AddNewFolder"
+DataBrowserDesc_SetFolders SYMBOL "DataBrowserDesc_SetFolders"
+DataBrowserDesc_SetFoldersNumber SYMBOL "DataBrowserDesc_SetFoldersNumber"
+DataBrowserDesc_SetHeaderText SYMBOL "DataBrowserDesc_SetHeaderText"
+DataBrowserDesc_SetSelectAction SYMBOL "DataBrowserDesc_SetSelectAction"
+DataBrowser_Create  SYMBOL "DataBrowser_Create"
+ImageID_Free        SYMBOL "ImageID_Free"
+JavaAppDesc_GetFirstApp SYMBOL "JavaAppDesc_GetFirstApp"
+JavaAppDesc_GetJavaAppID SYMBOL "JavaAppDesc_GetJavaAppID"
+JavaAppDesc_GetJavaAppInfo SYMBOL "JavaAppDesc_GetJavaAppInfo"
+JavaAppDesc_GetNextApp SYMBOL "JavaAppDesc_GetNextApp"
+JavaApp_LogoImageID_Get SYMBOL "JavaApp_LogoImageID_Get"
+JavaDialog_Close    SYMBOL "JavaDialog_Close"
+JavaDialog_Open     SYMBOL "JavaDialog_Open"
+List_Create         SYMBOL "List_Create"
+List_Destroy        SYMBOL "List_Destroy"
+List_DestroyElements SYMBOL "List_DestroyElements"
+List_Get            SYMBOL "List_Get"
+List_InsertLast     SYMBOL "List_InsertLast"
+REQUEST_UI_OAF_START_APPLICATION SYMBOL "REQUEST_UI_OAF_START_APPLICATION"
+Shortcut_Run        SYMBOL "Shortcut_Run"
+TextID_Create       SYMBOL "TextID_Create"
+UI_Event            SYMBOL "UI_Event"
+_fopen              SYMBOL "_fopen"
+fclose              SYMBOL "fclose"
+fread               SYMBOL "fread"
+fstat               SYMBOL "fstat"
+fwrite              SYMBOL "fwrite"
+memset              SYMBOL "memset"
+wstrcmp             SYMBOL "wstrcmp"
+wstrcpy             SYMBOL "wstrcpy"
+wstrlen             SYMBOL "wstrlen"
+
+??CreateElem??rA    SYMBOL "??rA", ??CreateElem
+
+??Create_JavaList??rA SYMBOL "??rA", ??Create_JavaList
+??DataBrowserDesc_Create??rT SYMBOL "??rT", DataBrowserDesc_Create
+??DataBrowserDesc_Destroy??rT SYMBOL "??rT", DataBrowserDesc_Destroy
+??DataBrowserDesc_Menu_AddFSFunctions??rT SYMBOL "??rT", DataBrowserDesc_Menu_AddFSFunctions
+??DataBrowserDesc_Menu_AddMarkFiles??rT SYMBOL "??rT", DataBrowserDesc_Menu_AddMarkFiles
+??DataBrowserDesc_Menu_AddNewFolder??rT SYMBOL "??rT", DataBrowserDesc_Menu_AddNewFolder
+??DataBrowserDesc_SetFolders??rT SYMBOL "??rT", DataBrowserDesc_SetFolders
+??DataBrowserDesc_SetFoldersNumber??rT SYMBOL "??rT", DataBrowserDesc_SetFoldersNumber
+??DataBrowserDesc_SetHeaderText??rT SYMBOL "??rT", DataBrowserDesc_SetHeaderText
+??DataBrowserDesc_SetSelectAction??rT SYMBOL "??rT", DataBrowserDesc_SetSelectAction
+??DataBrowser_Create??rT SYMBOL "??rT", DataBrowser_Create
+
+??ExecuteEvent??rA  SYMBOL "??rA", ??ExecuteEvent
+
+??FreeList??rA      SYMBOL "??rA", ??FreeList
+??ImageID_Free??rT  SYMBOL "??rT", ImageID_Free
+
+??ItemFilter??rA    SYMBOL "??rA", ??ItemFilter
+??JavaAppDesc_GetFirstApp??rT SYMBOL "??rT", JavaAppDesc_GetFirstApp
+??JavaAppDesc_GetJavaAppID??rT SYMBOL "??rT", JavaAppDesc_GetJavaAppID
+??JavaAppDesc_GetJavaAppInfo??rT SYMBOL "??rT", JavaAppDesc_GetJavaAppInfo
+??JavaAppDesc_GetNextApp??rT SYMBOL "??rT", JavaAppDesc_GetNextApp
+??JavaApp_LogoImageID_Get??rT SYMBOL "??rT", JavaApp_LogoImageID_Get
+??JavaDialog_Close??rT SYMBOL "??rT", JavaDialog_Close
+??JavaDialog_Open??rT SYMBOL "??rT", JavaDialog_Open
+
+??JavaFree??rA      SYMBOL "??rA", ??JavaFree
+??List_Create??rT   SYMBOL "??rT", List_Create
+??List_Destroy??rT  SYMBOL "??rT", List_Destroy
+??List_DestroyElements??rT SYMBOL "??rT", List_DestroyElements
+??List_Get??rT      SYMBOL "??rT", List_Get
+??List_InsertLast??rT SYMBOL "??rT", List_InsertLast
+
+??LoadConfig??rA    SYMBOL "??rA", ??LoadConfig
+
+??OpenFolger??rA    SYMBOL "??rA", ??OpenFolger
+??REQUEST_UI_OAF_START_APPLICATION??rT SYMBOL "??rT", REQUEST_UI_OAF_START_APPLICATION
+
+??RunShortcut??rA   SYMBOL "??rA", ??RunShortcut
+
+??SHORTCUT_DESC_A2_Init??rA SYMBOL "??rA", ??SHORTCUT_DESC_A2_Init
+
+??SaveConfig??rA    SYMBOL "??rA", ??SaveConfig
+??Shortcut_Run??rT  SYMBOL "??rT", Shortcut_Run
+
+??StartElf??rT      SYMBOL "??rT", ??StartElf
+
+??StartJava_ByName??rA SYMBOL "??rA", ??StartJava_ByName
+??StringAlloc??rT   SYMBOL "??rT", ??StringAlloc
+??StringFree??rT    SYMBOL "??rT", ??StringFree
+??StringLength??rT  SYMBOL "??rT", ??StringLength
+??TextID_Create??rT SYMBOL "??rT", TextID_Create
+??UI_Event??rT      SYMBOL "??rT", UI_Event
+??_fopen??rT        SYMBOL "??rT", _fopen
+??fclose??rT        SYMBOL "??rT", fclose
+??fread??rT         SYMBOL "??rT", fread
+??fstat??rT         SYMBOL "??rT", fstat
+??fwrite??rT        SYMBOL "??rT", fwrite
+??malloc??rT        SYMBOL "??rT", ??malloc
+??memset??rT        SYMBOL "??rT", memset
+??mfree??rT         SYMBOL "??rT", ??mfree
+??wstr2h??rT        SYMBOL "??rT", ??wstr2h
+??wstrcmp??rT       SYMBOL "??rT", wstrcmp
+??wstrcpy??rT       SYMBOL "??rT", wstrcpy
+??wstrlen??rT       SYMBOL "??rT", wstrlen
+
+        EXTERN ??StringAlloc
+        FUNCTION ??StringAlloc,0202H
+        EXTERN ??StringFree
+        FUNCTION ??StringFree,0202H
+        EXTERN ??StringLength
+        FUNCTION ??StringLength,0202H
+        EXTERN ??malloc
+        FUNCTION ??malloc,0202H
+        EXTERN ??mfree
+        FUNCTION ??mfree,0202H
+        EXTERN ??wstr2h
+        FUNCTION ??wstr2h,0202H
+        EXTERN DataBrowserDesc_Create
+        FUNCTION DataBrowserDesc_Create,0202H
+        EXTERN DataBrowserDesc_Destroy
+        FUNCTION DataBrowserDesc_Destroy,0202H
+        EXTERN DataBrowserDesc_Menu_AddFSFunctions
+        FUNCTION DataBrowserDesc_Menu_AddFSFunctions,0202H
+        EXTERN DataBrowserDesc_Menu_AddMarkFiles
+        FUNCTION DataBrowserDesc_Menu_AddMarkFiles,0202H
+        EXTERN DataBrowserDesc_Menu_AddNewFolder
+        FUNCTION DataBrowserDesc_Menu_AddNewFolder,0202H
+        EXTERN DataBrowserDesc_SetFolders
+        FUNCTION DataBrowserDesc_SetFolders,0202H
+        EXTERN DataBrowserDesc_SetFoldersNumber
+        FUNCTION DataBrowserDesc_SetFoldersNumber,0202H
+        EXTERN DataBrowserDesc_SetHeaderText
+        FUNCTION DataBrowserDesc_SetHeaderText,0202H
+        EXTERN DataBrowserDesc_SetSelectAction
+        FUNCTION DataBrowserDesc_SetSelectAction,0202H
+        EXTERN DataBrowser_Create
+        FUNCTION DataBrowser_Create,0202H
+        EXTERN ImageID_Free
+        FUNCTION ImageID_Free,0202H
+        EXTERN JavaAppDesc_GetFirstApp
+        FUNCTION JavaAppDesc_GetFirstApp,0202H
+        EXTERN JavaAppDesc_GetJavaAppID
+        FUNCTION JavaAppDesc_GetJavaAppID,0202H
+        EXTERN JavaAppDesc_GetJavaAppInfo
+        FUNCTION JavaAppDesc_GetJavaAppInfo,0202H
+        EXTERN JavaAppDesc_GetNextApp
+        FUNCTION JavaAppDesc_GetNextApp,0202H
+        EXTERN JavaApp_LogoImageID_Get
+        FUNCTION JavaApp_LogoImageID_Get,0202H
+        EXTERN JavaDialog_Close
+        FUNCTION JavaDialog_Close,0202H
+        EXTERN JavaDialog_Open
+        FUNCTION JavaDialog_Open,0202H
+        EXTERN List_Create
+        FUNCTION List_Create,0202H
+        EXTERN List_Destroy
+        FUNCTION List_Destroy,0202H
+        EXTERN List_DestroyElements
+        FUNCTION List_DestroyElements,0202H
+        EXTERN List_Get
+        FUNCTION List_Get,0202H
+        EXTERN List_InsertLast
+        FUNCTION List_InsertLast,0202H
+        EXTERN REQUEST_UI_OAF_START_APPLICATION
+        FUNCTION REQUEST_UI_OAF_START_APPLICATION,0202H
+        EXTERN Shortcut_Run
+        FUNCTION Shortcut_Run,0202H
+        EXTERN TextID_Create
+        FUNCTION TextID_Create,0202H
+        EXTERN UI_Event
+        FUNCTION UI_Event,0202H
+        EXTERN _fopen
+        FUNCTION _fopen,0202H
+        EXTERN fclose
+        FUNCTION fclose,0202H
+        EXTERN fread
+        FUNCTION fread,0202H
+        EXTERN fstat
+        FUNCTION fstat,0202H
+        EXTERN fwrite
+        FUNCTION fwrite,0202H
+        EXTERN memset
+        FUNCTION memset,0202H
+        EXTERN wstrcmp
+        FUNCTION wstrcmp,0202H
+        EXTERN wstrcpy
+        FUNCTION wstrcpy,0202H
+        EXTERN wstrlen
+        FUNCTION wstrlen,0202H
+
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StartElf??rT:
+        BX       PC
+        Nop      
+        CFI EndBlock cfiBlock0
+        REQUIRE ??StartElf
+// E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c
+//    1 #include "..\\include\Types.h"
+//    2 #include "..\\include\Function.h"
+//    3 
+//    4 #include "main.h"
+//    5 #include "strlib.h"
+//    6 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??StartElf
+        ARM
+//    7 __arm void StartElf(wchar_t *Name)
+//    8 {
+??StartElf:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//    9   elfload(Name,NULL,NULL,NULL);
+        MOV      R3,#+0
+        MOV      R2,#+0
+        MOV      R1,R2
+        SWI      +269
+//   10 }
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??SHORTCUT_DESC_A2_Init??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE ??SHORTCUT_DESC_A2_Init
+//   11 
+//   12 #ifdef A2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function ??SHORTCUT_DESC_A2_Init
+        THUMB
+//   13 void* SHORTCUT_DESC_A2_Init(wchar_t * param)
+//   14 {
+??SHORTCUT_DESC_A2_Init:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//   15   SHORTCUT_DESC_A2* w_buf = (SHORTCUT_DESC_A2*)malloc(sizeof(SHORTCUT_DESC_A2));
+        MOVS     R0,#+151
+        LSLS     R0,R0,#+3
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R5,R0
+//   16   memset( w_buf, NULL, sizeof(w_buf) );
+        MOVS     R2,#+4
+        MOVS     R1,#+0
+        _BLF     memset,??memset??rT
+//   17   wstrcpy( w_buf->name, param );
+        MOVS     R1,R4
+        MOVS     R0,R5
+        _BLF     wstrcpy,??wstrcpy??rT
+//   18   if (!wstrcmp( w_buf->name, MAIN_MENU ))
+        LDR      R1,??SHORTCUT_DESC_A2_Init_1  ;; 0x11b66028
+        MOVS     R0,R5
+        _BLF     wstrcmp,??wstrcmp??rT
+        CMP      R0,#+0
+        BNE      ??SHORTCUT_DESC_A2_Init_2
+//   19   {
+//   20     w_buf->item_type = SC_Type_MainMenu;
+        MOVS     R0,#+2
+        B        ??SHORTCUT_DESC_A2_Init_3
+//   21   }
+//   22   else
+//   23   {
+//   24     w_buf->item_type = SC_Type_Standard;
+??SHORTCUT_DESC_A2_Init_2:
+        MOVS     R0,#+0
+??SHORTCUT_DESC_A2_Init_3:
+        LDR      R1,??SHORTCUT_DESC_A2_Init_1+0x4  ;; 0x4b4
+        STRB     R0,[R5, R1]
+//   25   }
+//   26   return(w_buf);
+        MOVS     R0,R5
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??SHORTCUT_DESC_A2_Init_1:
+        DC32     0x11b66028
+        DC32     0x4b4
+        CFI EndBlock cfiBlock3
+//   27 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??StartJava_ByName??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE ??StartJava_ByName
+//   28 #endif
+//   29 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon0
+        CFI Function ??StartJava_ByName
+        THUMB
+//   30 void StartJava_ByName(wchar_t* name)
+//   31 {
+??StartJava_ByName:
+        PUSH     {R0-R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+28
+//   32   int _ASYNC = 1;
+//   33   int *ASYNC =&_ASYNC;
+//   34       
+//   35   wchar_t* sp;
+//   36   char sp1;
+//   37   void* Javadesc;
+//   38   
+//   39   JavaDialog_Open(0, &sp1, &Javadesc);
+        MOV      R2,SP
+        MOVS     R4,R0
+        MOVS     R0,#+1
+        STR      R0,[SP, #+12]
+        ADD      R1,SP,#+4
+        MOVS     R0,#+0
+        _BLF     JavaDialog_Open,??JavaDialog_Open??rT
+//   40   if (!JavaAppDesc_GetFirstApp(Javadesc))
+        LDR      R0,[SP, #+0]
+        _BLF     JavaAppDesc_GetFirstApp,??JavaAppDesc_GetFirstApp??rT
+        CMP      R0,#+0
+        BNE      ??StartJava_ByName_1
+//   41   {
+//   42     int result = 0;
+//   43     while(!result)
+//   44     {
+//   45       JavaAppDesc_GetJavaAppInfo(Javadesc, 0, &sp);
+??StartJava_ByName_2:
+        LDR      R0,[SP, #+0]
+        ADD      R2,SP,#+8
+        MOVS     R1,#+0
+        _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+//   46       if (!wstrcmp(sp,name))
+        LDR      R0,[SP, #+8]
+        MOVS     R1,R4
+        _BLF     wstrcmp,??wstrcmp??rT
+        CMP      R0,#+0
+        LDR      R0,[SP, #+0]
+        BNE      ??StartJava_ByName_3
+//   47       {
+//   48         int ID = JavaAppDesc_GetJavaAppID(Javadesc);
+        _BLF     JavaAppDesc_GetJavaAppID,??JavaAppDesc_GetJavaAppID??rT
+//   49         char flag;
+//   50         REQUEST_UI_OAF_START_APPLICATION(ASYNC, ID+0x10000, &flag);
+        ADD      R2,SP,#+4
+        ADDS     R2,R2,#+1
+        MOVS     R1,#+128
+        LSLS     R1,R1,#+9
+        ADDS     R1,R0,R1
+        ADD      R0,SP,#+12
+        _BLF     REQUEST_UI_OAF_START_APPLICATION,??REQUEST_UI_OAF_START_APPLICATION??rT
+//   51         break;
+        B        ??StartJava_ByName_1
+//   52       }
+//   53       else result = JavaAppDesc_GetNextApp(Javadesc);
+??StartJava_ByName_3:
+        _BLF     JavaAppDesc_GetNextApp,??JavaAppDesc_GetNextApp??rT
+        MOVS     R5,R0
+//   54       StringFree(sp);
+        LDR      R0,[SP, #+8]
+        _BLF     ??StringFree,??StringFree??rT
+//   55     }
+        CMP      R5,#+0
+        BEQ      ??StartJava_ByName_2
+//   56   }
+//   57   JavaDialog_Close(sp1);
+??StartJava_ByName_1:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+4]
+        _BLF     JavaDialog_Close,??JavaDialog_Close??rT
+//   58 }
+        POP      {R0-R5,PC}       ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??ExecuteEvent??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE ??ExecuteEvent
+//   59 
+//   60 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon0
+        CFI Function ??ExecuteEvent
+        THUMB
+//   61 void ExecuteEvent(wchar_t *name)
+//   62 {
+??ExecuteEvent:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//   63   int event = wstr2h(name,wstrlen(name));
+        _BLF     wstrlen,??wstrlen??rT
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     ??wstr2h,??wstr2h??rT
+//   64   UI_Event(event);
+        _BLF     UI_Event,??UI_Event??rT
+//   65 }
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??OpenFolger??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE ??OpenFolger
+//   66 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon0
+        CFI Function ??OpenFolger
+        THUMB
+//   67 void OpenFolger(wchar_t * folders)
+//   68 {
+??OpenFolger:
+        PUSH     {R0,R1,R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+20
+        MOVS     R4,R0
+//   69   const wchar_t * path[2];
+//   70   path[0] = folders;
+        STR      R4,[SP, #+0]
+//   71   path[1] = 0;
+        MOVS     R0,#+0
+        STR      R0,[SP, #+4]
+//   72     
+//   73   void* Folder_Desc = DataBrowserDesc_Create();
+        _BLF     DataBrowserDesc_Create,??DataBrowserDesc_Create??rT
+//   74   DataBrowserDesc_SetHeaderText(Folder_Desc,TextID_Create(folders, ENC_UCS2, TEXTID_ANY_LEN));
+        LDR      R2,??OpenFolger_1  ;; 0xffff
+        MOVS     R5,R0
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetHeaderText,??DataBrowserDesc_SetHeaderText??rT
+//   75   DataBrowserDesc_SetFolders(Folder_Desc,path);
+        MOV      R1,SP
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetFolders,??DataBrowserDesc_SetFolders??rT
+//   76   DataBrowserDesc_SetFoldersNumber(Folder_Desc,1);
+        MOVS     R1,#+1
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetFoldersNumber,??DataBrowserDesc_SetFoldersNumber??rT
+//   77   DataBrowserDesc_SetSelectAction(Folder_Desc,0);
+        MOVS     R1,#+0
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetSelectAction,??DataBrowserDesc_SetSelectAction??rT
+//   78   DataBrowserDesc_Menu_AddFSFunctions(Folder_Desc, 0);
+        MOVS     R1,#+0
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_Menu_AddFSFunctions,??DataBrowserDesc_Menu_AddFSFunctions??rT
+//   79   DataBrowserDesc_Menu_AddNewFolder(Folder_Desc, 1);
+        MOVS     R1,#+1
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_Menu_AddNewFolder,??DataBrowserDesc_Menu_AddNewFolder??rT
+//   80   DataBrowserDesc_Menu_AddMarkFiles(Folder_Desc, 1);
+        MOVS     R1,#+1
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_Menu_AddMarkFiles,??DataBrowserDesc_Menu_AddMarkFiles??rT
+//   81   DataBrowser_Create(Folder_Desc);
+        MOVS     R0,R5
+        _BLF     DataBrowser_Create,??DataBrowser_Create??rT
+//   82   DataBrowserDesc_Destroy(Folder_Desc);
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_Destroy,??DataBrowserDesc_Destroy??rT
+//   83 }
+        POP      {R2-R5,PC}       ;; return
+        DATA
+??OpenFolger_1:
+        DC32     0xffff
+        CFI EndBlock cfiBlock9
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??RunShortcut??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock10
+        REQUIRE ??RunShortcut
+//   84 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon0
+        CFI Function ??RunShortcut
+        THUMB
+//   85 void RunShortcut(SHORTCUT *Shortcut)
+//   86 {
+??RunShortcut:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//   87   switch(Shortcut->Type)
+        LDR      R1,[R0, #+4]
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+4
+        BHI      ??RunShortcut_2
+        ADR      R2,??RunShortcut_1
+        LDRB     R2,[R2, R0]
+        ADD      PC,PC,R2
+        DATA
+??RunShortcut_1:
+        DC8      +4,+12,+20,+28
+        DC8      +36,+0
+        THUMB
+//   88   {
+//   89   case TYPE_SHORTCUT:
+//   90     Shortcut_Run(Shortcut->sData);
+??RunShortcut_3:
+        MOVS     R0,R1
+        _BLF     Shortcut_Run,??Shortcut_Run??rT
+        POP      {PC}
+//   91     break;
+//   92   case TYPE_JAVA:
+//   93     StartJava_ByName(Shortcut->sData);
+??RunShortcut_4:
+        MOVS     R0,R1
+        BL       ??StartJava_ByName
+        POP      {PC}
+//   94     break;
+//   95   case TYPE_ELF:
+//   96     StartElf(Shortcut->sData);
+??RunShortcut_5:
+        MOVS     R0,R1
+        BLX      ??StartElf
+        POP      {PC}
+//   97     break;
+//   98   case TYPE_EVENT:
+//   99     ExecuteEvent(Shortcut->sData);
+??RunShortcut_6:
+        MOVS     R0,R1
+        BL       ??ExecuteEvent
+        POP      {PC}
+//  100     break;
+//  101   case TYPE_FOLDER:
+//  102     OpenFolger(Shortcut->sData);
+??RunShortcut_7:
+        MOVS     R0,R1
+        BL       ??OpenFolger
+//  103     break;
+//  104   }
+//  105 }
+??RunShortcut_2:
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock11
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??ItemFilter??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock12
+        REQUIRE ??ItemFilter
+//  106 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon0
+        CFI Function ??ItemFilter
+        THUMB
+//  107 int ItemFilter(void* elem)
+//  108 {
+//  109   return(elem != NULL);
+??ItemFilter:
+        CMP      R0,#+0
+        BEQ      ??ItemFilter_1
+        MOVS     R0,#+1
+??ItemFilter_1:
+        BX       LR
+        CFI EndBlock cfiBlock13
+//  110 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??FreeList??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock14
+        REQUIRE ??FreeList
+//  111 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon0
+        CFI Function ??FreeList
+        THUMB
+//  112 void FreeList(LIST* &List, void (*FreeProc)(void *Item))
+//  113 {
+??FreeList:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  114   if (List)
+        LDR      R0,[R4, #+0]
+        CMP      R0,#+0
+        BEQ      ??FreeList_1
+//  115   {
+//  116     List_DestroyElements(List, ItemFilter, FreeProc);
+        MOVS     R2,R1
+        LDR      R1,??FreeList_2  ;; ??ItemFilter
+        _BLF     List_DestroyElements,??List_DestroyElements??rT
+//  117     List_Destroy(List);
+        LDR      R0,[R4, #+0]
+        _BLF     List_Destroy,??List_Destroy??rT
+//  118   }
+//  119 }
+??FreeList_1:
+        POP      {R4,PC}          ;; return
+        Nop      
+        DATA
+??FreeList_2:
+        DC32     ??ItemFilter
+        CFI EndBlock cfiBlock15
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??JavaFree??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock16
+        REQUIRE ??JavaFree
+//  120 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon0
+        CFI Function ??JavaFree
+        THUMB
+//  121 void JavaFree(void* item)
+//  122 {
+??JavaFree:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  123   JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)item;
+//  124   if(elem)
+        BEQ      ??JavaFree_1
+//  125   {
+//  126     StringFree(elem->Name);
+        LDR      R0,[R4, #+0]
+        _BLF     ??StringFree,??StringFree??rT
+//  127     StringFree(elem->Fullpath);
+        LDR      R0,[R4, #+4]
+        _BLF     ??StringFree,??StringFree??rT
+//  128     if (elem->ImageID) ImageID_Free(elem->ImageID);
+        LDRH     R0,[R4, #+8]
+        CMP      R0,#+0
+        BEQ      ??JavaFree_2
+        _BLF     ImageID_Free,??ImageID_Free??rT
+//  129     mfree(elem);
+??JavaFree_2:
+        MOVS     R0,R4
+        _BLF     ??mfree,??mfree??rT
+//  130   }
+//  131 }
+??JavaFree_1:
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock17
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??CreateElem??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock18
+        REQUIRE ??CreateElem
+//  132 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon0
+        CFI Function ??CreateElem
+        THUMB
+//  133 JAVA_LIST_ELEM* CreateElem(void* JavaDesc)
+//  134 {
+??CreateElem:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  135   JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)malloc(sizeof(JAVA_LIST_ELEM));
+        MOVS     R0,#+12
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R5,R0
+//  136   JavaAppDesc_GetJavaAppInfo(JavaDesc, 0, &elem->Name);
+        MOVS     R2,R5
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+//  137   JavaAppDesc_GetJavaAppInfo(JavaDesc, 5, &elem->Fullpath);
+        ADDS     R2,R5,#+4
+        MOVS     R1,#+5
+        MOVS     R0,R4
+        _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+//  138   JavaApp_LogoImageID_Get(elem->Fullpath, &elem->ImageID);
+        LDR      R0,[R5, #+4]
+        MOVS     R1,R5
+        ADDS     R1,R1,#+8
+        _BLF     JavaApp_LogoImageID_Get,??JavaApp_LogoImageID_Get??rT
+//  139   return(elem);
+        MOVS     R0,R5
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock19
+//  140 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??Create_JavaList??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock20
+        REQUIRE ??Create_JavaList
+//  141 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon0
+        CFI Function ??Create_JavaList
+        THUMB
+//  142 LIST* Create_JavaList()
+//  143 {
+??Create_JavaList:
+        PUSH     {R0-R2,R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+20
+//  144   LIST* java_list = List_Create();
+        _BLF     List_Create,??List_Create??rT
+        MOVS     R4,R0
+//  145   
+//  146   char sp1;
+//  147   wchar_t* sp;
+//  148   void* JavaDesc;
+//  149   JavaDialog_Open(0, &sp1, &JavaDesc);
+        MOV      R2,SP
+        ADD      R1,SP,#+8
+        MOVS     R0,#+0
+        _BLF     JavaDialog_Open,??JavaDialog_Open??rT
+//  150   
+//  151   if (!JavaAppDesc_GetFirstApp(JavaDesc))
+        LDR      R0,[SP, #+0]
+        _BLF     JavaAppDesc_GetFirstApp,??JavaAppDesc_GetFirstApp??rT
+        CMP      R0,#+0
+        BNE      ??Create_JavaList_1
+//  152   {
+//  153     int result = 0;
+//  154     while (!result)
+//  155     {
+//  156       JavaAppDesc_GetJavaAppInfo(JavaDesc, 6, &sp);
+??Create_JavaList_2:
+        LDR      R0,[SP, #+0]
+        ADD      R2,SP,#+4
+        MOVS     R1,#+6
+        _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+//  157       if (sp[0])
+        LDR      R0,[SP, #+4]
+        LDRH     R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??Create_JavaList_3
+//  158       {
+//  159         List_InsertLast(java_list, CreateElem(JavaDesc));
+        LDR      R0,[SP, #+0]
+        BL       ??CreateElem
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     List_InsertLast,??List_InsertLast??rT
+//  160       }
+//  161       StringFree(sp);
+??Create_JavaList_3:
+        LDR      R0,[SP, #+4]
+        _BLF     ??StringFree,??StringFree??rT
+//  162       result = JavaAppDesc_GetNextApp(JavaDesc);
+//  163     }
+        LDR      R0,[SP, #+0]
+        _BLF     JavaAppDesc_GetNextApp,??JavaAppDesc_GetNextApp??rT
+        CMP      R0,#+0
+        BEQ      ??Create_JavaList_2
+//  164   }
+//  165   JavaDialog_Close(sp1);
+??Create_JavaList_1:
+        MOV      R0,SP
+        LDRB     R0,[R0, #+8]
+        _BLF     JavaDialog_Close,??JavaDialog_Close??rT
+//  166   return java_list;
+        MOVS     R0,R4
+        POP      {R1-R4,PC}       ;; return
+        CFI EndBlock cfiBlock21
+//  167 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??SaveConfig??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock22
+        REQUIRE ??SaveConfig
+//  168 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon0
+        CFI Function ??SaveConfig
+        THUMB
+//  169 void SaveConfig(LIST *List)
+//  170 {
+??SaveConfig:
+        PUSH     {R0,R1,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+28
+//  171   int File;
+//  172   
+//  173   if ((File = _fopen(F_PATH, F_NAME, FSX_O_TRUNC|FSX_O_RDWR, FSX_S_IRUSR|FSX_S_IWUSR, 0)) >= 0)
+        LDR      R1,??DataTable3  ;; `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+        MOVS     R5,R0
+        MOVS     R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+32
+        LDR      R0,??DataTable2  ;; 0x11987fc4
+        MOVS     R3,#+192
+        LSLS     R3,R3,#+1
+        MOVS     R2,#+129
+        LSLS     R2,R2,#+2
+        _BLF     _fopen,??_fopen??rT
+        MOVS     R4,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+28
+        BMI      ??SaveConfig_1
+//  174   {
+//  175     int CaptionLen = 0;
+        MOVS     R6,#+0
+        STR      R6,[SP, #+0]
+//  176     int sDataLen = 0;
+        STR      R6,[SP, #+4]
+//  177     
+//  178     fwrite(File, &List->FirstFree, sizeof(u16));
+        MOVS     R2,#+2
+        ADDS     R1,R5,#+2
+        B.N      ??SaveConfig_2
+//  179     
+//  180     int i;
+//  181     for (i = 0; i < List->FirstFree; i++)
+//  182     {
+//  183       SHORTCUT* Shortcut = (SHORTCUT*)List_Get(List, i);
+??SaveConfig_3:
+        MOVS     R1,R6
+        MOVS     R0,R5
+        _BLF     List_Get,??List_Get??rT
+        MOVS     R7,R0
+//  184       fwrite(File, &Shortcut->Type, sizeof(char));
+        MOVS     R2,#+1
+        MOVS     R1,R7
+        MOVS     R0,R4
+        _BLF     fwrite,??fwrite??rT
+//  185       sDataLen = StringLength(Shortcut->sData);
+        LDR      R0,[R7, #+4]
+//  186       fwrite(File, &sDataLen, sizeof(int));
+//  187       fwrite(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
+//  188       CaptionLen = StringLength(Shortcut->Caption);
+//  189       fwrite(File, &CaptionLen, sizeof(int));
+//  190       fwrite(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
+//  191       fwrite(File, &Shortcut->Icon, sizeof(IMAGEID));
+//  192     }
+        ADDS     R6,R6,#+1
+        _BLF     ??StringLength,??StringLength??rT
+        STR      R0,[SP, #+4]
+        MOVS     R2,#+4
+        ADD      R1,SP,#+4
+        MOVS     R0,R4
+        _BLF     fwrite,??fwrite??rT
+        LDR      R0,[SP, #+4]
+        LDR      R1,[R7, #+4]
+        LSLS     R2,R0,#+1
+        MOVS     R0,R4
+        _BLF     fwrite,??fwrite??rT
+        LDR      R0,[R7, #+8]
+        _BLF     ??StringLength,??StringLength??rT
+        STR      R0,[SP, #+0]
+        MOVS     R2,#+4
+        MOV      R1,SP
+        MOVS     R0,R4
+        _BLF     fwrite,??fwrite??rT
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R7, #+8]
+        LSLS     R2,R0,#+1
+        MOVS     R0,R4
+        _BLF     fwrite,??fwrite??rT
+        MOVS     R2,#+2
+        ADDS     R7,R7,#+12
+        MOVS     R1,R7
+        MOVS     R0,R4
+??SaveConfig_2:
+        _BLF     fwrite,??fwrite??rT
+        LDRH     R0,[R5, #+2]
+        CMP      R6,R0
+        BLT      ??SaveConfig_3
+//  193     fclose(File);
+        MOVS     R0,R4
+        _BLF     fclose,??fclose??rT
+//  194   }
+//  195 }
+??SaveConfig_1:
+        POP      {R2-R7,PC}       ;; return
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon1
+        CFI NoFunction
+        ARM
+??LoadConfig??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock24
+        REQUIRE ??LoadConfig
+//  196 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon0
+        CFI Function ??LoadConfig
+        THUMB
+//  197 LIST* LoadConfig()
+//  198 {
+??LoadConfig:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//  199   LIST* Ret = List_Create();
+//  200   int File = NULL;
+//  201   
+//  202   FSTAT _fstat;
+//  203   if ((fstat(F_PATH, F_NAME, &_fstat)) >= 0)
+        LDR      R5,??DataTable2  ;; 0x11987fc4
+        LDR      R6,??DataTable3  ;; `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+        SUB      SP,SP,#+40
+        CFI CFA R13+60
+        _BLF     List_Create,??List_Create??rT
+        MOVS     R4,R0
+        ADD      R2,SP,#+12
+        MOVS     R1,R6
+        MOVS     R0,R5
+        _BLF     fstat,??fstat??rT
+        CMP      R0,#+0
+        BMI      ??LoadConfig_1
+//  204   {
+//  205     if ((File = _fopen(F_PATH, F_NAME, FSX_O_RDONLY, FSX_S_IRUSR|FSX_S_IWUSR, 0)) >= 0)
+        MOVS     R0,#+0
+        PUSH     {R0}
+        CFI CFA R13+64
+        MOVS     R3,#+192
+        LSLS     R3,R3,#+1
+        MOVS     R2,#+1
+        MOVS     R1,R6
+        MOVS     R0,R5
+        _BLF     _fopen,??_fopen??rT
+        MOVS     R6,R0
+        ADD      SP,SP,#+4
+        CFI CFA R13+60
+        BMI      ??LoadConfig_1
+//  206     {
+//  207       int CaptionLen = 0;
+        MOVS     R5,#+0
+        STR      R5,[SP, #+0]
+//  208       int sDataLen = 0;
+        STR      R5,[SP, #+4]
+//  209       u16 Count;
+//  210       
+//  211       fread(File, &Count, sizeof(u16));
+        MOVS     R2,#+2
+        ADD      R1,SP,#+8
+        _BLF     fread,??fread??rT
+//  212       
+//  213       int i = 0;
+        B        ??LoadConfig_2
+//  214       while(/*Ret->FirstFree*/ i < Count)
+//  215       {
+//  216         SHORTCUT* Shortcut = (SHORTCUT*)malloc(sizeof(SHORTCUT));
+??LoadConfig_3:
+        MOVS     R0,#+16
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R7,R0
+//  217         fread(File, &Shortcut->Type, sizeof(char));
+        MOVS     R2,#+1
+        MOVS     R1,R7
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+//  218         fread(File, &sDataLen, sizeof(int));
+        MOVS     R2,#+4
+        ADD      R1,SP,#+4
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+//  219         Shortcut->sData = StringAlloc(sDataLen);
+        LDR      R0,[SP, #+4]
+//  220         fread(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
+//  221         fread(File, &CaptionLen, sizeof(int));
+//  222         Shortcut->Caption = StringAlloc(CaptionLen);
+//  223         fread(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
+//  224         fread(File, &Shortcut->Icon, sizeof(IMAGEID));
+//  225         List_InsertLast(Ret, Shortcut);
+//  226         i++;
+        ADDS     R5,R5,#+1
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        STR      R0,[R7, #+4]
+        LDR      R0,[SP, #+4]
+        LDR      R1,[R7, #+4]
+        LSLS     R2,R0,#+1
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+        MOVS     R2,#+4
+        MOV      R1,SP
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+        LDR      R0,[SP, #+0]
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        STR      R0,[R7, #+8]
+        LDR      R0,[SP, #+0]
+        LDR      R1,[R7, #+8]
+        LSLS     R2,R0,#+1
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+        MOVS     R2,#+2
+        MOVS     R1,R7
+        ADDS     R1,R1,#+12
+        MOVS     R0,R6
+        _BLF     fread,??fread??rT
+        MOVS     R1,R7
+        MOVS     R0,R4
+        _BLF     List_InsertLast,??List_InsertLast??rT
+//  227       }
+??LoadConfig_2:
+        MOV      R0,SP
+        LDRH     R0,[R0, #+8]
+        CMP      R5,R0
+        BLT      ??LoadConfig_3
+//  228       fclose(File);
+        MOVS     R0,R6
+        _BLF     fclose,??fclose??rT
+//  229     }
+//  230   }
+//  231   return(Ret);
+??LoadConfig_1:
+        MOVS     R0,R4
+        ADD      SP,SP,#+40
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock25
+//  232 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     0x11987fc4
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??malloc??rT:
+        LDR      R3,??Subroutine13_0  ;; ??malloc
+        BX       R3
+        DATA
+??Subroutine13_0:
+        DC32     ??malloc
+        CFI EndBlock cfiBlock26
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??memset??rT:
+        LDR      R3,??Subroutine14_0  ;; memset
+        BX       R3
+        DATA
+??Subroutine14_0:
+        DC32     memset
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??wstrcpy??rT:
+        LDR      R3,??Subroutine15_0  ;; wstrcpy
+        BX       R3
+        DATA
+??Subroutine15_0:
+        DC32     wstrcpy
+        CFI EndBlock cfiBlock28
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??wstrcmp??rT:
+        LDR      R3,??Subroutine16_0  ;; wstrcmp
+        BX       R3
+        DATA
+??Subroutine16_0:
+        DC32     wstrcmp
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaDialog_Open??rT:
+        LDR      R3,??Subroutine17_0  ;; JavaDialog_Open
+        BX       R3
+        DATA
+??Subroutine17_0:
+        DC32     JavaDialog_Open
+        CFI EndBlock cfiBlock30
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaAppDesc_GetFirstApp??rT:
+        LDR      R3,??Subroutine18_0  ;; JavaAppDesc_GetFirstApp
+        BX       R3
+        DATA
+??Subroutine18_0:
+        DC32     JavaAppDesc_GetFirstApp
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaAppDesc_GetJavaAppInfo??rT:
+        LDR      R3,??Subroutine19_0  ;; JavaAppDesc_GetJavaAppInfo
+        BX       R3
+        DATA
+??Subroutine19_0:
+        DC32     JavaAppDesc_GetJavaAppInfo
+        CFI EndBlock cfiBlock32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaAppDesc_GetJavaAppID??rT:
+        LDR      R3,??Subroutine20_0  ;; JavaAppDesc_GetJavaAppID
+        BX       R3
+        DATA
+??Subroutine20_0:
+        DC32     JavaAppDesc_GetJavaAppID
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??REQUEST_UI_OAF_START_APPLICATION??rT:
+        LDR      R3,??Subroutine21_0  ;; REQUEST_UI_OAF_START_APPLICATION
+        BX       R3
+        DATA
+??Subroutine21_0:
+        DC32     REQUEST_UI_OAF_START_APPLICATION
+        CFI EndBlock cfiBlock34
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaAppDesc_GetNextApp??rT:
+        LDR      R3,??Subroutine22_0  ;; JavaAppDesc_GetNextApp
+        BX       R3
+        DATA
+??Subroutine22_0:
+        DC32     JavaAppDesc_GetNextApp
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StringFree??rT:
+        LDR      R3,??Subroutine23_0  ;; ??StringFree
+        BX       R3
+        DATA
+??Subroutine23_0:
+        DC32     ??StringFree
+        CFI EndBlock cfiBlock36
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaDialog_Close??rT:
+        LDR      R3,??Subroutine24_0  ;; JavaDialog_Close
+        BX       R3
+        DATA
+??Subroutine24_0:
+        DC32     JavaDialog_Close
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??wstrlen??rT:
+        LDR      R3,??Subroutine25_0  ;; wstrlen
+        BX       R3
+        DATA
+??Subroutine25_0:
+        DC32     wstrlen
+        CFI EndBlock cfiBlock38
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??wstr2h??rT:
+        LDR      R3,??Subroutine26_0  ;; ??wstr2h
+        BX       R3
+        DATA
+??Subroutine26_0:
+        DC32     ??wstr2h
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??UI_Event??rT:
+        LDR      R3,??Subroutine27_0  ;; UI_Event
+        BX       R3
+        DATA
+??Subroutine27_0:
+        DC32     UI_Event
+        CFI EndBlock cfiBlock40
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Create??rT:
+        LDR      R3,??Subroutine28_0  ;; DataBrowserDesc_Create
+        BX       R3
+        DATA
+??Subroutine28_0:
+        DC32     DataBrowserDesc_Create
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??TextID_Create??rT:
+        LDR      R3,??Subroutine29_0  ;; TextID_Create
+        BX       R3
+        DATA
+??Subroutine29_0:
+        DC32     TextID_Create
+        CFI EndBlock cfiBlock42
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetHeaderText??rT:
+        LDR      R3,??Subroutine30_0  ;; DataBrowserDesc_SetHeaderText
+        BX       R3
+        DATA
+??Subroutine30_0:
+        DC32     DataBrowserDesc_SetHeaderText
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetFolders??rT:
+        LDR      R3,??Subroutine31_0  ;; DataBrowserDesc_SetFolders
+        BX       R3
+        DATA
+??Subroutine31_0:
+        DC32     DataBrowserDesc_SetFolders
+        CFI EndBlock cfiBlock44
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetFoldersNumber??rT:
+        LDR      R3,??Subroutine32_0  ;; DataBrowserDesc_SetFoldersNumber
+        BX       R3
+        DATA
+??Subroutine32_0:
+        DC32     DataBrowserDesc_SetFoldersNumber
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetSelectAction??rT:
+        LDR      R3,??Subroutine33_0  ;; DataBrowserDesc_SetSelectAction
+        BX       R3
+        DATA
+??Subroutine33_0:
+        DC32     DataBrowserDesc_SetSelectAction
+        CFI EndBlock cfiBlock46
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Menu_AddFSFunctions??rT:
+        LDR      R3,??Subroutine34_0  ;; DataBrowserDesc_Menu_AddFSFunctions
+        BX       R3
+        DATA
+??Subroutine34_0:
+        DC32     DataBrowserDesc_Menu_AddFSFunctions
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Menu_AddNewFolder??rT:
+        LDR      R3,??Subroutine35_0  ;; DataBrowserDesc_Menu_AddNewFolder
+        BX       R3
+        DATA
+??Subroutine35_0:
+        DC32     DataBrowserDesc_Menu_AddNewFolder
+        CFI EndBlock cfiBlock48
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Menu_AddMarkFiles??rT:
+        LDR      R3,??Subroutine36_0  ;; DataBrowserDesc_Menu_AddMarkFiles
+        BX       R3
+        DATA
+??Subroutine36_0:
+        DC32     DataBrowserDesc_Menu_AddMarkFiles
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowser_Create??rT:
+        LDR      R3,??Subroutine37_0  ;; DataBrowser_Create
+        BX       R3
+        DATA
+??Subroutine37_0:
+        DC32     DataBrowser_Create
+        CFI EndBlock cfiBlock50
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Destroy??rT:
+        LDR      R3,??Subroutine38_0  ;; DataBrowserDesc_Destroy
+        BX       R3
+        DATA
+??Subroutine38_0:
+        DC32     DataBrowserDesc_Destroy
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??Shortcut_Run??rT:
+        LDR      R3,??Subroutine39_0  ;; Shortcut_Run
+        BX       R3
+        DATA
+??Subroutine39_0:
+        DC32     Shortcut_Run
+        CFI EndBlock cfiBlock52
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??List_DestroyElements??rT:
+        LDR      R3,??Subroutine40_0  ;; List_DestroyElements
+        BX       R3
+        DATA
+??Subroutine40_0:
+        DC32     List_DestroyElements
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??List_Destroy??rT:
+        LDR      R3,??Subroutine41_0  ;; List_Destroy
+        BX       R3
+        DATA
+??Subroutine41_0:
+        DC32     List_Destroy
+        CFI EndBlock cfiBlock54
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??ImageID_Free??rT:
+        LDR      R3,??Subroutine42_0  ;; ImageID_Free
+        BX       R3
+        DATA
+??Subroutine42_0:
+        DC32     ImageID_Free
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??mfree??rT:
+        LDR      R3,??Subroutine43_0  ;; ??mfree
+        BX       R3
+        DATA
+??Subroutine43_0:
+        DC32     ??mfree
+        CFI EndBlock cfiBlock56
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??JavaApp_LogoImageID_Get??rT:
+        LDR      R3,??Subroutine44_0  ;; JavaApp_LogoImageID_Get
+        BX       R3
+        DATA
+??Subroutine44_0:
+        DC32     JavaApp_LogoImageID_Get
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??List_Create??rT:
+        LDR      R3,??Subroutine45_0  ;; List_Create
+        BX       R3
+        DATA
+??Subroutine45_0:
+        DC32     List_Create
+        CFI EndBlock cfiBlock58
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??List_InsertLast??rT:
+        LDR      R3,??Subroutine46_0  ;; List_InsertLast
+        BX       R3
+        DATA
+??Subroutine46_0:
+        DC32     List_InsertLast
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??_fopen??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine47_0  ;; _fopen
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine47_0:
+        DC32     _fopen
+        CFI EndBlock cfiBlock60
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??fwrite??rT:
+        LDR      R3,??Subroutine48_0  ;; fwrite
+        BX       R3
+        DATA
+??Subroutine48_0:
+        DC32     fwrite
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??List_Get??rT:
+        LDR      R3,??Subroutine49_0  ;; List_Get
+        BX       R3
+        DATA
+??Subroutine49_0:
+        DC32     List_Get
+        CFI EndBlock cfiBlock62
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StringLength??rT:
+        LDR      R3,??Subroutine50_0  ;; ??StringLength
+        BX       R3
+        DATA
+??Subroutine50_0:
+        DC32     ??StringLength
+        CFI EndBlock cfiBlock63
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??fclose??rT:
+        LDR      R3,??Subroutine51_0  ;; fclose
+        BX       R3
+        DATA
+??Subroutine51_0:
+        DC32     fclose
+        CFI EndBlock cfiBlock64
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??fstat??rT:
+        LDR      R3,??Subroutine52_0  ;; fstat
+        BX       R3
+        DATA
+??Subroutine52_0:
+        DC32     fstat
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??fread??rT:
+        LDR      R3,??Subroutine53_0  ;; fread
+        BX       R3
+        DATA
+??Subroutine53_0:
+        DC32     fread
+        CFI EndBlock cfiBlock66
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock67 Using cfiCommon0
+        CFI NoFunction
+        THUMB
+??StringAlloc??rT:
+        LDR      R3,??Subroutine54_0  ;; ??StringAlloc
+        BX       R3
+        DATA
+??Subroutine54_0:
+        DC32     ??StringAlloc
+        CFI EndBlock cfiBlock67
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`:
+        DATA
+        DC8 73H, 0, 63H, 0, 2EH, 0, 62H, 0
+        DC8 69H, 0, 6EH, 0, 0, 0
+        DC8 0, 0
+
+        END
+// 
+// 1 372 bytes in segment CODE
+//    16 bytes in segment DATA_C
+// 
+// 928 bytes of CODE  memory (+ 444 bytes shared)
+//  16 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

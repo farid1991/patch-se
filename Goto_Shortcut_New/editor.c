@@ -30,7 +30,7 @@ void Menu_SetMainMenu( BOOK* MainMenu, GUI* gui )
   void* ShortcutDesc;
 #ifdef A1
   ShortcutDesc = SHORTCUT_DESC_Init(mbk->Current->sData);
-#elif A2
+#else
   ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->Current->sData);
 #endif
   mbk->Current->Icon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
@@ -265,7 +265,7 @@ void OnBackEventInput(BOOK* book, wchar_t* string, int len)
   BookObj_ReturnPage(mbk, NIL_EVENT);
 }
 
-int CreateInputEvent(void* data, BOOK* book)
+int pg_SC_Editor_EventInput_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->EventInput);
@@ -280,14 +280,14 @@ int CreateInputEvent(void* data, BOOK* book)
   StringInput_SetMinLen( mbk->EventInput, 1 );
   StringInput_SetMaxLen( mbk->EventInput, 4 );  
   StringInput_SetActionOK( mbk->EventInput, OnOkEventInput );
-  StringInput_SetActionNo( mbk->EventInput, OnBackEventInput );
+  StringInput_SetActionBack( mbk->EventInput, OnBackEventInput );
   
   GUIObject_SetTitleText(mbk->EventInput, EVENT_TXT );
   GUIObject_Show(mbk->EventInput);
   return 0;
 }
 
-int CloseInputEvent(void* data, BOOK* book)
+int pg_SC_Editor_EventInput_ExitAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->EventInput);
@@ -296,8 +296,8 @@ int CloseInputEvent(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_EventInput_PageEvents[] = 
 {
-  PAGE_ENTER_EVENT, CreateInputEvent,
-  PAGE_EXIT_EVENT,  CloseInputEvent,
+  PAGE_ENTER_EVENT, pg_SC_Editor_EventInput_EnterAction,
+  PAGE_EXIT_EVENT,  pg_SC_Editor_EventInput_ExitAction,
   NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_EventInput_PageDesc = {EDITOR_EVENTINPUT_BASEPAGE_NAME, 0, Goto_Editor_EventInput_PageEvents};
@@ -337,7 +337,7 @@ void OnOkFolderInput(BOOK* book, wchar_t* string, int len)
   AcceptShortcut(mbk);
 }
 
-int CreateSelectFolder(void* data, BOOK* book)
+int pg_SC_Editor_SelectFolder_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->FolderInput);
@@ -352,7 +352,7 @@ int CreateSelectFolder(void* data, BOOK* book)
   //StringInput_SetMinLen( mbk->FolderInput, 1 );
   StringInput_SetMaxLen( mbk->FolderInput, 255 );  
   StringInput_SetActionOK( mbk->FolderInput, OnOkFolderInput );
-  StringInput_SetActionNo( mbk->FolderInput, OnBackFolderInput );
+  StringInput_SetActionBack( mbk->FolderInput, OnBackFolderInput );
   
   GUIObject_SoftKeys_SetActionAndText( mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT );
   StringInput_MenuItem_SetPriority( mbk->FolderInput, 0, 0 );
@@ -361,7 +361,7 @@ int CreateSelectFolder(void* data, BOOK* book)
   return 0;
 }
 
-int CloseSelectFolder(void* data, BOOK* book)
+int pg_SC_Editor_SelectFolder_ExitAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->SelectFolder);
@@ -370,8 +370,8 @@ int CloseSelectFolder(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_SelectFolder_PageEvents[] = 
 {
-  PAGE_ENTER_EVENT, CreateSelectFolder,
-  PAGE_EXIT_EVENT,  CloseSelectFolder,
+  PAGE_ENTER_EVENT, pg_SC_Editor_SelectFolder_EnterAction,
+  PAGE_EXIT_EVENT,  pg_SC_Editor_SelectFolder_ExitAction,
   NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_SelectFolder_PageDesc = {EDITOR_SELECTFOLDER_BASEPAGE_NAME, 0, Goto_Editor_SelectFolder_PageEvents};
@@ -391,7 +391,7 @@ TEXTID Get_SCTypes_Text(int item)
   return TextID_Get(TypesCaptions[item]);
 }
 
-void Types_Ok(BOOK* book, GUI* gui)
+void TypesList_onSelect(BOOK* book, GUI* gui)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   switch(ListMenu_GetSelectedItem(mbk->TypesList))
@@ -414,7 +414,7 @@ void Types_Ok(BOOK* book, GUI* gui)
   }
 }
 
-int Types_Callback(GUI_MESSAGE* msg)
+int TypesList_onMessage(GUI_MESSAGE* msg)
 {
   switch(GUIonMessage_GetMsg(msg))
   {
@@ -433,21 +433,21 @@ void Types_Back(BOOK* book, GUI* gui)
 }
 */
 
-int CreateTypesList(void* data, BOOK* book)
+int pg_SC_Editor_TypesList_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   mbk->TypesList = CreateListMenu(mbk, UIDisplay_Main);
   GUIObject_SetTitleText(mbk->TypesList, TYPES_TITLE_TXT);
   ListMenu_SetItemCount(mbk->TypesList, TYPE_LAST);
   ListMenu_SetCursorToItem(mbk->TypesList, 0);
-  ListMenu_SetOnMessage(mbk->TypesList, Types_Callback); 
-  GUIObject_SoftKeys_SetAction(mbk->TypesList, ACTION_SELECT1, Types_Ok);
+  ListMenu_SetOnMessage(mbk->TypesList, TypesList_onMessage); 
+  GUIObject_SoftKeys_SetAction(mbk->TypesList, ACTION_SELECT1, TypesList_onSelect);
   GUIObject_SoftKeys_SetAction(mbk->TypesList, ACTION_BACK, Action_Back);
   GUIObject_Show(mbk->TypesList);
   return 1;
 }
 
-int CloseTypesList(void* data, BOOK* book)
+int pg_SC_Editor_TypesList_ExitAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->TypesList);
@@ -456,9 +456,9 @@ int CloseTypesList(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_TypesList_PageEvents[] = 
 {
-    PAGE_ENTER_EVENT, CreateTypesList,
-    PAGE_EXIT_EVENT,  CloseTypesList,
-    NIL_EVENT,        NULL
+  PAGE_ENTER_EVENT, pg_SC_Editor_TypesList_EnterAction,
+  PAGE_EXIT_EVENT,  pg_SC_Editor_TypesList_ExitAction,
+  NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_TypesList_PageDesc = {EDITOR_TYPESLIST_BASEPAGE_NAME, 0, Goto_Editor_TypesList_PageEvents};
 
@@ -478,7 +478,7 @@ void OnBackCaptionInput(BOOK* book, wchar_t* string, int len)
   BookObj_ReturnPage(book, NIL_EVENT);
 }
 */   
-int CreateCaptionInput(void* data, BOOK* book)
+int pg_SC_Editor_LabelInput_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->CaptionInput);
@@ -496,7 +496,7 @@ int CreateCaptionInput(void* data, BOOK* book)
   return 0;
 }
 
-int CloseCaptionInput(void* data, BOOK* book)
+int pg_SC_Editor_LabelInput_ExitAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->CaptionInput);
@@ -505,16 +505,16 @@ int CloseCaptionInput(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_CaptionInput_PageEvents[] = 
 {
-    PAGE_ENTER_EVENT, CreateCaptionInput,
-    PAGE_EXIT_EVENT,  CloseCaptionInput,
-    NIL_EVENT,        NULL
+  PAGE_ENTER_EVENT, pg_SC_Editor_LabelInput_EnterAction,
+  PAGE_EXIT_EVENT,  pg_SC_Editor_LabelInput_ExitAction,
+  NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_CaptionInput_PageDesc = {EDITOR_CAPTIONINPUT_BASEPAGE_NAME, 0, Goto_Editor_CaptionInput_PageEvents};
 
 
 //------------------------------------------------------------------------------
 
-void Editor_Ok(BOOK* book, GUI* gui)
+void Editor_onSelect(BOOK* book, GUI* gui)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   switch(ListMenu_GetSelectedItem(mbk->Editor))
@@ -528,7 +528,7 @@ void Editor_Ok(BOOK* book, GUI* gui)
   }
 }
 
-void Editor_Back(BOOK* book, GUI* gui)
+void Editor_onBack(BOOK* book, GUI* gui)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   if(!mbk->Current->sData || !mbk->Current->Caption)
@@ -540,7 +540,7 @@ void Editor_Back(BOOK* book, GUI* gui)
   BookObj_ReturnPage(book, ACCEPT_EVENT);
 }
 
-int Editor_Callback(GUI_MESSAGE *msg)
+int Editor_onMessage(GUI_MESSAGE *msg)
 {
   switch(GUIonMessage_GetMsg(msg))
   {
@@ -561,7 +561,7 @@ int Editor_Callback(GUI_MESSAGE *msg)
   }
   return 1;
 }
-int CreateEditorMenu(void* data, BOOK* book)
+int pg_SC_Editor_Main_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->Editor);
@@ -570,9 +570,9 @@ int CreateEditorMenu(void* data, BOOK* book)
   ListMenu_SetItemCount(mbk->Editor, 2);
   ListMenu_SetCursorToItem(mbk->Editor, 0);
   ListMenu_SetItemStyle(mbk->Editor, 3);
-  ListMenu_SetOnMessage(mbk->Editor, Editor_Callback); 
-  GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_SELECT1, Editor_Ok);
-  GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_BACK, Editor_Back);
+  ListMenu_SetOnMessage(mbk->Editor, Editor_onMessage); 
+  GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_SELECT1, Editor_onSelect);
+  GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_BACK, Editor_onBack);
   GUIObject_Show(mbk->Editor);
   return 1;
 }
@@ -587,14 +587,14 @@ int CloseEditorMenu(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_Main_PageEvents[] = 
 {
-  PAGE_ENTER_EVENT, CreateEditorMenu,
-  ACCEPT_EVENT,     UpdateEditor,
+  PAGE_ENTER_EVENT, pg_SC_Editor_Main_EnterAction,
+  ACCEPT_EVENT,     pg_SC_Editor_Main_AcceptAction,
   PAGE_EXIT_EVENT,  CloseEditorMenu,
   NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_Main_PageDesc = {EDITOR_MAIN_BASEPAGE_NAME, 0, Goto_Editor_Main_PageEvents};
 
-int UpdateEditor(void* data, BOOK* book)
+int pg_SC_Editor_Main_AcceptAction(void* data, BOOK* book)
 {
   BookObj_GotoPage(book, &Goto_Editor_Main_PageDesc);
   return 0;

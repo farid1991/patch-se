@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>Goto_Shortcut/C510_R1HA035</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>254</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>555</ColumnWidth1><ColumnWidth2>346</ColumnWidth2><ColumnWidth3>37</ColumnWidth3></Build>
+      <Debug-Log/>
+    </Static>
+    <Windows>
+      
+      
+    <Wnd2>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-12685-25978</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>Goto_Shortcut</ExpandedNode><ExpandedNode>Goto_Shortcut/asm</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-8796-26256</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-9279-5146</Identity>
+            <TabName>Debug Log</TabName>
+            <Factory>Debug-Log</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\main.h</Filename><XPos>0</XPos><YPos>63</YPos><SelStart>316</SelStart><SelEnd>316</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c</Filename><XPos>0</XPos><YPos>3</YPos><SelStart>417</SelStart><SelEnd>417</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\main.c</Filename><XPos>0</XPos><YPos>96</YPos><SelStart>2664</SelStart><SelEnd>2664</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\editor.c</Filename><XPos>0</XPos><YPos>340</YPos><SelStart>10479</SelStart><SelEnd>10479</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\editor.h</Filename><XPos>0</XPos><YPos>12</YPos><SelStart>887</SelStart><SelEnd>908</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\strlib.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>193</SelStart><SelEnd>193</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\FileFolder.c</Filename><XPos>0</XPos><YPos>171</YPos><SelStart>3676</SelStart><SelEnd>3676</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\asm\G502_R1FA037.asm</Filename><XPos>0</XPos><YPos>642</YPos><SelStart>30457</SelStart><SelEnd>30465</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\asm\C510_R1HA035.asm</Filename><XPos>0</XPos><YPos>760</YPos><SelStart>37735</SelStart><SelEnd>37735</SelEnd></Tab><ActiveTab>8</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\Target\C510_R1HA035.h</Filename><XPos>0</XPos><YPos>12</YPos><SelStart>677</SelStart><SelEnd>677</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\Goto_Shortcut_New\Target\G502_R1FA037.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>258</SelStart><SelEnd>258</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>E:\SE\Port\elf2vkp\include\Function.h</Filename><XPos>0</XPos><YPos>860</YPos><SelStart>51122</SelStart><SelEnd>51122</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01d9fd18><key>iaridepm.enu1</key></Toolbar-01d9fd18></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>496</Bottom><Right>328</Right><x>-2</x><y>-2</y><xscreen>399</xscreen><yscreen>312</yscreen><sizeHorzCX>249375</sizeHorzCX><sizeHorzCY>381418</sizeHorzCY><sizeVertCX>206250</sizeVertCX><sizeVertCY>608802</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>277</Bottom><Right>1602</Right><x>-2</x><y>-2</y><xscreen>1604</xscreen><yscreen>279</yscreen><sizeHorzCX>1002500</sizeHorzCX><sizeHorzCY>341076</sizeHorzCY><sizeVertCX>249375</sizeVertCX><sizeVertCY>381418</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

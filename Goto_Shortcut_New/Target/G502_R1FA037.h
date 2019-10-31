@@ -4,8 +4,8 @@
 #ifndef _G502_R1FA037_
 #define _G502_R1FA037_
 
-#define _ASYNC_              	(int*)0x11A83318
-#define _SYNC_              	(int*)0x11A8331C
+#define _ASYNC_           (int*)0x11A83318
+#define _SYNC_            (int*)0x11A8331C
 
 #define F_PATH 		  (wchar_t*)0x11987FC4
 #define MAIN_MENU         (wchar_t*)0x11B66028
@@ -49,7 +49,6 @@
 #define VAR_YESNO_NO_ACTION 	0x1205FE2D
 #define VAR_STRINP_TEXT         0x1205FDFB
 #define VAR_STRINP_ENABLE_EMPTY_STR 0x1205FE0D
-
 
 // Menu
 #define TITLE_TXT           0x2CB0 // L"Goto"

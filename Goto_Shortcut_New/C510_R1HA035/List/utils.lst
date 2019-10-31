@@ -1,0 +1,773 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    01/Nov/2019  02:23:01 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c         #
+#    Command line    =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c -D      #
+#                       NDEBUG -D A2 -D DB3210 -D C510_R1HA035               #
+#                       --preprocess=cl E:\SE\Port\elf2vkp\Goto_Shortcut_New #
+#                       \C510_R1HA035\List\ -lC E:\SE\Port\elf2vkp\Goto_Shor #
+#                       tcut_New\C510_R1HA035\List\ -lA                      #
+#                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1HA035\Li #
+#                       st\ -o E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1H #
+#                       A035\Obj\ -z9 --debug --cpu_mode thumb --endian      #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --preinclude E:\SE\Port\elf2vkp\Goto_Shortcut_New\Ta #
+#                       rget\C510_R1HA035.h -I "E:\SE\Embedded Workbench     #
+#                       4.0 Evaluation\ARM\INC\" --inline_threshold=2        #
+#    List file       =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1HA035\Li #
+#                       st\utils.lst                                         #
+#    Object file     =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1HA035\Ob #
+#                       j\utils.r79                                          #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\SE\Port\elf2vkp\Goto_Shortcut_New\utils.c
+      1          #include "..\\include\Types.h"
+      2          #include "..\\include\Function.h"
+      3          
+      4          #include "main.h"
+      5          #include "strlib.h"
+      6          
+
+   \                                 In segment CODE, align 4, keep-with-next
+      7          __arm void StartElf(wchar_t *Name)
+      8          {
+   \                     ??StartElf:
+   \   00000000   00402DE9           PUSH     {LR}
+      9            elfload(Name,NULL,NULL,NULL);
+   \   00000004   0030A0E3           MOV      R3,#+0
+   \   00000008   0020A0E3           MOV      R2,#+0
+   \   0000000C   0210A0E1           MOV      R1,R2
+   \   00000010   0D0100EF           SWI      +269
+     10          }
+   \   00000014   0080BDE8           POP      {PC}             ;; return
+     11          
+     12          #ifdef A2
+
+   \                                 In segment CODE, align 4, keep-with-next
+     13          void* SHORTCUT_DESC_A2_Init(wchar_t * param)
+     14          {
+   \                     ??SHORTCUT_DESC_A2_Init:
+   \   00000000   30B5               PUSH     {R4,R5,LR}
+   \   00000002   0400               MOVS     R4,R0
+     15            SHORTCUT_DESC_A2* w_buf = (SHORTCUT_DESC_A2*)malloc(sizeof(SHORTCUT_DESC_A2));
+   \   00000004   9720               MOVS     R0,#+151
+   \   00000006   C000               LSLS     R0,R0,#+3
+   \   00000008   ........           _BLF     ??malloc,??malloc??rT
+   \   0000000C   0500               MOVS     R5,R0
+     16            memset( w_buf, NULL, sizeof(w_buf) );
+   \   0000000E   0422               MOVS     R2,#+4
+   \   00000010   0021               MOVS     R1,#+0
+   \   00000012   ........           _BLF     memset,??memset??rT
+     17            wstrcpy( w_buf->name, param );
+   \   00000016   2100               MOVS     R1,R4
+   \   00000018   2800               MOVS     R0,R5
+   \   0000001A   ........           _BLF     wstrcpy,??wstrcpy??rT
+     18            if (!wstrcmp( w_buf->name, MAIN_MENU ))
+   \   0000001E   0649               LDR      R1,??SHORTCUT_DESC_A2_Init_1  ;; 0x15b2c28c
+   \   00000020   2800               MOVS     R0,R5
+   \   00000022   ........           _BLF     wstrcmp,??wstrcmp??rT
+   \   00000026   0028               CMP      R0,#+0
+   \   00000028   01D1               BNE      ??SHORTCUT_DESC_A2_Init_2
+     19            {
+     20              w_buf->item_type = SC_Type_MainMenu;
+   \   0000002A   0220               MOVS     R0,#+2
+   \   0000002C   00E0               B        ??SHORTCUT_DESC_A2_Init_3
+     21            }
+     22            else
+     23            {
+     24              w_buf->item_type = SC_Type_Standard;
+   \                     ??SHORTCUT_DESC_A2_Init_2:
+   \   0000002E   0020               MOVS     R0,#+0
+   \                     ??SHORTCUT_DESC_A2_Init_3:
+   \   00000030   0249               LDR      R1,??SHORTCUT_DESC_A2_Init_1+0x4  ;; 0x4b4
+   \   00000032   6854               STRB     R0,[R5, R1]
+     25            }
+     26            return(w_buf);
+   \   00000034   2800               MOVS     R0,R5
+   \   00000036   30BD               POP      {R4,R5,PC}       ;; return
+   \                     ??SHORTCUT_DESC_A2_Init_1:
+   \   00000038   8CC2B215           DC32     0x15b2c28c
+   \   0000003C   B4040000           DC32     0x4b4
+     27          }
+     28          #endif
+     29          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     30          void StartJava_ByName(wchar_t* name)
+     31          {
+   \                     ??StartJava_ByName:
+   \   00000000   3FB5               PUSH     {R0-R5,LR}
+     32            int _ASYNC = 1;
+     33            int *ASYNC =&_ASYNC;
+     34                
+     35            wchar_t* sp;
+     36            char sp1;
+     37            void* Javadesc;
+     38            
+     39            JavaDialog_Open(0, &sp1, &Javadesc);
+   \   00000002   6A46               MOV      R2,SP
+   \   00000004   0400               MOVS     R4,R0
+   \   00000006   0120               MOVS     R0,#+1
+   \   00000008   0390               STR      R0,[SP, #+12]
+   \   0000000A   01A9               ADD      R1,SP,#+4
+   \   0000000C   0020               MOVS     R0,#+0
+   \   0000000E   ........           _BLF     JavaDialog_Open,??JavaDialog_Open??rT
+     40            if (!JavaAppDesc_GetFirstApp(Javadesc))
+   \   00000012   0098               LDR      R0,[SP, #+0]
+   \   00000014   ........           _BLF     JavaAppDesc_GetFirstApp,??JavaAppDesc_GetFirstApp??rT
+   \   00000018   0028               CMP      R0,#+0
+   \   0000001A   1ED1               BNE      ??StartJava_ByName_1
+     41            {
+     42              int result = 0;
+     43              while(!result)
+     44              {
+     45                JavaAppDesc_GetJavaAppInfo(Javadesc, 0, &sp);
+   \                     ??StartJava_ByName_2:
+   \   0000001C   0098               LDR      R0,[SP, #+0]
+   \   0000001E   02AA               ADD      R2,SP,#+8
+   \   00000020   0021               MOVS     R1,#+0
+   \   00000022   ........           _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+     46                if (!wstrcmp(sp,name))
+   \   00000026   0298               LDR      R0,[SP, #+8]
+   \   00000028   2100               MOVS     R1,R4
+   \   0000002A   ........           _BLF     wstrcmp,??wstrcmp??rT
+   \   0000002E   0028               CMP      R0,#+0
+   \   00000030   0098               LDR      R0,[SP, #+0]
+   \   00000032   0AD1               BNE      ??StartJava_ByName_3
+     47                {
+     48                  int ID = JavaAppDesc_GetJavaAppID(Javadesc);
+   \   00000034   ........           _BLF     JavaAppDesc_GetJavaAppID,??JavaAppDesc_GetJavaAppID??rT
+     49                  char flag;
+     50                  REQUEST_UI_OAF_START_APPLICATION(ASYNC, ID+0x10000, &flag);
+   \   00000038   01AA               ADD      R2,SP,#+4
+   \   0000003A   521C               ADDS     R2,R2,#+1
+   \   0000003C   8021               MOVS     R1,#+128
+   \   0000003E   4902               LSLS     R1,R1,#+9
+   \   00000040   4118               ADDS     R1,R0,R1
+   \   00000042   03A8               ADD      R0,SP,#+12
+   \   00000044   ........           _BLF     REQUEST_UI_OAF_START_APPLICATION,??REQUEST_UI_OAF_START_APPLICATION??rT
+     51                  break;
+   \   00000048   07E0               B        ??StartJava_ByName_1
+     52                }
+     53                else result = JavaAppDesc_GetNextApp(Javadesc);
+   \                     ??StartJava_ByName_3:
+   \   0000004A   ........           _BLF     JavaAppDesc_GetNextApp,??JavaAppDesc_GetNextApp??rT
+   \   0000004E   0500               MOVS     R5,R0
+     54                StringFree(sp);
+   \   00000050   0298               LDR      R0,[SP, #+8]
+   \   00000052   ........           _BLF     ??StringFree,??StringFree??rT
+     55              }
+   \   00000056   002D               CMP      R5,#+0
+   \   00000058   E0D0               BEQ      ??StartJava_ByName_2
+     56            }
+     57            JavaDialog_Close(sp1);
+   \                     ??StartJava_ByName_1:
+   \   0000005A   6846               MOV      R0,SP
+   \   0000005C   0079               LDRB     R0,[R0, #+4]
+   \   0000005E   ........           _BLF     JavaDialog_Close,??JavaDialog_Close??rT
+     58          }
+   \   00000062   3FBD               POP      {R0-R5,PC}       ;; return
+     59          
+     60          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     61          void ExecuteEvent(wchar_t *name)
+     62          {
+   \                     ??ExecuteEvent:
+   \   00000000   10B5               PUSH     {R4,LR}
+   \   00000002   0400               MOVS     R4,R0
+     63            int event = wstr2h(name,wstrlen(name));
+   \   00000004   ........           _BLF     wstrlen,??wstrlen??rT
+   \   00000008   0100               MOVS     R1,R0
+   \   0000000A   2000               MOVS     R0,R4
+   \   0000000C   ........           _BLF     ??wstr2h,??wstr2h??rT
+     64            UI_Event(event);
+   \   00000010   ........           _BLF     UI_Event,??UI_Event??rT
+     65          }
+   \   00000014   10BD               POP      {R4,PC}          ;; return
+     66          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     67          void OpenFolger(wchar_t * folders)
+     68          {
+   \                     ??OpenFolger:
+   \   00000000   33B5               PUSH     {R0,R1,R4,R5,LR}
+   \   00000002   0400               MOVS     R4,R0
+     69            const wchar_t * path[2];
+     70            path[0] = folders;
+   \   00000004   0094               STR      R4,[SP, #+0]
+     71            path[1] = 0;
+   \   00000006   0020               MOVS     R0,#+0
+   \   00000008   0190               STR      R0,[SP, #+4]
+     72              
+     73            void* Folder_Desc = DataBrowserDesc_Create();
+   \   0000000A   ........           _BLF     DataBrowserDesc_Create,??DataBrowserDesc_Create??rT
+     74            DataBrowserDesc_SetHeaderText(Folder_Desc,TextID_Create(folders, ENC_UCS2, TEXTID_ANY_LEN));
+   \   0000000E   144A               LDR      R2,??OpenFolger_1  ;; 0xffff
+   \   00000010   0500               MOVS     R5,R0
+   \   00000012   0021               MOVS     R1,#+0
+   \   00000014   2000               MOVS     R0,R4
+   \   00000016   ........           _BLF     TextID_Create,??TextID_Create??rT
+   \   0000001A   0100               MOVS     R1,R0
+   \   0000001C   2800               MOVS     R0,R5
+   \   0000001E   ........           _BLF     DataBrowserDesc_SetHeaderText,??DataBrowserDesc_SetHeaderText??rT
+     75            DataBrowserDesc_SetFolders(Folder_Desc,path);
+   \   00000022   6946               MOV      R1,SP
+   \   00000024   2800               MOVS     R0,R5
+   \   00000026   ........           _BLF     DataBrowserDesc_SetFolders,??DataBrowserDesc_SetFolders??rT
+     76            DataBrowserDesc_SetFoldersNumber(Folder_Desc,1);
+   \   0000002A   0121               MOVS     R1,#+1
+   \   0000002C   2800               MOVS     R0,R5
+   \   0000002E   ........           _BLF     DataBrowserDesc_SetFoldersNumber,??DataBrowserDesc_SetFoldersNumber??rT
+     77            DataBrowserDesc_SetSelectAction(Folder_Desc,0);
+   \   00000032   0021               MOVS     R1,#+0
+   \   00000034   2800               MOVS     R0,R5
+   \   00000036   ........           _BLF     DataBrowserDesc_SetSelectAction,??DataBrowserDesc_SetSelectAction??rT
+     78            DataBrowserDesc_Menu_AddFSFunctions(Folder_Desc, 0);
+   \   0000003A   0021               MOVS     R1,#+0
+   \   0000003C   2800               MOVS     R0,R5
+   \   0000003E   ........           _BLF     DataBrowserDesc_Menu_AddFSFunctions,??DataBrowserDesc_Menu_AddFSFunctions??rT
+     79            DataBrowserDesc_Menu_AddNewFolder(Folder_Desc, 1);
+   \   00000042   0121               MOVS     R1,#+1
+   \   00000044   2800               MOVS     R0,R5
+   \   00000046   ........           _BLF     DataBrowserDesc_Menu_AddNewFolder,??DataBrowserDesc_Menu_AddNewFolder??rT
+     80            DataBrowserDesc_Menu_AddMarkFiles(Folder_Desc, 1);
+   \   0000004A   0121               MOVS     R1,#+1
+   \   0000004C   2800               MOVS     R0,R5
+   \   0000004E   ........           _BLF     DataBrowserDesc_Menu_AddMarkFiles,??DataBrowserDesc_Menu_AddMarkFiles??rT
+     81            DataBrowser_Create(Folder_Desc);
+   \   00000052   2800               MOVS     R0,R5
+   \   00000054   ........           _BLF     DataBrowser_Create,??DataBrowser_Create??rT
+     82            DataBrowserDesc_Destroy(Folder_Desc);
+   \   00000058   2800               MOVS     R0,R5
+   \   0000005A   ........           _BLF     DataBrowserDesc_Destroy,??DataBrowserDesc_Destroy??rT
+     83          }
+   \   0000005E   3CBD               POP      {R2-R5,PC}       ;; return
+   \                     ??OpenFolger_1:
+   \   00000060   FFFF0000           DC32     0xffff
+     84          
+
+   \                                 In segment CODE, align 4, keep-with-next
+     85          void RunShortcut(SHORTCUT *Shortcut)
+     86          {
+   \                     ??RunShortcut:
+   \   00000000   00B5               PUSH     {LR}
+     87            switch(Shortcut->Type)
+   \   00000002   4168               LDR      R1,[R0, #+4]
+   \   00000004   0078               LDRB     R0,[R0, #+0]
+   \   00000006   0428               CMP      R0,#+4
+   \   00000008   18D8               BHI      ??RunShortcut_2
+   \   0000000A   01A2               ADR      R2,??RunShortcut_1
+   \   0000000C   125C               LDRB     R2,[R2, R0]
+   \   0000000E   9744               ADD      PC,PC,R2
+   \                     ??RunShortcut_1:
+   \   00000010   040C141C           DC8      +4,+12,+20,+28
+   \   00000014   2400               DC8      +36,+0
+     88            {
+     89            case TYPE_SHORTCUT:
+     90              Shortcut_Run(Shortcut->sData);
+   \                     ??RunShortcut_3:
+   \   00000016   0800               MOVS     R0,R1
+   \   00000018   ........           _BLF     Shortcut_Run,??Shortcut_Run??rT
+   \   0000001C   00BD               POP      {PC}
+     91              break;
+     92            case TYPE_JAVA:
+     93              StartJava_ByName(Shortcut->sData);
+   \                     ??RunShortcut_4:
+   \   0000001E   0800               MOVS     R0,R1
+   \   00000020   ........           BL       ??StartJava_ByName
+   \   00000024   00BD               POP      {PC}
+     94              break;
+     95            case TYPE_ELF:
+     96              StartElf(Shortcut->sData);
+   \                     ??RunShortcut_5:
+   \   00000026   0800               MOVS     R0,R1
+   \   00000028   ........           BLX      ??StartElf
+   \   0000002C   00BD               POP      {PC}
+     97              break;
+     98            case TYPE_EVENT:
+     99              ExecuteEvent(Shortcut->sData);
+   \                     ??RunShortcut_6:
+   \   0000002E   0800               MOVS     R0,R1
+   \   00000030   ........           BL       ??ExecuteEvent
+   \   00000034   00BD               POP      {PC}
+    100              break;
+    101            case TYPE_FOLDER:
+    102              OpenFolger(Shortcut->sData);
+   \                     ??RunShortcut_7:
+   \   00000036   0800               MOVS     R0,R1
+   \   00000038   ........           BL       ??OpenFolger
+    103              break;
+    104            }
+    105          }
+   \                     ??RunShortcut_2:
+   \   0000003C   00BD               POP      {PC}             ;; return
+    106          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    107          int ItemFilter(void* elem)
+    108          {
+    109            return(elem != NULL);
+   \                     ??ItemFilter:
+   \   00000000   0028               CMP      R0,#+0
+   \   00000002   00D0               BEQ      ??ItemFilter_1
+   \   00000004   0120               MOVS     R0,#+1
+   \                     ??ItemFilter_1:
+   \   00000006   7047               BX       LR
+    110          }
+    111          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    112          void FreeList(LIST* &List, void (*FreeProc)(void *Item))
+    113          {
+   \                     ??FreeList:
+   \   00000000   10B5               PUSH     {R4,LR}
+   \   00000002   0400               MOVS     R4,R0
+    114            if (List)
+   \   00000004   2068               LDR      R0,[R4, #+0]
+   \   00000006   0028               CMP      R0,#+0
+   \   00000008   06D0               BEQ      ??FreeList_1
+    115            {
+    116              List_DestroyElements(List, ItemFilter, FreeProc);
+   \   0000000A   0A00               MOVS     R2,R1
+   \   0000000C   0349               LDR      R1,??FreeList_2  ;; ??ItemFilter
+   \   0000000E   ........           _BLF     List_DestroyElements,??List_DestroyElements??rT
+    117              List_Destroy(List);
+   \   00000012   2068               LDR      R0,[R4, #+0]
+   \   00000014   ........           _BLF     List_Destroy,??List_Destroy??rT
+    118            }
+    119          }
+   \                     ??FreeList_1:
+   \   00000018   10BD               POP      {R4,PC}          ;; return
+   \   0000001A   C046               Nop      
+   \                     ??FreeList_2:
+   \   0000001C   ........           DC32     ??ItemFilter
+    120          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    121          void JavaFree(void* item)
+    122          {
+   \                     ??JavaFree:
+   \   00000000   10B5               PUSH     {R4,LR}
+   \   00000002   0400               MOVS     R4,R0
+    123            JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)item;
+    124            if(elem)
+   \   00000004   0DD0               BEQ      ??JavaFree_1
+    125            {
+    126              StringFree(elem->Name);
+   \   00000006   2068               LDR      R0,[R4, #+0]
+   \   00000008   ........           _BLF     ??StringFree,??StringFree??rT
+    127              StringFree(elem->Fullpath);
+   \   0000000C   6068               LDR      R0,[R4, #+4]
+   \   0000000E   ........           _BLF     ??StringFree,??StringFree??rT
+    128              if (elem->ImageID) ImageID_Free(elem->ImageID);
+   \   00000012   2089               LDRH     R0,[R4, #+8]
+   \   00000014   0028               CMP      R0,#+0
+   \   00000016   01D0               BEQ      ??JavaFree_2
+   \   00000018   ........           _BLF     ImageID_Free,??ImageID_Free??rT
+    129              mfree(elem);
+   \                     ??JavaFree_2:
+   \   0000001C   2000               MOVS     R0,R4
+   \   0000001E   ........           _BLF     ??mfree,??mfree??rT
+    130            }
+    131          }
+   \                     ??JavaFree_1:
+   \   00000022   10BD               POP      {R4,PC}          ;; return
+    132          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    133          JAVA_LIST_ELEM* CreateElem(void* JavaDesc)
+    134          {
+   \                     ??CreateElem:
+   \   00000000   30B5               PUSH     {R4,R5,LR}
+   \   00000002   0400               MOVS     R4,R0
+    135            JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)malloc(sizeof(JAVA_LIST_ELEM));
+   \   00000004   0C20               MOVS     R0,#+12
+   \   00000006   ........           _BLF     ??malloc,??malloc??rT
+   \   0000000A   0500               MOVS     R5,R0
+    136            JavaAppDesc_GetJavaAppInfo(JavaDesc, 0, &elem->Name);
+   \   0000000C   2A00               MOVS     R2,R5
+   \   0000000E   0021               MOVS     R1,#+0
+   \   00000010   2000               MOVS     R0,R4
+   \   00000012   ........           _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+    137            JavaAppDesc_GetJavaAppInfo(JavaDesc, 5, &elem->Fullpath);
+   \   00000016   2A1D               ADDS     R2,R5,#+4
+   \   00000018   0521               MOVS     R1,#+5
+   \   0000001A   2000               MOVS     R0,R4
+   \   0000001C   ........           _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+    138            JavaApp_LogoImageID_Get(elem->Fullpath, &elem->ImageID);
+   \   00000020   6868               LDR      R0,[R5, #+4]
+   \   00000022   2900               MOVS     R1,R5
+   \   00000024   0831               ADDS     R1,R1,#+8
+   \   00000026   ........           _BLF     JavaApp_LogoImageID_Get,??JavaApp_LogoImageID_Get??rT
+    139            return(elem);
+   \   0000002A   2800               MOVS     R0,R5
+   \   0000002C   30BD               POP      {R4,R5,PC}       ;; return
+    140          }
+    141          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    142          LIST* Create_JavaList()
+    143          {
+   \                     ??Create_JavaList:
+   \   00000000   17B5               PUSH     {R0-R2,R4,LR}
+    144            LIST* java_list = List_Create();
+   \   00000002   ........           _BLF     List_Create,??List_Create??rT
+   \   00000006   0400               MOVS     R4,R0
+    145            
+    146            char sp1;
+    147            wchar_t* sp;
+    148            void* JavaDesc;
+    149            JavaDialog_Open(0, &sp1, &JavaDesc);
+   \   00000008   6A46               MOV      R2,SP
+   \   0000000A   02A9               ADD      R1,SP,#+8
+   \   0000000C   0020               MOVS     R0,#+0
+   \   0000000E   ........           _BLF     JavaDialog_Open,??JavaDialog_Open??rT
+    150            
+    151            if (!JavaAppDesc_GetFirstApp(JavaDesc))
+   \   00000012   0098               LDR      R0,[SP, #+0]
+   \   00000014   ........           _BLF     JavaAppDesc_GetFirstApp,??JavaAppDesc_GetFirstApp??rT
+   \   00000018   0028               CMP      R0,#+0
+   \   0000001A   17D1               BNE      ??Create_JavaList_1
+    152            {
+    153              int result = 0;
+    154              while (!result)
+    155              {
+    156                JavaAppDesc_GetJavaAppInfo(JavaDesc, 6, &sp);
+   \                     ??Create_JavaList_2:
+   \   0000001C   0098               LDR      R0,[SP, #+0]
+   \   0000001E   01AA               ADD      R2,SP,#+4
+   \   00000020   0621               MOVS     R1,#+6
+   \   00000022   ........           _BLF     JavaAppDesc_GetJavaAppInfo,??JavaAppDesc_GetJavaAppInfo??rT
+    157                if (sp[0])
+   \   00000026   0198               LDR      R0,[SP, #+4]
+   \   00000028   0088               LDRH     R0,[R0, #+0]
+   \   0000002A   0028               CMP      R0,#+0
+   \   0000002C   06D0               BEQ      ??Create_JavaList_3
+    158                {
+    159                  List_InsertLast(java_list, CreateElem(JavaDesc));
+   \   0000002E   0098               LDR      R0,[SP, #+0]
+   \   00000030   ........           BL       ??CreateElem
+   \   00000034   0100               MOVS     R1,R0
+   \   00000036   2000               MOVS     R0,R4
+   \   00000038   ........           _BLF     List_InsertLast,??List_InsertLast??rT
+    160                }
+    161                StringFree(sp);
+   \                     ??Create_JavaList_3:
+   \   0000003C   0198               LDR      R0,[SP, #+4]
+   \   0000003E   ........           _BLF     ??StringFree,??StringFree??rT
+    162                result = JavaAppDesc_GetNextApp(JavaDesc);
+    163              }
+   \   00000042   0098               LDR      R0,[SP, #+0]
+   \   00000044   ........           _BLF     JavaAppDesc_GetNextApp,??JavaAppDesc_GetNextApp??rT
+   \   00000048   0028               CMP      R0,#+0
+   \   0000004A   E7D0               BEQ      ??Create_JavaList_2
+    164            }
+    165            JavaDialog_Close(sp1);
+   \                     ??Create_JavaList_1:
+   \   0000004C   6846               MOV      R0,SP
+   \   0000004E   007A               LDRB     R0,[R0, #+8]
+   \   00000050   ........           _BLF     JavaDialog_Close,??JavaDialog_Close??rT
+    166            return java_list;
+   \   00000054   2000               MOVS     R0,R4
+   \   00000056   1EBD               POP      {R1-R4,PC}       ;; return
+    167          }
+    168          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    169          void SaveConfig(LIST *List)
+    170          {
+   \                     ??SaveConfig:
+   \   00000000   F3B5               PUSH     {R0,R1,R4-R7,LR}
+    171            int File;
+    172            
+    173            if ((File = _fopen(F_PATH, F_NAME, FSX_O_TRUNC|FSX_O_RDWR, FSX_S_IRUSR|FSX_S_IWUSR, 0)) >= 0)
+   \   00000002   ....               LDR      R1,??DataTable3  ;; `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+   \   00000004   0500               MOVS     R5,R0
+   \   00000006   0020               MOVS     R0,#+0
+   \   00000008   01B4               PUSH     {R0}
+   \   0000000A   ....               LDR      R0,??DataTable2  ;; 0x15a86e38
+   \   0000000C   C023               MOVS     R3,#+192
+   \   0000000E   5B00               LSLS     R3,R3,#+1
+   \   00000010   8122               MOVS     R2,#+129
+   \   00000012   9200               LSLS     R2,R2,#+2
+   \   00000014   ........           _BLF     _fopen,??_fopen??rT
+   \   00000018   0400               MOVS     R4,R0
+   \   0000001A   01B0               ADD      SP,SP,#+4
+   \   0000001C   3AD4               BMI      ??SaveConfig_1
+    174            {
+    175              int CaptionLen = 0;
+   \   0000001E   0026               MOVS     R6,#+0
+   \   00000020   0096               STR      R6,[SP, #+0]
+    176              int sDataLen = 0;
+   \   00000022   0196               STR      R6,[SP, #+4]
+    177              
+    178              fwrite(File, &List->FirstFree, sizeof(u16));
+   \   00000024   0222               MOVS     R2,#+2
+   \   00000026   A91C               ADDS     R1,R5,#+2
+   \   00000028   2CE0               B.N      ??SaveConfig_2
+    179              
+    180              int i;
+    181              for (i = 0; i < List->FirstFree; i++)
+    182              {
+    183                SHORTCUT* Shortcut = (SHORTCUT*)List_Get(List, i);
+   \                     ??SaveConfig_3:
+   \   0000002A   3100               MOVS     R1,R6
+   \   0000002C   2800               MOVS     R0,R5
+   \   0000002E   ........           _BLF     List_Get,??List_Get??rT
+   \   00000032   0700               MOVS     R7,R0
+    184                fwrite(File, &Shortcut->Type, sizeof(char));
+   \   00000034   0122               MOVS     R2,#+1
+   \   00000036   3900               MOVS     R1,R7
+   \   00000038   2000               MOVS     R0,R4
+   \   0000003A   ........           _BLF     fwrite,??fwrite??rT
+    185                sDataLen = StringLength(Shortcut->sData);
+   \   0000003E   7868               LDR      R0,[R7, #+4]
+    186                fwrite(File, &sDataLen, sizeof(int));
+    187                fwrite(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
+    188                CaptionLen = StringLength(Shortcut->Caption);
+    189                fwrite(File, &CaptionLen, sizeof(int));
+    190                fwrite(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
+    191                fwrite(File, &Shortcut->Icon, sizeof(IMAGEID));
+    192              }
+   \   00000040   761C               ADDS     R6,R6,#+1
+   \   00000042   ........           _BLF     ??StringLength,??StringLength??rT
+   \   00000046   0190               STR      R0,[SP, #+4]
+   \   00000048   0422               MOVS     R2,#+4
+   \   0000004A   01A9               ADD      R1,SP,#+4
+   \   0000004C   2000               MOVS     R0,R4
+   \   0000004E   ........           _BLF     fwrite,??fwrite??rT
+   \   00000052   0198               LDR      R0,[SP, #+4]
+   \   00000054   7968               LDR      R1,[R7, #+4]
+   \   00000056   4200               LSLS     R2,R0,#+1
+   \   00000058   2000               MOVS     R0,R4
+   \   0000005A   ........           _BLF     fwrite,??fwrite??rT
+   \   0000005E   B868               LDR      R0,[R7, #+8]
+   \   00000060   ........           _BLF     ??StringLength,??StringLength??rT
+   \   00000064   0090               STR      R0,[SP, #+0]
+   \   00000066   0422               MOVS     R2,#+4
+   \   00000068   6946               MOV      R1,SP
+   \   0000006A   2000               MOVS     R0,R4
+   \   0000006C   ........           _BLF     fwrite,??fwrite??rT
+   \   00000070   0098               LDR      R0,[SP, #+0]
+   \   00000072   B968               LDR      R1,[R7, #+8]
+   \   00000074   4200               LSLS     R2,R0,#+1
+   \   00000076   2000               MOVS     R0,R4
+   \   00000078   ........           _BLF     fwrite,??fwrite??rT
+   \   0000007C   0222               MOVS     R2,#+2
+   \   0000007E   0C37               ADDS     R7,R7,#+12
+   \   00000080   3900               MOVS     R1,R7
+   \   00000082   2000               MOVS     R0,R4
+   \                     ??SaveConfig_2:
+   \   00000084   ........           _BLF     fwrite,??fwrite??rT
+   \   00000088   6888               LDRH     R0,[R5, #+2]
+   \   0000008A   8642               CMP      R6,R0
+   \   0000008C   CDDB               BLT      ??SaveConfig_3
+    193              fclose(File);
+   \   0000008E   2000               MOVS     R0,R4
+   \   00000090   ........           _BLF     fclose,??fclose??rT
+    194            }
+    195          }
+   \                     ??SaveConfig_1:
+   \   00000094   FCBD               POP      {R2-R7,PC}       ;; return
+    196          
+
+   \                                 In segment CODE, align 4, keep-with-next
+    197          LIST* LoadConfig()
+    198          {
+   \                     ??LoadConfig:
+   \   00000000   F0B5               PUSH     {R4-R7,LR}
+    199            LIST* Ret = List_Create();
+    200            int File = NULL;
+    201            
+    202            FSTAT _fstat;
+    203            if ((fstat(F_PATH, F_NAME, &_fstat)) >= 0)
+   \   00000002   ....               LDR      R5,??DataTable2  ;; 0x15a86e38
+   \   00000004   ....               LDR      R6,??DataTable3  ;; `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+   \   00000006   8AB0               SUB      SP,SP,#+40
+   \   00000008   ........           _BLF     List_Create,??List_Create??rT
+   \   0000000C   0400               MOVS     R4,R0
+   \   0000000E   03AA               ADD      R2,SP,#+12
+   \   00000010   3100               MOVS     R1,R6
+   \   00000012   2800               MOVS     R0,R5
+   \   00000014   ........           _BLF     fstat,??fstat??rT
+   \   00000018   0028               CMP      R0,#+0
+   \   0000001A   4CD4               BMI      ??LoadConfig_1
+    204            {
+    205              if ((File = _fopen(F_PATH, F_NAME, FSX_O_RDONLY, FSX_S_IRUSR|FSX_S_IWUSR, 0)) >= 0)
+   \   0000001C   0020               MOVS     R0,#+0
+   \   0000001E   01B4               PUSH     {R0}
+   \   00000020   C023               MOVS     R3,#+192
+   \   00000022   5B00               LSLS     R3,R3,#+1
+   \   00000024   0122               MOVS     R2,#+1
+   \   00000026   3100               MOVS     R1,R6
+   \   00000028   2800               MOVS     R0,R5
+   \   0000002A   ........           _BLF     _fopen,??_fopen??rT
+   \   0000002E   0600               MOVS     R6,R0
+   \   00000030   01B0               ADD      SP,SP,#+4
+   \   00000032   40D4               BMI      ??LoadConfig_1
+    206              {
+    207                int CaptionLen = 0;
+   \   00000034   0025               MOVS     R5,#+0
+   \   00000036   0095               STR      R5,[SP, #+0]
+    208                int sDataLen = 0;
+   \   00000038   0195               STR      R5,[SP, #+4]
+    209                u16 Count;
+    210                
+    211                fread(File, &Count, sizeof(u16));
+   \   0000003A   0222               MOVS     R2,#+2
+   \   0000003C   02A9               ADD      R1,SP,#+8
+   \   0000003E   ........           _BLF     fread,??fread??rT
+    212                
+    213                int i = 0;
+   \   00000042   31E0               B        ??LoadConfig_2
+    214                while(/*Ret->FirstFree*/ i < Count)
+    215                {
+    216                  SHORTCUT* Shortcut = (SHORTCUT*)malloc(sizeof(SHORTCUT));
+   \                     ??LoadConfig_3:
+   \   00000044   1020               MOVS     R0,#+16
+   \   00000046   ........           _BLF     ??malloc,??malloc??rT
+   \   0000004A   0700               MOVS     R7,R0
+    217                  fread(File, &Shortcut->Type, sizeof(char));
+   \   0000004C   0122               MOVS     R2,#+1
+   \   0000004E   3900               MOVS     R1,R7
+   \   00000050   3000               MOVS     R0,R6
+   \   00000052   ........           _BLF     fread,??fread??rT
+    218                  fread(File, &sDataLen, sizeof(int));
+   \   00000056   0422               MOVS     R2,#+4
+   \   00000058   01A9               ADD      R1,SP,#+4
+   \   0000005A   3000               MOVS     R0,R6
+   \   0000005C   ........           _BLF     fread,??fread??rT
+    219                  Shortcut->sData = StringAlloc(sDataLen);
+   \   00000060   0198               LDR      R0,[SP, #+4]
+    220                  fread(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
+    221                  fread(File, &CaptionLen, sizeof(int));
+    222                  Shortcut->Caption = StringAlloc(CaptionLen);
+    223                  fread(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
+    224                  fread(File, &Shortcut->Icon, sizeof(IMAGEID));
+    225                  List_InsertLast(Ret, Shortcut);
+    226                  i++;
+   \   00000062   6D1C               ADDS     R5,R5,#+1
+   \   00000064   ........           _BLF     ??StringAlloc,??StringAlloc??rT
+   \   00000068   7860               STR      R0,[R7, #+4]
+   \   0000006A   0198               LDR      R0,[SP, #+4]
+   \   0000006C   7968               LDR      R1,[R7, #+4]
+   \   0000006E   4200               LSLS     R2,R0,#+1
+   \   00000070   3000               MOVS     R0,R6
+   \   00000072   ........           _BLF     fread,??fread??rT
+   \   00000076   0422               MOVS     R2,#+4
+   \   00000078   6946               MOV      R1,SP
+   \   0000007A   3000               MOVS     R0,R6
+   \   0000007C   ........           _BLF     fread,??fread??rT
+   \   00000080   0098               LDR      R0,[SP, #+0]
+   \   00000082   ........           _BLF     ??StringAlloc,??StringAlloc??rT
+   \   00000086   B860               STR      R0,[R7, #+8]
+   \   00000088   0098               LDR      R0,[SP, #+0]
+   \   0000008A   B968               LDR      R1,[R7, #+8]
+   \   0000008C   4200               LSLS     R2,R0,#+1
+   \   0000008E   3000               MOVS     R0,R6
+   \   00000090   ........           _BLF     fread,??fread??rT
+   \   00000094   0222               MOVS     R2,#+2
+   \   00000096   3900               MOVS     R1,R7
+   \   00000098   0C31               ADDS     R1,R1,#+12
+   \   0000009A   3000               MOVS     R0,R6
+   \   0000009C   ........           _BLF     fread,??fread??rT
+   \   000000A0   3900               MOVS     R1,R7
+   \   000000A2   2000               MOVS     R0,R4
+   \   000000A4   ........           _BLF     List_InsertLast,??List_InsertLast??rT
+    227                }
+   \                     ??LoadConfig_2:
+   \   000000A8   6846               MOV      R0,SP
+   \   000000AA   0089               LDRH     R0,[R0, #+8]
+   \   000000AC   8542               CMP      R5,R0
+   \   000000AE   C9DB               BLT      ??LoadConfig_3
+    228                fclose(File);
+   \   000000B0   3000               MOVS     R0,R6
+   \   000000B2   ........           _BLF     fclose,??fclose??rT
+    229              }
+    230            }
+    231            return(Ret);
+   \                     ??LoadConfig_1:
+   \   000000B6   2000               MOVS     R0,R4
+   \   000000B8   0AB0               ADD      SP,SP,#+40
+   \   000000BA   F0BD               POP      {R4-R7,PC}       ;; return
+    232          }
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable2:
+   \   00000000   386EA815           DC32     0x15a86e38
+
+   \                                 In segment CODE, align 4, keep-with-next
+   \                     ??DataTable3:
+   \   00000000   ........           DC32     `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`
+
+   \                                 In segment DATA_C, align 4, align-sorted
+   \                     `?<Constant L"\\x73\\x63\\x2e\\x62\\x69\\x6e">`:
+   \   00000000   730063002E00       DC8 73H, 0, 63H, 0, 2EH, 0, 62H, 0
+   \              6200        
+   \   00000008   69006E000000       DC8 69H, 0, 6EH, 0, 0, 0
+   \   0000000E   0000               DC8 0, 0
+
+   Maximum stack usage in bytes:
+
+     Function                       CSTACK
+     --------                       ------
+     CreateElem(void *)                12
+     Create_JavaList()                 20
+     ExecuteEvent(wchar_t *)            8
+     FreeList(LIST *&, void (*)(void *))
+                                        8
+     ItemFilter(void *)                 4
+     JavaFree(void *)                   8
+     LoadConfig()                      64
+     OpenFolger(wchar_t *)             20
+     RunShortcut(SHORTCUT *)            4
+     SHORTCUT_DESC_A2_Init(wchar_t *)
+                                       12
+     SaveConfig(LIST *)                32
+     StartElf(wchar_t *)                4
+     StartJava_ByName(wchar_t *)       28
+
+
+   Segment part sizes:
+
+     Function/Label                 Bytes
+     --------------                 -----
+     StartElf(wchar_t *)              24
+     SHORTCUT_DESC_A2_Init(wchar_t *)
+                                      64
+     StartJava_ByName(wchar_t *)     100
+     ExecuteEvent(wchar_t *)          22
+     OpenFolger(wchar_t *)           100
+     RunShortcut(SHORTCUT *)          62
+     ItemFilter(void *)                8
+     FreeList(LIST *&, void (*)(void *))
+                                      32
+     JavaFree(void *)                 36
+     CreateElem(void *)               46
+     Create_JavaList()                88
+     SaveConfig(LIST *)              150
+     LoadConfig()                    188
+     ??DataTable2                      4
+     ??DataTable3                      4
+     ?<Constant L"\x73\x63\x2e\x62\x69\x6e">
+                                      16
+      Others                         444
+
+ 
+ 1 372 bytes in segment CODE
+    16 bytes in segment DATA_C
+ 
+ 928 bytes of CODE  memory (+ 444 bytes shared)
+  16 bytes of CONST memory
+
+Errors: none
+Warnings: none

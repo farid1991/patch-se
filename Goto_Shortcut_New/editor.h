@@ -32,7 +32,7 @@ const IMAGEID EditorIcons[2] =
 #define EDITOR_SELECTFOLDER_BASEPAGE_NAME "SC_Editor_SelectFolder_Page"
 
 void EditorRun( BOOK* book, int mode );
-int UpdateEditor( void* data, BOOK* book );
+int pg_SC_Editor_Main_AcceptAction( void* data, BOOK* book );
 
 #define FREE_JAVAGUI( gui, list, free ) FreeList(list, free); \
   FREE_GUI( gui );

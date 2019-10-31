@@ -128,14 +128,15 @@ void Menu_Select(BOOK* book, GUI* gui)
 
 void Menu_Exit(BOOK* book, GUI* gui)
 {
-  FreeBook(book);
+  GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+  FreeBook(mbk);
 }
 
 int Menu_Callback(GUI_MESSAGE* msg)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book*)GUIonMessage_GetBook(msg);
   int count = List_GetCount(mbk->Items);
-  if (!count) return FALSE;
+  if (!count) return 0;
     
   switch(GUIonMessage_GetMsg(msg))
   {
@@ -150,7 +151,7 @@ int Menu_Callback(GUI_MESSAGE* msg)
   return 1;
 }
 
-int CreateMainPage(void* data, BOOK* book)
+int pg_Goto_Shortcut_EnterAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->MainMenu);
@@ -183,23 +184,26 @@ int CreateMainPage(void* data, BOOK* book)
   return 1;
 };
 
-int Cancel_BasePage(void* data, BOOK* book)
+int pg_Goto_Shortcut_CancelAction(void* data, BOOK* book)
 {
-  FreeBook(book);
+  GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+  FREE_GUI(mbk->MainMenu);
+  FreeBook(mbk);
   return 1;
 }
 
 const PAGE_MSG bk_msglst_base[] = 
 {
-  CANCEL_EVENT,            Cancel_BasePage,
-  RETURN_TO_STANDBY_EVENT, Cancel_BasePage,
+  CANCEL_EVENT,            pg_Goto_Shortcut_CancelAction,
+  RETURN_TO_STANDBY_EVENT, pg_Goto_Shortcut_CancelAction,
   NIL_EVENT,               NULL
 };
 const PAGE_DESC Goto_Shortcut_Base_Page = {BASE_PAGE_NAME,NULL,bk_msglst_base};
 
 const PAGE_MSG bk_msglst_main[] = 
 {
-  PAGE_ENTER_EVENT,  CreateMainPage,
+  PAGE_ENTER_EVENT,  pg_Goto_Shortcut_EnterAction,
+  PAGE_EXIT_EVENT,   pg_Goto_Shortcut_EnterAction,
   ACCEPT_EVENT,      UpdateMainPage,
   NIL_EVENT,         NULL
 };

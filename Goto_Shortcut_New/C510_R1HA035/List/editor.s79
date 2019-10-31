@@ -1,0 +1,4339 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   01/Nov/2019  02:23:03 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\editor.c       /
+//    Command line    =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\editor.c -D    /
+//                       NDEBUG -D A2 -D DB3210 -D C510_R1HA035              /
+//                       --preprocess=cl E:\SE\Port\elf2vkp\Goto_Shortcut_Ne /
+//                       w\C510_R1HA035\List\ -lC                            /
+//                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1HA035\L /
+//                       ist\ -lA E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_ /
+//                       R1HA035\List\ -o E:\SE\Port\elf2vkp\Goto_Shortcut_N /
+//                       ew\C510_R1HA035\Obj\ -z9 --debug --cpu_mode thumb   /
+//                       --endian little --cpu ARM926EJ-S --stack_align 4    /
+//                       --interwork -e --enable_multibytes --fpu None       /
+//                       --eec++ --preinclude E:\SE\Port\elf2vkp\Goto_Shortc /
+//                       ut_New\Target\C510_R1HA035.h -I "E:\SE\Embedded     /
+//                       Workbench 4.0 Evaluation\ARM\INC\"                  /
+//                       --inline_threshold=2                                /
+//    List file       =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\C510_R1HA035\L /
+//                       ist\editor.s79                                      /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME editor
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??AcceptShortcut
+        FUNCTION ??AcceptShortcut,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??AcceptShortcut??rA
+        PUBLIC ??Action_Back
+        FUNCTION ??Action_Back,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??Action_Back??rA
+        MULTWEAK ??BookObj_CallPage??rT
+        MULTWEAK ??BookObj_GetBookID??rT
+        MULTWEAK ??BookObj_GotoPage??rT
+        MULTWEAK ??BookObj_ReturnPage??rT
+        MULTWEAK ??BookObj_SoftKeys_SetAction??rT
+        MULTWEAK ??BookObj_SoftKeys_SetText??rT
+        PUBLIC ??Cancel_MainMenu_DB
+        FUNCTION ??Cancel_MainMenu_DB,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??Cancel_MainMenu_DB??rA
+        PUBLIC ??CloseEditorMenu
+        FUNCTION ??CloseEditorMenu,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??CloseEditorMenu??rA
+        PUBLIC ??CloseJavaList
+        FUNCTION ??CloseJavaList,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??CloseJavaList??rA
+        PUBLIC ??CreateDataBrowser
+        FUNCTION ??CreateDataBrowser,0603H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??CreateDataBrowser??rA
+        MULTWEAK ??CreateFileFolderSelect??rT
+        PUBLIC ??CreateJavaList
+        FUNCTION ??CreateJavaList,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??CreateJavaList??rA
+        MULTWEAK ??CreateListMenu??rT
+        PUBLIC ??CreateMainMenu
+        FUNCTION ??CreateMainMenu,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??CreateMainMenu??rA
+        MULTWEAK ??CreateStringInput??rT
+        MULTWEAK ??Create_JavaList??rT
+        PUBLIC ??DB_Filter
+        FUNCTION ??DB_Filter,0603H
+        LOCFRAME CSTACK, 40, STACK
+        MULTWEAK ??DB_Filter??rA
+        MULTWEAK ??DataBrowserDesc_Create??rT
+        MULTWEAK ??DataBrowserDesc_Destroy??rT
+        MULTWEAK ??DataBrowserDesc_SetBookID??rT
+        MULTWEAK ??DataBrowserDesc_SetFileExtList??rT
+        MULTWEAK ??DataBrowserDesc_SetFolders??rT
+        MULTWEAK ??DataBrowserDesc_SetFoldersNumber??rT
+        MULTWEAK ??DataBrowserDesc_SetHeaderText??rT
+        MULTWEAK ??DataBrowserDesc_SetItemFilter??rT
+        MULTWEAK ??DataBrowserDesc_SetSelectAction??rT
+        MULTWEAK ??DataBrowser_Create??rT
+        MULTWEAK ??DataBrowser_isFileInListExt??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable5 EQU 0
+??DataTable6 EQU 0
+??DataTable9 EQU 0
+        PUBLIC ??EditorRun
+        FUNCTION ??EditorRun,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??EditorRun??rA
+        PUBLIC ??Editor_onBack
+        FUNCTION ??Editor_onBack,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Editor_onBack??rA
+        PUBLIC ??Editor_onMessage
+        FUNCTION ??Editor_onMessage,0603H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??Editor_onMessage??rA
+        PUBLIC ??Editor_onSelect
+        FUNCTION ??Editor_onSelect,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Editor_onSelect??rA
+        MULTWEAK ??FILEITEM_GetFname??rT
+        MULTWEAK ??FILEITEM_GetPath??rT
+        MULTWEAK ??FSX_MakeFullPath??rT
+        MULTWEAK ??FindBook??rT
+        MULTWEAK ??FreeBook??rT
+        MULTWEAK ??FreeList??rT
+        MULTWEAK ??GUIObject_Destroy??rT
+        MULTWEAK ??GUIObject_SetTitleText??rT
+        MULTWEAK ??GUIObject_Show??rT
+        MULTWEAK ??GUIObject_SoftKeys_SetAction??rT
+        MULTWEAK ??GUIObject_SoftKeys_SetActionAndText??rT
+        MULTWEAK ??GUIonMessage_GetBook??rT
+        MULTWEAK ??GUIonMessage_GetCreatedItemIndex??rT
+        MULTWEAK ??GUIonMessage_GetMsg??rT
+        MULTWEAK ??GUIonMessage_SetMenuItemIcon??rT
+        MULTWEAK ??GUIonMessage_SetMenuItemSecondLineText??rT
+        MULTWEAK ??GUIonMessage_SetMenuItemText??rT
+        PUBLIC ??Get_SCTypes_Text
+        FUNCTION ??Get_SCTypes_Text,0203H
+        LOCFRAME CSTACK, 28, STACK
+        MULTWEAK ??Get_SCTypes_Text??rA
+        PUBLIC ??JavaMenu_Callback
+        FUNCTION ??JavaMenu_Callback,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??JavaMenu_Callback??rA
+        PUBLIC ??JavaMenu_Ok
+        FUNCTION ??JavaMenu_Ok,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??JavaMenu_Ok??rA
+        MULTWEAK ??ListMenu_GetSelectedItem??rT
+        MULTWEAK ??ListMenu_SetCursorToItem??rT
+        MULTWEAK ??ListMenu_SetItemCount??rT
+        MULTWEAK ??ListMenu_SetItemStyle??rT
+        MULTWEAK ??ListMenu_SetOnMessage??rT
+        MULTWEAK ??List_Get??rT
+        MULTWEAK ??List_GetCount??rT
+        MULTWEAK ??List_InsertFirst??rT
+        MULTWEAK ??List_RemoveFirst??rT
+        MULTWEAK ??MenuBook_Desktop??rT
+        MULTWEAK ??MenuBook_Desktop_GetSelectedItemID??rT
+        PUBLIC ??Menu_SetMainMenu
+        FUNCTION ??Menu_SetMainMenu,0603H
+        LOCFRAME CSTACK, 60, STACK
+        MULTWEAK ??Menu_SetMainMenu??rA
+        PUBLIC ??Menu_SetShortcut
+        FUNCTION ??Menu_SetShortcut,0603H
+        LOCFRAME CSTACK, 144, STACK
+        MULTWEAK ??Menu_SetShortcut??rA
+        PUBLIC ??OnBackEventInput
+        FUNCTION ??OnBackEventInput,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??OnBackEventInput??rA
+        PUBLIC ??OnBackFolderInput
+        FUNCTION ??OnBackFolderInput,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??OnBackFolderInput??rA
+        PUBLIC ??OnOkCaptionInput
+        FUNCTION ??OnOkCaptionInput,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??OnOkCaptionInput??rA
+        PUBLIC ??OnOkEventInput
+        FUNCTION ??OnOkEventInput,0603H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??OnOkEventInput??rA
+        PUBLIC ??OnOkFolderInput
+        FUNCTION ??OnOkFolderInput,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??OnOkFolderInput??rA
+        MULTWEAK ??SHORTCUT_DESC_A2_Init??rT
+        PUBLIC ??SelFolder_Enter
+        FUNCTION ??SelFolder_Enter,0603H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??SelFolder_Enter??rA
+        PUBLIC ??Select_DB
+        FUNCTION ??Select_DB,0603H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??Select_DB??rA
+        MULTWEAK ??ShortcutFree??rT
+        MULTWEAK ??Shortcut_Get_MenuItemIconID??rT
+        MULTWEAK ??Shortcut_Get_MenuItemName??rT
+        MULTWEAK ??StringAlloc??rT
+        MULTWEAK ??StringExtractFileName??rT
+        MULTWEAK ??StringFree??rT
+        MULTWEAK ??StringInput_GetStringAndLen??rT
+        MULTWEAK ??StringInput_MenuItem_SetPriority??rT
+        MULTWEAK ??StringInput_SetActionBack??rT
+        MULTWEAK ??StringInput_SetActionOK??rT
+        MULTWEAK ??StringInput_SetEnableEmptyText??rT
+        MULTWEAK ??StringInput_SetMaxLen??rT
+        MULTWEAK ??StringInput_SetMinLen??rT
+        MULTWEAK ??StringInput_SetMode??rT
+        MULTWEAK ??StringInput_SetText??rT
+        MULTWEAK ??StringLength??rT
+        MULTWEAK ??StringRealloc??rT
+        MULTWEAK ??StringReallocEx??rT
+        MULTWEAK ??TextID_Create??rT
+        MULTWEAK ??TextID_GetWString??rT
+        PUBLIC ??TypesList_onMessage
+        FUNCTION ??TypesList_onMessage,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??TypesList_onMessage??rA
+        PUBLIC ??TypesList_onSelect
+        FUNCTION ??TypesList_onSelect,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??TypesList_onSelect??rA
+        MULTWEAK ??fstat??rT
+        MULTWEAK ??malloc??rT
+        MULTWEAK ??memset??rT
+        MULTWEAK ??mfree??rT
+        PUBLIC ??pg_SC_Editor_EventInput_EnterAction
+        FUNCTION ??pg_SC_Editor_EventInput_EnterAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_EventInput_EnterAction??rA
+        PUBLIC ??pg_SC_Editor_EventInput_ExitAction
+        FUNCTION ??pg_SC_Editor_EventInput_ExitAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_EventInput_ExitAction??rA
+        PUBLIC ??pg_SC_Editor_LabelInput_EnterAction
+        FUNCTION ??pg_SC_Editor_LabelInput_EnterAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_LabelInput_EnterAction??rA
+        PUBLIC ??pg_SC_Editor_LabelInput_ExitAction
+        FUNCTION ??pg_SC_Editor_LabelInput_ExitAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_LabelInput_ExitAction??rA
+        PUBLIC ??pg_SC_Editor_Main_AcceptAction
+        FUNCTION ??pg_SC_Editor_Main_AcceptAction,0603H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??pg_SC_Editor_Main_AcceptAction??rA
+        PUBLIC ??pg_SC_Editor_Main_EnterAction
+        FUNCTION ??pg_SC_Editor_Main_EnterAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_Main_EnterAction??rA
+        PUBLIC ??pg_SC_Editor_SelectFolder_EnterAction
+        FUNCTION ??pg_SC_Editor_SelectFolder_EnterAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_SelectFolder_EnterAction??rA
+        PUBLIC ??pg_SC_Editor_SelectFolder_ExitAction
+        FUNCTION ??pg_SC_Editor_SelectFolder_ExitAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_SelectFolder_ExitAction??rA
+        PUBLIC ??pg_SC_Editor_TypesList_EnterAction
+        FUNCTION ??pg_SC_Editor_TypesList_EnterAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_TypesList_EnterAction??rA
+        PUBLIC ??pg_SC_Editor_TypesList_ExitAction
+        FUNCTION ??pg_SC_Editor_TypesList_ExitAction,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??pg_SC_Editor_TypesList_ExitAction??rA
+        MULTWEAK ??wstr2h??rT
+        MULTWEAK ??wstrcpy??rT
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BookObj_CallPage    SYMBOL "BookObj_CallPage"
+BookObj_GetBookID   SYMBOL "BookObj_GetBookID"
+BookObj_GotoPage    SYMBOL "BookObj_GotoPage"
+BookObj_ReturnPage  SYMBOL "BookObj_ReturnPage"
+BookObj_SoftKeys_SetAction SYMBOL "BookObj_SoftKeys_SetAction"
+BookObj_SoftKeys_SetText SYMBOL "BookObj_SoftKeys_SetText"
+CreateListMenu      SYMBOL "CreateListMenu"
+CreateStringInput   SYMBOL "CreateStringInput"
+DataBrowserDesc_Create SYMBOL "DataBrowserDesc_Create"
+DataBrowserDesc_Destroy SYMBOL "DataBrowserDesc_Destroy"
+DataBrowserDesc_SetBookID SYMBOL "DataBrowserDesc_SetBookID"
+DataBrowserDesc_SetFileExtList SYMBOL "DataBrowserDesc_SetFileExtList"
+DataBrowserDesc_SetFolders SYMBOL "DataBrowserDesc_SetFolders"
+DataBrowserDesc_SetFoldersNumber SYMBOL "DataBrowserDesc_SetFoldersNumber"
+DataBrowserDesc_SetHeaderText SYMBOL "DataBrowserDesc_SetHeaderText"
+DataBrowserDesc_SetItemFilter SYMBOL "DataBrowserDesc_SetItemFilter"
+DataBrowserDesc_SetSelectAction SYMBOL "DataBrowserDesc_SetSelectAction"
+DataBrowser_Create  SYMBOL "DataBrowser_Create"
+DataBrowser_isFileInListExt SYMBOL "DataBrowser_isFileInListExt"
+FILEITEM_GetFname   SYMBOL "FILEITEM_GetFname"
+FILEITEM_GetPath    SYMBOL "FILEITEM_GetPath"
+FSX_MakeFullPath    SYMBOL "FSX_MakeFullPath"
+FindBook            SYMBOL "FindBook"
+FreeBook            SYMBOL "FreeBook"
+GUIObject_Destroy   SYMBOL "GUIObject_Destroy"
+GUIObject_SetTitleText SYMBOL "GUIObject_SetTitleText"
+GUIObject_Show      SYMBOL "GUIObject_Show"
+GUIObject_SoftKeys_SetAction SYMBOL "GUIObject_SoftKeys_SetAction"
+GUIObject_SoftKeys_SetActionAndText SYMBOL "GUIObject_SoftKeys_SetActionAndText"
+GUIonMessage_GetBook SYMBOL "GUIonMessage_GetBook"
+GUIonMessage_GetCreatedItemIndex SYMBOL "GUIonMessage_GetCreatedItemIndex"
+GUIonMessage_GetMsg SYMBOL "GUIonMessage_GetMsg"
+GUIonMessage_SetMenuItemIcon SYMBOL "GUIonMessage_SetMenuItemIcon"
+GUIonMessage_SetMenuItemSecondLineText SYMBOL "GUIonMessage_SetMenuItemSecondLineText"
+GUIonMessage_SetMenuItemText SYMBOL "GUIonMessage_SetMenuItemText"
+ListMenu_GetSelectedItem SYMBOL "ListMenu_GetSelectedItem"
+ListMenu_SetCursorToItem SYMBOL "ListMenu_SetCursorToItem"
+ListMenu_SetItemCount SYMBOL "ListMenu_SetItemCount"
+ListMenu_SetItemStyle SYMBOL "ListMenu_SetItemStyle"
+ListMenu_SetOnMessage SYMBOL "ListMenu_SetOnMessage"
+List_Get            SYMBOL "List_Get"
+List_GetCount       SYMBOL "List_GetCount"
+List_InsertFirst    SYMBOL "List_InsertFirst"
+List_RemoveFirst    SYMBOL "List_RemoveFirst"
+MenuBook_Desktop    SYMBOL "MenuBook_Desktop"
+MenuBook_Desktop_GetSelectedItemID SYMBOL "MenuBook_Desktop_GetSelectedItemID"
+Shortcut_Get_MenuItemIconID SYMBOL "Shortcut_Get_MenuItemIconID"
+Shortcut_Get_MenuItemName SYMBOL "Shortcut_Get_MenuItemName"
+StringInput_GetStringAndLen SYMBOL "StringInput_GetStringAndLen"
+StringInput_MenuItem_SetPriority SYMBOL "StringInput_MenuItem_SetPriority"
+StringInput_SetActionBack SYMBOL "StringInput_SetActionBack"
+StringInput_SetActionOK SYMBOL "StringInput_SetActionOK"
+StringInput_SetEnableEmptyText SYMBOL "StringInput_SetEnableEmptyText"
+StringInput_SetMaxLen SYMBOL "StringInput_SetMaxLen"
+StringInput_SetMinLen SYMBOL "StringInput_SetMinLen"
+StringInput_SetMode SYMBOL "StringInput_SetMode"
+StringInput_SetText SYMBOL "StringInput_SetText"
+TextID_Create       SYMBOL "TextID_Create"
+TextID_GetWString   SYMBOL "TextID_GetWString"
+fstat               SYMBOL "fstat"
+memset              SYMBOL "memset"
+wstrcpy             SYMBOL "wstrcpy"
+
+??AcceptShortcut??rA SYMBOL "??rA", ??AcceptShortcut
+
+??Action_Back??rA   SYMBOL "??rA", ??Action_Back
+??BookObj_CallPage??rT SYMBOL "??rT", BookObj_CallPage
+??BookObj_GetBookID??rT SYMBOL "??rT", BookObj_GetBookID
+??BookObj_GotoPage??rT SYMBOL "??rT", BookObj_GotoPage
+??BookObj_ReturnPage??rT SYMBOL "??rT", BookObj_ReturnPage
+??BookObj_SoftKeys_SetAction??rT SYMBOL "??rT", BookObj_SoftKeys_SetAction
+??BookObj_SoftKeys_SetText??rT SYMBOL "??rT", BookObj_SoftKeys_SetText
+
+??Cancel_MainMenu_DB??rA SYMBOL "??rA", ??Cancel_MainMenu_DB
+
+??CloseEditorMenu??rA SYMBOL "??rA", ??CloseEditorMenu
+
+??CloseJavaList??rA SYMBOL "??rA", ??CloseJavaList
+
+??CreateDataBrowser??rA SYMBOL "??rA", ??CreateDataBrowser
+??CreateFileFolderSelect??rT SYMBOL "??rT", ??CreateFileFolderSelect
+
+??CreateJavaList??rA SYMBOL "??rA", ??CreateJavaList
+??CreateListMenu??rT SYMBOL "??rT", CreateListMenu
+
+??CreateMainMenu??rA SYMBOL "??rA", ??CreateMainMenu
+??CreateStringInput??rT SYMBOL "??rT", CreateStringInput
+??Create_JavaList??rT SYMBOL "??rT", ??Create_JavaList
+
+??DB_Filter??rA     SYMBOL "??rA", ??DB_Filter
+??DataBrowserDesc_Create??rT SYMBOL "??rT", DataBrowserDesc_Create
+??DataBrowserDesc_Destroy??rT SYMBOL "??rT", DataBrowserDesc_Destroy
+??DataBrowserDesc_SetBookID??rT SYMBOL "??rT", DataBrowserDesc_SetBookID
+??DataBrowserDesc_SetFileExtList??rT SYMBOL "??rT", DataBrowserDesc_SetFileExtList
+??DataBrowserDesc_SetFolders??rT SYMBOL "??rT", DataBrowserDesc_SetFolders
+??DataBrowserDesc_SetFoldersNumber??rT SYMBOL "??rT", DataBrowserDesc_SetFoldersNumber
+??DataBrowserDesc_SetHeaderText??rT SYMBOL "??rT", DataBrowserDesc_SetHeaderText
+??DataBrowserDesc_SetItemFilter??rT SYMBOL "??rT", DataBrowserDesc_SetItemFilter
+??DataBrowserDesc_SetSelectAction??rT SYMBOL "??rT", DataBrowserDesc_SetSelectAction
+??DataBrowser_Create??rT SYMBOL "??rT", DataBrowser_Create
+??DataBrowser_isFileInListExt??rT SYMBOL "??rT", DataBrowser_isFileInListExt
+
+??EditorRun??rA     SYMBOL "??rA", ??EditorRun
+
+??Editor_onBack??rA SYMBOL "??rA", ??Editor_onBack
+
+??Editor_onMessage??rA SYMBOL "??rA", ??Editor_onMessage
+
+??Editor_onSelect??rA SYMBOL "??rA", ??Editor_onSelect
+??FILEITEM_GetFname??rT SYMBOL "??rT", FILEITEM_GetFname
+??FILEITEM_GetPath??rT SYMBOL "??rT", FILEITEM_GetPath
+??FSX_MakeFullPath??rT SYMBOL "??rT", FSX_MakeFullPath
+??FindBook??rT      SYMBOL "??rT", FindBook
+??FreeBook??rT      SYMBOL "??rT", FreeBook
+??FreeList??rT      SYMBOL "??rT", ??FreeList
+??GUIObject_Destroy??rT SYMBOL "??rT", GUIObject_Destroy
+??GUIObject_SetTitleText??rT SYMBOL "??rT", GUIObject_SetTitleText
+??GUIObject_Show??rT SYMBOL "??rT", GUIObject_Show
+??GUIObject_SoftKeys_SetAction??rT SYMBOL "??rT", GUIObject_SoftKeys_SetAction
+??GUIObject_SoftKeys_SetActionAndText??rT SYMBOL "??rT", GUIObject_SoftKeys_SetActionAndText
+??GUIonMessage_GetBook??rT SYMBOL "??rT", GUIonMessage_GetBook
+??GUIonMessage_GetCreatedItemIndex??rT SYMBOL "??rT", GUIonMessage_GetCreatedItemIndex
+??GUIonMessage_GetMsg??rT SYMBOL "??rT", GUIonMessage_GetMsg
+??GUIonMessage_SetMenuItemIcon??rT SYMBOL "??rT", GUIonMessage_SetMenuItemIcon
+??GUIonMessage_SetMenuItemSecondLineText??rT SYMBOL "??rT", GUIonMessage_SetMenuItemSecondLineText
+??GUIonMessage_SetMenuItemText??rT SYMBOL "??rT", GUIonMessage_SetMenuItemText
+
+??Get_SCTypes_Text??rA SYMBOL "??rA", ??Get_SCTypes_Text
+
+??JavaMenu_Callback??rA SYMBOL "??rA", ??JavaMenu_Callback
+
+??JavaMenu_Ok??rA   SYMBOL "??rA", ??JavaMenu_Ok
+??ListMenu_GetSelectedItem??rT SYMBOL "??rT", ListMenu_GetSelectedItem
+??ListMenu_SetCursorToItem??rT SYMBOL "??rT", ListMenu_SetCursorToItem
+??ListMenu_SetItemCount??rT SYMBOL "??rT", ListMenu_SetItemCount
+??ListMenu_SetItemStyle??rT SYMBOL "??rT", ListMenu_SetItemStyle
+??ListMenu_SetOnMessage??rT SYMBOL "??rT", ListMenu_SetOnMessage
+??List_Get??rT      SYMBOL "??rT", List_Get
+??List_GetCount??rT SYMBOL "??rT", List_GetCount
+??List_InsertFirst??rT SYMBOL "??rT", List_InsertFirst
+??List_RemoveFirst??rT SYMBOL "??rT", List_RemoveFirst
+??MenuBook_Desktop??rT SYMBOL "??rT", MenuBook_Desktop
+??MenuBook_Desktop_GetSelectedItemID??rT SYMBOL "??rT", MenuBook_Desktop_GetSelectedItemID
+
+??Menu_SetMainMenu??rA SYMBOL "??rA", ??Menu_SetMainMenu
+
+??Menu_SetShortcut??rA SYMBOL "??rA", ??Menu_SetShortcut
+
+??OnBackEventInput??rA SYMBOL "??rA", ??OnBackEventInput
+
+??OnBackFolderInput??rA SYMBOL "??rA", ??OnBackFolderInput
+
+??OnOkCaptionInput??rA SYMBOL "??rA", ??OnOkCaptionInput
+
+??OnOkEventInput??rA SYMBOL "??rA", ??OnOkEventInput
+
+??OnOkFolderInput??rA SYMBOL "??rA", ??OnOkFolderInput
+??SHORTCUT_DESC_A2_Init??rT SYMBOL "??rT", ??SHORTCUT_DESC_A2_Init
+
+??SelFolder_Enter??rA SYMBOL "??rA", ??SelFolder_Enter
+
+??Select_DB??rA     SYMBOL "??rA", ??Select_DB
+??ShortcutFree??rT  SYMBOL "??rT", ??ShortcutFree
+??Shortcut_Get_MenuItemIconID??rT SYMBOL "??rT", Shortcut_Get_MenuItemIconID
+??Shortcut_Get_MenuItemName??rT SYMBOL "??rT", Shortcut_Get_MenuItemName
+??StringAlloc??rT   SYMBOL "??rT", ??StringAlloc
+??StringExtractFileName??rT SYMBOL "??rT", ??StringExtractFileName
+??StringFree??rT    SYMBOL "??rT", ??StringFree
+??StringInput_GetStringAndLen??rT SYMBOL "??rT", StringInput_GetStringAndLen
+??StringInput_MenuItem_SetPriority??rT SYMBOL "??rT", StringInput_MenuItem_SetPriority
+??StringInput_SetActionBack??rT SYMBOL "??rT", StringInput_SetActionBack
+??StringInput_SetActionOK??rT SYMBOL "??rT", StringInput_SetActionOK
+??StringInput_SetEnableEmptyText??rT SYMBOL "??rT", StringInput_SetEnableEmptyText
+??StringInput_SetMaxLen??rT SYMBOL "??rT", StringInput_SetMaxLen
+??StringInput_SetMinLen??rT SYMBOL "??rT", StringInput_SetMinLen
+??StringInput_SetMode??rT SYMBOL "??rT", StringInput_SetMode
+??StringInput_SetText??rT SYMBOL "??rT", StringInput_SetText
+??StringLength??rT  SYMBOL "??rT", ??StringLength
+??StringRealloc??rT SYMBOL "??rT", ??StringRealloc
+??StringReallocEx??rT SYMBOL "??rT", ??StringReallocEx
+??TextID_Create??rT SYMBOL "??rT", TextID_Create
+??TextID_GetWString??rT SYMBOL "??rT", TextID_GetWString
+
+??TypesList_onMessage??rA SYMBOL "??rA", ??TypesList_onMessage
+
+??TypesList_onSelect??rA SYMBOL "??rA", ??TypesList_onSelect
+??fstat??rT         SYMBOL "??rT", fstat
+??malloc??rT        SYMBOL "??rT", ??malloc
+??memset??rT        SYMBOL "??rT", memset
+??mfree??rT         SYMBOL "??rT", ??mfree
+
+??pg_SC_Editor_EventInput_EnterAction??rA SYMBOL "??rA", ??pg_SC_Editor_EventInput_EnterAction
+
+??pg_SC_Editor_EventInput_ExitAction??rA SYMBOL "??rA", ??pg_SC_Editor_EventInput_ExitAction
+
+??pg_SC_Editor_LabelInput_EnterAction??rA SYMBOL "??rA", ??pg_SC_Editor_LabelInput_EnterAction
+
+??pg_SC_Editor_LabelInput_ExitAction??rA SYMBOL "??rA", ??pg_SC_Editor_LabelInput_ExitAction
+
+??pg_SC_Editor_Main_AcceptAction??rA SYMBOL "??rA", ??pg_SC_Editor_Main_AcceptAction
+
+??pg_SC_Editor_Main_EnterAction??rA SYMBOL "??rA", ??pg_SC_Editor_Main_EnterAction
+
+??pg_SC_Editor_SelectFolder_EnterAction??rA SYMBOL "??rA", ??pg_SC_Editor_SelectFolder_EnterAction
+
+??pg_SC_Editor_SelectFolder_ExitAction??rA SYMBOL "??rA", ??pg_SC_Editor_SelectFolder_ExitAction
+
+??pg_SC_Editor_TypesList_EnterAction??rA SYMBOL "??rA", ??pg_SC_Editor_TypesList_EnterAction
+
+??pg_SC_Editor_TypesList_ExitAction??rA SYMBOL "??rA", ??pg_SC_Editor_TypesList_ExitAction
+??wstr2h??rT        SYMBOL "??rT", ??wstr2h
+??wstrcpy??rT       SYMBOL "??rT", wstrcpy
+
+        EXTERN ??CreateFileFolderSelect
+        FUNCTION ??CreateFileFolderSelect,0202H
+        EXTERN ??Create_JavaList
+        FUNCTION ??Create_JavaList,0202H
+        EXTERN ??FreeList
+        FUNCTION ??FreeList,0202H
+        EXTERN ??IsMyBook
+        FUNCTION ??IsMyBook,0602H
+        EXTERN ??JavaFree
+        FUNCTION ??JavaFree,0602H
+        EXTERN ??SHORTCUT_DESC_A2_Init
+        FUNCTION ??SHORTCUT_DESC_A2_Init,0202H
+        EXTERN ??ShortcutFree
+        FUNCTION ??ShortcutFree,0202H
+        EXTERN ??StringAlloc
+        FUNCTION ??StringAlloc,0202H
+        EXTERN ??StringExtractFileName
+        FUNCTION ??StringExtractFileName,0202H
+        EXTERN ??StringFree
+        FUNCTION ??StringFree,0202H
+        EXTERN ??StringLength
+        FUNCTION ??StringLength,0202H
+        EXTERN ??StringRealloc
+        FUNCTION ??StringRealloc,0202H
+        EXTERN ??StringReallocEx
+        FUNCTION ??StringReallocEx,0202H
+        EXTERN ??malloc
+        FUNCTION ??malloc,0202H
+        EXTERN ??mfree
+        FUNCTION ??mfree,0202H
+        EXTERN ??wstr2h
+        FUNCTION ??wstr2h,0202H
+        EXTERN BookObj_CallPage
+        FUNCTION BookObj_CallPage,0202H
+        EXTERN BookObj_GetBookID
+        FUNCTION BookObj_GetBookID,0202H
+        EXTERN BookObj_GotoPage
+        FUNCTION BookObj_GotoPage,0202H
+        EXTERN BookObj_ReturnPage
+        FUNCTION BookObj_ReturnPage,0202H
+        EXTERN BookObj_SoftKeys_SetAction
+        FUNCTION BookObj_SoftKeys_SetAction,0202H
+        EXTERN BookObj_SoftKeys_SetText
+        FUNCTION BookObj_SoftKeys_SetText,0202H
+        EXTERN CreateListMenu
+        FUNCTION CreateListMenu,0202H
+        EXTERN CreateStringInput
+        FUNCTION CreateStringInput,0202H
+        EXTERN DataBrowserDesc_Create
+        FUNCTION DataBrowserDesc_Create,0202H
+        EXTERN DataBrowserDesc_Destroy
+        FUNCTION DataBrowserDesc_Destroy,0202H
+        EXTERN DataBrowserDesc_SetBookID
+        FUNCTION DataBrowserDesc_SetBookID,0202H
+        EXTERN DataBrowserDesc_SetFileExtList
+        FUNCTION DataBrowserDesc_SetFileExtList,0202H
+        EXTERN DataBrowserDesc_SetFolders
+        FUNCTION DataBrowserDesc_SetFolders,0202H
+        EXTERN DataBrowserDesc_SetFoldersNumber
+        FUNCTION DataBrowserDesc_SetFoldersNumber,0202H
+        EXTERN DataBrowserDesc_SetHeaderText
+        FUNCTION DataBrowserDesc_SetHeaderText,0202H
+        EXTERN DataBrowserDesc_SetItemFilter
+        FUNCTION DataBrowserDesc_SetItemFilter,0202H
+        EXTERN DataBrowserDesc_SetSelectAction
+        FUNCTION DataBrowserDesc_SetSelectAction,0202H
+        EXTERN DataBrowser_Create
+        FUNCTION DataBrowser_Create,0202H
+        EXTERN DataBrowser_isFileInListExt
+        FUNCTION DataBrowser_isFileInListExt,0202H
+        EXTERN FILEITEM_GetFname
+        FUNCTION FILEITEM_GetFname,0202H
+        EXTERN FILEITEM_GetPath
+        FUNCTION FILEITEM_GetPath,0202H
+        EXTERN FSX_MakeFullPath
+        FUNCTION FSX_MakeFullPath,0202H
+        EXTERN FindBook
+        FUNCTION FindBook,0202H
+        EXTERN FreeBook
+        FUNCTION FreeBook,0202H
+        EXTERN GUIObject_Destroy
+        FUNCTION GUIObject_Destroy,0202H
+        EXTERN GUIObject_SetTitleText
+        FUNCTION GUIObject_SetTitleText,0202H
+        EXTERN GUIObject_Show
+        FUNCTION GUIObject_Show,0202H
+        EXTERN GUIObject_SoftKeys_SetAction
+        FUNCTION GUIObject_SoftKeys_SetAction,0202H
+        EXTERN GUIObject_SoftKeys_SetActionAndText
+        FUNCTION GUIObject_SoftKeys_SetActionAndText,0202H
+        EXTERN GUIonMessage_GetBook
+        FUNCTION GUIonMessage_GetBook,0202H
+        EXTERN GUIonMessage_GetCreatedItemIndex
+        FUNCTION GUIonMessage_GetCreatedItemIndex,0202H
+        EXTERN GUIonMessage_GetMsg
+        FUNCTION GUIonMessage_GetMsg,0202H
+        EXTERN GUIonMessage_SetMenuItemIcon
+        FUNCTION GUIonMessage_SetMenuItemIcon,0202H
+        EXTERN GUIonMessage_SetMenuItemSecondLineText
+        FUNCTION GUIonMessage_SetMenuItemSecondLineText,0202H
+        EXTERN GUIonMessage_SetMenuItemText
+        FUNCTION GUIonMessage_SetMenuItemText,0202H
+        EXTERN ListMenu_GetSelectedItem
+        FUNCTION ListMenu_GetSelectedItem,0202H
+        EXTERN ListMenu_SetCursorToItem
+        FUNCTION ListMenu_SetCursorToItem,0202H
+        EXTERN ListMenu_SetItemCount
+        FUNCTION ListMenu_SetItemCount,0202H
+        EXTERN ListMenu_SetItemStyle
+        FUNCTION ListMenu_SetItemStyle,0202H
+        EXTERN ListMenu_SetOnMessage
+        FUNCTION ListMenu_SetOnMessage,0202H
+        EXTERN List_Get
+        FUNCTION List_Get,0202H
+        EXTERN List_GetCount
+        FUNCTION List_GetCount,0202H
+        EXTERN List_InsertFirst
+        FUNCTION List_InsertFirst,0202H
+        EXTERN List_RemoveFirst
+        FUNCTION List_RemoveFirst,0202H
+        EXTERN MenuBook_Desktop
+        FUNCTION MenuBook_Desktop,0202H
+        EXTERN MenuBook_Desktop_GetSelectedItemID
+        FUNCTION MenuBook_Desktop_GetSelectedItemID,0202H
+        EXTERN Shortcut_Get_MenuItemIconID
+        FUNCTION Shortcut_Get_MenuItemIconID,0202H
+        EXTERN Shortcut_Get_MenuItemName
+        FUNCTION Shortcut_Get_MenuItemName,0202H
+        EXTERN StringInput_GetStringAndLen
+        FUNCTION StringInput_GetStringAndLen,0202H
+        EXTERN StringInput_MenuItem_SetPriority
+        FUNCTION StringInput_MenuItem_SetPriority,0202H
+        EXTERN StringInput_SetActionBack
+        FUNCTION StringInput_SetActionBack,0202H
+        EXTERN StringInput_SetActionOK
+        FUNCTION StringInput_SetActionOK,0202H
+        EXTERN StringInput_SetEnableEmptyText
+        FUNCTION StringInput_SetEnableEmptyText,0202H
+        EXTERN StringInput_SetMaxLen
+        FUNCTION StringInput_SetMaxLen,0202H
+        EXTERN StringInput_SetMinLen
+        FUNCTION StringInput_SetMinLen,0202H
+        EXTERN StringInput_SetMode
+        FUNCTION StringInput_SetMode,0202H
+        EXTERN StringInput_SetText
+        FUNCTION StringInput_SetText,0202H
+        EXTERN TextID_Create
+        FUNCTION TextID_Create,0202H
+        EXTERN TextID_GetWString
+        FUNCTION TextID_GetWString,0202H
+        EXTERN fstat
+        FUNCTION fstat,0202H
+        EXTERN memset
+        FUNCTION memset,0202H
+        EXTERN wstrcpy
+        FUNCTION wstrcpy,0202H
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_SetJava_Page">`:
+        DATA
+        DC8 "SC_Editor_SetJava_Page"
+        DC8 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_SelectElf_Page">`:
+        DATA
+        DC8 "SC_Editor_SelectElf_Page"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_EventInput_...">`:
+        DATA
+        DC8 "SC_Editor_EventInput_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_SelectFolde...">`:
+        DATA
+        DC8 "SC_Editor_SelectFolder_Page"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_TypesList_Page">`:
+        DATA
+        DC8 "SC_Editor_TypesList_Page"
+        DC8 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_LabelInput_...">`:
+        DATA
+        DC8 "SC_Editor_LabelInput_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_Main_Page">`:
+        DATA
+        DC8 "SC_Editor_Main_Page"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4d\\x61\\x69\\x6e\\x4d\\x65\\x6e\\x75"`:
+        DATA
+        DC8 4DH, 0, 61H, 0, 69H, 0, 6EH, 0
+        DC8 4DH, 0, 65H, 0, 6EH, 0, 75H, 0
+        DC8 0, 0
+        DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        DC8 4DH, 0, 61H, 0, 69H, 0, 6EH, 0
+        DC8 4DH, 0, 65H, 0, 6EH, 0, 75H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x2f\\x75\\x73\\x62\\x2f\\x6f\\x74\\x68\\`:
+        DATA
+        DC8 2FH, 0, 75H, 0, 73H, 0, 62H, 0
+        DC8 2FH, 0, 6FH, 0, 74H, 0, 68H, 0
+        DC8 65H, 0, 72H, 0, 2FH, 0, 5AH, 0
+        DC8 42H, 0, 69H, 0, 6EH, 0, 0, 0
+        DC8 2FH, 0, 63H, 0, 61H, 0, 72H, 0
+        DC8 64H, 0, 2FH, 0, 6FH, 0, 74H, 0
+        DC8 68H, 0, 65H, 0, 72H, 0, 2FH, 0
+        DC8 5AH, 0, 42H, 0, 69H, 0, 6EH, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 45H, 0, 4CH, 0, 46H, 0, 73H, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 2AH, 0, 2EH, 0, 65H, 0, 6CH, 0
+        DC8 66H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x53\\x68\\x6f\\x72\\x74\\x63\\x75\\x74"`:
+        DATA
+        DC8 53H, 0, 68H, 0, 6FH, 0, 72H, 0
+        DC8 74H, 0, 63H, 0, 75H, 0, 74H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x4a\\x61\\x76\\x61">`:
+        DATA
+        DC8 4AH, 0, 61H, 0, 76H, 0, 61H, 0
+        DC8 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x45\\x6c\\x66">`:
+        DATA
+        DC8 45H, 0, 6CH, 0, 66H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x45\\x76\\x65\\x6e\\x74">`:
+        DATA
+        DC8 45H, 0, 76H, 0, 65H, 0, 6EH, 0
+        DC8 74H, 0, 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x46\\x6f\\x6c\\x64\\x65\\x72">`:
+        DATA
+        DC8 46H, 0, 6FH, 0, 6CH, 0, 64H, 0
+        DC8 65H, 0, 72H, 0, 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "SC_Editor_SelectShort...">`:
+        DATA
+        DC8 "SC_Editor_SelectShortcut_Page"
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant {&L"\\x53\\x68\\x6f\\x72\\x74\\x63\\x75\\x7`:
+        DATA
+        DC32 `?<Constant L"\\x53\\x68\\x6f\\x72\\x74\\x63\\x75\\x74"`
+        DC32 `?<Constant L"\\x4a\\x61\\x76\\x61">`
+        DC32 `?<Constant L"\\x45\\x6c\\x66">`
+        DC32 `?<Constant L"\\x45\\x76\\x65\\x6e\\x74">`
+        DC32 `?<Constant L"\\x46\\x6f\\x6c\\x64\\x65\\x72">`
+// E:\SE\Port\elf2vkp\Goto_Shortcut_New\editor.c
+//    1 #include "..\\include\Types.h"
+//    2 #include "..\\include\Function.h"
+//    3 
+//    4 #include "main.h"
+//    5 #include "editor.h"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+// static wchar_t const __data TypesIcons[5]
+TypesIcons:
+        DATA
+        DC16 2056, 63605, 2055, 63654, 362
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+// static wchar_t const __data EditorIcons[2]
+EditorIcons:
+        DATA
+        DC16 63329, 1305
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Action_Back??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE ??Action_Back
+//    6 #include "utils.h"
+//    7 #include "strlib.h"
+//    8 #include "FileFolder.h"
+//    9 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??Action_Back
+        THUMB
+//   10 void Action_Back(BOOK* book, GUI* gui)
+//   11 {
+??Action_Back:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+//   12   BookObj_ReturnPage(book, NIL_EVENT);    
+        MOVS     R1,#+0
+        _BLF     BookObj_ReturnPage,??BookObj_ReturnPage??rT
+//   13 }
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock1
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??AcceptShortcut??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE ??AcceptShortcut
+//   14 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??AcceptShortcut
+        THUMB
+//   15 void AcceptShortcut(BOOK* book)
+//   16 {
+??AcceptShortcut:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   17   BookObj_ReturnPage(book, NIL_EVENT);
+        MOVS     R1,#+0
+        MOVS     R4,R0
+        _BLF     BookObj_ReturnPage,??BookObj_ReturnPage??rT
+//   18   BookObj_ReturnPage(book, ACCEPT_EVENT);
+        B.N      ?Subroutine37
+        CFI EndBlock cfiBlock3
+//   19 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Menu_SetMainMenu??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE ??Menu_SetMainMenu
+//   20 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??Menu_SetMainMenu
+        THUMB
+//   21 void Menu_SetMainMenu( BOOK* MainMenu, GUI* gui )
+//   22 {
+??Menu_SetMainMenu:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+//   23   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
+//   24   
+//   25   wchar_t* Data = L"MainMenu";
+//   26   StringRealloc(Data, &mbk->Current->sData);
+        LDR      R7,??Menu_SetMainMenu_1  ;; `?<Constant L"\\x4d\\x61\\x69\\x6e\\x4d\\x65\\x6e\\x75"`
+        MOVS     R4,R0
+        LDR      R0,??DataTable4  ;; ??IsMyBook
+        SUB      SP,SP,#+40
+        CFI CFA R13+60
+        _BLF     FindBook,??FindBook??rT
+        MOVS     R5,R0
+        LDR      R1,[R5, #+72]
+        MOVS     R0,R7
+        ADDS     R1,R1,#+4
+        ADDS     R0,R0,#+40
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//   27   StringFree(Data);
+        MOVS     R0,R7
+        ADDS     R0,R0,#+40
+        _BLF     ??StringFree,??StringFree??rT
+//   28   mbk->Current->Type = TYPE_SHORTCUT;
+        LDR      R0,[R5, #+72]
+        MOVS     R1,#+0
+        STRB     R1,[R0, #+0]
+//   29   
+//   30   void* ShortcutDesc;
+//   31 #ifdef A1
+//   32   ShortcutDesc = SHORTCUT_DESC_Init(mbk->Current->sData);
+//   33 #else
+//   34   ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->Current->sData);
+        LDR      R0,[R5, #+72]
+        LDR      R0,[R0, #+4]
+        _BLF     ??SHORTCUT_DESC_A2_Init,??SHORTCUT_DESC_A2_Init??rT
+        MOVS     R6,R0
+//   35 #endif
+//   36   mbk->Current->Icon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
+        _BLF     Shortcut_Get_MenuItemIconID,??Shortcut_Get_MenuItemIconID??rT
+        LDR      R1,[R5, #+72]
+        STRH     R0,[R1, #+12]
+//   37   
+//   38   if (!mbk->Current->Caption)
+        LDR      R0,[R5, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??Menu_SetMainMenu_2
+//   39   {
+//   40     wchar_t Text[20] = L"MainMenu";
+        MOV      R0,SP
+        MOVS     R2,#+40
+??Menu_SetMainMenu_3:
+        SUBS     R2,R2,#+4
+        LDR      R1,[R7, R2]
+        STR      R1,[R0, R2]
+        BNE      ??Menu_SetMainMenu_3
+//   41     mbk->Current->Caption = StringAlloc(StringLength(Text));
+        _BLF     ??StringLength,??StringLength??rT
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        LDR      R1,[R5, #+72]
+        STR      R0,[R1, #+8]
+//   42     wstrcpy(mbk->Current->Caption, Text);
+        LDR      R0,[R5, #+72]
+        MOV      R1,SP
+        LDR      R0,[R0, #+8]
+        _BLF     wstrcpy,??wstrcpy??rT
+//   43   }
+//   44   mfree(ShortcutDesc);
+??Menu_SetMainMenu_2:
+        MOVS     R0,R6
+        _BLF     ??mfree,??mfree??rT
+//   45   FreeBook(MainMenu);
+        MOVS     R0,R4
+        _BLF     FreeBook,??FreeBook??rT
+//   46   AcceptShortcut(mbk);
+        MOVS     R0,R5
+        BL       ??AcceptShortcut
+//   47 }
+        ADD      SP,SP,#+40
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??Menu_SetMainMenu_1:
+        DC32     `?<Constant L"\\x4d\\x61\\x69\\x6e\\x4d\\x65\\x6e\\x75"`
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Menu_SetShortcut??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE ??Menu_SetShortcut
+//   48 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??Menu_SetShortcut
+        THUMB
+//   49 void Menu_SetShortcut(BOOK* MainMenu, GUI* gui)
+//   50 {
+??Menu_SetShortcut:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R4,R0
+//   51   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
+        LDR      R0,??DataTable4  ;; ??IsMyBook
+        SUB      SP,SP,#+128
+        CFI CFA R13+144
+        _BLF     FindBook,??FindBook??rT
+        MOVS     R5,R0
+//   52   wchar_t* Data = MenuBook_Desktop_GetSelectedItemID(MainMenu);
+        MOVS     R0,R4
+        _BLF     MenuBook_Desktop_GetSelectedItemID,??MenuBook_Desktop_GetSelectedItemID??rT
+//   53   StringRealloc(Data, &mbk->Current->sData);
+        LDR      R1,[R5, #+72]
+        MOVS     R6,R0
+        ADDS     R1,R1,#+4
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//   54   StringFree(Data);
+        MOVS     R0,R6
+        _BLF     ??StringFree,??StringFree??rT
+//   55   
+//   56   mbk->Current->Type = TYPE_SHORTCUT;
+        LDR      R0,[R5, #+72]
+        MOVS     R1,#+0
+        STRB     R1,[R0, #+0]
+//   57   
+//   58   void* ShortcutDesc;
+//   59 #ifdef A1
+//   60   ShortcutDesc = SHORTCUT_DESC_Init(mbk->Current->sData);
+//   61 #elif A2
+//   62   ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->Current->sData);
+        LDR      R0,[R5, #+72]
+        LDR      R0,[R0, #+4]
+        _BLF     ??SHORTCUT_DESC_A2_Init,??SHORTCUT_DESC_A2_Init??rT
+        MOVS     R6,R0
+//   63 #endif
+//   64   
+//   65   mbk->Current->Icon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
+        _BLF     Shortcut_Get_MenuItemIconID,??Shortcut_Get_MenuItemIconID??rT
+        LDR      R1,[R5, #+72]
+        STRH     R0,[R1, #+12]
+//   66   if (!mbk->Current->Caption)
+        LDR      R0,[R5, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??Menu_SetShortcut_1
+//   67   {
+//   68     wchar_t text[64];
+//   69     TextID_GetWString(Shortcut_Get_MenuItemName(ShortcutDesc), text, MAXELEMS(text));
+        MOVS     R0,R6
+        _BLF     Shortcut_Get_MenuItemName,??Shortcut_Get_MenuItemName??rT
+        MOVS     R2,#+64
+        MOV      R1,SP
+        _BLF     TextID_GetWString,??TextID_GetWString??rT
+//   70     mbk->Current->Caption = StringAlloc(StringLength(text));
+        MOV      R0,SP
+        _BLF     ??StringLength,??StringLength??rT
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        LDR      R1,[R5, #+72]
+        STR      R0,[R1, #+8]
+//   71     wstrcpy(mbk->Current->Caption, text);
+        LDR      R0,[R5, #+72]
+        MOV      R1,SP
+        LDR      R0,[R0, #+8]
+        _BLF     wstrcpy,??wstrcpy??rT
+//   72   }
+//   73   mfree(ShortcutDesc);
+??Menu_SetShortcut_1:
+        MOVS     R0,R6
+        _BLF     ??mfree,??mfree??rT
+//   74   FreeBook(MainMenu);
+        MOVS     R0,R4
+        _BLF     FreeBook,??FreeBook??rT
+//   75   AcceptShortcut(mbk);
+        MOVS     R0,R5
+        BL       ??AcceptShortcut
+//   76 }
+        ADD      SP,SP,#+128
+        CFI CFA R13+16
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Cancel_MainMenu_DB??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE ??Cancel_MainMenu_DB
+//   77 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??Cancel_MainMenu_DB
+        THUMB
+//   78 int Cancel_MainMenu_DB(void* data, BOOK* book)
+//   79 {
+??Cancel_MainMenu_DB:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOVS     R0,R1
+//   80   BookObj_ReturnPage(book, NIL_EVENT);
+        MOVS     R1,#+0
+        _BLF     BookObj_ReturnPage,??BookObj_ReturnPage??rT
+//   81   return(1);
+        MOVS     R0,#+1
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock9
+//   82 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CreateMainMenu??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock10
+        REQUIRE ??CreateMainMenu
+//   83 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??CreateMainMenu
+        THUMB
+//   84 int CreateMainMenu(void* data, BOOK* book)
+//   85 {
+??CreateMainMenu:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R0,R1
+//   86   BOOK* MainMenu = MenuBook_Desktop(1, BookObj_GetBookID(book));
+        _BLF     BookObj_GetBookID,??BookObj_GetBookID??rT
+        MOVS     R1,R0
+        MOVS     R0,#+1
+        _BLF     MenuBook_Desktop,??MenuBook_Desktop??rT
+        MOVS     R4,R0
+//   87   if (MainMenu)
+        BEQ      ??CreateMainMenu_1
+//   88   {
+//   89     BookObj_SoftKeys_SetAction(MainMenu, 0x0, Menu_SetShortcut);
+        LDR      R2,??CreateMainMenu_2  ;; ??Menu_SetShortcut
+        MOVS     R1,#+0
+        _BLF     BookObj_SoftKeys_SetAction,??BookObj_SoftKeys_SetAction??rT
+//   90     BookObj_SoftKeys_SetText(MainMenu, 0x0, SHC_SET_SHORTCUT_SK);
+        LDR      R2,??CreateMainMenu_2+0x4  ;; 0xb5c
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     BookObj_SoftKeys_SetText,??BookObj_SoftKeys_SetText??rT
+//   91     
+//   92     BookObj_SoftKeys_SetAction(MainMenu, 0x1, Menu_SetMainMenu);
+        LDR      R2,??CreateMainMenu_2+0x8  ;; ??Menu_SetMainMenu
+        MOVS     R1,#+1
+        MOVS     R0,R4
+        _BLF     BookObj_SoftKeys_SetAction,??BookObj_SoftKeys_SetAction??rT
+//   93     BookObj_SoftKeys_SetText(MainMenu, 0x1, SHC_SET_MM);
+        LDR      R2,??CreateMainMenu_2+0xC  ;; 0x1c5c
+        MOVS     R1,#+1
+        MOVS     R0,R4
+        _BLF     BookObj_SoftKeys_SetText,??BookObj_SoftKeys_SetText??rT
+//   94 
+//   95     return TRUE;
+        MOVS     R0,#+1
+        POP      {R4,PC}
+//   96   }
+//   97   return FALSE;
+??CreateMainMenu_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        Nop      
+        DATA
+??CreateMainMenu_2:
+        DC32     ??Menu_SetShortcut
+        DC32     0xb5c
+        DC32     ??Menu_SetMainMenu
+        DC32     0x1c5c
+        CFI EndBlock cfiBlock11
+//   98 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??JavaMenu_Callback??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock12
+        REQUIRE ??JavaMenu_Callback
+//   99 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  100 const PAGE_MSG Goto_Editor_MainMenu_PageEvents[] = 
+Goto_Editor_MainMenu_PageEvents:
+        DATA
+        DC32 15, ??CreateMainMenu, 3, ??Cancel_MainMenu_DB, 4
+        DC32 ??Cancel_MainMenu_DB, 0, 0H
+//  101 {
+//  102   PAGE_ENTER_EVENT, CreateMainMenu,
+//  103   PREVIOUS_EVENT,   Cancel_MainMenu_DB,
+//  104   CANCEL_EVENT,     Cancel_MainMenu_DB,
+//  105   NIL_EVENT,        NULL
+//  106 };
+//  107 const PAGE_DESC Goto_Editor_MainMenu_PageDesc = {EDITOR_MAINMENU_BASEPAGE_NAME, 0, Goto_Editor_MainMenu_PageEvents};
+//  108 
+//  109 //------------------------------------------------------------------------------
+//  110 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??JavaMenu_Callback
+        THUMB
+//  111 int JavaMenu_Callback(GUI_MESSAGE* msg)
+//  112 {
+??JavaMenu_Callback:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  113   switch(GUIonMessage_GetMsg(msg))
+        _BLF     GUIonMessage_GetMsg,??GUIonMessage_GetMsg??rT
+        CMP      R0,#+1
+        BNE      ??JavaMenu_Callback_1
+//  114   {
+//  115   case LISTMSG_GetItem:
+//  116     GotoShortcut_Book* mbk = (GotoShortcut_Book*)GUIonMessage_GetBook(msg);
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetBook,??GUIonMessage_GetBook??rT
+        MOVS     R5,R0
+//  117     JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)List_Get(mbk->JavaList, GUIonMessage_GetCreatedItemIndex(msg));
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetCreatedItemIndex,??GUIonMessage_GetCreatedItemIndex??rT
+        MOVS     R1,R0
+        LDR      R0,[R5, #+64]
+        _BLF     List_Get,??List_Get??rT
+        MOVS     R5,R0
+//  118     GUIonMessage_SetMenuItemText(msg, TextID_Get(elem->Name));
+        LDR      R0,[R5, #+0]
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemText,??GUIonMessage_SetMenuItemText??rT
+//  119     GUIonMessage_SetMenuItemIcon(msg, 0, elem->ImageID);
+        LDRH     R2,[R5, #+8]
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemIcon,??GUIonMessage_SetMenuItemIcon??rT
+//  120   }
+//  121   return 1;
+??JavaMenu_Callback_1:
+        MOVS     R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock13
+//  122 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??JavaMenu_Ok??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock14
+        REQUIRE ??JavaMenu_Ok
+//  123 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??JavaMenu_Ok
+        THUMB
+//  124 void JavaMenu_Ok(BOOK* book, GUI* gui)
+//  125 {
+??JavaMenu_Ok:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  126   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  127   JAVA_LIST_ELEM* Elem = (JAVA_LIST_ELEM*)List_Get(mbk->JavaList, ListMenu_GetSelectedItem(mbk->JavaMenu));
+        LDR      R0,[R4, #+32]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+64]
+        _BLF     List_Get,??List_Get??rT
+//  128   
+//  129   StringRealloc(Elem->Name, &mbk->Current->sData);
+        LDR      R1,[R4, #+72]
+        MOVS     R5,R0
+        LDR      R0,[R5, #+0]
+        ADDS     R1,R1,#+4
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  130   mbk->Current->Icon = DB_LIST_JAVA_ICN;
+        LDR      R0,[R4, #+72]
+        LDR      R1,??JavaMenu_Ok_1  ;; 0xf875
+        STRH     R1,[R0, #+12]
+//  131   mbk->Current->Type = TYPE_JAVA;
+        LDR      R0,[R4, #+72]
+        MOVS     R1,#+1
+        STRB     R1,[R0, #+0]
+//  132   
+//  133   if (!mbk->Current->Caption)
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??JavaMenu_Ok_2
+//  134     StringRealloc(Elem->Name, &mbk->Current->Caption);
+        LDR      R1,[R4, #+72]
+        LDR      R0,[R5, #+0]
+        ADDS     R1,R1,#+8
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  135   
+//  136   AcceptShortcut(mbk);
+??JavaMenu_Ok_2:
+        B.N      ?Subroutine41
+        Nop      
+        DATA
+??JavaMenu_Ok_1:
+        DC32     0xf875
+        CFI EndBlock cfiBlock15
+//  137 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CreateJavaList??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock16
+        REQUIRE ??CreateJavaList
+//  138 
+//  139 /*
+//  140 void JavaMenu_Back(BOOK* book, GUI* gui)
+//  141 {
+//  142   BookObj_ReturnPage(mbk, NIL_EVENT);
+//  143 }
+//  144 */
+//  145 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??CreateJavaList
+        THUMB
+//  146 int CreateJavaList(void* data, BOOK* book)
+//  147 {
+??CreateJavaList:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  148   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;   
+//  149   FREE_GUI(mbk->JavaMenu);
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??CreateJavaList_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+32]
+//  150   
+//  151   mbk->JavaList = Create_JavaList();
+??CreateJavaList_1:
+        _BLF     ??Create_JavaList,??Create_JavaList??rT
+        STR      R0,[R4, #+64]
+//  152   mbk->JavaMenu = CreateListMenu(mbk, UIDisplay_Main);
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     CreateListMenu,??CreateListMenu??rT
+        STR      R0,[R4, #+32]
+//  153   
+//  154   GUIObject_SetTitleText(mbk->JavaMenu, JAVA_APP_TXT);
+        MOVS     R1,#+187
+        LSLS     R1,R1,#+3
+        _BLF     GUIObject_SetTitleText,??GUIObject_SetTitleText??rT
+//  155   ListMenu_SetItemCount(mbk->JavaMenu, List_GetCount(mbk->JavaList));
+        LDR      R0,[R4, #+64]
+        _BLF     List_GetCount,??List_GetCount??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+32]
+        _BLF     ListMenu_SetItemCount,??ListMenu_SetItemCount??rT
+//  156   ListMenu_SetOnMessage(mbk->JavaMenu, JavaMenu_Callback);
+        LDR      R1,??CreateJavaList_2  ;; ??JavaMenu_Callback
+        LDR      R0,[R4, #+32]
+        _BLF     ListMenu_SetOnMessage,??ListMenu_SetOnMessage??rT
+//  157   ListMenu_SetCursorToItem(mbk->JavaMenu, 0);
+        LDR      R0,[R4, #+32]
+        MOVS     R1,#+0
+        _BLF     ListMenu_SetCursorToItem,??ListMenu_SetCursorToItem??rT
+//  158   GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_BACK, Action_Back);
+        LDR      R2,??DataTable2  ;; ??Action_Back
+        LDR      R0,[R4, #+32]
+        MOVS     R1,#+252
+        LSLS     R1,R1,#+4
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  159   GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_SELECT1, JavaMenu_Ok);
+        LDR      R2,??CreateJavaList_2+0x4  ;; ??JavaMenu_Ok
+        LDR      R1,??DataTable3  ;; 0xfc2
+        LDR      R0,[R4, #+32]
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  160   GUIObject_Show(mbk->JavaMenu);
+        LDR      R0,[R4, #+32]
+        B.N      ?Subroutine38
+        Nop      
+        DATA
+??CreateJavaList_2:
+        DC32     ??JavaMenu_Callback
+        DC32     ??JavaMenu_Ok
+        CFI EndBlock cfiBlock17
+//  161   return 0;
+//  162 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     ??Action_Back
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable3:
+        DC32     0xfc2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CloseJavaList??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock18
+        REQUIRE ??CloseJavaList
+//  163 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??CloseJavaList
+        THUMB
+//  164 int CloseJavaList(void* data, BOOK* book)
+//  165 {
+??CloseJavaList:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  166   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  167   FREE_JAVAGUI(mbk->JavaMenu, mbk->JavaList, JavaFree);
+        LDR      R1,??CloseJavaList_1  ;; ??JavaFree
+        MOVS     R0,R4
+        ADDS     R0,R0,#+64
+        _BLF     ??FreeList,??FreeList??rT
+        LDR      R0,[R4, #+32]
+        CMP      R0,#+0
+        BEQ      ??CloseJavaList_2
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+32]
+//  168   return 0;
+??CloseJavaList_2:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        DATA
+??CloseJavaList_1:
+        DC32     ??JavaFree
+        CFI EndBlock cfiBlock19
+//  169 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Select_DB??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock20
+        REQUIRE ??Select_DB
+//  170 
+//  171 const PAGE_MSG Goto_Editor_JavaList_PageEvents[] = 
+//  172 {
+//  173   PAGE_ENTER_EVENT,   CreateJavaList,
+//  174   PAGE_EXIT_EVENT,    CloseJavaList,
+//  175   NIL_EVENT, NULL
+//  176 };
+//  177 const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, 0, Goto_Editor_JavaList_PageEvents};
+//  178 
+//  179 //------------------------------------------------------------------------------
+//  180 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function ??Select_DB
+        THUMB
+//  181 int Select_DB(void* data, BOOK* book)
+//  182 {
+??Select_DB:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R5,R0
+//  183   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
+        LDR      R0,??DataTable4  ;; ??IsMyBook
+        _BLF     FindBook,??FindBook??rT
+        MOVS     R4,R0
+//  184   FILEITEM* file_item = (FILEITEM*)data;
+//  185   
+//  186   mbk->Current->sData = FSX_MakeFullPath(FILEITEM_GetPath(file_item), FILEITEM_GetFname(file_item)); 
+        MOVS     R0,R5
+        _BLF     FILEITEM_GetFname,??FILEITEM_GetFname??rT
+        MOVS     R6,R0
+        MOVS     R0,R5
+        _BLF     FILEITEM_GetPath,??FILEITEM_GetPath??rT
+        MOVS     R1,R6
+        _BLF     FSX_MakeFullPath,??FSX_MakeFullPath??rT
+        LDR      R1,[R4, #+72]
+        STR      R0,[R1, #+4]
+//  187   mbk->Current->Icon = TypesIcons[TYPE_ELF];
+        LDR      R0,[R4, #+72]
+        LDR      R1,??Select_DB_1  ;; 0x807
+        STRH     R1,[R0, #+12]
+//  188   mbk->Current->Type = TYPE_ELF;
+        LDR      R0,[R4, #+72]
+        MOVS     R1,#+2
+        STRB     R1,[R0, #+0]
+//  189 
+//  190   if(!mbk->Current->Caption)
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??Select_DB_2
+//  191     StringRealloc(FILEITEM_GetFname(file_item), &mbk->Current->Caption);
+        MOVS     R0,R5
+        _BLF     FILEITEM_GetFname,??FILEITEM_GetFname??rT
+        LDR      R1,[R4, #+72]
+        ADDS     R1,R1,#+8
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  192 
+//  193   AcceptShortcut(mbk);
+??Select_DB_2:
+        MOVS     R0,R4
+        BL       ??AcceptShortcut
+//  194   return 0;
+        MOVS     R0,#+0
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??Select_DB_1:
+        DC32     0x807
+        CFI EndBlock cfiBlock21
+//  195 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable4:
+        DC32     ??IsMyBook
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??DB_Filter??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock22
+        REQUIRE ??DB_Filter
+//  196 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function ??DB_Filter
+        THUMB
+//  197 int DB_Filter(const wchar_t *ExtTable, const wchar_t* fpath, const wchar_t* fname)
+//  198 {
+??DB_Filter:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        SUB      SP,SP,#+28
+        CFI CFA R13+40
+        MOVS     R4,R1
+        MOVS     R5,R2
+//  199   FSTAT fs;
+//  200   if (DataBrowser_isFileInListExt(ExtTable, fpath, fname))
+        _BLF     DataBrowser_isFileInListExt,??DataBrowser_isFileInListExt??rT
+        CMP      R0,#+0
+        BEQ      ??DB_Filter_1
+//  201     return 1;
+        MOVS     R0,#+1
+        B        ??DB_Filter_2
+//  202   
+//  203   fstat(fpath, fname, &fs);
+??DB_Filter_1:
+        MOV      R2,SP
+        MOVS     R1,R5
+        MOVS     R0,R4
+        _BLF     fstat,??fstat??rT
+//  204   return 0 != (fs.st_mode&FSX_S_IFDIR);
+        LDR      R0,[SP, #+4]
+        ASRS     R1,R0,#+16
+        MOVS     R0,#+1
+        ANDS     R0,R0,R1
+??DB_Filter_2:
+        ADD      SP,SP,#+28
+        CFI CFA R13+12
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock23
+//  205 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CreateDataBrowser??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock24
+        REQUIRE ??CreateDataBrowser
+//  206 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function ??CreateDataBrowser
+        THUMB
+//  207 int CreateDataBrowser(void* data, BOOK* book)
+//  208 {
+??CreateDataBrowser:
+        PUSH     {R0-R2,R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+28
+//  209   void* DB_Desc = DataBrowserDesc_Create();
+//  210   const wchar_t *Folders[3];
+//  211   Folders[0] = L"/usb/other/ZBin";
+        LDR      R6,??CreateDataBrowser_1  ;; `?<Constant L"\\x2f\\x75\\x73\\x62\\x2f\\x6f\\x74\\x68\\`
+        MOVS     R4,R1
+        _BLF     DataBrowserDesc_Create,??DataBrowserDesc_Create??rT
+        MOVS     R5,R0
+        STR      R6,[SP, #+0]
+//  212   Folders[1] = L"/card/other/ZBin";
+        MOVS     R0,R6
+        ADDS     R0,R0,#+32
+        STR      R0,[SP, #+4]
+//  213   Folders[2] = NULL;
+        MOVS     R0,#+0
+        STR      R0,[SP, #+8]
+//  214   DataBrowserDesc_SetHeaderText(DB_Desc, TextID_Get(L"ELFs"));  
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        MOVS     R0,R6
+        ADDS     R0,R0,#+68
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetHeaderText,??DataBrowserDesc_SetHeaderText??rT
+//  215   DataBrowserDesc_SetBookID(DB_Desc, BookObj_GetBookID(book));
+        MOVS     R0,R4
+        _BLF     BookObj_GetBookID,??BookObj_GetBookID??rT
+        MOVS     R1,R0
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetBookID,??DataBrowserDesc_SetBookID??rT
+//  216   DataBrowserDesc_SetFolders(DB_Desc, Folders);
+        MOV      R1,SP
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetFolders,??DataBrowserDesc_SetFolders??rT
+//  217   DataBrowserDesc_SetFileExtList(DB_Desc, L"*.elf");
+        ADDS     R6,R6,#+80
+        MOVS     R1,R6
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetFileExtList,??DataBrowserDesc_SetFileExtList??rT
+//  218   DataBrowserDesc_SetItemFilter(DB_Desc, DB_Filter);
+        LDR      R1,??CreateDataBrowser_1+0x4  ;; ??DB_Filter
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetItemFilter,??DataBrowserDesc_SetItemFilter??rT
+//  219   DataBrowserDesc_SetFoldersNumber(DB_Desc, 2);
+        MOVS     R1,#+2
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetFoldersNumber,??DataBrowserDesc_SetFoldersNumber??rT
+//  220   DataBrowserDesc_SetSelectAction(DB_Desc, 1);
+        MOVS     R1,#+1
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_SetSelectAction,??DataBrowserDesc_SetSelectAction??rT
+//  221   DataBrowser_Create(DB_Desc);
+        MOVS     R0,R5
+        _BLF     DataBrowser_Create,??DataBrowser_Create??rT
+//  222   DataBrowserDesc_Destroy(DB_Desc);
+        MOVS     R0,R5
+        _BLF     DataBrowserDesc_Destroy,??DataBrowserDesc_Destroy??rT
+//  223   return 0;
+        MOVS     R0,#+0
+        POP      {R1-R6,PC}       ;; return
+        DATA
+??CreateDataBrowser_1:
+        DC32     `?<Constant L"\\x2f\\x75\\x73\\x62\\x2f\\x6f\\x74\\x68\\`
+        DC32     ??DB_Filter
+        CFI EndBlock cfiBlock25
+//  224 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnOkEventInput??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock26
+        REQUIRE ??OnOkEventInput
+//  225 
+//  226 const PAGE_MSG Goto_Editor_DataBrowser_PageEvents[] = 
+//  227 {
+//  228   PAGE_ENTER_EVENT, CreateDataBrowser,
+//  229   ACCEPT_EVENT,     Select_DB,
+//  230   PREVIOUS_EVENT,   Cancel_MainMenu_DB,
+//  231   CANCEL_EVENT,     Cancel_MainMenu_DB,
+//  232   NIL_EVENT,        NULL
+//  233 };
+//  234 const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, 0, Goto_Editor_DataBrowser_PageEvents};
+//  235 
+//  236 //------------------------------------------------------------------------------
+//  237 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function ??OnOkEventInput
+        THUMB
+//  238 void OnOkEventInput(BOOK* book, wchar_t *string, int len)
+//  239 {
+??OnOkEventInput:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R4,R0
+        MOVS     R5,R1
+        MOVS     R6,R2
+//  240   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  241 
+//  242   if (len > 0)
+        CMP      R6,#+1
+        BLT      ??OnOkEventInput_1
+//  243   {
+//  244     StringRealloc(string, &mbk->Current->sData);
+        LDR      R1,[R4, #+72]
+        MOVS     R0,R5
+        ADDS     R1,R1,#+4
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  245     mbk->Current->Icon = TypesIcons[TYPE_EVENT];
+        LDR      R0,[R4, #+72]
+        LDR      R1,??OnOkEventInput_2  ;; 0xf8a6
+        STRH     R1,[R0, #+12]
+//  246     mbk->Current->Type = TYPE_EVENT;
+        LDR      R0,[R4, #+72]
+        MOVS     R1,#+3
+        STRB     R1,[R0, #+0]
+//  247     
+//  248     int event = wstr2h(string,len);
+        MOVS     R1,R6
+        MOVS     R0,R5
+        _BLF     ??wstr2h,??wstr2h??rT
+//  249     
+//  250     //wchar_t *EventName = StringAlloc(len); 
+//  251     //str2wstr(EventName,UIEventName(event));
+//  252     
+//  253     if(!mbk->Current->Caption)
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??OnOkEventInput_1
+//  254       StringRealloc(string, &mbk->Current->Caption);
+        LDR      R1,[R4, #+72]
+        MOVS     R0,R5
+        ADDS     R1,R1,#+8
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  255     
+//  256     //StringFree(EventName);
+//  257   }
+//  258   AcceptShortcut(mbk);
+??OnOkEventInput_1:
+        MOVS     R0,R4
+        BL       ??AcceptShortcut
+//  259 }
+        POP      {R4-R6,PC}       ;; return
+        DATA
+??OnOkEventInput_2:
+        DC32     0xf8a6
+        CFI EndBlock cfiBlock27
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnBackEventInput??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock28
+        REQUIRE ??OnBackEventInput
+//  260 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI Function ??OnBackEventInput
+        THUMB
+//  261 void OnBackEventInput(BOOK* book, wchar_t* string, int len)
+//  262 {
+??OnBackEventInput:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  263   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  264   FREE_GUI(mbk->EventInput);
+        LDR      R0,[R4, #+48]
+        CMP      R0,#+0
+        BEQ      ??OnBackEventInput_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+48]
+//  265   BookObj_ReturnPage(mbk, NIL_EVENT);
+??OnBackEventInput_1:
+        MOVS     R1,#+0
+        B.N      ??Subroutine37_0
+        CFI EndBlock cfiBlock29
+//  266 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_EventInput_EnterAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock30
+        REQUIRE ??pg_SC_Editor_EventInput_EnterAction
+//  267 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_EventInput_EnterAction
+        THUMB
+//  268 int pg_SC_Editor_EventInput_EnterAction(void* data, BOOK* book)
+//  269 {
+??pg_SC_Editor_EventInput_EnterAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  270   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  271   FREE_GUI(mbk->EventInput);
+        LDR      R0,[R4, #+48]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_EventInput_EnterAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+48]
+//  272 
+//  273   mbk->EventInput = CreateStringInput( mbk );
+??pg_SC_Editor_EventInput_EnterAction_1:
+        MOVS     R0,R4
+        _BLF     CreateStringInput,??CreateStringInput??rT
+        STR      R0,[R4, #+48]
+//  274   StringInput_SetMode( mbk->EventInput, IT_ABC_AND_DIGIT);
+        MOVS     R1,#+8
+        _BLF     StringInput_SetMode,??StringInput_SetMode??rT
+//  275   StringInput_SetEnableEmptyText( mbk->EventInput, TRUE );
+        LDR      R0,[R4, #+48]
+        MOVS     R1,#+1
+        _BLF     StringInput_SetEnableEmptyText,??StringInput_SetEnableEmptyText??rT
+//  276   
+//  277   if(mbk->Current->sData && (mbk->Current->Type == TYPE_EVENT))
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+4]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_EventInput_EnterAction_2
+        LDR      R0,[R4, #+72]
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+3
+        BNE      ??pg_SC_Editor_EventInput_EnterAction_2
+//  278     StringInput_SetText( mbk->EventInput, TextID_Get(mbk->Current->sData) );
+        LDR      R0,[R4, #+72]
+        MOVS     R2,#+255
+        LDR      R0,[R0, #+4]
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+48]
+        _BLF     StringInput_SetText,??StringInput_SetText??rT
+//  279 
+//  280   StringInput_SetMinLen( mbk->EventInput, 1 );
+??pg_SC_Editor_EventInput_EnterAction_2:
+        LDR      R0,[R4, #+48]
+        MOVS     R1,#+1
+        _BLF     StringInput_SetMinLen,??StringInput_SetMinLen??rT
+//  281   StringInput_SetMaxLen( mbk->EventInput, 4 );  
+        LDR      R0,[R4, #+48]
+        MOVS     R1,#+4
+        _BLF     StringInput_SetMaxLen,??StringInput_SetMaxLen??rT
+//  282   StringInput_SetActionOK( mbk->EventInput, OnOkEventInput );
+        LDR      R1,??Subroutine38_0  ;; ??OnOkEventInput
+        LDR      R0,[R4, #+48]
+        _BLF     StringInput_SetActionOK,??StringInput_SetActionOK??rT
+//  283   StringInput_SetActionBack( mbk->EventInput, OnBackEventInput );
+        LDR      R1,??Subroutine38_0+0x4  ;; ??OnBackEventInput
+        LDR      R0,[R4, #+48]
+        _BLF     StringInput_SetActionBack,??StringInput_SetActionBack??rT
+//  284   
+//  285   GUIObject_SetTitleText(mbk->EventInput, EVENT_TXT );
+        LDR      R1,??Subroutine38_0+0x8  ;; 0x103d
+        LDR      R0,[R4, #+48]
+        _BLF     GUIObject_SetTitleText,??GUIObject_SetTitleText??rT
+//  286   GUIObject_Show(mbk->EventInput);
+        LDR      R0,[R4, #+48]
+        Nop      
+        CFI EndBlock cfiBlock31
+        REQUIRE ?Subroutine38
+        ;; // Fall through to label ?Subroutine38
+//  287   return 0;
+//  288 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon1
+        CFI NoFunction
+        CFI CFA R13+8
+        CFI R4 Frame(CFA, -8)
+        CFI ?RET Frame(CFA, -4)
+        THUMB
+?Subroutine38:
+        _BLF     GUIObject_Show,??GUIObject_Show??rT
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        DATA
+??Subroutine38_0:
+        DC32     ??OnOkEventInput
+        DC32     ??OnBackEventInput
+        DC32     0x103d
+        CFI EndBlock cfiBlock32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_EventInput_ExitAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock33
+        REQUIRE ??pg_SC_Editor_EventInput_ExitAction
+//  289 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_EventInput_ExitAction
+        THUMB
+//  290 int pg_SC_Editor_EventInput_ExitAction(void* data, BOOK* book)
+//  291 {
+??pg_SC_Editor_EventInput_ExitAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  292   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  293   FREE_GUI(mbk->EventInput);
+        LDR      R0,[R4, #+48]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_EventInput_ExitAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+48]
+//  294   return 0;
+??pg_SC_Editor_EventInput_ExitAction_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock34
+//  295 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??SelFolder_Enter??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock35
+        REQUIRE ??SelFolder_Enter
+//  296 
+//  297 const PAGE_MSG Goto_Editor_EventInput_PageEvents[] = 
+//  298 {
+//  299   PAGE_ENTER_EVENT, pg_SC_Editor_EventInput_EnterAction,
+//  300   PAGE_EXIT_EVENT,  pg_SC_Editor_EventInput_ExitAction,
+//  301   NIL_EVENT,        NULL
+//  302 };
+//  303 const PAGE_DESC Goto_Editor_EventInput_PageDesc = {EDITOR_EVENTINPUT_BASEPAGE_NAME, 0, Goto_Editor_EventInput_PageEvents};
+//  304 
+//  305 //------------------------------------------------------------------------------
+//  306 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon1
+        CFI Function ??SelFolder_Enter
+        THUMB
+//  307 void SelFolder_Enter( BOOK* book, GUI* gui )
+//  308 {
+??SelFolder_Enter:
+        PUSH     {R0,R1,R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+20
+//  309   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  310   mbk->FType = SFOLDER;
+//  311   wchar_t* str;
+//  312   u16 len;
+//  313   StringInput_GetStringAndLen( mbk->FolderInput, &str, &len );
+        ADD      R2,SP,#+4
+        MOVS     R4,R0
+        MOVS     R5,R4
+        ADDS     R5,R5,#+52
+        MOVS     R0,#+0
+        STRB     R0,[R5, #+17]
+        LDR      R0,[R5, #+0]
+        MOV      R1,SP
+        _BLF     StringInput_GetStringAndLen,??StringInput_GetStringAndLen??rT
+//  314   mbk->SelectFolder = CreateFileFolderSelect( mbk, str );
+        LDR      R1,[SP, #+0]
+        MOVS     R0,R4
+        _BLF     ??CreateFileFolderSelect,??CreateFileFolderSelect??rT
+        STR      R0,[R5, #+4]
+//  315 }
+        POP      {R2-R5,PC}       ;; return
+        CFI EndBlock cfiBlock36
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnBackFolderInput??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock37
+        REQUIRE ??OnBackFolderInput
+//  316 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon1
+        CFI Function ??OnBackFolderInput
+        THUMB
+//  317 void OnBackFolderInput(BOOK* book, wchar_t* string, int len)
+//  318 {
+??OnBackFolderInput:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  319   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  320   FREE_GUI(mbk->FolderInput);
+        LDR      R0,[R4, #+52]
+        CMP      R0,#+0
+        BEQ      ??OnBackFolderInput_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+52]
+//  321   BookObj_ReturnPage(mbk, NIL_EVENT);
+??OnBackFolderInput_1:
+        MOVS     R1,#+0
+        B.N      ??Subroutine37_0
+        CFI EndBlock cfiBlock38
+//  322 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnOkFolderInput??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock39
+        REQUIRE ??OnOkFolderInput
+//  323 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon1
+        CFI Function ??OnOkFolderInput
+        THUMB
+//  324 void OnOkFolderInput(BOOK* book, wchar_t* string, int len)
+//  325 {
+??OnOkFolderInput:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+        MOVS     R5,R1
+//  326   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  327   
+//  328   if (len > 0)
+        CMP      R2,#+1
+        BLT      ??OnOkFolderInput_1
+//  329   {
+//  330     StringRealloc(string, &mbk->Current->sData);
+        LDR      R1,[R4, #+72]
+        MOVS     R0,R5
+        ADDS     R1,R1,#+4
+        _BLF     ??StringRealloc,??StringRealloc??rT
+//  331     mbk->Current->Icon = TypesIcons[TYPE_FOLDER];
+        LDR      R0,[R4, #+72]
+        MOVS     R1,#+181
+        LSLS     R1,R1,#+1
+        STRH     R1,[R0, #+12]
+//  332     mbk->Current->Type = TYPE_FOLDER;
+        LDR      R0,[R4, #+72]
+        MOVS     R1,#+4
+        STRB     R1,[R0, #+0]
+//  333     
+//  334     if(!mbk->Current->Caption)
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??OnOkFolderInput_1
+//  335       StringExtractFileName(string, &mbk->Current->Caption);
+        LDR      R1,[R4, #+72]
+        MOVS     R0,R5
+        ADDS     R1,R1,#+8
+        _BLF     ??StringExtractFileName,??StringExtractFileName??rT
+        CFI EndBlock cfiBlock40
+//  336   }
+//  337   AcceptShortcut(mbk);
+??OnOkFolderInput_1:
+        REQUIRE ?Subroutine41
+        ;; // Fall through to label ?Subroutine41
+//  338 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI NoFunction
+        CFI CFA R13+12
+        CFI R4 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -8)
+        CFI ?RET Frame(CFA, -4)
+        THUMB
+?Subroutine41:
+        MOVS     R0,R4
+        BL       ??AcceptShortcut
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_SelectFolder_EnterAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock42
+        REQUIRE ??pg_SC_Editor_SelectFolder_EnterAction
+//  339 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_SelectFolder_EnterAction
+        THUMB
+//  340 int pg_SC_Editor_SelectFolder_EnterAction(void* data, BOOK* book)
+//  341 {
+??pg_SC_Editor_SelectFolder_EnterAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  342   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  343   FREE_GUI(mbk->FolderInput);
+        LDR      R0,[R4, #+52]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_SelectFolder_EnterAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+52]
+//  344   
+//  345   mbk->FolderInput =  CreateStringInput( mbk );
+??pg_SC_Editor_SelectFolder_EnterAction_1:
+        MOVS     R0,R4
+        _BLF     CreateStringInput,??CreateStringInput??rT
+        STR      R0,[R4, #+52]
+//  346   StringInput_SetMode( mbk->FolderInput, IT_STRING);
+        MOVS     R1,#+1
+        _BLF     StringInput_SetMode,??StringInput_SetMode??rT
+//  347   StringInput_SetEnableEmptyText( mbk->FolderInput, FALSE );
+        LDR      R0,[R4, #+52]
+        MOVS     R1,#+0
+        _BLF     StringInput_SetEnableEmptyText,??StringInput_SetEnableEmptyText??rT
+//  348   
+//  349   if(mbk->Current->sData && (mbk->Current->Type == TYPE_FOLDER))
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+4]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_SelectFolder_EnterAction_2
+        LDR      R0,[R4, #+72]
+        LDRB     R0,[R0, #+0]
+        CMP      R0,#+4
+        BNE      ??pg_SC_Editor_SelectFolder_EnterAction_2
+//  350     StringInput_SetText( mbk->FolderInput, TextID_Get(mbk->Current->sData) );
+        LDR      R0,[R4, #+72]
+        MOVS     R2,#+255
+        LDR      R0,[R0, #+4]
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+52]
+        _BLF     StringInput_SetText,??StringInput_SetText??rT
+//  351   
+//  352   //StringInput_SetMinLen( mbk->FolderInput, 1 );
+//  353   StringInput_SetMaxLen( mbk->FolderInput, 255 );  
+??pg_SC_Editor_SelectFolder_EnterAction_2:
+        LDR      R0,[R4, #+52]
+        MOVS     R1,#+255
+        _BLF     StringInput_SetMaxLen,??StringInput_SetMaxLen??rT
+//  354   StringInput_SetActionOK( mbk->FolderInput, OnOkFolderInput );
+        LDR      R1,??pg_SC_Editor_SelectFolder_EnterAction_3  ;; ??OnOkFolderInput
+        LDR      R0,[R4, #+52]
+        _BLF     StringInput_SetActionOK,??StringInput_SetActionOK??rT
+//  355   StringInput_SetActionBack( mbk->FolderInput, OnBackFolderInput );
+        LDR      R1,??pg_SC_Editor_SelectFolder_EnterAction_3+0x4  ;; ??OnBackFolderInput
+        LDR      R0,[R4, #+52]
+        _BLF     StringInput_SetActionBack,??StringInput_SetActionBack??rT
+//  356   
+//  357   GUIObject_SoftKeys_SetActionAndText( mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT );
+        LDR      R2,??pg_SC_Editor_SelectFolder_EnterAction_3+0x8  ;; ??SelFolder_Enter
+        LDR      R0,[R4, #+52]
+        MOVS     R3,#+194
+        LSLS     R3,R3,#+3
+        MOVS     R1,#+0
+        _BLF     GUIObject_SoftKeys_SetActionAndText,??GUIObject_SoftKeys_SetActionAndText??rT
+//  358   StringInput_MenuItem_SetPriority( mbk->FolderInput, 0, 0 );
+        LDR      R0,[R4, #+52]
+        MOVS     R2,#+0
+        MOVS     R1,#+0
+        _BLF     StringInput_MenuItem_SetPriority,??StringInput_MenuItem_SetPriority??rT
+//  359   
+//  360   GUIObject_Show(mbk->FolderInput);
+        LDR      R0,[R4, #+52]
+        B.N      ?Subroutine38
+        DATA
+??pg_SC_Editor_SelectFolder_EnterAction_3:
+        DC32     ??OnOkFolderInput
+        DC32     ??OnBackFolderInput
+        DC32     ??SelFolder_Enter
+        CFI EndBlock cfiBlock43
+//  361   return 0;
+//  362 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_SelectFolder_ExitAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock44
+        REQUIRE ??pg_SC_Editor_SelectFolder_ExitAction
+//  363 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_SelectFolder_ExitAction
+        THUMB
+//  364 int pg_SC_Editor_SelectFolder_ExitAction(void* data, BOOK* book)
+//  365 {
+??pg_SC_Editor_SelectFolder_ExitAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  366   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  367   FREE_GUI(mbk->SelectFolder);
+        LDR      R0,[R4, #+56]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_SelectFolder_ExitAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+56]
+//  368   return 0;
+??pg_SC_Editor_SelectFolder_ExitAction_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock45
+//  369 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Get_SCTypes_Text??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock46
+        REQUIRE ??Get_SCTypes_Text
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+Goto_Editor_MainMenu_PageDesc:
+        DATA
+        DC32 `?<Constant "SC_Editor_SelectShort...">`, 0H
+        DC32 Goto_Editor_MainMenu_PageEvents
+        DC32 `?<Constant "SC_Editor_SetJava_Page">`, 0H
+        DC32 Goto_Editor_JavaList_PageEvents
+        DC32 `?<Constant "SC_Editor_SelectElf_Page">`, 0H
+        DC32 Goto_Editor_DataBrowser_PageEvents
+        DC32 `?<Constant "SC_Editor_EventInput_...">`, 0H
+        DC32 Goto_Editor_EventInput_PageEvents
+        DC32 `?<Constant "SC_Editor_SelectFolde...">`, 0H
+        DC32 Goto_Editor_SelectFolder_PageEvents
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+Goto_Editor_JavaList_PageEvents:
+        DATA
+        DC32 15, ??CreateJavaList, 16, ??CloseJavaList, 0, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+Goto_Editor_DataBrowser_PageEvents:
+        DATA
+        DC32 15, ??CreateDataBrowser, 2, ??Select_DB, 3, ??Cancel_MainMenu_DB
+        DC32 4, ??Cancel_MainMenu_DB, 0, 0H
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+Goto_Editor_EventInput_PageEvents:
+        DATA
+        DC32 15, ??pg_SC_Editor_EventInput_EnterAction, 16
+        DC32 ??pg_SC_Editor_EventInput_ExitAction, 0, 0H
+//  370 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  371 const PAGE_MSG Goto_Editor_SelectFolder_PageEvents[] = 
+Goto_Editor_SelectFolder_PageEvents:
+        DATA
+        DC32 15, ??pg_SC_Editor_SelectFolder_EnterAction, 16
+        DC32 ??pg_SC_Editor_SelectFolder_ExitAction, 0, 0H
+//  372 {
+//  373   PAGE_ENTER_EVENT, pg_SC_Editor_SelectFolder_EnterAction,
+//  374   PAGE_EXIT_EVENT,  pg_SC_Editor_SelectFolder_ExitAction,
+//  375   NIL_EVENT,        NULL
+//  376 };
+//  377 const PAGE_DESC Goto_Editor_SelectFolder_PageDesc = {EDITOR_SELECTFOLDER_BASEPAGE_NAME, 0, Goto_Editor_SelectFolder_PageEvents};
+//  378 
+//  379 //------------------------------------------------------------------------------
+//  380 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI Function ??Get_SCTypes_Text
+        THUMB
+//  381 TEXTID Get_SCTypes_Text(int item)
+//  382 {
+//  383   const wchar_t* TypesCaptions[TYPE_LAST] =
+//  384   {
+//  385     L"Shortcut",
+//  386     L"Java",
+//  387     L"Elf",
+//  388     L"Event",
+//  389     L"Folder"
+//  390   };
+??Get_SCTypes_Text:
+        LDR      R2,??Get_SCTypes_Text_1  ;; `?<Constant {&L"\\x53\\x68\\x6f\\x72\\x74\\x63\\x75\\x7`
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        SUB      SP,SP,#+20
+        CFI CFA R13+28
+        MOV      R1,SP
+        MOVS     R4,#+20
+??Get_SCTypes_Text_2:
+        SUBS     R4,R4,#+4
+        LDR      R3,[R2, R4]
+        STR      R3,[R1, R4]
+        BNE      ??Get_SCTypes_Text_2
+//  391   return TextID_Get(TypesCaptions[item]);
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        LSLS     R0,R0,#+2
+        MOV      R3,SP
+        LDR      R0,[R3, R0]
+        _BLF     TextID_Create,??TextID_Create??rT
+        ADD      SP,SP,#+20
+        CFI CFA R13+8
+        POP      {R4,PC}          ;; return
+        DATA
+??Get_SCTypes_Text_1:
+        DC32     `?<Constant {&L"\\x53\\x68\\x6f\\x72\\x74\\x63\\x75\\x7`
+        CFI EndBlock cfiBlock47
+//  392 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??TypesList_onSelect??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock48
+        REQUIRE ??TypesList_onSelect
+//  393 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI Function ??TypesList_onSelect
+        THUMB
+//  394 void TypesList_onSelect(BOOK* book, GUI* gui)
+//  395 {
+??TypesList_onSelect:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//  396   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  397   switch(ListMenu_GetSelectedItem(mbk->TypesList))
+        LDR      R5,??TypesList_onSelect_2  ;; Goto_Editor_MainMenu_PageDesc
+        MOVS     R4,R0
+        LDR      R0,[R4, #+36]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+        CMP      R0,#+4
+        BHI      ??TypesList_onSelect_3
+        ADR      R1,??TypesList_onSelect_1
+        LDRB     R1,[R1, R0]
+        ADD      PC,PC,R1
+        Nop      
+        DATA
+??TypesList_onSelect_1:
+        DC8      +8,+6,+10,+14
+        DC8      +18,+0
+        THUMB
+//  398   {
+//  399   case TYPE_SHORTCUT:            
+//  400     BookObj_CallPage(mbk, &Goto_Editor_MainMenu_PageDesc);
+//  401     break;
+//  402   case TYPE_JAVA:
+//  403     BookObj_CallPage(mbk, &Goto_Editor_JavaList_PageDesc);
+??TypesList_onSelect_4:
+        ADDS     R5,R5,#+12
+??TypesList_onSelect_5:
+        B.N      ?Subroutine40
+//  404     break;
+//  405   case TYPE_ELF:
+//  406     BookObj_CallPage(mbk, &Goto_Editor_DataBrowser_PageDesc);
+??TypesList_onSelect_6:
+        ADDS     R5,R5,#+24
+        B.N      ??TypesList_onSelect_5
+//  407     break;
+//  408   case TYPE_EVENT:
+//  409     BookObj_CallPage(mbk, &Goto_Editor_EventInput_PageDesc);
+??TypesList_onSelect_7:
+        ADDS     R5,R5,#+36
+        B.N      ??TypesList_onSelect_5
+//  410     break;
+//  411   case TYPE_FOLDER:
+//  412     BookObj_CallPage(mbk, &Goto_Editor_SelectFolder_PageDesc);
+??TypesList_onSelect_8:
+        ADDS     R5,R5,#+48
+        MOVS     R1,R5
+        MOVS     R0,R4
+        _BLF     BookObj_CallPage,??BookObj_CallPage??rT
+//  413     break;
+//  414   }
+//  415 }
+??TypesList_onSelect_3:
+        POP      {R4,R5,PC}       ;; return
+        Nop      
+        DATA
+??TypesList_onSelect_2:
+        DC32     Goto_Editor_MainMenu_PageDesc
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??TypesList_onMessage??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock50
+        REQUIRE ??TypesList_onMessage
+//  416 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI Function ??TypesList_onMessage
+        THUMB
+//  417 int TypesList_onMessage(GUI_MESSAGE* msg)
+//  418 {
+??TypesList_onMessage:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  419   switch(GUIonMessage_GetMsg(msg))
+        _BLF     GUIonMessage_GetMsg,??GUIonMessage_GetMsg??rT
+        CMP      R0,#+1
+        BNE      ??TypesList_onMessage_1
+//  420   {
+//  421   case LISTMSG_GetItem:
+//  422     int index = GUIonMessage_GetCreatedItemIndex(msg);    
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetCreatedItemIndex,??GUIonMessage_GetCreatedItemIndex??rT
+        MOVS     R5,R0
+//  423     GUIonMessage_SetMenuItemText(msg, Get_SCTypes_Text(index));
+        BL       ??Get_SCTypes_Text
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemText,??GUIonMessage_SetMenuItemText??rT
+//  424     GUIonMessage_SetMenuItemIcon(msg, 0, TypesIcons[index]);
+        LDR      R1,??TypesList_onMessage_2  ;; TypesIcons
+        LSLS     R0,R5,#+1
+        LDRH     R2,[R1, R0]
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemIcon,??GUIonMessage_SetMenuItemIcon??rT
+//  425     break;
+//  426   }
+//  427   return 1;
+??TypesList_onMessage_1:
+        MOVS     R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        Nop      
+        DATA
+??TypesList_onMessage_2:
+        DC32     TypesIcons
+        CFI EndBlock cfiBlock51
+//  428 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_TypesList_EnterAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock52
+        REQUIRE ??pg_SC_Editor_TypesList_EnterAction
+//  429 /*
+//  430 void Types_Back(BOOK* book, GUI* gui)
+//  431 {
+//  432   BookObj_ReturnPage(book, NIL_EVENT);    
+//  433 }
+//  434 */
+//  435 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_TypesList_EnterAction
+        THUMB
+//  436 int pg_SC_Editor_TypesList_EnterAction(void* data, BOOK* book)
+//  437 {
+??pg_SC_Editor_TypesList_EnterAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  438   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  439   mbk->TypesList = CreateListMenu(mbk, UIDisplay_Main);
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     CreateListMenu,??CreateListMenu??rT
+//  440   GUIObject_SetTitleText(mbk->TypesList, TYPES_TITLE_TXT);
+        LDR      R1,??pg_SC_Editor_TypesList_EnterAction_1  ;; 0x103f
+        STR      R0,[R4, #+36]
+        _BLF     GUIObject_SetTitleText,??GUIObject_SetTitleText??rT
+//  441   ListMenu_SetItemCount(mbk->TypesList, TYPE_LAST);
+        LDR      R0,[R4, #+36]
+        MOVS     R1,#+5
+        _BLF     ListMenu_SetItemCount,??ListMenu_SetItemCount??rT
+//  442   ListMenu_SetCursorToItem(mbk->TypesList, 0);
+        LDR      R0,[R4, #+36]
+        MOVS     R1,#+0
+        _BLF     ListMenu_SetCursorToItem,??ListMenu_SetCursorToItem??rT
+//  443   ListMenu_SetOnMessage(mbk->TypesList, TypesList_onMessage); 
+        LDR      R1,??pg_SC_Editor_TypesList_EnterAction_1+0x4  ;; ??TypesList_onMessage
+        LDR      R0,[R4, #+36]
+        _BLF     ListMenu_SetOnMessage,??ListMenu_SetOnMessage??rT
+//  444   GUIObject_SoftKeys_SetAction(mbk->TypesList, ACTION_SELECT1, TypesList_onSelect);
+        LDR      R1,??DataTable8  ;; 0xfc2
+        LDR      R2,??pg_SC_Editor_TypesList_EnterAction_1+0x8  ;; ??TypesList_onSelect
+        LDR      R0,[R4, #+36]
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  445   GUIObject_SoftKeys_SetAction(mbk->TypesList, ACTION_BACK, Action_Back);
+        LDR      R2,??DataTable7  ;; ??Action_Back
+        LDR      R0,[R4, #+36]
+        MOVS     R1,#+252
+        LSLS     R1,R1,#+4
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  446   GUIObject_Show(mbk->TypesList);
+        LDR      R0,[R4, #+36]
+        B.N      ?Subroutine39
+        Nop      
+        DATA
+??pg_SC_Editor_TypesList_EnterAction_1:
+        DC32     0x103f
+        DC32     ??TypesList_onMessage
+        DC32     ??TypesList_onSelect
+        CFI EndBlock cfiBlock53
+//  447   return 1;
+//  448 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_TypesList_ExitAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock54
+        REQUIRE ??pg_SC_Editor_TypesList_ExitAction
+//  449 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_TypesList_ExitAction
+        THUMB
+//  450 int pg_SC_Editor_TypesList_ExitAction(void* data, BOOK* book)
+//  451 {
+??pg_SC_Editor_TypesList_ExitAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  452   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  453   FREE_GUI(mbk->TypesList);
+        LDR      R0,[R4, #+36]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_TypesList_ExitAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+36]
+//  454   return 0;
+??pg_SC_Editor_TypesList_ExitAction_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock55
+//  455 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnOkCaptionInput??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock56
+        REQUIRE ??OnOkCaptionInput
+//  456 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  457 const PAGE_MSG Goto_Editor_TypesList_PageEvents[] = 
+Goto_Editor_TypesList_PageEvents:
+        DATA
+        DC32 15, ??pg_SC_Editor_TypesList_EnterAction, 16
+        DC32 ??pg_SC_Editor_TypesList_ExitAction, 0, 0H
+//  458 {
+//  459   PAGE_ENTER_EVENT, pg_SC_Editor_TypesList_EnterAction,
+//  460   PAGE_EXIT_EVENT,  pg_SC_Editor_TypesList_ExitAction,
+//  461   NIL_EVENT,        NULL
+//  462 };
+//  463 const PAGE_DESC Goto_Editor_TypesList_PageDesc = {EDITOR_TYPESLIST_BASEPAGE_NAME, 0, Goto_Editor_TypesList_PageEvents};
+//  464 
+//  465 //------------------------------------------------------------------------------
+//  466 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI Function ??OnOkCaptionInput
+        THUMB
+//  467 void OnOkCaptionInput(BOOK* book, wchar_t* string, int len)
+//  468 {
+??OnOkCaptionInput:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+        MOVS     R0,R1
+//  469   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  470 
+//  471   if (len > 0) StringReallocEx(string, &mbk->Current->Caption, len);
+        CMP      R2,#+1
+        BLT      ??OnOkCaptionInput_1
+        LDR      R1,[R4, #+72]
+        ADDS     R1,R1,#+8
+        _BLF     ??StringReallocEx,??StringReallocEx??rT
+??OnOkCaptionInput_1:
+        Nop      
+        CFI EndBlock cfiBlock57
+//  472     
+//  473   BookObj_ReturnPage(mbk, ACCEPT_EVENT);
+        REQUIRE ?Subroutine37
+        ;; // Fall through to label ?Subroutine37
+//  474 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon1
+        CFI NoFunction
+        CFI CFA R13+8
+        CFI R4 Frame(CFA, -8)
+        CFI ?RET Frame(CFA, -4)
+        THUMB
+?Subroutine37:
+        MOVS     R1,#+2
+??Subroutine37_0:
+        MOVS     R0,R4
+        _BLF     BookObj_ReturnPage,??BookObj_ReturnPage??rT
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock58
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_LabelInput_EnterAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock59
+        REQUIRE ??pg_SC_Editor_LabelInput_EnterAction
+//  475 /*
+//  476 void OnBackCaptionInput(BOOK* book, wchar_t* string, int len)
+//  477 {
+//  478   BookObj_ReturnPage(book, NIL_EVENT);
+//  479 }
+//  480 */   
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_LabelInput_EnterAction
+        THUMB
+//  481 int pg_SC_Editor_LabelInput_EnterAction(void* data, BOOK* book)
+//  482 {
+??pg_SC_Editor_LabelInput_EnterAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  483   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  484   FREE_GUI(mbk->CaptionInput);
+        LDR      R0,[R4, #+40]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_LabelInput_EnterAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+40]
+//  485 
+//  486   mbk->CaptionInput = CreateStringInput( mbk );
+??pg_SC_Editor_LabelInput_EnterAction_1:
+        MOVS     R0,R4
+        _BLF     CreateStringInput,??CreateStringInput??rT
+        STR      R0,[R4, #+40]
+//  487   StringInput_SetMode( mbk->CaptionInput, IT_STRING);
+        MOVS     R1,#+1
+        _BLF     StringInput_SetMode,??StringInput_SetMode??rT
+//  488   StringInput_SetEnableEmptyText( mbk->CaptionInput, TRUE );
+        LDR      R0,[R4, #+40]
+        MOVS     R1,#+1
+        _BLF     StringInput_SetEnableEmptyText,??StringInput_SetEnableEmptyText??rT
+//  489   StringInput_SetText( mbk->CaptionInput, TextID_Get(mbk->Current->Caption) );
+        LDR      R0,[R4, #+72]
+        MOVS     R2,#+255
+        LDR      R0,[R0, #+8]
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+40]
+        _BLF     StringInput_SetText,??StringInput_SetText??rT
+//  490   StringInput_SetMinLen( mbk->CaptionInput, 1 );
+        LDR      R0,[R4, #+40]
+        MOVS     R1,#+1
+        _BLF     StringInput_SetMinLen,??StringInput_SetMinLen??rT
+//  491   StringInput_SetMaxLen( mbk->CaptionInput, 63 );  
+        LDR      R0,[R4, #+40]
+        MOVS     R1,#+63
+        _BLF     StringInput_SetMaxLen,??StringInput_SetMaxLen??rT
+//  492   StringInput_SetActionOK( mbk->CaptionInput, OnOkCaptionInput );
+        LDR      R1,??pg_SC_Editor_LabelInput_EnterAction_2  ;; ??OnOkCaptionInput
+        LDR      R0,[R4, #+40]
+        _BLF     StringInput_SetActionOK,??StringInput_SetActionOK??rT
+//  493   //StringInput_SetActionNo( mbk->CaptionInput, OnBackCaptionInput );
+//  494   GUIObject_SoftKeys_SetAction(mbk->CaptionInput, ACTION_BACK, Action_Back);
+        LDR      R2,??DataTable7  ;; ??Action_Back
+        LDR      R0,[R4, #+40]
+        MOVS     R1,#+252
+        LSLS     R1,R1,#+4
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  495   GUIObject_Show(mbk->CaptionInput);
+        LDR      R0,[R4, #+40]
+        B.N      ?Subroutine38
+        DATA
+??pg_SC_Editor_LabelInput_EnterAction_2:
+        DC32     ??OnOkCaptionInput
+        CFI EndBlock cfiBlock60
+//  496   return 0;
+//  497 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable7:
+        DC32     ??Action_Back
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_LabelInput_ExitAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock61
+        REQUIRE ??pg_SC_Editor_LabelInput_ExitAction
+//  498 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_LabelInput_ExitAction
+        THUMB
+//  499 int pg_SC_Editor_LabelInput_ExitAction(void* data, BOOK* book)
+//  500 {
+??pg_SC_Editor_LabelInput_ExitAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  501   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  502   FREE_GUI(mbk->CaptionInput);
+        LDR      R0,[R4, #+40]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_LabelInput_ExitAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+40]
+//  503   return 0;
+??pg_SC_Editor_LabelInput_ExitAction_1:
+        MOVS     R0,#+0
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock62
+//  504 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Editor_onSelect??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock63
+        REQUIRE ??Editor_onSelect
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+Goto_Editor_TypesList_PageDesc:
+        DATA
+        DC32 `?<Constant "SC_Editor_TypesList_Page">`, 0H
+        DC32 Goto_Editor_TypesList_PageEvents
+        DC32 `?<Constant "SC_Editor_LabelInput_...">`, 0H
+        DC32 Goto_Editor_CaptionInput_PageEvents
+//  505 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  506 const PAGE_MSG Goto_Editor_CaptionInput_PageEvents[] = 
+Goto_Editor_CaptionInput_PageEvents:
+        DATA
+        DC32 15, ??pg_SC_Editor_LabelInput_EnterAction, 16
+        DC32 ??pg_SC_Editor_LabelInput_ExitAction, 0, 0H
+//  507 {
+//  508   PAGE_ENTER_EVENT, pg_SC_Editor_LabelInput_EnterAction,
+//  509   PAGE_EXIT_EVENT,  pg_SC_Editor_LabelInput_ExitAction,
+//  510   NIL_EVENT,        NULL
+//  511 };
+//  512 const PAGE_DESC Goto_Editor_CaptionInput_PageDesc = {EDITOR_CAPTIONINPUT_BASEPAGE_NAME, 0, Goto_Editor_CaptionInput_PageEvents};
+//  513 
+//  514 
+//  515 //------------------------------------------------------------------------------
+//  516 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock64 Using cfiCommon1
+        CFI Function ??Editor_onSelect
+        THUMB
+//  517 void Editor_onSelect(BOOK* book, GUI* gui)
+//  518 {
+??Editor_onSelect:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+//  519   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  520   switch(ListMenu_GetSelectedItem(mbk->Editor))
+        LDR      R5,??Subroutine40_1  ;; Goto_Editor_TypesList_PageDesc
+        MOVS     R4,R0
+        LDR      R0,[R4, #+28]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+        CMP      R0,#+0
+        BEQ      ??Editor_onSelect_1
+        CMP      R0,#+1
+        BEQ      ??Editor_onSelect_2
+        POP      {R4,R5,PC}
+//  521   {
+//  522   case 0:
+//  523     BookObj_CallPage(mbk, &Goto_Editor_CaptionInput_PageDesc);
+??Editor_onSelect_1:
+        ADDS     R5,R5,#+12
+        CFI EndBlock cfiBlock64
+//  524     break;
+//  525   case 1:
+//  526     BookObj_CallPage(mbk, &Goto_Editor_TypesList_PageDesc);
+??Editor_onSelect_2:
+        REQUIRE ?Subroutine40
+        ;; // Fall through to label ?Subroutine40
+//  527     break;
+//  528   }
+//  529 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock65 Using cfiCommon1
+        CFI NoFunction
+        CFI CFA R13+12
+        CFI R4 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -8)
+        CFI ?RET Frame(CFA, -4)
+        THUMB
+?Subroutine40:
+        MOVS     R1,R5
+??Subroutine40_0:
+        MOVS     R0,R4
+        _BLF     BookObj_CallPage,??BookObj_CallPage??rT
+        POP      {R4,R5,PC}
+        Nop      
+        DATA
+??Subroutine40_1:
+        DC32     Goto_Editor_TypesList_PageDesc
+        CFI EndBlock cfiBlock65
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock66 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Editor_onBack??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock66
+        REQUIRE ??Editor_onBack
+//  530 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock67 Using cfiCommon1
+        CFI Function ??Editor_onBack
+        THUMB
+//  531 void Editor_onBack(BOOK* book, GUI* gui)
+//  532 {
+??Editor_onBack:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  533   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  534   if(!mbk->Current->sData || !mbk->Current->Caption)
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+4]
+        CMP      R0,#+0
+        BEQ      ??Editor_onBack_1
+        LDR      R0,[R4, #+72]
+        LDR      R0,[R0, #+8]
+        CMP      R0,#+0
+        BNE      ??Editor_onBack_2
+//  535   {
+//  536     void* Item = List_RemoveFirst(mbk->Items);
+??Editor_onBack_1:
+        LDR      R0,[R4, #+60]
+        _BLF     List_RemoveFirst,??List_RemoveFirst??rT
+//  537     ShortcutFree(Item);
+        _BLF     ??ShortcutFree,??ShortcutFree??rT
+//  538     //UpdateMainPage(NULL, mbk);
+//  539   }
+//  540   BookObj_ReturnPage(book, ACCEPT_EVENT);
+??Editor_onBack_2:
+        B.N      ?Subroutine37
+        CFI EndBlock cfiBlock67
+//  541 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock68 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Editor_onMessage??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock68
+        REQUIRE ??Editor_onMessage
+//  542 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock69 Using cfiCommon1
+        CFI Function ??Editor_onMessage
+        THUMB
+//  543 int Editor_onMessage(GUI_MESSAGE *msg)
+//  544 {
+??Editor_onMessage:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+        MOVS     R4,R0
+//  545   switch(GUIonMessage_GetMsg(msg))
+        _BLF     GUIonMessage_GetMsg,??GUIonMessage_GetMsg??rT
+        CMP      R0,#+1
+        BNE      ??Editor_onMessage_1
+//  546   {
+//  547   case LISTMSG_GetItem:
+//  548     GotoShortcut_Book* mbk = (GotoShortcut_Book*)GUIonMessage_GetBook(msg);
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetBook,??GUIonMessage_GetBook??rT
+        MOVS     R5,R0
+//  549     int index = GUIonMessage_GetCreatedItemIndex(msg); 
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetCreatedItemIndex,??GUIonMessage_GetCreatedItemIndex??rT
+//  550     GUIonMessage_SetMenuItemIcon(msg, 0, EditorIcons[index]);
+        LDR      R1,??Editor_onMessage_2  ;; EditorIcons
+        MOVS     R6,R0
+        LSLS     R0,R6,#+1
+        LDRH     R2,[R1, R0]
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemIcon,??GUIonMessage_SetMenuItemIcon??rT
+//  551     if (index == 0)
+        CMP      R6,#+0
+        BNE      ??Editor_onMessage_3
+//  552     {
+//  553       GUIonMessage_SetMenuItemText(msg, EDITOR_LABEL_TXT);
+        LDR      R1,??Editor_onMessage_2+0x4  ;; 0xea1
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemText,??GUIonMessage_SetMenuItemText??rT
+//  554       GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Get(mbk->Current->Caption));
+        LDR      R0,[R5, #+72]
+        MOVS     R2,#+255
+        LDR      R0,[R0, #+8]
+        B.N      ??Editor_onMessage_4
+//  555     }
+//  556     if (index == 1)
+??Editor_onMessage_3:
+        CMP      R6,#+1
+        BNE      ??Editor_onMessage_1
+//  557     {
+//  558       GUIonMessage_SetMenuItemText(msg, EDITOR_SHORTCUT_TXT);
+        LDR      R1,??Editor_onMessage_2+0x8  ;; 0x198f
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemText,??GUIonMessage_SetMenuItemText??rT
+//  559       GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Get(mbk->Current->sData)); 
+        LDR      R0,[R5, #+72]
+        MOVS     R2,#+255
+        LDR      R0,[R0, #+4]
+??Editor_onMessage_4:
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemSecondLineText,??GUIonMessage_SetMenuItemSecondLineText??rT
+//  560     }
+//  561   }
+//  562   return 1;
+??Editor_onMessage_1:
+        MOVS     R0,#+1
+        POP      {R4-R6,PC}       ;; return
+        Nop      
+        DATA
+??Editor_onMessage_2:
+        DC32     EditorIcons
+        DC32     0xea1
+        DC32     0x198f
+        CFI EndBlock cfiBlock69
+//  563 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock70 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_Main_EnterAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock70
+        REQUIRE ??pg_SC_Editor_Main_EnterAction
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock71 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_Main_EnterAction
+        THUMB
+//  564 int pg_SC_Editor_Main_EnterAction(void* data, BOOK* book)
+//  565 {
+??pg_SC_Editor_Main_EnterAction:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R1
+//  566   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  567   FREE_GUI(mbk->Editor);
+        LDR      R0,[R4, #+28]
+        CMP      R0,#+0
+        BEQ      ??pg_SC_Editor_Main_EnterAction_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+28]
+//  568   mbk->Editor = CreateListMenu(mbk, UIDisplay_Main);
+??pg_SC_Editor_Main_EnterAction_1:
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     CreateListMenu,??CreateListMenu??rT
+//  569   GUIObject_SetTitleText(mbk->Editor, EDITOR_TITLE_TXT);
+        LDR      R1,??Subroutine39_0  ;; 0x2755
+        STR      R0,[R4, #+28]
+        _BLF     GUIObject_SetTitleText,??GUIObject_SetTitleText??rT
+//  570   ListMenu_SetItemCount(mbk->Editor, 2);
+        LDR      R0,[R4, #+28]
+        MOVS     R1,#+2
+        _BLF     ListMenu_SetItemCount,??ListMenu_SetItemCount??rT
+//  571   ListMenu_SetCursorToItem(mbk->Editor, 0);
+        LDR      R0,[R4, #+28]
+        MOVS     R1,#+0
+        _BLF     ListMenu_SetCursorToItem,??ListMenu_SetCursorToItem??rT
+//  572   ListMenu_SetItemStyle(mbk->Editor, 3);
+        LDR      R0,[R4, #+28]
+        MOVS     R1,#+3
+        _BLF     ListMenu_SetItemStyle,??ListMenu_SetItemStyle??rT
+//  573   ListMenu_SetOnMessage(mbk->Editor, Editor_onMessage); 
+        LDR      R1,??Subroutine39_0+0x4  ;; ??Editor_onMessage
+        LDR      R0,[R4, #+28]
+        _BLF     ListMenu_SetOnMessage,??ListMenu_SetOnMessage??rT
+//  574   GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_SELECT1, Editor_onSelect);
+        LDR      R1,??DataTable8  ;; 0xfc2
+        LDR      R2,??Subroutine39_0+0x8  ;; ??Editor_onSelect
+        LDR      R0,[R4, #+28]
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  575   GUIObject_SoftKeys_SetAction(mbk->Editor, ACTION_BACK, Editor_onBack);
+        LDR      R2,??Subroutine39_0+0xC  ;; ??Editor_onBack
+        LDR      R0,[R4, #+28]
+        MOVS     R1,#+252
+        LSLS     R1,R1,#+4
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  576   GUIObject_Show(mbk->Editor);
+        LDR      R0,[R4, #+28]
+        Nop      
+        CFI EndBlock cfiBlock71
+        REQUIRE ?Subroutine39
+        ;; // Fall through to label ?Subroutine39
+//  577   return 1;
+//  578 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock72 Using cfiCommon1
+        CFI NoFunction
+        CFI CFA R13+8
+        CFI R4 Frame(CFA, -8)
+        CFI ?RET Frame(CFA, -4)
+        THUMB
+?Subroutine39:
+        _BLF     GUIObject_Show,??GUIObject_Show??rT
+        MOVS     R0,#+1
+        POP      {R4,PC}          ;; return
+        DATA
+??Subroutine39_0:
+        DC32     0x2755
+        DC32     ??Editor_onMessage
+        DC32     ??Editor_onSelect
+        DC32     ??Editor_onBack
+        CFI EndBlock cfiBlock72
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable8:
+        DC32     0xfc2
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock73 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CloseEditorMenu??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock73
+        REQUIRE ??CloseEditorMenu
+//  579 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock74 Using cfiCommon1
+        CFI Function ??CloseEditorMenu
+        THUMB
+//  580 int CloseEditorMenu(void* data, BOOK* book)
+//  581 {
+??CloseEditorMenu:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R1
+//  582   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  583   mbk->CurrentPos = ListMenu_GetSelectedItem(mbk->MainMenu);
+        MOVS     R5,R4
+        ADDS     R5,R5,#+24
+        LDR      R0,[R5, #+0]
+        ADDS     R4,R4,#+68
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+        STRB     R0,[R4, #+0]
+//  584   FREE_GUI(mbk->Editor);
+        LDR      R0,[R5, #+4]
+        CMP      R0,#+0
+        BEQ      ??CloseEditorMenu_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R5, #+4]
+//  585   return 1;
+??CloseEditorMenu_1:
+        MOVS     R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock74
+//  586 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock75 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??pg_SC_Editor_Main_AcceptAction??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock75
+        REQUIRE ??pg_SC_Editor_Main_AcceptAction
+//  587 
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  588 const PAGE_MSG Goto_Editor_Main_PageEvents[] = 
+Goto_Editor_Main_PageEvents:
+        DATA
+        DC32 15, ??pg_SC_Editor_Main_EnterAction, 2
+        DC32 ??pg_SC_Editor_Main_AcceptAction, 16, ??CloseEditorMenu, 0, 0H
+//  589 {
+//  590   PAGE_ENTER_EVENT, pg_SC_Editor_Main_EnterAction,
+//  591   ACCEPT_EVENT,     pg_SC_Editor_Main_AcceptAction,
+//  592   PAGE_EXIT_EVENT,  CloseEditorMenu,
+//  593   NIL_EVENT,        NULL
+//  594 };
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+//  595 const PAGE_DESC Goto_Editor_Main_PageDesc = {EDITOR_MAIN_BASEPAGE_NAME, 0, Goto_Editor_Main_PageEvents};
+Goto_Editor_Main_PageDesc:
+        DATA
+        DC32 `?<Constant "SC_Editor_Main_Page">`, 0H
+        DC32 Goto_Editor_Main_PageEvents
+//  596 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock76 Using cfiCommon1
+        CFI Function ??pg_SC_Editor_Main_AcceptAction
+        THUMB
+//  597 int pg_SC_Editor_Main_AcceptAction(void* data, BOOK* book)
+//  598 {
+??pg_SC_Editor_Main_AcceptAction:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOVS     R0,R1
+//  599   BookObj_GotoPage(book, &Goto_Editor_Main_PageDesc);
+        LDR      R1,??DataTable10  ;; Goto_Editor_Main_PageDesc
+        _BLF     BookObj_GotoPage,??BookObj_GotoPage??rT
+//  600   return 0;
+        MOVS     R0,#+0
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock76
+//  601 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock77 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??EditorRun??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock77
+        REQUIRE ??EditorRun
+//  602 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock78 Using cfiCommon1
+        CFI Function ??EditorRun
+        THUMB
+//  603 void EditorRun(BOOK* book, int mode)
+//  604 {
+??EditorRun:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  605   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  606   if (mode == ADDING_MODE)
+        CMP      R1,#+2
+        BNE      ??EditorRun_1
+//  607   {
+//  608     SHORTCUT* Shortcut = (SHORTCUT *)malloc(sizeof(SHORTCUT));
+        MOVS     R0,#+16
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R5,R0
+//  609     memset(Shortcut, NULL, sizeof(SHORTCUT));
+        MOVS     R2,#+16
+        MOVS     R1,#+0
+        _BLF     memset,??memset??rT
+//  610     List_InsertFirst(mbk->Items, Shortcut);
+        LDR      R0,[R4, #+60]
+        MOVS     R1,R5
+        _BLF     List_InsertFirst,??List_InsertFirst??rT
+//  611     mbk->Current = (SHORTCUT*)List_Get(mbk->Items, 0);
+        LDR      R0,[R4, #+60]
+        MOVS     R1,#+0
+        B.N      ??EditorRun_2
+//  612   }
+//  613   else mbk->Current = (SHORTCUT*) List_Get(mbk->Items, ListMenu_GetSelectedItem(mbk->MainMenu));
+??EditorRun_1:
+        LDR      R0,[R4, #+24]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+        MOVS     R1,R0
+        LDR      R0,[R4, #+60]
+??EditorRun_2:
+        _BLF     List_Get,??List_Get??rT
+        STR      R0,[R4, #+72]
+//  614   
+//  615   BookObj_CallPage(mbk, &Goto_Editor_Main_PageDesc);
+        LDR      R1,??DataTable10  ;; Goto_Editor_Main_PageDesc
+        B.N      ??Subroutine40_0
+        CFI EndBlock cfiBlock78
+//  616 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable10:
+        DC32     Goto_Editor_Main_PageDesc
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock79 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_ReturnPage??rT:
+        LDR      R3,??Subroutine42_0  ;; BookObj_ReturnPage
+        BX       R3
+        DATA
+??Subroutine42_0:
+        DC32     BookObj_ReturnPage
+        CFI EndBlock cfiBlock79
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock80 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FindBook??rT:
+        LDR      R3,??Subroutine43_0  ;; FindBook
+        BX       R3
+        DATA
+??Subroutine43_0:
+        DC32     FindBook
+        CFI EndBlock cfiBlock80
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock81 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringRealloc??rT:
+        LDR      R3,??Subroutine44_0  ;; ??StringRealloc
+        BX       R3
+        DATA
+??Subroutine44_0:
+        DC32     ??StringRealloc
+        CFI EndBlock cfiBlock81
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock82 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringFree??rT:
+        LDR      R3,??Subroutine45_0  ;; ??StringFree
+        BX       R3
+        DATA
+??Subroutine45_0:
+        DC32     ??StringFree
+        CFI EndBlock cfiBlock82
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock83 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??SHORTCUT_DESC_A2_Init??rT:
+        LDR      R3,??Subroutine46_0  ;; ??SHORTCUT_DESC_A2_Init
+        BX       R3
+        DATA
+??Subroutine46_0:
+        DC32     ??SHORTCUT_DESC_A2_Init
+        CFI EndBlock cfiBlock83
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock84 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??Shortcut_Get_MenuItemIconID??rT:
+        LDR      R3,??Subroutine47_0  ;; Shortcut_Get_MenuItemIconID
+        BX       R3
+        DATA
+??Subroutine47_0:
+        DC32     Shortcut_Get_MenuItemIconID
+        CFI EndBlock cfiBlock84
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock85 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringLength??rT:
+        LDR      R3,??Subroutine48_0  ;; ??StringLength
+        BX       R3
+        DATA
+??Subroutine48_0:
+        DC32     ??StringLength
+        CFI EndBlock cfiBlock85
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock86 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringAlloc??rT:
+        LDR      R3,??Subroutine49_0  ;; ??StringAlloc
+        BX       R3
+        DATA
+??Subroutine49_0:
+        DC32     ??StringAlloc
+        CFI EndBlock cfiBlock86
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock87 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrcpy??rT:
+        LDR      R3,??Subroutine50_0  ;; wstrcpy
+        BX       R3
+        DATA
+??Subroutine50_0:
+        DC32     wstrcpy
+        CFI EndBlock cfiBlock87
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock88 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??mfree??rT:
+        LDR      R3,??Subroutine51_0  ;; ??mfree
+        BX       R3
+        DATA
+??Subroutine51_0:
+        DC32     ??mfree
+        CFI EndBlock cfiBlock88
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock89 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FreeBook??rT:
+        LDR      R3,??Subroutine52_0  ;; FreeBook
+        BX       R3
+        DATA
+??Subroutine52_0:
+        DC32     FreeBook
+        CFI EndBlock cfiBlock89
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock90 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??MenuBook_Desktop_GetSelectedItemID??rT:
+        LDR      R3,??Subroutine53_0  ;; MenuBook_Desktop_GetSelectedItemID
+        BX       R3
+        DATA
+??Subroutine53_0:
+        DC32     MenuBook_Desktop_GetSelectedItemID
+        CFI EndBlock cfiBlock90
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock91 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??Shortcut_Get_MenuItemName??rT:
+        LDR      R3,??Subroutine54_0  ;; Shortcut_Get_MenuItemName
+        BX       R3
+        DATA
+??Subroutine54_0:
+        DC32     Shortcut_Get_MenuItemName
+        CFI EndBlock cfiBlock91
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock92 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??TextID_GetWString??rT:
+        LDR      R3,??Subroutine55_0  ;; TextID_GetWString
+        BX       R3
+        DATA
+??Subroutine55_0:
+        DC32     TextID_GetWString
+        CFI EndBlock cfiBlock92
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock93 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_GetBookID??rT:
+        LDR      R3,??Subroutine56_0  ;; BookObj_GetBookID
+        BX       R3
+        DATA
+??Subroutine56_0:
+        DC32     BookObj_GetBookID
+        CFI EndBlock cfiBlock93
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock94 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??MenuBook_Desktop??rT:
+        LDR      R3,??Subroutine57_0  ;; MenuBook_Desktop
+        BX       R3
+        DATA
+??Subroutine57_0:
+        DC32     MenuBook_Desktop
+        CFI EndBlock cfiBlock94
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock95 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_SoftKeys_SetAction??rT:
+        LDR      R3,??Subroutine58_0  ;; BookObj_SoftKeys_SetAction
+        BX       R3
+        DATA
+??Subroutine58_0:
+        DC32     BookObj_SoftKeys_SetAction
+        CFI EndBlock cfiBlock95
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock96 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_SoftKeys_SetText??rT:
+        LDR      R3,??Subroutine59_0  ;; BookObj_SoftKeys_SetText
+        BX       R3
+        DATA
+??Subroutine59_0:
+        DC32     BookObj_SoftKeys_SetText
+        CFI EndBlock cfiBlock96
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock97 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_GetMsg??rT:
+        LDR      R3,??Subroutine60_0  ;; GUIonMessage_GetMsg
+        BX       R3
+        DATA
+??Subroutine60_0:
+        DC32     GUIonMessage_GetMsg
+        CFI EndBlock cfiBlock97
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock98 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_GetBook??rT:
+        LDR      R3,??Subroutine61_0  ;; GUIonMessage_GetBook
+        BX       R3
+        DATA
+??Subroutine61_0:
+        DC32     GUIonMessage_GetBook
+        CFI EndBlock cfiBlock98
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock99 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_GetCreatedItemIndex??rT:
+        LDR      R3,??Subroutine62_0  ;; GUIonMessage_GetCreatedItemIndex
+        BX       R3
+        DATA
+??Subroutine62_0:
+        DC32     GUIonMessage_GetCreatedItemIndex
+        CFI EndBlock cfiBlock99
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock100 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??List_Get??rT:
+        LDR      R3,??Subroutine63_0  ;; List_Get
+        BX       R3
+        DATA
+??Subroutine63_0:
+        DC32     List_Get
+        CFI EndBlock cfiBlock100
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock101 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??TextID_Create??rT:
+        LDR      R3,??Subroutine64_0  ;; TextID_Create
+        BX       R3
+        DATA
+??Subroutine64_0:
+        DC32     TextID_Create
+        CFI EndBlock cfiBlock101
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock102 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_SetMenuItemText??rT:
+        LDR      R3,??Subroutine65_0  ;; GUIonMessage_SetMenuItemText
+        BX       R3
+        DATA
+??Subroutine65_0:
+        DC32     GUIonMessage_SetMenuItemText
+        CFI EndBlock cfiBlock102
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock103 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_SetMenuItemIcon??rT:
+        LDR      R3,??Subroutine66_0  ;; GUIonMessage_SetMenuItemIcon
+        BX       R3
+        DATA
+??Subroutine66_0:
+        DC32     GUIonMessage_SetMenuItemIcon
+        CFI EndBlock cfiBlock103
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock104 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_GetSelectedItem??rT:
+        LDR      R3,??Subroutine67_0  ;; ListMenu_GetSelectedItem
+        BX       R3
+        DATA
+??Subroutine67_0:
+        DC32     ListMenu_GetSelectedItem
+        CFI EndBlock cfiBlock104
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock105 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_Destroy??rT:
+        LDR      R3,??Subroutine68_0  ;; GUIObject_Destroy
+        BX       R3
+        DATA
+??Subroutine68_0:
+        DC32     GUIObject_Destroy
+        CFI EndBlock cfiBlock105
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock106 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??Create_JavaList??rT:
+        LDR      R3,??Subroutine69_0  ;; ??Create_JavaList
+        BX       R3
+        DATA
+??Subroutine69_0:
+        DC32     ??Create_JavaList
+        CFI EndBlock cfiBlock106
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock107 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CreateListMenu??rT:
+        LDR      R3,??Subroutine70_0  ;; CreateListMenu
+        BX       R3
+        DATA
+??Subroutine70_0:
+        DC32     CreateListMenu
+        CFI EndBlock cfiBlock107
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock108 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SetTitleText??rT:
+        LDR      R3,??Subroutine71_0  ;; GUIObject_SetTitleText
+        BX       R3
+        DATA
+??Subroutine71_0:
+        DC32     GUIObject_SetTitleText
+        CFI EndBlock cfiBlock108
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock109 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??List_GetCount??rT:
+        LDR      R3,??Subroutine72_0  ;; List_GetCount
+        BX       R3
+        DATA
+??Subroutine72_0:
+        DC32     List_GetCount
+        CFI EndBlock cfiBlock109
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock110 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetItemCount??rT:
+        LDR      R3,??Subroutine73_0  ;; ListMenu_SetItemCount
+        BX       R3
+        DATA
+??Subroutine73_0:
+        DC32     ListMenu_SetItemCount
+        CFI EndBlock cfiBlock110
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock111 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetOnMessage??rT:
+        LDR      R3,??Subroutine74_0  ;; ListMenu_SetOnMessage
+        BX       R3
+        DATA
+??Subroutine74_0:
+        DC32     ListMenu_SetOnMessage
+        CFI EndBlock cfiBlock111
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock112 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetCursorToItem??rT:
+        LDR      R3,??Subroutine75_0  ;; ListMenu_SetCursorToItem
+        BX       R3
+        DATA
+??Subroutine75_0:
+        DC32     ListMenu_SetCursorToItem
+        CFI EndBlock cfiBlock112
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock113 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SoftKeys_SetAction??rT:
+        LDR      R3,??Subroutine76_0  ;; GUIObject_SoftKeys_SetAction
+        BX       R3
+        DATA
+??Subroutine76_0:
+        DC32     GUIObject_SoftKeys_SetAction
+        CFI EndBlock cfiBlock113
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock114 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_Show??rT:
+        LDR      R3,??Subroutine77_0  ;; GUIObject_Show
+        BX       R3
+        DATA
+??Subroutine77_0:
+        DC32     GUIObject_Show
+        CFI EndBlock cfiBlock114
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock115 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FreeList??rT:
+        LDR      R3,??Subroutine78_0  ;; ??FreeList
+        BX       R3
+        DATA
+??Subroutine78_0:
+        DC32     ??FreeList
+        CFI EndBlock cfiBlock115
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock116 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FILEITEM_GetFname??rT:
+        LDR      R3,??Subroutine79_0  ;; FILEITEM_GetFname
+        BX       R3
+        DATA
+??Subroutine79_0:
+        DC32     FILEITEM_GetFname
+        CFI EndBlock cfiBlock116
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock117 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FILEITEM_GetPath??rT:
+        LDR      R3,??Subroutine80_0  ;; FILEITEM_GetPath
+        BX       R3
+        DATA
+??Subroutine80_0:
+        DC32     FILEITEM_GetPath
+        CFI EndBlock cfiBlock117
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock118 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??FSX_MakeFullPath??rT:
+        LDR      R3,??Subroutine81_0  ;; FSX_MakeFullPath
+        BX       R3
+        DATA
+??Subroutine81_0:
+        DC32     FSX_MakeFullPath
+        CFI EndBlock cfiBlock118
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock119 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowser_isFileInListExt??rT:
+        LDR      R3,??Subroutine82_0  ;; DataBrowser_isFileInListExt
+        BX       R3
+        DATA
+??Subroutine82_0:
+        DC32     DataBrowser_isFileInListExt
+        CFI EndBlock cfiBlock119
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock120 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??fstat??rT:
+        LDR      R3,??Subroutine83_0  ;; fstat
+        BX       R3
+        DATA
+??Subroutine83_0:
+        DC32     fstat
+        CFI EndBlock cfiBlock120
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock121 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Create??rT:
+        LDR      R3,??Subroutine84_0  ;; DataBrowserDesc_Create
+        BX       R3
+        DATA
+??Subroutine84_0:
+        DC32     DataBrowserDesc_Create
+        CFI EndBlock cfiBlock121
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock122 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetHeaderText??rT:
+        LDR      R3,??Subroutine85_0  ;; DataBrowserDesc_SetHeaderText
+        BX       R3
+        DATA
+??Subroutine85_0:
+        DC32     DataBrowserDesc_SetHeaderText
+        CFI EndBlock cfiBlock122
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock123 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetBookID??rT:
+        LDR      R3,??Subroutine86_0  ;; DataBrowserDesc_SetBookID
+        BX       R3
+        DATA
+??Subroutine86_0:
+        DC32     DataBrowserDesc_SetBookID
+        CFI EndBlock cfiBlock123
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock124 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetFolders??rT:
+        LDR      R3,??Subroutine87_0  ;; DataBrowserDesc_SetFolders
+        BX       R3
+        DATA
+??Subroutine87_0:
+        DC32     DataBrowserDesc_SetFolders
+        CFI EndBlock cfiBlock124
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock125 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetFileExtList??rT:
+        LDR      R3,??Subroutine88_0  ;; DataBrowserDesc_SetFileExtList
+        BX       R3
+        DATA
+??Subroutine88_0:
+        DC32     DataBrowserDesc_SetFileExtList
+        CFI EndBlock cfiBlock125
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock126 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetItemFilter??rT:
+        LDR      R3,??Subroutine89_0  ;; DataBrowserDesc_SetItemFilter
+        BX       R3
+        DATA
+??Subroutine89_0:
+        DC32     DataBrowserDesc_SetItemFilter
+        CFI EndBlock cfiBlock126
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock127 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetFoldersNumber??rT:
+        LDR      R3,??Subroutine90_0  ;; DataBrowserDesc_SetFoldersNumber
+        BX       R3
+        DATA
+??Subroutine90_0:
+        DC32     DataBrowserDesc_SetFoldersNumber
+        CFI EndBlock cfiBlock127
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock128 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_SetSelectAction??rT:
+        LDR      R3,??Subroutine91_0  ;; DataBrowserDesc_SetSelectAction
+        BX       R3
+        DATA
+??Subroutine91_0:
+        DC32     DataBrowserDesc_SetSelectAction
+        CFI EndBlock cfiBlock128
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock129 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowser_Create??rT:
+        LDR      R3,??Subroutine92_0  ;; DataBrowser_Create
+        BX       R3
+        DATA
+??Subroutine92_0:
+        DC32     DataBrowser_Create
+        CFI EndBlock cfiBlock129
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock130 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??DataBrowserDesc_Destroy??rT:
+        LDR      R3,??Subroutine93_0  ;; DataBrowserDesc_Destroy
+        BX       R3
+        DATA
+??Subroutine93_0:
+        DC32     DataBrowserDesc_Destroy
+        CFI EndBlock cfiBlock130
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock131 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstr2h??rT:
+        LDR      R3,??Subroutine94_0  ;; ??wstr2h
+        BX       R3
+        DATA
+??Subroutine94_0:
+        DC32     ??wstr2h
+        CFI EndBlock cfiBlock131
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock132 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CreateStringInput??rT:
+        LDR      R3,??Subroutine95_0  ;; CreateStringInput
+        BX       R3
+        DATA
+??Subroutine95_0:
+        DC32     CreateStringInput
+        CFI EndBlock cfiBlock132
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock133 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetMode??rT:
+        LDR      R3,??Subroutine96_0  ;; StringInput_SetMode
+        BX       R3
+        DATA
+??Subroutine96_0:
+        DC32     StringInput_SetMode
+        CFI EndBlock cfiBlock133
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock134 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetEnableEmptyText??rT:
+        LDR      R3,??Subroutine97_0  ;; StringInput_SetEnableEmptyText
+        BX       R3
+        DATA
+??Subroutine97_0:
+        DC32     StringInput_SetEnableEmptyText
+        CFI EndBlock cfiBlock134
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock135 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetText??rT:
+        LDR      R3,??Subroutine98_0  ;; StringInput_SetText
+        BX       R3
+        DATA
+??Subroutine98_0:
+        DC32     StringInput_SetText
+        CFI EndBlock cfiBlock135
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock136 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetMinLen??rT:
+        LDR      R3,??Subroutine99_0  ;; StringInput_SetMinLen
+        BX       R3
+        DATA
+??Subroutine99_0:
+        DC32     StringInput_SetMinLen
+        CFI EndBlock cfiBlock136
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock137 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetMaxLen??rT:
+        LDR      R3,??Subroutine100_0  ;; StringInput_SetMaxLen
+        BX       R3
+        DATA
+??Subroutine100_0:
+        DC32     StringInput_SetMaxLen
+        CFI EndBlock cfiBlock137
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock138 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetActionOK??rT:
+        LDR      R3,??Subroutine101_0  ;; StringInput_SetActionOK
+        BX       R3
+        DATA
+??Subroutine101_0:
+        DC32     StringInput_SetActionOK
+        CFI EndBlock cfiBlock138
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock139 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_SetActionBack??rT:
+        LDR      R3,??Subroutine102_0  ;; StringInput_SetActionBack
+        BX       R3
+        DATA
+??Subroutine102_0:
+        DC32     StringInput_SetActionBack
+        CFI EndBlock cfiBlock139
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock140 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_GetStringAndLen??rT:
+        LDR      R3,??Subroutine103_0  ;; StringInput_GetStringAndLen
+        BX       R3
+        DATA
+??Subroutine103_0:
+        DC32     StringInput_GetStringAndLen
+        CFI EndBlock cfiBlock140
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock141 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CreateFileFolderSelect??rT:
+        LDR      R3,??Subroutine104_0  ;; ??CreateFileFolderSelect
+        BX       R3
+        DATA
+??Subroutine104_0:
+        DC32     ??CreateFileFolderSelect
+        CFI EndBlock cfiBlock141
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock142 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringExtractFileName??rT:
+        LDR      R3,??Subroutine105_0  ;; ??StringExtractFileName
+        BX       R3
+        DATA
+??Subroutine105_0:
+        DC32     ??StringExtractFileName
+        CFI EndBlock cfiBlock142
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock143 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SoftKeys_SetActionAndText??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine106_0  ;; GUIObject_SoftKeys_SetActionAndText
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine106_0:
+        DC32     GUIObject_SoftKeys_SetActionAndText
+        CFI EndBlock cfiBlock143
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock144 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_MenuItem_SetPriority??rT:
+        LDR      R3,??Subroutine107_0  ;; StringInput_MenuItem_SetPriority
+        BX       R3
+        DATA
+??Subroutine107_0:
+        DC32     StringInput_MenuItem_SetPriority
+        CFI EndBlock cfiBlock144
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock145 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_CallPage??rT:
+        LDR      R3,??Subroutine108_0  ;; BookObj_CallPage
+        BX       R3
+        DATA
+??Subroutine108_0:
+        DC32     BookObj_CallPage
+        CFI EndBlock cfiBlock145
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock146 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringReallocEx??rT:
+        LDR      R3,??Subroutine109_0  ;; ??StringReallocEx
+        BX       R3
+        DATA
+??Subroutine109_0:
+        DC32     ??StringReallocEx
+        CFI EndBlock cfiBlock146
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock147 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??List_RemoveFirst??rT:
+        LDR      R3,??Subroutine110_0  ;; List_RemoveFirst
+        BX       R3
+        DATA
+??Subroutine110_0:
+        DC32     List_RemoveFirst
+        CFI EndBlock cfiBlock147
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock148 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ShortcutFree??rT:
+        LDR      R3,??Subroutine111_0  ;; ??ShortcutFree
+        BX       R3
+        DATA
+??Subroutine111_0:
+        DC32     ??ShortcutFree
+        CFI EndBlock cfiBlock148
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock149 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_SetMenuItemSecondLineText??rT:
+        LDR      R3,??Subroutine112_0  ;; GUIonMessage_SetMenuItemSecondLineText
+        BX       R3
+        DATA
+??Subroutine112_0:
+        DC32     GUIonMessage_SetMenuItemSecondLineText
+        CFI EndBlock cfiBlock149
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock150 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetItemStyle??rT:
+        LDR      R3,??Subroutine113_0  ;; ListMenu_SetItemStyle
+        BX       R3
+        DATA
+??Subroutine113_0:
+        DC32     ListMenu_SetItemStyle
+        CFI EndBlock cfiBlock150
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock151 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??BookObj_GotoPage??rT:
+        LDR      R3,??Subroutine114_0  ;; BookObj_GotoPage
+        BX       R3
+        DATA
+??Subroutine114_0:
+        DC32     BookObj_GotoPage
+        CFI EndBlock cfiBlock151
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock152 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??malloc??rT:
+        LDR      R3,??Subroutine115_0  ;; ??malloc
+        BX       R3
+        DATA
+??Subroutine115_0:
+        DC32     ??malloc
+        CFI EndBlock cfiBlock152
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock153 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??memset??rT:
+        LDR      R3,??Subroutine116_0  ;; memset
+        BX       R3
+        DATA
+??Subroutine116_0:
+        DC32     memset
+        CFI EndBlock cfiBlock153
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock154 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??List_InsertFirst??rT:
+        LDR      R3,??Subroutine117_0  ;; List_InsertFirst
+        BX       R3
+        DATA
+??Subroutine117_0:
+        DC32     List_InsertFirst
+        CFI EndBlock cfiBlock154
+
+        END
+// 
+// 3 202 bytes in segment CODE
+//   792 bytes in segment DATA_C
+// 
+// 2 290 bytes of CODE  memory (+ 912 bytes shared)
+//   792 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

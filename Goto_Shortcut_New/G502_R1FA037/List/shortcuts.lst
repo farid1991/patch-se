@@ -1,0 +1,276 @@
+##############################################################################
+#                                                                            #
+# IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION    06/May/2012  03:30:51 #
+# Copyright 1999-2005 IAR Systems. All rights reserved.                      #
+#                                                                            #
+#    Cpu mode        =  interwork                                            #
+#    Endian          =  little                                               #
+#    Stack alignment =  4                                                    #
+#    Source file     =  E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortc #
+#                       uts.c                                                #
+#    Command line    =  E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortc #
+#                       uts.c -D A2 -D DB3150v1 -D G502_R1FA037              #
+#                       --preprocess=cl E:\MOd\ELFs\SVN\patch\Patch_Goto_Sho #
+#                       rtcut_New\G502_R1FA037\List\ -lC                     #
+#                       E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\G502_R #
+#                       1FA037\List\ -lA E:\MOd\ELFs\SVN\patch\Patch_Goto_Sh #
+#                       ortcut_New\G502_R1FA037\List\ -o                     #
+#                       E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\G502_R #
+#                       1FA037\Obj\ -z9 --debug --cpu_mode thumb --endian    #
+#                       little --cpu ARM926EJ-S --stack_align 4 --interwork  #
+#                       -e --enable_multibytes --fpu None --eec++            #
+#                       --preinclude E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortc #
+#                       ut_New\Target\G502_R1FA037.h -I "E:\MOd\ELFs\IAR     #
+#                       4.2\ARM\INC\" --inline_threshold=2                   #
+#    List file       =  E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\G502_R #
+#                       1FA037\List\shortcuts.lst                            #
+#    Object file     =  E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\G502_R #
+#                       1FA037\Obj\shortcuts.r79                             #
+#                                                                            #
+#                                                                            #
+##############################################################################
+
+E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortcuts.c
+      1          #include "Types.h"
+      2          #include "Function.h"
+      3          
+      4          #include "shortcuts.h"
+      5          #include "struct.h"
+
+  }SHORTCUT;
+   ^
+"E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\struct.h",30  Error[Pe256]: 
+          invalid redeclaration of type name "SHORTCUT" (declared at line 10
+          of "E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortcuts.h")
+      6          
+      7          wchar_t *getShortcutActions(int pos)
+      8          {
+      9            int f;
+     10            wchar_t *wstr = new wchar_t[MAX_SHORTCUTS_ACTION_LEN+1];
+     11            if ((f = _fopen(L"/tpa/system/settings",L"goto.sc",FSX_O_RDONLY,FSX_S_IREAD|FSX_S_IWRITE,0)) >= 0)
+     12            {
+     13              SHORTCUT* sc = (SHORTCUT*) malloc(sizeof(SHORTCUT));
+     14              memset(sc,0,sizeof(SHORTCUT));
+     15              fread(f,sc,sizeof(SHORTCUT));
+     16              wstrcpy(wstr,sc->shortcuts[pos]);
+                                      ^
+Error[Pe135]: class "<unnamed>" has no member "shortcuts"
+     17              fclose(f);
+     18              mfree(sc);
+     19              return wstr;
+     20            }
+     21            return 0;
+     22          }
+     23          
+     24          int getShortcutsNum()
+     25          {
+     26            for(int i = 0; i < MAX_OTHER_SH_NUM; i++)
+     27            {
+     28              if(wstrlen(getShortcutActions(i)) == 0) return i;
+     29            }
+     30            return MAX_OTHER_SH_NUM;
+     31          }
+     32          
+     33          int InsertAction(wchar_t *action, int pos)
+     34          {
+     35            if (pos > MAX_OTHER_SH_NUM) return (-1);
+     36            
+     37            int f;
+     38            if ( (f=_fopen(L"/tpa/system/settings",L"goto.sc", FSX_O_RDWR|FSX_O_TRUNC, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+     39            {
+     40              SHORTCUT* FData = (SHORTCUT*) malloc(sizeof(SHORTCUT));
+     41              memset(FData,0,sizeof(SHORTCUT) );
+     42              wstrcpy(FData->shortcuts[pos],action);
+                                    ^
+Error[Pe135]: class "<unnamed>" has no member "shortcuts"
+     43              fwrite(f,FData,sizeof(SHORTCUT));
+     44              fclose(f);
+     45              mfree(FData);
+     46            }
+     47            return 0;
+     48          }
+     49          
+     50          int RemoveAction( int pos )
+     51          {
+     52            int f, i;
+     53            if ( (f=_fopen(L"/tpa/system/settings",L"goto.sc", FSX_O_TRUNC|FSX_O_RDWR, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+     54            {
+     55              SHORTCUT* FData = (SHORTCUT*) malloc(sizeof(SHORTCUT));
+     56              memset(FData,0,sizeof(SHORTCUT) );
+     57              for (i = 0; i < MAX_SHORTCUTS_ACTION_LEN ; i++ )
+     58              {
+     59                FData->shortcuts[i][pos] = 0;
+                              ^
+Error[Pe135]: class "<unnamed>" has no member "shortcuts"
+     60              }
+     61              fwrite(f,FData,sizeof(SHORTCUT));
+     62              fclose(f);
+     63              mfree(FData);
+     64            }
+     65            return 0;
+     66          }
+     67          
+     68          void onShortcutSet( BOOK* MainMenu, GUI* gui)
+     69          {
+     70            MyBOOK* mbk = (MyBOOK*)FindBook(IsMyBook);
+                                                   ^
+Error[Pe020]: identifier "IsMyBook" is undefined
+     71            int pos = ListMenu_GetItemCount(mbk->slist) + 1; 
+                                                        ^
+Error[Pe135]: class "MyBOOK" has no member "slist"
+     72            
+     73            wchar_t* name_buf = MenuBook_Desktop_GetSelectedItemID( MainMenu );
+     74          
+     75            if (name_buf)
+     76            {
+     77              InsertAction(name_buf, pos);
+     78              mfree( name_buf );
+     79            }
+     80            FreeBook( MainMenu );
+     81            BookObj_ReturnPage( mbk, ACCEPT_EVENT );
+                                       ^
+Error[Pe167]: argument of type "MyBOOK *" is incompatible with parameter of
+          type "BOOK *"
+     82          }
+     83          
+     84          int onPrevious_MainMenu_DB( void* data, BOOK* book )
+     85          {
+     86            BookObj_ReturnPage( book, NIL_EVENT );
+     87            return 1;
+     88          }
+     89          
+     90          int onCancel_MainMenu_DB( void* data, BOOK* book )
+     91          {
+     92            BookObj_ReturnPage( book, CANCEL_EVENT );
+     93            return 1;
+     94          }
+     95          
+     96          int CreateMainMenu( void* r0, BOOK* book )
+     97          {
+     98            BOOK* MainMenu = MenuBook_Desktop( 1, BookObj_GetBookID( book ) );
+     99            if ( MainMenu )
+    100            {
+    101              ((MyBOOK*)book)->MainMenuID = BookObj_GetBookID( MainMenu );
+                                      ^
+Error[Pe135]: class "MyBOOK" has no member "MainMenuID"
+    102              BookObj_SoftKeys_SetAction( MainMenu, 0x0, onShortcutSet );
+    103              BookObj_SoftKeys_SetText( MainMenu, 0x0, SHC_SET_SHORTCUT_SK );
+    104              return 1;
+    105            }
+    106            BookObj_ReturnPage( book, ACCEPT_EVENT );
+    107            return 0;
+    108          }
+    109          
+    110          const PAGE_MSG SelectShortcut_PageEvents[] = 
+    111          {
+    112            PAGE_ENTER_EVENT, CreateMainMenu,
+    113            PREVIOUS_EVENT,   onPrevious_MainMenu_DB,
+    114            CANCEL_EVENT,     onCancel_MainMenu_DB,
+    115            NIL_EVENT,        0
+    116          };
+    117          PAGE_DESC SelectShortcut_page = { "Goto_SelectShortcut_Page", 0, SelectShortcut_PageEvents };
+    118          
+    119          void * SHORTCUT_DESC_A2_Init(char * param)
+    120          {
+    121            SHORTCUT_DESC_A2 * w_buf = new SHORTCUT_DESC_A2;
+    122            memset( w_buf, 0, sizeof(w_buf) );
+    123            w_buf->shortcut_state = SC_State_Present;
+    124            str2wstr( w_buf->name, param );
+    125            if (!wstrcmp(w_buf->name,L"MainMenu")) w_buf->name_type = SC_Name_MainMenu;
+    126            else w_buf->name_type = SC_Name_StandName;
+    127            return(w_buf);
+    128          }
+    129          
+    130          void AddShortcut(BOOK* book, GUI* lt)
+    131          {
+    132             BookObj_CallPage( book, &SelectShortcut_page );
+    133          }
+    134          
+    135          void Yes2DelShortcut(BOOK* book, GUI* lt)
+    136          {
+    137            MyBOOK * mbk = (MyBOOK*)book;
+    138            if(mbk->YesNoQuestion) GUIObject_Destroy(mbk->YesNoQuestion);
+                           ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+
+    if(mbk->YesNoQuestion) GUIObject_Destroy(mbk->YesNoQuestion);
+                                                  ^
+"E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortcuts.c",138  Error[Pe135]: 
+          class "MyBOOK" has no member "YesNoQuestion"
+    139            mbk->YesNoQuestion = NULL;
+                        ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    140            int item = ListMenu_GetSelectedItem(mbk->slist);
+                                                            ^
+Error[Pe135]: class "MyBOOK" has no member "slist"
+    141            RemoveAction(item);
+    142            CreateGUI(mbk);
+                   ^
+Error[Pe020]: identifier "CreateGUI" is undefined
+    143          }
+    144          
+    145          void Cancel2DelShortcut(BOOK * book, GUI*)
+    146          {
+    147            MyBOOK * mbk = (MyBOOK*)book;
+    148            if (mbk->YesNoQuestion) GUIObject_Destroy(mbk->YesNoQuestion);
+                            ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+
+    if (mbk->YesNoQuestion) GUIObject_Destroy(mbk->YesNoQuestion);
+                                                   ^
+"E:\MOd\ELFs\SVN\patch\Patch_Goto_Shortcut_New\shortcuts.c",148  Error[Pe135]: 
+          class "MyBOOK" has no member "YesNoQuestion"
+    149            mbk->YesNoQuestion = NULL;
+                        ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    150          }
+    151          
+    152          void DelShortcut(BOOK * book , GUI* lt)
+    153          {
+    154            MyBOOK * mbk = (MyBOOK*)book;
+    155          
+    156            int item = ListMenu_GetSelectedItem(mbk->slist);
+                                                            ^
+Error[Pe135]: class "MyBOOK" has no member "slist"
+    157          
+    158            char param[MAX_SHORTCUTS_ACTION_LEN];
+    159            wstr2strn(param,getShortcutActions(item),MAX_SHORTCUTS_ACTION_LEN-1);
+    160            TEXTID str_id;
+    161            void * w_buf;
+    162          #ifdef A2
+    163            w_buf = SHORTCUT_DESC_A2_Init(param);
+    164          #else
+    165            w_buf = SHORTCUT_DESC_Init(param);
+    166          #endif
+    167            str_id = Shortcut_Get_MenuItemName( w_buf );
+    168            delete( w_buf );
+    169            if ( str_id == EMPTY_TEXTID ) str_id = TextID_Create( param, ENC_LAT1, TEXTID_ANY_LEN );
+    170          
+    171            mbk->YesNoQuestion = CreateYesNoQuestion(book,0);
+                        ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    172            YesNoQuestion_CreatePreQuestion( mbk->YesNoQuestion, DELETEQ_TXT );
+                                                         ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    173            YesNoQuestion_CreateQuestion( mbk->YesNoQuestion, str_id );
+                                                      ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    174            YesNoQuestion_SetIcon(mbk->YesNoQuestion,POPUP_WARNING_ICN);
+                                              ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    175            GUIObject_SoftKeys_SetAction(mbk->YesNoQuestion,ACTION_YES,Yes2DelShortcut);
+                                                     ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    176            GUIObject_SoftKeys_SetAction(mbk->YesNoQuestion,ACTION_NO,Cancel2DelShortcut);
+                                                     ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    177            GUIObject_SoftKeys_SetAction(mbk->YesNoQuestion,ACTION_BACK,Cancel2DelShortcut);
+                                                     ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    178            GUIObject_Show( mbk->YesNoQuestion );
+                                        ^
+Error[Pe135]: class "MyBOOK" has no member "YesNoQuestion"
+    179          }
+
+Errors: 25
+Warnings: none

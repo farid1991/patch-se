@@ -1,0 +1,1974 @@
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           /
+// IAR ARM ANSI C/C++ Compiler V4.42A/W32 EVALUATION   31/Oct/2019  22:49:21 /
+// Copyright 1999-2005 IAR Systems. All rights reserved.                     /
+//                                                                           /
+//    Cpu mode        =  interwork                                           /
+//    Endian          =  little                                              /
+//    Stack alignment =  4                                                   /
+//    Source file     =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\FileFolder.c   /
+//    Command line    =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\FileFolder.c   /
+//                       -D A2 -D DB3150v1 -D G502_R1FA037 --preprocess=cl   /
+//                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\L /
+//                       ist\ -lC E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_ /
+//                       R1FA037\List\ -lA E:\SE\Port\elf2vkp\Goto_Shortcut_ /
+//                       New\G502_R1FA037\List\ -o                           /
+//                       E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\O /
+//                       bj\ -z9 --debug --cpu_mode thumb --endian little    /
+//                       --cpu ARM926EJ-S --stack_align 4 --interwork -e     /
+//                       --enable_multibytes --fpu None --eec++              /
+//                       --preinclude E:\SE\Port\elf2vkp\Goto_Shortcut_New\T /
+//                       arget\G502_R1FA037.h -I "E:\SE\Embedded Workbench   /
+//                       4.0 Evaluation\ARM\INC\" --inline_threshold=2       /
+//    List file       =  E:\SE\Port\elf2vkp\Goto_Shortcut_New\G502_R1FA037\L /
+//                       ist\FileFolder.s79                                  /
+//                                                                           /
+//                                                                           /
+//////////////////////////////////////////////////////////////////////////////
+
+        NAME FileFolder
+
+        RTMODEL "StackAlign4", "USED"
+        RTMODEL "__cpu_mode", "__pcs__interwork"
+        RTMODEL "__data_model", "absolute"
+        RTMODEL "__endian", "little"
+        RTMODEL "__rt_version", "6"
+
+        RSEG CSTACK:DATA:NOROOT(2)
+
+        ERROR
+//NOTE: This module defines or uses C++ features that are not
+//      accessible from assembler code. Assembling this file will
+//      not produce an equivalent object file to the one produced
+//      by the C++ compiler.
+
+        PUBLIC ??AddToFList
+        FUNCTION ??AddToFList,0203H
+        LOCFRAME CSTACK, 24, STACK
+        MULTWEAK ??AddToFList??rA
+        PUBLIC ??CreateFData
+        FUNCTION ??CreateFData,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??CreateFData??rA
+        PUBLIC ??CreateFileFolderSelect
+        FUNCTION ??CreateFileFolderSelect,0203H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??CreateFileFolderSelect??rA
+        MULTWEAK ??CreateListMenu??rT
+??DataTable0 EQU 0
+??DataTable1 EQU 0
+??DataTable3 EQU 0
+        PUBLIC ??DeleteFData
+        FUNCTION ??DeleteFData,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??DeleteFData??rA
+        PUBLIC ??FindFLISTtByN
+        FUNCTION ??FindFLISTtByN,0203H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??FindFLISTtByN??rA
+        PUBLIC ??FindFLISTtByNS
+        FUNCTION ??FindFLISTtByNS,0203H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??FindFLISTtByNS??rA
+        PUBLIC ??FindFiles
+        FUNCTION ??FindFiles,0203H
+        LOCFRAME CSTACK, 80, STACK
+        MULTWEAK ??FindFiles??rA
+        PUBLIC ??Free_FLIST
+        FUNCTION ??Free_FLIST,0203H
+        LOCFRAME CSTACK, 16, STACK
+        MULTWEAK ??Free_FLIST??rA
+        MULTWEAK ??GUIObject_Destroy??rT
+        MULTWEAK ??GUIObject_GetDispObject??rT
+        MULTWEAK ??GUIObject_SetTitleText??rT
+        MULTWEAK ??GUIObject_Show??rT
+        MULTWEAK ??GUIObject_SoftKeys_SetAction??rT
+        MULTWEAK ??GUIObject_SoftKeys_SetActionAndText??rT
+        MULTWEAK ??GUIonMessage_GetCreatedItemIndex??rT
+        MULTWEAK ??GUIonMessage_GetMsg??rT
+        MULTWEAK ??GUIonMessage_SetMenuItemIcon??rT
+        MULTWEAK ??GUIonMessage_SetMenuItemText??rT
+        PUBLIC ??GetFData
+        FUNCTION ??GetFData,0203H
+        LOCFRAME CSTACK, 4, STACK
+        MULTWEAK ??GetFData??rA
+        MULTWEAK ??ListMenu_GetSelectedItem??rT
+        MULTWEAK ??ListMenu_SetCursorToItem??rT
+        MULTWEAK ??ListMenu_SetItemCount??rT
+        MULTWEAK ??ListMenu_SetOnMessage??rT
+        PUBLIC ??OnMessage
+        FUNCTION ??OnMessage,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??OnMessage??rA
+        PUBLIC ??Self_OnBack
+        FUNCTION ??Self_OnBack,0603H
+        LOCFRAME CSTACK, 8, STACK
+        MULTWEAK ??Self_OnBack??rA
+        PUBLIC ??Self_onEnterPressed
+        FUNCTION ??Self_onEnterPressed,0603H
+        LOCFRAME CSTACK, 20, STACK
+        MULTWEAK ??Self_onEnterPressed??rA
+        PUBLIC ??Self_onSelectPressed
+        FUNCTION ??Self_onSelectPressed,0603H
+        LOCFRAME CSTACK, 12, STACK
+        MULTWEAK ??Self_onSelectPressed??rA
+        MULTWEAK ??StringAlloc??rT
+        MULTWEAK ??StringFree??rT
+        MULTWEAK ??StringInput_DispObject_SetText??rT
+        MULTWEAK ??TextID_Create??rT
+        MULTWEAK ??get_envp??rT
+        PUBLIC ??isdir
+        FUNCTION ??isdir,0203H
+        LOCFRAME CSTACK, 44, STACK
+        MULTWEAK ??isdir??rA
+        MULTWEAK ??malloc??rT
+        MULTWEAK ??memset??rT
+        MULTWEAK ??mfree??rT
+        MULTWEAK ??set_envp??rT
+        MULTWEAK ??snwprintf??rT
+        MULTWEAK ??w_chdir??rT
+        MULTWEAK ??w_dirclose??rT
+        MULTWEAK ??w_diropen??rT
+        MULTWEAK ??w_dirread??rT
+        MULTWEAK ??w_fstat??rT
+        MULTWEAK ??wstrcmp??rT
+        MULTWEAK ??wstrcmpi??rT
+        MULTWEAK ??wstrcpy??rT
+        MULTWEAK ??wstrlen??rT
+        MULTWEAK ??wstrncpy??rT
+        MULTWEAK ??wstrrchr??rT
+TypesIcons EQU 0
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA R13 HUGEDATA
+        CFI Resource R0:32, R1:32, R2:32, R3:32, R4:32, R5:32, R6:32, R7:32
+        CFI Resource R8:32, R9:32, R10:32, R11:32, R12:32, CPSR:32, R13:32
+        CFI Resource R14:32, SPSR:32
+        CFI VirtualResource ?RET:32
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 4
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 2
+        CFI DataAlign 4
+        CFI ReturnAddress ?RET CODE
+        CFI CFA R13+0
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 Undefined
+        CFI CPSR SameValue
+        CFI R14 Undefined
+        CFI SPSR SameValue
+        CFI ?RET R14
+        CFI EndCommon cfiCommon1
+        
+
+
+
+
+CreateListMenu      SYMBOL "CreateListMenu"
+GUIObject_Destroy   SYMBOL "GUIObject_Destroy"
+GUIObject_GetDispObject SYMBOL "GUIObject_GetDispObject"
+GUIObject_SetTitleText SYMBOL "GUIObject_SetTitleText"
+GUIObject_Show      SYMBOL "GUIObject_Show"
+GUIObject_SoftKeys_SetAction SYMBOL "GUIObject_SoftKeys_SetAction"
+GUIObject_SoftKeys_SetActionAndText SYMBOL "GUIObject_SoftKeys_SetActionAndText"
+GUIonMessage_GetCreatedItemIndex SYMBOL "GUIonMessage_GetCreatedItemIndex"
+GUIonMessage_GetMsg SYMBOL "GUIonMessage_GetMsg"
+GUIonMessage_SetMenuItemIcon SYMBOL "GUIonMessage_SetMenuItemIcon"
+GUIonMessage_SetMenuItemText SYMBOL "GUIonMessage_SetMenuItemText"
+ListMenu_GetSelectedItem SYMBOL "ListMenu_GetSelectedItem"
+ListMenu_SetCursorToItem SYMBOL "ListMenu_SetCursorToItem"
+ListMenu_SetItemCount SYMBOL "ListMenu_SetItemCount"
+ListMenu_SetOnMessage SYMBOL "ListMenu_SetOnMessage"
+StringInput_DispObject_SetText SYMBOL "StringInput_DispObject_SetText"
+TextID_Create       SYMBOL "TextID_Create"
+get_envp            SYMBOL "get_envp"
+memset              SYMBOL "memset"
+set_envp            SYMBOL "set_envp"
+snwprintf           SYMBOL "snwprintf"
+w_chdir             SYMBOL "w_chdir"
+w_dirclose          SYMBOL "w_dirclose"
+w_diropen           SYMBOL "w_diropen"
+w_dirread           SYMBOL "w_dirread"
+w_fstat             SYMBOL "w_fstat"
+wstrcmp             SYMBOL "wstrcmp"
+wstrcmpi            SYMBOL "wstrcmpi"
+wstrcpy             SYMBOL "wstrcpy"
+wstrlen             SYMBOL "wstrlen"
+wstrncpy            SYMBOL "wstrncpy"
+wstrrchr            SYMBOL "wstrrchr"
+
+??AddToFList??rA    SYMBOL "??rA", ??AddToFList
+
+??CreateFData??rA   SYMBOL "??rA", ??CreateFData
+
+??CreateFileFolderSelect??rA SYMBOL "??rA", ??CreateFileFolderSelect
+??CreateListMenu??rT SYMBOL "??rT", CreateListMenu
+
+??DeleteFData??rA   SYMBOL "??rA", ??DeleteFData
+
+??FindFLISTtByN??rA SYMBOL "??rA", ??FindFLISTtByN
+
+??FindFLISTtByNS??rA SYMBOL "??rA", ??FindFLISTtByNS
+
+??FindFiles??rA     SYMBOL "??rA", ??FindFiles
+
+??Free_FLIST??rA    SYMBOL "??rA", ??Free_FLIST
+??GUIObject_Destroy??rT SYMBOL "??rT", GUIObject_Destroy
+??GUIObject_GetDispObject??rT SYMBOL "??rT", GUIObject_GetDispObject
+??GUIObject_SetTitleText??rT SYMBOL "??rT", GUIObject_SetTitleText
+??GUIObject_Show??rT SYMBOL "??rT", GUIObject_Show
+??GUIObject_SoftKeys_SetAction??rT SYMBOL "??rT", GUIObject_SoftKeys_SetAction
+??GUIObject_SoftKeys_SetActionAndText??rT SYMBOL "??rT", GUIObject_SoftKeys_SetActionAndText
+??GUIonMessage_GetCreatedItemIndex??rT SYMBOL "??rT", GUIonMessage_GetCreatedItemIndex
+??GUIonMessage_GetMsg??rT SYMBOL "??rT", GUIonMessage_GetMsg
+??GUIonMessage_SetMenuItemIcon??rT SYMBOL "??rT", GUIonMessage_SetMenuItemIcon
+??GUIonMessage_SetMenuItemText??rT SYMBOL "??rT", GUIonMessage_SetMenuItemText
+
+??GetFData??rA      SYMBOL "??rA", ??GetFData
+??ListMenu_GetSelectedItem??rT SYMBOL "??rT", ListMenu_GetSelectedItem
+??ListMenu_SetCursorToItem??rT SYMBOL "??rT", ListMenu_SetCursorToItem
+??ListMenu_SetItemCount??rT SYMBOL "??rT", ListMenu_SetItemCount
+??ListMenu_SetOnMessage??rT SYMBOL "??rT", ListMenu_SetOnMessage
+
+??OnMessage??rA     SYMBOL "??rA", ??OnMessage
+
+??Self_OnBack??rA   SYMBOL "??rA", ??Self_OnBack
+
+??Self_onEnterPressed??rA SYMBOL "??rA", ??Self_onEnterPressed
+
+??Self_onSelectPressed??rA SYMBOL "??rA", ??Self_onSelectPressed
+??StringAlloc??rT   SYMBOL "??rT", ??StringAlloc
+??StringFree??rT    SYMBOL "??rT", ??StringFree
+??StringInput_DispObject_SetText??rT SYMBOL "??rT", StringInput_DispObject_SetText
+??TextID_Create??rT SYMBOL "??rT", TextID_Create
+??get_envp??rT      SYMBOL "??rT", get_envp
+
+??isdir??rA         SYMBOL "??rA", ??isdir
+??malloc??rT        SYMBOL "??rT", ??malloc
+??memset??rT        SYMBOL "??rT", memset
+??mfree??rT         SYMBOL "??rT", ??mfree
+??set_envp??rT      SYMBOL "??rT", set_envp
+??snwprintf??rT     SYMBOL "??rT", snwprintf
+??w_chdir??rT       SYMBOL "??rT", w_chdir
+??w_dirclose??rT    SYMBOL "??rT", w_dirclose
+??w_diropen??rT     SYMBOL "??rT", w_diropen
+??w_dirread??rT     SYMBOL "??rT", w_dirread
+??w_fstat??rT       SYMBOL "??rT", w_fstat
+??wstrcmp??rT       SYMBOL "??rT", wstrcmp
+??wstrcmpi??rT      SYMBOL "??rT", wstrcmpi
+??wstrcpy??rT       SYMBOL "??rT", wstrcpy
+??wstrlen??rT       SYMBOL "??rT", wstrlen
+??wstrncpy??rT      SYMBOL "??rT", wstrncpy
+??wstrrchr??rT      SYMBOL "??rT", wstrrchr
+
+        EXTERN ??StringAlloc
+        FUNCTION ??StringAlloc,0202H
+        EXTERN ??StringFree
+        FUNCTION ??StringFree,0202H
+        EXTERN ??malloc
+        FUNCTION ??malloc,0202H
+        EXTERN ??mfree
+        FUNCTION ??mfree,0202H
+        EXTERN CreateListMenu
+        FUNCTION CreateListMenu,0202H
+        EXTERN GUIObject_Destroy
+        FUNCTION GUIObject_Destroy,0202H
+        EXTERN GUIObject_GetDispObject
+        FUNCTION GUIObject_GetDispObject,0202H
+        EXTERN GUIObject_SetTitleText
+        FUNCTION GUIObject_SetTitleText,0202H
+        EXTERN GUIObject_Show
+        FUNCTION GUIObject_Show,0202H
+        EXTERN GUIObject_SoftKeys_SetAction
+        FUNCTION GUIObject_SoftKeys_SetAction,0202H
+        EXTERN GUIObject_SoftKeys_SetActionAndText
+        FUNCTION GUIObject_SoftKeys_SetActionAndText,0202H
+        EXTERN GUIonMessage_GetCreatedItemIndex
+        FUNCTION GUIonMessage_GetCreatedItemIndex,0202H
+        EXTERN GUIonMessage_GetMsg
+        FUNCTION GUIonMessage_GetMsg,0202H
+        EXTERN GUIonMessage_SetMenuItemIcon
+        FUNCTION GUIonMessage_SetMenuItemIcon,0202H
+        EXTERN GUIonMessage_SetMenuItemText
+        FUNCTION GUIonMessage_SetMenuItemText,0202H
+        EXTERN ListMenu_GetSelectedItem
+        FUNCTION ListMenu_GetSelectedItem,0202H
+        EXTERN ListMenu_SetCursorToItem
+        FUNCTION ListMenu_SetCursorToItem,0202H
+        EXTERN ListMenu_SetItemCount
+        FUNCTION ListMenu_SetItemCount,0202H
+        EXTERN ListMenu_SetOnMessage
+        FUNCTION ListMenu_SetOnMessage,0202H
+        EXTERN StringInput_DispObject_SetText
+        FUNCTION StringInput_DispObject_SetText,0202H
+        EXTERN TextID_Create
+        FUNCTION TextID_Create,0202H
+        EXTERN get_envp
+        FUNCTION get_envp,0202H
+        EXTERN memset
+        FUNCTION memset,0202H
+        EXTERN set_envp
+        FUNCTION set_envp,0202H
+        EXTERN snwprintf
+        FUNCTION snwprintf,0202H
+        EXTERN w_chdir
+        FUNCTION w_chdir,0202H
+        EXTERN w_dirclose
+        FUNCTION w_dirclose,0202H
+        EXTERN w_diropen
+        FUNCTION w_diropen,0202H
+        EXTERN w_dirread
+        FUNCTION w_dirread,0202H
+        EXTERN w_fstat
+        FUNCTION w_fstat,0202H
+        EXTERN wstrcmp
+        FUNCTION wstrcmp,0202H
+        EXTERN wstrcmpi
+        FUNCTION wstrcmpi,0202H
+        EXTERN wstrcpy
+        FUNCTION wstrcpy,0202H
+        EXTERN wstrlen
+        FUNCTION wstrlen,0202H
+        EXTERN wstrncpy
+        FUNCTION wstrncpy,0202H
+        EXTERN wstrrchr
+        FUNCTION wstrrchr,0202H
+
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant "FList">`:
+        DATA
+        DC8 "FList"
+        DC8 0, 0
+// E:\SE\Port\elf2vkp\Goto_Shortcut_New\FileFolder.c
+//    1 #include "..\\include\Types.h"
+//    2 #include "..\\include\Function.h"
+//    3 
+//    4 #include "main.h"
+//    5 #include "editor.h"
+//    6 #include "strlib.h"
+//    7 #include "FileFolder.h"
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+`?<Constant L"\\x2f\\x25\\x6c\\x73">`:
+        DATA
+        DC8 2FH, 0, 25H, 0, 6CH, 0, 73H, 0
+        DC8 0, 0
+        DC8 0, 0
+        DC8 2EH, 0, 2EH, 0, 0, 0
+        DC8 0, 0
+
+        RSEG DATA_C:CONST:SORT:NOROOT(2)
+        DATA
+        DC8 2FH, 0, 0, 0
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CreateFData??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock0
+        REQUIRE ??CreateFData
+//    8 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock1 Using cfiCommon1
+        CFI Function ??CreateFData
+        THUMB
+//    9 F_DATA* CreateFData()
+//   10 {
+??CreateFData:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   11   F_DATA* fdata = (F_DATA*)malloc(sizeof(F_DATA));
+        MOVS     R0,#+4
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R4,R0
+//   12   memset(fdata, NULL, sizeof(F_DATA));
+        MOVS     R2,#+4
+        MOVS     R1,#+0
+        _BLF     memset,??memset??rT
+//   13   set_envp(NULL, EMP_NAME, (OSADDRESS)fdata);
+        LDR      R1,??DataTable2  ;; `?<Constant "FList">`
+        MOVS     R2,R4
+        MOVS     R0,#+0
+        _BLF     set_envp,??set_envp??rT
+//   14   return fdata;
+        MOVS     R0,R4
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock1
+//   15 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??GetFData??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock2
+        REQUIRE ??GetFData
+//   16 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock3 Using cfiCommon1
+        CFI Function ??GetFData
+        THUMB
+//   17 F_DATA* GetFData()
+//   18 {
+//   19   F_DATA* fdata = (F_DATA*)get_envp(NULL, EMP_NAME);
+??GetFData:
+        LDR      R1,??DataTable2  ;; `?<Constant "FList">`
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        MOVS     R0,#+0
+        _BLF     get_envp,??get_envp??rT
+//   20   if (fdata) return fdata;
+        CMP      R0,#+0
+        BNE      ??GetFData_1
+//   21   return CreateFData();
+        BL       ??CreateFData
+??GetFData_1:
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock3
+//   22 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??DeleteFData??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock4
+        REQUIRE ??DeleteFData
+//   23 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock5 Using cfiCommon1
+        CFI Function ??DeleteFData
+        THUMB
+//   24 void DeleteFData()
+//   25 {
+??DeleteFData:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+//   26   F_DATA* fdata = (F_DATA*)get_envp(NULL, EMP_NAME);
+        LDR      R4,??DataTable2  ;; `?<Constant "FList">`
+        MOVS     R0,#+0
+        MOVS     R1,R4
+        _BLF     get_envp,??get_envp??rT
+//   27   if (fdata)
+        CMP      R0,#+0
+        BEQ      ??DeleteFData_1
+//   28   {
+//   29     mfree(fdata);
+        _BLF     ??mfree,??mfree??rT
+//   30     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
+        MOVS     R2,#+0
+        MOVS     R1,R4
+        MOVS     R0,#+0
+        _BLF     set_envp,??set_envp??rT
+//   31   }
+//   32 }
+??DeleteFData_1:
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock5
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable2:
+        DC32     `?<Constant "FList">`
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Free_FLIST??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock6
+        REQUIRE ??Free_FLIST
+//   33 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock7 Using cfiCommon1
+        CFI Function ??Free_FLIST
+        THUMB
+//   34 void Free_FLIST( void )
+//   35 {
+??Free_FLIST:
+        PUSH     {R4-R6,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R6 Frame(CFA, -8)
+        CFI R5 Frame(CFA, -12)
+        CFI R4 Frame(CFA, -16)
+        CFI CFA R13+16
+//   36   F_DATA* fdata = GetFData();
+        BL       ??GetFData
+//   37   FLIST* fl = (FLIST*) fdata->fltop;
+        LDR      R4,[R0, #+0]
+//   38   fdata->fltop = NULL;
+        MOVS     R1,#+0
+        STR      R1,[R0, #+0]
+        B        ??Free_FLIST_1
+//   39   
+//   40   while( fl )
+//   41   {
+//   42     FLIST* fl_prev = fl;
+??Free_FLIST_2:
+        MOVS     R5,R4
+//   43     StringFree( fl_prev->fullname );
+        MOVS     R6,R5
+        ADDS     R6,R6,#+8
+        LDR      R0,[R6, #+0]
+        _BLF     ??StringFree,??StringFree??rT
+//   44     StringFree( fl_prev->name );
+        LDR      R0,[R6, #+4]
+        _BLF     ??StringFree,??StringFree??rT
+//   45     fl = (FLIST*) fl->next;
+        LDR      R4,[R4, #+0]
+//   46     mfree( fl_prev);
+        MOVS     R0,R5
+        _BLF     ??mfree,??mfree??rT
+//   47   }
+??Free_FLIST_1:
+        CMP      R4,#+0
+        BNE      ??Free_FLIST_2
+//   48 }
+        POP      {R4-R6,PC}       ;; return
+        CFI EndBlock cfiBlock7
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock8 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??AddToFList??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock8
+        REQUIRE ??AddToFList
+//   49 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Function ??AddToFList
+        THUMB
+//   50 FLIST* AddToFList( const wchar_t* full_name, const wchar_t* name, int is_folder )
+//   51 {
+??AddToFList:
+        PUSH     {R2,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+24
+        MOVS     R4,R0
+        MOVS     R5,R1
+//   52   // int l_fname;
+//   53   F_DATA* fdata = GetFData();
+        BL       ??GetFData
+        MOVS     R6,R0
+//   54   
+//   55   FLIST* fl;
+//   56   FLIST* fn = (FLIST*)malloc(sizeof(FLIST));
+        MOVS     R0,#+16
+        _BLF     ??malloc,??malloc??rT
+        MOVS     R7,R0
+//   57   
+//   58   fn->fullname = StringAlloc(wstrlen( full_name ));
+        MOVS     R0,R4
+        _BLF     wstrlen,??wstrlen??rT
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        STR      R0,[R7, #+8]
+//   59   
+//   60   fn->name = StringAlloc(wstrlen( name ));
+        MOVS     R0,R5
+        _BLF     wstrlen,??wstrlen??rT
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        STR      R0,[R7, #+12]
+//   61   
+//   62   wstrcpy( fn->fullname, full_name );
+        LDR      R0,[R7, #+8]
+        MOVS     R1,R4
+        _BLF     wstrcpy,??wstrcpy??rT
+//   63   wstrcpy( fn->name, name );
+        LDR      R0,[R7, #+12]
+        MOVS     R1,R5
+        _BLF     wstrcpy,??wstrcpy??rT
+//   64   fn->is_folder = is_folder;
+        LDR      R0,[SP, #+0]
+        STR      R0,[R7, #+4]
+//   65   fn->next = 0;
+        MOVS     R0,#+0
+        STR      R0,[R7, #+0]
+//   66   fl = (FLIST*) fdata->fltop;
+        LDR      R4,[R6, #+0]
+//   67   if ( fl )
+        CMP      R4,#+0
+        BEQ      ??AddToFList_1
+//   68   {
+//   69     FLIST* pr;
+//   70     pr = (FLIST*) &fdata->fltop;
+//   71     while( wstrcmpi( fl->name, fn->name ) < 0 )
+??AddToFList_2:
+        LDR      R0,[R4, #+12]
+        LDR      R1,[R7, #+12]
+        _BLF     wstrcmpi,??wstrcmpi??rT
+        CMP      R0,#+0
+        BPL      ??AddToFList_3
+//   72     {
+//   73       pr = fl;
+        MOVS     R6,R4
+//   74       fl = (FLIST*) fl->next;
+        LDR      R4,[R4, #+0]
+//   75       
+//   76       if ( !fl )
+        CMP      R4,#+0
+        BNE      ??AddToFList_2
+//   77         break;
+//   78     }
+//   79     fn->next = fl;
+??AddToFList_3:
+        STR      R4,[R7, #+0]
+//   80     pr->next = fn;
+//   81   }
+//   82   else
+//   83   {
+//   84     fdata->fltop = fn;
+??AddToFList_1:
+        STR      R7,[R6, #+0]
+//   85   }
+//   86   return fn;
+        MOVS     R0,R7
+        POP      {R3-R7,PC}       ;; return
+        CFI EndBlock cfiBlock9
+//   87 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock10 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??FindFiles??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock10
+        REQUIRE ??FindFiles
+//   88 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock11 Using cfiCommon1
+        CFI Function ??FindFiles
+        THUMB
+//   89 int FindFiles( wchar_t* str, int type ) // type == 0 SelectFolder, type == 1 SelectFile
+//   90 {
+??FindFiles:
+        PUSH     {R0,R1,R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+28
+        SUB      SP,SP,#+52
+        CFI CFA R13+80
+//   91   int i, c, n = 0;
+        MOVS     R4,#+0
+        MOVS     R7,#+0
+//   92   Free_FLIST();
+        BL       ??Free_FLIST
+//   93   
+//   94   wchar_t* path = StringAlloc(255);
+        MOVS     R0,#+255
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        MOVS     R5,R0
+//   95   wchar_t* name = StringAlloc(63);
+        MOVS     R0,#+63
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        MOVS     R6,R0
+//   96   
+//   97   wchar_t* rev = NULL, * d = name, * s = str;
+        STR      R4,[SP, #+0]
+        LDR      R1,[SP, #+52]
+        B        ??FindFiles_1
+//   98   
+//   99   while( ( c = *s++ ) )
+//  100   {
+//  101     *d = c;
+??FindFiles_2:
+        STRH     R2,[R0, #+0]
+//  102     if ( c == '/' &&* s!= '\0' ) rev = d;
+        CMP      R2,#+47
+        BNE      ??FindFiles_3
+        LDRH     R2,[R1, #+0]
+        CMP      R2,#+0
+        BEQ      ??FindFiles_3
+        STR      R0,[SP, #+0]
+//  103     d++;
+??FindFiles_3:
+        ADDS     R0,R0,#+2
+//  104   }
+??FindFiles_1:
+        LDRH     R2,[R1, #+0]
+        ADDS     R1,R1,#+2
+        CMP      R2,#+0
+        BNE      ??FindFiles_2
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??FindFiles_4
+//  105   if( rev )
+//  106   {
+//  107     if ( rev == name ) // ???? ???? ?? ??????
+        CMP      R0,R6
+        BNE      ??FindFiles_5
+//  108       * ( rev + 1 ) = 0;
+        STRH     R4,[R0, #+2]
+        B        ??FindFiles_6
+//  109     else
+//  110       * rev = 0;
+??FindFiles_5:
+        STRH     R4,[R0, #+0]
+//  111     AddToFList( name, back, IS_BACK );
+??FindFiles_6:
+        LDR      R1,??DataTable4  ;; `?<Constant L"\\x2f\\x25\\x6c\\x73">` + 12
+        MOVS     R0,R6
+        BL       ??AddToFList
+//  112     n++;
+        MOVS     R7,#+1
+//  113   }
+//  114   void* dir = w_diropen( str );
+??FindFiles_4:
+        LDR      R0,[SP, #+52]
+        _BLF     w_diropen,??w_diropen??rT
+        STR      R0,[SP, #+8]
+//  115   if ( dir )
+        CMP      R0,#+0
+        BEQ      ??FindFiles_7
+//  116   {
+//  117     wchar_t* next;
+//  118     w_chdir( str );
+        LDR      R0,[SP, #+52]
+        _BLF     w_chdir,??w_chdir??rT
+        B        ??FindFiles_8
+//  119     while( ( next = w_dirread( dir ) ) )
+//  120     {
+//  121       W_FSTAT fs;
+//  122       w_fstat( next, &fs );
+//  123       i = wstrlen( str );
+//  124       wstrcpy( path, str );
+//  125       if ( rev )
+//  126       {
+//  127         path[ i++ ] = '/';
+//  128       }
+//  129       wstrcpy( path + i, next );
+//  130       if ( fs.attr&0x4000 )
+//  131       {
+//  132         snwprintf( name, 63, L"/%ls", next );
+??FindFiles_9:
+        LDR      R3,[SP, #+4]
+        LDR      R2,??FindFiles_10  ;; `?<Constant L"\\x2f\\x25\\x6c\\x73">`
+        MOVS     R1,#+63
+        MOVS     R0,R6
+        _BLF     snwprintf,??snwprintf??rT
+//  133         AddToFList( path, name, IS_FOLDER );
+        MOVS     R2,#+1
+        MOVS     R1,R6
+??FindFiles_11:
+        MOVS     R0,R5
+        BL       ??AddToFList
+//  134         n++;
+        MOVS     R7,R4
+//  135       }
+??FindFiles_8:
+        LDR      R0,[SP, #+8]
+        _BLF     w_dirread,??w_dirread??rT
+        STR      R0,[SP, #+4]
+        CMP      R0,#+0
+        BEQ      ??FindFiles_12
+        ADD      R1,SP,#+12
+        _BLF     w_fstat,??w_fstat??rT
+        LDR      R0,[SP, #+52]
+        _BLF     wstrlen,??wstrlen??rT
+        LDR      R1,[SP, #+52]
+        MOVS     R4,R0
+        MOVS     R0,R5
+        _BLF     wstrcpy,??wstrcpy??rT
+        LDR      R0,[SP, #+0]
+        CMP      R0,#+0
+        BEQ      ??FindFiles_13
+        LSLS     R0,R4,#+1
+        MOVS     R1,#+47
+        STRH     R1,[R5, R0]
+        ADDS     R4,R4,#+1
+??FindFiles_13:
+        LDR      R1,[SP, #+4]
+        LSLS     R0,R4,#+1
+        ADDS     R0,R5,R0
+        _BLF     wstrcpy,??wstrcpy??rT
+        LDR      R0,[SP, #+12]
+        ADDS     R4,R7,#+1
+        LSLS     R0,R0,#+17
+        BMI      ??FindFiles_9
+//  136       else
+//  137       {
+//  138         if ( type == SFILE )
+        LDR      R0,[SP, #+56]
+        CMP      R0,#+1
+        BNE      ??FindFiles_8
+//  139         {
+//  140           AddToFList( path, next, IS_FILE );
+        LDR      R1,[SP, #+4]
+        MOVS     R2,#+2
+        B.N      ??FindFiles_11
+//  141           n++;
+//  142         }
+//  143       }
+//  144     }
+//  145     w_dirclose( dir );
+??FindFiles_12:
+        LDR      R0,[SP, #+8]
+        _BLF     w_dirclose,??w_dirclose??rT
+//  146   }
+//  147   StringFree( name );
+??FindFiles_7:
+        MOVS     R0,R6
+        _BLF     ??StringFree,??StringFree??rT
+//  148   StringFree( path );
+        MOVS     R0,R5
+        _BLF     ??StringFree,??StringFree??rT
+//  149   return n;
+        MOVS     R0,R7
+        ADD      SP,SP,#+60
+        CFI CFA R13+20
+        POP      {R4-R7,PC}       ;; return
+        Nop      
+        DATA
+??FindFiles_10:
+        DC32     `?<Constant L"\\x2f\\x25\\x6c\\x73">`
+        CFI EndBlock cfiBlock11
+//  150 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock12 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??FindFLISTtByNS??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock12
+        REQUIRE ??FindFLISTtByNS
+//  151 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock13 Using cfiCommon1
+        CFI Function ??FindFLISTtByNS
+        THUMB
+//  152 FLIST* FindFLISTtByNS( int* i, int si )
+//  153 {
+??FindFLISTtByNS:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+        MOVS     R5,R1
+//  154   F_DATA* fdata = GetFData();
+//  155   
+//  156   FLIST* fl;
+//  157   fl = (FLIST*) fdata->fltop;
+        BL       ??GetFData
+        B.N      ??FindFLISTtByNS_1
+//  158   while( fl )
+//  159   {
+//  160     if ( fl->is_folder == si )
+//  161     {
+//  162       if ( !(*i) )
+//  163         return fl;
+//  164       (*i)--;
+??FindFLISTtByNS_2:
+        SUBS     R1,R1,#+1
+        STR      R1,[R4, #+0]
+//  165     }
+//  166     fl = (FLIST*) fl->next;
+??FindFLISTtByNS_1:
+        LDR      R0,[R0, #+0]
+        CMP      R0,#+0
+        BEQ      ??FindFLISTtByNS_3
+        LDR      R1,[R0, #+4]
+        CMP      R1,R5
+        BNE      ??FindFLISTtByNS_1
+        LDR      R1,[R4, #+0]
+        CMP      R1,#+0
+        BNE      ??FindFLISTtByNS_2
+//  167   }
+//  168   return fl;
+??FindFLISTtByNS_3:
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock13
+//  169 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock14 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??FindFLISTtByN??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock14
+        REQUIRE ??FindFLISTtByN
+//  170 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock15 Using cfiCommon1
+        CFI Function ??FindFLISTtByN
+        THUMB
+//  171 FLIST* FindFLISTtByN( int n )
+//  172 {
+??FindFLISTtByN:
+        PUSH     {R0,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+8
+//  173   FLIST* fl;
+//  174   fl = FindFLISTtByNS( &n, IS_BACK );
+        MOVS     R1,#+0
+        MOV      R0,SP
+        BL       ??FindFLISTtByNS
+//  175  
+//  176   if ( !n && fl )
+        LDR      R1,[SP, #+0]
+        CMP      R1,#+0
+        BNE      ??FindFLISTtByN_1
+        CMP      R0,#+0
+        BEQ      ??FindFLISTtByN_1
+//  177     return fl;
+??FindFLISTtByN_2:
+        POP      {R3,PC}          ;; return
+//  178 
+//  179   fl = FindFLISTtByNS( &n, IS_FOLDER );
+??FindFLISTtByN_1:
+        MOVS     R1,#+1
+        MOV      R0,SP
+        BL       ??FindFLISTtByNS
+//  180   if ( !n && fl )
+        LDR      R1,[SP, #+0]
+        CMP      R1,#+0
+        BNE      ??FindFLISTtByN_3
+        CMP      R0,#+0
+        BNE      ??FindFLISTtByN_2
+//  181     return fl;
+//  182 
+//  183   fl = FindFLISTtByNS( &n, IS_FILE );
+??FindFLISTtByN_3:
+        MOVS     R1,#+2
+        MOV      R0,SP
+        BL       ??FindFLISTtByNS
+//  184   
+//  185   if ( !n && fl )
+        POP      {R3,PC}
+        CFI EndBlock cfiBlock15
+//  186     return fl;
+//  187   
+//  188   return fl;
+//  189 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock16 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??OnMessage??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock16
+        REQUIRE ??OnMessage
+//  190 
+//  191 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock17 Using cfiCommon1
+        CFI Function ??OnMessage
+        THUMB
+//  192 int OnMessage( GUI_MESSAGE* msg )
+//  193 {
+??OnMessage:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  194   TEXTID str = EMPTY_TEXTID;
+//  195   FLIST* fl;
+//  196   switch( GUIonMessage_GetMsg( msg ) )
+        _BLF     GUIonMessage_GetMsg,??GUIonMessage_GetMsg??rT
+        CMP      R0,#+1
+        BNE      ??OnMessage_1
+//  197   {
+//  198   case LISTMSG_GetItem:
+//  199     int index = GUIonMessage_GetCreatedItemIndex( msg );
+        MOVS     R0,R4
+        _BLF     GUIonMessage_GetCreatedItemIndex,??GUIonMessage_GetCreatedItemIndex??rT
+//  200     fl = FindFLISTtByN( index );
+        BL       ??FindFLISTtByN
+        MOVS     R5,R0
+//  201     str = TextID_Get( fl->name );
+        LDR      R0,[R5, #+12]
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+//  202     GUIonMessage_SetMenuItemText( msg, str );
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemText,??GUIonMessage_SetMenuItemText??rT
+//  203     
+//  204     if(wstrcmp(fl->name,back))
+        LDR      R0,[R5, #+12]
+        LDR      R1,??DataTable4  ;; `?<Constant L"\\x2f\\x25\\x6c\\x73">` + 12
+        _BLF     wstrcmp,??wstrcmp??rT
+        CMP      R0,#+0
+        BEQ      ??OnMessage_1
+//  205       GUIonMessage_SetMenuItemIcon(msg, 0, TypesIcons[TYPE_FOLDER]);
+        LDR      R2,??OnMessage_2  ;; 0xf377
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     GUIonMessage_SetMenuItemIcon,??GUIonMessage_SetMenuItemIcon??rT
+//  206 
+//  207     break;
+//  208   }
+//  209   return 1;
+??OnMessage_1:
+        MOVS     R0,#+1
+        POP      {R4,R5,PC}       ;; return
+        DATA
+??OnMessage_2:
+        DC32     0xf377
+        CFI EndBlock cfiBlock17
+//  210 };
+
+        RSEG CODE:CODE:NOROOT(2)
+        DATA
+??DataTable4:
+        DC32     `?<Constant L"\\x2f\\x25\\x6c\\x73">` + 12
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock18 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Self_OnBack??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock18
+        REQUIRE ??Self_OnBack
+//  211 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock19 Using cfiCommon1
+        CFI Function ??Self_OnBack
+        THUMB
+//  212 void Self_OnBack( BOOK* book, GUI* gui )
+//  213 {
+??Self_OnBack:
+        PUSH     {R4,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R4 Frame(CFA, -8)
+        CFI CFA R13+8
+        MOVS     R4,R0
+//  214   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  215   FREE_FLGUI( mbk->SelectFolder );
+        BL       ??Free_FLIST
+        LDR      R0,[R4, #+56]
+        CMP      R0,#+0
+        BEQ      ??Self_OnBack_1
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+56]
+//  216   DeleteFData();
+??Self_OnBack_1:
+        BL       ??DeleteFData
+//  217 }
+        POP      {R4,PC}          ;; return
+        CFI EndBlock cfiBlock19
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock20 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Self_onEnterPressed??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock20
+        REQUIRE ??Self_onEnterPressed
+//  218 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock21 Using cfiCommon1
+        CFI Function ??Self_onEnterPressed
+        THUMB
+//  219 void Self_onEnterPressed( BOOK* book, GUI* )
+//  220 {
+??Self_onEnterPressed:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R5,R0
+//  221   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  222   int item = ListMenu_GetSelectedItem( mbk->SelectFolder );
+        LDR      R0,[R5, #+56]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+//  223   FLIST* fl = FindFLISTtByN( item );
+        BL       ??FindFLISTtByN
+        MOVS     R7,R0
+//  224   if ( fl )
+        BEQ      ??Self_onEnterPressed_1
+//  225   {
+//  226     wchar_t* path = StringAlloc(255);
+        MOVS     R0,#+255
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        MOVS     R4,R0
+//  227     if ( fl->is_folder == IS_FOLDER || fl->is_folder == IS_BACK )
+        LDR      R0,[R7, #+4]
+        MOVS     R6,#+0
+        CMP      R0,#+1
+        BEQ      ??Self_onEnterPressed_2
+        CMP      R0,#+0
+        BNE      ??Self_onEnterPressed_3
+//  228     {
+//  229       wstrncpy( path, fl->fullname, 255 );
+??Self_onEnterPressed_2:
+        LDR      R1,[R7, #+8]
+        MOVS     R2,#+255
+        MOVS     R0,R4
+        _BLF     wstrncpy,??wstrncpy??rT
+//  230       FREE_FLGUI( mbk->SelectFolder );
+        BL       ??Free_FLIST
+        LDR      R0,[R5, #+56]
+        CMP      R0,#+0
+        BEQ      ??Self_onEnterPressed_4
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        STR      R6,[R5, #+56]
+//  231       mbk->SelectFolder = CreateFileFolderSelect( mbk, path );
+??Self_onEnterPressed_4:
+        MOVS     R1,R4
+        MOVS     R0,R5
+        BL       ??CreateFileFolderSelect
+        STR      R0,[R5, #+56]
+        B        ??Self_onEnterPressed_5
+//  232     }
+//  233     else
+//  234     {
+//  235       TEXTID str = TextID_Get( fl->fullname );
+??Self_onEnterPressed_3:
+        LDR      R0,[R7, #+8]
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R7,R0
+//  236       StringInput_DispObject_SetText( GUIObject_GetDispObject( mbk->FolderInput ), str );
+        LDR      R0,[R5, #+52]
+        _BLF     GUIObject_GetDispObject,??GUIObject_GetDispObject??rT
+        MOVS     R1,R7
+        _BLF     StringInput_DispObject_SetText,??StringInput_DispObject_SetText??rT
+//  237       FREE_FLGUI( mbk->SelectFolder );
+        BL       ??Free_FLIST
+        LDR      R0,[R5, #+56]
+        CMP      R0,#+0
+        BEQ      ??Self_onEnterPressed_6
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        STR      R6,[R5, #+56]
+//  238       DeleteFData();
+??Self_onEnterPressed_6:
+        BL       ??DeleteFData
+//  239     }
+//  240     StringFree( path );
+??Self_onEnterPressed_5:
+        MOVS     R0,R4
+        _BLF     ??StringFree,??StringFree??rT
+//  241   }
+//  242 }
+??Self_onEnterPressed_1:
+        POP      {R4-R7,PC}       ;; return
+        CFI EndBlock cfiBlock21
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock22 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??Self_onSelectPressed??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock22
+        REQUIRE ??Self_onSelectPressed
+//  243 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock23 Using cfiCommon1
+        CFI Function ??Self_onSelectPressed
+        THUMB
+//  244 void Self_onSelectPressed( BOOK* book, GUI* gui )
+//  245 {
+??Self_onSelectPressed:
+        PUSH     {R4,R5,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R5 Frame(CFA, -8)
+        CFI R4 Frame(CFA, -12)
+        CFI CFA R13+12
+        MOVS     R4,R0
+//  246   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  247   int item = ListMenu_GetSelectedItem( mbk->SelectFolder );
+        ADDS     R4,R4,#+52
+        LDR      R0,[R4, #+4]
+        _BLF     ListMenu_GetSelectedItem,??ListMenu_GetSelectedItem??rT
+//  248   
+//  249   FLIST* fl = FindFLISTtByN( item );
+        BL       ??FindFLISTtByN
+//  250   if ( fl )
+        CMP      R0,#+0
+        BEQ      ??Self_onSelectPressed_1
+//  251   {
+//  252     if ( ( fl->is_folder == IS_FOLDER && mbk->FType == SFOLDER ) || fl->is_folder == IS_FILE )
+        LDR      R1,[R0, #+4]
+        CMP      R1,#+1
+        BNE      ??Self_onSelectPressed_2
+        LDRB     R1,[R4, #+17]
+        CMP      R1,#+0
+        BNE      ??Self_onSelectPressed_1
+        B        ??Self_onSelectPressed_3
+??Self_onSelectPressed_2:
+        CMP      R1,#+2
+        BNE      ??Self_onSelectPressed_1
+//  253     {
+//  254       TEXTID str = TextID_Get( fl->fullname );
+??Self_onSelectPressed_3:
+        LDR      R0,[R0, #+8]
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R5,R0
+//  255       StringInput_DispObject_SetText( GUIObject_GetDispObject( mbk->FolderInput ), str );
+        LDR      R0,[R4, #+0]
+        _BLF     GUIObject_GetDispObject,??GUIObject_GetDispObject??rT
+        MOVS     R1,R5
+        _BLF     StringInput_DispObject_SetText,??StringInput_DispObject_SetText??rT
+//  256       FREE_FLGUI( mbk->SelectFolder );
+        BL       ??Free_FLIST
+        LDR      R0,[R4, #+4]
+        CMP      R0,#+0
+        BEQ      ??Self_onSelectPressed_4
+        _BLF     GUIObject_Destroy,??GUIObject_Destroy??rT
+        MOVS     R0,#+0
+        STR      R0,[R4, #+4]
+//  257       DeleteFData();
+??Self_onSelectPressed_4:
+        BL       ??DeleteFData
+//  258     }
+//  259   }
+//  260 }
+??Self_onSelectPressed_1:
+        POP      {R4,R5,PC}       ;; return
+        CFI EndBlock cfiBlock23
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock24 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??isdir??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock24
+        REQUIRE ??isdir
+//  261 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock25 Using cfiCommon1
+        CFI Function ??isdir
+        THUMB
+//  262 int isdir( wchar_t* name )
+//  263 {
+??isdir:
+        PUSH     {LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI CFA R13+4
+        SUB      SP,SP,#+40
+        CFI CFA R13+44
+//  264   W_FSTAT fs;
+//  265   if ( w_fstat( name, &fs )!= - 1 )
+        MOV      R1,SP
+        _BLF     w_fstat,??w_fstat??rT
+        MOVS     R1,#+0
+        MVNS     R1,R1
+        CMP      R0,R1
+        BEQ      ??isdir_1
+//  266     return fs.attr&0x4000;
+        LDR      R1,[SP, #+0]
+        MOVS     R0,#+128
+        LSLS     R0,R0,#+7
+        ANDS     R0,R0,R1
+        B        ??isdir_2
+//  267   else return 0;
+??isdir_1:
+        MOVS     R0,#+0
+??isdir_2:
+        ADD      SP,SP,#+40
+        CFI CFA R13+4
+        POP      {PC}             ;; return
+        CFI EndBlock cfiBlock25
+//  268 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock26 Using cfiCommon0
+        CFI NoFunction
+        ARM
+??CreateFileFolderSelect??rA:
+        ADD      R12,PC,#+1
+        BX       R12
+        CFI EndBlock cfiBlock26
+        REQUIRE ??CreateFileFolderSelect
+//  269 
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock27 Using cfiCommon1
+        CFI Function ??CreateFileFolderSelect
+        THUMB
+//  270 GUI_LIST* CreateFileFolderSelect( BOOK* book, wchar_t* str )
+//  271 {
+??CreateFileFolderSelect:
+        PUSH     {R4-R7,LR}
+        CFI ?RET Frame(CFA, -4)
+        CFI R7 Frame(CFA, -8)
+        CFI R6 Frame(CFA, -12)
+        CFI R5 Frame(CFA, -16)
+        CFI R4 Frame(CFA, -20)
+        CFI CFA R13+20
+        MOVS     R4,R0
+        MOVS     R6,R1
+//  272   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
+//  273   
+//  274   wchar_t* ustr = StringAlloc(255);
+        MOVS     R0,#+255
+        _BLF     ??StringAlloc,??StringAlloc??rT
+        MOVS     R5,R0
+//  275   wchar_t* s;
+//  276   GUI_LIST* f_list_gui;
+//  277   int n;
+//  278   
+//  279   wstrcpy( ustr, str );
+        MOVS     R1,R6
+        _BLF     wstrcpy,??wstrcpy??rT
+//  280   str = ustr;
+        MOVS     R6,R5
+//  281   
+//  282   int f = 0;
+        B        ??CreateFileFolderSelect_1
+//  283   do 
+//  284   {
+//  285     if ( isdir( ustr ) )
+//  286     {
+//  287       f = 1;
+//  288       break;
+//  289     }
+//  290     s = wstrrchr( ustr, L'/' );
+//  291 
+//  292     if ( s == ustr )
+//  293       break;
+//  294 
+//  295     if ( s )
+//  296       *s = 0;
+??CreateFileFolderSelect_2:
+        MOVS     R1,#+0
+        STRH     R1,[R0, #+0]
+??CreateFileFolderSelect_1:
+        MOVS     R0,R5
+        BL       ??isdir
+        CMP      R0,#+0
+        BNE      ??CreateFileFolderSelect_3
+        MOVS     R1,#+47
+        MOVS     R0,R5
+        _BLF     wstrrchr,??wstrrchr??rT
+        CMP      R0,R5
+        BEQ      ??CreateFileFolderSelect_4
+        CMP      R0,#+0
+        BNE      ??CreateFileFolderSelect_2
+//  297   }while( s );
+//  298 
+//  299   if ( !f )
+//  300     str = L"/";
+??CreateFileFolderSelect_4:
+        ADR      R6,??CreateFileFolderSelect_5  ;; 0x2F, 0x00, 0x00, 0x00
+//  301   
+//  302   n = FindFiles( str, mbk->FType );
+??CreateFileFolderSelect_3:
+        MOVS     R0,#+69
+        LDRB     R1,[R4, R0]
+        MOVS     R0,R6
+        BL       ??FindFiles
+        MOVS     R7,R0
+//  303   
+//  304   f_list_gui = CreateListMenu( mbk, UIDisplay_Main );
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     CreateListMenu,??CreateListMenu??rT
+        MOVS     R4,R0
+//  305   GUIObject_SetTitleText( f_list_gui, TextID_Get(str) ); //SELECT_FOLDER_TXT );
+        MOVS     R2,#+255
+        MOVS     R1,#+0
+        MOVS     R0,R6
+        _BLF     TextID_Create,??TextID_Create??rT
+        MOVS     R1,R0
+        MOVS     R0,R4
+        _BLF     GUIObject_SetTitleText,??GUIObject_SetTitleText??rT
+//  306   ListMenu_SetItemCount( f_list_gui, n );
+        MOVS     R1,R7
+        MOVS     R0,R4
+        _BLF     ListMenu_SetItemCount,??ListMenu_SetItemCount??rT
+//  307   ListMenu_SetCursorToItem( f_list_gui, 0 );
+        MOVS     R1,#+0
+        MOVS     R0,R4
+        _BLF     ListMenu_SetCursorToItem,??ListMenu_SetCursorToItem??rT
+//  308   ListMenu_SetOnMessage( f_list_gui, OnMessage );
+        LDR      R1,??CreateFileFolderSelect_5+0x4  ;; ??OnMessage
+        MOVS     R0,R4
+        _BLF     ListMenu_SetOnMessage,??ListMenu_SetOnMessage??rT
+//  309   GUIObject_SoftKeys_SetActionAndText( f_list_gui, ACTION_SELECT1, Self_onEnterPressed, OPEN_TXT );
+        LDR      R1,??CreateFileFolderSelect_5+0x8  ;; 0xfc2
+        LDR      R3,??CreateFileFolderSelect_5+0xC  ;; 0x6ed
+        LDR      R2,??CreateFileFolderSelect_5+0x10  ;; ??Self_onEnterPressed
+        MOVS     R0,R4
+        _BLF     GUIObject_SoftKeys_SetActionAndText,??GUIObject_SoftKeys_SetActionAndText??rT
+//  310   GUIObject_SoftKeys_SetActionAndText( f_list_gui, 1, Self_onSelectPressed, SELECT_TXT );
+        LDR      R3,??CreateFileFolderSelect_5+0x14  ;; 0x96c
+        LDR      R2,??CreateFileFolderSelect_5+0x18  ;; ??Self_onSelectPressed
+        MOVS     R1,#+1
+        MOVS     R0,R4
+        _BLF     GUIObject_SoftKeys_SetActionAndText,??GUIObject_SoftKeys_SetActionAndText??rT
+//  311   GUIObject_SoftKeys_SetAction( f_list_gui, ACTION_BACK, Self_OnBack );
+        LDR      R2,??CreateFileFolderSelect_5+0x1C  ;; ??Self_OnBack
+        MOVS     R1,#+252
+        LSLS     R1,R1,#+4
+        MOVS     R0,R4
+        _BLF     GUIObject_SoftKeys_SetAction,??GUIObject_SoftKeys_SetAction??rT
+//  312   GUIObject_Show( f_list_gui );
+        MOVS     R0,R4
+        _BLF     GUIObject_Show,??GUIObject_Show??rT
+//  313   
+//  314   StringFree( ustr );
+        MOVS     R0,R5
+        _BLF     ??StringFree,??StringFree??rT
+//  315   return f_list_gui;
+        MOVS     R0,R4
+        POP      {R4-R7,PC}       ;; return
+        DATA
+??CreateFileFolderSelect_5:
+        DC8      0x2F, 0x00, 0x00, 0x00
+        DC32     ??OnMessage
+        DC32     0xfc2
+        DC32     0x6ed
+        DC32     ??Self_onEnterPressed
+        DC32     0x96c
+        DC32     ??Self_onSelectPressed
+        DC32     ??Self_OnBack
+        CFI EndBlock cfiBlock27
+//  316 }
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock28 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??malloc??rT:
+        LDR      R3,??Subroutine14_0  ;; ??malloc
+        BX       R3
+        DATA
+??Subroutine14_0:
+        DC32     ??malloc
+        CFI EndBlock cfiBlock28
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock29 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??memset??rT:
+        LDR      R3,??Subroutine15_0  ;; memset
+        BX       R3
+        DATA
+??Subroutine15_0:
+        DC32     memset
+        CFI EndBlock cfiBlock29
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock30 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??set_envp??rT:
+        LDR      R3,??Subroutine16_0  ;; set_envp
+        BX       R3
+        DATA
+??Subroutine16_0:
+        DC32     set_envp
+        CFI EndBlock cfiBlock30
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock31 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??get_envp??rT:
+        LDR      R3,??Subroutine17_0  ;; get_envp
+        BX       R3
+        DATA
+??Subroutine17_0:
+        DC32     get_envp
+        CFI EndBlock cfiBlock31
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock32 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??mfree??rT:
+        LDR      R3,??Subroutine18_0  ;; ??mfree
+        BX       R3
+        DATA
+??Subroutine18_0:
+        DC32     ??mfree
+        CFI EndBlock cfiBlock32
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock33 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringFree??rT:
+        LDR      R3,??Subroutine19_0  ;; ??StringFree
+        BX       R3
+        DATA
+??Subroutine19_0:
+        DC32     ??StringFree
+        CFI EndBlock cfiBlock33
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock34 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrlen??rT:
+        LDR      R3,??Subroutine20_0  ;; wstrlen
+        BX       R3
+        DATA
+??Subroutine20_0:
+        DC32     wstrlen
+        CFI EndBlock cfiBlock34
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock35 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringAlloc??rT:
+        LDR      R3,??Subroutine21_0  ;; ??StringAlloc
+        BX       R3
+        DATA
+??Subroutine21_0:
+        DC32     ??StringAlloc
+        CFI EndBlock cfiBlock35
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock36 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrcpy??rT:
+        LDR      R3,??Subroutine22_0  ;; wstrcpy
+        BX       R3
+        DATA
+??Subroutine22_0:
+        DC32     wstrcpy
+        CFI EndBlock cfiBlock36
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock37 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrcmpi??rT:
+        LDR      R3,??Subroutine23_0  ;; wstrcmpi
+        BX       R3
+        DATA
+??Subroutine23_0:
+        DC32     wstrcmpi
+        CFI EndBlock cfiBlock37
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock38 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??w_diropen??rT:
+        LDR      R3,??Subroutine24_0  ;; w_diropen
+        BX       R3
+        DATA
+??Subroutine24_0:
+        DC32     w_diropen
+        CFI EndBlock cfiBlock38
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock39 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??w_chdir??rT:
+        LDR      R3,??Subroutine25_0  ;; w_chdir
+        BX       R3
+        DATA
+??Subroutine25_0:
+        DC32     w_chdir
+        CFI EndBlock cfiBlock39
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock40 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??snwprintf??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine26_0  ;; snwprintf
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine26_0:
+        DC32     snwprintf
+        CFI EndBlock cfiBlock40
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock41 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??w_dirread??rT:
+        LDR      R3,??Subroutine27_0  ;; w_dirread
+        BX       R3
+        DATA
+??Subroutine27_0:
+        DC32     w_dirread
+        CFI EndBlock cfiBlock41
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock42 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??w_fstat??rT:
+        LDR      R3,??Subroutine28_0  ;; w_fstat
+        BX       R3
+        DATA
+??Subroutine28_0:
+        DC32     w_fstat
+        CFI EndBlock cfiBlock42
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock43 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??w_dirclose??rT:
+        LDR      R3,??Subroutine29_0  ;; w_dirclose
+        BX       R3
+        DATA
+??Subroutine29_0:
+        DC32     w_dirclose
+        CFI EndBlock cfiBlock43
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock44 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_GetMsg??rT:
+        LDR      R3,??Subroutine30_0  ;; GUIonMessage_GetMsg
+        BX       R3
+        DATA
+??Subroutine30_0:
+        DC32     GUIonMessage_GetMsg
+        CFI EndBlock cfiBlock44
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock45 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_GetCreatedItemIndex??rT:
+        LDR      R3,??Subroutine31_0  ;; GUIonMessage_GetCreatedItemIndex
+        BX       R3
+        DATA
+??Subroutine31_0:
+        DC32     GUIonMessage_GetCreatedItemIndex
+        CFI EndBlock cfiBlock45
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock46 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??TextID_Create??rT:
+        LDR      R3,??Subroutine32_0  ;; TextID_Create
+        BX       R3
+        DATA
+??Subroutine32_0:
+        DC32     TextID_Create
+        CFI EndBlock cfiBlock46
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock47 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_SetMenuItemText??rT:
+        LDR      R3,??Subroutine33_0  ;; GUIonMessage_SetMenuItemText
+        BX       R3
+        DATA
+??Subroutine33_0:
+        DC32     GUIonMessage_SetMenuItemText
+        CFI EndBlock cfiBlock47
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock48 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrcmp??rT:
+        LDR      R3,??Subroutine34_0  ;; wstrcmp
+        BX       R3
+        DATA
+??Subroutine34_0:
+        DC32     wstrcmp
+        CFI EndBlock cfiBlock48
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock49 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIonMessage_SetMenuItemIcon??rT:
+        LDR      R3,??Subroutine35_0  ;; GUIonMessage_SetMenuItemIcon
+        BX       R3
+        DATA
+??Subroutine35_0:
+        DC32     GUIonMessage_SetMenuItemIcon
+        CFI EndBlock cfiBlock49
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock50 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_Destroy??rT:
+        LDR      R3,??Subroutine36_0  ;; GUIObject_Destroy
+        BX       R3
+        DATA
+??Subroutine36_0:
+        DC32     GUIObject_Destroy
+        CFI EndBlock cfiBlock50
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock51 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_GetSelectedItem??rT:
+        LDR      R3,??Subroutine37_0  ;; ListMenu_GetSelectedItem
+        BX       R3
+        DATA
+??Subroutine37_0:
+        DC32     ListMenu_GetSelectedItem
+        CFI EndBlock cfiBlock51
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock52 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrncpy??rT:
+        LDR      R3,??Subroutine38_0  ;; wstrncpy
+        BX       R3
+        DATA
+??Subroutine38_0:
+        DC32     wstrncpy
+        CFI EndBlock cfiBlock52
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock53 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_GetDispObject??rT:
+        LDR      R3,??Subroutine39_0  ;; GUIObject_GetDispObject
+        BX       R3
+        DATA
+??Subroutine39_0:
+        DC32     GUIObject_GetDispObject
+        CFI EndBlock cfiBlock53
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock54 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??StringInput_DispObject_SetText??rT:
+        LDR      R3,??Subroutine40_0  ;; StringInput_DispObject_SetText
+        BX       R3
+        DATA
+??Subroutine40_0:
+        DC32     StringInput_DispObject_SetText
+        CFI EndBlock cfiBlock54
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock55 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??wstrrchr??rT:
+        LDR      R3,??Subroutine41_0  ;; wstrrchr
+        BX       R3
+        DATA
+??Subroutine41_0:
+        DC32     wstrrchr
+        CFI EndBlock cfiBlock55
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock56 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??CreateListMenu??rT:
+        LDR      R3,??Subroutine42_0  ;; CreateListMenu
+        BX       R3
+        DATA
+??Subroutine42_0:
+        DC32     CreateListMenu
+        CFI EndBlock cfiBlock56
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock57 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SetTitleText??rT:
+        LDR      R3,??Subroutine43_0  ;; GUIObject_SetTitleText
+        BX       R3
+        DATA
+??Subroutine43_0:
+        DC32     GUIObject_SetTitleText
+        CFI EndBlock cfiBlock57
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock58 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetItemCount??rT:
+        LDR      R3,??Subroutine44_0  ;; ListMenu_SetItemCount
+        BX       R3
+        DATA
+??Subroutine44_0:
+        DC32     ListMenu_SetItemCount
+        CFI EndBlock cfiBlock58
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock59 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetCursorToItem??rT:
+        LDR      R3,??Subroutine45_0  ;; ListMenu_SetCursorToItem
+        BX       R3
+        DATA
+??Subroutine45_0:
+        DC32     ListMenu_SetCursorToItem
+        CFI EndBlock cfiBlock59
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock60 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??ListMenu_SetOnMessage??rT:
+        LDR      R3,??Subroutine46_0  ;; ListMenu_SetOnMessage
+        BX       R3
+        DATA
+??Subroutine46_0:
+        DC32     ListMenu_SetOnMessage
+        CFI EndBlock cfiBlock60
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock61 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SoftKeys_SetActionAndText??rT:
+        PUSH     {R3}
+        CFI CFA R13+4
+        LDR      R3,??Subroutine47_0  ;; GUIObject_SoftKeys_SetActionAndText
+        MOV      R12,R3
+        POP      {R3}
+        CFI CFA R13+0
+        BX       R12
+        Nop      
+        DATA
+??Subroutine47_0:
+        DC32     GUIObject_SoftKeys_SetActionAndText
+        CFI EndBlock cfiBlock61
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock62 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_SoftKeys_SetAction??rT:
+        LDR      R3,??Subroutine48_0  ;; GUIObject_SoftKeys_SetAction
+        BX       R3
+        DATA
+??Subroutine48_0:
+        DC32     GUIObject_SoftKeys_SetAction
+        CFI EndBlock cfiBlock62
+
+        RSEG CODE:CODE:NOROOT(2)
+        CFI Block cfiBlock63 Using cfiCommon1
+        CFI NoFunction
+        THUMB
+??GUIObject_Show??rT:
+        LDR      R3,??Subroutine49_0  ;; GUIObject_Show
+        BX       R3
+        DATA
+??Subroutine49_0:
+        DC32     GUIObject_Show
+        CFI EndBlock cfiBlock63
+
+        END
+//  317 
+// 
+// 1 530 bytes in segment CODE
+//    32 bytes in segment DATA_C
+// 
+// 1 114 bytes of CODE  memory (+ 416 bytes shared)
+//    32 bytes of CONST memory
+//
+//Errors: none
+//Warnings: none

@@ -1658,7 +1658,7 @@
     </settings>
   </configuration>
   <configuration>
-    <name>W595_R3EF001</name>
+    <name>C510_R1HA035</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -1680,15 +1680,15 @@
         </option>
         <option>
           <name>ExePath</name>
-          <state>W595_R3EF001\Exe</state>
+          <state>C510_R1HA035\Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>W595_R3EF001\Obj</state>
+          <state>C510_R1HA035\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>W595_R3EF001\List</state>
+          <state>C510_R1HA035\List</state>
         </option>
         <option>
           <name>Variant</name>
@@ -1793,9 +1793,9 @@
         <option>
           <name>CCDefines</name>
           <state>NDEBUG</state>
-          <state>DB3150v1</state>
-          <state>G502_R1FA037</state>
-          <state>RIGHT</state>
+          <state>A2</state>
+          <state>DB3210</state>
+          <state>C510_R1HA035</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1966,7 +1966,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state>$PROJ_DIR$\Target\G502_R1FA037.h</state>
+          <state>$PROJ_DIR$\Target\C510_R1HA035.h</state>
         </option>
         <option>
           <name>CompilerMisraRules</name>
@@ -2062,9 +2062,9 @@
         </option>
         <option>
           <name>ADefines</name>
-          <state>DB3150v1</state>
-          <state>G502_R1FA037</state>
-          <state>RIGHT</state>
+          <state>A2</state>
+          <state>DB3210</state>
+          <state>C510_R1HA035</state>
         </option>
         <option>
           <name>AList</name>
@@ -2276,7 +2276,7 @@
         </option>
         <option>
           <name>XclFile</name>
-          <state>$PROJ_DIR$\xcl\G502_R1FA037.xcl</state>
+          <state>$PROJ_DIR$\xcl\C510_R1HA035.xcl</state>
         </option>
         <option>
           <name>XclFileSlave</name>
@@ -2488,17 +2488,23 @@
   <group>
     <name>asm</name>
     <file>
+      <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
+      <excluded>
+        <configuration>G502_R1FA037</configuration>
+      </excluded>
+    </file>
+    <file>
       <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
       <excluded>
         <configuration>J105_R1HA035</configuration>
-        <configuration>W595_R3EF001</configuration>
+        <configuration>C510_R1HA035</configuration>
       </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
       <excluded>
         <configuration>G502_R1FA037</configuration>
-        <configuration>W595_R3EF001</configuration>
+        <configuration>C510_R1HA035</configuration>
       </excluded>
     </file>
   </group>
