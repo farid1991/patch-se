@@ -116,8 +116,8 @@ void ImageIDViewer_OnRedraw(DISP_OBJ_IMG* disp, int a, int b, int c)
     DrawString_Params(disp_obj->textid_imgsize,
                       FONT_E_18R,
                       UITextAlignment_Center,
-                      0, 
-                      (disp_obj->height/4)*5,
+                      0,
+                      (disp_obj->height*4)/5,
                       disp_obj->width,
                       disp_obj->color_text,
                       clEmpty );
