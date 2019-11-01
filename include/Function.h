@@ -873,7 +873,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   GUI* CreateStringInput( BOOK* book );
   void StringInput_SetMode( GUI*, int mode);
   void StringInput_SetActionOK( GUI* strinp, void (*proc)( BOOK* book, wchar_t* string, int len ) );
-  void StringInput_SetActionNo( GUI* strinp, void (*proc)( BOOK* book, wchar_t* string, int len ) );
+  void StringInput_SetActionBack( GUI* strinp, void (*proc)( BOOK* book, wchar_t* string, int len ) );
   void StringInput_SetActionCancel( GUI* strinp, void (*proc)( BOOK* book, wchar_t* string, int len ) );
   void StringInput_SetText( GUI* strinp, TEXTID );
   void StringInput_SetFixedText( GUI* strinp, TEXTID );
