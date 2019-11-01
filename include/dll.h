@@ -8,5 +8,8 @@ int dll_GetImageHeight(wchar_t imageID);
 int dll_GetImageWidth(wchar_t imageID);
 int dll_GetImageWidth(wchar_t imageID);
 int dll_GetSignalQuality( char * rssi, char * ber );
+void dll_GUIObject_SetCursorImage( GUI* gui, IMAGEID imageID );
+void dll_GUIObject_SetBackgroundImage( GUI* gui, IMAGEID imageID );
+void dll_GUIObject_SetTitleTextColor( GUI* gui, int color );
 
 #endif

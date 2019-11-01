@@ -186,3 +186,24 @@ int dll_GetSignalQuality( char * rssi, char * ber )
   return(res);
 }
 #endif
+
+#ifdef A2
+void dll_GUIObject_SetCursorImage( GUI* gui, IMAGEID imageID )
+{
+  DispObject_SetCursorImage( GUIObject_GetDispObject(gui), imageID );
+}
+#endif
+
+#ifdef A2
+void dll_GUIObject_SetBackgroundImage( GUI* gui, IMAGEID imageID )
+{
+  DispObject_SetBackgroundImage( GUIObject_GetDispObject(gui), imageID );
+}
+#endif
+
+#ifdef A2
+void dll_GUIObject_SetTitleTextColor( GUI* gui, int color )
+{
+  DispObject_SetTitleTextColor( GUIObject_GetDispObject(gui), color );
+}
+#endif
