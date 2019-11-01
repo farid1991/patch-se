@@ -15,6 +15,10 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#ifdef A2
+#include "..\\include\dll.h"
+#endif
+
 #include "main.h"
 #include "editor.h"
 #include "utils.h"
@@ -55,8 +59,8 @@ void ShortcutFree(void* Item)
   SHORTCUT* Shortcut = (SHORTCUT*)Item;
   if(Shortcut)
   {
-    StringFree(Shortcut->sData);
-    StringFree(Shortcut->Caption);   
+    WStringFree(Shortcut->sData);
+    WStringFree(Shortcut->Caption);   
     mfree(Shortcut);
   }
 }
@@ -113,7 +117,7 @@ void Menu_ModifyItem(BOOK* book, GUI* gui)
 
 void Menu_About(BOOK* book, GUI* gui)
 {
-  TEXTID Text = TextID_Get(L"GotoShortcut\nv3.2\n(c) farid");
+  TEXTID Text = TextID_Get(L"GotoShortcut\nv3.5\n(c) farid");
   MessageBox_NoImage(EMPTY_TEXTID, Text, 1, 0, book);
 }
 
@@ -167,7 +171,7 @@ int pg_Goto_Shortcut_EnterAction(void* data, BOOK* book)
   ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
   ListMenu_SetHotkeyMode(mbk->MainMenu, LKHM_SHORTCUT);
   ListMenu_SetNoItemText(mbk->MainMenu, EMPTY_LIST_TXT);
-  
+
   GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 0, Menu_AddItem, MENU_ADD_TXT);
   GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 1, Menu_ModifyItem, MENU_MODIFY_TXT);
   GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 2, Menu_About, MENU_ABOUT_TXT);

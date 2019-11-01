@@ -2509,6 +2509,9 @@
     </file>
   </group>
   <file>
+    <name>$PROJ_DIR$\..\include\dll.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\editor.c</name>
   </file>
   <file>

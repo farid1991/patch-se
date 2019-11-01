@@ -40,8 +40,8 @@ void Free_FLIST( void )
   while( fl )
   {
     FLIST* fl_prev = fl;
-    StringFree( fl_prev->fullname );
-    StringFree( fl_prev->name );
+    WStringFree( fl_prev->fullname );
+    WStringFree( fl_prev->name );
     fl = (FLIST*) fl->next;
     mfree( fl_prev);
   }
@@ -55,9 +55,9 @@ FLIST* AddToFList( const wchar_t* full_name, const wchar_t* name, int is_folder 
   FLIST* fl;
   FLIST* fn = (FLIST*)malloc(sizeof(FLIST));
   
-  fn->fullname = StringAlloc(wstrlen( full_name ));
+  fn->fullname = WStringAlloc(wstrlen( full_name ));
   
-  fn->name = StringAlloc(wstrlen( name ));
+  fn->name = WStringAlloc(wstrlen( name ));
   
   wstrcpy( fn->fullname, full_name );
   wstrcpy( fn->name, name );
@@ -91,8 +91,8 @@ int FindFiles( wchar_t* str, int type ) // type == 0 SelectFolder, type == 1 Sel
   int i, c, n = 0;
   Free_FLIST();
   
-  wchar_t* path = StringAlloc(255);
-  wchar_t* name = StringAlloc(63);
+  wchar_t* path = WStringAlloc(255);
+  wchar_t* name = WStringAlloc(63);
   
   wchar_t* rev = NULL, * d = name, * s = str;
   
@@ -144,8 +144,8 @@ int FindFiles( wchar_t* str, int type ) // type == 0 SelectFolder, type == 1 Sel
     }
     w_dirclose( dir );
   }
-  StringFree( name );
-  StringFree( path );
+  WStringFree( name );
+  WStringFree( path );
   return n;
 }
 
@@ -223,7 +223,7 @@ void Self_onEnterPressed( BOOK* book, GUI* )
   FLIST* fl = FindFLISTtByN( item );
   if ( fl )
   {
-    wchar_t* path = StringAlloc(255);
+    wchar_t* path = WStringAlloc(255);
     if ( fl->is_folder == IS_FOLDER || fl->is_folder == IS_BACK )
     {
       wstrncpy( path, fl->fullname, 255 );
@@ -237,7 +237,7 @@ void Self_onEnterPressed( BOOK* book, GUI* )
       FREE_FLGUI( mbk->SelectFolder );
       DeleteFData();
     }
-    StringFree( path );
+    WStringFree( path );
   }
 }
 
@@ -271,7 +271,7 @@ GUI_LIST* CreateFileFolderSelect( BOOK* book, wchar_t* str )
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   
-  wchar_t* ustr = StringAlloc(255);
+  wchar_t* ustr = WStringAlloc(255);
   wchar_t* s;
   GUI_LIST* f_list_gui;
   int n;
@@ -301,7 +301,7 @@ GUI_LIST* CreateFileFolderSelect( BOOK* book, wchar_t* str )
   
   n = FindFiles( str, mbk->FType );
   
-  f_list_gui = CreateListMenu( mbk, UIDisplay_Main );
+  f_list_gui = CreateListMenu( book, UIDisplay_Main );
   GUIObject_SetTitleText( f_list_gui, TextID_Get(str) ); //SELECT_FOLDER_TXT );
   ListMenu_SetItemCount( f_list_gui, n );
   ListMenu_SetCursorToItem( f_list_gui, 0 );
@@ -311,7 +311,7 @@ GUI_LIST* CreateFileFolderSelect( BOOK* book, wchar_t* str )
   GUIObject_SoftKeys_SetAction( f_list_gui, ACTION_BACK, Self_OnBack );
   GUIObject_Show( f_list_gui );
   
-  StringFree( ustr );
+  WStringFree( ustr );
   return f_list_gui;
 }
 

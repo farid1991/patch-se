@@ -39,6 +39,8 @@
 #define GUI_UNAVAILABLE_ICN 0xF8A6
 #define DB_LIST_FOLDER_ICN  0x016A
 
+#define SHC_DESKTOP_WATERMARK_ICN 0x0861
+
 #define F_PATH 		  (wchar_t*)0x15A86E38
 #define MAIN_MENU         (wchar_t*)0x15B2C28C
 #define JAVA_TXT          (wchar_t*)0x15927760

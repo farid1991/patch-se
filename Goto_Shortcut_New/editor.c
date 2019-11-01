@@ -23,8 +23,8 @@ void Menu_SetMainMenu( BOOK* MainMenu, GUI* gui )
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
   
   wchar_t* Data = L"MainMenu";
-  StringRealloc(Data, &mbk->Current->sData);
-  StringFree(Data);
+  WStringRealloc(Data, &mbk->Current->sData);
+  WStringFree(Data);
   mbk->Current->Type = TYPE_SHORTCUT;
   
   void* ShortcutDesc;
@@ -38,7 +38,7 @@ void Menu_SetMainMenu( BOOK* MainMenu, GUI* gui )
   if (!mbk->Current->Caption)
   {
     wchar_t Text[20] = L"MainMenu";
-    mbk->Current->Caption = StringAlloc(StringLength(Text));
+    mbk->Current->Caption = WStringAlloc(WStringLength(Text));
     wstrcpy(mbk->Current->Caption, Text);
   }
   mfree(ShortcutDesc);
@@ -50,8 +50,8 @@ void Menu_SetShortcut(BOOK* MainMenu, GUI* gui)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
   wchar_t* Data = MenuBook_Desktop_GetSelectedItemID(MainMenu);
-  StringRealloc(Data, &mbk->Current->sData);
-  StringFree(Data);
+  WStringRealloc(Data, &mbk->Current->sData);
+  WStringFree(Data);
   
   mbk->Current->Type = TYPE_SHORTCUT;
   
@@ -67,7 +67,7 @@ void Menu_SetShortcut(BOOK* MainMenu, GUI* gui)
   {
     wchar_t text[64];
     TextID_GetWString(Shortcut_Get_MenuItemName(ShortcutDesc), text, MAXELEMS(text));
-    mbk->Current->Caption = StringAlloc(StringLength(text));
+    mbk->Current->Caption = WStringAlloc(WStringLength(text));
     wstrcpy(mbk->Current->Caption, text);
   }
   mfree(ShortcutDesc);
@@ -75,13 +75,13 @@ void Menu_SetShortcut(BOOK* MainMenu, GUI* gui)
   AcceptShortcut(mbk);
 }
 
-int Cancel_MainMenu_DB(void* data, BOOK* book)
+int pg_SC_Editor_SelectShortcut_CancelAction(void* data, BOOK* book)
 {
   BookObj_ReturnPage(book, NIL_EVENT);
   return(1);
 }
 
-int CreateMainMenu(void* data, BOOK* book)
+int pg_SC_Editor_SelectShortcut_EnterAction(void* data, BOOK* book)
 {
   BOOK* MainMenu = MenuBook_Desktop(1, BookObj_GetBookID(book));
   if (MainMenu)
@@ -99,9 +99,9 @@ int CreateMainMenu(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_MainMenu_PageEvents[] = 
 {
-  PAGE_ENTER_EVENT, CreateMainMenu,
-  PREVIOUS_EVENT,   Cancel_MainMenu_DB,
-  CANCEL_EVENT,     Cancel_MainMenu_DB,
+  PAGE_ENTER_EVENT, pg_SC_Editor_SelectShortcut_EnterAction,
+  PREVIOUS_EVENT,   pg_SC_Editor_SelectShortcut_CancelAction,
+  CANCEL_EVENT,     pg_SC_Editor_SelectShortcut_CancelAction,
   NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_MainMenu_PageDesc = {EDITOR_MAINMENU_BASEPAGE_NAME, 0, Goto_Editor_MainMenu_PageEvents};
@@ -126,12 +126,12 @@ void JavaMenu_Ok(BOOK* book, GUI* gui)
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   JAVA_LIST_ELEM* Elem = (JAVA_LIST_ELEM*)List_Get(mbk->JavaList, ListMenu_GetSelectedItem(mbk->JavaMenu));
   
-  StringRealloc(Elem->Name, &mbk->Current->sData);
+  WStringRealloc(Elem->Name, &mbk->Current->sData);
   mbk->Current->Icon = DB_LIST_JAVA_ICN;
   mbk->Current->Type = TYPE_JAVA;
   
   if (!mbk->Current->Caption)
-    StringRealloc(Elem->Name, &mbk->Current->Caption);
+    WStringRealloc(Elem->Name, &mbk->Current->Caption);
   
   AcceptShortcut(mbk);
 }
@@ -178,7 +178,7 @@ const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, 
 
 //------------------------------------------------------------------------------
 
-int Select_DB(void* data, BOOK* book)
+int pg_SC_Editor_SelectElf_AcceptAction(void* data, BOOK* book)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)FindBook(IsMyBook);
   FILEITEM* file_item = (FILEITEM*)data;
@@ -188,7 +188,7 @@ int Select_DB(void* data, BOOK* book)
   mbk->Current->Type = TYPE_ELF;
 
   if(!mbk->Current->Caption)
-    StringRealloc(FILEITEM_GetFname(file_item), &mbk->Current->Caption);
+    WStringRealloc(FILEITEM_GetFname(file_item), &mbk->Current->Caption);
 
   AcceptShortcut(mbk);
   return 0;
@@ -204,7 +204,7 @@ int DB_Filter(const wchar_t *ExtTable, const wchar_t* fpath, const wchar_t* fnam
   return 0 != (fs.st_mode&FSX_S_IFDIR);
 }
 
-int CreateDataBrowser(void* data, BOOK* book)
+int pg_SC_Editor_SelectElf_EnterAction(void* data, BOOK* book)
 {
   void* DB_Desc = DataBrowserDesc_Create();
   const wchar_t *Folders[3];
@@ -225,10 +225,10 @@ int CreateDataBrowser(void* data, BOOK* book)
 
 const PAGE_MSG Goto_Editor_DataBrowser_PageEvents[] = 
 {
-  PAGE_ENTER_EVENT, CreateDataBrowser,
-  ACCEPT_EVENT,     Select_DB,
-  PREVIOUS_EVENT,   Cancel_MainMenu_DB,
-  CANCEL_EVENT,     Cancel_MainMenu_DB,
+  PAGE_ENTER_EVENT, pg_SC_Editor_SelectElf_EnterAction,
+  ACCEPT_EVENT,     pg_SC_Editor_SelectElf_AcceptAction,
+  PREVIOUS_EVENT,   pg_SC_Editor_SelectShortcut_CancelAction,
+  CANCEL_EVENT,     pg_SC_Editor_SelectShortcut_CancelAction,
   NIL_EVENT,        NULL
 };
 const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, 0, Goto_Editor_DataBrowser_PageEvents};
@@ -241,19 +241,19 @@ void OnOkEventInput(BOOK* book, wchar_t *string, int len)
 
   if (len > 0)
   {
-    StringRealloc(string, &mbk->Current->sData);
+    WStringRealloc(string, &mbk->Current->sData);
     mbk->Current->Icon = TypesIcons[TYPE_EVENT];
     mbk->Current->Type = TYPE_EVENT;
     
     int event = wstr2h(string,len);
     
-    //wchar_t *EventName = StringAlloc(len); 
+    //wchar_t *EventName = WStringAlloc(len); 
     //str2wstr(EventName,UIEventName(event));
     
     if(!mbk->Current->Caption)
-      StringRealloc(string, &mbk->Current->Caption);
+      WStringRealloc(string, &mbk->Current->Caption);
     
-    //StringFree(EventName);
+    //WStringFree(EventName);
   }
   AcceptShortcut(mbk);
 }
@@ -314,25 +314,25 @@ void SelFolder_Enter( BOOK* book, GUI* gui )
   mbk->SelectFolder = CreateFileFolderSelect( mbk, str );
 }
 
-void OnBackFolderInput(BOOK* book, wchar_t* string, int len)
+void SC_Editor_SelectFolder_onBack(BOOK* book, wchar_t* string, int len)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   FREE_GUI(mbk->FolderInput);
   BookObj_ReturnPage(mbk, NIL_EVENT);
 }
 
-void OnOkFolderInput(BOOK* book, wchar_t* string, int len)
+void SC_Editor_SelectFolder_onEnter(BOOK* book, wchar_t* string, int len)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
   
   if (len > 0)
   {
-    StringRealloc(string, &mbk->Current->sData);
+    WStringRealloc(string, &mbk->Current->sData);
     mbk->Current->Icon = TypesIcons[TYPE_FOLDER];
     mbk->Current->Type = TYPE_FOLDER;
     
     if(!mbk->Current->Caption)
-      StringExtractFileName(string, &mbk->Current->Caption);
+      WStringExtractFileName(string, &mbk->Current->Caption);
   }
   AcceptShortcut(mbk);
 }
@@ -351,8 +351,8 @@ int pg_SC_Editor_SelectFolder_EnterAction(void* data, BOOK* book)
   
   //StringInput_SetMinLen( mbk->FolderInput, 1 );
   StringInput_SetMaxLen( mbk->FolderInput, 255 );  
-  StringInput_SetActionOK( mbk->FolderInput, OnOkFolderInput );
-  StringInput_SetActionBack( mbk->FolderInput, OnBackFolderInput );
+  StringInput_SetActionOK( mbk->FolderInput, SC_Editor_SelectFolder_onEnter );
+  StringInput_SetActionBack( mbk->FolderInput, SC_Editor_SelectFolder_onBack );
   
   GUIObject_SoftKeys_SetActionAndText( mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT );
   StringInput_MenuItem_SetPriority( mbk->FolderInput, 0, 0 );
@@ -468,7 +468,7 @@ void OnOkCaptionInput(BOOK* book, wchar_t* string, int len)
 {
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)book;
 
-  if (len > 0) StringReallocEx(string, &mbk->Current->Caption, len);
+  if (len > 0) WStringReallocEx(string, &mbk->Current->Caption, len);
     
   BookObj_ReturnPage(mbk, ACCEPT_EVENT);
 }

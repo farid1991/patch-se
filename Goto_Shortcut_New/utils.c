@@ -51,7 +51,7 @@ void StartJava_ByName(wchar_t* name)
         break;
       }
       else result = JavaAppDesc_GetNextApp(Javadesc);
-      StringFree(sp);
+      WStringFree(sp);
     }
   }
   JavaDialog_Close(sp1);
@@ -64,22 +64,22 @@ void ExecuteEvent(wchar_t *name)
   UI_Event(event);
 }
 
-void OpenFolger(wchar_t * folders)
+void OpenFolder(wchar_t * folders)
 {
   const wchar_t * path[2];
   path[0] = folders;
   path[1] = 0;
-    
-  void* Folder_Desc = DataBrowserDesc_Create();
-  DataBrowserDesc_SetHeaderText(Folder_Desc,TextID_Create(folders, ENC_UCS2, TEXTID_ANY_LEN));
-  DataBrowserDesc_SetFolders(Folder_Desc,path);
-  DataBrowserDesc_SetFoldersNumber(Folder_Desc,1);
-  DataBrowserDesc_SetSelectAction(Folder_Desc,0);
-  DataBrowserDesc_Menu_AddFSFunctions(Folder_Desc, 0);
-  DataBrowserDesc_Menu_AddNewFolder(Folder_Desc, 1);
-  DataBrowserDesc_Menu_AddMarkFiles(Folder_Desc, 1);
-  DataBrowser_Create(Folder_Desc);
-  DataBrowserDesc_Destroy(Folder_Desc);
+
+  void* DB_Desc = DataBrowserDesc_Create();
+  DataBrowserDesc_SetHeaderText(DB_Desc,TextID_Create(folders, ENC_UCS2, TEXTID_ANY_LEN));
+  DataBrowserDesc_SetFolders(DB_Desc,path);
+  DataBrowserDesc_SetFoldersNumber(DB_Desc,1);
+  DataBrowserDesc_SetSelectAction(DB_Desc,0);
+  DataBrowserDesc_Menu_AddFSFunctions(DB_Desc, 0);
+  DataBrowserDesc_Menu_AddNewFolder(DB_Desc, 1);
+  DataBrowserDesc_Menu_AddMarkFiles(DB_Desc, 1);
+  DataBrowser_Create(DB_Desc);
+  DataBrowserDesc_Destroy(DB_Desc);
 }
 
 void RunShortcut(SHORTCUT *Shortcut)
@@ -99,7 +99,7 @@ void RunShortcut(SHORTCUT *Shortcut)
     ExecuteEvent(Shortcut->sData);
     break;
   case TYPE_FOLDER:
-    OpenFolger(Shortcut->sData);
+    OpenFolder(Shortcut->sData);
     break;
   }
 }
@@ -123,8 +123,8 @@ void JavaFree(void* item)
   JAVA_LIST_ELEM* elem = (JAVA_LIST_ELEM*)item;
   if(elem)
   {
-    StringFree(elem->Name);
-    StringFree(elem->Fullpath);
+    WStringFree(elem->Name);
+    WStringFree(elem->Fullpath);
     if (elem->ImageID) ImageID_Free(elem->ImageID);
     mfree(elem);
   }
@@ -158,7 +158,7 @@ LIST* Create_JavaList()
       {
         List_InsertLast(java_list, CreateElem(JavaDesc));
       }
-      StringFree(sp);
+      WStringFree(sp);
       result = JavaAppDesc_GetNextApp(JavaDesc);
     }
   }
@@ -178,14 +178,14 @@ void SaveConfig(LIST *List)
     fwrite(File, &List->FirstFree, sizeof(u16));
     
     int i;
-    for (i = 0; i < List->FirstFree; i++)
+    for (i = 0; i < List_GetCount(List); i++)
     {
       SHORTCUT* Shortcut = (SHORTCUT*)List_Get(List, i);
       fwrite(File, &Shortcut->Type, sizeof(char));
-      sDataLen = StringLength(Shortcut->sData);
+      sDataLen = WStringLength(Shortcut->sData);
       fwrite(File, &sDataLen, sizeof(int));
       fwrite(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
-      CaptionLen = StringLength(Shortcut->Caption);
+      CaptionLen = WStringLength(Shortcut->Caption);
       fwrite(File, &CaptionLen, sizeof(int));
       fwrite(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
       fwrite(File, &Shortcut->Icon, sizeof(IMAGEID));
@@ -216,10 +216,10 @@ LIST* LoadConfig()
         SHORTCUT* Shortcut = (SHORTCUT*)malloc(sizeof(SHORTCUT));
         fread(File, &Shortcut->Type, sizeof(char));
         fread(File, &sDataLen, sizeof(int));
-        Shortcut->sData = StringAlloc(sDataLen);
+        Shortcut->sData = WStringAlloc(sDataLen);
         fread(File, Shortcut->sData, sDataLen * sizeof(wchar_t));
         fread(File, &CaptionLen, sizeof(int));
-        Shortcut->Caption = StringAlloc(CaptionLen);
+        Shortcut->Caption = WStringAlloc(CaptionLen);
         fread(File, Shortcut->Caption, CaptionLen * sizeof(wchar_t));
         fread(File, &Shortcut->Icon, sizeof(IMAGEID));
         List_InsertLast(Ret, Shortcut);
