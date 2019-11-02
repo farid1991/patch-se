@@ -4,26 +4,57 @@
 //LIST_SHORTCURTS (LIST*)0x4BA24274
 //LIST_ACTIVETASKS (LIST*)0x4BA24264
 
+typedef struct _GUI_LIST_2TAB 
+{
+  void* a;        // 0
+  void* b;        // 0x4
+  void* c;        // 0x8
+  void* d;        // 0xC
+  void* e;        // 0x10
+  void* f;        // 0x14
+  void* g;        // 0x18
+  void* h;        // 0x1C
+  void* i;        // 0x20
+} GUI_LIST_2TAB;
+
+typedef struct _GUI_LIST_3TAB 
+{
+  void* a;        // 0
+  void* b;        // 0x4
+  void* c;        // 0x8
+  void* d;        // 0xC
+  void* e;        // 0x10
+  void* f;        // 0x14
+  void* g;        // 0x18
+  void* h;        // 0x1C
+  void* i;        // 0x20
+} GUI_LIST_3TAB;
+
+typedef struct _GUI_LIST_4TAB 
+{
+  void* a;        // 0
+  void* b;        // 0x4
+  void* c;        // 0x8
+  void* d;        // 0xC
+  void* e;        // 0x10
+  void* f;        // 0x14
+  void* g;        // 0x18
+  void* h;        // 0x1C
+  void* i;        // 0x20
+} GUI_LIST_4TAB;
+
 typedef struct _ActivityMenuBook : BOOK
 {
   LIST* list1;                      // 0x18
   LIST* EventsList;                 // 0x1C
   LIST* InternetList;               // 0x20
-  char dummy2[0x4];                 // 0x24
-  GUI_TABMENUBAR* main_tab;         // 0x28 ActivityMenu
-  GUI_LIST* Events;                 // 0x2C
-  char dummy3[0x4];                 // 0x30
-  GUI* gui3;                        // 0x34
-  GUI_LIST* fourth_tab;             // 0x38 4th tab Internet
-  GUI_LIST* third_tab;              // 0x3C 3rd tab Shortcuts
-  GUI_LIST* second_tab;             // 0x40 2nd tab ActiveTasks
-  GUI* unk1;                        // 0x44
-  char dummy5[0x4];                 // 0x48
-  GUI_LIST* ShortcutsMove;          // 0x4C
-  char dummy6[0x8];                 // 0x50
-  int BookID;                       // 0x58
-  char dummy7[0x4];                 // 0x5C
-  char unk;                         // 0x60
+  GUI_TABMENUBAR* main_tab;         // 0x24 ActivityMenu 0x24
+  GUI_LIST* first_tab;              // 0x28 1st tab Events
+  char unk_0x2C[0x4];               // 0x2C
+  char unk_0x30[0x4];               // 0x30
+  GUI_LIST* fourth_tab;             // 0x34 4th tab Internet
+  GUI_LIST* third_tab;              // 0x38 3rd tab Shortcuts
+  GUI_LIST* second_tab;             // 0x3C 2nd tab ActiveTasks
 }ActivityMenuBook; // size 0x64(100)
 
 /*
