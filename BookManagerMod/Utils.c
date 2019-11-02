@@ -33,7 +33,7 @@ void GetIconByName(wchar_t* name, int &id)
   }
 }
 
-int GetJavaName( BOOK* bk )
+TEXTID GetJavaName( BOOK* bk )
 {
   char s[100];
   TextID_GetString( BookObj_GetSession(bk)->name, s, MAXELEMS(s) );

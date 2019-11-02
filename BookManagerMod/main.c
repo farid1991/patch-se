@@ -97,10 +97,8 @@ void onDelete_BookAndElfs(BOOK* book, GUI* gui)
         else
         {
           if (CheckEv(SelectedBook, TERMINATE_SESSION_EVENT))
-            //UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID((BOOK*)List_Get(mbk->xbook->app_session->listbook, mbk->xbook->app_session->listbook->FirstFree - 1)));
             UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID((BOOK*)List_Get(SelectedBook->xbook->app_session->listbook, List_GetCount(SelectedBook->xbook->app_session->listbook)-1)));
           else if (CheckEv(SelectedBook, RETURN_TO_STANDBY_EVENT))
-            //UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID((BOOK*)List_Get(mbk->xbook->app_session->listbook, mbk->xbook->app_session->listbook->FirstFree - 1)));
             UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID((BOOK*)List_Get(SelectedBook->xbook->app_session->listbook, List_GetCount(SelectedBook->xbook->app_session->listbook)-1)));
         }
         UI_Event(RESTARTED_ACTIVITY_MENU_EVENT);
@@ -169,33 +167,32 @@ int CheckEv(BOOK* book, int event)
   return 0;
 }
 
-TEXTID GetBookName(char* book_name)
+TEXTID GetBookName(char* section)
 {
   BOOK_MANAGER* data = GetData();
   
-  wchar_t ws[50];
-  TEXTID sID = NULL;
+  wchar_t buffer[50];
+  TEXTID text_id = 0;
   
-  if (data->ini_buf)
+  if (data->buf_ini)
   {
     char* param;
-    if (param=manifest_GetParam(data->ini_buf,book_name,0))
+    if (param = manifest_GetParam(data->buf_ini,section,0))
     {
-      win12512unicode(ws,param,49);
-      sID = TextID_Create(ws, ENC_UCS2, TEXTID_ANY_LEN);
+      win12512unicode(buffer,param,49);
+      text_id = TextID_Create(buffer, ENC_UCS2, TEXTID_ANY_LEN);
       mfree(param);
-      return(sID);
     }
   }
-  if(!sID)
+  if(!text_id)
   {
-    win12512unicode(ws,book_name,49);
-    sID = TextID_Create(ws,ENC_UCS2,wstrlen(ws));
+    win12512unicode(buffer,section,49);
+    text_id = TextID_Create(buffer ,ENC_UCS2, wstrlen(buffer));
   }
-  return(sID);
+  return text_id;
 }
 
-IMAGEID  GetBookIcon(char* book_name, int icon)
+IMAGEID GetBookIcon(char* book_name, int default_img)
 {
   BOOK_MANAGER* data = GetData();
   
@@ -203,23 +200,23 @@ IMAGEID  GetBookIcon(char* book_name, int icon)
   char* end_pos;
   wchar_t ws[50];
  
-  int icn_id = 0;
+  int image_id = 0;
   int len = strlen(book_name);
   
-  if (data->ini_buf)
+  if (data->buf_ini)
   {
     char* param;
-    pos = strstr( data->ini_buf, book_name );
+    pos = strstr( data->buf_ini, book_name );
     end_pos = pos + len + sizeof("\r\n") - sizeof("");
     if ( param = manifest_GetParam( end_pos, "ICON", 0 ) )
     {
       win12512unicode(ws,param,49);
-      GetIconByName( ws, icn_id );
+      GetIconByName( ws, image_id );
       mfree(param);
     }
   }
-  if(!icn_id) icn_id = icon;
-  return(icn_id);
+  if(!image_id) image_id = default_img;
+  return image_id;
 }
 
 //----------------------------------------------------------------------------------------------//
@@ -272,12 +269,12 @@ void DestroyLists(BOOK_MANAGER* data)
   }
 }
 
-void DestroyIniBuffers(BOOK_MANAGER* data)
+void DestroyConfigBuffers(BOOK_MANAGER* data)
 {
-  if (data->ini_buf)
+  if (data->buf_ini)
   {
-    mfree(data->ini_buf);
-    data->ini_buf = NULL;
+    mfree(data->buf_ini);
+    data->buf_ini = NULL;
   }
 }
 
@@ -286,11 +283,11 @@ int isRSSTickerBook(BOOK* book)
   return 0 == strcmp(book->xbook->name, RSSTicker_Book);
 }
 
-int get_file(char **buf_set)
+int GetConfig(char **buf_set)
 {
   int file;
   char* buf = NULL;
-  int size = NULL;
+  int size = 0;
   FSTAT _fstat;
   if (fstat(BOOKMAN_PATH,BOOKMAN_INI,&_fstat)==0)
   {
@@ -306,11 +303,11 @@ int get_file(char **buf_set)
   return size;
 }
 
-void init_ini(BOOK_MANAGER* data)
+void Init_ConfigFile(BOOK_MANAGER* data)
 {
   char* sp;
-  data->ini_buf_size = get_file(&sp);
-  data->ini_buf = sp;
+  data->buf_size = GetConfig(&sp);
+  data->buf_ini = sp;
 }
 
 extern "C"
@@ -318,12 +315,12 @@ void CreateBookAndElfsLists(BOOK* book)
 {
   BOOK_MANAGER* data = GetData();
 
-  DestroyIniBuffers(data);
+  DestroyConfigBuffers(data);
   DestroyLists(data);
   
   //=============================Ini inisializaton=============================
   
-  init_ini(data);
+  Init_ConfigFile(data);
 
   //===============================Create List=================================
   
@@ -462,7 +459,7 @@ extern "C"
 void ActivityBook_onClose(BOOK* book)
 {
   BOOK_MANAGER* data = GetData();
-  DestroyIniBuffers(data);
+  DestroyConfigBuffers(data);
   DestroyAllGUIs(data);
   DestroyLists(data);
 }

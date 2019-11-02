@@ -820,7 +820,6 @@ a       EQU     b
         RSEG   CODE
         CODE16
 _IconInternet:
-        //str   r3, [r0,#4]
         ldr   r1, =0x834
         strh  r1, [r0,#8]
         sub   r1, r1, #1
@@ -838,12 +837,12 @@ _Tabfocus:
         bx    r3
 set_focus:
         bl    SetFocusTab
-        ADD     R5, R0, #0
+        ADD   R5, R0, #0
         ldr   r3, =0x14E059AE+1
         bx    r3
         
 _onCreate:
-        ADD     R0, R4, #0
+        ADD   R0, R4, #0
         bl    CreateBookAndElfsLists
         ldr   r1, =0x140250A0+1
         ldr   r0, [r4,#0x24]
@@ -853,28 +852,28 @@ _onCreate:
         bx    r3
         
 _onClose:
-        ADD     R0, R4, #0
+        ADD   R0, R4, #0
         ldr   r3, =0x14D5F2E8+1
         blx   r3
-        ADD     R0, R4, #0
+        ADD   R0, R4, #0
         bl    ActivityBook_onClose
         pop   {r4,r5,pc}
         
 _Internet:
-        ADD     R1, R5, #0
-        ADD     R0, R4, #0
+        ADD   R1, R5, #0
+        ADD   R0, R4, #0
         bl    CreateShortcutMenu
         pop   {r4-r6,pc}
         
 _Shortcurts:
-        ADD     R1, R5, #0
-        ADD     R0, R4, #0
+        ADD   R1, R5, #0
+        ADD   R0, R4, #0
         bl    CreateElfMenu
         pop   {r4-r6,pc}
         
 _Activetasks:
-        ADD     R1, R5, #0
-        ADD     R0, R4, #0
+        ADD   R1, R5, #0
+        ADD   R0, R4, #0
         bl    CreateBookMenu
         pop   {r4-r6,pc}
         

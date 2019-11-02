@@ -18,12 +18,7 @@
 #define BOOKMAN_INI           L"bookman.ini"
 
 typedef struct _BOOK_MANAGER
-{
-  //BOOK* book;
-  //GUI* yes_no;
-  
-  //DISP_OBJ_ONKEY_METHOD oldOnKey;
-  
+{  
   GUI_LIST* tab_books;
   GUI_LIST* tab_elfs;
   GUI_LIST* tab_shortcut;
@@ -40,8 +35,8 @@ typedef struct _BOOK_MANAGER
   FSint8 elistcnt;
   FSint8 slistcnt;
   
-  FSint32 ini_buf_size;
-  TAscii* ini_buf;
+  FSint32 buf_size;
+  TAscii* buf_ini;
   
   bool elf;
 }BOOK_MANAGER;

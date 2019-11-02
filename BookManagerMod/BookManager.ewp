@@ -2568,24 +2568,24 @@
         <option>
           <name>GRuntimeLibSelect</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>GRuntimeLibSelectSlave</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>RTDescription</name>
-          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
+          <state>Do not link with a runtime library.</state>
         </option>
         <option>
           <name>RTConfigPath</name>
-          <state>$TOOLKIT_DIR$\LIB\dl5tptinl8n.h</state>
+          <state></state>
         </option>
         <option>
           <name>RTLibraryPath</name>
-          <state>$TOOLKIT_DIR$\LIB\dl5tptinl8n.r79</state>
+          <state></state>
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
@@ -2619,7 +2619,6 @@
         <debug>0</debug>
         <option>
           <name>CCDefines</name>
-          <state>NDEBUG</state>
           <state>A2</state>
           <state>DB3210</state>
           <state>C510_R1HA035</state>
@@ -3344,13 +3343,13 @@
   <group>
     <name>tab</name>
     <file>
-      <name>$PROJ_DIR$\fourth_tab.c</name>
+      <name>$PROJ_DIR$\tab_books.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\second_tab.c</name>
+      <name>$PROJ_DIR$\tab_elfs.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\third_tab.c</name>
+      <name>$PROJ_DIR$\tab_shortcuts.c</name>
     </file>
   </group>
   <file>

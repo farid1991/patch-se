@@ -7,7 +7,7 @@ __arm void runElf(const wchar_t* elfpath, const wchar_t* param_1, const wchar_t*
 void LoadBcfgedit(const wchar_t* bcfgpath, const wchar_t* bcfgname);
 
 void GetIconByName(wchar_t* name, int &id);
-int GetJavaName( BOOK* bk );
+TEXTID GetJavaName( BOOK* book );
 void StartJava_ByName(wchar_t* name);
 void ExecuteEvent(wchar_t *name);
 void OpenFolder(wchar_t * folders);
