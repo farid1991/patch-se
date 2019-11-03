@@ -62,13 +62,49 @@ typedef struct
   FUint8 Band_16000;
 } Equalizer_Band;
 
-typedef struct GUI Music_Gui;
-/*
-typedef struct _Music_Gui : GUI
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+typedef struct _MusicApplication_Book : BOOK
 {
-  char dummy[0x110];
-} Music_Gui;
-*/
+  IMusicServer * pMusicServer;              // 0x18
+  FUint32 subscriptionHandle;               // 0x1C
+  GUI * Gui_NowPlaying;                     // 0x20
+  GUI * Gui_PlayQueue;                      // 0x24
+  int dummy_0x28;                           // 0x28
+  GUI * Gui_submenu;                        // 0x2C
+  int dummy_0x30;                           // 0x30
+  int dummy_0x34;                           // 0x34
+  wchar_t current_track_id;                 // 0x38
+  wchar_t selected_track_id;                // 0x3A
+  wchar_t tracks_count;                     // 0x3C
+  char state;                               // 0x3E
+  char state_2;
+  char unk_1;
+  bool loop;                                // 0x41
+  bool random;                              // 0x42
+  char unk;
+  TMusicServer_Time ElapsedTime;            // 0x44
+  char AreTracksInQueue;                    // 0x50 ???????
+  char dummy_0x4[0x3];
+  SUB_EXECUTE * sub_exec;                   // 0x54
+  char dummy_0x5[0x4];
+  TEXTID ErrorText;                         // 0x5C
+  char dummy_0x6[0x13];
+  char EQ_Preset;                           // 0x73
+  int Level_ClearBass1;                     // 0x74
+  int Level_ClearBass2;                     // 0x78
+  int Level_400Hz;                          // 0x7C
+  int Level_1kHz;                           // 0x80
+  int Level_2_5kHz;                         // 0x84
+  int Level_6_3kHz;                         // 0x88
+  int Level_16kHz;                          // 0x8C
+  void * somept1;                           // 0x90
+  void * somept2;                           // 0x94
+  char dummy_0x7[0x4C];
+}MusicApplication_Book;
+
+#else
+typedef struct GUI Music_Gui;
+
 typedef struct _MusicApplication_Book : BOOK
 {
     IMusicServer* pMusicServer;	// 0x18
@@ -124,42 +160,6 @@ typedef struct _MusicApplication_Book : BOOK
     char unk_82;                // 0x82
 }MusicApplication_Book;
 
-typedef struct _MUSIC_APPLICATION_BOOK_DB3210_WALKMAN : BOOK
-{
-  IMusicServer * pIMusicServer; 	// 0x18
-  FUint32 subscriptionHandle;     // 0x1C
-  GUI * Music_Gui_NowPlaying;           // 0x20
-  GUI * Music_Gui_Unk;                  // 0x24
-  char dummy_0x1[0x4];
-  GUI * Music_Gui_SubMenu;              // 0x2C
-  char dummy_0x2[0x8];
-  wchar_t current_track_id;                 // 0x38
-  wchar_t selected_track_id;                // 0x3A
-  wchar_t tracks_count;                     // 0x3C
-  char state;                               // 0x3E
-  char state_2;
-  char unk_1;
-  char LoopState;                           // 0x41
-  char RandomState;                         // 0x42
-  char unk;
-  TMusicServer_Time ElapsedTime;            // 0x44
-  char AreTracksInQueue;                    // 0x50 ???????
-  char dummy_0x4[0x3];
-  SUB_EXECUTE * SelectedTrack_SUB_EXECUTE;  // 0x54
-  char dummy_0x5[0x4];
-  TEXTID ErrorText;                         // 0x5C
-  char dummy_0x6[0x13];
-  char EQ_Preset;                           // 0x73
-  int Level_ClearBass1;                     // 0x74
-  int Level_ClearBass2;                     // 0x78
-  int Level_400Hz;                          // 0x7C
-  int Level_1kHz;                           // 0x80
-  int Level_2_5kHz;                         // 0x84
-  int Level_6_3kHz;                         // 0x88
-  int Level_16kHz;                          // 0x8C
-  void * somept1;                           // 0x90
-  void * somept2;                           // 0x94
-  char dummy_0x7[0x4C];
-}MUSIC_APPLICATION_BOOK_DB3210_WALKMAN;
+#endif
 
 #endif
