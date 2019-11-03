@@ -1,6 +1,6 @@
 -carm
 
--Z(CODE)PATCH_Equalizer_MainPageEnter=11B65328
+-Z(CODE)PATCH_Equalizer_EnterAction=11B65328
 -Z(CODE)PATCH_Equalizer_CancelAction=11B65338
 
 -Z(CODE)PATCH_SetEqualizerGain=115B8018

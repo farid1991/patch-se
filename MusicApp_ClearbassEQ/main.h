@@ -1,24 +1,17 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-static const char Gui_Clearbass[] = "Clearbass_Equalizer_Display";
-
-#define FREE_GUI(a) if(a) a=GUIObject_Destroy(a)
-#define FREE_IMAGE(a) if(a!=NOIMAGE) ImageID_Free(a)
-
-typedef struct _DISP_OBJ_CLEARBASS : DISP_OBJ
-{
-  int count;
-  int cursor;
-  //TEXTID text_id;
-  IMAGEID EqIMG_ID;
-  MusicApplication_Book* MusicBook;
-} DISP_OBJ_CLEARBASS;
+#define CONFIG_PATH L"/usb/other/ZBin/Config/Equalizer"
+#define CONFIG_NAME L"EqPreset.bin"
 
 typedef struct
 {
   char EqPreset;
 } EqPreset_File;
+
+void Set_ClearbassPreset(MusicApplication_Book* MusicBook, int pos);
+void Save_LastPreset(int EqPreset);
+int Get_LastPreset();
 
 extern "C"
 {
@@ -26,8 +19,8 @@ extern "C"
   int pg_MusicApplication_UnplugPHF__CancelAction( void* Data, BOOK* bk );
   int pg_MusicApplication_UnplugPHF__ExitAction( void* Data, BOOK* bk );
   
-  void MusicApp_PrevAction(BOOK *bk, GUI *gui);
-  void MusicApp_CancelAction(BOOK *bk, GUI *gui);
+  void MusicApp_PrevAction(BOOK *book, GUI *gui);
+  void MusicApp_CancelAction(BOOK *book, GUI *gui);
   
 };
 

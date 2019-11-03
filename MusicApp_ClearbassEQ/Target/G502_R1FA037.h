@@ -7,7 +7,6 @@
 #define PATH                    0x11989974 // "/usb/other"
 #define _SYNC_              	0x11A8331C
 
-#define FPATH                   L"/usb/other/ZBin/Config/Equalizer"
 #define DB_UPDATE_EVENT         0x1770
 
 #define ACTION_MP_FILE          0x8
@@ -34,36 +33,33 @@
 #define NIL_EVENT               0
 
 //G502 fonts
-#define D_7R 	  	0x01
-#define E_8R	  	0x02
-#define E_12R	  	0x0D
-#define E_12B	  	0x0E
-#define E_14R	  	0x12
-#define E_14B	  	0x13
-#define E_16R	  	0x19
-#define E_16B	  	0x1A
-#define E_16I	  	0x1B
-#define E_16BI	  	0x1C
-#define E_18R	  	0x22
-#define E_20R	  	0x2B
-#define E_20B	  	0x2C
-#define E_20I	  	0x2D
-#define E_20BI	  	0x2E
-#define E_24R	  	0x35
-#define E_24B	  	0x36
-#define E_24I	  	0x37
-#define E_24BI	  	0x38
-#define D_24B	  	0x3F
-#define D_29B	  	0x40
-#define ICON_16BI 	0x48
-#define E_30R	  	0x55
-#define E_40R	  	0x57
-#define E_60R	  	0x5B
-#define E_75R	  	0x5C
-#define E_100R	  	0x5E
-
-#define FONT_E_20B      0x2C
-#define FONT_E_20R      0x2B
+#define FONT_D_7R 	  	0x01
+#define FONT_E_8R	  	0x02
+#define FONT_E_12R	  	0x0D
+#define FONT_E_12B	  	0x0E
+#define FONT_E_14R	  	0x12
+#define FONT_E_14B	  	0x13
+#define FONT_E_16R	  	0x19
+#define FONT_E_16B	  	0x1A
+#define FONT_E_16I	  	0x1B
+#define FONT_E_16BI	  	0x1C
+#define FONT_E_18R	  	0x22
+#define FONT_E_20R	  	0x2B
+#define FONT_E_20B	  	0x2C
+#define FONT_E_20I	  	0x2D
+#define FONT_E_20BI	  	0x2E
+#define FONT_E_24R	  	0x35
+#define FONT_E_24B	  	0x36
+#define FONT_E_24I	  	0x37
+#define FONT_E_24BI	  	0x38
+#define FONT_D_24B	  	0x3F
+#define FONT_D_29B	  	0x40
+#define FONT_ICON_16BI          0x48
+#define FONT_E_30R	  	0x55
+#define FONT_E_40R	  	0x57
+#define FONT_E_60R	  	0x5B
+#define FONT_E_75R	  	0x5C
+#define FONT_E_100R	  	0x5E
 
 #define KBD_LONG_PRESS    0x1
 #define KBD_LONG_RELEASE  0x4

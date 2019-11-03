@@ -1,0 +1,8 @@
+-carm
+
+-Z(CODE)CODE,DATA_C,INITTAB=15DD8900
+
+-Z(CODE)PATCH_Equalizer_EnterAction=1595BD80
+-Z(CODE)PATCH_Equalizer_CancelAction=1595BD90
+
+-Z(CODE)PATCH_SetEqualizerGain=14F660D4
