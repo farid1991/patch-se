@@ -7,6 +7,7 @@
 #define TEXT_EQUALIZER  0x135C
 #define TEXT_MANUAL     0x1379
 #define TEXT_PRESET     0x13A1
+#define TEXT_SELECT     0x23FA
 
 #define TXT_GOTO  0xAA2
 #define TXT_OUT   0x25B5

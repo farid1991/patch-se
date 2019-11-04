@@ -20,7 +20,7 @@ void dll_SetFont(int font_size, IFont** ppFont)
   int font_size_without_style = font_size&0xFF;
   
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
-  pFontData.size = (float)font_size_without_style;
+  pFontData.size = (float) font_size_without_style;
   pFontData.TUIEmphasisStyle = font_size>>8;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
   

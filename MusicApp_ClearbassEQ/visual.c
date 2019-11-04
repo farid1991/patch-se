@@ -49,7 +49,7 @@ TEXTID DispObj_Clearbass_GetPresetName(DISP_OBJ_CLEARBASS* disp_obj)
   return TextID_Create(PresetNames[disp_obj->preset_cursor], ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-void GUI_Clearbass_SetBarLevel(GUI* gui, int b0, int b1, int b2, int b3, int b4, int b5)
+void GUIObject_Clearbass_SetBarLevel(GUI* gui, int b0, int b1, int b2, int b3, int b4, int b5)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   
@@ -61,7 +61,7 @@ void GUI_Clearbass_SetBarLevel(GUI* gui, int b0, int b1, int b2, int b3, int b4,
   disp_obj->bar5_level = b5;
 }
 
-void GUI_Clearbass_GetBarLevel(GUI* gui, int *b0, int *b1, int *b2, int *b3, int *b4, int *b5)
+void GUIObject_Clearbass_GetBarLevel(GUI* gui, int *b0, int *b1, int *b2, int *b3, int *b4, int *b5)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   
@@ -73,41 +73,40 @@ void GUI_Clearbass_GetBarLevel(GUI* gui, int *b0, int *b1, int *b2, int *b3, int
   *b5 = disp_obj->bar5_level;
 }
 
-void GUI_Clearbass_SetState(GUI* gui, BOOL manual)
+void GUIObject_Clearbass_SetState(GUI* gui, BOOL manual)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
 
-  if(manual) disp_obj->preset = FALSE;
-  else disp_obj->preset = TRUE;
+  disp_obj->manual = manual;
 }
 
-BOOL GUI_Clearbass_GetState(GUI* gui)
+BOOL GUIObject_Clearbass_GetState(GUI* gui)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   
-  return disp_obj->preset ? TRUE : FALSE;
+  return disp_obj->manual ? TRUE : FALSE;
 }
 
-int GUI_Clearbass_GetPresetCursor(GUI* gui)
+int GUIObject_Clearbass_GetPresetCursor(GUI* gui)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   
   return (disp_obj->preset_cursor);
 }
 
-void GUI_Clearbass_Switch(GUI* gui, BOOL state)
+void GUIObject_Clearbass_Switch(GUI* gui, BOOL state)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
-  disp_obj->preset = state;
+  disp_obj->manual = state;
 }
 
-void GUI_Clearbass_SetCursorToItem(GUI* gui, int item)
+void GUIObject_Clearbass_SetCursorToItem(GUI* gui, int item)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   disp_obj->preset_cursor = item;
 }
 
-void GUI_Clearbass_SetTitleText(GUI* gui, TEXTID title)
+void GUIObject_Clearbass_SetTitleText(GUI* gui, TEXTID title)
 {
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS*)GUIObject_GetDispObject(gui);
   disp_obj->Title = title;
@@ -139,6 +138,7 @@ void DrawImage(int xpos, int ypos, int width, int height, IMAGEID imageID)
                                   width,
                                   height,
                                   imageID);
+  GC_DrawImage( xpos, ypos, imageID );
 #endif
 }
 
@@ -147,17 +147,23 @@ int ClearbassGUI_OnCreate(DISP_OBJ_CLEARBASS* disp_obj)
   disp_obj->width = Display_GetWidth(UIDisplay_Main);
   disp_obj->height = Display_GetHeight(UIDisplay_Main);
   
-  disp_obj->preset_cursor = 0;
+  disp_obj->preset_cursor = Eq_Normal;
   disp_obj->manual_cursor = 0;
   
-  disp_obj->boost_level = 0;
+  disp_obj->boost_level = Boost_1;
   disp_obj->bar1_level = Bar_Netral;
   disp_obj->bar2_level = Bar_Netral;
   disp_obj->bar3_level = Bar_Netral;
   disp_obj->bar4_level = Bar_Netral;
   disp_obj->bar5_level = Bar_Netral;
   
-  disp_obj->preset = TRUE;
+  disp_obj->level.bar1 = 0;
+  disp_obj->level.bar2 = 0;
+  disp_obj->level.bar3 = 0;
+  disp_obj->level.bar4 = 0;
+  disp_obj->level.bar5 = 0;
+  
+  disp_obj->manual = FALSE;
   
   disp_obj->Title = EMPTY_TEXTID;
   disp_obj->PresetName = EMPTY_TEXTID;
@@ -186,6 +192,12 @@ void ClearbassGUI_OnClose(DISP_OBJ_CLEARBASS* disp_obj)
   disp_obj->bar4_level = 0;
   disp_obj->bar5_level = 0;
   
+  disp_obj->level.bar1 = 0;
+  disp_obj->level.bar2 = 0;
+  disp_obj->level.bar3 = 0;
+  disp_obj->level.bar4 = 0;
+  disp_obj->level.bar5 = 0;
+  
   TEXT_FREE(disp_obj->PresetName);
   UnRegisterImage(disp_obj);
   
@@ -194,25 +206,7 @@ void ClearbassGUI_OnClose(DISP_OBJ_CLEARBASS* disp_obj)
 
 void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS* disp_obj, int r1, int r2, int r3)
 {
-  if(disp_obj->preset) // Preset
-  {
-    DrawImage(0,
-              12,
-              0,
-              0,
-              disp_obj->Preset_Image[disp_obj->preset_cursor].ID );
-
-    DrawString_Params(FONT_E_20R,
-                      DispObj_Clearbass_GetPresetName(disp_obj),
-                      UITextAlignment_Center,
-                      0,
-                      division(disp_obj->height,8),
-                      disp_obj->width,
-                      clWhite);
-    
-    TEXT_FREE(disp_obj->PresetName);
-  }
-  else // Manual
+  if(disp_obj->manual) // Manual
   {
     DrawImage(0,
               22,
@@ -264,12 +258,12 @@ void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS* disp_obj, int r1, int r2, int r3)
     
     wchar_t buf[32];
     snwprintf(buf,MAXELEMS(buf),L"%d %d %d %d %d %d",
-              disp_obj->boost_level,
-              disp_obj->bar1_level,
-              disp_obj->bar2_level,
-              disp_obj->bar3_level,
-              disp_obj->bar4_level,
-              disp_obj->bar5_level);
+              (disp_obj->boost_level),
+              (disp_obj->bar1_level-3) * (disp_obj->boost_level+1),
+              (disp_obj->bar2_level-3),
+              (disp_obj->bar3_level-3),
+              (disp_obj->bar4_level-3),
+              (disp_obj->bar5_level-3) * (disp_obj->boost_level+1) );
     int textid = TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN);
     
     DrawString_Params(FONT_E_20R,
@@ -281,6 +275,25 @@ void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS* disp_obj, int r1, int r2, int r3)
                       clWhite);
     TEXT_FREE(textid);
   }
+  else // Preset
+  {
+    DrawImage(0,
+              12,
+              0,
+              0,
+              disp_obj->Preset_Image[disp_obj->preset_cursor].ID );
+
+    DrawString_Params(FONT_E_20R,
+                      DispObj_Clearbass_GetPresetName(disp_obj),
+                      UITextAlignment_Center,
+                      0,
+                      division(disp_obj->height,8),
+                      disp_obj->width,
+                      clWhite);
+    
+    TEXT_FREE(disp_obj->PresetName);
+  }
+  
   DrawString_Params(FONT_E_24R,
                     disp_obj->Title,
                     UITextAlignment_Center,
@@ -297,23 +310,7 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS* disp_obj, int key, int unk, int repe
   
   if(mode==KBD_SHORT_PRESS || mode==KBD_REPEAT)
   {
-    if(disp_obj->preset)
-    {
-      switch(key)
-      {
-      case KEY_RIGHT:
-        if(disp_obj->preset_cursor < Eq_Bass) disp_obj->preset_cursor++;
-        else disp_obj->preset_cursor = Eq_Treble;
-        Set_EqualiserPreset(MusicBook,disp_obj->preset_cursor);
-        break;
-      case KEY_LEFT:
-        if(disp_obj->preset_cursor > Eq_Treble) disp_obj->preset_cursor--;
-        else disp_obj->preset_cursor = Eq_Bass;
-        Set_EqualiserPreset(MusicBook,disp_obj->preset_cursor);
-        break;
-      }
-    }
-    else
+    if(disp_obj->manual)
     {
       switch(key)
       {
@@ -328,11 +325,14 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS* disp_obj, int key, int unk, int repe
       case KEY_UP:
         if( disp_obj->manual_cursor == Eq_Band0)
         {
-          if ( disp_obj->boost_level < Boost_4) disp_obj->boost_level++;
-          else disp_obj->boost_level = Boost_4;
+          if ( disp_obj->boost_level < Boost_3) disp_obj->boost_level++;
+          else disp_obj->boost_level = Boost_3;
           
+          disp_obj->level.boost = disp_obj->boost_level;
           disp_obj->level.bar1 = (disp_obj->bar1_level-3) * (disp_obj->boost_level+1);
           disp_obj->level.bar5 = (disp_obj->bar5_level-3) * (disp_obj->boost_level+1);
+          
+          Set_EqualiserGain(MusicBook, Eq_Band0, disp_obj->level.boost);
           Set_EqualiserGain(MusicBook, Eq_Band1, disp_obj->level.bar1);
           Set_EqualiserGain(MusicBook, Eq_Band5, disp_obj->level.bar5);
         }
@@ -380,11 +380,14 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS* disp_obj, int key, int unk, int repe
       case KEY_DOWN:
         if( disp_obj->manual_cursor == Eq_Band0)
         {
-          if ( disp_obj->boost_level > Boost_1) disp_obj->boost_level--;
-          else disp_obj->boost_level = Boost_1;
+          if ( disp_obj->boost_level > Boost_0) disp_obj->boost_level--;
+          else disp_obj->boost_level = Boost_0;
           
+          disp_obj->level.boost = disp_obj->boost_level;
           disp_obj->level.bar1 = (disp_obj->bar1_level-3) * (disp_obj->boost_level+1);
           disp_obj->level.bar5 = (disp_obj->bar5_level-3) * (disp_obj->boost_level+1);
+          
+          Set_EqualiserGain(MusicBook, Eq_Band0, disp_obj->level.boost);
           Set_EqualiserGain(MusicBook, Eq_Band1, disp_obj->level.bar1);
           Set_EqualiserGain(MusicBook, Eq_Band5, disp_obj->level.bar5);
         }
@@ -431,8 +434,28 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS* disp_obj, int key, int unk, int repe
         break;
       }
     }
+    else
+    {
+      switch(key)
+      {
+      case KEY_RIGHT:
+        if(disp_obj->preset_cursor < Eq_Bass) disp_obj->preset_cursor++;
+        else disp_obj->preset_cursor = Eq_Treble;
+        break;
+      case KEY_LEFT:
+        if(disp_obj->preset_cursor > Eq_Treble) disp_obj->preset_cursor--;
+        else disp_obj->preset_cursor = Eq_Bass;
+        break;
+      }
+      SetEqualizerGain(MusicBook, 
+                       settings_table[disp_obj->preset_cursor][Eq_Band0], 
+                       settings_table[disp_obj->preset_cursor][Eq_Band1],
+                       settings_table[disp_obj->preset_cursor][Eq_Band2],
+                       settings_table[disp_obj->preset_cursor][Eq_Band3], 
+                       settings_table[disp_obj->preset_cursor][Eq_Band4], 
+                       settings_table[disp_obj->preset_cursor][Eq_Band5] );
+    }
   }
-
   DispObject_InvalidateRect(disp_obj, NULL);
 }
 

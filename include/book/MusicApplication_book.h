@@ -4,7 +4,6 @@
 #include "..\\include\classes\IMusicServer_Manager.h"
 #include "..\\include\types\MusicServer_types.h"
 
-
 typedef struct _X_IMAGEID
 {
   char dummy[0x20];

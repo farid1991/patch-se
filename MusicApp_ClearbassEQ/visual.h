@@ -33,10 +33,10 @@ enum Bar_Level
 
 enum Boost_Level 
 {
-  Boost_1 = 0,
+  Boost_0 = 0,
+  Boost_1,
   Boost_2,
   Boost_3,
-  Boost_4,
   LastBoostLevel
 };
 
@@ -85,7 +85,7 @@ typedef struct _DISP_OBJ_CLEARBASS : DISP_OBJ
 {
   u16 height;
   u16 width;
-  bool preset;
+  bool manual;
   
   char preset_cursor;
   char manual_cursor;
@@ -109,13 +109,13 @@ typedef struct _DISP_OBJ_CLEARBASS : DISP_OBJ
 } DISP_OBJ_CLEARBASS;
 
 GUI* Create_ClearbassGUI(BOOK* book);
-BOOL GUI_Clearbass_GetState(GUI* gui);
-int GUI_Clearbass_GetPresetCursor(GUI* gui);
-void GUI_Clearbass_SetCursorToItem(GUI* gui, int item);
-void GUI_Clearbass_Switch(GUI* gui, BOOL state);
-void GUI_Clearbass_SetTitleText(GUI* gui, TEXTID title);
-void GUI_Clearbass_SetState(GUI* gui, BOOL manual);
-void GUI_Clearbass_SetBarLevel(GUI* gui, int b0, int b1, int b2, int b3, int b4, int b5);
-void GUI_Clearbass_GetBarLevel(GUI* gui, int *b0, int *b1, int *b2, int *b3, int *b4, int *b5);
+BOOL GUIObject_Clearbass_GetState(GUI* gui);
+int GUIObject_Clearbass_GetPresetCursor(GUI* gui);
+void GUIObject_Clearbass_SetCursorToItem(GUI* gui, int item);
+void GUIObject_Clearbass_Switch(GUI* gui, BOOL state);
+void GUIObject_Clearbass_SetTitleText(GUI* gui, TEXTID title);
+void GUIObject_Clearbass_SetState(GUI* gui, BOOL manual);
+void GUIObject_Clearbass_SetBarLevel(GUI* gui, int b0, int b1, int b2, int b3, int b4, int b5);
+void GUIObject_Clearbass_GetBarLevel(GUI* gui, int *b0, int *b1, int *b2, int *b3, int *b4, int *b5);
 
 #endif
