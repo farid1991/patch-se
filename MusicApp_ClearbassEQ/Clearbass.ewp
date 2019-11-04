@@ -1675,6 +1675,9 @@
     <name>$PROJ_DIR$\..\include\dll.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\image.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
