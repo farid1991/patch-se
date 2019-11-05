@@ -4,7 +4,6 @@
 #include "..\\include\book\MusicApplication_book.h"
 
 #include "main.h"
-#include "Function.h"
 
 __thumb void * malloc (int size)
 {
@@ -70,7 +69,7 @@ LIST* Create_SoftkeyList(LIST* slist)
     {
       if( SoftkeyDesc->ButtonText!=EMPTY_TEXTID )
       {
-        if( SoftkeyDesc->ButtonText!=0x78000020 )
+        if( SoftkeyDesc->ButtonText!=TEXTID_SPACE )
         {
           List_InsertLast(sk_list, CreateElem(SoftkeyDesc));
         }
@@ -142,16 +141,16 @@ char GetKeyID(char key)
   char key_id;
   switch(key)
   {
-  case KEY_0: key_id = Item_Key_0; break;
-  case KEY_1: key_id = Item_Key_1; break;
-  case KEY_2: key_id = Item_Key_2; break;
-  case KEY_3: key_id = Item_Key_3; break;
-  case KEY_4: key_id = Item_Key_4; break;
-  case KEY_5: key_id = Item_Key_5; break;
-  case KEY_6: key_id = Item_Key_6; break;
-  case KEY_7: key_id = Item_Key_7; break;
-  case KEY_8: key_id = Item_Key_8; break;
-  case KEY_9: key_id = Item_Key_9; break;
+  case KEY_DIGITAL_0+0: key_id = Item_Key_0; break;
+  case KEY_DIGITAL_0+1: key_id = Item_Key_1; break;
+  case KEY_DIGITAL_0+2: key_id = Item_Key_2; break;
+  case KEY_DIGITAL_0+3: key_id = Item_Key_3; break;
+  case KEY_DIGITAL_0+4: key_id = Item_Key_4; break;
+  case KEY_DIGITAL_0+5: key_id = Item_Key_5; break;
+  case KEY_DIGITAL_0+6: key_id = Item_Key_6; break;
+  case KEY_DIGITAL_0+7: key_id = Item_Key_7; break;
+  case KEY_DIGITAL_0+8: key_id = Item_Key_8; break;
+  case KEY_DIGITAL_0+9: key_id = Item_Key_9; break;
   }
  return key_id;
 }
@@ -192,11 +191,11 @@ TEXTID Get_Menu_Text(int item)
   };
   */
   TEXTID txt[3];
-  txt[0] = TextID_Create(L"Key",ENC_UCS2,3,0,0);
-  txt[1] = 0x78000020;
-  txt[2] = TextID_CreateIntegerID(item,0,0);
+  txt[0] = TextID_Create(L"Key",ENC_UCS2,3);
+  txt[1] = TEXTID_SPACE;
+  txt[2] = TextID_CreateIntegerID(item);
   
-  TEXTID ret = TextID_Create(txt, ENC_TEXTID, 3, 0, 0);
+  TEXTID ret = TextID_Create(txt, ENC_TEXTID, 3);
   return ret;
 }
 
@@ -238,25 +237,26 @@ void CreateEditItem(BOOK* book, int itemnum)
   FREE_GUI(mbk->SubMenu);
   
   mbk->CurrentItem = itemnum;
-  int checked = GetChecked(mbk->SoftkeyList,mbk->CurrentItem);
+  char checked = GetChecked(mbk->SoftkeyList,mbk->CurrentItem);
   
-  mbk->SubMenu = CreateOneOfMany(mbk);
-  GUIObject_SetTitleText( mbk->SubMenu, Get_Menu_Text(mbk->CurrentItem) );
-  OneOfMany_SetChecked( mbk->SubMenu, checked );
-  OneOfMany_SetItemCount( mbk->SubMenu, List_GetCount(mbk->SoftkeyList) );
-  OneOfMany_SetOnMessage( mbk->SubMenu, EditItem_Callback );
-  GUIObject_SetStyle( mbk->SubMenu, UI_OverlayStyle_FullScreen );
-  GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_BACK, Close_EditItem);
-  GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_LONG_BACK, Close_EditItem);
-  GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_SELECT1, Select_Item);  
-  GUIObject_Show( mbk->SubMenu );
+  if(mbk->SubMenu = CreateOneOfMany(mbk))
+  {
+    GUIObject_SetTitleText( mbk->SubMenu, Get_Menu_Text(mbk->CurrentItem) );
+    OneOfMany_SetChecked( mbk->SubMenu, checked );
+    OneOfMany_SetItemCount( mbk->SubMenu, List_GetCount(mbk->SoftkeyList) );
+    OneOfMany_SetOnMessage( mbk->SubMenu, EditItem_Callback );
+    GUIObject_SetStyle( mbk->SubMenu, UI_OverlayStyle_FullScreen );
+    GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_BACK, Close_EditItem);
+    GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_LONG_BACK, Close_EditItem);
+    GUIObject_SoftKeys_SetAction( mbk->SubMenu, ACTION_SELECT1, Select_Item);
+    GUIObject_Show( mbk->SubMenu );
+  }
 }
 
 void Shortcut_EnterAction(BOOK* book, GUI* gui)
 {
   MusicShortcut_Book* mbk = (MusicShortcut_Book*)book;
-  int item = ListMenu_GetSelectedItem(mbk->MainMenu);
-  CreateEditItem(mbk,item);
+  CreateEditItem(mbk, ListMenu_GetSelectedItem(mbk->MainMenu));
 }
 
 void Shortcut_PrevAction(BOOK* book, GUI* gui)
@@ -279,27 +279,29 @@ int Shortcut_Callback( GUI_MESSAGE* msg )
   return 1;
 }
 
-int pg_MusicShortcut__EnterAction(void* data, BOOK* book)
+int pg_MusicShortcut_EnterAction(void* data, BOOK* book)
 {
   MusicShortcut_Book* mbk = (MusicShortcut_Book*)book;
   FREE_GUI(mbk->MainMenu);
 
-  mbk->MainMenu = CreateListMenu( mbk, UIDisplay_Main );
-  ListMenu_SetItemCount( mbk->MainMenu, Item_Key_Last );
-  ListMenu_SetItemStyle( mbk->MainMenu, 3 );
-  ListMenu_SetCursorToItem( mbk->MainMenu, mbk->CurrentItem );
-  ListMenu_SetHotkeyMode( mbk->MainMenu, LKHM_SHORTCUT );
-  ListMenu_SetOnMessage( mbk->MainMenu, Shortcut_Callback );
-  GUIObject_SetTitleText( mbk->MainMenu, SHORTCUT_TXT);
-  GUIObject_SetStyle( mbk->MainMenu, UI_OverlayStyle_FullScreen );
-  GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_SELECT1, Shortcut_EnterAction );
-  GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_BACK, Shortcut_PrevAction );
-  GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_LONG_BACK, Shortcut_PrevAction );
-  GUIObject_Show( mbk->MainMenu );
+  if(mbk->MainMenu = CreateListMenu( mbk, UIDisplay_Main ))
+  {
+    ListMenu_SetItemCount( mbk->MainMenu, Item_Key_Last );
+    ListMenu_SetItemStyle( mbk->MainMenu, 3 );
+    ListMenu_SetCursorToItem( mbk->MainMenu, mbk->CurrentItem );
+    ListMenu_SetHotkeyMode( mbk->MainMenu, LKHM_SHORTCUT );
+    ListMenu_SetOnMessage( mbk->MainMenu, Shortcut_Callback );
+    GUIObject_SetTitleText( mbk->MainMenu, SHORTCUT_TXT);
+    GUIObject_SetStyle( mbk->MainMenu, UI_OverlayStyle_FullScreen );
+    GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_SELECT1, Shortcut_EnterAction );
+    GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_BACK, Shortcut_PrevAction );
+    GUIObject_SoftKeys_SetAction( mbk->MainMenu, ACTION_LONG_BACK, Shortcut_PrevAction );
+    GUIObject_Show( mbk->MainMenu );
+  }
   return 1;
 }
 
-int pg_MusicShortcut__CancelAction(void* data, BOOK* book)
+int pg_MusicShortcut_CancelAction(void* data, BOOK* book)
 {
   FreeBook(book);
   return 1;
@@ -307,8 +309,8 @@ int pg_MusicShortcut__CancelAction(void* data, BOOK* book)
 
 const PAGE_MSG bk_msglst_base[] = 
 {
-  CANCEL_EVENT,            pg_MusicShortcut__CancelAction,
-  RETURN_TO_STANDBY_EVENT, pg_MusicShortcut__CancelAction,
+  CANCEL_EVENT,            pg_MusicShortcut_CancelAction,
+  RETURN_TO_STANDBY_EVENT, pg_MusicShortcut_CancelAction,
   NIL_EVENT,               NULL
 };
 const PAGE_DESC MusicShortcut_Base_Page = {BASE_PAGE_NAME,NULL,bk_msglst_base};
@@ -316,7 +318,7 @@ const PAGE_DESC MusicShortcut_Base_Page = {BASE_PAGE_NAME,NULL,bk_msglst_base};
 
 const PAGE_MSG bk_msglst_main[] = 
 {
-  PAGE_ENTER_EVENT,  pg_MusicShortcut__EnterAction,
+  PAGE_ENTER_EVENT,  pg_MusicShortcut_EnterAction,
   NIL_EVENT,         NULL
 };
 const PAGE_DESC MusicShortcut_Main_Page = {MAIN_PAGE_NAME,NULL,bk_msglst_main};
@@ -340,17 +342,28 @@ void SomethingToBOOK(BOOK* book)
 void Call_ShortcutPage( BOOK* book, GUI* gui)
 {
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
-  MusicBook->unk_75 = TRUE;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  #ifdef WALKMAN
+  MusicBook->unk_0x98 = TRUE;
+  #else
+  MusicBook->unk_0x90 = TRUE;
+  #endif
+#elif defined(DB3150)
+  MusicBook->unk_0x8C = TRUE;
+#else
+  MusicBook->unk_0x75 = TRUE;
+#endif  
   //SomethingToBOOK(MusicBook);
   
   MusicShortcut_Book* mbk = (MusicShortcut_Book*)malloc(sizeof(MusicShortcut_Book));
   memset( mbk, NULL, sizeof(MusicShortcut_Book));
-  if(!CreateBook(mbk,Goto_Shortcut_Destroy,&MusicShortcut_Base_Page,BOOKNAME,-1,NULL)) mfree(mbk);
+  if(!CreateBook(mbk,Goto_Shortcut_Destroy,&MusicShortcut_Base_Page,BOOKNAME,-1,NULL)) 
+    mfree(mbk);
   else
   {
-    DISP_OBJ* disp = GUIObject_GetDispObject(MusicBook->Gui_NowPlaying);
-    LIST* slist = DispObject_SoftKeys_GetList(disp, MusicBook, 0);
-    mbk->SoftkeyList = Create_SoftkeyList(slist);
+    DISP_OBJ* DispObj = GUIObject_GetDispObject(MusicBook->Gui_NowPlaying);
+    LIST* SoftKeys_List = DispObject_SoftKeys_GetList(DispObj, MusicBook, 0);
+    mbk->SoftkeyList = Create_SoftkeyList(SoftKeys_List);
     BookObj_GotoPage(mbk,&MusicShortcut_Main_Page);
   }
 }
@@ -362,13 +375,15 @@ void Set_New_Key( GUI* gui, char key, char mode )
 }
 */
 extern "C"
-void Set_New_Action(GUI* gui)
+void Set_New_Action(BOOK* book)
 {
-  GUIObject_SoftKeys_SetItemAsSubItem(gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
-  GUIObject_SoftKeys_SetAction(gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
-  GUIObject_SoftKeys_SetText(gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
+  MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
   
-  MediaPlayer_SoftKeys_SetItemAsSubItem(gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
-  MediaPlayer_SoftKeys_SetAction(gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
-  MediaPlayer_SoftKeys_SetText(gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
+  GUIObject_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
+  GUIObject_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_SHORTCUT, Call_ShortcutPage);
+  GUIObject_SoftKeys_SetText(MusicBook->Gui_NowPlaying, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
+  
+  MediaPlayer_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
+  MediaPlayer_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_SHORTCUT, Call_ShortcutPage);
+  MediaPlayer_SoftKeys_SetText(MusicBook->Gui_NowPlaying, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
 }

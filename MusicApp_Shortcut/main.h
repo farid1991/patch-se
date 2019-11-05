@@ -2,13 +2,13 @@
   #define _MAIN_H_
 
 #define FILE_NAME L"msc.bin"
-
+#define TEXTID_SPACE 0x78000020
 #define BOOKNAME "MusicShortcut_Book"
 #define BASE_PAGE_NAME "MusicShortcut_Base_Page"
 #define MAIN_PAGE_NAME "MusicShortcut_Main_Page"
 
 #define FREE_GUI(gui) if (gui) { GUIObject_Destroy(gui); gui = NULL; }
-#define TextID_Get(str) TextID_Create(str, ENC_UCS2, 0xFF)
+//#define TextID_Get(str) TextID_Create(str, ENC_UCS2, 0xFF)
 
 enum Modes
 {
@@ -55,5 +55,16 @@ typedef struct MusicShortcut_Book : BOOK
 
 __thumb void* malloc (int size);
 __thumb void mfree (void * mem);
+
+extern "C"
+{
+  int pg_MusicApplication_UnplugPHF__PreviousAction( void* Data, BOOK* bk );
+  int pg_MusicApplication_UnplugPHF__CancelAction( void* Data, BOOK* bk );
+  int pg_MusicApplication_UnplugPHF__ExitAction( void* Data, BOOK* bk );
+  
+  void MusicApp_PrevAction(BOOK *bk, GUI *gui);
+  void MusicApp_CancelAction(BOOK *bk, GUI *gui);
+  
+};
 
 #endif

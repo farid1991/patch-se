@@ -685,7 +685,7 @@ new_action:
         MOV     R2, #1
         LDR     R3, =MediaPlayer_SoftKeys_SetVisible
         BLX     R3
-        LDR     R0, [R4,#0x1C]
+        ADD     R0, R4, #0
         BL      Set_New_Action
         LDR	R3, =0x115B9704+1
         BX	R3
@@ -701,16 +701,16 @@ new_action:
         CODE16
 new_key:
         LDR	R1, [R5,#0]
-	LSL	R3, R3,	#0x18
-	LSR	R3, R3,	#0x18
+        LSL	R3, R3,	#0x18
+        LSR	R3, R3,	#0x18
         
         CMP	R0, #9
         BEQ	key_up_down
-	CMP	R0, #0xD
-	BEQ	key_up_down
+        CMP	R0, #0xD
+        BEQ	key_up_down
         CMP	R0, #0xF
-	BEQ	key_left
-	CMP	R0, #0xB
+        BEQ	key_left
+        CMP	R0, #0xB
         BEQ	key_right
         
         CMP	R0, #0x13
@@ -756,7 +756,7 @@ set_new_k:
         LDR     R0, [R4,#0x1C]  // GUI*
         BL      Set_New_Key
         B       nex
-        
+
 Button_Diez:
         LDR     R1, [R4,#0x1C]  // GUI*
         ADD     R0, R4,#0       // BOOK*

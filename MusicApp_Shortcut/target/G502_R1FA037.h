@@ -21,16 +21,7 @@
 #define ACCEPT_EVENT            0x2
 #define NIL_EVENT               0
 
-#define KEY_0	0x13
-#define KEY_1	0x14
-#define KEY_2	0x15
-#define KEY_3	0x16
-#define KEY_4	0x17
-#define KEY_5	0x18
-#define KEY_6	0x19
-#define KEY_7	0x1A
-#define KEY_8	0x1B
-#define KEY_9	0x1C
+#define KEY_DIGITAL_0	0x13
 
 #define KEY_STAR 0x1D
 #define KEY_DIEZ 0x1E
