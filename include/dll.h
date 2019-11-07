@@ -1,7 +1,7 @@
 #ifndef _DLL_H_
 #define _DLL_H_
 
-void dll_SetFont(int font_size, IFont** ppFont);
+int dll_SetFont(int font_size, IFont** ppFont);
 void dll_DrawString(TEXTID text, int font, int align, int x1, int y1, int x2, int y2, int pen_color);
 void dll_GC_PutChar(GC* gc, int x, int y, int width, int height, wchar_t imageID);
 int dll_GetImageHeight(wchar_t imageID);
@@ -11,5 +11,6 @@ int dll_GetSignalQuality( char * rssi, char * ber );
 void dll_GUIObject_SetCursorImage( GUI* gui, IMAGEID imageID );
 void dll_GUIObject_SetBackgroundImage( GUI* gui, IMAGEID imageID );
 void dll_GUIObject_SetTitleTextColor( GUI* gui, int color );
+IMAGEID dll_MetaData_GetCover( wchar_t* fullpath );
 
 #endif
