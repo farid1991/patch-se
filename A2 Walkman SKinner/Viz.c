@@ -11,11 +11,15 @@
 ;v.1.3.3 mod
 ;(c) blacklizard
 ;(r) KreN
-;(e) farid, D3mon, blacklizard
+;(e) farid, D3mon
 */
 
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
+
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
 
 #include "..\\include\book\MusicApplication_Book.h"
 
@@ -26,13 +30,12 @@
 #include "Viz.h"
 #include "Walkman.h"
 
-
-int CreateOOMViz( void* pData, BOOK* book )
+int pg_MusicApplication_Viz__EnterAction( void* pData, BOOK* book )
 {
-  WALKMAN_Function * Data = Get_WALKMAN_Function();
-  //FreeViz(Data);
-  //FREE_GUI(Data->VizOOM);
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
+  
+  WALKMAN_Function * Data = Get_WALKMAN_Function();
+
   FREE_GUI(MusicBook->Gui_submenu);
 
   if(MusicBook->Gui_submenu = CreateOneOfMany(MusicBook))
@@ -53,16 +56,10 @@ int CreateOOMViz( void* pData, BOOK* book )
 void DestroyVizOOM(BOOK* book, GUI* gui)
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
-  //FreeViz(Data);
-  //BootViz(Data);
-  
-  //FREE_GUI(Data->VizOOM);
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
   FREE_GUI(MusicBook->Gui_submenu);
   
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
-  //BookObj_GotoPage( book, (PAGE_DESC*)page_MusicApplication_Main );
-  //BookObj_ReturnPage( book, UI_MEDIAPLAYER_UPDATE_EVENT);
   MusicApp_PrevAction(MusicBook,NULL);
 }
 
@@ -83,11 +80,11 @@ int VIZOOM_callback(GUI_MESSAGE * msg)
 
 const PAGE_MSG bk_Choose_Album_Art[] = 
 {
-  PAGE_ENTER_EVENT,           CreateOOMViz,
-  PREVIOUS_EVENT,             pg_MusicApplication_SubMenu_PreviousAction,
-  CANCEL_EVENT,               pg_MusicApplication_SubMenu_CancelAction,
-  UI_MEDIAPLAYER_UPDATE_EVENT,pg_MusicApplication_SubMenu_PreviousAction,
-  PAGE_EXIT_EVENT,            pg_MusicApplication_SubMenu_ExitAction,
+  PAGE_ENTER_EVENT,           pg_MusicApplication_Viz__EnterAction,
+  PREVIOUS_EVENT,             pg_MusicApplication_UnplugPHF__PreviousAction,
+  CANCEL_EVENT,               pg_MusicApplication_UnplugPHF__CancelAction,
+  UI_MEDIAPLAYER_UPDATE_EVENT,pg_MusicApplication_UnplugPHF__PreviousAction,
+  PAGE_EXIT_EVENT,            pg_MusicApplication_UnplugPHF__ExitAction,
   NIL_EVENT,                  NULL
 };
 
@@ -95,9 +92,18 @@ const PAGE_DESC page_Choose_Album_Art = {"Choose_Album_Art_Page",NULL,bk_Choose_
 
 void Enter_VizSelector(BOOK* book, GUI* gui)
 {
-  //SomethingToBOOK(book);
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
-  MusicBook->unk_75 = TRUE;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  #ifdef WALKMAN
+  MusicBook->unk_0x98 = TRUE;
+  #else
+  MusicBook->unk_0x90 = TRUE;
+  #endif
+#elif defined(DB3150)
+  MusicBook->unk_0x8C = TRUE;
+#else
+  MusicBook->unk_0x75 = TRUE;
+#endif  
   BookObj_CallPage(MusicBook,&page_Choose_Album_Art);
 }
 
@@ -106,7 +112,7 @@ int GetChecked()
   int ret = 0;
   
   int Lf;
-  if( (Lf = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL )) >=0 )
+  if( (Lf = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL )) >=0 )
   {
     SKIN* LData  = (SKIN*)malloc(sizeof(SKIN));
     memset( LData, NULL, sizeof(SKIN) );
@@ -136,7 +142,7 @@ void SetChecked(int level, BOOK* book)
 {
   int Lf;
   WALKMAN_Function* WData = Get_WALKMAN_Function();
-  if(( Lf = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL)) >= 0 )
+  if(( Lf = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL)) >= 0 )
   {
     SKIN* LData  = (SKIN*)malloc(sizeof(SKIN) );
     memset( LData, NULL, sizeof(SKIN) );
@@ -224,7 +230,7 @@ void SetChecked(int level, BOOK* book)
     Timer_ReSet(&WData->WaitingTimer, 1000, MKTIMERPROC(WaitingForPlayer), 0); 
   }
   
-  if(level==ITEM_ALBUMART)
+  if(level==ITEM_ALBUMART || level==ITEM_OFF)
   {
     WData->UpdateTime = 1000;
   }
@@ -232,17 +238,13 @@ void SetChecked(int level, BOOK* book)
   {
     WData->UpdateTime = 200;
   }
-  else if(level==ITEM_OFF)
-  {
-    WData->UpdateTime = 1000;
-  }
 }
 
 int GetSkinID()
 {
   int file;
   int ID = 0;
-  if((file = _fopen( L"/card/other/ZBin/Config/WALKMAN/Viz",L"Viz", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+  if((file = _fopen( VIZ_CONFIG_PATH, L"Viz", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     VizFileData* vData  = (VizFileData*)malloc(sizeof(VizFileData));
     memset( vData, NULL, sizeof(VizFileData));
@@ -260,7 +262,7 @@ int GetVizCount()
 
   wchar_t VizName_buf[12];
   snwprintf(VizName_buf,MAXELEMS(VizName_buf),L"%d.png",file_count);
-  while (FSX_IsFileExists(L"/card/other/ZBin/Config/WALKMAN/Viz",VizName_buf))
+  while (FSX_IsFileExists(VIZ_CONFIG_PATH,VizName_buf))
   {
     file_count++;
     snwprintf (VizName_buf,MAXELEMS(VizName_buf),L"%d.png",file_count);
@@ -268,13 +270,13 @@ int GetVizCount()
   return (file_count-1);
 }
 
-void GetVizImageID(DISP_OBJ_VIZBOARD* disp_obj)
+void Load_VizImageID(DISP_OBJ_VIZBOARD* disp_obj)
 {
   wchar_t VizName_buf[12];
   snwprintf(VizName_buf,MAXELEMS(VizName_buf),L"%d.png",disp_obj->cursor);
   if(disp_obj->VizIMG_ID != NOIMAGE) ImageID_Free( disp_obj->VizIMG_ID );
 
-  ImageID_Get( L"/card/other/ZBin/Config/WALKMAN/Viz", VizName_buf, &disp_obj->VizIMG_ID );
+  ImageID_Get( VIZ_CONFIG_PATH, VizName_buf, &disp_obj->VizIMG_ID );
 }
 
 int VizBoard_OnCreate(DISP_OBJ_VIZBOARD* disp_obj)
@@ -282,37 +284,44 @@ int VizBoard_OnCreate(DISP_OBJ_VIZBOARD* disp_obj)
   disp_obj->cursor = GetSkinID();
   disp_obj->count = GetVizCount();
   disp_obj->text_id = EMPTY_TEXTID;
-  GetVizImageID(disp_obj);
+  Load_VizImageID(disp_obj);
   return 1;
 }
 
 void VizBoard_OnClose(DISP_OBJ_VIZBOARD* disp_obj)
 {
-  ImageID_Free( disp_obj->VizIMG_ID );
-  disp_obj->VizIMG_ID = NOIMAGE;
+  disp_obj->cursor = 0;
+  disp_obj->count = 0;
+  TEXT_FREE(disp_obj->text_id);
+  FREE_IMAGE( disp_obj->VizIMG_ID );
 }
 
 void VizBoard_OnRedraw(DISP_OBJ_VIZBOARD* disp_obj, int r1, int r2, int r3)
 {
   DrawIcon( disp_obj->VizIMG_ID, 0, 55 );
 
-  SetFont(E_20R);
-  disp_obj->text_id = TextID_Create(L"Select Style",ENC_UCS2,TEXTID_ANY_LEN);
-  DrawString(disp_obj->text_id, 
-             UITextAlignment_Center,
-             0, 20, 240, 320,
-             0, 0,
-             clWhite, clEmpty );
+  DrawString_Params(FONT_E_20R,
+                    disp_obj->text_id,
+                    UITextAlignment_Center,
+                    0,
+                    20,
+                    240,
+                    clWhite);
+
   TextID_Destroy(disp_obj->text_id);
 
   wchar_t skin_text[10];
   snwprintf (skin_text,MAXELEMS(skin_text),L"Skin %d", disp_obj->cursor);
   disp_obj->text_id = TextID_Create(skin_text,ENC_UCS2,TEXTID_ANY_LEN);
-  DrawString(disp_obj->text_id, 
-             UITextAlignment_Center,
-             0, 260, 240, 300, 
-             20, 0,
-             clWhite, clEmpty );
+  
+  DrawString_Params(FONT_E_20R,
+                    disp_obj->text_id,
+                    UITextAlignment_Center,
+                    0,
+                    260,
+                    240,
+                    clWhite);
+
   TextID_Destroy(disp_obj->text_id);
 }
 
@@ -328,22 +337,14 @@ void VizBoard_OnKey(DISP_OBJ_VIZBOARD* disp_obj, int key, int unk, int repeat, i
     switch(key)
     {
     case KEY_RIGHT:
-     // if(disp_obj->cur_pos>=1 && disp_obj->cur_pos < disp_obj->count)
-      //{
-        //if(disp_obj->cur_pos > 0 && disp_obj->cur_pos < (disp_obj->count+1)) disp_obj->cur_pos++;
         if(disp_obj->cursor < disp_obj->count) disp_obj->cursor++;
-        else  disp_obj->cursor=1;
-        GetVizImageID(disp_obj);
-      //}
+        else  disp_obj->cursor = 1;
+        Load_VizImageID(disp_obj);
       break;
     case KEY_LEFT:
-      //if(disp_obj->cur_pos >= 1 && disp_obj->cur_pos <= disp_obj->count)
-      //{
-        //if(disp_obj->cur_pos > 1 && disp_obj->cur_pos<(disp_obj->count+1)) disp_obj->cur_pos--;
         if(disp_obj->cursor > 1) disp_obj->cursor--;
-        else disp_obj->cursor=disp_obj->count;
-        GetVizImageID(disp_obj);
-      //}
+        else disp_obj->cursor = disp_obj->count;
+        Load_VizImageID(disp_obj);
       break;
     }
   }
@@ -386,7 +387,7 @@ void VizBoardGUI_SelectAction(BOOK* book, GUI* gui)
   int cur_pos = VizBoardGUI_GetCursorPosition(mbk->Gui_submenu);
   
   int file;
-  if(( file = _fopen( L"/card/other/ZBin/Config/WALKMAN/Viz", L"Viz", FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL)) >= 0 )
+  if(( file = _fopen( VIZ_CONFIG_PATH, L"Viz", FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL)) >= 0 )
   {
     VizFileData* vData  = (VizFileData*)malloc(sizeof(VizFileData));
     memset( vData, NULL, sizeof(VizFileData) );	

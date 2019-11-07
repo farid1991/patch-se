@@ -832,7 +832,7 @@
     </settings>
   </configuration>
   <configuration>
-    <name>W890_R1FA035</name>
+    <name>C510_R1HA035</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -854,15 +854,15 @@
         </option>
         <option>
           <name>ExePath</name>
-          <state>W890_R1FA035\Exe</state>
+          <state>C510_R1HA035\Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>W890_R1FA035\Obj</state>
+          <state>C510_R1HA035\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>W890_R1FA035\List</state>
+          <state>C510_R1HA035\List</state>
         </option>
         <option>
           <name>Variant</name>
@@ -967,10 +967,10 @@
         <option>
           <name>CCDefines</name>
           <state>NDEBUG</state>
-          <state>PL</state>
           <state>A2</state>
-          <state>W890_R1FA035</state>
-          <state>DB3150v1</state>
+          <state>DB3210</state>
+          <state>C510_R1HA035</state>
+          <state>EN</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1141,7 +1141,7 @@
         </option>
         <option>
           <name>PreInclude</name>
-          <state>$PROJ_DIR$\Target\W890_R1FA035.h</state>
+          <state>$PROJ_DIR$\Target\C510_R1HA035.h</state>
         </option>
         <option>
           <name>CompilerMisraRules</name>
@@ -1238,8 +1238,8 @@
         <option>
           <name>ADefines</name>
           <state>A2</state>
-          <state>W890_R1FA035</state>
-          <state>DB3150v1</state>
+          <state>DB3210</state>
+          <state>C510_R1HA035</state>
         </option>
         <option>
           <name>AList</name>
@@ -1451,7 +1451,7 @@
         </option>
         <option>
           <name>XclFile</name>
-          <state>$PROJ_DIR$\xcl\W890_R1FA035.xcl</state>
+          <state>$PROJ_DIR$\xcl\C510_R1HA035.xcl</state>
         </option>
         <option>
           <name>XclFileSlave</name>
@@ -1663,20 +1663,26 @@
   <group>
     <name>ASM</name>
     <file>
-      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
-      <excluded>
-        <configuration>W890_R1FA035</configuration>
-      </excluded>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\W890_R1FA035.asm</name>
+      <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
       <excluded>
         <configuration>G502_R1FA037</configuration>
       </excluded>
     </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <excluded>
+        <configuration>C510_R1HA035</configuration>
+      </excluded>
+    </file>
   </group>
   <file>
+    <name>$PROJ_DIR$\..\include\dll.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\SaveLoad.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\strlib.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\Visual.c</name>

@@ -11,7 +11,7 @@
 ;v.1.3.3 mod
 ;(c) blacklizard
 ;(r) KreN
-;(e) farid, D3mon, blacklizard
+;(e) farid, D3mon
 */
 
 #include "..\\include\Types.h"
@@ -26,7 +26,7 @@
 
 void SaveSkinData(BOOK* book, wchar_t* path, wchar_t *name)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   int f;
   if(( f = _fopen( path,name, FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
@@ -444,7 +444,7 @@ void SaveSkinData(BOOK* book, wchar_t* path, wchar_t *name)
 
 void LoadSkinData(BOOK* book, wchar_t* path,wchar_t* name)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   int f;
   if ( (f = _fopen( path, name, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0 )
@@ -863,9 +863,9 @@ void LoadSkinData(BOOK* book, wchar_t* path,wchar_t* name)
   }
 }
 
-void LoadTempDataToBookHeader(BOOK * book, int ID)
+void LoadTempDataToBookHeader(BOOK *book, int ID)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   if(ID==0) 
   {
     mbk->Title_Align = mbk->Str_Align;
@@ -1387,7 +1387,7 @@ void LoadPortraitData()
   // wchar_t name[256]=L"";
   
   int Lf;
-  if(( Lf = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+  if(( Lf = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     SKIN* LData  = (SKIN*)malloc(sizeof(SKIN));
     memset( LData, NULL, sizeof(SKIN));
@@ -1405,114 +1405,114 @@ void LoadPortraitData()
       
       WData->Portrait = TRUE;
       //Title
-      WData->Main.Title_x1 = Data->Title_x1;
-      WData->Main.Title_y1 = Data->Title_y1;
-      WData->Main.Title_x2 = Data->Title_x2;
-      WData->Main.Title_y2  = Data->Title_y2;
-      WData->Main.Title_Align = Data->Title_Align;
-      WData->Main.Title_Color = Data->Title_Color;
-      WData->Main.Title_Font = Data->Title_Font;
-      WData->Main.Title_Enable = Data->Title_Enable;
+      WData->Main.Title.x1 = Data->Title_x1;
+      WData->Main.Title.y1 = Data->Title_y1;
+      WData->Main.Title.x2 = Data->Title_x2;
+      WData->Main.Title.y2  = Data->Title_y2;
+      WData->Main.Title.Align = Data->Title_Align;
+      WData->Main.Title.Color = Data->Title_Color;
+      WData->Main.Title.Font = Data->Title_Font;
+      WData->Main.Title.Enable = Data->Title_Enable;
       
       //Artist
-      WData->Main.Artist_x1 = Data->Artist_x1;
-      WData->Main.Artist_y1 = Data->Artist_y1;
-      WData->Main.Artist_x2 = Data->Artist_x2;
-      WData->Main.Artist_y2 = Data->Artist_y2;
-      WData->Main.Artist_Align = Data->Artist_Align;
-      WData->Main.Artist_Font = Data->Artist_Font;
-      WData->Main.Artist_Color = Data->Artist_Color;
-      WData->Main.Artist_Enable = Data->Artist_Enable;
+      WData->Main.Artist.x1 = Data->Artist_x1;
+      WData->Main.Artist.y1 = Data->Artist_y1;
+      WData->Main.Artist.x2 = Data->Artist_x2;
+      WData->Main.Artist.y2 = Data->Artist_y2;
+      WData->Main.Artist.Align = Data->Artist_Align;
+      WData->Main.Artist.Font = Data->Artist_Font;
+      WData->Main.Artist.Color = Data->Artist_Color;
+      WData->Main.Artist.Enable = Data->Artist_Enable;
       
       //Album
-      WData->Main.Album_x1 = Data->Album_x1;
-      WData->Main.Album_y1 = Data->Album_y1;
-      WData->Main.Album_x2 = Data->Album_x2;
-      WData->Main.Album_y2 = Data->Album_y2;
-      WData->Main.Album_Align = Data->Album_Align;
-      WData->Main.Album_Color = Data->Album_Color;
-      WData->Main.Album_Font = Data->Album_Font;
-      WData->Main.Album_Enable = Data->Album_Enable;
+      WData->Main.Album.x1 = Data->Album_x1;
+      WData->Main.Album.y1 = Data->Album_y1;
+      WData->Main.Album.x2 = Data->Album_x2;
+      WData->Main.Album.y2 = Data->Album_y2;
+      WData->Main.Album.Align = Data->Album_Align;
+      WData->Main.Album.Color = Data->Album_Color;
+      WData->Main.Album.Font = Data->Album_Font;
+      WData->Main.Album.Enable = Data->Album_Enable;
       
       //Genre
-      WData->Main.Genre_x1 = Data->Genre_x1;
-      WData->Main.Genre_y1 = Data->Genre_y1;
-      WData->Main.Genre_x2 = Data->Genre_x2;
-      WData->Main.Genre_y2 = Data->Genre_y2;
-      WData->Main.Genre_Align = Data->Genre_Align;
-      WData->Main.Genre_Color = Data->Genre_Color;
-      WData->Main.Genre_Font = Data->Genre_Font;
-      WData->Main.Genre_Enable = Data->Genre_Enable;
+      WData->Main.Genre.x1 = Data->Genre_x1;
+      WData->Main.Genre.y1 = Data->Genre_y1;
+      WData->Main.Genre.x2 = Data->Genre_x2;
+      WData->Main.Genre.y2 = Data->Genre_y2;
+      WData->Main.Genre.Align = Data->Genre_Align;
+      WData->Main.Genre.Color = Data->Genre_Color;
+      WData->Main.Genre.Font = Data->Genre_Font;
+      WData->Main.Genre.Enable = Data->Genre_Enable;
       
       //TotalTime
-      WData->Main.TotalTime_x1 = Data->TotalTime_x1;
-      WData->Main.TotalTime_y1 = Data->TotalTime_y1;
-      WData->Main.TotalTime_x2 = Data->TotalTime_x2;
-      WData->Main.TotalTime_y2 = Data->TotalTime_y2;
-      WData->Main.TotalTime_Align = Data->TotalTime_Align;
-      WData->Main.TotalTime_Color = Data->TotalTime_Color;
-      WData->Main.TotalTime_Font = Data->TotalTime_Font;
-      WData->Main.TotalTime_Enable = Data->TotalTime_Enable;
+      WData->Main.TotalTime.x1 = Data->TotalTime_x1;
+      WData->Main.TotalTime.y1 = Data->TotalTime_y1;
+      WData->Main.TotalTime.x2 = Data->TotalTime_x2;
+      WData->Main.TotalTime.y2 = Data->TotalTime_y2;
+      WData->Main.TotalTime.Align = Data->TotalTime_Align;
+      WData->Main.TotalTime.Color = Data->TotalTime_Color;
+      WData->Main.TotalTime.Font = Data->TotalTime_Font;
+      WData->Main.TotalTime.Enable = Data->TotalTime_Enable;
       
       //ElapsedTime
-      WData->Main.ElapsedTime_x1 = Data->ElapsedTime_x1;
-      WData->Main.ElapsedTime_y1 = Data->ElapsedTime_y1;
-      WData->Main.ElapsedTime_x2 = Data->ElapsedTime_x2;
-      WData->Main.ElapsedTime_y2 = Data->ElapsedTime_y2;
-      WData->Main.ElapsedTime_Align = Data->ElapsedTime_Align;
-      WData->Main.ElapsedTime_Color = Data->ElapsedTime_Color;
-      WData->Main.ElapsedTime_Font = Data->ElapsedTime_Font;
-      WData->Main.ElapsedTime_Enable = Data->ElapsedTime_Enable;
+      WData->Main.ElapsedTime.x1 = Data->ElapsedTime_x1;
+      WData->Main.ElapsedTime.y1 = Data->ElapsedTime_y1;
+      WData->Main.ElapsedTime.x2 = Data->ElapsedTime_x2;
+      WData->Main.ElapsedTime.y2 = Data->ElapsedTime_y2;
+      WData->Main.ElapsedTime.Align = Data->ElapsedTime_Align;
+      WData->Main.ElapsedTime.Color = Data->ElapsedTime_Color;
+      WData->Main.ElapsedTime.Font = Data->ElapsedTime_Font;
+      WData->Main.ElapsedTime.Enable = Data->ElapsedTime_Enable;
       
       //RemainingTime
-      WData->Main.RemainingTime_x1 = Data->RemainingTime_x1;
-      WData->Main.RemainingTime_y1 = Data->RemainingTime_y1;
-      WData->Main.RemainingTime_x2 = Data->RemainingTime_x2;
-      WData->Main.RemainingTime_y2 = Data->RemainingTime_y2;
-      WData->Main.RemainingTime_Align = Data->RemainingTime_Align;
-      WData->Main.RemainingTime_Color = Data->RemainingTime_Color;
-      WData->Main.RemainingTime_Font = Data->RemainingTime_Font;
-      WData->Main.RemainingTime_Enable = Data->RemainingTime_Enable;
+      WData->Main.RemainingTime.x1 = Data->RemainingTime_x1;
+      WData->Main.RemainingTime.y1 = Data->RemainingTime_y1;
+      WData->Main.RemainingTime.x2 = Data->RemainingTime_x2;
+      WData->Main.RemainingTime.y2 = Data->RemainingTime_y2;
+      WData->Main.RemainingTime.Align = Data->RemainingTime_Align;
+      WData->Main.RemainingTime.Color = Data->RemainingTime_Color;
+      WData->Main.RemainingTime.Font = Data->RemainingTime_Font;
+      WData->Main.RemainingTime.Enable = Data->RemainingTime_Enable;
       
       //Extension
-      WData->Main.Extension_x1 = Data->Extension_x1;
-      WData->Main.Extension_y1 = Data->Extension_y1;
-      WData->Main.Extension_x2 = Data->Extension_x2;
-      WData->Main.Extension_y2 = Data->Extension_y2;
-      WData->Main.Extension_Align = Data->Extension_Align;
-      WData->Main.Extension_Color = Data->Extension_Color;
-      WData->Main.Extension_Font = Data->Extension_Font;
-      WData->Main.Extension_Enable = Data->Extension_Enable;
+      WData->Main.Extension.x1 = Data->Extension_x1;
+      WData->Main.Extension.y1 = Data->Extension_y1;
+      WData->Main.Extension.x2 = Data->Extension_x2;
+      WData->Main.Extension.y2 = Data->Extension_y2;
+      WData->Main.Extension.Align = Data->Extension_Align;
+      WData->Main.Extension.Color = Data->Extension_Color;
+      WData->Main.Extension.Font = Data->Extension_Font;
+      WData->Main.Extension.Enable = Data->Extension_Enable;
       
       //BitRate
-      WData->Main.BitRate_x1 = Data->BitRate_x1;
-      WData->Main.BitRate_y1 = Data->BitRate_y1;
-      WData->Main.BitRate_x2 = Data->BitRate_x2;
-      WData->Main.BitRate_y2 = Data->BitRate_y2;
-      WData->Main.BitRate_Align = Data->BitRate_Align;
-      WData->Main.BitRate_Color = Data->BitRate_Color;
-      WData->Main.BitRate_Font = Data->BitRate_Font;
-      WData->Main.BitRate_Enable = Data->BitRate_Enable;
+      WData->Main.BitRate.x1 = Data->BitRate_x1;
+      WData->Main.BitRate.y1 = Data->BitRate_y1;
+      WData->Main.BitRate.x2 = Data->BitRate_x2;
+      WData->Main.BitRate.y2 = Data->BitRate_y2;
+      WData->Main.BitRate.Align = Data->BitRate_Align;
+      WData->Main.BitRate.Color = Data->BitRate_Color;
+      WData->Main.BitRate.Font = Data->BitRate_Font;
+      WData->Main.BitRate.Enable = Data->BitRate_Enable;
       
       //TotalTrackID
-      WData->Main.TotalTrackID_x1 = Data->TotalTrackID_x1;
-      WData->Main.TotalTrackID_y1 = Data->TotalTrackID_y1;
-      WData->Main.TotalTrackID_x2 = Data->TotalTrackID_x2;
-      WData->Main.TotalTrackID_y2 = Data->TotalTrackID_y2;
-      WData->Main.TotalTrackID_Align = Data->TotalTrackID_Align;
-      WData->Main.TotalTrackID_Color = Data->TotalTrackID_Color;
-      WData->Main.TotalTrackID_Font = Data->TotalTrackID_Font;
-      WData->Main.TotalTrackID_Enable = Data->TotalTrackID_Enable;
+      WData->Main.TotalTrackID.x1 = Data->TotalTrackID_x1;
+      WData->Main.TotalTrackID.y1 = Data->TotalTrackID_y1;
+      WData->Main.TotalTrackID.x2 = Data->TotalTrackID_x2;
+      WData->Main.TotalTrackID.y2 = Data->TotalTrackID_y2;
+      WData->Main.TotalTrackID.Align = Data->TotalTrackID_Align;
+      WData->Main.TotalTrackID.Color = Data->TotalTrackID_Color;
+      WData->Main.TotalTrackID.Font = Data->TotalTrackID_Font;
+      WData->Main.TotalTrackID.Enable = Data->TotalTrackID_Enable;
       
       //C_TrackID
-      WData->Main.C_TrackID_x1 = Data->C_TrackID_x1;
-      WData->Main.C_TrackID_y1 = Data->C_TrackID_y1;
-      WData->Main.C_TrackID_x2 = Data->C_TrackID_x2;
-      WData->Main.C_TrackID_y2 = Data->C_TrackID_y2;
-      WData->Main.C_TrackID_Align = Data->C_TrackID_Align;
-      WData->Main.C_TrackID_Color = Data->C_TrackID_Color;
-      WData->Main.C_TrackID_Font = Data->C_TrackID_Font;
-      WData->Main.C_TrackID_Enable = Data->C_TrackID_Enable;
+      WData->Main.C_TrackID.x1 = Data->C_TrackID_x1;
+      WData->Main.C_TrackID.y1 = Data->C_TrackID_y1;
+      WData->Main.C_TrackID.x2 = Data->C_TrackID_x2;
+      WData->Main.C_TrackID.y2 = Data->C_TrackID_y2;
+      WData->Main.C_TrackID.Align = Data->C_TrackID_Align;
+      WData->Main.C_TrackID.Color = Data->C_TrackID_Color;
+      WData->Main.C_TrackID.Font = Data->C_TrackID_Font;
+      WData->Main.C_TrackID.Enable = Data->C_TrackID_Enable;
       
       //Shuffle_Image
       WData->Main.Shuffle_Image_x1 = Data->Shuffle_Image_x1;
@@ -1620,10 +1620,9 @@ void LoadLandscapeData()
 {
   //  wchar_t path[256]=L"";
   //  wchar_t name[256]=L"";
-  
-  
+
   int Lf;
-  if ( (Lf = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+  if ( (Lf = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     SKIN* LData  = (SKIN*)malloc(sizeof(SKIN));
     memset( LData, NULL, sizeof(SKIN) );
@@ -1641,114 +1640,114 @@ void LoadLandscapeData()
       WALKMAN_Function * WData = Get_WALKMAN_Function();
       
       WData->Portrait = FALSE;
-      WData->Main.Title_x1 = Data->Land_Title_x1;
-      WData->Main.Title_y1 = Data->Land_Title_y1;
-      WData->Main.Title_x2 = Data->Land_Title_x2;
-      WData->Main.Title_y2  = Data->Land_Title_y2;
-      WData->Main.Title_Align = Data->Land_Title_Align;
-      WData->Main.Title_Color = Data->Land_Title_Color;
-      WData->Main.Title_Font = Data->Land_Title_Font;
-      WData->Main.Title_Enable = Data->Land_Title_Enable;
+      WData->Main.Title.x1 = Data->Land_Title_x1;
+      WData->Main.Title.y1 = Data->Land_Title_y1;
+      WData->Main.Title.x2 = Data->Land_Title_x2;
+      WData->Main.Title.y2  = Data->Land_Title_y2;
+      WData->Main.Title.Align = Data->Land_Title_Align;
+      WData->Main.Title.Color = Data->Land_Title_Color;
+      WData->Main.Title.Font = Data->Land_Title_Font;
+      WData->Main.Title.Enable = Data->Land_Title_Enable;
       
       //Artist
-      WData->Main.Artist_x1 = Data->Land_Artist_x1;
-      WData->Main.Artist_y1 = Data->Land_Artist_y1;
-      WData->Main.Artist_x2 = Data->Land_Artist_x2;
-      WData->Main.Artist_y2 = Data->Land_Artist_y2;
-      WData->Main.Artist_Align = Data->Land_Artist_Align;
-      WData->Main.Artist_Font = Data->Land_Artist_Font;
-      WData->Main.Artist_Color = Data->Land_Artist_Color;
-      WData->Main.Artist_Enable = Data->Land_Artist_Enable;
+      WData->Main.Artist.x1 = Data->Land_Artist_x1;
+      WData->Main.Artist.y1 = Data->Land_Artist_y1;
+      WData->Main.Artist.x2 = Data->Land_Artist_x2;
+      WData->Main.Artist.y2 = Data->Land_Artist_y2;
+      WData->Main.Artist.Align = Data->Land_Artist_Align;
+      WData->Main.Artist.Font = Data->Land_Artist_Font;
+      WData->Main.Artist.Color = Data->Land_Artist_Color;
+      WData->Main.Artist.Enable = Data->Land_Artist_Enable;
       
       //Album
-      WData->Main.Album_x1 = Data->Land_Album_x1;
-      WData->Main.Album_y1 = Data->Land_Album_y1;
-      WData->Main.Album_x2 = Data->Land_Album_x2;
-      WData->Main.Album_y2 = Data->Land_Album_y2;
-      WData->Main.Album_Align = Data->Land_Album_Align;
-      WData->Main.Album_Color = Data->Land_Album_Color;
-      WData->Main.Album_Font = Data->Land_Album_Font;
-      WData->Main.Album_Enable = Data->Land_Album_Enable;
+      WData->Main.Album.x1 = Data->Land_Album_x1;
+      WData->Main.Album.y1 = Data->Land_Album_y1;
+      WData->Main.Album.x2 = Data->Land_Album_x2;
+      WData->Main.Album.y2 = Data->Land_Album_y2;
+      WData->Main.Album.Align = Data->Land_Album_Align;
+      WData->Main.Album.Color = Data->Land_Album_Color;
+      WData->Main.Album.Font = Data->Land_Album_Font;
+      WData->Main.Album.Enable = Data->Land_Album_Enable;
       
       //Genre
-      WData->Main.Genre_x1 = Data->Land_Genre_x1;
-      WData->Main.Genre_y1 = Data->Land_Genre_y1;
-      WData->Main.Genre_x2 = Data->Land_Genre_x2;
-      WData->Main.Genre_y2 = Data->Land_Genre_y2;
-      WData->Main.Genre_Align = Data->Land_Genre_Align;
-      WData->Main.Genre_Color = Data->Land_Genre_Color;
-      WData->Main.Genre_Font = Data->Land_Genre_Font;
-      WData->Main.Genre_Enable = Data->Land_Genre_Enable;
+      WData->Main.Genre.x1 = Data->Land_Genre_x1;
+      WData->Main.Genre.y1 = Data->Land_Genre_y1;
+      WData->Main.Genre.x2 = Data->Land_Genre_x2;
+      WData->Main.Genre.y2 = Data->Land_Genre_y2;
+      WData->Main.Genre.Align = Data->Land_Genre_Align;
+      WData->Main.Genre.Color = Data->Land_Genre_Color;
+      WData->Main.Genre.Font = Data->Land_Genre_Font;
+      WData->Main.Genre.Enable = Data->Land_Genre_Enable;
       
       //TotalTime
-      WData->Main.TotalTime_x1 = Data->Land_TotalTime_x1;
-      WData->Main.TotalTime_y1 = Data->Land_TotalTime_y1;
-      WData->Main.TotalTime_x2 = Data->Land_TotalTime_x2;
-      WData->Main.TotalTime_y2 = Data->Land_TotalTime_y2;
-      WData->Main.TotalTime_Align = Data->Land_TotalTime_Align;
-      WData->Main.TotalTime_Color = Data->Land_TotalTime_Color;
-      WData->Main.TotalTime_Font = Data->Land_TotalTime_Font;
-      WData->Main.TotalTime_Enable = Data->Land_TotalTime_Enable;
+      WData->Main.TotalTime.x1 = Data->Land_TotalTime_x1;
+      WData->Main.TotalTime.y1 = Data->Land_TotalTime_y1;
+      WData->Main.TotalTime.x2 = Data->Land_TotalTime_x2;
+      WData->Main.TotalTime.y2 = Data->Land_TotalTime_y2;
+      WData->Main.TotalTime.Align = Data->Land_TotalTime_Align;
+      WData->Main.TotalTime.Color = Data->Land_TotalTime_Color;
+      WData->Main.TotalTime.Font = Data->Land_TotalTime_Font;
+      WData->Main.TotalTime.Enable = Data->Land_TotalTime_Enable;
       
       //ElapsedTime
-      WData->Main.ElapsedTime_x1 = Data->Land_ElapsedTime_x1;
-      WData->Main.ElapsedTime_y1 = Data->Land_ElapsedTime_y1;
-      WData->Main.ElapsedTime_x2 = Data->Land_ElapsedTime_x2;
-      WData->Main.ElapsedTime_y2 = Data->Land_ElapsedTime_y2;
-      WData->Main.ElapsedTime_Align = Data->Land_ElapsedTime_Align;
-      WData->Main.ElapsedTime_Color = Data->Land_ElapsedTime_Color;
-      WData->Main.ElapsedTime_Font = Data->Land_ElapsedTime_Font;
-      WData->Main.ElapsedTime_Enable = Data->Land_ElapsedTime_Enable;
+      WData->Main.ElapsedTime.x1 = Data->Land_ElapsedTime_x1;
+      WData->Main.ElapsedTime.y1 = Data->Land_ElapsedTime_y1;
+      WData->Main.ElapsedTime.x2 = Data->Land_ElapsedTime_x2;
+      WData->Main.ElapsedTime.y2 = Data->Land_ElapsedTime_y2;
+      WData->Main.ElapsedTime.Align = Data->Land_ElapsedTime_Align;
+      WData->Main.ElapsedTime.Color = Data->Land_ElapsedTime_Color;
+      WData->Main.ElapsedTime.Font = Data->Land_ElapsedTime_Font;
+      WData->Main.ElapsedTime.Enable = Data->Land_ElapsedTime_Enable;
       
       //RemainingTime
-      WData->Main.RemainingTime_x1 = Data->Land_RemainingTime_x1;
-      WData->Main.RemainingTime_y1 = Data->Land_RemainingTime_y1;
-      WData->Main.RemainingTime_x2 = Data->Land_RemainingTime_x2;
-      WData->Main.RemainingTime_y2 = Data->Land_RemainingTime_y2;
-      WData->Main.RemainingTime_Align = Data->Land_RemainingTime_Align;
-      WData->Main.RemainingTime_Color = Data->Land_RemainingTime_Color;
-      WData->Main.RemainingTime_Font = Data->Land_RemainingTime_Font;
-      WData->Main.RemainingTime_Enable = Data->Land_RemainingTime_Enable;
+      WData->Main.RemainingTime.x1 = Data->Land_RemainingTime_x1;
+      WData->Main.RemainingTime.y1 = Data->Land_RemainingTime_y1;
+      WData->Main.RemainingTime.x2 = Data->Land_RemainingTime_x2;
+      WData->Main.RemainingTime.y2 = Data->Land_RemainingTime_y2;
+      WData->Main.RemainingTime.Align = Data->Land_RemainingTime_Align;
+      WData->Main.RemainingTime.Color = Data->Land_RemainingTime_Color;
+      WData->Main.RemainingTime.Font = Data->Land_RemainingTime_Font;
+      WData->Main.RemainingTime.Enable = Data->Land_RemainingTime_Enable;
       
       //Extension
-      WData->Main.Extension_x1 = Data->Land_Extension_x1;
-      WData->Main.Extension_y1 = Data->Land_Extension_y1;
-      WData->Main.Extension_x2 = Data->Land_Extension_x2;
-      WData->Main.Extension_y2 = Data->Land_Extension_y2;
-      WData->Main.Extension_Align = Data->Land_Extension_Align;
-      WData->Main.Extension_Color = Data->Land_Extension_Color;
-      WData->Main.Extension_Font = Data->Land_Extension_Font;
-      WData->Main.Extension_Enable = Data->Land_Extension_Enable;
+      WData->Main.Extension.x1 = Data->Land_Extension_x1;
+      WData->Main.Extension.y1 = Data->Land_Extension_y1;
+      WData->Main.Extension.x2 = Data->Land_Extension_x2;
+      WData->Main.Extension.y2 = Data->Land_Extension_y2;
+      WData->Main.Extension.Align = Data->Land_Extension_Align;
+      WData->Main.Extension.Color = Data->Land_Extension_Color;
+      WData->Main.Extension.Font = Data->Land_Extension_Font;
+      WData->Main.Extension.Enable = Data->Land_Extension_Enable;
       
       //BitRate
-      WData->Main.BitRate_x1 = Data->Land_BitRate_x1;
-      WData->Main.BitRate_y1 = Data->Land_BitRate_y1;
-      WData->Main.BitRate_x2 = Data->Land_BitRate_x2;
-      WData->Main.BitRate_y2 = Data->Land_BitRate_y2;
-      WData->Main.BitRate_Align = Data->Land_BitRate_Align;
-      WData->Main.BitRate_Color = Data->Land_BitRate_Color;
-      WData->Main.BitRate_Font = Data->Land_BitRate_Font;
-      WData->Main.BitRate_Enable = Data->Land_BitRate_Enable;
+      WData->Main.BitRate.x1 = Data->Land_BitRate_x1;
+      WData->Main.BitRate.y1 = Data->Land_BitRate_y1;
+      WData->Main.BitRate.x2 = Data->Land_BitRate_x2;
+      WData->Main.BitRate.y2 = Data->Land_BitRate_y2;
+      WData->Main.BitRate.Align = Data->Land_BitRate_Align;
+      WData->Main.BitRate.Color = Data->Land_BitRate_Color;
+      WData->Main.BitRate.Font = Data->Land_BitRate_Font;
+      WData->Main.BitRate.Enable = Data->Land_BitRate_Enable;
       
       //TotalTrackID
-      WData->Main.TotalTrackID_x1 = Data->Land_TotalTrackID_x1;
-      WData->Main.TotalTrackID_y1 = Data->Land_TotalTrackID_y1;
-      WData->Main.TotalTrackID_x2 = Data->Land_TotalTrackID_x2;
-      WData->Main.TotalTrackID_y2 = Data->Land_TotalTrackID_y2;
-      WData->Main.TotalTrackID_Align = Data->Land_TotalTrackID_Align;
-      WData->Main.TotalTrackID_Color = Data->Land_TotalTrackID_Color;
-      WData->Main.TotalTrackID_Font = Data->Land_TotalTrackID_Font;
-      WData->Main.TotalTrackID_Enable = Data->Land_TotalTrackID_Enable;
+      WData->Main.TotalTrackID.x1 = Data->Land_TotalTrackID_x1;
+      WData->Main.TotalTrackID.y1 = Data->Land_TotalTrackID_y1;
+      WData->Main.TotalTrackID.x2 = Data->Land_TotalTrackID_x2;
+      WData->Main.TotalTrackID.y2 = Data->Land_TotalTrackID_y2;
+      WData->Main.TotalTrackID.Align = Data->Land_TotalTrackID_Align;
+      WData->Main.TotalTrackID.Color = Data->Land_TotalTrackID_Color;
+      WData->Main.TotalTrackID.Font = Data->Land_TotalTrackID_Font;
+      WData->Main.TotalTrackID.Enable = Data->Land_TotalTrackID_Enable;
       
       //C_TrackID
-      WData->Main.C_TrackID_x1 = Data->Land_C_TrackID_x1;
-      WData->Main.C_TrackID_y1 = Data->Land_C_TrackID_y1;
-      WData->Main.C_TrackID_x2 = Data->Land_C_TrackID_x2;
-      WData->Main.C_TrackID_y2 = Data->Land_C_TrackID_y2;
-      WData->Main.C_TrackID_Align = Data->Land_C_TrackID_Align;
-      WData->Main.C_TrackID_Color = Data->Land_C_TrackID_Color;
-      WData->Main.C_TrackID_Font = Data->Land_C_TrackID_Font;
-      WData->Main.C_TrackID_Enable = Data->Land_C_TrackID_Enable;
+      WData->Main.C_TrackID.x1 = Data->Land_C_TrackID_x1;
+      WData->Main.C_TrackID.y1 = Data->Land_C_TrackID_y1;
+      WData->Main.C_TrackID.x2 = Data->Land_C_TrackID_x2;
+      WData->Main.C_TrackID.y2 = Data->Land_C_TrackID_y2;
+      WData->Main.C_TrackID.Align = Data->Land_C_TrackID_Align;
+      WData->Main.C_TrackID.Color = Data->Land_C_TrackID_Color;
+      WData->Main.C_TrackID.Font = Data->Land_C_TrackID_Font;
+      WData->Main.C_TrackID.Enable = Data->Land_C_TrackID_Enable;
       
       //Shuffle_Image
       WData->Main.Shuffle_Image_x1 = Data->Land_Shuffle_Image_x1;

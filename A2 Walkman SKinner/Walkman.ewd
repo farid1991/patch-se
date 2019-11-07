@@ -536,7 +536,7 @@
     </settings>
   </configuration>
   <configuration>
-    <name>W890_R1FA035</name>
+    <name>C510_R1HA035</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>

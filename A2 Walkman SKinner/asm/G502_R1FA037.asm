@@ -656,9 +656,9 @@ a       EQU b
         defadr MusicApp_PrevAction,0x115B8AA8+1
         defadr MusicApp_CancelAction,0x115B9CA4+1
         
-        defadr pg_MusicApplication_SubMenu_PreviousAction,0x115B84DC+1
-        defadr pg_MusicApplication_SubMenu_CancelAction,0x115B853C+1
-        defadr pg_MusicApplication_SubMenu_ExitAction,0x115B85A8+1
+        defadr pg_MusicApplication_UnplugPHF__PreviousAction,0x115B84DC+1
+        defadr pg_MusicApplication_UnplugPHF__CancelAction,0x115B853C+1
+        defadr pg_MusicApplication_UnplugPHF__ExitAction,0x115B85A8+1
         
 ///////////////
 
@@ -685,8 +685,8 @@ a       EQU b
 	EXTERN New_PATCH_UI_MEDIAPLAYER_CREATED_EVENT
         EXTERN New_MUSIC_APP_ON_ENTER_PAGE_HOOK
         
-	EXTERN SetNewSoftkey
-	EXTERN NewSecondLine
+	EXTERN New_SoftKeys
+	EXTERN New_SecondLine
         EXTERN FixShuffle
         EXTERN FixLoop
 	
@@ -826,7 +826,8 @@ sub_100C88BC:
         RSEG  CODE
         CODE16	
 Add_List:
-	bl      SetNewSoftkey
+	ADD	R0, R4, #0
+        bl      New_SoftKeys
 	mov	r2, #0xC
 	mov	r1, #0xF
         LDR	R0, [R4,#0x1C]
@@ -881,7 +882,6 @@ fix_shuffle:
         BL      FixShuffle
         MOV     R1, #1
         B       next_
- 
 fix_loop:
         LDR     R0, [R5,#0]
         LDR	R3, =0x115BDF94+1
@@ -889,7 +889,6 @@ fix_loop:
         ADD     R0, R1, #0
         BL      FixLoop
         MOV     R1, #0
-        
 next_:
         ADD     R0, R4, #0
         LDR	R3, =MusicApp_SetSettings

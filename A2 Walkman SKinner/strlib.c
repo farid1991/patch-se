@@ -4,13 +4,13 @@
 #include "Walkman.h"
 #include "strlib.h"
 
-int StringLength(wchar_t *str)
+int StringLength(char *str)
 {
-  if (str) return(wstrlen(str));
+  if (str) return(strlen(str));
   else return NULL;
 }
 
-void StringFree(wchar_t *str)
+void StringFree(char *str)
 {
   if (str)
   {
@@ -19,7 +19,30 @@ void StringFree(wchar_t *str)
   }
 }
 
-wchar_t* StringAlloc(int lenght)
+char* StringAlloc(int lenght)
+{
+  int size = (lenght+1) * sizeof(char);
+  char *s = (char*)malloc(size);
+  memset(s, NULL, size);
+  return(s);
+}
+
+int WStringLength(wchar_t *str)
+{
+  if (str) return(wstrlen(str));
+  else return NULL;
+}
+
+void WStringFree(wchar_t *str)
+{
+  if (str)
+  {
+    mfree(str);
+    str = NULL;
+  }
+}
+
+wchar_t* WStringAlloc(int lenght)
 {
   int size = (lenght+1) * sizeof(wchar_t);
   wchar_t *ws = (wchar_t*)malloc(size);
@@ -27,33 +50,33 @@ wchar_t* StringAlloc(int lenght)
   return(ws);
 }
 
-void StringAllocEx(wchar_t **str, int size)
+void WStringAllocEx(wchar_t **str, int size)
 {
-  StringFree((*str));
-  (*str) = StringAlloc(size);
+  WStringFree((*str));
+  (*str) = WStringAlloc(size);
 }
 
-void StringReallocEx(wchar_t *src, wchar_t **dest, int size)
+void WStringReallocEx(wchar_t *src, wchar_t **dest, int size)
 {
-  StringAllocEx(dest, size);
+  WStringAllocEx(dest, size);
   wstrncpy((*dest), src, size);
 }
 
-void StringRealloc(wchar_t *src, wchar_t **dest)
+void WStringRealloc(wchar_t *src, wchar_t **dest)
 {
-  StringReallocEx(src, dest, StringLength(src));
+  WStringReallocEx(src, dest, WStringLength(src));
 }
                 
-void StringFilenameUnion(wchar_t **Filename, wchar_t *Path, wchar_t *Name)
+void WStringFilenameUnion(wchar_t **Filename, wchar_t *Path, wchar_t *Name)
 {
-  StringAllocEx(Filename, StringLength(Path) + StringLength(Name) + 2); // + L"/"
+  WStringAllocEx(Filename, WStringLength(Path) + WStringLength(Name) + 2); // + L"/"
   wstrcpy((*Filename), Path);
   wstrcat((*Filename), L"/");
   wstrcat((*Filename), Name);
   //*Filename = FSX_MakeFullPath(Path,Name);
 }
     
-void StringExtractFileName(wchar_t *str, wchar_t **name)
+void WStringExtractFileName(wchar_t *str, wchar_t **name)
 {
 //    if (* Name)
 //    {
@@ -67,6 +90,21 @@ void StringExtractFileName(wchar_t *str, wchar_t **name)
  //   
  //   (* Name) = StringAlloc(lenght - Index + 1);
  //   wstrncpy((* Name), Str[Index], lenght - Index);
-    StringRealloc(str, name);
+  WStringRealloc(str, name);
 }
 
+void splitfilename(const wchar_t* src, wchar_t* destpath, wchar_t* destname)
+{
+  wchar_t* fname=wstrrchr(src,'/');
+  if(fname)
+  {
+    wstrncpy(destpath,src,fname-src);
+    destpath[fname-src] = 0;
+    wstrcpy(destname,fname+1);
+  }
+  else
+  {
+    destpath[0] = 0;
+    wstrcpy(destname,src);
+  }
+}

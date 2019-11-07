@@ -11,67 +11,40 @@
 ;v.1.3.3 mod
 ;(c) blacklizard
 ;(r) KreN
-;(e) farid, D3mon, blacklizard
+;(e) farid, D3mon
 */
 
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
-//#include "..\\include\MetaData.h"
-#include "..\\include\classes\IMetaData.h"
-#include "..\\include\types\AudioControl_types.h"
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
 
 #include "..\\include\book\MusicApplication_Book.h"
 
 #include "Function.h"
 #include "LNG.h"
 #include "SaveLoad.h"
+#include "strlib.h"
 #include "Visual.h"
 #include "Viz.h"
 #include "Walkman.h"
 
-__thumb void* malloc( int size )
+__thumb void *malloc( int size )
 {
   return memalloc(0xFFFFFFFF, size, 1, 5, "wsk", NULL);
 }
 
-__thumb void mfree( void* mem )
+__thumb void mfree( void *mem )
 {
   if (mem) memfree(NULL, mem, "wsk", NULL);
 }
-
-/*
-void* operator new(size_t sz){return malloc(sz);};
-void* operator new[](size_t sz){return malloc(sz);};
-void operator delete(void * p){mfree(p);};
-void operator delete[](void * p){mfree(p);};
-*/
 
 WALKMAN_Function *Create_WALKMAN_Function()
 {
   WALKMAN_Function* Data = (WALKMAN_Function*)malloc(sizeof(WALKMAN_Function));
   memset(Data, NULL, sizeof(WALKMAN_Function));
-  /*
-  Data->CoverArtID = NULL;
-  Data->IsAlbumArt = NULL;
-  Data->Offset = NULL;
-  Data->Size = NULL;
-  Data->pImageType = NULL;
-  Data->IsDRMProtected=0;
-  Data->VolumeLevel=0;
-  Data->CurrentTrackID = NULL;
-  Data->TotalTrackID = NULL;
-  Data->Bitrate = NULL;
-  Data->VizIMG_ID = NOIMAGE;
-  Data->VizID = 1;
-  Data->m_smilgc = NULL;
-  Data->kl = NULL;
-  Data->gcmem_xsize = NULL;
-  Data->timer = NULL;
-  Data->WaitingTimer = NULL;
-  Data->PlayState = NULL;
-  Data->EqPreset = NULL;
-  */  
   set_envp(NULL, EMP_NAME, (OSADDRESS)Data);
   return Data;
 }
@@ -94,13 +67,16 @@ void Delete_WALKMAN_Function()
   }
 }
 
-
 void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width ,int NormalColor)
 {
   if (text && (text!=EMPTY_TEXTID))
   {
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    dll_DrawString( text, font, align, XPos, YPos, XPos+width, YPos+(font&0xFF), NormalColor);
+#else
     SetFont(font);
     DrawString(text,align,XPos,YPos,XPos+width,YPos+(font&0xFF),60,0x05,NormalColor,clEmpty); 
+#endif
   }
 }
 
@@ -116,12 +92,12 @@ void GetMediaPlayerState(WALKMAN_Function* Data)
 
 void GetEqPreset(WALKMAN_Function* Data)
 {
-  if(Data->MusicBook->Eq_State==TMusicServerEqPreset_Normal) Data->EqPreset = EqPreset_Normal; 
-  else if(Data->MusicBook->Eq_State==TMusicServerEqPreset_Bass) Data->EqPreset = EqPreset_Bass;
-  else if(Data->MusicBook->Eq_State==TMusicServerEqPreset_Manual) Data->EqPreset = EqPreset_Manual;
-  else if(Data->MusicBook->Eq_State==TMusicServerEqPreset_Megabass) Data->EqPreset = EqPreset_Megabass;
-  else if(Data->MusicBook->Eq_State==TMusicServerEqPreset_TrebleBoost) Data->EqPreset = EqPreset_TrebleBoost;
-  else if(Data->MusicBook->Eq_State==TMusicServerEqPreset_Voice) Data->EqPreset = EqPreset_Voice;
+  if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_Normal) Data->EqPreset = EqPreset_Normal; 
+  else if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_Bass) Data->EqPreset = EqPreset_Bass;
+  else if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_Manual) Data->EqPreset = EqPreset_Manual;
+  else if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_Megabass) Data->EqPreset = EqPreset_Megabass;
+  else if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_TrebleBoost) Data->EqPreset = EqPreset_TrebleBoost;
+  else if(Data->MusicBook->EQ_Preset==TMusicServerEqPreset_Voice) Data->EqPreset = EqPreset_Voice;
 }
 
 void GetLoopState(WALKMAN_Function* Data)
@@ -130,37 +106,89 @@ void GetLoopState(WALKMAN_Function* Data)
   else Data->IsLoop = FALSE;
 }
 
+void GetShuffleState(WALKMAN_Function* Data)
+{
+  if(Data->MusicBook->shuffle) Data->IsShuffle = TRUE;
+  else Data->IsShuffle = FALSE;
+}
+
 void GetVolumeLevel(WALKMAN_Function* Data)
 {
   char media;
   Volume_Get(AUDIOCONTROL_VOLUMETYPE_MEDIAVOLUME, &media);
-  
   Data->VolumeLevel = media - 18;
-}
-
-void DrawIcon(IMAGEID img, int x, int y)
-{
-  if(img!=NOIMAGE) GC_DrawIcon( x, y, img );
 }
 
 void DrawImage( GC* gc, int x, int y, int w, int h, IMAGEID img )
 {
-  if(img!=NOIMAGE) GC_PutChar( gc, x, y, w, h, img );	
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  if(img!=NOIMAGE) dll_GC_PutChar( gc, x, y, w, h, img );
+#else
+  if(img!=NOIMAGE) GC_PutChar( gc, x, y, w, h, img );
+#endif
+}
+
+void DrawIcon(IMAGEID img, int x, int y)
+{
+  DrawImage( get_DisplayGC(), x, y, 0, 0, img );
+}
+
+
+extern "C"
+int New_Music_Gui_NowPlaying_OnCreate(DISP_OBJ* disp_obj)
+{
+  WALKMAN_Function* Data = Get_WALKMAN_Function();
+  Data->Music_Gui_NowPlaying = disp_obj;
+
+  LoadImage(Data);
+  BootViz(Data);
+
+  return Music_Gui_NowPlaying_OnCreate(disp_obj);
 }
 
 extern "C"
-void New_WALKMAN_REDRAW(DISP_OBJ* obj, int a, int b, int c)
+void New_Music_Gui_NowPlaying_OnDestroy(DISP_OBJ* disp_obj)
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
+  FreeImage(Data);
+  KillAllTimer(Data);
+  FreeViz(Data);
+  Delete_WALKMAN_Function();
+  Music_Gui_NowPlaying_OnDestroy(disp_obj);
+}
+
+extern "C"
+void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
+{
+  MUSIC_GUI_NOWPLAYING_DISP_OBJ* now_playing = (MUSIC_GUI_NOWPLAYING_DISP_OBJ*)disp_obj;
+  int myFile1 = w_fopen( L"/usb/other/Music_Gui_NowPlaying_unk_0x1A4.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
+  if ( myFile1 >= NULL )
+  {
+    w_fwrite( myFile1, (char*)now_playing->unk_0x1A4, 0x128 );
+    w_fclose( myFile1 );
+  }
+  
+  int myFile2 = w_fopen( L"/usb/other/Music_Gui_NowPlaying_unk_0x1A8.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
+  if ( myFile2 >= NULL )
+  {
+    w_fwrite( myFile2, (char*)now_playing->unk_0x1A8, 0x128 );
+    w_fclose( myFile2 );
+  }
+  
+  WALKMAN_Function* Data = Get_WALKMAN_Function();
+  
+  int scr_w = Display_GetWidth( UIDisplay_Main );
+  int scr_h = Display_GetHeight( UIDisplay_Main );
 
   GetLoopState(Data);
+  GetShuffleState(Data);
   GetEqPreset(Data);
   GetMediaPlayerState(Data);
   GetVolumeLevel(Data);
   
   char State;
-  TEXTID SID;
-  GC* gc = get_DisplayGC();
+  TEXTID TextID;
+  GC* pGC = get_DisplayGC();
   
   if(Data->Main.Background_Image_Enable)
   {
@@ -176,13 +204,13 @@ void New_WALKMAN_REDRAW(DISP_OBJ* obj, int a, int b, int c)
     if(!Data->m_smilgc)
     {
       Data->m_br = GVI_CreateSolidBrush(clBlack);
-      Data->m_hMGC = GC_CreateMemoryGC( Data->gcmem_xsize, 320, 16, 0, 0, 0 );
+      Data->m_hMGC = GC_CreateMemoryGC( Data->gcmem_xsize, scr_h, 16, 0, 0, 0 );
       CANVAS_Get_GviGC( Data->m_hMGC->pcanvas ,&Data->m_smilgc);
-      GVI_FillRectangle( Data->m_smilgc, Data->Main.VIZRect.x1,Data->Main.VIZRect.y1, Data->gcmem_xsize, SCN_HEIGHT, Data->m_br );
+      GVI_FillRectangle( Data->m_smilgc, Data->Main.VIZRect.x1,Data->Main.VIZRect.y1, Data->gcmem_xsize, scr_h, Data->m_br );
       DrawImage( Data->m_hMGC, Data->Main.VIZRect.x1, Data->Main.VIZRect.y1, 0, 0, Data->VizImageID );
     }
     GVI_GC gvigc = NULL;
-    CANVAS_Get_GviGC(gc->pcanvas, &gvigc);
+    CANVAS_Get_GviGC(pGC->pcanvas, &gvigc);
     int bx = 0;
     int by = 0;
     if(!Data->Portrait)
@@ -190,9 +218,9 @@ void New_WALKMAN_REDRAW(DISP_OBJ* obj, int a, int b, int c)
       bx = 40;
       by = 0;
     }
-    GVI_BitBlt(gvigc,bx, by, SCN_WIDTH, SCN_HEIGHT, Data->m_smilgc, (SCN_WIDTH*(Data->kl)), 0, 204, 0, 2, 3);
+    GVI_BitBlt(gvigc,bx, by, scr_w, scr_h, Data->m_smilgc, (scr_w*(Data->kl)), 0, 204, 0, 2, 3);
     
-    if (Data->kl > (((Data->gcmem_xsize)/SCN_WIDTH)-2))
+    if (Data->kl > (((Data->gcmem_xsize)/scr_w)-2))
     {
       Data->kl = 0;
     }
@@ -204,8 +232,8 @@ void New_WALKMAN_REDRAW(DISP_OBJ* obj, int a, int b, int c)
   
   if(Data->Main.AlbumArtEnable)
   {
-    DrawImage( gc, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->CoverArtID ); 
-    DrawImage( gc, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->ImageID[25].ImageID ); 
+    DrawImage( pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->CoverArtID ); 
+    DrawImage( pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->ImageID[25].ImageID ); 
   }
   
   if(Data->Main.Overlay_Image_Enable)
@@ -313,87 +341,150 @@ void New_WALKMAN_REDRAW(DISP_OBJ* obj, int a, int b, int c)
     else DrawIcon( Data->ImageID[20].ImageID, Data->Main.WhellCENTER_Image_x1, Data->Main.WhellCENTER_Image_y1);
   }
   
-  if(Data->Main.Title_Enable)
+  if(Data->Main.Title.Enable)
   {
-    SID = TextID_Create(Data->title,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Title_Font, SID ,Data->Main.Title_Align, Data->Main.Title_x1, Data->Main.Title_y1, Data->Main.Title_x2-Data->Main.Title_x1 ,Data->Main.Title_Color);
-    TextID_Destroy(SID);
+    //SID = TextID_Create(Data->title,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.Title.Font, 
+                      now_playing->TextID.Title,
+                      Data->Main.Title.Align, 
+                      Data->Main.Title.x1, 
+                      Data->Main.Title.y1, 
+                      Data->Main.Title.x2-Data->Main.Title.x1,
+                      Data->Main.Title.Color );
+    //TEXT_FREE(SID);
   }
-  if(Data->Main.Artist_Enable)
+  if(Data->Main.Artist.Enable)
   {
-    SID = TextID_Create(Data->artist,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Artist_Font, SID ,Data->Main.Artist_Align, Data->Main.Artist_x1, Data->Main.Artist_y1, Data->Main.Artist_x2-Data->Main.Artist_x1 ,Data->Main.Artist_Color);
-    TextID_Destroy(SID);
+    //SID = TextID_Create(Data->artist,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.Artist.Font,
+                      now_playing->TextID.Artist,
+                      Data->Main.Artist.Align,
+                      Data->Main.Artist.x1,
+                      Data->Main.Artist.y1, 
+                      Data->Main.Artist.x2-Data->Main.Artist.x1,
+                      Data->Main.Artist.Color );
+    //TEXT_FREE(SID);
   }
-  if(Data->Main.Album_Enable)
+  if(Data->Main.Album.Enable)
   {
-    SID = TextID_Create(Data->album,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Album_Font, SID ,Data->Main.Album_Align, Data->Main.Album_x1, Data->Main.Album_y1, Data->Main.Album_x2-Data->Main.Album_x1 ,Data->Main.Album_Color);
-    TextID_Destroy(SID);
+    //SID = TextID_Create(Data->album,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.Album.Font, 
+                      now_playing->TextID.Album,
+                      Data->Main.Album.Align, 
+                      Data->Main.Album.x1, 
+                      Data->Main.Album.y1, 
+                      Data->Main.Album.x2-Data->Main.Album.x1,
+                      Data->Main.Album.Color );
+    //TEXT_FREE(SID);
   }
-  if(Data->Main.Extension_Enable)
+  if(Data->Main.Extension.Enable)
   {
-    SID = TextID_Create(Data->ext,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Extension_Font, SID ,Data->Main.Extension_Align, Data->Main.Extension_x1, Data->Main.Extension_y1, Data->Main.Extension_x2-Data->Main.Extension_x1 ,Data->Main.Extension_Color);
-    TextID_Destroy(SID);
-  }
-  
-  if(Data->Main.C_TrackID_Enable)
-  {
-    snwprintf(Data->buffer,MAXELEMS(Data->buffer), L"%d / ", Data->CurrentTrackNumber );
-    SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.C_TrackID_Font, SID ,Data->Main.C_TrackID_Align, Data->Main.C_TrackID_x1, Data->Main.C_TrackID_y1, Data->Main.C_TrackID_x2-Data->Main.C_TrackID_x1 ,Data->Main.C_TrackID_Color);
-    TextID_Destroy(SID);
-  }
-  
-  if(Data->Main.TotalTrackID_Enable)
-  {
-    SID = TextID_CreateIntegerID(Data->TotalTrackNumber);
-    DrawString_Params(Data->Main.TotalTrackID_Font, SID ,Data->Main.TotalTrackID_Align, Data->Main.TotalTrackID_x1, Data->Main.TotalTrackID_y1, Data->Main.TotalTrackID_x2-Data->Main.TotalTrackID_x1 ,Data->Main.TotalTrackID_Color);
-    TextID_Destroy(SID);
-  }
-  
-  if(Data->Main.Genre_Enable)
-  {
-    SID = TextID_Create(Data->genre,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Genre_Font, SID ,Data->Main.Genre_Align, Data->Main.Genre_x1, Data->Main.Genre_y1, Data->Main.Genre_x2-Data->Main.Genre_x1 ,Data->Main.Genre_Color);
-    TextID_Destroy(SID);
-  }
-  
-  if(Data->Main.TotalTime_Enable)
-  {
-    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"0x%X:0x%X", Data->MusicBook->dummy_68, Data->MusicBook->dummy_69);
-    snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->FullTimeMinutes, Data->FullTimeSeconds);
-    SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.TotalTime_Font, SID ,Data->Main.TotalTime_Align, Data->Main.TotalTime_x1, Data->Main.TotalTime_y1, Data->Main.TotalTime_x2-Data->Main.TotalTime_x1 ,Data->Main.TotalTime_Color);
-    TextID_Destroy(SID);
+    TextID = TextID_Create(Data->ext,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.Extension.Font,
+                      TextID,
+                      Data->Main.Extension.Align, 
+                      Data->Main.Extension.x1, 
+                      Data->Main.Extension.y1, 
+                      Data->Main.Extension.x2-Data->Main.Extension.x1,
+                      Data->Main.Extension.Color );
+    TEXT_FREE(TextID);
   }
   
-  if(Data->Main.ElapsedTime_Enable)
-  {  
-    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"0x%X:0x%X", Data->MusicBook->dummy_6A, Data->MusicBook->dummy_6B);
-    snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->ElapsedTimeMinutes, Data->ElapsedTimeSeconds);
-    SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.ElapsedTime_Font, SID ,Data->Main.ElapsedTime_Align, Data->Main.ElapsedTime_x1, Data->Main.ElapsedTime_y1, Data->Main.ElapsedTime_x2-Data->Main.ElapsedTime_x1 ,Data->Main.ElapsedTime_Color);
-    TextID_Destroy(SID);
+  if(Data->Main.C_TrackID.Enable)
+  {
+    //snwprintf(Data->buffer,MAXELEMS(Data->buffer), L"%d / ", Data->CurrentTrackNumber );
+    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.C_TrackID.Font, 
+                      now_playing->TextID.C_TrackID,
+                      Data->Main.C_TrackID.Align, 
+                      Data->Main.C_TrackID.x1, 
+                      Data->Main.C_TrackID.y1, 
+                      Data->Main.C_TrackID.x2-Data->Main.C_TrackID.x1,
+                      Data->Main.C_TrackID.Color );
+    //TEXT_FREE(SID);
   }
   
-  if(Data->Main.RemainingTime_Enable)
+  if(Data->Main.TotalTrackID.Enable)
   {
-    int RemainingLengthInSeconds;
-    RemainingLengthInSeconds = Data->FullTime - Data->ElapsedTime;
-    snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"-%02d:%02d", RemainingLengthInSeconds/60,RemainingLengthInSeconds%60);
-    SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.RemainingTime_Font, SID ,Data->Main.RemainingTime_Align, Data->Main.RemainingTime_x1, Data->Main.RemainingTime_y1, Data->Main.RemainingTime_x2-Data->Main.RemainingTime_x1 ,Data->Main.RemainingTime_Color);
-    TextID_Destroy(SID);
-  }  
+    //SID = TextID_CreateIntegerID(Data->TotalTrackNumber);
+    DrawString_Params(Data->Main.TotalTrackID.Font, 
+                      now_playing->TextID.TotalTrackID,
+                      Data->Main.TotalTrackID.Align, 
+                      Data->Main.TotalTrackID.x1, 
+                      Data->Main.TotalTrackID.y1, 
+                      Data->Main.TotalTrackID.x2-Data->Main.TotalTrackID.x1,
+                      Data->Main.TotalTrackID.Color );
+    //TEXT_FREE(SID);
+  }
   
-  if(Data->Main.BitRate_Enable)
+  if(Data->Main.Genre.Enable)
   {
-    snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%d kbps", Data->Bitrate);
-    SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.BitRate_Font, SID ,Data->Main.BitRate_Align, Data->Main.BitRate_x1, Data->Main.BitRate_y1, Data->Main.BitRate_x2-Data->Main.BitRate_x1 ,Data->Main.BitRate_Color);
-    TextID_Destroy(SID);
+    TextID = TextID_Create(Data->genre,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.Genre.Font, 
+                      TextID,
+                      Data->Main.Genre.Align, 
+                      Data->Main.Genre.x1, 
+                      Data->Main.Genre.y1, 
+                      Data->Main.Genre.x2-Data->Main.Genre.x1,
+                      Data->Main.Genre.Color);
+    TEXT_FREE(TextID);
+  }
+  
+  if(Data->Main.TotalTime.Enable)
+  {
+    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->FullTimeMinutes, Data->FullTimeSeconds);
+    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.TotalTime.Font, 
+                      now_playing->TextID.TotalTime,
+                      Data->Main.TotalTime.Align, 
+                      Data->Main.TotalTime.x1, 
+                      Data->Main.TotalTime.y1, 
+                      Data->Main.TotalTime.x2-Data->Main.TotalTime.x1,
+                      Data->Main.TotalTime.Color);
+    //TEXT_FREE(SID);
+  }
+  
+  if(Data->Main.ElapsedTime.Enable)
+  {
+    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->ElapsedTimeMinutes, Data->ElapsedTimeSeconds);
+    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.ElapsedTime.Font, 
+                      now_playing->TextID.ElapsedTime,
+                      Data->Main.ElapsedTime.Align, 
+                      Data->Main.ElapsedTime.x1, 
+                      Data->Main.ElapsedTime.y1, 
+                      Data->Main.ElapsedTime.x2-Data->Main.ElapsedTime.x1,
+                      Data->Main.ElapsedTime.Color);
+    //TEXT_FREE(SID);
+  }
+  
+  if(Data->Main.RemainingTime.Enable)
+  {
+    //int RemainingLengthInSeconds = Data->FullTime - Data->ElapsedTime;
+    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"-%02d:%02d", RemainingLengthInSeconds/60,RemainingLengthInSeconds%60);
+    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.RemainingTime.Font, 
+                      now_playing->TextID.RemainingTime,
+                      Data->Main.RemainingTime.Align, 
+                      Data->Main.RemainingTime.x1, 
+                      Data->Main.RemainingTime.y1, 
+                      Data->Main.RemainingTime.x2-Data->Main.RemainingTime.x1,
+                      Data->Main.RemainingTime.Color);
+    //TEXT_FREE(SID);
+  }
+  
+  if(Data->Main.BitRate.Enable)
+  {
+    snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%d kb/s", Data->Bitrate);
+    TextID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
+    DrawString_Params(Data->Main.BitRate.Font, 
+                      TextID,
+                      Data->Main.BitRate.Align, 
+                      Data->Main.BitRate.x1, 
+                      Data->Main.BitRate.y1, 
+                      Data->Main.BitRate.x2-Data->Main.BitRate.x1,
+                      Data->Main.BitRate.Color);
+    TEXT_FREE(TextID);
   }
   
   if(Data->Main.ProgressBarEnable)
@@ -421,19 +512,6 @@ void TimerKill()
   Data->IsPlayingTimerData = FALSE;
 }
 
-extern "C"
-void New_WALKMAN_ONCREATE(DISP_OBJ* disp)
-{
-  WALKMAN_Function* Data = Get_WALKMAN_Function();
-  Data->Music_Gui_NowPlaying = disp;
-
-  LoadImage(Data);
-  BootViz(Data);
-
-  WALKMAN_Default_ONCREATE(disp);
-}
-
-
 void KillAllTimer(WALKMAN_Function* Data)
 {
   if(Data->timer)
@@ -449,26 +527,9 @@ void KillAllTimer(WALKMAN_Function* Data)
   }
 }
 
-
-extern "C"
-void New_ON_DESTROY(DISP_OBJ* disp)
-{
-  WALKMAN_Function* Data = Get_WALKMAN_Function();
-  FreeImage(Data);
-  KillAllTimer(Data);
-  FreeViz(Data);
-  WALKMAN_Default_ONDESTROY(disp);
-}
-/*
-wchar_t* GetWSKPath()
-{
-  if (GetMemoryStickStatus()) return L"/card/other/ZBin/Config/WALKMAN";
-  else return L"/usb/other/ZBin/Config/WALKMAN";
-}
-*/
 void FreeViz(WALKMAN_Function* Data)
 {
-  if(Data->m_smilgc!=NULL)
+  if(Data->m_smilgc != NULL)
   {
     Data->m_smilgc = NULL;
     GVI_Delete_GVI_Object( &Data->m_br );
@@ -484,8 +545,12 @@ void BootViz(WALKMAN_Function* Data)
   if(GetChecked()==ITEM_VIZ)
   {    
     snwprintf(Data->VizName, MAXELEMS(Data->VizName), L"%d_Viz.png", GetSkinID());
-    ImageID_Get( L"/card/other/ZBin/Config/WALKMAN/Viz", Data->VizName, &Data->VizImageID );
+    ImageID_Get( VIZ_CONFIG_PATH, Data->VizName, &Data->VizImageID );
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    Data->gcmem_xsize = dll_GetImageWidth( Data->VizImageID );
+#else
     Data->gcmem_xsize = GetImageWidth( Data->VizImageID );
+#endif
     Data->gc = get_DisplayGC();
     Data->UpdateTime = 200;
   }
@@ -496,25 +561,14 @@ void BootViz(WALKMAN_Function* Data)
 }
 
 extern "C"
-int New_MUSIC_APP_ON_ENTER_PAGE_HOOK(void* data, BOOK* book)
+int New_pg_MusicApplication_Main_EnterAction(void* data, BOOK* book)
 {
-  if(Default_MUSIC_APP_ON_ENTER_PAGE(data, book))
+  if(pg_MusicApplication_Main_EnterAction(data, book))
   {
     onfTimer(NULL,NULL);
   }
   return 1;  
 }
-/*
-extern "C"
-int New_MUSIC_APP_ON_EXIT_PAGE_HOOK(void* mess, BOOK* pMusicBook)
-{
-  if(Default_MUSIC_APP_ON_ENTER_PAGE(mess, pMusicBook))
-  {
-    onfTimer(NULL,NULL);
-  }
-  return 1;  
-}
-*/
 
 TEXTID Info_Str()
 {
@@ -529,31 +583,25 @@ TEXTID Info_Viz()
 }
 
 extern "C"
-void SetNewSoftkey(GUI* mp_gui)
+void New_SoftKeys(BOOK* book)
 {
-  GUIObject_SoftKeys_SetItemAsSubItem(mp_gui, ACTION_MP_SETTINGS, ACTION_MP_SKINEDITOR);
-  GUIObject_SoftKeys_SetActionAndText(mp_gui, ACTION_MP_SKINEDITOR, Enter_WalkmanSkinEditor, TEXT_SKINS);
-  GUIObject_SoftKeys_SetInfoText(mp_gui, ACTION_MP_SKINEDITOR, Info_Str());
-  MediaPlayer_SoftKeys_SetItemAsSubItem(mp_gui,ACTION_MP_SETTINGS, ACTION_MP_SKINEDITOR);
-  MediaPlayer_SoftKeys_SetAction(mp_gui, ACTION_MP_SKINEDITOR, Enter_WalkmanSkinEditor);
-  MediaPlayer_SoftKeys_SetText(mp_gui, ACTION_MP_SKINEDITOR, TEXT_SKINS);
-  MediaPlayer_SoftKeys_SetInfoText(mp_gui, ACTION_MP_SKINEDITOR, Info_Str());
+  MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
+  
+  GUIObject_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_SKINEDITOR);
+  GUIObject_SoftKeys_SetActionAndText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, Enter_WalkmanSkinEditor, TEXT_SKINS);
+  GUIObject_SoftKeys_SetInfoText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, Info_Str());
+  MediaPlayer_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying,ACTION_MP_SETTINGS, ACTION_MP_SKINEDITOR);
+  MediaPlayer_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, Enter_WalkmanSkinEditor);
+  MediaPlayer_SoftKeys_SetText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, TEXT_SKINS);
+  MediaPlayer_SoftKeys_SetInfoText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, Info_Str());
 /* -------------------------------------------------------------------------------------*/  
-  GUIObject_SoftKeys_SetItemAsSubItem(mp_gui, ACTION_MP_SETTINGS, ACTION_MP_VISUALISATION);
-  GUIObject_SoftKeys_SetActionAndText(mp_gui, ACTION_MP_VISUALISATION, Enter_VizSelector, TEXT_VISUALISATIONS);
-  GUIObject_SoftKeys_SetInfoText(mp_gui, ACTION_MP_VISUALISATION, Info_Viz());
-  MediaPlayer_SoftKeys_SetItemAsSubItem(mp_gui, ACTION_MP_SETTINGS, ACTION_MP_VISUALISATION);
-  MediaPlayer_SoftKeys_SetAction(mp_gui, ACTION_MP_VISUALISATION, Enter_VizSelector);
-  MediaPlayer_SoftKeys_SetText(mp_gui, ACTION_MP_VISUALISATION, TEXT_VISUALISATIONS);
-  MediaPlayer_SoftKeys_SetInfoText(mp_gui, ACTION_MP_VISUALISATION, Info_Viz());
-
-/* -------------------------------------------------------------------------------------
-  GUIObject_SoftKeys_SetItemAsSubItem(mp_gui,ACTION_MP_SETTINGS,0x15);
-  GUIObject_SoftKeys_SetActionAndText(mp_gui,0x15,New_Action_Test,STR("TEST"));
-  MediaPlayer_SoftKeys_SetItemAsSubItem(mp_gui,ACTION_MP_SETTINGS,0x15);
-  MediaPlayer_SoftKeys_SetAction(mp_gui,0x15,New_Action_Test);
-  MediaPlayer_SoftKeys_SetText(mp_gui,0x15,STR("TEST"));
-*/
+  GUIObject_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_VISUALISATION);
+  GUIObject_SoftKeys_SetActionAndText(MusicBook->Gui_NowPlaying, ACTION_MP_VISUALISATION, Enter_VizSelector, TEXT_VISUALISATIONS);
+  GUIObject_SoftKeys_SetInfoText(MusicBook->Gui_NowPlaying, ACTION_MP_VISUALISATION, Info_Viz());
+  MediaPlayer_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_VISUALISATION);
+  MediaPlayer_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_VISUALISATION, Enter_VizSelector);
+  MediaPlayer_SoftKeys_SetText(MusicBook->Gui_NowPlaying, ACTION_MP_VISUALISATION, TEXT_VISUALISATIONS);
+  MediaPlayer_SoftKeys_SetInfoText(MusicBook->Gui_NowPlaying, ACTION_MP_VISUALISATION, Info_Viz());
 }
 
 int synchsafeToNormal(char tagSize[4])
@@ -611,7 +659,11 @@ void GetCoverExist(WALKMAN_Function* Data)
       ImageID_Free(Data->CoverArtID);
       Data->CoverArtID = NULL;
   }
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  Data->CoverArtID = dll_MetaData_GetCover(Data->fullpath);
+#else
   Data->CoverArtID = MetaData_GetCover(Data->fullpath);
+#endif
 }
 
 void GetCoverNotExist(WALKMAN_Function* Data)
@@ -623,195 +675,100 @@ void GetCoverNotExist(WALKMAN_Function* Data)
   }
   Data->CoverArtID = Data->ImageID[2].ImageID;
 }
-/*
-wchar_t* GetType_str(int cover_type)
-{
-  if (cover_type <= 3)
-  {
-    switch(cover_type)
-    {
-    case TMusicServer_AlbumArt_ImageType_Jpeg: return L"jpg";
-    case TMusicServer_AlbumArt_ImageType_Gif: return L"gif";
-    case TMusicServer_AlbumArt_ImageType_Png: return L"png";
-    case TMusicServer_AlbumArt_ImageType_Bmp: return L"bmp";
-    }
-    return NULL;
-  }
-  return NULL;
-}
-
-void GetCover( wchar_t* ImageID, wchar_t* fullpath, int CoverSize, int CoverOffset, char cover_type)
-{
-  int file;
-  if ((file = w_fopen(fullpath, WA_Read, 0x1FF, 0)))
-  {
-    if (w_lseek(file,CoverOffset,WSEEK_SET))
-    {
-      char* CoverBuff = (char*)malloc(CoverSize+1);
-      memset(CoverBuff, NULL, CoverSize+1);
-      w_fread(file,CoverBuff,CoverSize);
-      ImageID_GetIndirect(CoverBuff,CoverSize,0,GetType_str(cover_type),&*ImageID);
-    }
-    w_fclose(file);
-  } 
-}
-*/
-bool isTagEmpty (wchar_t *tag)
-{
-  if (tag[0] == NULL) return TRUE;
-  return FALSE;
-}
 
 void GetTrackData( UI_MEDIAPLAYER_NEW_TRACK_DATA* Track_Data, MusicApplication_Book* MusicBook )
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   
-  //Data->IsLoop = Book_Data->Settings.Loop;
-  //Data->IsShuffle = Book_Data->Settings.Random;
-  MusicBook->pMusicServer->GetSettings_Boolean( TMusicServerSetting_Loop, &Data->IsLoop );
-  MusicBook->pMusicServer->GetSettings_Boolean( TMusicServerSetting_Random, &Data->IsShuffle );
-  
   Data->FullTime = (Track_Data->FullTime.hours*3600)+(Track_Data->FullTime.minutes*60)+Track_Data->FullTime.seconds;
-  Data->FullTimeSeconds = Data->FullTime % 60;
-  Data->TempTimeData = Data->FullTime - Data->FullTimeSeconds;
-  Data->FullTimeMinutes = (Data->TempTimeData/60)%60;  
-  
   Data->ElapsedTime = (Track_Data->ElapsedTime.hours*3600)+(Track_Data->ElapsedTime.minutes*60)+Track_Data->ElapsedTime.seconds;
-  Data->ElapsedTimeSeconds = Data->ElapsedTime % 60;
-  Data->TempTimeData = Data->ElapsedTime - Data->ElapsedTimeSeconds;
-  Data->ElapsedTimeMinutes = (Data->TempTimeData/60)%60;  
-  //
-  //Book_Data->pMusicServer->GetFilename(Track_Data->track_id,128, Data->fullpath);
-  //Book_Data->pMusicServer->GetItem(Track_Data->track_id,128,Data->artist,Data->album,Data->title);
+
+  wchar_t artist[MUSIC_SERVER_MAX_URI_LENGTH];
+  wchar_t album[MUSIC_SERVER_MAX_URI_LENGTH];
+  wchar_t title[MUSIC_SERVER_MAX_URI_LENGTH];
+  TMusicServer_Time Playlength;
+  TMusicServer_Time ResumePosition;
+  bool IsRealMediaFile;
   
-  //TMusicServer_Time pPlaylength, pResumePosition;
-  //TBool pContainsAlbumart, pIsRealMediaFile;
-  //Data->CurrentTrackID = Track_Data->track_id;
+  MusicBook->pMusicServer->GetFocusedItem(Track_Data->track_id, 
+                                          MUSIC_SERVER_MAX_URI_LENGTH, 
+                                          artist, 
+                                          album, 
+                                          title, 
+                                          Data->fullpath,
+                                          &Playlength, 
+                                          &ResumePosition, 
+                                          &Data->ContainsAlbumart, 
+                                          &IsRealMediaFile );
+
+  wstrcpy(Data->tempFullPath, Data->fullpath);
   
-  MusicBook->pMusicServer->GetFocusedItem(Track_Data->track_id, MUSIC_SERVER_MAX_URI_LENGTH, Data->artist, Data->album, Data->title, Data->fullpath,&Data->Playlength, &Data->ResumePosition, &Data->ContainsAlbumart, &Data->IsRealMediaFile);
-  wstrcpy(Data->tempFullPath,Data->fullpath);
+  if(Data->ContainsAlbumart) GetCoverExist(Data);
+  else GetCoverNotExist(Data);
   
-  if(isTagEmpty(Data->artist)) wstrcpy(Data->artist,L"Unknown Artist");  
-  if(isTagEmpty(Data->album)) wstrcpy(Data->album,L"Unknown Album");  
-  
-  //Book_Data->pMusicServer->GetTrackFullpath(Track_Data->track_id, 128, Data->fullpath);
-  //if(!MetaData_Desc_GetCoverInfo(MetaData_Desc,&Data->pImageType,&Data->Size, &Data->Offset))
-  
-  //IMAGEID image_id = ;
-  
-  if(Data->ContainsAlbumart) //image_id==NOIMAGE
-  {
-    //Data->IsAlbumArt = TRUE;
-    //Book_Data->pMusicServer->GetTrackFullpath(Track_Data->track_id, 128, Data->fullpath);
-    GetCoverExist(Data);
-  }
-  else
-  {
-    //Data->IsAlbumArt = FALSE;
-    //Book_Data->pMusicServer->GetTrackFullpath(Track_Data->track_id, 128, Data->fullpath);
-    GetCoverNotExist(Data);
-  }
-  
-  //Book_Data->pMusicServer->GetTrackFullpath(Track_Data->track_id, 128, Data->fullpath);
   Data->Bitrate = GetTrackBitrate(Data->fullpath, Data->FullTime);
   
-  Data->CurrentTrackNumber =  Track_Data->track_id+1;
-  Data->TotalTrackNumber = MusicBook->tracks_count;
-  
-  wstrcpy(Data->ext,MusicBook->sub_exec->file_item->extension);
-  wstrnupr(Data->ext, wstrlen(Data->ext));
-  
-  /*
-  wstrnupr( Data->fullpath, wstrlen( Data->fullpath ));
-  char* tmpext = new char[wstrlen(Data->fullpath)+1];
-  wchar_t* wtmpext = new wchar_t[(wstrlen(Data->fullpath))*2+1];
-  wstr2strn(tmpext,Data->fullpath,wstrlen(Data->fullpath));
+  char* tmpext = StringAlloc(wstrlen(Data->tempFullPath)+1);
+  wchar_t* wtmpext = WStringAlloc((wstrlen(Data->tempFullPath)+1)*2);
+  wstr2strn(tmpext, Data->tempFullPath, wstrlen(Data->tempFullPath));
   {
     Data->ext[0] = tmpext[strlen(tmpext)-3];
     Data->ext[1] = tmpext[strlen(tmpext)-2];
     Data->ext[2] = tmpext[strlen(tmpext)-1];
-    delete tmpext;
-    delete wtmpext;
-    tmpext=0;
-    wtmpext=0;
+    StringFree(tmpext);
+    WStringFree(wtmpext);
   }
-  */
+  wstrnupr( Data->ext, wstrlen( Data->ext ));
   
-  //wstrcpy(Data->genre,MetaData_GetGenre(Data->fullpath));
-  //wchar_t* name = wstrrchr(Data->fullpath, '/');
-  //*name = NULL;
-  //METADATA_DESC* MetaData_Desc = (METADATA_DESC*)MetaData_Desc_Create(Data->fullpath,name+1);
-  //wstrcpy(Data->genre,MetaData_Desc_GetTags(MetaData_Desc,TMetadataTagId_Genre));
-  //MetaData_Desc_Destroy(MetaData_Desc);
-  //MetaData_GetGenre(Data, Data->tempFullPath);
-  
-  wchar_t* name = wstrrchr(Data->tempFullPath, '/');
-  *name = 0;
-  wchar_t* genre = MetaData_GetTags(Data->tempFullPath,name+1,TMetadataTagId_Genre);
+  wchar_t* fname = wstrrchr(Data->tempFullPath, '/');
+  *fname = 0;
+  wchar_t *genre = MetaData_GetTags(Data->tempFullPath, fname+1, TMetadataTagId_Genre);
   if(genre)
   {
     wstrcpy(Data->genre,genre);
     mfree(genre);
   }
-  else wstrcpy(Data->genre,L"");
+  else wstrcpy(Data->genre, L"");  
 }
 
 extern "C"
-void New_ON_NEW_TRACK( void* data, BOOK* book )
+int New_ON_NEW_TRACK( void* data, BOOK* book )
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
   UI_MEDIAPLAYER_NEW_TRACK_DATA* Track_Data =  (UI_MEDIAPLAYER_NEW_TRACK_DATA*)data;
-   
-  DefaultOnNewTrack(Track_Data, MusicBook);
+
   GetTrackData(Track_Data, MusicBook);
   
   GetLoopState(Data);
+  GetShuffleState(Data);
   GetEqPreset(Data);
   GetMediaPlayerState(Data);
 
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
+  
+  return DefaultOnNewTrack(Track_Data, MusicBook);
 }
 
 extern "C"
-void New_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT( void* data, BOOK* book )
+int New_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT( void* audio_data, BOOK* book )
 {
   MusicApplication_Book* MusicBook = (MusicApplication_Book*) book;
-  UI_MEDIAPLAYER_AUDIO_PLAYING_TIME* TimeData = (UI_MEDIAPLAYER_AUDIO_PLAYING_TIME*) data;
+  UI_MEDIAPLAYER_AUDIO_PLAYING_TIME* TimeData = (UI_MEDIAPLAYER_AUDIO_PLAYING_TIME*) audio_data;
   
   WALKMAN_Function* Data = Get_WALKMAN_Function();
-  //Data->MusicBook = MusicBook;
-    
-  Data->ElapsedTime = (TimeData->ElapsedTime.hours*3600)+(TimeData->ElapsedTime.minutes*60)+TimeData->ElapsedTime.seconds;
-  Data->ElapsedTimeSeconds = Data->ElapsedTime % 60;
-  Data->TempTimeData = Data->ElapsedTime - Data->ElapsedTimeSeconds;
-  Data->ElapsedTimeMinutes = (Data->TempTimeData/60)%60;  
-  
-  //MusicApplication_Book* Book_Data = (MusicApplication_Book*)pMusicBook;
-  //Data->IsLoop = Book_Data->Settings.Loop;
-  //Data->IsShuffle = Book_Data->Settings.Random;
-  MusicBook->pMusicServer->GetSettings_Boolean( TMusicServerSetting_Loop, &Data->IsLoop );
-  MusicBook->pMusicServer->GetSettings_Boolean( TMusicServerSetting_Random, &Data->IsShuffle );
-  
-  wstrcpy(Data->ext,MusicBook->sub_exec->file_item->extension);
-  wstrnupr(Data->ext, wstrlen(Data->ext));
-  
-  //GetLoopState(Data);
+
+  Data->ElapsedTime = (TimeData->ElapsedTime.hours*3600)+(TimeData->ElapsedTime.minutes*60)+TimeData->ElapsedTime.seconds; 
+
+  GetLoopState(Data);
+  GetShuffleState(Data);
   GetEqPreset(Data);
   GetMediaPlayerState(Data);
 
-  Default_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT(TimeData,MusicBook);
-  
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
+  
+  return Default_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT(TimeData,MusicBook);
 }
-
-/*
-extern "C"
-void New_PATCH_UI_MEDIAPLAYER_CREATED_EVENT(void *mess, BOOK *bk)
-{
-  Default_PATCH_UI_MEDIAPLAYER_CREATED_EVENT(mess, bk);
-}
-*/
 
 void DrawProgressBar( WALKMAN_Function* Data, int value, int max_value, RECT rect, int Bcolor, int Ecolor )
 {	
@@ -829,7 +786,6 @@ void DrawProgressBar( WALKMAN_Function* Data, int value, int max_value, RECT rec
   if(wid>=241) DrawIcon( Data->ImageID[33].ImageID, rect.x1, rect.y1 );		
 }
 
-
 void WaitingForPlayer (u16 timerID , void* )
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
@@ -844,7 +800,6 @@ void WaitingForPlayer (u16 timerID , void* )
     Timer_ReSet(&Data->WaitingTimer, 1000, MKTIMERPROC(WaitingForPlayer), 0); 
   }
 }
-
 
 void onfTimer (u16 timerID, void* )
 {
@@ -862,24 +817,25 @@ void onfTimer (u16 timerID, void* )
   }
 }
 
-void SetEnabled(MyBOOK* book, GUI* gui)
+void SetEnabled(BOOK* book, GUI* gui)
 {
-  if(book->Str_Enable)
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  if(mbk->Str_Enable)
   {
-    book->Str_Enable = FALSE;
+    mbk->Str_Enable = FALSE;
     ListMenu_SetItemSecondLineText( gui, 0, TEXT_NO );
   }
   else
   {
-    book->Str_Enable = TRUE;
+    mbk->Str_Enable = TRUE;
     ListMenu_SetItemSecondLineText( gui, 0, TEXT_YES );
   }
-  book->ChangeMade = TRUE;
+  mbk->ChangeMade = TRUE;
 }
 
 int onIconEditorMessage( GUI_MESSAGE* msg )
 {
-  MyBOOK* book = (MyBOOK*)GUIonMessage_GetBook(msg);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)GUIonMessage_GetBook(msg);
   switch( GUIonMessage_GetMsg(msg) )
   {
   case LISTMSG_GetItem:
@@ -887,7 +843,7 @@ int onIconEditorMessage( GUI_MESSAGE* msg )
     if (item == 0) 
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_DISABLED );
-      if(book->Str_Enable)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_YES );
+      if(mbk->Str_Enable)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_YES );
       else 
       {
         GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_NO );
@@ -898,27 +854,27 @@ int onIconEditorMessage( GUI_MESSAGE* msg )
       GUIonMessage_SetMenuItemText( msg, TEXT_POSITION );
       TEXTID SID[7];
       TEXTID TempSID = TextID_Create(", ",ENC_GSM,2);
-      SID[0] = TextID_CreateIntegerID(book->Str_x1);
+      SID[0] = TextID_CreateIntegerID(mbk->Str_x1);
       SID[1] = TempSID;
-      SID[2] = TextID_CreateIntegerID(book->Str_y1);
+      SID[2] = TextID_CreateIntegerID(mbk->Str_y1);
       SID[3] = TempSID;
-      SID[4] = TextID_CreateIntegerID(book->Str_x2);
+      SID[4] = TextID_CreateIntegerID(mbk->Str_x2);
       SID[5] = TempSID;
-      SID[6] = TextID_CreateIntegerID(book->Str_y2);
+      SID[6] = TextID_CreateIntegerID(mbk->Str_y2);
       TEXTID IDSID = TextID_Create(SID,ENC_TEXTID,7);
       GUIonMessage_SetMenuItemSecondLineText( msg, IDSID );
     }
     if (item == 2)  
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_BACKGROUND_COLOR );
-      snwprintf( book->buffer, MAXELEMS(book->buffer), L"%X, %X, %X, %X", COLOR_GET_R(book->Str_Color),COLOR_GET_G(book->Str_Color),COLOR_GET_B(book->Str_Color),COLOR_GET_A(book->Str_Color) );
-      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(book->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
+      snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color),COLOR_GET_G(mbk->Str_Color),COLOR_GET_B(mbk->Str_Color),COLOR_GET_A(mbk->Str_Color) );
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(mbk->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
     }
     if (item == 3)  
     {
       GUIonMessage_SetMenuItemText( msg, STR(TXT_ELAPSED_BAR_COLOR) );
-      snwprintf( book->buffer, MAXELEMS(book->buffer), L"%X, %X, %X, %X", COLOR_GET_R(book->Str_Color_2),COLOR_GET_G(book->Str_Color_2),COLOR_GET_B(book->Str_Color_2),COLOR_GET_A(book->Str_Color_2) );
-      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(book->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
+      snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color_2),COLOR_GET_G(mbk->Str_Color_2),COLOR_GET_B(mbk->Str_Color_2),COLOR_GET_A(mbk->Str_Color_2) );
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(mbk->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
     }
   }
   return 1;
@@ -926,22 +882,22 @@ int onIconEditorMessage( GUI_MESSAGE* msg )
 
 void OnIconEditorBackGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   LoadTempDataToBookHeader(mbk, mbk->ItemID);
   FREE_GUI(mbk->IconEdit);
 }
 
 void OnIconEditorSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   int item=ListMenu_GetSelectedItem(mbk->IconEdit);
   if(item==0) SetEnabled(mbk, mbk->IconEdit);
-  if(item==1) CreateEditCoordinatesGUI(mbk, 0);
+  if(item==1) Create_GUI_EditCoordinates(mbk, 0);
 }
 
 void CreateIconEditorGUI(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   mbk->IconEdit = CreateListMenu( mbk, UIDisplay_Main );
   GUIObject_SetTitleText( mbk->IconEdit, TextID_Create(mbk->Title_Str,ENC_UCS2,TEXTID_ANY_LEN) );
   GUIObject_SetTitleType( mbk->IconEdit, UI_TitleMode_Small );
@@ -957,21 +913,21 @@ void CreateIconEditorGUI(BOOK* book)
 
 void DestroyOOM( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  FREE_GUI(mbk->Align_oom_menu);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  FREE_GUI(mbk->Alignment);
 }  
 
 void oom_onEnter(  BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  mbk->Str_Align = OneOfMany_GetSelected(mbk->Align_oom_menu);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  mbk->Str_Align = OneOfMany_GetSelected(mbk->Alignment);
   
   if(mbk->Str_Align==UITextAlignment_Left) ListMenu_SetItemSecondLineText( mbk->StringEdit, 2, TEXT_LEFT );
   else if(mbk->Str_Align==UITextAlignment_Right) ListMenu_SetItemSecondLineText( mbk->StringEdit, 2, TEXT_RIGHT );
   else if(mbk->Str_Align==UITextAlignment_Center) ListMenu_SetItemSecondLineText( mbk->StringEdit, 2, STR(TXT_CENTER) );
   
   mbk->ChangeMade = TRUE;
-  FREE_GUI(mbk->Align_oom_menu);
+  FREE_GUI(mbk->Alignment);
 }
 
 int oom_callback(GUI_MESSAGE* msg)
@@ -991,20 +947,20 @@ int oom_callback(GUI_MESSAGE* msg)
 
 void CreateOOMList(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  mbk->Align_oom_menu = CreateOneOfMany(mbk);
-  GUIObject_SetTitleText(mbk->Align_oom_menu,TEXT_ALIGN);
-  OneOfMany_SetItemCount(mbk->Align_oom_menu,3);
-  OneOfMany_SetOnMessage(mbk->Align_oom_menu,oom_callback);
-  OneOfMany_SetChecked(mbk->Align_oom_menu,mbk->Str_Align);
-  GUIObject_SoftKeys_SetAction(mbk->Align_oom_menu,ACTION_BACK,DestroyOOM);
-  GUIObject_SoftKeys_SetAction(mbk->Align_oom_menu,ACTION_SELECT1,oom_onEnter);
-  GUIObject_Show(mbk->Align_oom_menu);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  mbk->Alignment = CreateOneOfMany(mbk);
+  GUIObject_SetTitleText(mbk->Alignment,TEXT_ALIGN);
+  OneOfMany_SetItemCount(mbk->Alignment,3);
+  OneOfMany_SetOnMessage(mbk->Alignment,oom_callback);
+  OneOfMany_SetChecked(mbk->Alignment,mbk->Str_Align);
+  GUIObject_SoftKeys_SetAction(mbk->Alignment,ACTION_BACK,DestroyOOM);
+  GUIObject_SoftKeys_SetAction(mbk->Alignment,ACTION_SELECT1,oom_onEnter);
+  GUIObject_Show(mbk->Alignment);
 }
 
 int onStringEditorMessage( GUI_MESSAGE* msg )
 {
-  MyBOOK* book = (MyBOOK*)GUIonMessage_GetBook(msg);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)GUIonMessage_GetBook(msg);
   switch( GUIonMessage_GetMsg(msg) )
   {
   case LISTMSG_GetItem:
@@ -1012,7 +968,7 @@ int onStringEditorMessage( GUI_MESSAGE* msg )
     if (item == 0) 
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_ENABLED );
-      if(book->Str_Enable)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_YES );
+      if(mbk->Str_Enable)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_YES );
       else 
       {
         GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_NO );
@@ -1021,26 +977,47 @@ int onStringEditorMessage( GUI_MESSAGE* msg )
     if (item == 1)  
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_POSITION );
-      snwprintf( book->buffer, MAXELEMS(book->buffer), L"X: %d, Y: %d, Width: %d",book->Str_x1,book->Str_y1,book->Str_x2-book->Str_x1);
-      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(book->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
+      snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"X: %d, Y: %d, Width: %d",mbk->Str_x1,mbk->Str_y1,mbk->Str_x2-mbk->Str_x1);
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(mbk->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
     }
     if (item == 2)  
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_ALIGN );
-      if(book->Str_Align==UITextAlignment_Left)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_LEFT );
-      else if(book->Str_Align==UITextAlignment_Right)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_RIGHT );
-      else if(book->Str_Align==UITextAlignment_Center)GUIonMessage_SetMenuItemSecondLineText( msg, STR(TXT_CENTER) ); 
+      if(mbk->Str_Align==UITextAlignment_Left)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_LEFT );
+      else if(mbk->Str_Align==UITextAlignment_Right)GUIonMessage_SetMenuItemSecondLineText( msg, TEXT_RIGHT );
+      else if(mbk->Str_Align==UITextAlignment_Center)GUIonMessage_SetMenuItemSecondLineText( msg, STR(TXT_CENTER) ); 
     }
     if (item == 3)
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_FONT_SIZE );
-      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(Font_GetNameByFontId( book->Str_Font_Size ),ENC_UCS2,TEXTID_ANY_LEN) );
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+      int Style = mbk->Str_Font_Size>>8;
+      if (Style == Font_Normal)
+      {
+        snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"FONT_%d_R",mbk->Str_Font_Size);///< normal
+      }
+      else if (Style == Font_Bold)
+      {
+        snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"FONT_%d_B",mbk->Str_Font_Size&0xFF);///< bold
+      }
+      else if (Style == Font_Italic)
+      {
+        snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"FONT_%d_I",mbk->Str_Font_Size&0xFF);///< italic
+      }
+      else if (Style == Font_BoldItalic)
+      {
+        snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"FONT_%d_B_I",mbk->Str_Font_Size&0xFF);///< bold italic
+      }
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(mbk->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
+#else
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(GetFontNameByFontId( mbk->Str_Font_Size ),ENC_UCS2,TEXTID_ANY_LEN) );
+#endif
     }
     if (item == 4)  
     {
       GUIonMessage_SetMenuItemText( msg, TEXT_TEXT_COLOR );  
-      snwprintf( book->buffer, MAXELEMS(book->buffer), L"%X, %X, %X, %X", COLOR_GET_R(book->Str_Color),COLOR_GET_G(book->Str_Color),COLOR_GET_B(book->Str_Color),COLOR_GET_A(book->Str_Color) );
-      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(book->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
+      snwprintf( mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color),COLOR_GET_G(mbk->Str_Color),COLOR_GET_B(mbk->Str_Color),COLOR_GET_A(mbk->Str_Color) );
+      GUIonMessage_SetMenuItemSecondLineText( msg, TextID_Create(mbk->buffer,ENC_UCS2,TEXTID_ANY_LEN) );
     }
   }
   return TRUE;
@@ -1048,14 +1025,14 @@ int onStringEditorMessage( GUI_MESSAGE* msg )
 
 void OnStringEditorBackGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   LoadTempDataToBookHeader(mbk, mbk->ItemID);
   FREE_GUI(mbk->StringEdit);
 }
 
 void OnStringEditorSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   int item = ListMenu_GetSelectedItem(mbk->StringEdit);
   if(item==0) SetEnabled(mbk, mbk->StringEdit);
@@ -1064,22 +1041,22 @@ void OnStringEditorSelectGui( BOOK* book, GUI* gui )
     mbk->IsBbar = FALSE;
     mbk->IsFbar = FALSE;
     mbk->IsString = TRUE;
-    CreateEditCoordinatesGUI(mbk, 1);
+    Create_GUI_EditCoordinates(mbk, 1);
   }
   if(item==2) CreateOOMList( mbk );
-  if(item==3) CreateFontSelectGUI( mbk );
+  if(item==3) Create_GUI_SelectFont( mbk );
   if(item==4) 
   {
     mbk->IsBbar = FALSE;
     mbk->IsFbar = FALSE;
     mbk->IsString = TRUE;
-    CreateEditColorGUI( mbk, 1 );
+    Create_GUI_EditColor( mbk );
   }
 }
 
 void CreateStringEditorGUI(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   mbk->StringEdit = CreateListMenu( mbk, UIDisplay_Main );
   GUIObject_SetTitleText( mbk->StringEdit, TextID_Create(mbk->Title_Str,ENC_UCS2,TEXTID_ANY_LEN) );
   GUIObject_SetTitleType( mbk->StringEdit, UI_TitleMode_Small );
@@ -1095,7 +1072,7 @@ void CreateStringEditorGUI(BOOK* book)
 
 void OnProgressBarSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   int item = ListMenu_GetSelectedItem(mbk->ProgressBar);
   if(item==0) SetEnabled(mbk, mbk->ProgressBar);
@@ -1104,34 +1081,34 @@ void OnProgressBarSelectGui( BOOK* book, GUI* gui )
     mbk->IsBbar = TRUE;
     mbk->IsFbar = TRUE;
     mbk->IsString = FALSE;
-    CreateEditCoordinatesGUI(mbk, 1);
+    Create_GUI_EditCoordinates(mbk, 1);
   }
   if(item==2) 
   {
     mbk->IsBbar = TRUE;
     mbk->IsFbar = FALSE;
     mbk->IsString = FALSE;
-    CreateEditColorGUI( mbk, 1 );
+    Create_GUI_EditColor( mbk );
   }
   if(item==3) 
   {
     mbk->IsBbar = FALSE;
     mbk->IsFbar = TRUE;
     mbk->IsString = FALSE;
-    CreateEditColorGUI( mbk, 1 );
+    Create_GUI_EditColor( mbk );
   }
 }
 
 void OnProgressBarBackGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;  
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;  
   LoadTempDataToBookHeader(mbk, mbk->ItemID);
   FREE_GUI(mbk->ProgressBar);
 }
 
 void CreateProgressBarEditorGUI(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book; 
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book; 
   mbk->ProgressBar = CreateListMenu( mbk, UIDisplay_Main );
   GUIObject_SetTitleText( mbk->ProgressBar, TextID_Create(mbk->Title_Str,ENC_UCS2,TEXTID_ANY_LEN) );
   GUIObject_SetTitleType( mbk->ProgressBar, UI_TitleMode_Small );
@@ -1196,11 +1173,9 @@ int onLinksLBMessage( GUI_MESSAGE* msg )
   return 1;
 }
 
-
-
 int onLinksGUI( GUI_MESSAGE* msg )
 { 
-  MyBOOK* book = (MyBOOK*)GUIonMessage_GetBook( msg );
+  WalkmanSkinEditor_Book* book = (WalkmanSkinEditor_Book*)GUIonMessage_GetBook( msg );
   switch( GUIonMessage_GetMsg( msg ) )
   {
   case LISTMSG_GetItem:
@@ -1227,872 +1202,871 @@ int onLinksGUI( GUI_MESSAGE* msg )
   return 1;
 }
 
-
-void OnLinksEditorSelectGui( BOOK* bk, GUI* gui )
+void OnLinksEditorSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* book = (MyBOOK*)bk;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
-  wstrcpy(book->Title_Str,L"UNDEFINED");
-  int item = ListMenu_GetSelectedItem(book->portrait);
-  book->ItemID=item;
+  wstrcpy(mbk->Title_Str,L"UNDEFINED");
+  int item = ListMenu_GetSelectedItem(mbk->portrait);
+  mbk->ItemID = item;
   if(item==0) 
   {
     //book->ItemID=0;
-    wstrcpy(book->Title_Str,L"Title");
-    book->Str_Align=book->Title_Align;
-    book->Str_Enable=book->Title_Enable;
-    book->Str_Font_Size=book->Title_Font;
-    book->Str_Color=book->Title_Color;
-    book->Str_x1=book->Title_x1;
-    book->Str_x2=book->Title_x2;
-    book->Str_y1=book->Title_y1;
-    book->Str_y2=book->Title_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Title");
+    mbk->Str_Align = mbk->Title_Align;
+    mbk->Str_Enable = mbk->Title_Enable;
+    mbk->Str_Font_Size = mbk->Title_Font;
+    mbk->Str_Color = mbk->Title_Color;
+    mbk->Str_x1 = mbk->Title_x1;
+    mbk->Str_x2 = mbk->Title_x2;
+    mbk->Str_y1 = mbk->Title_y1;
+    mbk->Str_y2 = mbk->Title_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==1) 
   {
     //book->ItemID=1;
-    wstrcpy(book->Title_Str,L"Artist");
-    book->Str_Align=book->Artist_Align;
-    book->Str_Enable=book->Artist_Enable;
-    book->Str_Font_Size=book->Artist_Font;
-    book->Str_Color=book->Artist_Color;
-    book->Str_x1=book->Artist_x1;
-    book->Str_x2=book->Artist_x2;
-    book->Str_y1=book->Artist_y1;
-    book->Str_y2=book->Artist_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Artist");
+    mbk->Str_Align = mbk->Artist_Align;
+    mbk->Str_Enable = mbk->Artist_Enable;
+    mbk->Str_Font_Size = mbk->Artist_Font;
+    mbk->Str_Color = mbk->Artist_Color;
+    mbk->Str_x1 = mbk->Artist_x1;
+    mbk->Str_x2 = mbk->Artist_x2;
+    mbk->Str_y1 = mbk->Artist_y1;
+    mbk->Str_y2 = mbk->Artist_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==2) 
   {
     //book->ItemID=2;
-    wstrcpy(book->Title_Str,L"Album");
-    book->Str_Align=book->Album_Align;
-    book->Str_Enable=book->Album_Enable;
-    book->Str_Font_Size=book->Album_Font;
-    book->Str_Color=book->Album_Color;
-    book->Str_x1=book->Album_x1;
-    book->Str_x2=book->Album_x2;
-    book->Str_y1=book->Album_y1;
-    book->Str_y2=book->Album_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Album");
+    mbk->Str_Align = mbk->Album_Align;
+    mbk->Str_Enable = mbk->Album_Enable;
+    mbk->Str_Font_Size = mbk->Album_Font;
+    mbk->Str_Color = mbk->Album_Color;
+    mbk->Str_x1 = mbk->Album_x1;
+    mbk->Str_x2 = mbk->Album_x2;
+    mbk->Str_y1 = mbk->Album_y1;
+    mbk->Str_y2 = mbk->Album_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==3) 
   {
     //book->ItemID=3;
-    wstrcpy(book->Title_Str,L"Genre");
-    book->Str_Align=book->Genre_Align;
-    book->Str_Enable=book->Genre_Enable;
-    book->Str_Font_Size=book->Genre_Font;
-    book->Str_Color=book->Genre_Color;
-    book->Str_x1=book->Genre_x1;
-    book->Str_x2=book->Genre_x2;
-    book->Str_y1=book->Genre_y1;
-    book->Str_y2=book->Genre_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Genre");
+    mbk->Str_Align=mbk->Genre_Align;
+    mbk->Str_Enable=mbk->Genre_Enable;
+    mbk->Str_Font_Size=mbk->Genre_Font;
+    mbk->Str_Color=mbk->Genre_Color;
+    mbk->Str_x1=mbk->Genre_x1;
+    mbk->Str_x2=mbk->Genre_x2;
+    mbk->Str_y1=mbk->Genre_y1;
+    mbk->Str_y2=mbk->Genre_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==4) 
   {
     //book->ItemID=4;
-    wstrcpy(book->Title_Str,L"Total Time");
-    book->Str_Align=book->TotalTime_Align;
-    book->Str_Enable=book->TotalTime_Enable;
-    book->Str_Font_Size=book->TotalTime_Font;
-    book->Str_Color=book->TotalTime_Color;
-    book->Str_x1=book->TotalTime_x1;
-    book->Str_x2=book->TotalTime_x2;
-    book->Str_y1=book->TotalTime_y1;
-    book->Str_y2=book->TotalTime_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Total Time");
+    mbk->Str_Align=mbk->TotalTime_Align;
+    mbk->Str_Enable=mbk->TotalTime_Enable;
+    mbk->Str_Font_Size=mbk->TotalTime_Font;
+    mbk->Str_Color=mbk->TotalTime_Color;
+    mbk->Str_x1=mbk->TotalTime_x1;
+    mbk->Str_x2=mbk->TotalTime_x2;
+    mbk->Str_y1=mbk->TotalTime_y1;
+    mbk->Str_y2=mbk->TotalTime_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==5) 
   {
     //book->ItemID=5;
-    wstrcpy(book->Title_Str,L"Elapsed Time");
-    book->Str_Align=book->ElapsedTime_Align;
-    book->Str_Enable=book->ElapsedTime_Enable;
-    book->Str_Font_Size=book->ElapsedTime_Font;
-    book->Str_Color=book->ElapsedTime_Color;
-    book->Str_x1=book->ElapsedTime_x1;
-    book->Str_x2=book->ElapsedTime_x2;
-    book->Str_y1=book->ElapsedTime_y1;
-    book->Str_y2=book->ElapsedTime_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Elapsed Time");
+    mbk->Str_Align=mbk->ElapsedTime_Align;
+    mbk->Str_Enable=mbk->ElapsedTime_Enable;
+    mbk->Str_Font_Size=mbk->ElapsedTime_Font;
+    mbk->Str_Color=mbk->ElapsedTime_Color;
+    mbk->Str_x1=mbk->ElapsedTime_x1;
+    mbk->Str_x2=mbk->ElapsedTime_x2;
+    mbk->Str_y1=mbk->ElapsedTime_y1;
+    mbk->Str_y2=mbk->ElapsedTime_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==6) 
   {
     //book->ItemID=6;
-    wstrcpy(book->Title_Str,L"Remaining Time");
-    book->Str_Align=book->RemainingTime_Align;
-    book->Str_Enable=book->RemainingTime_Enable;
-    book->Str_Font_Size=book->RemainingTime_Font;
-    book->Str_Color=book->RemainingTime_Color;
-    book->Str_x1=book->RemainingTime_x1;
-    book->Str_x2=book->RemainingTime_x2;
-    book->Str_y1=book->RemainingTime_y1;
-    book->Str_y2=book->RemainingTime_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Remaining Time");
+    mbk->Str_Align=mbk->RemainingTime_Align;
+    mbk->Str_Enable=mbk->RemainingTime_Enable;
+    mbk->Str_Font_Size=mbk->RemainingTime_Font;
+    mbk->Str_Color=mbk->RemainingTime_Color;
+    mbk->Str_x1=mbk->RemainingTime_x1;
+    mbk->Str_x2=mbk->RemainingTime_x2;
+    mbk->Str_y1=mbk->RemainingTime_y1;
+    mbk->Str_y2=mbk->RemainingTime_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==7) 
   {
     //book->ItemID=7;
-    wstrcpy(book->Title_Str,L"Extension");
-    book->Str_Align=book->Extension_Align;
-    book->Str_Enable=book->Extension_Enable;
-    book->Str_Font_Size=book->Extension_Font;
-    book->Str_Color=book->Extension_Color;
-    book->Str_x1=book->Extension_x1;
-    book->Str_x2=book->Extension_x2;
-    book->Str_y1=book->Extension_y1;
-    book->Str_y2=book->Extension_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Extension");
+    mbk->Str_Align=mbk->Extension_Align;
+    mbk->Str_Enable=mbk->Extension_Enable;
+    mbk->Str_Font_Size=mbk->Extension_Font;
+    mbk->Str_Color=mbk->Extension_Color;
+    mbk->Str_x1=mbk->Extension_x1;
+    mbk->Str_x2=mbk->Extension_x2;
+    mbk->Str_y1=mbk->Extension_y1;
+    mbk->Str_y2=mbk->Extension_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==8) 
   {
     //book->ItemID=8;
-    wstrcpy(book->Title_Str,L"Bitrate");
-    book->Str_Align=book->BitRate_Align;
-    book->Str_Enable=book->BitRate_Enable;
-    book->Str_Font_Size=book->BitRate_Font;
-    book->Str_Color=book->BitRate_Color;
-    book->Str_x1=book->BitRate_x1;
-    book->Str_x2=book->BitRate_x2;
-    book->Str_y1=book->BitRate_y1;
-    book->Str_y2=book->BitRate_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Bitrate");
+    mbk->Str_Align=mbk->BitRate_Align;
+    mbk->Str_Enable=mbk->BitRate_Enable;
+    mbk->Str_Font_Size=mbk->BitRate_Font;
+    mbk->Str_Color=mbk->BitRate_Color;
+    mbk->Str_x1=mbk->BitRate_x1;
+    mbk->Str_x2=mbk->BitRate_x2;
+    mbk->Str_y1=mbk->BitRate_y1;
+    mbk->Str_y2=mbk->BitRate_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==9) 
   {
     //book->ItemID=9;
-    wstrcpy(book->Title_Str,L"Total Track");
-    book->Str_Align=book->TotalTrackID_Align;
-    book->Str_Enable=book->TotalTrackID_Enable;
-    book->Str_Font_Size=book->TotalTrackID_Font;
-    book->Str_Color=book->TotalTrackID_Color;
-    book->Str_x1=book->TotalTrackID_x1;
-    book->Str_x2=book->TotalTrackID_x2;
-    book->Str_y1=book->TotalTrackID_y1;
-    book->Str_y2=book->TotalTrackID_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Total Track");
+    mbk->Str_Align = mbk->TotalTrackID_Align;
+    mbk->Str_Enable = mbk->TotalTrackID_Enable;
+    mbk->Str_Font_Size = mbk->TotalTrackID_Font;
+    mbk->Str_Color = mbk->TotalTrackID_Color;
+    mbk->Str_x1 = mbk->TotalTrackID_x1;
+    mbk->Str_x2 = mbk->TotalTrackID_x2;
+    mbk->Str_y1 = mbk->TotalTrackID_y1;
+    mbk->Str_y2 = mbk->TotalTrackID_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==10) 
   {
     //book->ItemID=10;
-    wstrcpy(book->Title_Str,L"Current Track ID");
-    book->Str_Align=book->C_TrackID_Align;
-    book->Str_Enable=book->C_TrackID_Enable;
-    book->Str_Font_Size=book->C_TrackID_Font;
-    book->Str_Color=book->C_TrackID_Color;
-    book->Str_x1=book->C_TrackID_x1;
-    book->Str_x2=book->C_TrackID_x2;
-    book->Str_y1=book->C_TrackID_y1;
-    book->Str_y2=book->C_TrackID_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Current Track ID");
+    mbk->Str_Align = mbk->C_TrackID_Align;
+    mbk->Str_Enable = mbk->C_TrackID_Enable;
+    mbk->Str_Font_Size=mbk->C_TrackID_Font;
+    mbk->Str_Color=mbk->C_TrackID_Color;
+    mbk->Str_x1=mbk->C_TrackID_x1;
+    mbk->Str_x2=mbk->C_TrackID_x2;
+    mbk->Str_y1=mbk->C_TrackID_y1;
+    mbk->Str_y2=mbk->C_TrackID_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==11) 
   {
     //book->ItemID=11;
-    wstrcpy(book->Title_Str,L"Shuffle Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Shuffle_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Shuffle_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Shuffle_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Shuffle Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Shuffle_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Shuffle_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Shuffle_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }  
   if(item==12) 
   {
     //book->ItemID=12;
-    wstrcpy(book->Title_Str,L"Loop Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Loop_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Loop_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Loop_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Loop Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Loop_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Loop_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Loop_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }  
   if(item==13) 
   {
     //book->ItemID=13;
-    wstrcpy(book->Title_Str,L"EQ Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->EQ_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->EQ_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->EQ_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"EQ Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->EQ_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->EQ_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->EQ_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }    
   if(item==14) 
   {
     //book->ItemID=14;
-    wstrcpy(book->Title_Str,L"Player State Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->PlayerState_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->PlayerState_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->PlayerState_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Player State Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->PlayerState_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->PlayerState_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->PlayerState_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }  
   
   if(item==15) 
   {
     //book->ItemID=15;
-    wstrcpy(book->Title_Str,L"Title Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Title_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Title_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Title_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Title Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Title_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Title_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Title_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   if(item==16) 
   {
     //book->ItemID=16;
-    wstrcpy(book->Title_Str,L"Artist Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Artist_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Artist_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Artist_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Artist Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Artist_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Artist_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Artist_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   if(item==17) 
   {
     //book->ItemID=17;
-    wstrcpy(book->Title_Str,L"Album Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Album_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Album_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Album_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Album Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Album_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Album_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Album_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   
   if(item==18)
   {
     //book->ItemID=18;
-    wstrcpy(book->Title_Str,L"Wheel BG Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellBG_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellBG_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellBG_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel BG Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellBG_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellBG_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellBG_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   
   if(item==19)
   {
     //book->ItemID=19;
-    wstrcpy(book->Title_Str,L"Wheel Up Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellUP_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellUP_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellUP_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Wheel Up Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellUP_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellUP_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellUP_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   if(item==20)
   {
     //book->ItemID=20;
-    wstrcpy(book->Title_Str,L"Wheel Down Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellDOWN_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellDOWN_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellDOWN_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Down Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellDOWN_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellDOWN_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellDOWN_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==21)
   {
     //book->ItemID=21;
-    wstrcpy(book->Title_Str,L"Wheel Left Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellLEFT_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellLEFT_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellLEFT_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Left Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellLEFT_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellLEFT_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellLEFT_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==22)
   {
     //book->ItemID=22;
-    wstrcpy(book->Title_Str,L"Wheel Right Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellRIGHT_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellRIGHT_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellRIGHT_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Wheel Right Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellRIGHT_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellRIGHT_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellRIGHT_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   
   if(item==23)
   {
     //book->ItemID=23;
-    wstrcpy(book->Title_Str,L"Wheel Center Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellCENTER_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellCENTER_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellCENTER_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Wheel Center Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellCENTER_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellCENTER_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellCENTER_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   
   if (item == 24)   
   {
     //book->ItemID=24;
-    wstrcpy(book->Title_Str,L"Background Image");
-    book->Str_Align=0;
-    book->Str_Enable=book->Background_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Background_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Background_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Background Image");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Background_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Background_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Background_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   if (item == 25)   
   {
     //book->ItemID=25;
-    wstrcpy(book->Title_Str,L"Overlay Image");
-    book->Str_Align=0;
-    book->Str_Enable=book->Overlay_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Overlay_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Overlay_Image_y1;
-    book->Str_y2=0;
+    wstrcpy(mbk->Title_Str,L"Overlay Image");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Overlay_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Overlay_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Overlay_Image_y1;
+    mbk->Str_y2=0;
     CreateIconEditorGUI(book);
   }
   
   if (item == 26)
   {
     //book->ItemID=26;
-    wstrcpy(book->Title_Str,L"Progress Bar");
-    book->Str_Align=0;
-    book->Str_Enable=book->ProgressBarEnable;
-    book->Str_Font_Size=0;
-    book->Str_Color=book->PBColor;
-    book->Str_Color_2=book->PFColor;
-    book->Str_x1=book->PRect.x1;
-    book->Str_x2=book->PRect.x2;
-    book->Str_y1=book->PRect.y1;
-    book->Str_y2=book->PRect.y2;
-    CreateProgressBarEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Progress Bar");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->ProgressBarEnable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=mbk->PBColor;
+    mbk->Str_Color_2=mbk->PFColor;
+    mbk->Str_x1=mbk->PRect.x1;
+    mbk->Str_x2=mbk->PRect.x2;
+    mbk->Str_y1=mbk->PRect.y1;
+    mbk->Str_y2=mbk->PRect.y2;
+    CreateProgressBarEditorGUI(mbk);
   }
   if (item == 27)
   {
     //book->ItemID=27;
-    wstrcpy(book->Title_Str,L"Volume Bar");
-    book->Str_Align=0;
-    book->Str_Enable=book->VolumeBarEnable;
-    book->Str_Font_Size=0;
-    book->Str_Color=book->VBColor;
-    book->Str_Color_2=book->VFColor;
-    book->Str_x1=book->VRect.x1;
-    book->Str_x2=book->VRect.x2;
-    book->Str_y1=book->VRect.y1;
-    book->Str_y2=book->VRect.y2;
-    CreateProgressBarEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Volume Bar");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable = mbk->VolumeBarEnable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=mbk->VBColor;
+    mbk->Str_Color_2=mbk->VFColor;
+    mbk->Str_x1=mbk->VRect.x1;
+    mbk->Str_x2=mbk->VRect.x2;
+    mbk->Str_y1=mbk->VRect.y1;
+    mbk->Str_y2=mbk->VRect.y2;
+    CreateProgressBarEditorGUI(mbk);
   }
   if (item == 28)
   {
     //book->ItemID=28;
-    book->IsCover = TRUE;
-    book->Str_x1=book->ARect.x1;
-    book->Str_x2=book->ARect.x2;
-    book->Str_y1=book->ARect.y1;
-    book->Str_y2=book->ARect.y2;
-    CreateEditCoordinatesGUI( book, 1 );
+    mbk->IsCover = TRUE;
+    mbk->Str_x1=mbk->ARect.x1;
+    mbk->Str_x2=mbk->ARect.x2;
+    mbk->Str_y1=mbk->ARect.y1;
+    mbk->Str_y2=mbk->ARect.y2;
+    Create_GUI_EditCoordinates( mbk, 1 );
   }
   if (item == 29)
   {
     //book->ItemID=29;
-    book->IsCover = TRUE;
-    book->Str_x1=book->VRect.x1;
-    book->Str_x2=book->VRect.x2;
-    book->Str_y1=book->VRect.y1;
-    book->Str_y2=book->VRect.y2;
-    CreateEditCoordinatesGUI( book, 1 );
+    mbk->IsCover = TRUE;
+    mbk->Str_x1=mbk->VRect.x1;
+    mbk->Str_x2=mbk->VRect.x2;
+    mbk->Str_y1=mbk->VRect.y1;
+    mbk->Str_y2=mbk->VRect.y2;
+    Create_GUI_EditCoordinates( mbk, 1 );
   }
 }
 
-void OnLinksLandEditorSelectGui( BOOK* bk, GUI* gui )
+void OnLinksLandEditorSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* book = (MyBOOK*)bk;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
-  wstrcpy(book->Title_Str,L"UNDEFINED");
-  int item = ListMenu_GetSelectedItem(book->land);
-  book->ItemID=item+30;
-  if(item==0) 
+  wstrcpy(mbk->Title_Str,L"UNDEFINED");
+  int item = ListMenu_GetSelectedItem(mbk->landscape);
+  mbk->ItemID = item+30;
+  if(item == 0) 
   {
     //book->ItemID=30;
-    wstrcpy(book->Title_Str,L"Title");
-    book->Str_Align=book->Land_Title_Align;
-    book->Str_Enable=book->Land_Title_Enable;
-    book->Str_Font_Size=book->Land_Title_Font;
-    book->Str_Color=book->Land_Title_Color;
-    book->Str_x1=book->Land_Title_x1;
-    book->Str_x2=book->Land_Title_x2;
-    book->Str_y1=book->Land_Title_y1;
-    book->Str_y2=book->Land_Title_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Title");
+    mbk->Str_Align=mbk->Land_Title_Align;
+    mbk->Str_Enable=mbk->Land_Title_Enable;
+    mbk->Str_Font_Size=mbk->Land_Title_Font;
+    mbk->Str_Color=mbk->Land_Title_Color;
+    mbk->Str_x1=mbk->Land_Title_x1;
+    mbk->Str_x2=mbk->Land_Title_x2;
+    mbk->Str_y1=mbk->Land_Title_y1;
+    mbk->Str_y2=mbk->Land_Title_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==1) 
   {
     //book->ItemID=31;
-    wstrcpy(book->Title_Str,L"Artist");
-    book->Str_Align=book->Land_Artist_Align;
-    book->Str_Enable=book->Land_Artist_Enable;
-    book->Str_Font_Size=book->Land_Artist_Font;
-    book->Str_Color=book->Land_Artist_Color;
-    book->Str_x1=book->Land_Artist_x1;
-    book->Str_x2=book->Land_Artist_x2;
-    book->Str_y1=book->Land_Artist_y1;
-    book->Str_y2=book->Land_Artist_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Artist");
+    mbk->Str_Align=mbk->Land_Artist_Align;
+    mbk->Str_Enable=mbk->Land_Artist_Enable;
+    mbk->Str_Font_Size=mbk->Land_Artist_Font;
+    mbk->Str_Color=mbk->Land_Artist_Color;
+    mbk->Str_x1=mbk->Land_Artist_x1;
+    mbk->Str_x2=mbk->Land_Artist_x2;
+    mbk->Str_y1=mbk->Land_Artist_y1;
+    mbk->Str_y2=mbk->Land_Artist_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==2) 
   {
     //book->ItemID=32;
-    wstrcpy(book->Title_Str,L"Album");
-    book->Str_Align=book->Land_Album_Align;
-    book->Str_Enable=book->Land_Album_Enable;
-    book->Str_Font_Size=book->Land_Album_Font;
-    book->Str_Color=book->Land_Album_Color;
-    book->Str_x1=book->Land_Album_x1;
-    book->Str_x2=book->Land_Album_x2;
-    book->Str_y1=book->Land_Album_y1;
-    book->Str_y2=book->Land_Album_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Album");
+    mbk->Str_Align=mbk->Land_Album_Align;
+    mbk->Str_Enable=mbk->Land_Album_Enable;
+    mbk->Str_Font_Size=mbk->Land_Album_Font;
+    mbk->Str_Color=mbk->Land_Album_Color;
+    mbk->Str_x1=mbk->Land_Album_x1;
+    mbk->Str_x2=mbk->Land_Album_x2;
+    mbk->Str_y1=mbk->Land_Album_y1;
+    mbk->Str_y2=mbk->Land_Album_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==3)
   {
     //book->ItemID=33;
-    wstrcpy(book->Title_Str,L"Genre");
-    book->Str_Align=book->Land_Genre_Align;
-    book->Str_Enable=book->Land_Genre_Enable;
-    book->Str_Font_Size=book->Land_Genre_Font;
-    book->Str_Color=book->Land_Genre_Color;
-    book->Str_x1=book->Land_Genre_x1;
-    book->Str_x2=book->Land_Genre_x2;
-    book->Str_y1=book->Land_Genre_y1;
-    book->Str_y2=book->Land_Genre_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Genre");
+    mbk->Str_Align=mbk->Land_Genre_Align;
+    mbk->Str_Enable=mbk->Land_Genre_Enable;
+    mbk->Str_Font_Size=mbk->Land_Genre_Font;
+    mbk->Str_Color=mbk->Land_Genre_Color;
+    mbk->Str_x1=mbk->Land_Genre_x1;
+    mbk->Str_x2=mbk->Land_Genre_x2;
+    mbk->Str_y1=mbk->Land_Genre_y1;
+    mbk->Str_y2=mbk->Land_Genre_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==4) 
   {
     //book->ItemID=34;
-    wstrcpy(book->Title_Str,L"Total Time");
-    book->Str_Align=book->Land_TotalTime_Align;
-    book->Str_Enable=book->Land_TotalTime_Enable;
-    book->Str_Font_Size=book->Land_TotalTime_Font;
-    book->Str_Color=book->Land_TotalTime_Color;
-    book->Str_x1=book->Land_TotalTime_x1;
-    book->Str_x2=book->Land_TotalTime_x2;
-    book->Str_y1=book->Land_TotalTime_y1;
-    book->Str_y2=book->Land_TotalTime_y2;
+    wstrcpy(mbk->Title_Str,L"Total Time");
+    mbk->Str_Align=mbk->Land_TotalTime_Align;
+    mbk->Str_Enable=mbk->Land_TotalTime_Enable;
+    mbk->Str_Font_Size=mbk->Land_TotalTime_Font;
+    mbk->Str_Color=mbk->Land_TotalTime_Color;
+    mbk->Str_x1=mbk->Land_TotalTime_x1;
+    mbk->Str_x2=mbk->Land_TotalTime_x2;
+    mbk->Str_y1=mbk->Land_TotalTime_y1;
+    mbk->Str_y2=mbk->Land_TotalTime_y2;
     CreateStringEditorGUI(book);
   }
   if(item==5) 
   {
     //book->ItemID=35;
-    wstrcpy(book->Title_Str,L"Elapsed Time");
-    book->Str_Align=book->Land_ElapsedTime_Align;
-    book->Str_Enable=book->Land_ElapsedTime_Enable;
-    book->Str_Font_Size=book->Land_ElapsedTime_Font;
-    book->Str_Color=book->Land_ElapsedTime_Color;
-    book->Str_x1=book->Land_ElapsedTime_x1;
-    book->Str_x2=book->Land_ElapsedTime_x2;
-    book->Str_y1=book->Land_ElapsedTime_y1;
-    book->Str_y2=book->Land_ElapsedTime_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Elapsed Time");
+    mbk->Str_Align=mbk->Land_ElapsedTime_Align;
+    mbk->Str_Enable=mbk->Land_ElapsedTime_Enable;
+    mbk->Str_Font_Size=mbk->Land_ElapsedTime_Font;
+    mbk->Str_Color=mbk->Land_ElapsedTime_Color;
+    mbk->Str_x1=mbk->Land_ElapsedTime_x1;
+    mbk->Str_x2=mbk->Land_ElapsedTime_x2;
+    mbk->Str_y1=mbk->Land_ElapsedTime_y1;
+    mbk->Str_y2=mbk->Land_ElapsedTime_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==6) 
   {
     //book->ItemID=36;
-    wstrcpy(book->Title_Str,L"Remaining Time");
-    book->Str_Align=book->Land_RemainingTime_Align;
-    book->Str_Enable=book->Land_RemainingTime_Enable;
-    book->Str_Font_Size=book->Land_RemainingTime_Font;
-    book->Str_Color=book->Land_RemainingTime_Color;
-    book->Str_x1=book->Land_RemainingTime_x1;
-    book->Str_x2=book->Land_RemainingTime_x2;
-    book->Str_y1=book->Land_RemainingTime_y1;
-    book->Str_y2=book->Land_RemainingTime_y2;
+    wstrcpy(mbk->Title_Str,L"Remaining Time");
+    mbk->Str_Align=mbk->Land_RemainingTime_Align;
+    mbk->Str_Enable=mbk->Land_RemainingTime_Enable;
+    mbk->Str_Font_Size=mbk->Land_RemainingTime_Font;
+    mbk->Str_Color=mbk->Land_RemainingTime_Color;
+    mbk->Str_x1=mbk->Land_RemainingTime_x1;
+    mbk->Str_x2=mbk->Land_RemainingTime_x2;
+    mbk->Str_y1=mbk->Land_RemainingTime_y1;
+    mbk->Str_y2=mbk->Land_RemainingTime_y2;
     CreateStringEditorGUI(book);
   }
   if(item==7) 
   {
     //book->ItemID=37;
-    wstrcpy(book->Title_Str,L"Extension");
-    book->Str_Align=book->Land_Extension_Align;
-    book->Str_Enable=book->Land_Extension_Enable;
-    book->Str_Font_Size=book->Land_Extension_Font;
-    book->Str_Color=book->Land_Extension_Color;
-    book->Str_x1=book->Land_Extension_x1;
-    book->Str_x2=book->Land_Extension_x2;
-    book->Str_y1=book->Land_Extension_y1;
-    book->Str_y2=book->Land_Extension_y2;
+    wstrcpy(mbk->Title_Str,L"Extension");
+    mbk->Str_Align=mbk->Land_Extension_Align;
+    mbk->Str_Enable=mbk->Land_Extension_Enable;
+    mbk->Str_Font_Size=mbk->Land_Extension_Font;
+    mbk->Str_Color=mbk->Land_Extension_Color;
+    mbk->Str_x1=mbk->Land_Extension_x1;
+    mbk->Str_x2=mbk->Land_Extension_x2;
+    mbk->Str_y1=mbk->Land_Extension_y1;
+    mbk->Str_y2=mbk->Land_Extension_y2;
     CreateStringEditorGUI(book);
   }
   if(item==8) 
   {
     //book->ItemID=38;
-    wstrcpy(book->Title_Str,L"Bitrate");
-    book->Str_Align=book->Land_BitRate_Align;
-    book->Str_Enable=book->Land_BitRate_Enable;
-    book->Str_Font_Size=book->Land_BitRate_Font;
-    book->Str_Color=book->Land_BitRate_Color;
-    book->Str_x1=book->Land_BitRate_x1;
-    book->Str_x2=book->Land_BitRate_x2;
-    book->Str_y1=book->Land_BitRate_y1;
-    book->Str_y2=book->Land_BitRate_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Bitrate");
+    mbk->Str_Align=mbk->Land_BitRate_Align;
+    mbk->Str_Enable=mbk->Land_BitRate_Enable;
+    mbk->Str_Font_Size=mbk->Land_BitRate_Font;
+    mbk->Str_Color=mbk->Land_BitRate_Color;
+    mbk->Str_x1=mbk->Land_BitRate_x1;
+    mbk->Str_x2=mbk->Land_BitRate_x2;
+    mbk->Str_y1=mbk->Land_BitRate_y1;
+    mbk->Str_y2=mbk->Land_BitRate_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==9) 
   {
     //book->ItemID=39;
-    wstrcpy(book->Title_Str,L"Total Track");
-    book->Str_Align=book->Land_TotalTrackID_Align;
-    book->Str_Enable=book->Land_TotalTrackID_Enable;
-    book->Str_Font_Size=book->Land_TotalTrackID_Font;
-    book->Str_Color=book->Land_TotalTrackID_Color;
-    book->Str_x1=book->Land_TotalTrackID_x1;
-    book->Str_x2=book->Land_TotalTrackID_x2;
-    book->Str_y1=book->Land_TotalTrackID_y1;
-    book->Str_y2=book->Land_TotalTrackID_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Total Track");
+    mbk->Str_Align=mbk->Land_TotalTrackID_Align;
+    mbk->Str_Enable=mbk->Land_TotalTrackID_Enable;
+    mbk->Str_Font_Size=mbk->Land_TotalTrackID_Font;
+    mbk->Str_Color=mbk->Land_TotalTrackID_Color;
+    mbk->Str_x1=mbk->Land_TotalTrackID_x1;
+    mbk->Str_x2=mbk->Land_TotalTrackID_x2;
+    mbk->Str_y1=mbk->Land_TotalTrackID_y1;
+    mbk->Str_y2=mbk->Land_TotalTrackID_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==10) 
   {
     //book->ItemID=40;
-    wstrcpy(book->Title_Str,L"Current Track ID");
-    book->Str_Align=book->Land_C_TrackID_Align;
-    book->Str_Enable=book->Land_C_TrackID_Enable;
-    book->Str_Font_Size=book->Land_C_TrackID_Font;
-    book->Str_Color=book->Land_C_TrackID_Color;
-    book->Str_x1=book->Land_C_TrackID_x1;
-    book->Str_x2=book->Land_C_TrackID_x2;
-    book->Str_y1=book->Land_C_TrackID_y1;
-    book->Str_y2=book->Land_C_TrackID_y2;
-    CreateStringEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Current Track ID");
+    mbk->Str_Align=mbk->Land_C_TrackID_Align;
+    mbk->Str_Enable=mbk->Land_C_TrackID_Enable;
+    mbk->Str_Font_Size=mbk->Land_C_TrackID_Font;
+    mbk->Str_Color=mbk->Land_C_TrackID_Color;
+    mbk->Str_x1=mbk->Land_C_TrackID_x1;
+    mbk->Str_x2=mbk->Land_C_TrackID_x2;
+    mbk->Str_y1=mbk->Land_C_TrackID_y1;
+    mbk->Str_y2=mbk->Land_C_TrackID_y2;
+    CreateStringEditorGUI(mbk);
   }
   if(item==11) 
   {
     //book->ItemID=41;
-    wstrcpy(book->Title_Str,L"Shuffle Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Shuffle_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Shuffle_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Shuffle_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Shuffle Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Shuffle_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Shuffle_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Shuffle_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }  
   if(item==12) 
   {
     //book->ItemID=42;
-    wstrcpy(book->Title_Str,L"Loop Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Loop_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Loop_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Loop_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Loop Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Loop_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Loop_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Loop_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }  
   if(item==13) 
   {
     //book->ItemID=43;
-    wstrcpy(book->Title_Str,L"EQ Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_EQ_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_EQ_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_EQ_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"EQ Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_EQ_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_EQ_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_EQ_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }  
   if(item==14) 
   {
     //book->ItemID=44;
-    wstrcpy(book->Title_Str,L"Player State Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_PlayerState_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_PlayerState_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_PlayerState_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Player State Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_PlayerState_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_PlayerState_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_PlayerState_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }  
   if(item==15) 
   {
     //book->ItemID=45;
-    wstrcpy(book->Title_Str,L"Title Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Title_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Title_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Title_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Title Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Title_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Title_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Title_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==16) 
   {
     //book->ItemID=46;
-    wstrcpy(book->Title_Str,L"Artist Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Artist_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Artist_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Artist_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Artist Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Artist_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Artist_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Artist_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==17) 
   {
     //book->ItemID=47;
-    wstrcpy(book->Title_Str,L"Album Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Album_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Album_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Album_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Album Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Album_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Album_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Album_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==18)
   {
     //book->ItemID=48;
-    wstrcpy(book->Title_Str,L"Wheel BG Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_WhellBG_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_WhellBG_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_WhellBG_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel BG Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_WhellBG_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_WhellBG_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_WhellBG_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   
   if(item==19)
   {
     //book->ItemID=49;
-    wstrcpy(book->Title_Str,L"Wheel Up Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_WhellUP_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_WhellUP_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_WhellUP_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Up Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_WhellUP_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_WhellUP_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_WhellUP_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==20)
   {
     //book->ItemID=50;
-    wstrcpy(book->Title_Str,L"Wheel Down Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_WhellDOWN_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_WhellDOWN_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_WhellDOWN_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Down Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_WhellDOWN_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_WhellDOWN_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_WhellDOWN_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==21)
   {
     //book->ItemID=51;
-    wstrcpy(book->Title_Str,L"Wheel Left Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_WhellLEFT_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_WhellLEFT_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_WhellLEFT_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Left Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_WhellLEFT_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_WhellLEFT_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_WhellLEFT_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if(item==22)
   {
     //book->ItemID=52;
-    wstrcpy(book->Title_Str,L"Wheel Right Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_WhellRIGHT_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_WhellRIGHT_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_WhellRIGHT_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Right Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_WhellRIGHT_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_WhellRIGHT_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_WhellRIGHT_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   
   if(item==23)
   {
     //book->ItemID=53;
-    wstrcpy(book->Title_Str,L"Wheel Center Icon");
-    book->Str_Align=0;
-    book->Str_Enable=book->WhellCENTER_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->WhellCENTER_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->WhellCENTER_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Wheel Center Icon");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->WhellCENTER_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->WhellCENTER_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->WhellCENTER_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   } 
   
   if (item == 24)   
   {
     //book->ItemID=54;
-    wstrcpy(book->Title_Str,L"Background Image");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Background_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Background_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Background_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Background Image");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Background_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Background_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Background_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   if (item == 25)   
   {
     //book->ItemID=55;
-    wstrcpy(book->Title_Str,L"Overlay Image");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_Overlay_Image_Enable;
-    book->Str_Font_Size=0;
-    book->Str_Color=0;
-    book->Str_x1=book->Land_Overlay_Image_x1;
-    book->Str_x2=0;
-    book->Str_y1=book->Land_Overlay_Image_y1;
-    book->Str_y2=0;
-    CreateIconEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Overlay Image");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable=mbk->Land_Overlay_Image_Enable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color=0;
+    mbk->Str_x1=mbk->Land_Overlay_Image_x1;
+    mbk->Str_x2=0;
+    mbk->Str_y1=mbk->Land_Overlay_Image_y1;
+    mbk->Str_y2=0;
+    CreateIconEditorGUI(mbk);
   }
   
   if (item == 26)
   {
     //book->ItemID=56;
-    wstrcpy(book->Title_Str,L"Progress Bar");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_ProgressBarEnable;
-    book->Str_Font_Size=0;
-    book->Str_Color=book->Land_PBColor;
-    book->Str_Color_2=book->Land_PFColor;
-    book->Str_x1=book->Land_PRect.x1;
-    book->Str_x2=book->Land_PRect.x2;
-    book->Str_y1=book->Land_PRect.y1;
-    book->Str_y2=book->Land_PRect.y2;
-    CreateProgressBarEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Progress Bar");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable = mbk->Land_ProgressBarEnable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color = mbk->Land_PBColor;
+    mbk->Str_Color_2 = mbk->Land_PFColor;
+    mbk->Str_x1 = mbk->Land_PRect.x1;
+    mbk->Str_x2 = mbk->Land_PRect.x2;
+    mbk->Str_y1 = mbk->Land_PRect.y1;
+    mbk->Str_y2 = mbk->Land_PRect.y2;
+    CreateProgressBarEditorGUI(mbk);
   }
   if (item == 27)
   {
     //book->ItemID=57;
-    wstrcpy(book->Title_Str,L"Volume Bar");
-    book->Str_Align=0;
-    book->Str_Enable=book->Land_VolumeBarEnable;
-    book->Str_Font_Size=0;
-    book->Str_Color=book->Land_VBColor;
-    book->Str_Color_2=book->Land_VFColor;
-    book->Str_x1=book->Land_VRect.x1;
-    book->Str_x2=book->Land_VRect.x2;
-    book->Str_y1=book->Land_VRect.y1;
-    book->Str_y2=book->Land_VRect.y2;
-    CreateProgressBarEditorGUI(book);
+    wstrcpy(mbk->Title_Str,L"Volume Bar");
+    mbk->Str_Align = 0;
+    mbk->Str_Enable = mbk->Land_VolumeBarEnable;
+    mbk->Str_Font_Size = 0;
+    mbk->Str_Color = mbk->Land_VBColor;
+    mbk->Str_Color_2 = mbk->Land_VFColor;
+    mbk->Str_x1 = mbk->Land_VRect.x1;
+    mbk->Str_x2 = mbk->Land_VRect.x2;
+    mbk->Str_y1 = mbk->Land_VRect.y1;
+    mbk->Str_y2 = mbk->Land_VRect.y2;
+    CreateProgressBarEditorGUI(mbk);
   }
   if (item == 28)
   {
     //book->ItemID=58;
-    book->IsCover = TRUE;
-    book->Str_x1=book->Land_ARect.x1;
-    book->Str_x2=book->Land_ARect.x2;
-    book->Str_y1=book->Land_ARect.y1;
-    book->Str_y2=book->Land_ARect.y2;
-    CreateEditCoordinatesGUI( book, 1 );
+    mbk->IsCover = TRUE;
+    mbk->Str_x1 = mbk->Land_ARect.x1;
+    mbk->Str_x2 = mbk->Land_ARect.x2;
+    mbk->Str_y1 = mbk->Land_ARect.y1;
+    mbk->Str_y2 = mbk->Land_ARect.y2;
+    Create_GUI_EditCoordinates( mbk, 1 );
   }
   if (item == 29)
   {
     //book->ItemID=59;
-    book->IsCover = TRUE;
-    book->Str_x1=book->Land_VRect.x1;
-    book->Str_x2=book->Land_VRect.x2;
-    book->Str_y1=book->Land_VRect.y1;
-    book->Str_y2=book->Land_VRect.y2;
-    CreateEditCoordinatesGUI( book, 1 );
+    mbk->IsCover = TRUE;
+    mbk->Str_x1 = mbk->Land_VRect.x1;
+    mbk->Str_x2 = mbk->Land_VRect.x2;
+    mbk->Str_y1 = mbk->Land_VRect.y1;
+    mbk->Str_y2 = mbk->Land_VRect.y2;
+    Create_GUI_EditCoordinates( mbk, 1 );
   }
 }
 
 void FreeTabGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   FREE_GUI(gui);
   FREE_GUI(mbk->portrait);
-  FREE_GUI(mbk->land);
+  FREE_GUI(mbk->landscape);
   FREE_GUI(mbk->WalkmanGUI);
-  FREE_GUI(mbk->tb);
+  FREE_GUI(mbk->tab);
 }
 
 void OnEditorLongBackGui( BOOK* book, GUI* gui )
@@ -2104,14 +2078,14 @@ void OnEditorLongBackGui( BOOK* book, GUI* gui )
 
 void OnEditorBackGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   if(mbk->ChangeMade) YesNoSaveSkinData(mbk);
   else FreeTabGui(book,gui);
 }
 
 void OnSave(BOOK* book, GUI* gui)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   SaveSkinData(mbk, mbk->path, mbk->name);
   
   FreeTabGui(book,gui);
@@ -2121,7 +2095,7 @@ void OnSave(BOOK* book, GUI* gui)
 
 void OnLinksWalkmanGUIEditorSelectGui( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   TEXTID txt;
   
@@ -2132,13 +2106,11 @@ void OnLinksWalkmanGUIEditorSelectGui( BOOK* book, GUI* gui )
     {
       mbk->FullScreen = FALSE;
       txt = TEXT_NO;
-      //ListMenu_SetItemSecondLineText( book->WalkmanGUI,0,STR(TXT_NO) );
     }
-    else //if(!book->FullScreen) 
+    else
     {
       mbk->FullScreen = TRUE;
       txt = TEXT_YES;
-      //ListMenu_SetItemSecondLineText( book->WalkmanGUI,0,STR(TXT_YES) );
     }
     mbk->GuiChanged = TRUE;
   }
@@ -2149,75 +2121,73 @@ void OnLinksWalkmanGUIEditorSelectGui( BOOK* book, GUI* gui )
     {
       mbk->ShowSoftKey = FALSE;
       txt = TEXT_NO;
-      //ListMenu_SetItemSecondLineText( book->WalkmanGUI,1,STR(TXT_NO) );
     }
-    else //if(!book->ShowSoftKey) 
+    else
     {
       mbk->ShowSoftKey = TRUE;
       txt = TEXT_YES;
-      //ListMenu_SetItemSecondLineText( book->WalkmanGUI,1,STR(TXT_YES) );
     }
   }
   ListMenu_SetItemSecondLineText( mbk->WalkmanGUI, item, txt );
   mbk->ChangeMade = TRUE;
 }
 
-void CreateTabGui( MyBOOK* book )
+void CreateTabGui( BOOK* book )
 {
-  //MyBOOK* book = (MyBOOK*)bk;
-  book->tb = CreateTabMenuBar( book );
-  TabMenuBar_SetTabCount( book->tb, 3 );
-  TabMenuBar_SetTabIcon( book->tb, 0, MC_PORTRAIT_ICN, 0 );
-  TabMenuBar_SetTabIcon( book->tb, 0, MC_PORTRAIT_ICN, 1 );
-  TabMenuBar_SetTabIcon( book->tb, 1, MC_LANDSCAPE_ICN, 0 );
-  TabMenuBar_SetTabIcon( book->tb, 1, MC_LANDSCAPE_ICN, 1 );
-  TabMenuBar_SetTabIcon( book->tb, 2, RN_TAB_SESSION_MANAGER_DESELECTED_ICN, 0 );
-  TabMenuBar_SetTabIcon( book->tb, 2, RN_TAB_SESSION_MANAGER_SELECTED_ICN, 1 );  
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  mbk->tab = CreateTabMenuBar( mbk );
+  TabMenuBar_SetTabCount( mbk->tab, 3 );
+  TabMenuBar_SetTabIcon( mbk->tab, 0, MC_PORTRAIT_ICN, 0 );
+  TabMenuBar_SetTabIcon( mbk->tab, 0, MC_PORTRAIT_ICN, 1 );
+  TabMenuBar_SetTabIcon( mbk->tab, 1, MC_LANDSCAPE_ICN, 0 );
+  TabMenuBar_SetTabIcon( mbk->tab, 1, MC_LANDSCAPE_ICN, 1 );
+  TabMenuBar_SetTabIcon( mbk->tab, 2, RN_TAB_SESSION_MANAGER_DESELECTED_ICN, 0 );
+  TabMenuBar_SetTabIcon( mbk->tab, 2, RN_TAB_SESSION_MANAGER_SELECTED_ICN, 1 );  
   
-  book->portrait = CreateListMenu( book, UIDisplay_Main );
-  ListMenu_SetItemCount( book->portrait, 30 );
-  ListMenu_SetOnMessage( book->portrait, onLinksLBMessage );
-  ListMenu_SetCursorToItem( book->portrait, 0 );
-  ListMenu_SetItemStyle( book->portrait, 0 );
-  ListMenu_SetItemTextScroll( book->portrait, 1 );
-  GUIObject_SoftKeys_SetAction( book->portrait, ACTION_BACK, OnEditorBackGui );
-  GUIObject_SoftKeys_SetAction( book->portrait, ACTION_LONG_BACK, OnEditorLongBackGui );
-  GUIObject_SoftKeys_SetAction( book->portrait, ACTION_SELECT1, OnLinksEditorSelectGui );
-  GUIObject_SoftKeys_SetAction( book->portrait, 0, OnSave );  
-  GUIObject_SoftKeys_SetText( book->portrait, 0, TEXT_SAVE );  
-  TabMenuBar_SetTabGui( book->tb, 0, book->portrait );
-  TabMenuBar_SetTabTitle( book->tb, 0, TEXT_PORTRAIT );
+  mbk->portrait = CreateListMenu( mbk, UIDisplay_Main );
+  ListMenu_SetItemCount( mbk->portrait, 30 );
+  ListMenu_SetOnMessage( mbk->portrait, onLinksLBMessage );
+  ListMenu_SetCursorToItem( mbk->portrait, 0 );
+  ListMenu_SetItemStyle( mbk->portrait, 0 );
+  ListMenu_SetItemTextScroll( mbk->portrait, 1 );
+  GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_BACK, OnEditorBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_LONG_BACK, OnEditorLongBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_SELECT1, OnLinksEditorSelectGui );
+  GUIObject_SoftKeys_SetAction( mbk->portrait, 0, OnSave );  
+  GUIObject_SoftKeys_SetText( mbk->portrait, 0, TEXT_SAVE );  
+  TabMenuBar_SetTabGui( mbk->tab, 0, mbk->portrait );
+  TabMenuBar_SetTabTitle( mbk->tab, 0, TEXT_PORTRAIT );
   
-  book->land = CreateListMenu( book, UIDisplay_Main );
-  ListMenu_SetItemCount( book->land, 30);
-  ListMenu_SetOnMessage( book->land, onLinksLBMessage );
-  ListMenu_SetCursorToItem( book->land, 0 );
-  ListMenu_SetItemStyle( book->land, 0 );
-  ListMenu_SetItemTextScroll( book->land, 1 );
-  GUIObject_SoftKeys_SetAction( book->land, ACTION_BACK, OnEditorBackGui );
-  GUIObject_SoftKeys_SetAction( book->land, ACTION_LONG_BACK, OnEditorLongBackGui );
-  GUIObject_SoftKeys_SetAction( book->land, ACTION_SELECT1, OnLinksLandEditorSelectGui );  
-  GUIObject_SoftKeys_SetAction( book->land, 0, OnSave );  
-  GUIObject_SoftKeys_SetText( book->land, 0, TEXT_SAVE );  
-  TabMenuBar_SetTabGui( book->tb, 1, book->land );
-  TabMenuBar_SetTabTitle( book->tb, 1, TEXT_LANDSCAPE );
+  mbk->landscape = CreateListMenu( mbk, UIDisplay_Main );
+  ListMenu_SetItemCount( mbk->landscape, 30);
+  ListMenu_SetOnMessage( mbk->landscape, onLinksLBMessage );
+  ListMenu_SetCursorToItem( mbk->landscape, 0 );
+  ListMenu_SetItemStyle( mbk->landscape, 0 );
+  ListMenu_SetItemTextScroll( mbk->landscape, 1 );
+  GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_BACK, OnEditorBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_LONG_BACK, OnEditorLongBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_SELECT1, OnLinksLandEditorSelectGui );  
+  GUIObject_SoftKeys_SetAction( mbk->landscape, 0, OnSave );  
+  GUIObject_SoftKeys_SetText( mbk->landscape, 0, TEXT_SAVE );  
+  TabMenuBar_SetTabGui( mbk->tab, 1, mbk->landscape );
+  TabMenuBar_SetTabTitle( mbk->tab, 1, TEXT_LANDSCAPE );
   
-  book->WalkmanGUI = CreateListMenu( book, UIDisplay_Main );
-  ListMenu_SetItemCount( book->WalkmanGUI, 2);
-  ListMenu_SetOnMessage( book->WalkmanGUI, onLinksGUI );
-  ListMenu_SetCursorToItem( book->WalkmanGUI, 0 );
-  ListMenu_SetItemStyle( book->WalkmanGUI, 1 );
-  ListMenu_SetItemTextScroll( book->WalkmanGUI, 1 );
-  GUIObject_SoftKeys_SetAction( book->WalkmanGUI, ACTION_BACK, OnEditorBackGui );
-  GUIObject_SoftKeys_SetAction( book->WalkmanGUI, ACTION_LONG_BACK, OnEditorLongBackGui );
-  GUIObject_SoftKeys_SetAction( book->WalkmanGUI, ACTION_SELECT1, OnLinksWalkmanGUIEditorSelectGui );  
-  GUIObject_SoftKeys_SetAction( book->WalkmanGUI, 0, OnSave );  
-  GUIObject_SoftKeys_SetText( book->WalkmanGUI, 0, TEXT_SAVE );
-  TabMenuBar_SetTabGui( book->tb, 2, book->WalkmanGUI );
-  TabMenuBar_SetTabTitle( book->tb, 2, STR(TXT_WALKMAN_GUI) );
+  mbk->WalkmanGUI = CreateListMenu( mbk, UIDisplay_Main );
+  ListMenu_SetItemCount( mbk->WalkmanGUI, 2);
+  ListMenu_SetOnMessage( mbk->WalkmanGUI, onLinksGUI );
+  ListMenu_SetCursorToItem( mbk->WalkmanGUI, 0 );
+  ListMenu_SetItemStyle( mbk->WalkmanGUI, 1 );
+  ListMenu_SetItemTextScroll( mbk->WalkmanGUI, 1 );
+  GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_BACK, OnEditorBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_LONG_BACK, OnEditorLongBackGui );
+  GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_SELECT1, OnLinksWalkmanGUIEditorSelectGui );  
+  GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, 0, OnSave );  
+  GUIObject_SoftKeys_SetText( mbk->WalkmanGUI, 0, TEXT_SAVE );
+  TabMenuBar_SetTabGui( mbk->tab, 2, mbk->WalkmanGUI );
+  TabMenuBar_SetTabTitle( mbk->tab, 2, STR(TXT_WALKMAN_GUI) );
   
-  TabMenuBar_SetFocusedTab( book->tb, 0 );
-  GUIObject_Show(book->tb);
+  TabMenuBar_SetFocusedTab( mbk->tab, 0 );
+  GUIObject_Show(mbk->tab);
 }
 
 int SelBcfg_BcfgFilter( const wchar_t* ExtList, const wchar_t* ItemPath, const wchar_t* ItemName )
@@ -2227,10 +2197,10 @@ int SelBcfg_BcfgFilter( const wchar_t* ExtList, const wchar_t* ItemPath, const w
 
 int SelBcfgPageOnCreate( void* data, BOOK* book )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   void* DB_Desc = DataBrowserDesc_Create();
-  const wchar_t* folder_list[2]={SKIN_PATH_EXTERNAL, SKIN_PATH_INTERNAL};
+  const wchar_t* folder_list[1]={SKIN_PATH_INTERNAL};
   DataBrowserDesc_SetHeaderText( DB_Desc, TEXT_SKINS );
   DataBrowserDesc_SetBookID( DB_Desc, BookObj_GetBookID(mbk) );
   DataBrowserDesc_SetFolders( DB_Desc, folder_list );
@@ -2257,7 +2227,7 @@ int SelBcfgPageOnCreate( void* data, BOOK* book )
 
 static int SelBcfgPageOnAccept( void* data, BOOK* book )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FILEITEM* fi = (FILEITEM*)data;
   wstrcpy( mbk->path, FILEITEM_GetPath(fi) );
   wstrcpy( mbk->name, FILEITEM_GetFname(fi) );
@@ -2283,7 +2253,7 @@ static int SelBcfgPageOnAccept( void* data, BOOK* book )
 
 static int SelBcfgPageOnCancel( void* data, BOOK* book )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FreeBook(mbk);
   
   WALKMAN_Function* Data = Get_WALKMAN_Function();
@@ -2297,27 +2267,15 @@ static int SelBcfgPageOnCancel( void* data, BOOK* book )
   }
   
   if(mbk->GuiChanged) BookObj_GotoPage( Data->MusicBook, (PAGE_DESC*)page_MusicApplication_Main );
-  //MusicApp_PrevAction(Data->MusicBook,NULL);
-  
-  //wstrcpy(Data->fullpath,Data->tempFullPath);
-  
-  //METADATA_DESC* MetaData_Desc = (METADATA_DESC*)MetaData_Desc_Create(Data->fullpath);
-  //if(!MetaData_Desc_GetCoverInfo(MetaData_Desc,&Data->pImageType,&Data->Size, &Data->Offset))
-  //IMAGEID image_id;
-  //image_id = MetaData_GetCover(Data->fullpath);
+
   if(!Data->ContainsAlbumart)
   {
-    //Data->IsAlbumArt=FALSE;
-    //wstrcpy(Data->fullpath,Data->tempFullPath);
     GetCoverNotExist(Data);  
   }
   else
   {
-    //Data->IsAlbumArt=TRUE;
-    //wstrcpy(Data->fullpath,Data->tempFullPath);
     GetCoverExist(Data);
   }
-  //MetaData_Desc_Destroy(MetaData_Desc);
   
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
   
@@ -2326,7 +2284,7 @@ static int SelBcfgPageOnCancel( void* data, BOOK* book )
 
 int Cancel_BasePage( void* data, BOOK* book )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FreeBook(mbk);
   
   WALKMAN_Function* Data = Get_WALKMAN_Function();
@@ -2338,7 +2296,6 @@ int Cancel_BasePage( void* data, BOOK* book )
   {
     LoadLandscapeData();
   }
-  //MusicApp_PrevAction(Data->MusicBook,NULL);
   return 1;
 }
 
@@ -2370,7 +2327,7 @@ void AskSave_OnBack(BOOK* book, GUI* gui)
 
 void AskSave_On_Yes(BOOK* book, GUI *gui)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   SaveSkinData(mbk, mbk->path, mbk->name);
   FreeTabGui(mbk,gui);
   
@@ -2381,7 +2338,7 @@ void AskSave_On_Yes(BOOK* book, GUI *gui)
 
 void AskSave_On_No(BOOK* book, GUI *gui)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FreeTabGui(mbk,gui);
   
   mbk->ChangeMade = FALSE; //reset
@@ -2411,7 +2368,7 @@ void SaveSelectedPath(wchar_t* SkinPath, wchar_t* SkinName)
 
 int CreateSkinChooser(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   wstrcpy(mbk->temp, mbk->name);
   wchar_t* pos = wstrrchr(mbk->temp, '.');
   *pos = 0;
@@ -2433,7 +2390,7 @@ int CreateSkinChooser(BOOK* book)
   return 1;
 }
 
-int SetSkin(MyBOOK* book)
+int SetSkin(WalkmanSkinEditor_Book* book)
 {
   WALKMAN_Function* WData = Get_WALKMAN_Function();
   FreeImage(WData);
@@ -2448,7 +2405,7 @@ int SetSkin(MyBOOK* book)
   wchar_t* SkinDataPath = FSX_MakeFullPath(book->path,book->SkinName);
     
   int File;
-  if(( File = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL )) >=0 )
+  if(( File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_WRONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL )) >=0 )
   {
     SKIN* SkinData = (SKIN*)malloc(sizeof(SKIN));
     memset(SkinData, NULL, sizeof(SKIN));
@@ -2485,7 +2442,7 @@ int SetSkin(MyBOOK* book)
 
 void onEnter_SkinChooser( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   switch(ListMenu_GetSelectedItem(mbk->SkinChooser))
   {
   case 0:
@@ -2508,7 +2465,7 @@ void onEnter_SkinChooser( BOOK* book, GUI* gui )
 
 void Close_SkinChooser( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book; 
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book; 
   FREE_GUI(mbk->SkinChooser);
   
   BookObj_GotoPage(mbk,&SkinEditor_Main_Page);
@@ -2534,37 +2491,37 @@ int SkinChooser_callback(GUI_MESSAGE * msg)
   return 1;
 }
 
-//======================================================================
+//==============================================================================
 
-void OnOkCreateStringInput(BOOK* book, wchar_t* string, int len)
+void OnOkCreateStringInput(BOOK* book, wchar_t* wstring, int len)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  wstrcpy(mbk->AuthorName, string);
-  FREE_GUI(mbk->SI);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  wstrcpy(mbk->AuthorName, wstring);
+  FREE_GUI(mbk->StringInput);
   CreateTabGui(mbk);
 }
 
 void OnBackCreateStringInput( BOOK* book, GUI* gui )
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  FREE_GUI(mbk->SI);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  FREE_GUI(mbk->StringInput);
   
   BookObj_GotoPage(mbk,&SkinEditor_Main_Page);
 }
 
 void EnterAuthorName(BOOK* book)
 {
-  MyBOOK* mbk = (MyBOOK*)book;
-  mbk->SI = CreateStringInputVA(0,
-                               VAR_BOOK,mbk,
-                               VAR_STRINP_MODE,IT_STRING,
-                               VAR_STRINP_NEW_LINE,1,
-                               VAR_STRINP_MAX_LEN,100,
-                               VAR_STRINP_MIN_LEN,1,
-                               VAR_STRINP_FIXED_TEXT,STR(TXT_AUTHORS_NAME),
-                               VAR_OK_PROC,OnOkCreateStringInput,
-                               0);
-  GUIObject_SoftKeys_SetAction(mbk->SI,ACTION_BACK,OnBackCreateStringInput);
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  mbk->StringInput = CreateStringInputVA(0,
+                                         VAR_BOOK,mbk,
+                                         VAR_STRINP_MODE,IT_STRING,
+                                         VAR_STRINP_NEW_LINE,1,
+                                         VAR_STRINP_MAX_LEN,100,
+                                         VAR_STRINP_MIN_LEN,1,
+                                         VAR_STRINP_FIXED_TEXT,STR(TXT_AUTHORS_NAME),
+                                         VAR_OK_PROC,OnOkCreateStringInput,
+                                         0);
+  GUIObject_SoftKeys_SetAction(mbk->StringInput,ACTION_BACK,OnBackCreateStringInput);
 }
 
 //=============================================================================
@@ -2593,7 +2550,7 @@ void YesNoConfigSkin(BOOK * book)
   //GUIObject_SoftKeys_SetAction(Request,ACTION_BACK,Self_OnBack);
 }
 
-//======================================================================
+//=============================================================================
 
 void SkinEditor_Destroy(BOOK *book)
 {
@@ -2601,12 +2558,21 @@ void SkinEditor_Destroy(BOOK *book)
 
 void Enter_WalkmanSkinEditor( BOOK* book, GUI* gui )
 {
-  //SomethingToBOOK(book);
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
-  MusicBook->unk_75 = TRUE;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  #ifdef WALKMAN
+  MusicBook->unk_0x98 = TRUE;
+  #else
+  MusicBook->unk_0x90 = TRUE;
+  #endif
+#elif defined(DB3150)
+  MusicBook->unk_0x8C = TRUE;
+#else
+  MusicBook->unk_0x75 = TRUE;
+#endif
   
-  MyBOOK* mbk = (MyBOOK*)malloc(sizeof(MyBOOK));
-  memset(mbk, NULL, sizeof(MyBOOK) );  
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)malloc(sizeof(WalkmanSkinEditor_Book));
+  memset(mbk, NULL, sizeof(WalkmanSkinEditor_Book) );  
   if(!CreateBook(mbk, SkinEditor_Destroy, &SkinEditor_Base_Page, "WalkmanSkinEditor_Book", -1, 0)) mfree(mbk);
   else
   {
@@ -2614,21 +2580,7 @@ void Enter_WalkmanSkinEditor( BOOK* book, GUI* gui )
   }
 }
 
-//==================================================
-/*
-void SomethingToBOOK(BOOK* book)
-{
-  MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
-  MusicBook->unk_75 = TRUE;
-}
-
-extern "C"
-void GetVolumeLevel(int level)
-{
-  WALKMAN_Function* Data = Get_WALKMAN_Function();
-  Data->VolumeLevel=level;
-}
-*/
+//=============================================================================
 
 void RegisterImage(IMG* img , wchar_t* path, wchar_t* fname)
 {
@@ -2646,9 +2598,8 @@ void RegisterImage(IMG* img , wchar_t* path, wchar_t* fname)
 
 void LoadImage(WALKMAN_Function* WData)
 {
-  //WALKMAN_Function* WData = Get_WALKMAN_Function();
   int File;
-  if ( (File = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+  if ( (File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     SKIN* SkinData = (SKIN*) malloc(sizeof(SKIN));
     memset( SkinData, NULL, sizeof(SKIN));
@@ -2700,10 +2651,13 @@ void LoadImage(WALKMAN_Function* WData)
         WData->ImageID[i].ImageID = NOIMAGE;
       }
     }
-    
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    WData->blob_w = (dll_GetImageWidth( WData->ImageID[4].ImageID ))/2;
+    WData->blob_h = (dll_GetImageHeight( WData->ImageID[4].ImageID ))/2;
+#else
     WData->blob_w = (GetImageWidth( WData->ImageID[4].ImageID ))/2;
     WData->blob_h = (GetImageHeight( WData->ImageID[4].ImageID ))/2;
-    
+#endif
     fclose(File);
     mfree(SkinData);
   }
@@ -2711,8 +2665,6 @@ void LoadImage(WALKMAN_Function* WData)
 
 void FreeImage(WALKMAN_Function * WData)
 {
-  //WALKMAN_Function * WData = Get_WALKMAN_Function();
-  
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
   char error_code;
@@ -2720,15 +2672,11 @@ void FreeImage(WALKMAN_Function * WData)
   if(WData->CoverArtID != WData->ImageID[2].ImageID)
   {
     ImageID_Free(WData->CoverArtID);
-    //WData->CoverArtID = NULL;
   }
-  //else
-  //{
-    WData->CoverArtID = NULL;
-  //}
+  WData->CoverArtID = NULL;
   
   int File;
-  if ( (File = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+  if ( (File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     SKIN* SkinData = (SKIN*)malloc(sizeof(SKIN));
     memset( SkinData, NULL, sizeof(SKIN) );
@@ -2784,9 +2732,10 @@ void FreeImage(WALKMAN_Function * WData)
     mfree(SkinData);
   }
 }
-/*
+
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 extern "C"
-void NewSecondLine( GUI_LIST* list, int elem_num, TEXTID id )
+void New_SecondLine( GUI_LIST*list, int elem_num, int id )
 {
   ListMenu_SetItemSecondLineText( list, elem_num, id );
   WALKMAN_Function* Data = Get_WALKMAN_Function();
@@ -2796,7 +2745,7 @@ void NewSecondLine( GUI_LIST* list, int elem_num, TEXTID id )
   
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
 }
-*/
+#else
 extern "C"
 void FixShuffle(bool state)
 {
@@ -2814,13 +2763,13 @@ void FixLoop(bool state)
   
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
 }
+#endif
 
 extern "C"
 int New_PATCH_UI_MEDIAPLAYER_CREATED_EVENT( void* pUIMediaPlayer, BOOK* book)
 {
   MusicApplication_Book* MusicBook = (MusicApplication_Book*)book;
-  Default_PATCH_UI_MEDIAPLAYER_CREATED_EVENT(pUIMediaPlayer,MusicBook);
-  
+
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   Data->MusicBook = MusicBook;
   if(MusicBook->DisplayOrientation==UIDisplayOrientationMode_Vertical)
@@ -2831,7 +2780,7 @@ int New_PATCH_UI_MEDIAPLAYER_CREATED_EVENT( void* pUIMediaPlayer, BOOK* book)
   {
     LoadLandscapeData();
   }
-  return 1;
+  return Default_PATCH_UI_MEDIAPLAYER_CREATED_EVENT(pUIMediaPlayer,MusicBook);
 }
 
 void SetGUIData(GUI* gui)
@@ -2861,54 +2810,11 @@ void SetGUIData(GUI* gui)
   }
 }
 
-/*
-void LoadGUIData( wchar_t* path, wchar_t* name, GUI* gui)
-{
-  int file;
-  if(( file = _fopen( path, name, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
-  {
-    SkinData* skinData  = (SkinData*)malloc(sizeof(SkinData));
-    memset( skinData, NULL, sizeof(SkinData) );
-    fread( file, skinData, sizeof(SkinData) );
-    
-    WALKMAN_Function* Data = Get_WALKMAN_Function();
-    Data->FullScreen = skinData->FullScreen;
-    Data->ShowSoftKey = skinData->ShowSoftKey;
-    
-    SetGUIData(gui);
-    
-    if(!skinData->FullScreen)
-    {
-      GUIObject_SetStyle( gui, UI_OverlayStyle_FullScreenNoSoftkeys);
-      DispObject_SetStyle( Data->Music_Gui_NowPlaying, UI_OverlayStyle_FullScreenNoSoftkeys);
-    }
-    else
-    {
-      GUIObject_SetStyle( gui, UI_OverlayStyle_TrueFullScreen);
-      DispObject_SetStyle( Data->Music_Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
-    }
-    if(!skinData->ShowSoftKey)
-    {
-      GUIObject_SoftKeys_Hide(gui);
-      DispObject_SoftKeys_Hide(Data->Music_Gui_NowPlaying);
-    }
-    else
-    {
-      GUIObject_SoftKeys_Show(gui);
-      DispObject_SoftKeys_Show(Data->Music_Gui_NowPlaying);
-    }
-    
-    fclose(file);
-    mfree(skinData);
-  }
-}
-*/
-
 extern "C"
 void Set_WALKMAN_GUI_STYLE(GUI* gui)
 {
   int File;
-  if(( File = _fopen( SKIN_PATH_EXTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0 )
+  if(( File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0 )
   {
     SKIN* CurrentSkin = (SKIN*)malloc(sizeof(SKIN));
     memset(CurrentSkin, NULL, sizeof(SKIN));

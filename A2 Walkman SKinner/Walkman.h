@@ -3,7 +3,6 @@
 
 #include "..\\include\book\MusicApplication_Book.h"
 
-//void GetCover( wchar_t* ImageID, wchar_t *fullpath, int CoverSize,int CoverOffset, char cover_type);
 void DrawIcon( IMAGEID img, int x, int y );
 void DrawImage( GC* gc, int x, int y, int w, int h, IMAGEID img );
 void onfTimer ( u16 unk, void* RLBook );
@@ -12,15 +11,13 @@ void CreateTabGui( BOOK* book, int selected_tab );
 void onTimer( u16 unk, void* );
 void BeginTimer( u16 unk, void* );
 void Enter_WalkmanSkinEditor( BOOK* book, GUI* gui );
-//void SomethingToBOOK( BOOK* book );
+void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width ,int NormalColor);
 
-//#define FREE_GUI(a) if(a) a=GUIObject_Destroy(a)
+#define FREE_GUI(gui) if (gui) { gui=GUIObject_Destroy(gui); gui=NULL; };
+#define FREE_IMAGE(img) if(img!=NOIMAGE) ImageID_Free(img);
+#define TEXT_FREE(text) if( text!=EMPTY_TEXTID ) TextID_Destroy(text);
 
-#define FREE_GUI(gui) if(gui) { GUIObject_Destroy(gui); gui = NULL; }
-
-#define TEXT_FREE(text) if(text!=EMPTY_TEXTID) TextID_Destroy(text);
-
-#define SKIN_PATH_EXTERNAL   L"/card/other/ZBin/Config/WALKMAN"
+//#define SKIN_PATH_EXTERNAL   L"/card/other/ZBin/Config/WALKMAN"
 #define SKIN_PATH_INTERNAL   L"/usb/other/ZBin/Config/WALKMAN"
 
 typedef enum
@@ -61,23 +58,23 @@ typedef struct _SKIN_TXT_DATA
   int Enable;
 }SKIN_TXT_DATA;
 
-typedef struct _MyBOOK : BOOK
+typedef struct _WalkmanSkinEditor_Book : BOOK
 {
-  GUI_TABMENUBAR *tb;
-  GUI_LIST* portrait;
-  GUI_LIST* land;
-  GUI_LIST* WalkmanGUI;
+  GUI_TABMENUBAR *tab;
+  GUI_LIST *portrait;
+  GUI_LIST *landscape;
+  GUI_LIST *WalkmanGUI;
   
-  GUI* color;
-  GUI* coord;
-  GUI* font_select;
+  GUI *color;
+  GUI *coord;
+  GUI *font_select;
   
-  GUI* StringEdit;
-  GUI_ONEOFMANY *Align_oom_menu;
-  GUI* IconEdit;
-  GUI* SkinChooser;
-  GUI* SI;
-  GUI* ProgressBar;
+  GUI *StringEdit;
+  GUI_ONEOFMANY *Alignment;
+  GUI *IconEdit;
+  GUI *SkinChooser;
+  GUI *StringInput;
+  GUI *ProgressBar;
   
   bool IsBbar;
   bool IsFbar;
@@ -521,120 +518,52 @@ typedef struct _MyBOOK : BOOK
   
   bool FullScreen;
   bool ShowSoftKey;
-}MyBOOK;
+}WalkmanSkinEditor_Book;
 
+typedef struct TEXT_ITEM_DATA
+{
+  int x1;
+  int y1;
+  int x2;
+  int y2;
+  int Align;
+  color_t Color;
+  int Font;
+  BOOL Enable;
+  TEXTID TextID;
+} TEXT_ITEM_DATA;
+
+typedef struct IMG_ITEM_DATA
+{
+  bool state;
+  POINT pos;
+} IMG_ITEM_DATA;
+
+typedef struct PROGRESS_ITEM_DATA
+{
+  bool state;
+  bool slider;
+  bool round;
+  color_t progress_bcolor;
+  color_t progress_fcolor;
+  RECT progress_rect;
+} PROGRESS_ITEM_DATA;
 
 typedef struct _WalkmanDrawData
 {
-  //Title
-  int Title_x1;
-  int Title_y1;
-  int Title_x2;
-  int Title_y2;
-  int Title_Align;
-  int Title_Color;
-  int Title_Font;
-  int Title_Enable;
+  TEXT_ITEM_DATA Title;
+  TEXT_ITEM_DATA Artist;
+  TEXT_ITEM_DATA Album;
+  TEXT_ITEM_DATA Genre;
   
-  //Artist
-  int Artist_x1;
-  int Artist_y1;
-  int Artist_x2;
-  int Artist_y2;
-  int Artist_Align;
-  int Artist_Font;
-  int Artist_Color;
-  int Artist_Enable;
+  TEXT_ITEM_DATA TotalTime;
+  TEXT_ITEM_DATA ElapsedTime;
+  TEXT_ITEM_DATA RemainingTime;
   
-  //Album
-  int Album_x1;
-  int Album_y1;
-  int Album_x2;
-  int Album_y2;
-  int Album_Align;
-  int Album_Color;
-  int Album_Font;
-  int Album_Enable;
-  
-  //Genre
-  int Genre_x1;
-  int Genre_y1;
-  int Genre_x2;
-  int Genre_y2;
-  int Genre_Align;
-  int Genre_Color;
-  int Genre_Font;
-  int Genre_Enable;
-  
-  //TotalTime
-  int TotalTime_x1;
-  int TotalTime_y1;
-  int TotalTime_x2;
-  int TotalTime_y2;
-  int TotalTime_Align;
-  int TotalTime_Color;
-  int TotalTime_Font;
-  int TotalTime_Enable;
-  
-  //ElapsedTime
-  int ElapsedTime_x1;
-  int ElapsedTime_y1;
-  int ElapsedTime_x2;
-  int ElapsedTime_y2;
-  int ElapsedTime_Align;
-  int ElapsedTime_Color;
-  int ElapsedTime_Font;
-  int ElapsedTime_Enable;
-  
-  //RemainingTime
-  int RemainingTime_x1;
-  int RemainingTime_y1;
-  int RemainingTime_x2;
-  int RemainingTime_y2;
-  int RemainingTime_Align;
-  int RemainingTime_Color;
-  int RemainingTime_Font;
-  int RemainingTime_Enable;
-  
-  //Extension
-  int Extension_x1;
-  int Extension_y1;
-  int Extension_x2;
-  int Extension_y2;
-  int Extension_Align;
-  int Extension_Color;
-  int Extension_Font;
-  int Extension_Enable;
-  
-  //BitRate
-  int BitRate_x1;
-  int BitRate_y1;
-  int BitRate_x2;
-  int BitRate_y2;
-  int BitRate_Align;
-  int BitRate_Color;
-  int BitRate_Font;
-  int BitRate_Enable;
-  
-  //TotalTrackID
-  int TotalTrackID_x1;
-  int TotalTrackID_y1;
-  int TotalTrackID_x2;
-  int TotalTrackID_y2;
-  int TotalTrackID_Align;
-  int TotalTrackID_Color;
-  int TotalTrackID_Font;
-  int TotalTrackID_Enable;
-  
-  //C_TrackID
-  int C_TrackID_x1;
-  int C_TrackID_y1;
-  int C_TrackID_x2;
-  int C_TrackID_y2;
-  int C_TrackID_Align;
-  int C_TrackID_Color;
-  int C_TrackID_Font;
-  int C_TrackID_Enable;
+  TEXT_ITEM_DATA Extension;
+  TEXT_ITEM_DATA BitRate;
+  TEXT_ITEM_DATA TotalTrackID;
+  TEXT_ITEM_DATA C_TrackID;
   
   //Shuffle_Image
   int Shuffle_Image_x1;
@@ -645,7 +574,6 @@ typedef struct _WalkmanDrawData
   int Loop_Image_x1;
   int Loop_Image_y1;
   int Loop_Image_Enable;  
-  
   //EQ_Image
   int EQ_Image_x1;
   int EQ_Image_y1;
@@ -1166,12 +1094,6 @@ typedef struct _WALKMAN_Function
   MusicApplication_Book* MusicBook;
   DISP_OBJ* Music_Gui_NowPlaying;
   
-  //GUI* VizOOM;
-  //GUI* SelectViz;  
-  
-  wchar_t buffer[512];
-  wchar_t tempFullPath[512];
-  
   bool Portrait;
   //bool IsAlbumArt;
   bool IsShuffle;
@@ -1183,22 +1105,25 @@ typedef struct _WALKMAN_Function
   bool FullScreen;
   bool ShowSoftKey;
   
-  int VizID;
+  char VizID;
   bool IsPlayingTimerData;
   
-  wchar_t artist[256];
-  wchar_t album[256];
-  wchar_t title[256];
+  wchar_t buffer[256];
+  wchar_t tempFullPath[256];
+  wchar_t fullpath[256];
+  //wchar_t artist[256];
+  //wchar_t album[256];
+  //wchar_t title[256];
   wchar_t genre[256];
   wchar_t ext[3];
   
-  int TempTimeData;
+  //int TempTimeData;
   int FullTime;
-  int FullTimeSeconds;
-  int FullTimeMinutes;
+  //int FullTimeSeconds;
+  //int FullTimeMinutes;
   int ElapsedTime;
-  int ElapsedTimeSeconds;
-  int ElapsedTimeMinutes;
+  //int ElapsedTimeSeconds;
+  //int ElapsedTimeMinutes;
   
   u16 timer;
   u16 WaitingTimer;
@@ -1213,19 +1138,18 @@ typedef struct _WALKMAN_Function
   wchar_t* SkinItemName[15];
   IMG SkinItemImageID[15];
   
-  wchar_t fullpath[512];
   //int Offset;
   //int Size;
   //char pImageType;
   //bool IsDRMProtected;
-  TMusicServer_Time Playlength;
-  TMusicServer_Time ResumePosition;
+  //TMusicServer_Time Playlength;
+  //TMusicServer_Time ResumePosition;
   bool ContainsAlbumart;
-  bool IsRealMediaFile;
+  //bool IsRealMediaFile;
   IMAGEID CoverArtID;
   
-  int CurrentTrackNumber;
-  int TotalTrackNumber;
+  //u16 CurrentTrackNumber;
+  //u16 TotalTrackNumber;
 
   int VolumeLevel;
   int Bitrate;
@@ -1234,7 +1158,7 @@ typedef struct _WALKMAN_Function
   int blob_h;
   
   IMAGEID VizImageID;
-  IMG VizImage;
+  //IMG VizImage;
   GVI_GC m_smilgc;// = NULL;
   GVI_BRUSH m_br;
   GC* gc;
@@ -1253,10 +1177,6 @@ __thumb void mfree( void* mem );
 
 WALKMAN_Function* Create_WALKMAN_Function();
 WALKMAN_Function* Get_WALKMAN_Function();
-
-void CreateEditColorGUI( MyBOOK* myBook, int type);
-void CreateEditCoordinatesGUI( MyBOOK * myBook, int type);
-void CreateFontSelectGUI( MyBOOK * myBook);
 
 void YesNoConfigSkin( BOOK * book );
 void Close_SkinChooser( BOOK* book, GUI* gui );

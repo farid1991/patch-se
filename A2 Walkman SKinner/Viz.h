@@ -1,6 +1,8 @@
 #ifndef _VIZ_H_
 #define _VIZ_H_
 
+#define VIZ_CONFIG_PATH L"/usb/other/ZBin/Config/WALKMAN/Viz"
+
 void DestroyVizOOM( BOOK* book, GUI* gui);
 void VizOOM_onEnter( BOOK* book, GUI* gui);
 int VIZOOM_callback( GUI_MESSAGE* msg );
@@ -23,8 +25,8 @@ static const char Gui_VizBoard[] = "Gui_VizBoard";
 
 typedef struct _DISP_OBJ_VIZBOARD : DISP_OBJ
 {
-  int count;
-  int cursor;
+  char count;
+  char cursor;
   TEXTID text_id;
   IMAGEID VizIMG_ID;
 } DISP_OBJ_VIZBOARD;
