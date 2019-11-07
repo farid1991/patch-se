@@ -4,7 +4,7 @@
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, IFont** ppFont)
+int dll_SetFont(int font_size, IFont** ppFont)
 {
   UUID IID_IUIFontManager = {0x95,0xD0,0x5F,0xCA,0x0F,0x30,0x4F,0x92,0x94,0x3B,0x13,0x89,0x21,0x2F,0x09,0xD7};
   UUID CID_CUIFontManager = {0x82,0xAC,0x97,0x9B,0x58,0x44,0x41,0x39,0xA0,0xD3,0xE6,0xCF,0x72,0xB5,0x80,0x69};
@@ -26,6 +26,8 @@ void dll_SetFont(int font_size, IFont** ppFont)
   
   if (pFontManager) pFontManager->Release();
   if (pFontFactory) pFontFactory->Release();
+  
+  return 1;
 }
 
 // DrawString ----------------------------------------------------
@@ -145,6 +147,75 @@ void dll_GC_PutChar(GC* gc, int x, int y, int width, int height, IMAGEID imageID
   if (pIUIImageManager) pIUIImageManager->Release();
   if (pUIImage) pUIImage->Release();
   if (pGC) pGC->Release();
+}
+
+wchar_t* Get_CoverType(int cover_type)
+{
+  if (cover_type<=3)
+  {
+    switch(cover_type)
+    {
+      case 0: return L"jpg";
+      case 1: return L"gif";
+      case 2: return L"png";
+      case 3: return L"bmp";
+    }
+    return NULL;
+  }
+  return NULL;
+}
+
+IMAGEID dll_MetaData_GetCover( wchar_t* fullpath )
+{
+  UUID IID_IMetaData={0xB1,0xEB,0x4F,0x97,0xB0,0xDD,0x42,0x09,0xB6,0x96,0xCE,0x11,0x2D,0x5E,0xD8,0xE8};
+  UUID CID_CMetaData={0x0B,0xCD,0x95,0x0F,0x9F,0xB6,0x4E,0x7A,0xA7,0xCD,0xCA,0x1D,0x87,0xBA,0x9A,0x27};
+  
+  int CoverSize;
+  int CoverOffset;
+  char pImageType;
+  
+  int size = (wstrlen(fullpath)+1) * sizeof(wchar_t);
+  wchar_t *CoverPath = (wchar_t*)malloc(size);
+  memset(CoverPath, NULL, size);
+  
+  wstrcpy(CoverPath, fullpath);
+  
+  METADATA_DESC * MetaData_Desc = (METADATA_DESC*)malloc(sizeof(METADATA_DESC));
+  MetaData_Desc->pMetaData = NULL;
+  CoCreateInstance(&CID_CMetaData, &IID_IMetaData, PPINTERFACE(&MetaData_Desc->pMetaData));
+  wchar_t * CoverName = wstrrchr(CoverPath, '/');
+  *CoverName = 0;
+  MetaData_Desc->pMetaData->SetFile(CoverPath,CoverName+1);
+  COVER_INFO_DESC cover_info;
+  if (((METADATA_DESC*)MetaData_Desc)->pMetaData->GetCoverInfo(&cover_info) < 0) 
+    return NOIMAGE;
+  
+  pImageType = cover_info.cover_type;
+  CoverSize = cover_info.size;
+  CoverOffset = cover_info.cover_offset;
+  
+  if (((METADATA_DESC*)MetaData_Desc)->pMetaData) 
+  {
+    ((METADATA_DESC*)MetaData_Desc)->pMetaData->Release();
+    mfree(MetaData_Desc);
+  }
+  
+  int file;
+  IMAGEID ImageID;
+  if ((file = w_fopen(fullpath, WA_Read, 0x1FF, 0)))
+  {
+    if (w_lseek(file,CoverOffset,WSEEK_SET))
+    {
+      char* CoverBuff = (char*) malloc(CoverSize+1);
+      memset(CoverBuff,0,CoverSize+1);
+      w_fread(file,CoverBuff,CoverSize);
+      ImageID_GetIndirect(CoverBuff,CoverSize,0,Get_CoverType(pImageType),&ImageID);
+    }
+    w_fclose(file);
+  }
+  mfree(CoverPath);
+  
+  return ImageID;
 }
 #endif
 
