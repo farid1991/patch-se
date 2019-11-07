@@ -34,10 +34,10 @@ public:
   virtual int StartApplication(TMusicServer_Action action);//0x20
   virtual int StopApplication(void); //0x24
   virtual int SetPurchaseFlag(void); //0x28
-  virtual int GetItem(int itemIndex, int length, wchar_t* pArtist, wchar_t* pAlbum, wchar_t* pTitle); //0x2C
-  virtual int GetFocusedItem(int itemIndex, int length, wchar_t* pArtist, wchar_t* pAlbum, wchar_t* pTitle, wchar_t* pFilename, TMusicServer_Time* pPlaylength, TMusicServer_Time* pResumePosition, bool* pContainsAlbumart, bool* pIsRealMediaFile); //0x30
-  virtual int GetFilename(int itemIndex, int length, wchar_t* pFilename); //0x34
-  virtual int GetAlbumArt(int itemIndex, int length, wchar_t* pAlbumArtFileName, int* pFileOffset, int* pAlbumArtSize, TMusicServer_AlbumArt_ImageType* pImageType, bool* pIsDRM); //0x38
+  virtual int GetItem( FUint32 itemIndex, FUint32 length, TChar* pArtist, TChar* pAlbum, TChar* pTitle ); //0x2C
+  virtual int GetFocusedItem( FUint32 itemIndex, FUint32 length, TChar* pArtist, TChar* pAlbum, TChar* pTitle, TChar* pFilename, TMusicServer_Time* pPlaylength, TMusicServer_Time* pResumePosition, TBool* pContainsAlbumart, TBool* pIsRealMediaFile );
+  virtual int GetFilename( FUint32 itemIndex, FUint32 length, TChar* pFilename ); //0x34
+  virtual int GetAlbumArt(FUint32 itemIndex, int length, wchar_t* pAlbumArtFileName, int* pFileOffset, int* pAlbumArtSize, TMusicServer_AlbumArt_ImageType* pImageType, bool* pIsDRM); //0x38
   virtual int GetState(TMusicServer_State* pState); //0x3C
   virtual int Play(int itemIndex); //0x40
   virtual int Pause(void); //0x44
