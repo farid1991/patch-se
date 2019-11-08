@@ -8,7 +8,7 @@
 ;Adds skin editor for easy loading & editing of skins
 ;Adds possibility to use Walkman 4 visualization
 ;Redraws everything in Walkman,optimized for better Walkman experience
-;v.1.3.3 mod
+;v.1.5
 ;(c) blacklizard
 ;(r) KreN
 ;(e) farid, D3mon
@@ -23,8 +23,8 @@
 
 #include "..\\include\book\MusicApplication_Book.h"
 
+#include "EN_LNG.h"
 #include "Function.h"
-#include "LNG.h"
 #include "SaveLoad.h"
 #include "strlib.h"
 #include "Visual.h"
@@ -33,12 +33,12 @@
 
 __thumb void *malloc( int size )
 {
-  return memalloc(0xFFFFFFFF, size, 1, 5, "wsk", NULL);
+  return memalloc(0xFFFFFFFF, size, 1, 5, "WSK", NULL);
 }
 
 __thumb void mfree( void *mem )
 {
-  if (mem) memfree(NULL, mem, "wsk", NULL);
+  if (mem) memfree(NULL, mem, "WSK", NULL);
 }
 
 WALKMAN_Function *Create_WALKMAN_Function()
@@ -135,7 +135,7 @@ void DrawIcon(IMAGEID img, int x, int y)
 
 
 extern "C"
-int New_Music_Gui_NowPlaying_OnCreate(DISP_OBJ* disp_obj)
+int New_Music_Gui_NowPlaying_OnCreate(MUSIC_GUI_NOWPLAYING_DISP_OBJ* disp_obj)
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   Data->Music_Gui_NowPlaying = disp_obj;
@@ -147,7 +147,7 @@ int New_Music_Gui_NowPlaying_OnCreate(DISP_OBJ* disp_obj)
 }
 
 extern "C"
-void New_Music_Gui_NowPlaying_OnDestroy(DISP_OBJ* disp_obj)
+void New_Music_Gui_NowPlaying_OnDestroy(MUSIC_GUI_NOWPLAYING_DISP_OBJ* disp_obj)
 {
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   FreeImage(Data);
@@ -158,33 +158,12 @@ void New_Music_Gui_NowPlaying_OnDestroy(DISP_OBJ* disp_obj)
 }
 
 extern "C"
-void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
+void New_Music_Gui_NowPlaying_OnRedraw(MUSIC_GUI_NOWPLAYING_DISP_OBJ* disp_obj, int a, int b, int c)
 {
-  MUSIC_GUI_NOWPLAYING_DISP_OBJ* now_playing = (MUSIC_GUI_NOWPLAYING_DISP_OBJ*)disp_obj;
-  int myFile1 = w_fopen( L"/usb/other/Music_Gui_NowPlaying_unk_0x1A4.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
-  if ( myFile1 >= NULL )
-  {
-    w_fwrite( myFile1, (char*)now_playing->unk_0x1A4, 0x128 );
-    w_fclose( myFile1 );
-  }
-  
-  int myFile2 = w_fopen( L"/usb/other/Music_Gui_NowPlaying_unk_0x1A8.bin", WA_Read+WA_Write+WA_Create+WA_Truncate, 0x1FF, NULL );
-  if ( myFile2 >= NULL )
-  {
-    w_fwrite( myFile2, (char*)now_playing->unk_0x1A8, 0x128 );
-    w_fclose( myFile2 );
-  }
-  
   WALKMAN_Function* Data = Get_WALKMAN_Function();
   
   int scr_w = Display_GetWidth( UIDisplay_Main );
   int scr_h = Display_GetHeight( UIDisplay_Main );
-
-  GetLoopState(Data);
-  GetShuffleState(Data);
-  GetEqPreset(Data);
-  GetMediaPlayerState(Data);
-  GetVolumeLevel(Data);
   
   char State;
   TEXTID TextID;
@@ -192,10 +171,10 @@ void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
   
   if(Data->Main.Background_Image_Enable)
   {
-    if(Data->Portrait) DrawIcon(Data->ImageID[1].ImageID, Data->Main.Background_Image_x1, Data->Main.Background_Image_y1);
+    if(Data->Portrait) DrawIcon(Data->MusicPlayer[MP_BG_PT].ImageID, Data->Main.Background_Image_x1, Data->Main.Background_Image_y1);
     else
     {
-      DrawIcon(Data->ImageID[0].ImageID, Data->Main.Background_Image_x1, Data->Main.Background_Image_y1);
+      DrawIcon(Data->MusicPlayer[MP_BG_LD].ImageID, Data->Main.Background_Image_x1, Data->Main.Background_Image_y1);
     }
   }
   
@@ -233,48 +212,48 @@ void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
   if(Data->Main.AlbumArtEnable)
   {
     DrawImage( pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->CoverArtID ); 
-    DrawImage( pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->ImageID[25].ImageID ); 
+    DrawImage( pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2-Data->Main.ARect.x1, Data->Main.ARect.y2-Data->Main.ARect.y1, Data->MusicPlayer[REFLECT].ImageID ); 
   }
   
   if(Data->Main.Overlay_Image_Enable)
   {
-    if(Data->Portrait) DrawIcon(Data->ImageID[3].ImageID, Data->Main.Overlay_Image_x1, Data->Main.Overlay_Image_y1);
-    else DrawIcon(Data->ImageID[24].ImageID, Data->Main.Overlay_Image_x1, Data->Main.Overlay_Image_y1);
+    if(Data->Portrait) DrawIcon(Data->MusicPlayer[OVERLAY_IMAGE_P].ImageID, Data->Main.Overlay_Image_x1, Data->Main.Overlay_Image_y1);
+    else DrawIcon(Data->MusicPlayer[OVERLAY_IMAGE_L].ImageID, Data->Main.Overlay_Image_x1, Data->Main.Overlay_Image_y1);
   }
   
   if(Data->Main.EQ_Image_Enable)
   {
     State = Data->EqPreset;
     //if(State == TEqPreset_Voice) DrawIcon( Data->ImageID[5].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    if(State == EqPreset_Bass) DrawIcon( Data->ImageID[26].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    else if(State == EqPreset_Manual) DrawIcon( Data->ImageID[27].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    else if(State == EqPreset_Megabass) DrawIcon( Data->ImageID[28].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    else if(State == EqPreset_Normal) DrawIcon( Data->ImageID[29].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    else if(State == EqPreset_TrebleBoost) DrawIcon( Data->ImageID[30].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
-    else if(State == EqPreset_Voice) DrawIcon( Data->ImageID[31].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    if(State == EqPreset_Bass) DrawIcon( Data->MusicPlayer[26].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    else if(State == EqPreset_Manual) DrawIcon( Data->MusicPlayer[27].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    else if(State == EqPreset_Megabass) DrawIcon( Data->MusicPlayer[28].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    else if(State == EqPreset_Normal) DrawIcon( Data->MusicPlayer[29].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    else if(State == EqPreset_TrebleBoost) DrawIcon( Data->MusicPlayer[30].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
+    else if(State == EqPreset_Voice) DrawIcon( Data->MusicPlayer[31].ImageID, Data->Main.EQ_Image_x1, Data->Main.EQ_Image_y1);
   }
   
   if(Data->Main.Loop_Image_Enable)
   {
-    if(Data->IsLoop) DrawIcon( Data->ImageID[6].ImageID, Data->Main.Loop_Image_x1, Data->Main.Loop_Image_y1);
-    else if (get_envp(NULL,"RepeatOne")) DrawIcon( Data->ImageID[34].ImageID, Data->Main.Loop_Image_x1, Data->Main.Loop_Image_y1);
+    if(Data->IsLoop) DrawIcon( Data->MusicPlayer[MP_MODE_LOOP_ICN].ImageID, Data->Main.Loop_Image_x1, Data->Main.Loop_Image_y1);
+    else if (get_envp(NULL,"RepeatOne")) DrawIcon( Data->MusicPlayer[MP_MODE_REPEAT_ONE_ICN].ImageID, Data->Main.Loop_Image_x1, Data->Main.Loop_Image_y1);
   }
   if(Data->Main.Shuffle_Image_Enable)
   {
-    if(Data->IsShuffle) DrawIcon( Data->ImageID[7].ImageID, Data->Main.Shuffle_Image_x1, Data->Main.Shuffle_Image_y1);
+    if(Data->IsShuffle) DrawIcon( Data->MusicPlayer[MP_MODE_RANDOM_ICN].ImageID, Data->Main.Shuffle_Image_x1, Data->Main.Shuffle_Image_y1);
   }
   
   if(Data->Main.Title_Image_Enable)
   {
-    DrawIcon( Data->ImageID[14].ImageID, Data->Main.Title_Image_x1, Data->Main.Title_Image_y1);
+    DrawIcon( Data->MusicPlayer[MP_TRACK_ICN].ImageID, Data->Main.Title_Image_x1, Data->Main.Title_Image_y1);
   }
   if(Data->Main.Artist_Image_Enable)
   {
-    DrawIcon( Data->ImageID[13].ImageID, Data->Main.Artist_Image_x1, Data->Main.Artist_Image_y1);
+    DrawIcon( Data->MusicPlayer[MP_ARTIST_ICN].ImageID, Data->Main.Artist_Image_x1, Data->Main.Artist_Image_y1);
   }
   if(Data->Main.Album_Image_Enable)
   {
-    DrawIcon( Data->ImageID[12].ImageID, Data->Main.Album_Image_x1, Data->Main.Album_Image_y1);
+    DrawIcon( Data->MusicPlayer[MP_ALBUM_ICN].ImageID, Data->Main.Album_Image_x1, Data->Main.Album_Image_y1);
   }
   
   State = Data->PlayState;
@@ -289,93 +268,87 @@ void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
   if(Data->Main.PlayerState_Image_Enable)
   {
     State = Data->PlayState;
-    if(State == 1) DrawIcon( Data->ImageID[9].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
+    if(State == 1) DrawIcon( Data->MusicPlayer[9].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
     if(State == 2)
     {
       Data->IsPlayingTimerData = FALSE;
-      DrawIcon( Data->ImageID[8].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
+      DrawIcon( Data->MusicPlayer[8].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
     }
     if(State == 3)
     {
       Data->IsPlayingTimerData = TRUE;
-      DrawIcon( Data->ImageID[11].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
+      DrawIcon( Data->MusicPlayer[11].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
     }
     if(State == 4)
     {
       Data->IsPlayingTimerData =TRUE;
-      DrawIcon( Data->ImageID[10].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
+      DrawIcon( Data->MusicPlayer[10].ImageID, Data->Main.PlayerState_Image_x1, Data->Main.PlayerState_Image_y1);
     }
   }
   
   if(Data->Main.WhellBG_Image_Enable)
   {
-    DrawIcon( Data->ImageID[15].ImageID, Data->Main.WhellBG_Image_x1, Data->Main.WhellBG_Image_y1);
+    DrawIcon( Data->MusicPlayer[MC_WHEEL_BACKGROUND_ICN].ImageID, Data->Main.WhellBG_Image_x1, Data->Main.WhellBG_Image_y1);
   }
   if(Data->Main.WhellUP_Image_Enable)
   {
-    DrawIcon( Data->ImageID[23].ImageID, Data->Main.WhellUP_Image_x1, Data->Main.WhellUP_Image_y1);
+    DrawIcon( Data->MusicPlayer[MC_WHEEL_UP_ICN].ImageID, Data->Main.WhellUP_Image_x1, Data->Main.WhellUP_Image_y1);
   }
   if(Data->Main.WhellDOWN_Image_Enable)
   {
-    DrawIcon( Data->ImageID[16].ImageID, Data->Main.WhellDOWN_Image_x1, Data->Main.WhellDOWN_Image_y1);
+    DrawIcon( Data->MusicPlayer[MC_WHEEL_DOWN_ICN].ImageID, Data->Main.WhellDOWN_Image_x1, Data->Main.WhellDOWN_Image_y1);
   }
   if(Data->Main.WhellLEFT_Image_Enable)
   {
-    if(State == 4)DrawIcon( Data->ImageID[22].ImageID, Data->Main.WhellLEFT_Image_x1, Data->Main.WhellLEFT_Image_y1);
+    if(State == 4)DrawIcon( Data->MusicPlayer[22].ImageID, Data->Main.WhellLEFT_Image_x1, Data->Main.WhellLEFT_Image_y1);
     else
     {
-      DrawIcon( Data->ImageID[21].ImageID, Data->Main.WhellLEFT_Image_x1, Data->Main.WhellLEFT_Image_y1);
+      DrawIcon( Data->MusicPlayer[21].ImageID, Data->Main.WhellLEFT_Image_x1, Data->Main.WhellLEFT_Image_y1);
     }
   }
   if(Data->Main.WhellRIGHT_Image_Enable)
   {
-    if(State == 3)DrawIcon( Data->ImageID[17].ImageID, Data->Main.WhellRIGHT_Image_x1, Data->Main.WhellRIGHT_Image_y1);
+    if(State == 3)DrawIcon( Data->MusicPlayer[17].ImageID, Data->Main.WhellRIGHT_Image_x1, Data->Main.WhellRIGHT_Image_y1);
     else
     {
-      DrawIcon( Data->ImageID[18].ImageID, Data->Main.WhellRIGHT_Image_x1, Data->Main.WhellRIGHT_Image_y1);
+      DrawIcon( Data->MusicPlayer[18].ImageID, Data->Main.WhellRIGHT_Image_x1, Data->Main.WhellRIGHT_Image_y1);
     }
   }
   if(Data->Main.WhellCENTER_Image_Enable)
   {
-    if(Data->IsPlaying) DrawIcon( Data->ImageID[19].ImageID, Data->Main.WhellCENTER_Image_x1, Data->Main.WhellCENTER_Image_y1);
-    else DrawIcon( Data->ImageID[20].ImageID, Data->Main.WhellCENTER_Image_x1, Data->Main.WhellCENTER_Image_y1);
+    if(Data->IsPlaying) DrawIcon( Data->MusicPlayer[19].ImageID, Data->Main.WhellCENTER_Image_x1, Data->Main.WhellCENTER_Image_y1);
+    else DrawIcon( Data->MusicPlayer[20].ImageID, Data->Main.WhellCENTER_Image_x1, Data->Main.WhellCENTER_Image_y1);
   }
   
   if(Data->Main.Title.Enable)
   {
-    //SID = TextID_Create(Data->title,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.Title.Font, 
-                      now_playing->TextID.Title,
+                      disp_obj->TextID.Title,
                       Data->Main.Title.Align, 
                       Data->Main.Title.x1, 
                       Data->Main.Title.y1, 
                       Data->Main.Title.x2-Data->Main.Title.x1,
                       Data->Main.Title.Color );
-    //TEXT_FREE(SID);
   }
   if(Data->Main.Artist.Enable)
   {
-    //SID = TextID_Create(Data->artist,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.Artist.Font,
-                      now_playing->TextID.Artist,
+                      disp_obj->TextID.Artist,
                       Data->Main.Artist.Align,
                       Data->Main.Artist.x1,
                       Data->Main.Artist.y1, 
                       Data->Main.Artist.x2-Data->Main.Artist.x1,
                       Data->Main.Artist.Color );
-    //TEXT_FREE(SID);
   }
   if(Data->Main.Album.Enable)
   {
-    //SID = TextID_Create(Data->album,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.Album.Font, 
-                      now_playing->TextID.Album,
+                      disp_obj->TextID.Album,
                       Data->Main.Album.Align, 
                       Data->Main.Album.x1, 
                       Data->Main.Album.y1, 
                       Data->Main.Album.x2-Data->Main.Album.x1,
                       Data->Main.Album.Color );
-    //TEXT_FREE(SID);
   }
   if(Data->Main.Extension.Enable)
   {
@@ -392,29 +365,24 @@ void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
   
   if(Data->Main.C_TrackID.Enable)
   {
-    //snwprintf(Data->buffer,MAXELEMS(Data->buffer), L"%d / ", Data->CurrentTrackNumber );
-    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.C_TrackID.Font, 
-                      now_playing->TextID.C_TrackID,
+                      disp_obj->TextID.C_TrackID,
                       Data->Main.C_TrackID.Align, 
                       Data->Main.C_TrackID.x1, 
                       Data->Main.C_TrackID.y1, 
                       Data->Main.C_TrackID.x2-Data->Main.C_TrackID.x1,
                       Data->Main.C_TrackID.Color );
-    //TEXT_FREE(SID);
   }
   
   if(Data->Main.TotalTrackID.Enable)
   {
-    //SID = TextID_CreateIntegerID(Data->TotalTrackNumber);
     DrawString_Params(Data->Main.TotalTrackID.Font, 
-                      now_playing->TextID.TotalTrackID,
+                      disp_obj->TextID.TotalTrackID,
                       Data->Main.TotalTrackID.Align, 
                       Data->Main.TotalTrackID.x1, 
                       Data->Main.TotalTrackID.y1, 
                       Data->Main.TotalTrackID.x2-Data->Main.TotalTrackID.x1,
                       Data->Main.TotalTrackID.Color );
-    //TEXT_FREE(SID);
   }
   
   if(Data->Main.Genre.Enable)
@@ -432,45 +400,35 @@ void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ* disp_obj, int a, int b, int c)
   
   if(Data->Main.TotalTime.Enable)
   {
-    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->FullTimeMinutes, Data->FullTimeSeconds);
-    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.TotalTime.Font, 
-                      now_playing->TextID.TotalTime,
+                      disp_obj->TextID.TotalTime,
                       Data->Main.TotalTime.Align, 
                       Data->Main.TotalTime.x1, 
                       Data->Main.TotalTime.y1, 
                       Data->Main.TotalTime.x2-Data->Main.TotalTime.x1,
                       Data->Main.TotalTime.Color);
-    //TEXT_FREE(SID);
   }
   
   if(Data->Main.ElapsedTime.Enable)
   {
-    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"%02d:%02d", Data->ElapsedTimeMinutes, Data->ElapsedTimeSeconds);
-    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.ElapsedTime.Font, 
-                      now_playing->TextID.ElapsedTime,
+                      disp_obj->TextID.ElapsedTime,
                       Data->Main.ElapsedTime.Align, 
                       Data->Main.ElapsedTime.x1, 
                       Data->Main.ElapsedTime.y1, 
                       Data->Main.ElapsedTime.x2-Data->Main.ElapsedTime.x1,
                       Data->Main.ElapsedTime.Color);
-    //TEXT_FREE(SID);
   }
   
   if(Data->Main.RemainingTime.Enable)
   {
-    //int RemainingLengthInSeconds = Data->FullTime - Data->ElapsedTime;
-    //snwprintf(Data->buffer, MAXELEMS(Data->buffer), L"-%02d:%02d", RemainingLengthInSeconds/60,RemainingLengthInSeconds%60);
-    //SID = TextID_Create(Data->buffer,ENC_UCS2,TEXTID_ANY_LEN);
     DrawString_Params(Data->Main.RemainingTime.Font, 
-                      now_playing->TextID.RemainingTime,
+                      disp_obj->TextID.RemainingTime,
                       Data->Main.RemainingTime.Align, 
                       Data->Main.RemainingTime.x1, 
                       Data->Main.RemainingTime.y1, 
                       Data->Main.RemainingTime.x2-Data->Main.RemainingTime.x1,
                       Data->Main.RemainingTime.Color);
-    //TEXT_FREE(SID);
   }
   
   if(Data->Main.BitRate.Enable)
@@ -535,7 +493,7 @@ void FreeViz(WALKMAN_Function* Data)
     GVI_Delete_GVI_Object( &Data->m_br );
     GC_FreeGC( Data->m_hMGC );
     
-    ImageID_Free(Data->VizImageID);
+    FREE_IMAGE(Data->VizImageID);
   }
 }
 
@@ -654,10 +612,10 @@ int GetTrackBitrate(wchar_t* fullpath, int fulltime)
 
 void GetCoverExist(WALKMAN_Function* Data)
 {
-  if(Data->CoverArtID && (Data->CoverArtID != Data->ImageID[2].ImageID))
+  if(Data->CoverArtID && (Data->CoverArtID != Data->MusicPlayer[NO_COVER_ICN].ImageID))
   {
-      ImageID_Free(Data->CoverArtID);
-      Data->CoverArtID = NULL;
+      FREE_IMAGE(Data->CoverArtID);
+      //Data->CoverArtID = NULL;
   }
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
   Data->CoverArtID = dll_MetaData_GetCover(Data->fullpath);
@@ -668,12 +626,11 @@ void GetCoverExist(WALKMAN_Function* Data)
 
 void GetCoverNotExist(WALKMAN_Function* Data)
 {
-  if(Data->CoverArtID && (Data->CoverArtID != Data->ImageID[2].ImageID))
+  if(Data->CoverArtID && (Data->CoverArtID != Data->MusicPlayer[NO_COVER_ICN].ImageID))
   {
-      ImageID_Free(Data->CoverArtID);
-      Data->CoverArtID = NULL;
+      FREE_IMAGE(Data->CoverArtID);
   }
-  Data->CoverArtID = Data->ImageID[2].ImageID;
+  Data->CoverArtID = Data->MusicPlayer[NO_COVER_ICN].ImageID;
 }
 
 void GetTrackData( UI_MEDIAPLAYER_NEW_TRACK_DATA* Track_Data, MusicApplication_Book* MusicBook )
@@ -744,6 +701,7 @@ int New_ON_NEW_TRACK( void* data, BOOK* book )
   GetShuffleState(Data);
   GetEqPreset(Data);
   GetMediaPlayerState(Data);
+  GetVolumeLevel(Data);
 
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
   
@@ -764,6 +722,7 @@ int New_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT( void* audio_data, BOOK* b
   GetShuffleState(Data);
   GetEqPreset(Data);
   GetMediaPlayerState(Data);
+  GetVolumeLevel(Data);
 
   if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
   
@@ -780,10 +739,10 @@ void DrawProgressBar( WALKMAN_Function* Data, int value, int max_value, RECT rec
   
   int blob_x = nx2-(Data->blob_w);
   int blob_y = (rect.y1-(Data->blob_h)) + ((rect.y2-rect.y1)/2);
-  DrawIcon( Data->ImageID[4].ImageID, blob_x, blob_y);
+  DrawIcon( Data->MusicPlayer[BLOB].ImageID, blob_x, blob_y);
   
-  if(wid<=241) DrawIcon( Data->ImageID[32].ImageID, rect.x1, rect.y1 );		
-  if(wid>=241) DrawIcon( Data->ImageID[33].ImageID, rect.x1, rect.y1 );		
+  if(wid<241) DrawIcon( Data->MusicPlayer[PROGRESSBAR_OVERLAY].ImageID, rect.x1, rect.y1 );		
+  if(wid>240) DrawIcon( Data->MusicPlayer[PROGRESSBAR_OVERLAY_LANDSCAPE].ImageID, rect.x1, rect.y1 );		
 }
 
 void WaitingForPlayer (u16 timerID , void* )
@@ -820,16 +779,18 @@ void onfTimer (u16 timerID, void* )
 void SetEnabled(BOOK* book, GUI* gui)
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  TEXTID TXT;
   if(mbk->Str_Enable)
   {
     mbk->Str_Enable = FALSE;
-    ListMenu_SetItemSecondLineText( gui, 0, TEXT_NO );
+    TXT =  TEXT_NO;
   }
   else
   {
     mbk->Str_Enable = TRUE;
-    ListMenu_SetItemSecondLineText( gui, 0, TEXT_YES );
+    TXT = TEXT_YES;
   }
+  ListMenu_SetItemSecondLineText( gui, 0, TXT );
   mbk->ChangeMade = TRUE;
 }
 
@@ -2132,17 +2093,9 @@ void OnLinksWalkmanGUIEditorSelectGui( BOOK* book, GUI* gui )
   mbk->ChangeMade = TRUE;
 }
 
-void CreateTabGui( BOOK* book )
+void Set_1stTab( BOOK* book, int tab)
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
-  mbk->tab = CreateTabMenuBar( mbk );
-  TabMenuBar_SetTabCount( mbk->tab, 3 );
-  TabMenuBar_SetTabIcon( mbk->tab, 0, MC_PORTRAIT_ICN, 0 );
-  TabMenuBar_SetTabIcon( mbk->tab, 0, MC_PORTRAIT_ICN, 1 );
-  TabMenuBar_SetTabIcon( mbk->tab, 1, MC_LANDSCAPE_ICN, 0 );
-  TabMenuBar_SetTabIcon( mbk->tab, 1, MC_LANDSCAPE_ICN, 1 );
-  TabMenuBar_SetTabIcon( mbk->tab, 2, RN_TAB_SESSION_MANAGER_DESELECTED_ICN, 0 );
-  TabMenuBar_SetTabIcon( mbk->tab, 2, RN_TAB_SESSION_MANAGER_SELECTED_ICN, 1 );  
   
   mbk->portrait = CreateListMenu( mbk, UIDisplay_Main );
   ListMenu_SetItemCount( mbk->portrait, 30 );
@@ -2150,13 +2103,23 @@ void CreateTabGui( BOOK* book )
   ListMenu_SetCursorToItem( mbk->portrait, 0 );
   ListMenu_SetItemStyle( mbk->portrait, 0 );
   ListMenu_SetItemTextScroll( mbk->portrait, 1 );
+  ListMenu_SetHotkeyMode( mbk->portrait, LKHM_SHORTCUT );
   GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_BACK, OnEditorBackGui );
   GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_LONG_BACK, OnEditorLongBackGui );
   GUIObject_SoftKeys_SetAction( mbk->portrait, ACTION_SELECT1, OnLinksEditorSelectGui );
   GUIObject_SoftKeys_SetAction( mbk->portrait, 0, OnSave );  
   GUIObject_SoftKeys_SetText( mbk->portrait, 0, TEXT_SAVE );  
-  TabMenuBar_SetTabGui( mbk->tab, 0, mbk->portrait );
-  TabMenuBar_SetTabTitle( mbk->tab, 0, TEXT_PORTRAIT );
+  GUIObject_SoftKeys_AllowKeylock( mbk->portrait, TRUE );
+  
+  TabMenuBar_SetTabGui( mbk->tab, tab, mbk->portrait );
+  TabMenuBar_SetTabTitle( mbk->tab, tab, TEXT_PORTRAIT );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, MC_PORTRAIT_ICN, Tab_NotSelected );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, MC_PORTRAIT_ICN, Tab_Selected );
+}
+
+void Set_2ndTab( BOOK* book, int tab)
+{
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   mbk->landscape = CreateListMenu( mbk, UIDisplay_Main );
   ListMenu_SetItemCount( mbk->landscape, 30);
@@ -2164,13 +2127,23 @@ void CreateTabGui( BOOK* book )
   ListMenu_SetCursorToItem( mbk->landscape, 0 );
   ListMenu_SetItemStyle( mbk->landscape, 0 );
   ListMenu_SetItemTextScroll( mbk->landscape, 1 );
+  ListMenu_SetHotkeyMode( mbk->landscape, LKHM_SHORTCUT );
   GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_BACK, OnEditorBackGui );
   GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_LONG_BACK, OnEditorLongBackGui );
   GUIObject_SoftKeys_SetAction( mbk->landscape, ACTION_SELECT1, OnLinksLandEditorSelectGui );  
   GUIObject_SoftKeys_SetAction( mbk->landscape, 0, OnSave );  
   GUIObject_SoftKeys_SetText( mbk->landscape, 0, TEXT_SAVE );  
-  TabMenuBar_SetTabGui( mbk->tab, 1, mbk->landscape );
-  TabMenuBar_SetTabTitle( mbk->tab, 1, TEXT_LANDSCAPE );
+  GUIObject_SoftKeys_AllowKeylock( mbk->landscape, TRUE );
+  
+  TabMenuBar_SetTabGui( mbk->tab, tab, mbk->landscape );
+  TabMenuBar_SetTabTitle( mbk->tab, tab, TEXT_LANDSCAPE );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, MC_LANDSCAPE_ICN, Tab_NotSelected );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, MC_LANDSCAPE_ICN, Tab_Selected );
+}
+
+void Set_3rdTab( BOOK* book, int tab)
+{
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
   mbk->WalkmanGUI = CreateListMenu( mbk, UIDisplay_Main );
   ListMenu_SetItemCount( mbk->WalkmanGUI, 2);
@@ -2178,14 +2151,30 @@ void CreateTabGui( BOOK* book )
   ListMenu_SetCursorToItem( mbk->WalkmanGUI, 0 );
   ListMenu_SetItemStyle( mbk->WalkmanGUI, 1 );
   ListMenu_SetItemTextScroll( mbk->WalkmanGUI, 1 );
+  ListMenu_SetHotkeyMode( mbk->SkinChooser, LKHM_SHORTCUT );
   GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_BACK, OnEditorBackGui );
   GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_LONG_BACK, OnEditorLongBackGui );
   GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, ACTION_SELECT1, OnLinksWalkmanGUIEditorSelectGui );  
   GUIObject_SoftKeys_SetAction( mbk->WalkmanGUI, 0, OnSave );  
   GUIObject_SoftKeys_SetText( mbk->WalkmanGUI, 0, TEXT_SAVE );
-  TabMenuBar_SetTabGui( mbk->tab, 2, mbk->WalkmanGUI );
-  TabMenuBar_SetTabTitle( mbk->tab, 2, STR(TXT_WALKMAN_GUI) );
+  GUIObject_SoftKeys_AllowKeylock( mbk->WalkmanGUI, TRUE );
   
+  TabMenuBar_SetTabGui( mbk->tab, tab, mbk->WalkmanGUI );
+  TabMenuBar_SetTabTitle( mbk->tab, tab, STR(TXT_WALKMAN_GUI) );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, RN_TAB_SESSION_MANAGER_DESELECTED_ICN, Tab_NotSelected );
+  TabMenuBar_SetTabIcon( mbk->tab, tab, RN_TAB_SESSION_MANAGER_SELECTED_ICN, Tab_Selected );
+}
+
+void CreateTabGui( BOOK* book )
+{
+  WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  mbk->tab = CreateTabMenuBar( mbk );
+  TabMenuBar_SetTabCount( mbk->tab, 3 );
+ 
+  Set_1stTab( mbk, 0);
+  Set_2ndTab( mbk, 1);
+  Set_3rdTab( mbk, 2);
+
   TabMenuBar_SetFocusedTab( mbk->tab, 0 );
   GUIObject_Show(mbk->tab);
 }
@@ -2195,7 +2184,7 @@ int SelBcfg_BcfgFilter( const wchar_t* ExtList, const wchar_t* ItemPath, const w
   return DataBrowser_isFileInListExt( ExtList, ItemPath, ItemName );
 }
 
-int SelBcfgPageOnCreate( void* data, BOOK* book )
+int SelSkins_MainPage_EnterAction( void* data, BOOK* book )
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   
@@ -2212,20 +2201,11 @@ int SelBcfgPageOnCreate( void* data, BOOK* book )
   
   DataBrowser_Create( DB_Desc );
   DataBrowserDesc_Destroy( DB_Desc );
-  
-  WALKMAN_Function* Data = Get_WALKMAN_Function();
-  
-  /*
-  if(Data->CoverArtID != Data->ImageID[2].ImageID)
-  {
-    ImageID_Free(Data->CoverArtID);
-  }
-  Data->CoverArtID = NULL;
-  */
+
   return 1;
 }
 
-static int SelBcfgPageOnAccept( void* data, BOOK* book )
+static int SelSkins_MainPage_AcceptAction( void* data, BOOK* book )
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FILEITEM* fi = (FILEITEM*)data;
@@ -2251,7 +2231,7 @@ static int SelBcfgPageOnAccept( void* data, BOOK* book )
 }
 
 
-static int SelBcfgPageOnCancel( void* data, BOOK* book )
+static int SelSkins_MainPage_CancelAction( void* data, BOOK* book )
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FreeBook(mbk);
@@ -2282,7 +2262,7 @@ static int SelBcfgPageOnCancel( void* data, BOOK* book )
   return 1;
 }
 
-int Cancel_BasePage( void* data, BOOK* book )
+int SelSkins_BasePage_CancelAction( void* data, BOOK* book )
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
   FreeBook(mbk);
@@ -2301,24 +2281,24 @@ int Cancel_BasePage( void* data, BOOK* book )
 
 const PAGE_MSG bk_msglst_base[] = 
 {
-  CANCEL_EVENT,            Cancel_BasePage,
-  RETURN_TO_STANDBY_EVENT, Cancel_BasePage,
+  CANCEL_EVENT,            SelSkins_BasePage_CancelAction,
+  RETURN_TO_STANDBY_EVENT, SelSkins_BasePage_CancelAction,
   NIL_EVENT,               NULL
 };
 
 const PAGE_MSG bk_msglst_main[] = 
 {
-  PAGE_ENTER_EVENT, SelBcfgPageOnCreate,
-  ACCEPT_EVENT,     SelBcfgPageOnAccept,
-  CANCEL_EVENT,     SelBcfgPageOnCancel,
-  PREVIOUS_EVENT,   SelBcfgPageOnCancel,
+  PAGE_ENTER_EVENT, SelSkins_MainPage_EnterAction,
+  ACCEPT_EVENT,     SelSkins_MainPage_AcceptAction,
+  CANCEL_EVENT,     SelSkins_MainPage_CancelAction,
+  PREVIOUS_EVENT,   SelSkins_MainPage_CancelAction,
   NIL_EVENT,        NULL
 };
 
 const PAGE_DESC SkinEditor_Base_Page = {"SkinEditor_Base_Page",0,bk_msglst_base};
 const PAGE_DESC SkinEditor_Main_Page = {"SkinEditor_Main_Page",0,bk_msglst_main};
 
-//===================================
+//==============================================================================
 
 void AskSave_OnBack(BOOK* book, GUI* gui)
 {
@@ -2348,14 +2328,14 @@ void AskSave_On_No(BOOK* book, GUI *gui)
 
 void YesNoSaveSkinData(BOOK* book)
 {
-  GUI* Question = CreateYesNoQuestionVA(0,
-                                       VAR_BOOK,book,
-                                       VAR_YESNO_PRE_QUESTION,TEXT_CHANGES_MADE,
-                                       VAR_YESNO_QUESTION,TEXT_SAVE2,
-                                       0);
+  GUI* Question = CreateYesNoQuestion( book, UIDisplay_Main );
+  YesNoQuestion_SetQuestionText( Question, TEXT_SAVE2 );
+  YesNoQuestion_SetDescriptionText( Question, TEXT_CHANGES_MADE );
+  
   GUIObject_SoftKeys_SetAction(Question,ACTION_YES,AskSave_On_Yes);
   GUIObject_SoftKeys_SetAction(Question,ACTION_NO,AskSave_On_No);
   GUIObject_SoftKeys_SetAction(Question,ACTION_BACK,AskSave_OnBack);
+  GUIObject_Show(Question);
 }
 
 void SaveSelectedPath(wchar_t* SkinPath, wchar_t* SkinName)
@@ -2382,8 +2362,10 @@ int CreateSkinChooser(BOOK* book)
   GUIObject_SetSecondRowTitleText(mbk->SkinChooser, TextID_Create(mbk->AuthorName,ENC_UCS2,TEXTID_ANY_LEN) );
   ListMenu_SetItemStyle(mbk->SkinChooser, 1);
   ListMenu_SetItemCount(mbk->SkinChooser, 2);
+  ListMenu_SetHotkeyMode( mbk->SkinChooser, LKHM_SHORTCUT );
   ListMenu_SetOnMessage(mbk->SkinChooser,SkinChooser_callback);
   ListMenu_SetCursorToItem(mbk->SkinChooser, 0); 
+  GUIObject_SoftKeys_AllowKeylock( mbk->SkinChooser, TRUE );
   GUIObject_SoftKeys_SetAction(mbk->SkinChooser, ACTION_BACK, Close_SkinChooser);
   GUIObject_SoftKeys_SetAction(mbk->SkinChooser, ACTION_SELECT1, onEnter_SkinChooser);
   GUIObject_Show(mbk->SkinChooser);
@@ -2392,8 +2374,8 @@ int CreateSkinChooser(BOOK* book)
 
 int SetSkin(WalkmanSkinEditor_Book* book)
 {
-  WALKMAN_Function* WData = Get_WALKMAN_Function();
-  FreeImage(WData);
+  WALKMAN_Function* Data = Get_WALKMAN_Function();
+  FreeImage(Data);
   
   wchar_t Name[128] = L"";
   wstrcat(Name,book->SkinName); // Original
@@ -2420,7 +2402,7 @@ int SetSkin(WalkmanSkinEditor_Book* book)
   }
   FSX_FreeFullPath(SkinDataPath);
   
-  if(WData->Portrait)
+  if(Data->Portrait)
   {
     LoadPortraitData();
   }
@@ -2428,14 +2410,14 @@ int SetSkin(WalkmanSkinEditor_Book* book)
   {
     LoadLandscapeData();
   }
-  LoadImage(WData);
+  LoadImage(Data);
   
-  SetGUIData(WData->MusicBook->Gui_NowPlaying);
+  SetGUIData(Data->MusicBook->Gui_NowPlaying);
   
-  FreeViz(WData);
-  if(GetChecked()==ITEM_VIZ) BootViz(WData);
+  FreeViz(Data);
+  if(GetChecked()==ITEM_VIZ) BootViz(Data);
   
-  if(WData->Music_Gui_NowPlaying) DispObject_InvalidateRect(WData->Music_Gui_NowPlaying, NULL);
+  if(Data->Music_Gui_NowPlaying) DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
   
   return 1;
 }
@@ -2449,12 +2431,12 @@ void onEnter_SkinChooser( BOOK* book, GUI* gui )
     if(SetSkin(mbk))
     {
       FREE_GUI(mbk->SkinChooser);
-      SelBcfgPageOnCancel(NULL, mbk);
-      MessageBox_NoImage( EMPTY_TEXTID, STR(TXT_SKIN_UPDATED), 0, 1000, book );
+      SelSkins_MainPage_CancelAction(NULL, mbk);
+      MessageBox_NoImage( EMPTY_TEXTID, STR(TXT_SKIN_UPDATED), 0, 1000, mbk );
     }
     else 
     {
-      MessageBox_NoImage( EMPTY_TEXTID, STR(TXT_SKIN_NOT_UPDATED), 0, 1000, book );
+      MessageBox_NoImage( EMPTY_TEXTID, STR(TXT_SKIN_NOT_UPDATED), 0, 1000, mbk );
     }
     break;
   case 1:
@@ -2512,6 +2494,7 @@ void OnBackCreateStringInput( BOOK* book, GUI* gui )
 void EnterAuthorName(BOOK* book)
 {
   WalkmanSkinEditor_Book* mbk = (WalkmanSkinEditor_Book*)book;
+  /*
   mbk->StringInput = CreateStringInputVA(0,
                                          VAR_BOOK,mbk,
                                          VAR_STRINP_MODE,IT_STRING,
@@ -2521,7 +2504,16 @@ void EnterAuthorName(BOOK* book)
                                          VAR_STRINP_FIXED_TEXT,STR(TXT_AUTHORS_NAME),
                                          VAR_OK_PROC,OnOkCreateStringInput,
                                          0);
-  GUIObject_SoftKeys_SetAction(mbk->StringInput,ACTION_BACK,OnBackCreateStringInput);
+  */
+  mbk->StringInput = CreateStringInput( mbk );
+  StringInput_SetMode( mbk->StringInput, IT_STRING);
+  StringInput_SetFixedText( mbk->StringInput, STR(TXT_AUTHORS_NAME) );
+  StringInput_SetMinLen( mbk->StringInput, 1 );
+  StringInput_SetMaxLen( mbk->StringInput, 100 );
+  StringInput_SetEnableEmptyText( mbk->StringInput, FALSE );
+  StringInput_SetActionOK( mbk->StringInput, OnOkCreateStringInput );
+  GUIObject_SoftKeys_SetAction(mbk->StringInput, ACTION_BACK, OnBackCreateStringInput);
+  GUIObject_Show(mbk->StringInput);
 }
 
 //=============================================================================
@@ -2540,14 +2532,13 @@ void Self_On_Yes(BOOK* book, GUI* gui)
 
 void YesNoConfigSkin(BOOK * book)
 {
-  GUI* Request = CreateYesNoQuestionVA(0,
-                                       VAR_BOOK,book,
-                                       VAR_YESNO_PRE_QUESTION,STR(TXT_SKIN_HASNT_BEEN_CONFIGURED_YET),
-                                       VAR_YESNO_QUESTION,STR(TXT_CONFIGURE_NOW),
-                                       0);
+  GUI* Request = CreateYesNoQuestion( book, UIDisplay_Main );
+  YesNoQuestion_SetQuestionText( Request, STR(TXT_CONFIGURE_NOW) );
+  YesNoQuestion_SetDescriptionText( Request, STR(TXT_SKIN_HASNT_BEEN_CONFIGURED_YET) );
+  
   GUIObject_SoftKeys_SetAction(Request,ACTION_YES,Self_On_Yes);
   GUIObject_SoftKeys_SetAction(Request,ACTION_NO,Self_OnBack);
-  //GUIObject_SoftKeys_SetAction(Request,ACTION_BACK,Self_OnBack);
+  GUIObject_Show(Request);
 }
 
 //=============================================================================
@@ -2596,140 +2587,130 @@ void RegisterImage(IMG* img , wchar_t* path, wchar_t* fname)
         img->ImageHandle = NOIMAGE;
 }
 
-void LoadImage(WALKMAN_Function* WData)
+void LoadImage(WALKMAN_Function* Data)
 {
+  const wchar_t* MusicPlayer_Image[LastImage] =
+  {
+    L"MP_BG_LD.png",
+    L"MP_BG_PT.png",
+    L"NO_COVER_ICN.png",
+    L"OVERLAY_IMAGE_P.png",
+    L"BLOB.png",
+    L"MP_EQ_STATUS_ICN.png",
+    L"MP_MODE_LOOP_ICN.png",
+    L"MP_MODE_RANDOM_ICN.png",
+    L"MP_PAUSE_ICN.png",
+    L"MP_PLAY_ICN.png",
+    L"MP_REWIND_ICN.png",
+    L"MP_FAST_FORWARD_ICN.png",
+    L"MP_ALBUM_ICN.png",
+    L"MP_ARTIST_ICN.png",
+    L"MP_TRACK_ICN.png",
+    L"MC_WHEEL_BACKGROUND_ICN.png",
+    L"MC_WHEEL_DOWN_ICN.png",
+    L"MC_WHEEL_FF_ICN.png",
+    L"MC_WHEEL_NEXT_ICN.png",
+    L"MC_WHEEL_PAUSE_ICN.png",
+    L"MC_WHEEL_PLAY_ICN.png",
+    L"MC_WHEEL_PREV_ICN.png",
+    L"MC_WHEEL_REW_ICN.png",
+    L"MC_WHEEL_UP_ICN.png",
+    L"OVERLAY_IMAGE_L.png",
+    L"REFLECT.png",
+    L"MP_EQ_BASS_ICN.png",
+    L"MP_EQ_MANUAL_ICN.png",
+    L"MP_EQ_MEGABASS_ICN.png",
+    L"MP_EQ_NORMAL_ICN.png",
+    L"MP_EQ_TREBLEBOOST_ICN.png",
+    L"MP_EQ_VOICE_ICN.png",
+    L"PROGRESSBAR_OVERLAY.png",
+    L"PROGRESSBAR_OVERLAY_LANDSCAPE.png",
+    L"MP_MODE_REPEAT_ONE_ICN.png"
+  };
+  
   int File;
   if ( (File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
   {
     SKIN* SkinData = (SKIN*) malloc(sizeof(SKIN));
     memset( SkinData, NULL, sizeof(SKIN));
     fread( File, SkinData, sizeof(SKIN));
-    WData->ImageDataName[0]=L"MP_BG_LD.png";
-    WData->ImageDataName[1]=L"MP_BG_PT.png";
-    WData->ImageDataName[2]=L"NO_COVER_ICN.png";
-    WData->ImageDataName[3]=L"OVERLAY_IMAGE_P.png";
-    WData->ImageDataName[4]=L"BLOB.png";
-    WData->ImageDataName[5]=L"MP_EQ_STATUS_ICN.png";
-    WData->ImageDataName[6]=L"MP_MODE_LOOP_ICN.png";
-    WData->ImageDataName[7]=L"MP_MODE_RANDOM_ICN.png";
-    WData->ImageDataName[8]=L"MP_PAUSE_ICN.png";
-    WData->ImageDataName[9]=L"MP_PLAY_ICN.png";
-    WData->ImageDataName[10]=L"MP_REWIND_ICN.png";
-    WData->ImageDataName[11]=L"MP_FAST_FORWARD_ICN.png";
-    WData->ImageDataName[12]=L"MP_ALBUM_ICN.png";
-    WData->ImageDataName[13]=L"MP_ARTIST_ICN.png";
-    WData->ImageDataName[14]=L"MP_TRACK_ICN.png";
-    WData->ImageDataName[15]=L"MC_WHEEL_BACKGROUND_ICN.png";
-    WData->ImageDataName[16]=L"MC_WHEEL_DOWN_ICN.png";
-    WData->ImageDataName[17]=L"MC_WHEEL_FF_ICN.png";
-    WData->ImageDataName[18]=L"MC_WHEEL_NEXT_ICN.png";
-    WData->ImageDataName[19]=L"MC_WHEEL_PAUSE_ICN.png";
-    WData->ImageDataName[20]=L"MC_WHEEL_PLAY_ICN.png";
-    WData->ImageDataName[21]=L"MC_WHEEL_PREV_ICN.png";
-    WData->ImageDataName[22]=L"MC_WHEEL_REW_ICN.png";
-    WData->ImageDataName[23]=L"MC_WHEEL_UP_ICN.png";
-    WData->ImageDataName[24]=L"OVERLAY_IMAGE_L.png";
-    WData->ImageDataName[25]=L"REFLECT.png";
-    WData->ImageDataName[26]=L"MP_EQ_BASS_ICN.png";
-    WData->ImageDataName[27]=L"MP_EQ_MANUAL_ICN.png";
-    WData->ImageDataName[28]=L"MP_EQ_MEGABASS_ICN.png";
-    WData->ImageDataName[29]=L"MP_EQ_NORMAL_ICN.png";
-    WData->ImageDataName[30]=L"MP_EQ_TREBLEBOOST_ICN.png";
-    WData->ImageDataName[31]=L"MP_EQ_VOICE_ICN.png";
-    WData->ImageDataName[32]=L"PROGRESSBAR_OVERLAY.png";
-    WData->ImageDataName[33]=L"PROGRESSBAR_OVERLAY_LANDSCAPE.png";
-    WData->ImageDataName[34]=L"MP_MODE_REPEAT_ONE_ICN.png";
-    
-    for (int i = 0 ; i < 35 ; i++)
+    /*
+    Data->ImageDataName[0]=L"MP_BG_LD.png";
+    Data->ImageDataName[1]=L"MP_BG_PT.png";
+    Data->ImageDataName[2]=L"NO_COVER_ICN.png";
+    Data->ImageDataName[3]=L"OVERLAY_IMAGE_P.png";
+    Data->ImageDataName[4]=L"BLOB.png";
+    Data->ImageDataName[5]=L"MP_EQ_STATUS_ICN.png";
+    Data->ImageDataName[6]=L"MP_MODE_LOOP_ICN.png";
+    Data->ImageDataName[7]=L"MP_MODE_RANDOM_ICN.png";
+    Data->ImageDataName[8]=L"MP_PAUSE_ICN.png";
+    Data->ImageDataName[9]=L"MP_PLAY_ICN.png";
+    Data->ImageDataName[10]=L"MP_REWIND_ICN.png";
+    Data->ImageDataName[11]=L"MP_FAST_FORWARD_ICN.png";
+    Data->ImageDataName[12]=L"MP_ALBUM_ICN.png";
+    Data->ImageDataName[13]=L"MP_ARTIST_ICN.png";
+    Data->ImageDataName[14]=L"MP_TRACK_ICN.png";
+    Data->ImageDataName[15]=L"MC_WHEEL_BACKGROUND_ICN.png";
+    Data->ImageDataName[16]=L"MC_WHEEL_DOWN_ICN.png";
+    Data->ImageDataName[17]=L"MC_WHEEL_FF_ICN.png";
+    Data->ImageDataName[18]=L"MC_WHEEL_NEXT_ICN.png";
+    Data->ImageDataName[19]=L"MC_WHEEL_PAUSE_ICN.png";
+    Data->ImageDataName[20]=L"MC_WHEEL_PLAY_ICN.png";
+    Data->ImageDataName[21]=L"MC_WHEEL_PREV_ICN.png";
+    Data->ImageDataName[22]=L"MC_WHEEL_REW_ICN.png";
+    Data->ImageDataName[23]=L"MC_WHEEL_UP_ICN.png";
+    Data->ImageDataName[24]=L"OVERLAY_IMAGE_L.png";
+    Data->ImageDataName[25]=L"REFLECT.png";
+    Data->ImageDataName[26]=L"MP_EQ_BASS_ICN.png";
+    Data->ImageDataName[27]=L"MP_EQ_MANUAL_ICN.png";
+    Data->ImageDataName[28]=L"MP_EQ_MEGABASS_ICN.png";
+    Data->ImageDataName[29]=L"MP_EQ_NORMAL_ICN.png";
+    Data->ImageDataName[30]=L"MP_EQ_TREBLEBOOST_ICN.png";
+    Data->ImageDataName[31]=L"MP_EQ_VOICE_ICN.png";
+    Data->ImageDataName[32]=L"PROGRESSBAR_OVERLAY.png";
+    Data->ImageDataName[33]=L"PROGRESSBAR_OVERLAY_LANDSCAPE.png";
+    Data->ImageDataName[34]=L"MP_MODE_REPEAT_ONE_ICN.png";
+    */
+    for (int i = MP_BG_LD ; i < LastImage ; i++)
     {
-      if( FSX_IsFileExists( SkinData->SkinDataPath, WData->ImageDataName[i] ) )  
+      if( FSX_IsFileExists( SkinData->SkinDataPath, (wchar_t*)MusicPlayer_Image[i] )) //Data->ImageDataName[i] ) )  
       {
-        RegisterImage(&WData->ImageID[i], SkinData->SkinDataPath, WData->ImageDataName[i]);
+        RegisterImage(&Data->MusicPlayer[i], SkinData->SkinDataPath, (wchar_t*)MusicPlayer_Image[i] ); //Data->ImageDataName[i]);
       }
       else
       {
-        WData->ImageID[i].ImageID = NOIMAGE;
+        Data->MusicPlayer[i].ImageID = NOIMAGE;
       }
     }
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    WData->blob_w = (dll_GetImageWidth( WData->ImageID[4].ImageID ))/2;
-    WData->blob_h = (dll_GetImageHeight( WData->ImageID[4].ImageID ))/2;
+    Data->blob_w = (dll_GetImageWidth( Data->MusicPlayer[4].ImageID ))/2;
+    Data->blob_h = (dll_GetImageHeight( Data->MusicPlayer[4].ImageID ))/2;
 #else
-    WData->blob_w = (GetImageWidth( WData->ImageID[4].ImageID ))/2;
-    WData->blob_h = (GetImageHeight( WData->ImageID[4].ImageID ))/2;
+    Data->blob_w = (GetImageWidth( Data->MusicPlayer[4].ImageID ))/2;
+    Data->blob_h = (GetImageHeight( Data->MusicPlayer[4].ImageID ))/2;
 #endif
     fclose(File);
     mfree(SkinData);
   }
 }
 
-void FreeImage(WALKMAN_Function * WData)
+void FreeImage(WALKMAN_Function *Data)
 {
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
   char error_code;
   
-  if(WData->CoverArtID != WData->ImageID[2].ImageID)
+  if(Data->CoverArtID != Data->MusicPlayer[NO_COVER_ICN].ImageID)
   {
-    ImageID_Free(WData->CoverArtID);
+    FREE_IMAGE(Data->CoverArtID);
   }
-  WData->CoverArtID = NULL;
-  
-  int File;
-  if ( (File = _fopen( SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >=0 )
+
+  for (int i = 0 ; i < LastImage ; i++)
   {
-    SKIN* SkinData = (SKIN*)malloc(sizeof(SKIN));
-    memset( SkinData, NULL, sizeof(SKIN) );
-    fread( File, SkinData, sizeof(SKIN));
-    WData->ImageDataName[0]=L"MP_BG_LD.png";
-    WData->ImageDataName[1]=L"MP_BG_PT.png";
-    WData->ImageDataName[2]=L"NO_COVER_ICN.png";
-    WData->ImageDataName[3]=L"OVERLAY_IMAGE_P.png";
-    WData->ImageDataName[4]=L"BLOB.png";
-    WData->ImageDataName[5]=L"MP_EQ_STATUS_ICN.png";
-    WData->ImageDataName[6]=L"MP_MODE_LOOP_ICN.png";
-    WData->ImageDataName[7]=L"MP_MODE_RANDOM_ICN.png";
-    WData->ImageDataName[8]=L"MP_PAUSE_ICN.png";
-    WData->ImageDataName[9]=L"MP_PLAY_ICN.png";
-    WData->ImageDataName[10]=L"MP_REWIND_ICN.png";
-    WData->ImageDataName[11]=L"MP_FAST_FORWARD_ICN.png";
-    WData->ImageDataName[12]=L"MP_ALBUM_ICN.png";
-    WData->ImageDataName[13]=L"MP_ARTIST_ICN.png";
-    WData->ImageDataName[14]=L"MP_TRACK_ICN.png";
-    WData->ImageDataName[15]=L"MC_WHEEL_BACKGROUND_ICN.png";
-    WData->ImageDataName[16]=L"MC_WHEEL_DOWN_ICN.png";
-    WData->ImageDataName[17]=L"MC_WHEEL_FF_ICN.png";
-    WData->ImageDataName[18]=L"MC_WHEEL_NEXT_ICN.png";
-    WData->ImageDataName[19]=L"MC_WHEEL_PAUSE_ICN.png";
-    WData->ImageDataName[20]=L"MC_WHEEL_PLAY_ICN.png";
-    WData->ImageDataName[21]=L"MC_WHEEL_PREV_ICN.png";
-    WData->ImageDataName[22]=L"MC_WHEEL_REW_ICN.png";
-    WData->ImageDataName[23]=L"MC_WHEEL_UP_ICN.png";
-    WData->ImageDataName[24]=L"OVERLAY_IMAGE_L.png";
-    WData->ImageDataName[25]=L"REFLECT.png";
-    WData->ImageDataName[26]=L"MP_EQ_BASS_ICN.png";
-    WData->ImageDataName[27]=L"MP_EQ_MANUAL_ICN.png";
-    WData->ImageDataName[28]=L"MP_EQ_MEGABASS_ICN.png";
-    WData->ImageDataName[29]=L"MP_EQ_NORMAL_ICN.png";
-    WData->ImageDataName[30]=L"MP_EQ_TREBLEBOOST_ICN.png";
-    WData->ImageDataName[31]=L"MP_EQ_VOICE_ICN.png";
-    WData->ImageDataName[32]=L"PROGRESSBAR_OVERLAY.png";
-    WData->ImageDataName[33]=L"PROGRESSBAR_OVERLAY_LANDSCAPE.png";
-    WData->ImageDataName[34]=L"MP_MODE_REPEAT_ONE_ICN.png";
-    
-    for (int i = 0 ; i < 35 ; i++)
+    if (Data->MusicPlayer[i].ImageID != NOIMAGE)
     {
-      if( FSX_IsFileExists(SkinData->SkinDataPath,WData->ImageDataName[i])) 
-      {
-        REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,WData->ImageID[i].ImageHandle,0,0,WData->ImageID[i].ImageID,1,&error_code);
-      }
-      else
-      {
-        WData->ImageID[i].ImageID = NOIMAGE;
-      }
+      REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC,Data->MusicPlayer[i].ImageHandle,0,0,Data->MusicPlayer[i].ImageID,1,&error_code);
     }
-    fclose (File);
-    mfree(SkinData);
   }
 }
 

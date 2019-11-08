@@ -8,7 +8,7 @@
 ;Adds skin editor for easy loading & editing of skins
 ;Adds possibility to use Walkman 4 visualization
 ;Redraws everything in Walkman,optimized for better Walkman experience
-;v.1.3.3 mod
+;v.1.5
 ;(c) blacklizard
 ;(r) KreN
 ;(e) farid, D3mon
@@ -22,7 +22,6 @@
 #endif
 
 #include "Function.h"
-#include "LNG.h"
 #include "SaveLoad.h"
 #include "Visual.h"
 #include "Viz.h"

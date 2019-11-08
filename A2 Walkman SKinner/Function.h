@@ -1,9 +1,14 @@
+#ifndef _FUNCTION_H_
+  #define _FUNCTION_H_
+
+#include "..\\include\book\MusicApplication_Book.h"
+
 extern "C"
 {
-  int Music_Gui_NowPlaying_OnCreate(DISP_OBJ*);
-  void Music_Gui_NowPlaying_OnRedraw (DISP_OBJ*,int a,int b,int c);
-  void Music_Gui_NowPlaying_OnDestroy(DISP_OBJ*);
-  void Music_Gui_NowPlaying_OnMethod0A(DISP_OBJ*);
+  int Music_Gui_NowPlaying_OnCreate(MUSIC_GUI_NOWPLAYING_DISP_OBJ*);
+  void Music_Gui_NowPlaying_OnRedraw (MUSIC_GUI_NOWPLAYING_DISP_OBJ*,int a,int b,int c);
+  void Music_Gui_NowPlaying_OnDestroy(MUSIC_GUI_NOWPLAYING_DISP_OBJ*);
+  void Music_Gui_NowPlaying_OnMethod0A(MUSIC_GUI_NOWPLAYING_DISP_OBJ*);
   
   int Default_PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT( void *Data, BOOK *book);
   int Default_PATCH_UI_MEDIAPLAYER_CREATED_EVENT( void *Data, BOOK *book);
@@ -21,3 +26,5 @@ extern "C"
   void MusicApp_CancelAction(BOOK *book, GUI *gui);
 
 };
+
+#endif

@@ -7,12 +7,17 @@
 ;Adds skin editor for easy loading & editing of skins
 ;Adds possibility to use Walkman 4 visualization
 ;Redraws everything in Walkman,optimized for better Walkman experience
-;v.1.3.3 mod
+;v.1.5
 ;(c) blacklizard
 ;(r) KreN
 ;(e) farid, D3mon, blacklizard
 
 Changelog:
+[+]Faster load Image
+[+]Reduce RAM usage
+[+]Player does not restart after change skin
+[+]Added Volume Bar
+
 Changes from blacklizard:
 [+]Possibility redrawing an image on top of the progressbar.
 [+]Icon should be called "PROGRESSBAR_OVERLAY.png"(portrait) and "PROGRESSBAR_OVERLAY_LANDSCAPE.png" (landscape)

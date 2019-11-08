@@ -5,11 +5,12 @@
 
 void DrawIcon( IMAGEID img, int x, int y );
 void DrawImage( GC* gc, int x, int y, int w, int h, IMAGEID img );
+
 void onfTimer ( u16 unk, void* RLBook );
 void WaitingForPlayer( u16 tmr, void* );
-void CreateTabGui( BOOK* book, int selected_tab );
 void onTimer( u16 unk, void* );
 void BeginTimer( u16 unk, void* );
+
 void Enter_WalkmanSkinEditor( BOOK* book, GUI* gui );
 void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width ,int NormalColor);
 
@@ -19,6 +20,52 @@ void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int
 
 //#define SKIN_PATH_EXTERNAL   L"/card/other/ZBin/Config/WALKMAN"
 #define SKIN_PATH_INTERNAL   L"/usb/other/ZBin/Config/WALKMAN"
+
+enum MusicPlayer_Image 
+{
+  MP_BG_LD = 0,
+  MP_BG_PT,
+  NO_COVER_ICN,
+  OVERLAY_IMAGE_P,
+  BLOB,
+  MP_EQ_STATUS_ICON,
+  MP_MODE_LOOP_ICN,
+  MP_MODE_RANDOM_ICN,
+  MP_PAUSE_ICN,
+  MP_PLAY_ICN,
+  MP_REWIND_ICN,
+  MP_FAST_FORWARD_ICN,
+  MP_ALBUM_ICN,
+  MP_ARTIST_ICN,
+  MP_TRACK_ICN,
+  MC_WHEEL_BACKGROUND_ICN,
+  MC_WHEEL_DOWN_ICN,
+  MC_WHEEL_FF_ICN,
+  MC_WHEEL_NEXT_ICN,
+  MC_WHEEL_PAUSE_ICN,
+  MC_WHEEL_PLAY_ICN,
+  MC_WHEEL_PREV_ICN,
+  MC_WHEEL_REW_ICN,
+  MC_WHEEL_UP_ICN,
+  OVERLAY_IMAGE_L,
+  REFLECT,
+  MP_EQ_BASS_ICON,
+  MP_EQ_MANUAL_ICON,
+  MP_EQ_MEGABASS_ICON,
+  MP_EQ_NORMAL_ICON,
+  MP_EQ_TREBLEBOOST_ICON,
+  MP_EQ_VOICE_ICON,
+  PROGRESSBAR_OVERLAY,
+  PROGRESSBAR_OVERLAY_LANDSCAPE,
+  MP_MODE_REPEAT_ONE_ICN,
+  LastImage
+};
+
+typedef enum
+{
+  Tab_NotSelected = 0,
+  Tab_Selected
+} TabMenu_State_t;
 
 typedef enum
 {
@@ -87,7 +134,7 @@ typedef struct _WalkmanSkinEditor_Book : BOOK
   wchar_t AuthorName[100];
   
   wchar_t temp[256];   
-  int Orientation;
+  bool Orientation;
   char ItemID;
   bool CreateNew;
   bool GuiChanged;
@@ -1086,7 +1133,7 @@ typedef struct _SkinData
 
 typedef struct _VizFileData
 {
-  int ID;
+  char ID;
 }VizFileData;
 
 typedef struct _WALKMAN_Function
@@ -1095,7 +1142,6 @@ typedef struct _WALKMAN_Function
   DISP_OBJ* Music_Gui_NowPlaying;
   
   bool Portrait;
-  //bool IsAlbumArt;
   bool IsShuffle;
   bool IsLoop;
   bool IsPlaying;
@@ -1111,46 +1157,26 @@ typedef struct _WALKMAN_Function
   wchar_t buffer[256];
   wchar_t tempFullPath[256];
   wchar_t fullpath[256];
-  //wchar_t artist[256];
-  //wchar_t album[256];
-  //wchar_t title[256];
+  wchar_t SkinPath[256];
+
   wchar_t genre[256];
   wchar_t ext[3];
   
-  //int TempTimeData;
   int FullTime;
-  //int FullTimeSeconds;
-  //int FullTimeMinutes;
   int ElapsedTime;
-  //int ElapsedTimeSeconds;
-  //int ElapsedTimeMinutes;
   
   u16 timer;
   u16 WaitingTimer;
   int UpdateTime;
   
-  IMG ImageID[35];
-  wchar_t* ImageDataName[35];
+  IMG MusicPlayer[LastImage];
+  //wchar_t* ImageDataName[35];
   IMAGEID VizIMG_ID;
   wchar_t VizName[12];
   
-  wchar_t SkinPath[512];
-  wchar_t* SkinItemName[15];
-  IMG SkinItemImageID[15];
-  
-  //int Offset;
-  //int Size;
-  //char pImageType;
-  //bool IsDRMProtected;
-  //TMusicServer_Time Playlength;
-  //TMusicServer_Time ResumePosition;
   bool ContainsAlbumart;
-  //bool IsRealMediaFile;
   IMAGEID CoverArtID;
   
-  //u16 CurrentTrackNumber;
-  //u16 TotalTrackNumber;
-
   int VolumeLevel;
   int Bitrate;
   
@@ -1158,13 +1184,13 @@ typedef struct _WALKMAN_Function
   int blob_h;
   
   IMAGEID VizImageID;
-  //IMG VizImage;
-  GVI_GC m_smilgc;// = NULL;
+
+  GVI_GC m_smilgc;
   GVI_BRUSH m_br;
   GC* gc;
   GC* m_hMGC;
-  int kl;//=0;
-  int gcmem_xsize;//=0;
+  int kl;
+  int gcmem_xsize;
 
   SkinData VizData;
   WalkmanDrawData Main;
@@ -1186,6 +1212,7 @@ int CreateSkinChooser( BOOK* book );
 void YesNoSaveSkinData( BOOK* book );
 
 void DrawProgressBar( WALKMAN_Function* Data, int value, int max_value, RECT rect, int Bcolor, int Ecolor );
+
 void FreeViz( WALKMAN_Function* Data );
 void BootViz( WALKMAN_Function* Data );
 void KillAllTimer( WALKMAN_Function* Data );

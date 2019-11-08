@@ -8,7 +8,7 @@
 ;Adds skin editor for easy loading & editing of skins
 ;Adds possibility to use Walkman 4 visualization
 ;Redraws everything in Walkman,optimized for better Walkman experience
-;v.1.3.3 mod
+;v.1.5
 ;(c) blacklizard
 ;(r) KreN
 ;(e) farid, D3mon
@@ -23,8 +23,8 @@
 
 #include "..\\include\book\MusicApplication_Book.h"
 
+#include "EN_LNG.h"
 #include "Function.h"
-#include "LNG.h"
 #include "SaveLoad.h"
 #include "Visual.h"
 #include "Viz.h"
@@ -264,8 +264,8 @@ int GetVizCount()
   snwprintf(VizName_buf,MAXELEMS(VizName_buf),L"%d.png",file_count);
   while (FSX_IsFileExists(VIZ_CONFIG_PATH,VizName_buf))
   {
-    file_count++;
-    snwprintf (VizName_buf,MAXELEMS(VizName_buf),L"%d.png",file_count);
+    //file_count++;
+    snwprintf (VizName_buf,MAXELEMS(VizName_buf),L"%d.png",file_count++);
   }
   return (file_count-1);
 }
@@ -427,6 +427,7 @@ int Viz_Page_OnCreate( void* pData, BOOK* book )
   
   if(MusicBook->Gui_submenu = Create_VizBoardGUI(MusicBook))
   {
+    GUIObject_SoftKeys_AllowKeylock( MusicBook->Gui_submenu, TRUE );
     DispObject_SetAnimation( GUIObject_GetDispObject(MusicBook->Gui_submenu), 0xA0001021 );
   }
   return 1;

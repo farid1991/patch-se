@@ -700,12 +700,10 @@ a       equ b
         defadr Feedback_SetTextAlignment,0x157090AC+1
         defadr Feedback_SetDescriptionImage,0x14D91E10+1
         defadr ProgressBar_SetDescriptionIcon,0x14212740+1
-        //defadr ProgressBar_SetDescriptionIconOffset,0x+1
         defadr ProgressBar_IsScrolling,0x140723C0+1
         defadr CreateYesNoQuestion,0x142CD924+1
         defadr YesNoQuestion_SetQuestionText,0x14337434+1
         defadr YesNoQuestion_SetDescriptionText,0x14337444+1
-        //defadr YesNoQuestion_SetDescriptionIconOffset,0x+1
         defadr NOfMany_SetItemCount,0x144AA700+1
         defadr NOfMany_GetCheckedItem,0x144946B4+1
         defadr CreateStringInput,0x14062C90+1
@@ -766,7 +764,6 @@ a       equ b
         defadr DispObject_SoftKeys_Hide,0x144CB14C+1 
         
         defadr MetaData_GetTags,0x157523B8+1
-        //defadr MetaData_GetCover,0x+1
         
 ///////////////
 
