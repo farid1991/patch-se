@@ -629,27 +629,39 @@ a       EQU b
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
         defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
 
-	defadr DEFAULT_VOLUMEONREDRAW,0x116DF370+1
-	defadr DEFAULT_VOLUMEONPAGENTER,0x116DFB24+1
-	defadr DEFAULT_VOLUMEONPAGEXIT,0x116DFB68+1
+	defadr VolumeControl_OnRedraw,0x116DF370+1
+	defadr pg_VolumeControl_Active_EnterAction,0x116DFB24+1
+	defadr pg_VolumeControl_Active_ExitAction,0x116DFB68+1
 
 //-----------
 
-        EXTERN NEW_VOLUMEONREDRAW
-        EXTERN NEW_VOLUMEONPAGENTER
-	EXTERN NEW_VOLUMEONPAGEXIT
-		
-	RSEG PATCH_VOLUMEONPAGENTER(2)
-	DATA
-	DCD NEW_VOLUMEONPAGENTER
+        EXTERN New_VolumeControl_OnCreate
+        EXTERN New_VolumeControl_OnClose
+        EXTERN New_VolumeControl_OnRedraw
+        
+        EXTERN New_pg_VolumeControl_Active_EnterAction
+        EXTERN New_pg_VolumeControl_Active_ExitAction
+        
+        RSEG PATCH_VOLUMEONPAGENTER
+        DATA
+        DCD New_pg_VolumeControl_Active_EnterAction
+        
+        //RSEG PATCH_VOLUMEONPAGEXIT
+        //DATA
+        //DCD New_pg_VolumeControl_Active_ExitAction
+        
+        RSEG PATCH_VOLUMEONCREATE
+        DATA
+        DCD New_VolumeControl_OnCreate
+        
+        RSEG PATCH_VOLUMEONCLOSE
+        DATA
+        DCD New_VolumeControl_OnClose
 
-	RSEG PATCH_VOLUMEONPAGEXIT(2)
-	DATA
-	DCD NEW_VOLUMEONPAGEXIT
-	
-	RSEG PATCH_VOLUMEONREDRAW(2)
-	DATA
-	DCD NEW_VOLUMEONREDRAW
-
+        
+        RSEG PATCH_VOLUMEONREDRAW
+        DATA
+        DCD New_VolumeControl_OnRedraw
+        
 #endif
         END

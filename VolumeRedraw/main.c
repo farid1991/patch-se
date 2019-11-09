@@ -1,250 +1,340 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
-#include "..\\include\book\VolumeControllerBook.h"
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#include "..\\include\dll.h"
+#endif
+
+#include "..\\include\book\VolumeControlBook.h"
 
 #include "main.h"
 
 __thumb void* malloc(int size)
 {
 #ifdef DB2020
-  return(memalloc(0, size, 1, 5, "vr", 0));
+  return(memalloc(0, size, 1, 5, EMP_NAME, 0));
 #elif A2
-  return(memalloc(0xFFFFFFFF, size, 1, 5, "vr", 0));
+  return(memalloc(0xFFFFFFFF, size, 1, 5, EMP_NAME, 0));
 #else
-  return(memalloc(size, 1, 5, "vr", 0));
+  return(memalloc(size, 1, 5, EMP_NAME, 0));
 #endif
 }
 
 __thumb void mfree(void* mem)
 {
 #ifdef DB2020
-  if(mem) memfree(0, mem, "vr", 0);
+  if(mem) memfree(0, mem, EMP_NAME, 0);
 #elif A2
-  if(mem) memfree(0, mem, "vr", 0);
+  if(mem) memfree(0, mem, EMP_NAME, 0);
 #else
-  memfree(mem, "vr", 0);
+  memfree(mem, EMP_NAME, 0);
 #endif
+}
+
+Volume_Function *Create_Volume_Function()
+{
+  Volume_Function *Data = (Volume_Function*) malloc(sizeof(Volume_Function));
+  memset(Data, NULL, sizeof(Volume_Function));
+  set_envp(NULL, EMP_NAME, (OSADDRESS)Data);
+  return(Data);
+}
+
+Volume_Function *Get_Volume_Function()
+{
+  Volume_Function *Data = (Volume_Function*) get_envp(NULL, EMP_NAME);
+  if(Data) return Data;
+  return Create_Volume_Function();
+}
+
+extern "C"
+void Delete_Volume_Function()
+{
+  Volume_Function* Data = (Volume_Function*)get_envp(NULL, EMP_NAME);
+  if (Data)
+  {
+    mfree(Data);
+    set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
+  }
 }
 
 int IsOngoingCallBook(BOOK *book)
 {
-  if(!strcmp(book->xbook->name, (char*)0x11A13DD8 )) return TRUE;
+  if(!strcmp(book->xbook->name, (char*)ONGOINGCALLBOOK )) return TRUE;
   return FALSE;
 }
 
-int IsMOCallBook(BOOK *book)	/* windows that show the connecting arrow */
+int IsMOCallBook(BOOK *book)	
 {
-  if(!strcmp(book->xbook->name, (char*)0x11A1525C )) return TRUE;
+  if(!strcmp(book->xbook->name, (char*)MOCALLBOOK )) return TRUE;
   return FALSE;
 }
 
-wchar_t *getCurrentSkinPath()
+wchar_t *GetCurrentSkinPath(Volume_Function* Data)
 {
-  wchar_t *path = L"/usb/other/ZBin/Config/VolumeControl";
-  int f;
-  if((f = _fopen( (wchar_t*)DEFAULT_PATH, L"vol.cfg", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  wchar_t *path = (wchar_t*)OTHER_PATH;
+  int file;
+  if( (file = _fopen((wchar_t*)DEFAULT_PATH, L"vol.cfg",FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE,0) )  >= 0)
   {
-    CPATH *Data = (CPATH*) malloc(sizeof(CPATH));
-    memset(Data, 0, sizeof(CPATH));
-    fread(f, Data, sizeof(CPATH));
-    path = Data->path;
-    fclose(f);
-    mfree(Data);
+    CPATH *ConfigData = (CPATH*) malloc(sizeof(CPATH));
+    memset(ConfigData, 0, sizeof(CPATH));
+    fread(file, ConfigData, sizeof(CPATH));
+    path = ConfigData->path;
+    fclose(file);
+    mfree(ConfigData);
   }
   return path;
 }
 
-SkinConfig *getCurrentSkinData(wchar_t *cpath)
+SkinConfig *GetConfig(wchar_t* cpath)
 {
-  int f;
-  SkinConfig* Data = (SkinConfig*) malloc(sizeof(SkinConfig));
-  memset(Data, NULL, sizeof(SkinConfig));
-  if((f = _fopen(cpath, L"skin.vsf", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  int file;
+  SkinConfig* SkinData = (SkinConfig*) malloc(sizeof(SkinConfig));
+  memset(SkinData, NULL, sizeof(SkinConfig));
+  if((file = _fopen(cpath, L"skin.vsf", FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, 0)) >= 0)
   {
-    fread(f, Data, sizeof(SkinConfig));
-    fclose(f);
+    fread(file, SkinData, sizeof(SkinConfig));
+    fclose(file);
   }
-  return Data;
+  return SkinData;
 }
 
-VolumeFunction *Create_VolumeFunction()
+void RegisterImage(IMG* img, wchar_t* path, wchar_t* fname)
 {
-  wchar_t *ImageName[] = {
+  int _SYNC = NULL;
+  int *SYNC = &_SYNC;
+  char error_code;
+  img->ID = NOIMAGE;
+  img->Handle = NOIMAGE;
+  
+  if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC, &img->Handle, &error_code))
+    if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC, img->Handle, path, fname, 0, &img->ID, &error_code))
+      if (error_code) img->Handle = NOIMAGE;
+}
+
+void UnRegisterImage(Volume_Function *Data)
+{
+  int _SYNC = NULL;
+  int *SYNC = &_SYNC;
+  char error_code;
+  
+  for (int i = 0; i < LAST_IMG; i++)
+  {
+    if (Data->Vol_Image[i].ID != NOIMAGE)
+    {
+      REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, Data->Vol_Image[i].Handle, 0, 0, Data->Vol_Image[i].ID, 1, &error_code);
+    }
+  }
+}
+
+void LoadVolumeImage(Volume_Function *Data)
+{
+  const wchar_t* VolumeImages[5] =
+  {
     L"background.png",
     L"call.png",
     L"music.png",
     L"off.png",
     L"blob.png"
   };
-
-  VolumeFunction *Data = (VolumeFunction*) malloc(sizeof(VolumeFunction));
-
-  memset(Data, 0, sizeof(VolumeFunction));
-  wstrcpy(Data->cpath, getCurrentSkinPath());
-  for(int x = 0; x <= 5; x++)
-  {
-    if(!fstat(Data->cpath, ImageName[x], 0))
-    {
-      ImageID_Get(Data->cpath, ImageName[x], &Data->image[x]);
-    }
-	else Data->image[x]=NOIMAGE; 
-  }
-
-  Data->Config = *getCurrentSkinData(Data->cpath);
-  Data->blob_h = (GetImageHeight(Data->image[4])) / 2;
-  Data->blob_w = (GetImageWidth(Data->image[4])) / 2;
-  set_envp(get_bid(current_process()), VOLUME_VAR, (OSADDRESS)Data);
-  return(Data);
-}
-
-VolumeFunction *Get_VolumeFunction()
-{
-  VolumeFunction *Data = (VolumeFunction*) get_envp(get_bid(current_process()), VOLUME_VAR);
-  if(Data) return Data;
-  return(Create_VolumeFunction());
-}
-
-BOOL IsJavaBOOK( BOOK* bk )
-{
-  char s[100];
-  TextID_GetString( BookObj_GetSession(bk)->name, s, MAXELEMS(s) );
   
-  if ( !strncmp( s, "Foreign app", 11 ) )
+  for (int i = 0; i < 5; i++)
+  {
+    if( FSX_IsFileExists(Data->cpath, (wchar_t*)VolumeImages[i]))
+    {
+      RegisterImage(&Data->Vol_Image[i], Data->cpath, (wchar_t*)VolumeImages[i]);
+    }
+    else Data->Vol_Image[i].ID = NOIMAGE;
+  }
+}
+
+bool IsJavaBOOK( BOOK* book )
+{
+  char str[100];
+  TextID_GetString( BookObj_GetSession(book)->name, str, MAXELEMS(str) );
+  
+  if ( !strncmp( str, "Foreign app", 11 ) )
   {
     return TRUE;
   }
   
-  if ( !strcmp( s, "Java" ) )
+  if ( !strcmp( str, "Java" ) )
   {
     return TRUE;
   }
   return FALSE;
 }
 
-extern "C"
-int NEW_VOLUMEONPAGENTER(void *pVCBookData, BOOK *pVCBook)
+void DrawImage( int x, int y, IMAGEID img )
 {
-  if(DEFAULT_VOLUMEONPAGENTER(pVCBookData, pVCBook))
+  GC *pGC = get_DisplayGC();
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  if(img!=NOIMAGE) dll_GC_PutChar( pGC, x, y, 0, 0, img );
+#else
+  if(img!=NOIMAGE) GC_PutChar( pGC, x, y, 0, 0, img );
+#endif
+}
+
+void DrawProgressBar(IMAGEID blob_id, int value, int max_value, RECT rect, int Bcolor, int Ecolor, bool enable)
+{
+  int wid = rect.x2-rect.x1;
+  int nx2 = rect.x1 + (value * wid / max_value);
+  
+  DrawRect( rect.x1, rect.y1, rect.x2, rect.y2, Bcolor, Bcolor );
+  DrawRect( rect.x1, rect.y1, nx2, rect.y2, Ecolor, Ecolor );
+  
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    int blob_h = (dll_GetImageHeight(blob_id)) / 2;
+    int blob_w = (dll_GetImageWidth(blob_id)) / 2;
+#else
+    int blob_h = (GetImageHeight(blob_id)) / 2;
+    int blob_w = (GetImageWidth(blob_id)) / 2;
+#endif
+  if(enable)
   {
-    VolumeFunction* Data = Create_VolumeFunction();
-    Data->IsJava = IsJavaBOOK(GetTopBook());
-    if(!Data->IsJava)
-    {
-      VolumeControllerBook* VCBook = (VolumeControllerBook*) pVCBook;
-      DispObject_WindowSetSize(VCBook->vc_gui->disp, SCN_WIDTH, SCN_HEIGHT);
-      DispObject_SetLayerColor(VCBook->vc_gui->disp, 0x00000000);
-      DispObject_SetAnimation(VCBook->vc_gui->disp, Data->Config.AnimationStyle);
-    }
+    int blob_x = nx2 - blob_w;
+    int blob_y = (rect.y1 - blob_h) + ((rect.y2 - rect.y1) / 2);
+    DrawImage(blob_x, blob_y, blob_id);
   }
-  return TRUE;
+}
+
+void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width ,int NormalColor)
+{
+  if (text && (text!=EMPTY_TEXTID))
+  {
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    dll_DrawString( text, font, align, XPos, YPos, XPos+width, YPos+(font&0xFF), NormalColor);
+#else
+    SetFont(font);
+    DrawString(text,align,XPos,YPos,XPos+width,YPos+(font&0xFF),0,1,NormalColor,clEmpty); 
+#endif
+  }
 }
 
 extern "C"
-int NEW_VOLUMEONPAGEXIT(void *pVCBookData, BOOK *pVCBook)
+int New_VolumeControl_OnCreate(DISP_OBJ* disp_obj)
 {
-  if(DEFAULT_VOLUMEONPAGEXIT(pVCBookData, pVCBook))
-  {
-    wchar_t*ImageName[] = { 
-      L"background.png",
-      L"call.png",
-      L"music.png",
-      L"off.png",
-      L"blob.png" 
-    };
-    
-    VolumeFunction* Data = Get_VolumeFunction();
-    if(Data)
-    {
-      for(int x = 0; x <= 5; x++)
-      {
-        if(!fstat(Data->cpath, ImageName[x], 0))
-        {
-          ImageID_Free(Data->image[x]);
-        }
-      }
-      DELETE(Data);
-    }
-  }
-  return TRUE;
+  Volume_Function* Data = Get_Volume_Function();
+  Data->vol_textid = EMPTY_TEXTID;
+
+  wstrcpy(Data->cpath, GetCurrentSkinPath(Data));
+  Data->Config = *(GetConfig(Data->cpath));
+  
+  LoadVolumeImage(Data);
+  return VolumeControl_OnCreate(disp_obj);
 }
 
 extern "C"
-void NEW_VOLUMEONREDRAW(DISP_OBJ* disp, int a, int b, int c)
+void New_VolumeControl_OnClose(DISP_OBJ* disp_obj)
 {
-  VolumeFunction*Data = Get_VolumeFunction();
+  Volume_Function* Data = Get_Volume_Function();
+  TEXT_FREE(Data->vol_textid);
+  
+  UnRegisterImage(Data);
+  Delete_Volume_Function();
+  VolumeControl_OnClose(disp_obj);
+}
+
+extern "C"
+void New_VolumeControl_OnRedraw(DISP_OBJ_VOLCONTROL* disp_obj, int a, int b, int c)
+{
+  Volume_Function* Data = Get_Volume_Function();
   if(!Data->IsJava)
   {
-    VolumeControllerBook* vBook = (VolumeControllerBook*) FindBook(IsVolumeControllerBook);
-    int	level = vBook->level;
-    int	MaxVol = 0;
-    if((FindBook(IsOngoingCallBook)) || (FindBook(IsMOCallBook)))
-    {
-      MaxVol = 8;
-      Data->State = VolState_GetImageID(Data, level, FALSE);
-    }
-    else
-    {
-      MaxVol = 15;
-      Data->State = VolState_GetImageID(Data, level, TRUE);
-    }
-	
-    GC_DrawIcon( Data->Config.bg_image.x, Data->Config.bg_image.y, Data->image[0]);
-    GC_DrawIcon( Data->Config.state_image.x, Data->Config.state_image.y, Data->State);
+    GUI* VolumeControlGUI = DispObject_GetGUI( disp_obj );
+    VolumeControlBook* VCBook = (VolumeControlBook*)GUIObject_GetBook(VolumeControlGUI);
 
-    if(Data->Config.FontEnable)
+    int Vol_Level = 0;
+    int Max_Volume = 0;
+  
+    Vol_Level = VCBook->level;
+     
+    DrawImage(Data->Config.bg_image.x,
+              Data->Config.bg_image.y,
+              Data->Vol_Image[BACKGROUND_IMG].ID );
+    
+    if(Vol_Level)
     {
-      TEXTID SID[2];
-      TEXTID txtId;
-      float vLevel = (float) ((float) 100 / (float) MaxVol) * (float) level;
-      SID[0] = TextID_CreateIntegerID(vLevel);
-      SID[1] = TextID_Create("%", ENC_GSM, 1);
-      if(Data->Config.PercentageEnable)
+      if((FindBook(IsOngoingCallBook)) || (FindBook(IsMOCallBook)))
       {
-        txtId = TextID_Create(SID, ENC_TEXTID, 2);
+        Max_Volume = 8;
+        DrawImage(Data->Config.state_image.x,
+                  Data->Config.state_image.y,
+                  Data->Vol_Image[CALL_IMG].ID );
       }
       else
       {
-        txtId = TextID_Copy(SID[0]);
+        Max_Volume = 15;
+        DrawImage(Data->Config.state_image.x,
+                  Data->Config.state_image.y,
+                  Data->Vol_Image[MUSIC_IMG].ID );
       }
-      SetFont(Data->Config.Font_size);
-      DrawString(txtId,0,
-                 Data->Config.text_pos.x,
-                 Data->Config.text_pos.y,
-                 SCN_WIDTH,SCN_HEIGHT,
-                 0,1,
-                 Data->Config.text_color,
-                 Data->Config.text_color );
     }
-	
-    DrawProgressBar(Data,level,MaxVol,
+    else
+    {
+      DrawImage(Data->Config.state_image.x,
+                Data->Config.state_image.y,
+                Data->Vol_Image[OFF_IMG].ID );
+    }
+
+    if(Data->Config.TextEnable)
+    {
+      TEXTID vText_id[2];
+      float vLevel = (float) ((float) 100 / (float) Max_Volume) * (float) Vol_Level;
+      vText_id[0] = TextID_CreateIntegerID(vLevel);
+      vText_id[1] = TextID_Create("%", ENC_GSM, 1);
+      if(Data->Config.PercentageEnable)
+      {
+        Data->vol_textid = TextID_Create(vText_id, ENC_TEXTID, 2);
+      }
+      else
+      {
+        Data->vol_textid = TextID_Copy(vText_id[0]);
+      }
+      DrawString_Params(Data->Config.Font_size,
+                        Data->vol_textid,
+                        UITextAlignment_Left,
+                        Data->Config.text_pos.x,
+                        Data->Config.text_pos.y,
+                        240,
+                        Data->Config.text_color );
+    }
+    DrawProgressBar(Data->Vol_Image[BLOB_IMG].ID,
+                    Vol_Level,
+                    Max_Volume,
                     Data->Config.progressbar,
-                    Data->Config.progressbar_bg_color /* bg */,
-                    Data->Config.progressbar_elapsed_color /* elapsed */,
+                    Data->Config.progressbar_bg_color,
+                    Data->Config.progressbar_elapsed_color,
                     Data->Config.EnableProgressbar );
   }
 }
 
-IMAGEID VolState_GetImageID(VolumeFunction *Data, int level, int isNotCallbook)
+extern "C"
+int New_pg_VolumeControl_Active_EnterAction(void *data, BOOK *book)
 {
-  if(level == 0)
-    return Data->image[3];
-  else if((level > 0) && (isNotCallbook == FALSE))
-    return Data->image[1];
-  else if((level > 0) && (isNotCallbook == TRUE))
-    return Data->image[2];
-  return NOIMAGE;
-}
-
-void DrawProgressBar(VolumeFunction *Data, int value, int max_value, RECT rect, int Bcolor, int Ecolor, int enableBlob)
-{
-  int nx2(rect.x1 + (((float) (rect.x2 - rect.x1) / (float) max_value) * (float) value));
-  DrawRect(rect.x1, rect.y1, rect.x2, rect.y2, Bcolor, Bcolor);
-  DrawRect(rect.x1, rect.y1, nx2, rect.y2, Ecolor, Ecolor);
-  if(enableBlob)
+  if(pg_VolumeControl_Active_EnterAction(data, book))
   {
-    int blob_x = nx2 - (Data->blob_w);
-    int blob_y = (rect.y1 - (Data->blob_h)) + ((rect.y2 - rect.y1) / 2);
-    GC_DrawIcon( blob_x, blob_y, Data->image[4]);
+    Volume_Function* Data = Get_Volume_Function();
+    Data->IsJava = IsJavaBOOK(GetTopBook());
+    
+    if(!Data->IsJava)
+    {
+      VolumeControlBook* VCBook = (VolumeControlBook*) book;
+      DISP_OBJ *disp_obj = (DISP_OBJ*)GUIObject_GetDispObject(VCBook->VC_GUI);
+      
+      int scr_w = Display_GetWidth(UIDisplay_Main);
+      int scr_h = Display_GetHeight(UIDisplay_Main);
+      
+      DispObject_WindowSetSize(disp_obj, scr_w, scr_h);
+      DispObject_SetLayerColor(disp_obj, clEmpty);
+      DispObject_SetAnimation(disp_obj, Data->Config.AnimationStyle);
+    }
   }
+  return 1;
 }
+/*
+extern "C"
+int New_pg_VolumeControl_Active_ExitAction(void *Data, BOOK *book)
+{
+  return pg_VolumeControl_Active_ExitAction(Data, book);
+}
+*/
