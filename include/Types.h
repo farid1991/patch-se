@@ -76,10 +76,8 @@ typedef struct
 
 typedef struct POINT
 {
-	//int x;
-	//int y;
-	u16 x;
-	u16 y;
+	int x;
+	int y;
 }POINT;
 
 typedef struct RECT
@@ -272,11 +270,11 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
-	char dummy1[0x58];
-        DISP_DESC* desc;    // 0x58
-        char dummy4[0x48];
-        GUI* gui;           // 0xA4
-        char dummy5[0x110];
+  /*
+  struct DISP_DESC * desc; //use DispObject_GetDESC
+  struct WINDOW *window; //use DispObject_GetWindow
+  */
+	char dummy[0x16C];
 }DISP_OBJ;
 
 #define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD)-1
