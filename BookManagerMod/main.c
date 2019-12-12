@@ -1,5 +1,4 @@
 /*
-;G502 SW-R1FA037
 ;Improved Activity Menu
 ;1st tab corrected for the title "New Events: %d"
 ;2nd tab displays running books GUI + header "Heap: %dKB"
