@@ -750,7 +750,7 @@ a       EQU     b
         defadr FSX_FreeFullPath,0x14336024+1
         defadr MakeFullPath,0x14298BE0+1
         defadr MessageBox_Animation,0x1585B1EC+1
-        defadr MessageBox_NoImage,0x14CE140C+1
+        defadr CreateToast,0x14CE140C+1
         defadr PlaySystemSound_SendEvent,0x14FA9150+1
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1

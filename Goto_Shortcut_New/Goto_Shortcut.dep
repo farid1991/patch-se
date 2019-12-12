@@ -2,107 +2,135 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2762633530</fileChecksum>
+  <fileChecksum>3887520297</fileChecksum>
   <configuration>
     <name>C510_R1HA035</name>
     <outputs>
-      <file>$PROJ_DIR$\FileFolder.c</file>
+      <file>$PROJ_DIR$\..\include\dll.c</file>
       <file>$PROJ_DIR$\editor.c</file>
       <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
       <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
       <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\asm\W580_R8BE001.lib.asm</file>
+      <file>$PROJ_DIR$\FileFolder.c</file>
       <file>$PROJ_DIR$\main.c</file>
       <file>$PROJ_DIR$\strlib.c</file>
       <file>$PROJ_DIR$\utils.c</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\strlib.i</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W580_R8BE001.lib.r79</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\utils.lst</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\strlib.i</file>
+      <file>$PROJ_DIR$\..\include\types\OPA_Types.h</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\main.pbi</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\Goto_Shortcut.map</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.i</file>
+      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ICopsManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
+      <file>$PROJ_DIR$\..\include\socket.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichText.h</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\strlib.lst</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\editor.lst</file>
+      <file>$PROJ_DIR$\..\include\dll.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.i</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\J105_R1HA035.r79</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.pbi</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\dll.i</file>
-      <file>$PROJ_DIR$\..\include\dll.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\utils.s79</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\dll.s79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\strlib.s79</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\dll.lst</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.r79</file>
-      <file>$PROJ_DIR$\..\include\dll.c</file>
-      <file>$PROJ_DIR$\..\..\elf2vkp\include\Function.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\utils.s79</file>
-      <file>$PROJ_DIR$\xcl\C510_R1HA035.xcl</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.lst</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\editor.lst</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\utils.i</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\editor.i</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\strlib.s79</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\FileFolder.i</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\FileFolder.lst</file>
+      <file>$PROJ_DIR$\xcl\C510_R1HA035.xcl</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.lst</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\C510_R1HA035.lst</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\utils.i</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\editor.i</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\FileFolder.s79</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\editor.s79</file>
       <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.s79</file>
-      <file>$PROJ_DIR$\Target\C510_R1HA035.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
       <file>$PROJ_DIR$\utils.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.s79</file>
+      <file>$PROJ_DIR$\Target\C510_R1HA035.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\Colors.h</file>
       <file>$PROJ_DIR$\..\include\Types.h</file>
       <file>$PROJ_DIR$\main.h</file>
       <file>$PROJ_DIR$\editor.h</file>
       <file>$PROJ_DIR$\strlib.h</file>
       <file>$PROJ_DIR$\FileFolder.h</file>
-      <file>$PROJ_DIR$\..\include\Function.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\FileFolder.pbi</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\Goto_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\FileFolder.pbi</file>
       <file>$PROJ_DIR$\C510_R1HA035\Exe\Goto_Shortcut.elf</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\editor.pbi</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\strlib.pbi</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\utils.pbi</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\J105_R1HA035.r79</file>
       <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\utils.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\strlib.r79</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\FileFolder.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\utils.pbi</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\strlib.r79</file>
       <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\utils.r79</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\editor.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\C510_R1HA035.r79</file>
       <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\C510_R1HA035.r79</file>
       <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.r79</file>
       <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIUtil_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\IAlarm_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\FMRadio_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\registry_interface_errors.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIGraphic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIIconTypes.h</file>
+      <file>$PROJ_DIR$\..\include\types\UITextRendering_types.h</file>
     </outputs>
     <file>
-      <name>$PROJ_DIR$\FileFolder.c</name>
+      <name>$PROJ_DIR$\..\include\dll.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 52</file>
+          <file> 39</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 63 29 32 30</file>
+          <file> 45 40 42 44</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42 47 48 49 50</file>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 35</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70 47 48 49 50</file>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 35</file>
         </tool>
       </inputs>
     </file>
@@ -111,21 +139,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 55</file>
+          <file> 73</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 66 27 33 25</file>
+          <file> 83 52 54 34</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42 47 48 38 49 50</file>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 66 67 57 68 69</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70 47 48 38 49 50</file>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 66 67 57 68 69</file>
         </tool>
       </inputs>
     </file>
@@ -134,7 +162,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 68 31</file>
+          <file> 85 50</file>
         </tool>
       </outputs>
     </file>
@@ -143,7 +171,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 64</file>
+          <file> 81</file>
         </tool>
       </outputs>
     </file>
@@ -152,30 +180,62 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 58</file>
+          <file> 38</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\W580_R8BE001.lib.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 10</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\FileFolder.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 71</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 76 46 53 47</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 66 67 68 69</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 66 67 68 69</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 10</file>
+          <file> 14</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 67 12 35 24</file>
+          <file> 88 36 60 49</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42 16 47 48 38 49 50</file>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 35 66 67 57 68 69</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70 16 47 48 38 49 50</file>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 35 66 67 57 68 69</file>
         </tool>
       </inputs>
     </file>
@@ -184,21 +244,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 56</file>
+          <file> 74</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 62 8 28 13</file>
+          <file> 79 12 43 33</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42 47 49</file>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 66 68</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70 47 49</file>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 66 68</file>
         </tool>
       </inputs>
     </file>
@@ -207,21 +267,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 57</file>
+          <file> 78</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 61 26 22 9</file>
+          <file> 82 51 41 11</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42 47 49</file>
+          <file> 65 37 64 17 58 16 59 18 20 19 21 26 91 27 56 86 28 63 29 30 32 62 93 22 31 23 55 25 24 66 68</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70 47 49</file>
+          <file> 61 65 37 64 17 80 13 58 16 95 59 84 18 20 19 21 97 26 91 90 94 27 56 77 86 89 75 28 63 87 29 100 30 96 98 92 32 103 99 62 93 22 31 23 101 55 102 25 24 66 68</file>
         </tool>
       </inputs>
     </file>
@@ -230,39 +290,16 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 54 11</file>
+          <file> 72 15</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\include\dll.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 14</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 19 15 17 18</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 46 51 45 43 44 34 72 41 39 40 37 71 73 74 42</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 36 46 51 45 43 44 34 72 41 39 65 40 69 37 60 71 73 75 59 74 42 70</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\C510_R1HA035\Obj\Goto_Shortcut.pbd</name>
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 52 14 55 10 56 57</file>
+          <file> 71 39 73 14 74 78</file>
         </tool>
       </inputs>
     </file>
@@ -271,13 +308,13 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 11</file>
+          <file> 15</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 23 68 63 19 66 67 62 61</file>
+          <file> 48 85 76 45 83 88 79 82</file>
         </tool>
       </inputs>
     </file>
@@ -293,96 +330,111 @@
   <configuration>
     <name>G502_R1FA037</name>
     <outputs>
-      <file>$PROJ_DIR$\FileFolder.c</file>
+      <file>$PROJ_DIR$\..\include\dll.c</file>
       <file>$PROJ_DIR$\editor.c</file>
       <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
       <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
       <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\FileFolder.c</file>
       <file>$PROJ_DIR$\main.c</file>
       <file>$PROJ_DIR$\strlib.c</file>
       <file>$PROJ_DIR$\utils.c</file>
-      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ICopsManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
+      <file>$PROJ_DIR$\..\include\socket.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
+      <file>$PROJ_DIR$\..\include\dll.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
       <file>$PROJ_DIR$\utils.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\Colors.h</file>
       <file>$PROJ_DIR$\..\include\Types.h</file>
       <file>$PROJ_DIR$\main.h</file>
       <file>$PROJ_DIR$\editor.h</file>
       <file>$PROJ_DIR$\strlib.h</file>
       <file>$PROJ_DIR$\FileFolder.h</file>
-      <file>$PROJ_DIR$\..\include\Function.h</file>
       <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
       <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
       <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
       <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
       <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\editor.s79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\editor.i</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\FileFolder.i</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\utils.pbi</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\FileFolder.s79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.s79</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\C510_R1HA035.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.pbi</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\C510_R1HA035.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\Goto_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\FileFolder.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\editor.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\Goto_Shortcut.elf</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\utils.i</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\FileFolder.r79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\Goto_Shortcut.pbd</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Exe\Goto_Shortcut.elf</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\editor.pbi</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\Goto_Shortcut.map</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\editor.lst</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\utils.s79</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\utils.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\utils.r79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\strlib.r79</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\strlib.r79</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\strlib.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\utils.r79</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\FileFolder.lst</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\J105_R1HA035.r79</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\FileFolder.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\editor.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\strlib.i</file>
       <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
       <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
       <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\editor.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\editor.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\FileFolder.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\FileFolder.i</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\strlib.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\editor.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\utils.pbi</file>
     </outputs>
     <file>
-      <name>$PROJ_DIR$\FileFolder.c</name>
+      <name>$PROJ_DIR$\..\include\dll.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 63</file>
+          <file> 50</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 48 37 40 61</file>
+          <file> 49</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 24 18 16 17 9 31 14 12 13 10 30 32 33 15 20 21 22 23</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 8 19 24 18 16 17 9 31 14 12 27 13 28 10 26 30 32 34 25 33 15 29 20 21 22 23</file>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 24</file>
         </tool>
       </inputs>
     </file>
@@ -391,21 +443,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 51</file>
+          <file> 57</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 68 36 35 53</file>
+          <file> 74 86 81 63</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 24 18 16 17 9 31 14 12 13 10 30 32 33 15 20 21 11 22 23</file>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 35 36 28 37 38</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 8 19 24 18 16 17 9 31 14 12 27 13 28 10 26 30 32 34 25 33 15 29 20 21 11 22 23</file>
+          <file> 84 34 25 33 47 29 26 75 31 51 41 30 42 27 40 76 43 45 39 46 32 44 35 36 28 37 38</file>
         </tool>
       </inputs>
     </file>
@@ -414,7 +466,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 43 44</file>
+          <file> 48 54</file>
         </tool>
       </outputs>
     </file>
@@ -423,7 +475,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 59 58</file>
+          <file> 69 66</file>
         </tool>
       </outputs>
     </file>
@@ -432,30 +484,53 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 62</file>
+          <file> 72</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\FileFolder.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 73</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 83 82 71</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 35 36 37 38</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 84 34 25 33 47 29 26 75 31 51 41 30 42 27 40 76 43 45 39 46 32 44 35 36 37 38</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 67</file>
+          <file> 80</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 46 45 39 65</file>
+          <file> 60 59 53 78</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 24 18 16 17 9 31 14 12 13 10 30 32 33 15 20 21 11 22 23</file>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 24 35 36 28 37 38</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 8 19 24 18 16 17 9 31 14 12 27 13 28 10 26 30 32 34 25 33 15 29 20 21 11 22 23</file>
+          <file> 84 34 25 33 47 29 26 75 31 51 41 30 42 27 40 76 43 45 39 46 32 44 35 36 28 37 38</file>
         </tool>
       </inputs>
     </file>
@@ -464,21 +539,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 60</file>
+          <file> 68</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 57 64 42 41</file>
+          <file> 67 77 52 85</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 24 18 16 17 9 31 14 12 13 10 30 32 33 15 20 22</file>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 35 37</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 8 19 24 18 16 17 9 31 14 12 27 13 28 10 26 30 32 34 25 33 15 29 20 22</file>
+          <file> 84 34 25 33 47 29 26 75 31 51 41 30 42 27 40 76 43 45 39 46 32 44 35 37</file>
         </tool>
       </inputs>
     </file>
@@ -487,21 +562,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 38</file>
+          <file> 87</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 56 47 54 55</file>
+          <file> 70 61 64 65</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19 24 18 16 17 9 31 14 12 13 10 30 32 33 15 20 22</file>
+          <file> 34 25 33 10 29 9 30 11 13 12 14 19 46 20 27 43 21 32 22 15 23 16 26 18 17 35 37</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 8 19 24 18 16 17 9 31 14 12 27 13 28 10 26 30 32 34 25 33 15 29 20 22</file>
+          <file> 84 34 25 33 47 29 26 75 31 51 41 30 42 27 40 76 43 45 39 46 32 44 35 37</file>
         </tool>
       </inputs>
     </file>
@@ -510,7 +585,7 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 50 52</file>
+          <file> 58 62</file>
         </tool>
       </outputs>
     </file>
@@ -519,7 +594,7 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 63 51 67 60 38</file>
+          <file> 73 50 57 80 68 87</file>
         </tool>
       </inputs>
     </file>
@@ -528,13 +603,13 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 52</file>
+          <file> 62</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 66 48 59 68 46 57 56</file>
+          <file> 79 56 69 74 60 67 70</file>
         </tool>
       </inputs>
     </file>
@@ -546,96 +621,77 @@
   <configuration>
     <name>J105_R1HA035</name>
     <outputs>
-      <file>$PROJ_DIR$\FileFolder.c</file>
       <file>$PROJ_DIR$\editor.c</file>
       <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
       <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\FileFolder.c</file>
       <file>$PROJ_DIR$\main.c</file>
       <file>$PROJ_DIR$\strlib.c</file>
       <file>$PROJ_DIR$\utils.c</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
       <file>$PROJ_DIR$\utils.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\Colors.h</file>
       <file>$PROJ_DIR$\..\include\Types.h</file>
       <file>$PROJ_DIR$\main.h</file>
       <file>$PROJ_DIR$\editor.h</file>
       <file>$PROJ_DIR$\strlib.h</file>
       <file>$PROJ_DIR$\FileFolder.h</file>
-      <file>$PROJ_DIR$\..\include\Function.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
-      <file>$PROJ_DIR$\Goto_Shortcut.c</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\editor.r79</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\strlib.r79</file>
-      <file>$PROJ_DIR$\Target\J105_R1HA035.h</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\C510_R1HA035.r79</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\utils.r79</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\strlib.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\FileFolder.r79</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\main.r79</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\FileFolder.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\utils.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\editor.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
       <file>$PROJ_DIR$\classes.h</file>
-      <file>$PROJ_DIR$\J105_R1HA035\List\Goto_Shortcut.s79</file>
-      <file>$PROJ_DIR$\xcl\J105_R1HA035.xcl</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Exe\Goto_Shortcut.elf</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\utils.pbi</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.pbd</file>
       <file>$PROJ_DIR$\Types.h</file>
-      <file>$PROJ_DIR$\J105_R1HA035\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\List\Goto_Shortcut.s79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Exe\Goto_Shortcut.elf</file>
       <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\xcl\J105_R1HA035.xcl</file>
       <file>$PROJ_DIR$\J105_R1HA035\List\Goto_Shortcut.lst</file>
       <file>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.r79</file>
       <file>$PROJ_DIR$\J105_R1HA035\List\Goto_Shortcut.i</file>
       <file>$PROJ_DIR$\J105_R1HA035\List\J105_R1HA035.lst</file>
       <file>$PROJ_DIR$\J105_R1HA035\List\Goto_Shortcut.map</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\editor.r79</file>
+      <file>$PROJ_DIR$\Goto_Shortcut.c</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\strlib.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\FileFolder.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\C510_R1HA035.r79</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\strlib.pbi</file>
+      <file>$PROJ_DIR$\Target\J105_R1HA035.h</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\utils.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\FileFolder.pbi</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.pbi</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\editor.pbi</file>
+      <file>$PROJ_DIR$\J105_R1HA035\Obj\main.r79</file>
     </outputs>
-    <file>
-      <name>$PROJ_DIR$\FileFolder.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 36</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 34</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 17 22 16 14 15 7 24 12 10 11 8 23 25 26 13 18 19 20 21</file>
-        </tool>
-      </inputs>
-    </file>
     <file>
       <name>$PROJ_DIR$\editor.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 39</file>
+          <file> 52</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 28</file>
+          <file> 40</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 17 22 16 14 15 7 24 12 10 11 8 23 25 26 13 18 19 9 20 21</file>
+          <file> 16 7 15 23 11 8 48 13 24 12 9 49 21 22 14 17 18 10 19 20</file>
         </tool>
       </inputs>
     </file>
@@ -644,7 +700,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 31</file>
+          <file> 44</file>
         </tool>
       </outputs>
     </file>
@@ -653,26 +709,45 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 47 52</file>
+          <file> 33 38</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\FileFolder.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 7 15 23 11 8 48 13 24 12 9 49 21 22 14 17 18 19 20</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 40</file>
+          <file> 30</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 35</file>
+          <file> 53</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 17 22 16 14 15 7 24 12 10 11 8 23 25 26 13 18 19 9 20 21</file>
+          <file> 16 7 15 23 11 8 48 13 24 12 9 49 21 22 14 17 18 10 19 20</file>
         </tool>
       </inputs>
     </file>
@@ -681,17 +756,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 33</file>
+          <file> 45</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 29</file>
+          <file> 42</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 17 22 16 14 15 7 24 12 10 11 8 23 25 26 13 18 20</file>
+          <file> 16 7 15 23 11 8 48 13 24 12 9 49 21 22 14 17 19</file>
         </tool>
       </inputs>
     </file>
@@ -700,17 +775,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 37</file>
+          <file> 26</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 32</file>
+          <file> 47</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 17 22 16 14 15 7 24 12 10 11 8 23 25 26 13 18 20</file>
+          <file> 16 7 15 23 11 8 48 13 24 12 9 49 21 22 14 17 19</file>
         </tool>
       </inputs>
     </file>
@@ -719,39 +794,16 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 53 45</file>
+          <file> 39 31</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Goto_Shortcut.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 38</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 50 51 43 49</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 46 48 42</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 30 46 48 42</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\J105_R1HA035\Obj\Goto_Shortcut.pbd</name>
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 36 39 40 33 37</file>
+          <file> 50 52 30 45 26</file>
         </tool>
       </inputs>
     </file>
@@ -760,13 +812,36 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 53</file>
+          <file> 39</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 44 50 47</file>
+          <file> 34 36 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Goto_Shortcut.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 36 37 29 35</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 28 32 25</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 46 28 32 25</file>
         </tool>
       </inputs>
     </file>
@@ -777,6 +852,291 @@
     <forcedrebuild>
       <name>[MULTI_TOOL]</name>
       <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+  <configuration>
+    <name>W580_R8BE001</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\include\dll.c</file>
+      <file>$PROJ_DIR$\editor.c</file>
+      <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
+      <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
+      <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\asm\W580_R8BE001.lib.asm</file>
+      <file>$PROJ_DIR$\FileFolder.c</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\strlib.c</file>
+      <file>$PROJ_DIR$\utils.c</file>
+      <file>$PROJ_DIR$\..\include\socket.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\utils.h</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\editor.h</file>
+      <file>$PROJ_DIR$\strlib.h</file>
+      <file>$PROJ_DIR$\FileFolder.h</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\dll.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\FileFolder.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\editor.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\FileFolder.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\dll.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\dll.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\editor.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\utils.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\utils.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\strlib.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\main.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\main.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\editor.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\strlib.lst</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\FileFolder.s79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\strlib.s79</file>
+      <file>$PROJ_DIR$\xcl\W580_R1BE001.xcl</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\main.s79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\editor.s79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\dll.s79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\utils.s79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\Goto_Shortcut.map</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\W580_R8BE001.lib.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\strlib.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\FileFolder.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\dll.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\Goto_Shortcut.pbd</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Exe\Goto_Shortcut.elf</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\strlib.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\utils.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\editor.pbi</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\utils.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\C510_R1HA035.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\Obj\main.r79</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\FileFolder.i</file>
+      <file>$PROJ_DIR$\W580_R8BE001\List\W580_R8BE001.lib.lst</file>
+      <file>$PROJ_DIR$\Target\W580_R8BE001.h</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\include\dll.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 24 19 38 23</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\editor.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 54</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 21 31 37 25</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10 15 16 12 17 18</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10 15 16 12 17 18</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 56</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 44</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\W580_R8BE001.lib.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 45 59</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\FileFolder.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 47</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 22 58 33 20</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10 15 16 17 18</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10 15 16 17 18</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 57 29 36 30</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10 15 16 12 17 18</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10 15 16 12 17 18</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\strlib.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 52 28 34 32</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10 15 17</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10 15 17</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\utils.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 53</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 55 27 39 26</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 42 11 13 10 15 17</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60 14 42 41 11 13 10 15 17</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 50 40</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W580_R8BE001\Obj\Goto_Shortcut.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 47 48 54 51 46 53</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\W580_R8BE001\Exe\Goto_Shortcut.elf</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 40</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 35 22 45 24 21 57 52 55</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <tool>AARM</tool>
     </forcedrebuild>
   </configuration>
 </project>

@@ -1,6 +1,8 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#include "..\\include\types\UIGUI_types.h"
+
 #include "main.h"
 #include "editor.h"
 #include "utils.h"

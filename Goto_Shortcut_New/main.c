@@ -112,13 +112,13 @@ void Menu_ModifyItem(BOOK* book, GUI* gui)
   {
     EditorRun(mbk, EDITING_MODE);
   }
-  else MessageBox_NoImage(EMPTY_TEXTID, EMPTY_LIST_TXT, 1, 3000, mbk);  
+  else CreateToast(EMPTY_TEXTID, EMPTY_LIST_TXT, 1, 3000, mbk);  
 }
 
 void Menu_About(BOOK* book, GUI* gui)
 {
   TEXTID Text = TextID_Get(L"GotoShortcut\nv3.5\n(c) farid");
-  MessageBox_NoImage(EMPTY_TEXTID, Text, 1, 0, book);
+  CreateToast(EMPTY_TEXTID, Text, 1, 0, book);
 }
 
 void Menu_Select(BOOK* book, GUI* gui)
@@ -229,7 +229,7 @@ void Goto_Shortcut_Destroy(BOOK* book)
 
 extern "C"
 void GotoShortcut(BOOK* book, GUI* gui)
-{  
+{
   GotoShortcut_Book* mbk = (GotoShortcut_Book*)malloc(sizeof(GotoShortcut_Book));
   memset( mbk, NULL, sizeof(GotoShortcut_Book));
   if (CreateBook(mbk,Goto_Shortcut_Destroy,&Goto_Shortcut_Base_Page,BOOKNAME,-1,NULL)) 
@@ -240,3 +240,4 @@ void GotoShortcut(BOOK* book, GUI* gui)
   }
   else mfree(mbk);
 }
+

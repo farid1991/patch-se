@@ -662,7 +662,7 @@ a       EQU b
         defadr FSX_MakeFullPath,0x10FDF284+1
         defadr FSX_FreeFullPath,0x10FDF2F0+1
         defadr FSX_IsFileExists,0x110272DC+1
-
+        
 ////////
 
         EXTERN GotoShortcut

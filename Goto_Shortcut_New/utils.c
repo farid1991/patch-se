@@ -9,7 +9,15 @@ __arm void StartElf(wchar_t *Name)
   elfload(Name,NULL,NULL,NULL);
 }
 
-#ifdef A2
+#ifdef A1
+void* SHORTCUT_DESC_Init(wchar_t * param)
+{
+  SHORTCUT_DESC* w_buf = (SHORTCUT_DESC*)malloc(sizeof(SHORTCUT_DESC));
+  memset( w_buf, NULL, sizeof(w_buf) );
+  wstrcpy( w_buf->name, param );
+  return(w_buf);
+}
+#elif A2
 void* SHORTCUT_DESC_A2_Init(wchar_t * param)
 {
   SHORTCUT_DESC_A2* w_buf = (SHORTCUT_DESC_A2*)malloc(sizeof(SHORTCUT_DESC_A2));
