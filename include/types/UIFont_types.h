@@ -3,6 +3,14 @@
 
 #include "..\\include\types\Basic_types.h"
 
+enum Font_Style 
+{
+  FontStyle_Normal = 0,
+  FontStyle_Bold,
+  FontStyle_Italic,
+  FontStyle_BoldItalic,
+  UnkFontStyle
+};
 
 /**
  * @addtogroup MIDP_Font
@@ -27,6 +35,7 @@ typedef FUint8 TUIFontStyle;
 const TUIFontStyle UIFontStylePlain = 0;      ///<The plain style enum
 const TUIFontStyle UIFontStyleBold = 1;       ///<The bold style enum.
 const TUIFontStyle UIFontStyleItalic = 2;     ///<The italic style enum
+const TUIFontStyle UIFontStyleItalicBold = 3;     ///<The italic bold style enum
 const TUIFontStyle UIFontStyleUnderlined = 4; ///<The underlined style enum
 
 /**

@@ -109,7 +109,7 @@ const FSint16 FSINT16_MIN = -FSINT16_MAX - 1;
 /**
   * Signed integer (8 bit representation). FSINT8_MIN <= FSint8 <= FSINT8_MAX.
   */
-typedef char FSint8;
+typedef signed char FSint8;
 
 /**
   * A constant holding the maximum value an FSint8 can have.

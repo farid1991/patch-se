@@ -99,7 +99,7 @@ typedef struct
   TUIRectangle boundingBox;     ///< bounding box of image, with respect to its origin
 } TUIInlineObjectMetrics;
 
-const FUint32 START_INDEX = 0x8000000A;
-const FUint32 END_INDEX = 0x7FFFFFF5;
+const int START_INDEX = 0x8000000A;
+const int END_INDEX = 0x7FFFFFF5;
 
 #endif

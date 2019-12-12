@@ -1,14 +1,7 @@
 #ifndef __IFMRADIOTYPES_H__
 #define __IFMRADIOTYPES_H__
 
-//////////////////////////////////////////////////////////////////////
-/// @name Includes
-//@{
-
 #include "..\\include\types\Basic_types.h"
-
-//@} End of Includes
-
 
 //////////////////////////////////////////////////////////////////////
 /// @name Typedefs
@@ -149,9 +142,6 @@ const FUint16 ENABLE_ALTERNATIVE_FREQUENCY = 0x04; //bin: 0000 0000 0000 0100
  * Activate/de-activate TA (FMRadio_RDSFlag_Bitfield_t)
  */
 const FUint16 ENABLE_TRAFFIC_ANNOUNCEMENTS = 0x08; //bin: 0000 0000 0000 1000
-
-//@} End of Data
-
 
 
 #endif

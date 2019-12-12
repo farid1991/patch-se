@@ -1,6 +1,8 @@
 #ifndef __UIGUI_TYPES_H__
 #define __UIGUI_TYPES_H__
 
+#include "..\\include\types\Basic_types.h"
+
 typedef enum {
   GuiObjectZOrderAbove = 0, ///< Sets the GUI Z-order to Above
   GuiObjectZOrderBelow, ///< Sets the GUI Z-order to Below

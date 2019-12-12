@@ -1,37 +1,22 @@
 #ifndef _IILLUMINATIONMANAGER_H_
 #define _IILLUMINATIONMANAGER_H_
 
-//UUID CID_CIlluminationManager = {0xD7, 0xEF, 0x2A, 0x56, 0x94, 0x72, 0x40, 0x5E, 0xBF, 0xCA, 0xA2, 0x83, 0x97, 0x79, 0xF1, 0x9A};
-//UUID IID_IIlluminationManager = {0x60, 0x90, 0xF1, 0x81, 0xA5, 0x31, 0x43, 0x3A, 0x82, 0x30, 0x69, 0xF0, 8, 0xBC, 0xD1, 0xD1};
+#include "..\\include\types\UIUtil_types.h"
 
-typedef enum
-{
-  UIBacklightStatus_On,
-  UIBacklightStatus_Off,
-  UIBacklightStatus_Blink,
-  UIBacklightStatus_Low
-} UIBacklightStatus_t;
+const UUID CID_CIlluminationManager = {0xD7, 0xEF, 0x2A, 0x56, 0x94, 0x72, 0x40, 0x5E, 0xBF, 0xCA, 0xA2, 0x83, 0x97, 0x79, 0xF1, 0x9A};
+const UUID IID_IIlluminationManager = {0x60, 0x90, 0xF1, 0x81, 0xA5, 0x31, 0x43, 0x3A, 0x82, 0x30, 0x69, 0xF0, 8, 0xBC, 0xD1, 0xD1};
 
-typedef enum
-{
-  UIBacklightMode_On,
-  UIBacklightMode_Off,
-  UIBacklightMode_Automatic,
-  UIBacklightMode_LowOff,
-  UIBacklightMode_LowOn
-} UIBacklightMode_t;
-
-class ICBBacklight: public IUnknown
+class ICBBacklight: public IRoot
 {
 public:
   virtual void OnInitiated(void* statusCode, int nbrOfItems, bool random, bool loop, void* clientData);
 };
 
-class IBacklight: public IUnknown
+class IUIBacklight: public IRoot
 {
 public:
-  virtual int GetStatus(int display, UIBacklightStatus_t* pStatus);
-  virtual int GetMode(UIBacklightMode_t* pMode);
+  virtual int GetStatus(int display, UIBacklightStatus_t* pUIBacklightStatus);
+  virtual int GetMode(UIBacklightMode_t* pUIBacklightMode);
   virtual int GetOnLevel(int display, char* pLevel);
   virtual int SetOverrideMode(UIBacklightMode_t mode);
   virtual int unk_20(int);
@@ -72,7 +57,7 @@ ActivateMode
 On_State_Time
 */
 
-class ILightEffect: public IUnknown
+class ILightEffect: public IRoot
 {
 public:
   virtual int StartType(int effectTypeID);
@@ -95,11 +80,11 @@ public:
   virtual int unk_54(/*...*/);
 };
 
-class IIlluminationManager: public IUnknown
+class IIlluminationManager: public IRoot
 {
 public:
-  virtual int CreateBacklight(IBacklight** pIBacklight); //0x78
-  virtual int CreateLightEffect(ILightEffect** pILightEffect); //0x74
+  virtual int CreateBacklight(IUIBacklight** ppIUIBacklight); //0x78
+  virtual int CreateLightEffect(ILightEffect** ppILightEffect); //0x74
 };
 
 #endif

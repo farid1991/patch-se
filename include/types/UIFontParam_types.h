@@ -84,20 +84,20 @@ enum EUIRenderStyle
 typedef struct
 {
   TFloat size;                ///< height in ppem (20.0 ppem)
-  TFloat width;               ///< width in ppem; (0 - treated as equal to size) 
-  TFloat skew;                ///< skew angle (0) 
-  TFloat orientation;         ///< glyph rotation, degrees clockwise (0.0) 
+  TFloat width;               ///< width in ppem; (0 - treated as equal to size)
+  TFloat skew;                ///< skew angle (0)
+  TFloat orientation;         ///< glyph rotation, degrees clockwise (0.0)
 
-  TFloat bold_pct;            ///< boldness value (0) 
-  TFloat stroke_pct;          ///< stroke width (0) 
-  TFloat edgeThickness;       ///< edge thickness in pixels (0) 
-  TFloat shadowLength_x;      ///< x-direction length of shadow in pixels (0) 
-  TFloat shadowLength_y;      ///< y-direction length of shadow in pixels (0) 
+  TFloat bold_pct;            ///< boldness value (0)
+  TFloat stroke_pct;          ///< stroke width (0)
+  TFloat edgeThickness;       ///< edge thickness in pixels (0)
+  TFloat shadowLength_x;      ///< x-direction length of shadow in pixels (0)
+  TFloat shadowLength_y;      ///< y-direction length of shadow in pixels (0)
 
-  TUIEmphasisStyle emphasis;   ///< emphasis such as bold/italics (UI_Emphasis_Normal) 
-  TUIBaselineStyle baseline;   ///< text baseline style (UI_Baseline_Normal) 
-  TUIEdgeStyle     edge;       ///< text edge style (UI_Edge_Normal) 
-  TUIRenderStyle   render;     ///< rendering style (UI_Render_Default) 
+  TUIEmphasisStyle emphasis;   ///< emphasis such as bold/italics (UI_Emphasis_Normal)
+  TUIBaselineStyle baseline;   ///< text baseline style (UI_Baseline_Normal)
+  TUIEdgeStyle     edge;       ///< text edge style (UI_Edge_Normal)
+  TUIRenderStyle   render;     ///< rendering style (UI_Render_Default)
 
 } TUIFontParam;
 

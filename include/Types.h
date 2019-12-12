@@ -1,6 +1,8 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
+#include "..\\include\types\UIGUI_types.h"
+
 // base types and constants ----------------------------------------------------
 
 typedef unsigned short u16;
@@ -45,6 +47,13 @@ typedef struct DATE
 	char mon;
 	char day;
 }DATE;
+
+typedef struct WEEK
+{
+	char  type;
+	char  days[7];
+}WEEK;
+
 
 typedef struct TIME
 {
@@ -149,7 +158,7 @@ typedef enum TEXT_ENCODING
 #define TEXT( __STR__ ) L##__STR__
 #define _T( __STR__ ) L##__STR__
 #define STR( __STR__ ) TextID_Create( _T( __STR__ ), ENC_UCS2, TEXTID_ANY_LEN )
-
+/*
 typedef enum
 {
 	UITextAlignment_Left = 0,
@@ -158,7 +167,7 @@ typedef enum
         UITextAlignment_LeftDynamic,
         UITextAlignment_RightDynamic
 }UITextAlignment_t;
-
+*/
 // images ----------------------------------------------------------------------
 
 typedef wchar_t IMAGEID;
@@ -270,11 +279,11 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
-  /*
-  struct DISP_DESC * desc; //use DispObject_GetDESC
-  struct WINDOW *window; //use DispObject_GetWindow
-  */
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)  
 	char dummy[0x16C];
+#else
+	char dummy[0x110];
+#endif
 }DISP_OBJ;
 
 #define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD)-1
@@ -295,7 +304,7 @@ typedef struct GUI GUI_ONEOFMANY;
 typedef struct GUI GUI_NOFMANY;
 typedef struct GUI GUI_FEEDBACK;
 
-
+/*
 typedef enum UI_OverlayStyle_t
 {
 	UI_OverlayStyle_NotDefined = 0,
@@ -311,7 +320,8 @@ typedef enum UI_OverlayStyle_t
 	UI_OverlayStyle_FullScreenNoSoftkeys, // Fullscreen without softkeys but with status row
 	UI_OverlayStyle_Last
 } UI_OverlayStyle_t;
-
+*/
+/*
 typedef enum UI_TitleMode_t
 {
 	UI_TitleMode_Uninitated = 0, // Uninitiated
@@ -323,7 +333,8 @@ typedef enum UI_TitleMode_t
 	UI_TitleMode_Desktop, // Only for desktop title. Will be removed after hb107.
 	UI_TitleMode_Last
 } UI_TitleMode_t;
-
+*/
+/*
 //GUIObject_SetZOrder
 typedef enum GuiObjectZOrder_t
 {
@@ -332,7 +343,7 @@ typedef enum GuiObjectZOrder_t
 	GuiObjectZOrderTop,   ///< Sets the GUI Z-order to Top
 	GuiObjectZOrderBottom, ///< Sets the GUI Z-order to Bottom
 } GuiObjectZOrder_t;
-
+*/
 /**
  * Display
  *
@@ -340,6 +351,7 @@ typedef enum GuiObjectZOrder_t
  * @param UIDisplay_Second  Second display. Used on clam phones
  * @param UIDisplay_Last    End
  */
+/*
 typedef enum UI_Display_t
 {
 	UIDisplay_Main = 0,
@@ -351,7 +363,7 @@ typedef enum UI_Display_t
         UI_Display_TVOut,
         UI_Display_Last
 } UI_Display_t;
-
+*/
 /**
  * Display Orientation
  *
@@ -360,6 +372,7 @@ typedef enum UI_Display_t
  * @param UIDisplayOrientationMode_HorizontalReversed Reversed horizontal orientation
  * @param UIDisplayOrientationMode_Last               End
  */
+/*
 typedef enum
 {
 	UIDisplayOrientationMode_Vertical = 0,
@@ -367,7 +380,7 @@ typedef enum
         UIDisplayOrientationMode_HorizontalReversed,
         UIDisplayOrientationMode_Last
 } UIDisplayOrientationMode_t;
-
+*/
 // book ------------------------------------------------------------------------
 
 //struct BOOK;
@@ -906,6 +919,12 @@ template<typename T,typename T2> SKACTIONPROC MKSKACTIONPROC( void(*param)(T*,T2
 #endif
 
 // hardware/multimedia ---------------------------------------------------------
+
+typedef enum 
+{
+  Charging = 2,
+  Completed = 8
+} ChargingState;
 
 typedef struct BATT
 {

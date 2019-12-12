@@ -790,10 +790,6 @@ a       equ b
         DATA
         DCD New_pg_VolumeControl_Active_EnterAction
         
-        //RSEG PATCH_VOLUMEONPAGEXIT
-        //DATA
-        //DCD New_pg_VolumeControl_Active_ExitAction
-        
         RSEG PATCH_VOLUMEONCREATE
         DATA
         DCD New_VolumeControl_OnCreate
@@ -801,7 +797,6 @@ a       equ b
         RSEG PATCH_VOLUMEONCLOSE
         DATA
         DCD New_VolumeControl_OnClose
-
         
         RSEG PATCH_VOLUMEONREDRAW
         DATA

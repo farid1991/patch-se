@@ -25,16 +25,6 @@ typedef enum
   EqBand_Last
 }TMusicServer_EqBand;
 
-typedef enum
-{
-  MEDIAPLAYER_NONE=0,
-  MEDIAPLAYER_PLAY,
-  MEDIAPLAYER_STOP,
-  MEDIAPLAYER_PAUSE,
-  MEDIAPLAYER_FAST_FORWARD,
-  MEDIAPLAYER_REWIND
-} MEDIAPLAYER_STATE;
-
 //////////////////////////////////////////////////////////////////////
 /// @name Types
 //@{

@@ -11,7 +11,7 @@ typedef enum
   VIBRATOR_DEVICE_MODE_ON_IF_SILENCE
 }TVibratorDeviceMode;
 
-class IVibratorDevice: public IUnknown
+class IVibratorDevice: public IRoot
 {
 public:
   virtual int GetMode(TVibratorDeviceMode* pVibratorMode);
@@ -20,14 +20,14 @@ public:
   virtual int TurnOn(int Period, char DutyCycle);
 };
 
-class IBacklightDevice: public IUnknown
+class IBacklightDevice: public IRoot
 {
   virtual int unk_10();
   virtual int unk_14();
   virtual int SetOnLevel(int display, char pLevel);
 };
 
-class ILedControlDevice: public IUnknown
+class ILedControlDevice: public IRoot
 {
 public:
   virtual int GetNrOfLeds(int* NrOfLeds);
@@ -35,7 +35,7 @@ public:
   virtual int TurnOn(int lednum, int unk, int unk1);
 };
 
-class IIndicationDeviceManager: public IUnknown
+class IIndicationDeviceManager: public IRoot
 {
 public:
   virtual int CreateVibratorDevice(IVibratorDevice** pIVibratorDevice);

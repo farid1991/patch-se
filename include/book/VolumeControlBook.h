@@ -1,10 +1,10 @@
 #ifndef _VOLUMECONTROL_BOOK_H_
 #define _VOLUMECONTROL_BOOK_H_
 
-typedef struct _DISP_OBJ_VOLCONTROL : DISP_OBJ
+typedef struct _DISP_OBJ_VOLUME : DISP_OBJ
 {
   char unknown[0x64];   // 0x16C
-} DISP_OBJ_VOLCONTROL;  // Size = 0x1D0
+} DISP_OBJ_VOLUME;  // Size = 0x1D0
 
 typedef struct _VolumeControlBook : BOOK
 {

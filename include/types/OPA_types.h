@@ -4,9 +4,15 @@
 #include "..\\include\types\Basic_types.h"
 
 /**
-  * This file contains global types for OPA.
-  *
-  */
+ * Enum for system fonts
+ */
+typedef enum
+{
+  UIFontResourceStylePlain,     ///<Regular system font
+  UIFontResourceStyleBold,      ///<Bold system font
+  UIFontResourceStyleItalic,    ///<Italic system font
+  UIFontResourceStyleBoldItalic ///<Bold italic system font
+} TUIFontResourceStyle;
 
 /**
   * The TUserData type is used by component clients to store information
@@ -240,6 +246,5 @@ const TUnsigned BRIDGE_DEFAULT_MAX_IS_VALUE = 255;
   * This is the maximum time-out value in milliseconds (~6.21 days).
   */
 const FUint32 OPA_MAX_TIMEOUT_VALUE = 536870911;
-
 
 #endif

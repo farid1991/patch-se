@@ -158,8 +158,8 @@ typedef enum
   UIGraphicsFontStyle_Plain = 0,
   UIGraphicsFontStyle_Bold = 1,
   UIGraphicsFontStyle_Italic = 2,
-  UIGraphicsFontStyle_Underlined = 4,
-  UIGraphicsFontStyle_ItalicBold = 3
+  UIGraphicsFontStyle_ItalicBold = 3,
+  UIGraphicsFontStyle_Underlined = 4
 } UIGraphicsFontStyle_t;
 
 typedef enum

@@ -9,19 +9,44 @@
 
 #include "..\\include\Colors.h"
 
-#include "..\\include\classes\IUnknown.h"
+#include "..\\include\classes\IRoot.h"
 #include "..\\include\classes\IShell.h"
-#include "..\\include\classes\IUIImageManager.h"
-#include "..\\include\classes\IFontManager.h"
-#include "..\\include\classes\IUIRichTextLayoutOptions.h"
-#include "..\\include\classes\ITextRenderingManager.h"
+#include "..\\include\classes\ISockets.h"
+
+#include "..\\include\classes\IAlarmManager.h"
 #include "..\\include\classes\IAudioControlManager.h"
-#include "..\\include\classes\IMetaData.h"
-#include "..\\include\classes\IRegistryManager.h"
-#include "..\\include\classes\IMMEManager.h"
+#include "..\\include\classes\IFMRadioManager.h"
+#include "..\\include\classes\IClockManager.h"
+#include "..\\include\classes\ICopsManager.h"
+#include "..\\include\classes\IFlashLightControl.h"
+#include "..\\include\classes\ISEMCRegistryManager.h"
+
+#ifdef A2
+#include "..\\include\classes\IIlluminationControl.h"
 #include "..\\include\classes\IIlluminationManager.h"
+#include "..\\include\classes\IIndicationDeviceManager.h"
+#include "..\\include\classes\IMetaData.h"
+#include "..\\include\classes\IMMEManager.h"
+#include "..\\include\classes\IUIMediaCenterManager.h"
 #include "..\\include\classes\IMusicServer_Manager.h"
-#include "..\\include\classes\IRegistryManager.h"
+
+#if defined (DB3200) || defined (DB3210) || defined (DB3350)
+#include "..\\include\classes\IUIFontManager.h"
+#include "..\\include\classes\IUIRichText.h"
+#include "..\\include\classes\IUIRichTextLayoutOptions.h"
+#include "..\\include\classes\IUITextRenderingManager.h"
+#endif
+
+#include "..\\include\classes\IUITextFactory.h"
+#include "..\\include\classes\IUIClipboardManager.h"
+#include "..\\include\classes\IUIGraphicManager.h"
+
+//image
+#include "..\\include\classes\IUIImageManager.h"
+
+#include "..\\include\classes\IUIUtilManager.h"
+#endif
+
 
 __thumb void* malloc( int size );
 __thumb void mfree( void* mem );
@@ -51,6 +76,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void Display_SetBrightness( int display, int brightness );
   
   int AB_READSTRING( AB_STR_ITEM*, int rec_num, int field_ID );
+  int MainInput_isPlus( GUI * gui );
   int MainInput_getCurPos( GUI* );
   void OrangeLED_Control( int _free_val, int or_LED_ID, int level, int fade_time );
   
@@ -71,10 +97,10 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void Display_SetBrightness( int level );
 #endif
 
-#if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
-  FONT_DESC* GetFontDesc( void );
-  int* GetFontCount( void );
-  int SetFont( int );
+#if defined(A1) || defined(DB3150_V1) || defined(DB3150_V2)
+  //FONT_DESC* GetFontDesc( void );
+  //int* GetFontCount( void );
+  int SetFont( int FontSize );
   void DrawString( TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color );
   void GC_PutChar( GC* gc, int x, int y, int width, int height, IMAGEID img );
   void GC_DrawIcon( int x, int y, IMAGEID );
@@ -165,19 +191,9 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void TextID_GetString( TEXTID, char* str, int maxlen );
   int TextID_GetWString( TEXTID, wchar_t* dest, int maxlen );
   int TextID_GetLength( TEXTID );
-  void TextID_Destroy( TEXTID txt );
+  void TextID_Destroy( TEXTID );
   TEXTID TextID_Copy( TEXTID );
-  /*
-#elif defined (DB3150) || defined (DB3200) || defined (DB3210) || defined (DB3350)
-  TEXTID TextID_Create( const void* wstr, TEXT_ENCODING, int len, char* filename, int line_num );
-  TEXTID TextID_CreateIntegerID( int num, char* filename, int line_num );
-  void TextID_GetString( TEXTID, char* str, int maxlen, int null );
-  int TextID_GetWString( TEXTID, wchar_t* dest, int maxlen, char* filename, int line_num );
-  int TextID_GetLength( TEXTID, char* filename, int line_num );
-  void TextID_Destroy( TEXTID, char* filename, int line_num );
-  TEXTID TextID_Copy( TEXTID, char* filename, int line_num );
-#endif
-  */
+
   int AB_DEFAULTNBR_GET( int rec_num, void* mem_0x30, int* unk );
   int AB_READPHONENBR( AB_NUM_ITEM*, int rec_num, int field_ID );
   int AB_GETNBROFITEMS( int get_from, int sub_id );
@@ -347,7 +363,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int GUIonMessage_SubItem_GetSelectedIndex( GUI_MESSAGE* msg );
   void GUIonMessage_SubItem_SetDisabled( GUI_MESSAGE* msg, BOOL state );
   int PlayFileV( const wchar_t* path, const wchar_t* fname, int vol );
-  int GetSilent( void );
+  BOOL GetSilent( void );
   int GetVibrator( int ignorevibrator, int ignoresilent );
   int GetAudioSettings( int what, char* retvalue );
   int GUIonMessage_SubItem_GetCreatedIndex( GUI_MESSAGE* msg );
@@ -402,7 +418,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void ListMenu_SetNoItemText( GUI_LIST*, TEXTID str );
   int IsFmRadioBook( BOOK* bk );
   IS_NEEDED_BOOK get_IsFmRadioBook( void );
-  int IsAudioPlayerBook( BOOK* bk );
+  int IsAudioPlayerBook( BOOK* book );
   IS_NEEDED_BOOK get_IsAudioPlayerBook( void );
   void PlayerControl( BOOK* AudioPlayerBook, int );
   void SwitchRadioStationFromList( BOOK* FmRadioBook, int );
@@ -596,7 +612,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int Alarm_GetCurrentTypeAndAlarmID( char* type, wchar_t* AlarmID );
   int Alarm_GetState( char* state, int AlarmID );
   int Alarm_GetTIME( TIME* AlarmTime, int AlarmID );
-  int Alarm_GetWeekSettings( void* week, int AlarmID );
+  int Alarm_GetWeekSettings( WEEK* week, int AlarmID );
   void REQUEST_SETTING_ALLOWEDCALLERS_GET( const int* sync, int ProfileNum, char* state );
   void* IncommingCall_Accept( BOOK* book );
   void MediaPlayer_SoftKeys_SetText( GUI* player_gui, int actionID, TEXTID );
@@ -701,15 +717,19 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void fs_demand_remove_from_queue( pageCache* page_p_to_remove, wchar_t page_i_to_insert );
   int fs_demand_kick_out_page( wchar_t page_i, int intrMask );
   char* getSWAP_DATA_BASE( void );
-  
+
+#ifdef A2  
 // Library DLL function --------------------------------------------------------
-  void DisplayGC_AddRef( GC*, void* );
-  void TextObject_SetText( IRichText* pTextObject, TEXTID );
-  void TextObject_SetFont( IRichText* pTextObject, void* pFont, const int _0x8000000A, const int _0x7FFFFFF5);
+  //void DisplayGC_AddRef( GC*, void* pICanvas );
+  void DisplayGC_GetCanvas( GC*, void* pICanvas );
+  void IUIRichText_SetText( void* pIUIRichText, TEXTID );
+  void IUIRichText_SetFont( void* pIUIRichText, void* pIFont, const int pStartIndex, const int pCharsLeftToCompose);
+  int IUIRichTextLayout_GetTextWidth( TEXTID, void* pIUIRichTextLayout, void* pIUIFont );
+  
   int Illumination_LedID_SetLevel_Gradually( int LED_ID, int level, int fade_time );
   int Illumination_LedID_SetLevel( int LED_ID, int level );
   int Illumination_LedID_Off( int LED_ID );
-  int RichTextLayout_GetTextWidth( TEXTID strid, IRichTextLayout* pRichTextLayout, IUnknown* pFont );
+  
   int REQUEST_HPHONEBOOK_READSTRING( const int* sync, void* buf );
   void AB_STR_ITEM_Copy( AB_STR_ITEM* dest, AB_STR_ITEM* source );
   int Request_SIM_IMSI_Read(const int* sync, const int unk, char* imsi, char* error_cause );
@@ -719,6 +739,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int GetChipID_int( void );
   OSBOOLEAN get_mem_int( int, int, void* );
   int ConnectionManager_Connection_GetState_int( char* buf );
+#endif
   
 // DynamicMenu function --------------------------------------------------------
   int DynamicMenu_GetElementMsg( DYNAMIC_MENU_ELEMENT* dme );
@@ -809,7 +830,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void DispObject_SetTitleType( DISP_OBJ*, int type );
   int DispObject_GetTitleType( DISP_OBJ* );
   void DispObject_SetTitleIconHasPriority( DISP_OBJ*, BOOL titleIconHasPrio );
-  void DispObject_SetTitleAlignment( DISP_OBJ*, UITextAlignment_t titleAlignment );
+  void DispObject_SetTitleAlignment( DISP_OBJ*, char titleAlignment );
   int DispObject_GetTitleAlignment( DISP_OBJ* );
   
   void DispObject_Backlight( DISP_OBJ*, int mode ); // 0 - on; 1 - off; 2 - blink; 3 - timeout; 4 - restore;
@@ -843,18 +864,18 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   
   GUI_LIST* CreateMultiChoiceMenu( BOOK* );
   void MultiChoiceMenu_SetMessage( GUI_LIST*, int offset, TEXTID );
-  void MultiChoiceMenu_SetCursorToItem( GUI_LIST*, int item);
+  void MultiChoiceMenu_SetCursorToItem( GUI_LIST*, int item );
   
   GUI* CreateOnOffList( BOOK* book );
   int OnOffList_GetSelected( GUI* OnOffList );
-  void OnOffList_SetChecked( GUI_ONEOFMANY*, int checked );
+  void OnOffList_SetChecked( GUI*, int checked );
   void OnOffList_SetFirstText( GUI* OnOffList, TEXTID );
   void OnOffList_SetSecondText( GUI* OnOffList, TEXTID );
   
-  void Feedback_SetIcon(GUI_FEEDBACK*, IMAGEID );
-  void Feedback_CloseAction(GUI_FEEDBACK*, u16 actionID);
-  void Feedback_SetTextAlignment(GUI_FEEDBACK*, UITextAlignment_t uiTextAlignment );
-  void Feedback_SetDescriptionImage(GUI_FEEDBACK*, IMAGEID );
+  void Feedback_SetIcon( GUI_FEEDBACK*, IMAGEID );
+  void Feedback_CloseAction( GUI_FEEDBACK*, u16 actionID );
+  void Feedback_SetTextAlignment( GUI_FEEDBACK*, int UITextAlignment_t );
+  void Feedback_SetDescriptionImage( GUI_FEEDBACK*, IMAGEID );
   
   void ProgressBar_SetDescriptionIcon( GUI*, IMAGEID );
   void ProgressBar_SetDescriptionIconOffset( GUI*, int offset);
@@ -863,7 +884,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   GUI* CreateYesNoQuestion( BOOK* book, int display );
   void YesNoQuestion_SetQuestionText( GUI*, TEXTID );
   void YesNoQuestion_SetDescriptionText( GUI*, TEXTID );
-  void YesNoQuestion_SetDescriptionIconOffset( GUI*, int offset);
+  void YesNoQuestion_SetDescriptionIconOffset( GUI*, int offset );
   
   void OneOfMany_SetInfoText( GUI_ONEOFMANY*, u16 actionID, u16 unk_FFFF, TEXTID );  
   int NOfMany_GetItemCount( GUI_NOFMANY* );
@@ -887,9 +908,9 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void ListMenu_SetInfoText( GUI_LIST*, u16 Item, u16 unk_FFFF, TEXTID );
   void ListMenu_SetItemUnavailableState( GUI_LIST*, u16 Item, u16 unk_FFFF, char state );
   void ListMenu_SetItemUnavailableText( GUI_LIST*, u16 Item, u16 unk_FFFF, TEXTID );
-  void ListMenu_SetTexts( GUI_LIST*, TEXTID* textids, int Count);
-  void ListMenu_Activate_AddCount( GUI_LIST*, int mode);
-  void ListMenu_SetMaxItemCount( GUI_LIST*, int count);
+  void ListMenu_SetTexts( GUI_LIST*, TEXTID* textids, int Count );
+  void ListMenu_Activate_AddCount( GUI_LIST*, int mode );
+  void ListMenu_SetMaxItemCount( GUI_LIST*, int count );
   void ListMenu_ErrorAddCount( GUI_LIST*, TEXTID );
   
   void GUIObject_TabTitleRemove( GUI*, BOOL );
@@ -898,25 +919,31 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int GUIObject_GetDisplay( GUI* );
   int GUIObject_GetStyle( GUI* );
   int GUIObject_GetTitleType( GUI* );
-  void GUIObject_SetTitleIconHasPriority( GUI*, BOOL titleIconHasPrio);
-  void GUIObject_SetTitleAlignment( GUI*, UITextAlignment_t titleAlignment);
+  void GUIObject_SetTitleIconHasPriority( GUI*, BOOL titleIconHasPrio );
+  void GUIObject_SetTitleAlignment( GUI*, char titleAlignment );
   int GUIObject_GetTitleAlignment( GUI* );
   void GUIObject_BacklightOn( GUI* );
   void GUIObject_BacklightOff( GUI* );
   void GUIObject_BacklightTimeout( GUI* );
   void GUIObject_BacklightBlink( GUI* );
-  void GUIObject_BacklightBlinkTime( GUI*, int time_on, int time_off);
+  void GUIObject_BacklightBlinkTime( GUI*, int time_on, int time_off );
   void GUIObject_BacklightRestore( GUI* );
   void GUIObject_SetInternalBackground( GUI*, IMAGEID );
   
-  GUI* CreatePalette( BOOK* book, TEXTID title, const unsigned int* color, int num_of_color, char __zero, void (*onCancel)( BOOK*, void* ), void (*onBack)( BOOK*, void* ), void (*onAccept)( BOOK*, color_t color) );
+  GUI* CreatePalette( BOOK* book, TEXTID title, const unsigned int *color, int num_of_color, char __zero, void (*onCancel)( BOOK*, void* ), void (*onBack)( BOOK*, void* ), void (*onSelect)( BOOK*, unsigned int color) );
 
   // BOOK function ---------------------------------------------------------------
   BOOL IsBook_onTop( BOOK* book );
   void* BOOK_SetFocus( UI_APP_SESSION* session, int focus );
   BOOK* GetTopBook( void );
-  int IsStandbyTickerBook( BOOK* bk );
+  int IsStandbyTickerBook( BOOK* book );
   IS_NEEDED_BOOK get_IsStandbyTickerBook( void );
+  
+  int IsTimerBook( BOOK* book );
+  IS_NEEDED_BOOK get_IsTimerBook( void );
+  
+  void FreeAllBook(BOOK* book, GUI* gui);
+  void Free_RightNowBook(void);
   
   BOOK* DynamicMenu_GetElementBook( DYNAMIC_MENU_ELEMENT* );
   BOOK* DynamicMenu_CreateSetBook( void );
@@ -930,8 +957,8 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   char FILEITEM_GetDRM_Flag( FILEITEM* );
   char* FILEITEM_GetContentType( FILEITEM* );
   int FILEITEM_SetContentType( FILEITEM*, char* type );
-  int GetFileLocation( wchar_t* fullpath); // 0 - card, 1 - phone
-  int GetMemoryStickStatus(void);
+  int GetFileLocation( wchar_t* fullpath ); // 0 - card, 1 - phone
+  int GetMemoryStickStatus( void );
   int DataBrowser_ItemDesc_CheckFileToCopyMove( FILEITEM* );
   
   int FSX_IsFileExists( wchar_t* pDir, wchar_t* pFile );
@@ -941,6 +968,8 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   wchar_t* MakeFullPath( wchar_t* pDir, wchar_t* pFile );
   
 // other function --------------------------------------------------------------
+  
+  int CallInfo_Get(const int *SYNC, int CallType, CALLINFO*, signed char *error);
   
   void CreateQuickInfo( DISP_OBJ* dispobj, TEXTID, int unk);
   void CreatePasswordInputWindow(int BookID, int mode_0, int password_2, TEXTID title ); // password: 2 - phone
@@ -982,12 +1011,13 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int Volume_Get( int TAudioControl_VolumeType, char* volume ); // GetAudioSettings
   
   void MessageBox_Animation( TEXTID header_text, TEXTID message_text, IMAGEID, int style, int time, BOOK* book, char* animation );
-  void MessageBox_NoImage( TEXTID header_text, TEXTID message_text, int style, int time, BOOK* book );
+  void CreateToast( TEXTID header_text, TEXTID message_text, int style, int time, BOOK* book );
   
   //int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event); 
   TEXTID TextID_CreateFromASCII( int );
   
+  void OnOffBook_ShuttingDown( void );
   void Shutdown( void );
   void Reboot( void );
   void Keylock_Activate( void );
@@ -1023,4 +1053,42 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   // Registry function ----------------------------------------------------
   void Registry_Write( char* name, int type, int size, void* data );
   void Registry_Read( char* name, int type, int size, void* data );
+  
+  // String function ----------------------------------------------------
+  BOOL IsAlnum(char c);
+  BOOL IsAlpha(char c);
+  BOOL IsCntrl(char c);
+  BOOL IsLower(char c);
+  BOOL IsPunct(char c);
+  BOOL IsSpace(char c);
+  BOOL IsUpper(char c);
+  BOOL IsGraph(char c);
+  
+  char ToLower(char c);
+  char ToUpper(char c);
+  
+  // Socket function ----------------------------------------------------
+  int socket_create(int domain, int type, int protocol);
+  int socket_close( int sock );
+  int socket_connect(int socket, sockaddr *address, int address_len);
+  int socket_send(int socket, const void *message, int length, int flags);
+  int socket_recv(int socket, void *buffer, size_t length, int flags);
+  int socket_setsockopt(int socket, int level, int option_name, const void *option_value, int option_len);
+  int socket_getsockopt(int socket, int level, int option_name, void *option_value, int *option_len);
+  int socket_getpeername(int socket, sockaddr *address, int *address_len);
+  int socket_getsockname(int socket, sockaddr *address, int *address_len);
+  int socket_shutdown(int socket, int how);
+  int socket_accept(int socket, sockaddr *address, int *address_len);
+  int socket_bind(int socket, const sockaddr *address, int address_len);
+  int socket_listen(int socket, int backlog);
+  int socket_sendto(int socket, const void *message, int length, int flags, const sockaddr *dest_addr, int dest_len);
+  int socket_recvfrom(int socket, void *buffer, int length, int flags, sockaddr *address, int *address_len);
+  int socket_sendmsg(int socket, const struct msghdr *message, int flags);
+  int socket_recvmsg(int socket, struct msghdr *message, int flags);
+  int socket_select( int nfds, void* readfds, void* writefds, void* exceptfds, void* timeout);
+  int fcntl( int fd, int cmd, long arg );
+  int socket_lasterror( void );
+  int inet_pton(int af, const char *src, void *dst);
+  char *inet_ntop(int af, const void *src, char *dst, int size);
+
 };

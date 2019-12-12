@@ -18,15 +18,7 @@ CMMESession_IsStreamingLink
 
 class ICBMMEPlayer;
 
-typedef struct
-{
-  u16 X;
-  u16 Y;
-  int Width;
-  int Height;
-} TRectangle;
-
-class IMMESessionContentUtility: public IUnknown
+class IMMESessionContentUtility: public IRoot
 {
 public:
   virtual int IsFeatureValid();
@@ -38,7 +30,7 @@ public:
   virtual int SaveVideoFrameAsImage();
 };
 
-class IMMESessionEqualizer: public IUnknown
+class IMMESessionEqualizer: public IRoot
 {
 public:
   virtual int Enable();
@@ -49,7 +41,7 @@ public:
   virtual int SetPreset();
 };
 
-class IMMESessionStreaming: public IUnknown
+class IMMESessionStreaming: public IRoot
 {
 public:
   virtual int SetAccount();
@@ -58,7 +50,7 @@ public:
   virtual int CloseNetworkConnectionSession();
 };
 
-class IMMEPlayer: public IUnknown
+class IMMEPlayer: public IRoot
 {
 public:
   virtual int GetHandle(int* handle);
@@ -83,17 +75,17 @@ public:
   virtual int GetVolume();
 };
 
-class IMMESession: public IUnknown
+class IMMESession: public IRoot
 {
 public:
   virtual int BeginPlaybackSession(int unk1, int unk2, int unk3, int unk4, int* sessionHandle);
   virtual int EndPlaybackSession(int sessionHandle);
   virtual int RequestPlaybackSessionFocus();
   virtual int SetStereoWidening(bool activate);
-  virtual int CreatePlayer(ICBMMEPlayer* pICBMMEPlayer, u16 msgBase, int clientData, wchar_t* pFilePath, TMMEMediaProperties* mediaProperties, int unk1_null, int unk2_null, IMMEPlayer** pIMMEPlayer);
+  virtual int CreatePlayer(ICBMMEPlayer* pICBMMEPlayer, TMsgBase msgBase, TClientData clientData, wchar_t* pFilePath, TMMEMediaProperties* mediaProperties, int unk1_null, int unk2_null, IMMEPlayer** pIMMEPlayer);
 };
 
-class IMMEManager: public IUnknown
+class IMMEManager: public IRoot
 {
 public:
   virtual int CreateSession(IMMESession** pIMMESession);

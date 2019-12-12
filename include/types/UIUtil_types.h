@@ -1,6 +1,9 @@
 #ifndef __UIUTIL_TYPES_H__
 #define __UIUTIL_TYPES_H__
 
+#include "..\\include\types\Basic_types.h"
+#include "..\\include\types\UIGUI_types.h"
+
 /**
  * Backlight mode.
  *
@@ -85,6 +88,39 @@ typedef enum
   DispScrollBarMode_HorizontalDynamic ///< Show the horizontal scroll bar only if neccessary. Mark that the scrollbar is layered above the focused object.
 } DispScrollBarMode_t;
 
-/*@}*/
+/**
+ * Maximum number of attributes that can be stored in the attribute buffer in UILayoutAttributes_t
+ */
+const FUint32 UI_LAYOUT_MAX_NBR_ATTR = 300;
+
+/**
+ * Layout attributes.
+ *
+ *
+ */
+typedef struct
+{
+  FUint32 nbrOfAttributes;                         ///< The actual number of attributes that the buffer holds.
+  FUint32 attributeBuffer[UI_LAYOUT_MAX_NBR_ATTR]; ///< Buffer for holding the attributes values.
+} UILayoutAttributes_t;
+
+/**
+ * Layout settings.
+ *
+ *
+ */
+typedef struct
+{
+  FUint16 rowHeight;
+  FUint16 topOffset;
+  UITitleMode_t titleMode;
+  DispScrollBarMode_t scrollBarMode;
+  TBool showFrame;
+  UIOverlayStyle_t overlayStyle;
+  FSint16 xPos;
+  FSint16 yPos;
+  FUint16 width;
+  FUint16 height;
+} UIDispSettings_t;
 
 #endif

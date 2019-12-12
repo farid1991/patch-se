@@ -5,51 +5,14 @@
 //LIST_ACTIVETASKS (LIST*)0x4BA24264
 //LIST_ACTIVITYMENU (LIST*)0x4BA0334C
 
-typedef struct _GUI_LIST_2TAB 
-{
-  void* a;        // 0
-  void* b;        // 0x4
-  void* c;        // 0x8
-  void* d;        // 0xC
-  void* e;        // 0x10
-  void* f;        // 0x14
-  void* g;        // 0x18
-  void* h;        // 0x1C
-  void* i;        // 0x20
-} GUI_LIST_2TAB;
 
-typedef struct _GUI_LIST_3TAB 
-{
-  void* a;        // 0
-  void* b;        // 0x4
-  void* c;        // 0x8
-  void* d;        // 0xC
-  void* e;        // 0x10
-  void* f;        // 0x14
-  void* g;        // 0x18
-  void* h;        // 0x1C
-  void* i;        // 0x20
-} GUI_LIST_3TAB;
-
-typedef struct _GUI_LIST_4TAB 
-{
-  void* a;        // 0
-  void* b;        // 0x4
-  void* c;        // 0x8
-  void* d;        // 0xC
-  void* e;        // 0x10
-  void* f;        // 0x14
-  void* g;        // 0x18
-  void* h;        // 0x1C
-  void* i;        // 0x20
-} GUI_LIST_4TAB;
-
+#if defined (DB3200) || defined (DB3210) || defined (DB3350)
 typedef struct _ActivityMenuBook : BOOK
 {
   LIST* list1;                      // 0x18
   LIST* EventsList;                 // 0x1C
   LIST* InternetList;               // 0x20
-  GUI_TABMENUBAR* main_tab;         // 0x24 ActivityMenu 0x24
+  GUI_TABMENUBAR* main_tab;         // 0x24 ActivityMenu
   GUI_LIST* first_tab;              // 0x28 1st tab Events
   char unk_0x2C[0x4];               // 0x2C
   char unk_0x30[0x4];               // 0x30
@@ -57,6 +20,25 @@ typedef struct _ActivityMenuBook : BOOK
   GUI_LIST* third_tab;              // 0x38 3rd tab Shortcuts
   GUI_LIST* second_tab;             // 0x3C 2nd tab ActiveTasks
 }ActivityMenuBook; // size 0x64(100)
+
+#elif defined (DB2020)
+
+typedef struct _ActivityMenuBook : BOOK
+{
+  char dummy1[0x2934];              // 0x18
+  GUI *main_tab;                    // 0x294C
+  char dummy7[0x4];                 // 0x2950
+  GUI_LIST *first_tab;              // 0x2954 1st tab Events
+  char dummy8[0x4];                 // 0x2958
+  char dummy9[0x4];                 // 0x295C
+  GUI_LIST *second_tab;             // 0x2960 2nd tab ActiveTasks
+  GUI_LIST *third_tab;              // 0x2964 3rd tab Shortcuts
+  GUI_LIST *fourth_tab;             // 0x2968 4th tab Internet
+  char dummyA[0x28];
+}ActivityMenuBook; // 0x2980
+
+#endif
+
 
 /*
 typedef struct _ActivityMenuBook : BOOK

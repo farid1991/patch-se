@@ -211,7 +211,7 @@ void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int
 }
 
 extern "C"
-int New_VolumeControl_OnCreate(DISP_OBJ* disp_obj)
+int New_VolumeControl_OnCreate(DISP_OBJ_VOLUME* disp_obj)
 {
   Volume_Function* Data = Get_Volume_Function();
   Data->vol_textid = EMPTY_TEXTID;
@@ -224,7 +224,7 @@ int New_VolumeControl_OnCreate(DISP_OBJ* disp_obj)
 }
 
 extern "C"
-void New_VolumeControl_OnClose(DISP_OBJ* disp_obj)
+void New_VolumeControl_OnClose(DISP_OBJ_VOLUME* disp_obj)
 {
   Volume_Function* Data = Get_Volume_Function();
   TEXT_FREE(Data->vol_textid);
@@ -235,7 +235,7 @@ void New_VolumeControl_OnClose(DISP_OBJ* disp_obj)
 }
 
 extern "C"
-void New_VolumeControl_OnRedraw(DISP_OBJ_VOLCONTROL* disp_obj, int a, int b, int c)
+void New_VolumeControl_OnRedraw(DISP_OBJ_VOLUME* disp_obj, int a, int b, int c)
 {
   Volume_Function* Data = Get_Volume_Function();
   if(!Data->IsJava)
@@ -319,7 +319,7 @@ int New_pg_VolumeControl_Active_EnterAction(void *data, BOOK *book)
     if(!Data->IsJava)
     {
       VolumeControlBook* VCBook = (VolumeControlBook*) book;
-      DISP_OBJ *disp_obj = (DISP_OBJ*)GUIObject_GetDispObject(VCBook->VC_GUI);
+      DISP_OBJ_VOLUME *disp_obj = (DISP_OBJ_VOLUME*)GUIObject_GetDispObject(VCBook->VC_GUI);
       
       int scr_w = Display_GetWidth(UIDisplay_Main);
       int scr_h = Display_GetHeight(UIDisplay_Main);
@@ -331,10 +331,3 @@ int New_pg_VolumeControl_Active_EnterAction(void *data, BOOK *book)
   }
   return 1;
 }
-/*
-extern "C"
-int New_pg_VolumeControl_Active_ExitAction(void *Data, BOOK *book)
-{
-  return pg_VolumeControl_Active_ExitAction(Data, book);
-}
-*/

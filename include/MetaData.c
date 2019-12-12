@@ -4,6 +4,40 @@
 #include "..\\include\classes\IMetaData.h"
 #include "..\\include\types\IMetaData_types.h"
 
+wchar_t * GetType_str(int cover_type)
+{
+  if (cover_type<=3)
+  {
+    switch(cover_type)
+    {
+      case 0: return L"jpg";
+      case 1: return L"gif";
+      case 2: return L"png";
+      case 3: return L"bmp";
+    }
+    return 0;
+  }
+  return 0;
+}
+
+IMAGEID GetCoverExist( wchar_t* fullpath, int CoverSize,int CoverOffset, char cover_type)
+{
+  int f;
+  wchar_t ImageID;
+  if ((f=w_fopen(fullpath, WA_Read, 0x1FF, 0)))
+  {
+    if (w_lseek(f,CoverOffset,WSEEK_SET))
+    {
+      char* CoverBuff = (char*) malloc(CoverSize+1);
+      memset(CoverBuff,0,CoverSize+1);
+      w_fread(f,CoverBuff,CoverSize);
+      ImageID_GetIndirect(CoverBuff,CoverSize,0,GetType_str(cover_type),&ImageID);
+    }
+    w_fclose(f);
+  }
+  return(ImageID);
+}
+
 void* MetaData_Desc_Create( wchar_t* fpath, wchar_t* fname )
 {
   UUID IID_IMetaData={0xB1,0xEB,0x4F,0x97,0xB0,0xDD,0x42,0x09,0xB6,0x96,0xCE,0x11,0x2D,0x5E,0xD8,0xE8};
