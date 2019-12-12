@@ -3,7 +3,7 @@
 
 typedef enum
 {
-  ID_PTYPE_1=0,
+  ID_PTYPE_1,
   ID_PTYPE_2,
   ID_COLOR_OVERLAY,
   ID_ALIGN,

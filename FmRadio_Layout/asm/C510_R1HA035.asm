@@ -83,9 +83,9 @@ a       EQU     b
         defadr ListMenu_DestroyItems,0x14280984+1
         defadr CoCreateInstance,0x1401106C+1
         defadr DispObject_SetAnimation,0x14E1B408+1
-        defadr DisplayGC_AddRef,0x144CDAA4+1
-        defadr TextObject_SetText,0x14183164+1
-        defadr TextObject_SetFont,0x1449CD74+1
+        defadr DisplayGC_GetCanvas,0x144CDAA4+1
+        defadr IUIRichText_SetText,0x14183164+1
+        defadr IUIRichText_SetFont,0x1449CD74+1
         defadr Audio_GetTags,0x157523B8+1
         defadr CreateYesNoQuestion,0x142CD924+1
         defadr YesNoQuestion_SetDescriptionText,0x14337444+1
@@ -115,7 +115,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetActionAndText,0x1527FEA8+1
 	defadr TextID_CreateIntegerID,0x1401F5BC+1
         
-        defadr MessageBox_NoImage,0x14CE140C+1
+        defadr CreateToast,0x14CE140C+1
         defadr GUIObject_GetBook,0x140CAEC8+1
         
         defadr DispObject_SetThemeImage,0x144815C4+1
@@ -131,6 +131,9 @@ a       EQU     b
         defadr FmRadio_Gui_OnMethod0A,0x15548EC4+1
         
         defadr pg_FmRadio_Main__PAGE_ENTER_EVENT,0x1554A84C+1
+        defadr pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT,0x1554B238+1
+        
+        defadr FMRADIO_ACTION_LAYOUT,0x11
         
         EXTERN New_FmRadio_Gui_OnCreate
         EXTERN New_FmRadio_Gui_OnClose
@@ -165,9 +168,13 @@ a       EQU     b
         DATA
         DCD New_FmRadio_Gui_OnKey
 
-        RSEG PATCH_FmRadio_MainPage_Enter
+        //RSEG PATCH_FmRadio_MainPage_Enter
+        //DATA
+        //DCD New_FmRadio_Main__PAGE_ENTER_EVENT
+        
+        RSEG PATCH_FmRadio_Created
         DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
+        DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
         
 //------------------------------------------------------------------------------
 
@@ -187,14 +194,13 @@ delete_data:
         BLX     R1
         MOV     R0, #0
         STR     R0, [R4,#8]
-        
-nex_:
+  nex_:
         BL      DeleteData
         POP     {R2-R7,PC}
 
 //------------------------------------------------------------------------------
-        
-        RSEG PATCH_FmRadio_NewRefresh
+/*
+        RSEG PATCH_FmRadio_NewLayout
 	CODE16
 	LDR	R3, =new_disp_desc
 	BX	R3
@@ -206,13 +212,12 @@ new_disp_desc:
         ADD     R0, R4, #0
         LDR	R3, =DISP_DESC_SetMethod0A
 	BLX	R3
+        LDR     R1, =New_FmRadio_Gui_OnLayout
         ADD     R0, R4, #0
-        BL      New_FmRadio_Gui_OnRefresh
-        MOV     R1, #0
-        ADD     R0, R4, #0
-        BL      New_FmRadio_Gui_OnLayout
+        LDR	R3, =DISP_DESC_SetOnLayout
+	BLX	R3
         POP     {R4,PC}
-
+*/
 //------------------------------------------------------------------------------
 
         RSEG PATCH_FmRadio_NewSoftKey
@@ -249,8 +254,10 @@ update_softkey:
          LDR	R3, =GUIObject_SoftKeys_SetVisible
          BLX	R3
          LDR    R0, [R4,#0x18]
-         ADD    R1, R5, #0
-         BL     FmRadio_UpdateSoftKeys
+         MOV    R1, #FMRADIO_ACTION_LAYOUT
+         ADD    R2, R5, #0
+         LDR	R3, =GUIObject_SoftKeys_SetVisible
+         BLX	R3
          LDR	R0, =0x1554AC76+1
          BX	R0
         

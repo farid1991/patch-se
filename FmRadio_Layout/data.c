@@ -51,55 +51,50 @@ void SaveData(bool save, int item)
 {
   FmRadio_Data* data = GetData();
   
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-#define temp_font data->temp.font + (data->style_bold<<8) + (data->style_italic<<9);
-#else
-#define temp_font data->temp.font;
-#endif
   if (item == ITEM_FREQUENCY)
   {
-    data->setting.frequency.state = data->temp.activate1;
+    data->setting.frequency.state = data->temp.state;
     data->setting.frequency.align = data->temp.align;
-    data->setting.frequency.tcolor = data->temp.color1;
+    data->setting.frequency.text_color = data->temp.color1;
     data->setting.frequency.ocolor = data->temp.color2;
     data->setting.frequency.overlay = data->temp.overlay;
-    data->setting.frequency.font = temp_font;
+    data->setting.frequency.font = data->temp.font;
     data->setting.frequency.coord.x1 = data->temp.x1;
     data->setting.frequency.coord.y1 = data->temp.y1;
     data->setting.frequency.coord.x2 = data->temp.x2;
   }
   else if (item == ITEM_CHANNEL)
   {
-    data->setting.channel.state = data->temp.activate1;
+    data->setting.channel.state = data->temp.state;
     data->setting.channel.align = data->temp.align;
-    data->setting.channel.tcolor = data->temp.color1;
+    data->setting.channel.text_color = data->temp.color1;
     data->setting.channel.ocolor = data->temp.color2;
     data->setting.channel.overlay = data->temp.overlay;
-    data->setting.channel.font = temp_font;
+    data->setting.channel.font = data->temp.font;
     data->setting.channel.coord.x1 = data->temp.x1;
     data->setting.channel.coord.y1 = data->temp.y1;
     data->setting.channel.coord.x2 = data->temp.x2;
   }
   else if (item == ITEM_CHANNELNAME)
   {
-    data->setting.channel_name.state = data->temp.activate1;
+    data->setting.channel_name.state = data->temp.state;
     data->setting.channel_name.align = data->temp.align;
-    data->setting.channel_name.tcolor = data->temp.color1;
+    data->setting.channel_name.text_color = data->temp.color1;
     data->setting.channel_name.ocolor = data->temp.color2;
     data->setting.channel_name.overlay = data->temp.overlay;
-    data->setting.channel_name.font = temp_font;
+    data->setting.channel_name.font = data->temp.font;
     data->setting.channel_name.coord.x1 = data->temp.x1;
     data->setting.channel_name.coord.y1 = data->temp.y1;
     data->setting.channel_name.coord.x2 = data->temp.x2;
   }
   else if (item == ITEM_RDS_DATA)
   {
-    data->setting.RDS_data.state = data->temp.activate1;
+    data->setting.RDS_data.state = data->temp.state;
     data->setting.RDS_data.align = data->temp.align;
-    data->setting.RDS_data.tcolor = data->temp.color1;
+    data->setting.RDS_data.text_color = data->temp.color1;
     data->setting.RDS_data.ocolor = data->temp.color2;
     data->setting.RDS_data.overlay = data->temp.overlay;
-    data->setting.RDS_data.font = temp_font;
+    data->setting.RDS_data.font = data->temp.font;
     data->setting.RDS_data.coord.x1 = data->temp.x1;
     data->setting.RDS_data.coord.y1 = data->temp.y1;
     data->setting.RDS_data.coord.x2 = data->temp.x2;
@@ -107,9 +102,9 @@ void SaveData(bool save, int item)
   
   else if (item == ITEM_FREQ_INDICATOR)
   {
-    data->setting.freq_indicator.state = data->temp.activate1;
-    data->setting.freq_indicator.slider = data->temp.activate2;
-    data->setting.freq_indicator.round = data->temp.activate3;
+    data->setting.freq_indicator.state = data->temp.state;
+    data->setting.freq_indicator.slider = data->temp.slider;
+    data->setting.freq_indicator.round = data->temp.round;
     data->setting.freq_indicator.progress_bcolor = data->temp.color1;
     data->setting.freq_indicator.progress_fcolor = data->temp.color2;
     data->setting.freq_indicator.progress_rect.x1 = data->temp.x1;
@@ -120,65 +115,65 @@ void SaveData(bool save, int item)
 
   else if (item == ITEM_RDS_ICN)
   { 
-    data->setting.rds_icn.state = data->temp.activate1;
+    data->setting.rds_icn.state = data->temp.state;
     data->setting.rds_icn.pos.x = data->temp.x1;
     data->setting.rds_icn.pos.y = data->temp.y1;
   }
   else if (item == ITEM_AF_ICN)
   { 
-    data->setting.af_icn.state = data->temp.activate1;
+    data->setting.af_icn.state = data->temp.state;
     data->setting.af_icn.pos.x = data->temp.x1;
     data->setting.af_icn.pos.y = data->temp.y1;
   }
   else if (item == ITEM_AUDIO_ICN)
   { 
-    data->setting.audio_icn.state = data->temp.activate1;
+    data->setting.audio_icn.state = data->temp.state;
     data->setting.audio_icn.pos.x = data->temp.x1;
     data->setting.audio_icn.pos.y = data->temp.y1;
   }
   
   else if (item == ITEM_ARROW_LEFT)
   { 
-    data->setting.arrow_left.state = data->temp.activate1;
+    data->setting.arrow_left.state = data->temp.state;
     data->setting.arrow_left.pos.x = data->temp.x1;
     data->setting.arrow_left.pos.y = data->temp.y1;
   }
   else if (item == ITEM_ARROW_RIGHT)
   { 
-    data->setting.arrow_right.state = data->temp.activate1;
+    data->setting.arrow_right.state = data->temp.state;
     data->setting.arrow_right.pos.x = data->temp.x1;
     data->setting.arrow_right.pos.y = data->temp.y1;
   }
   else if (item == ITEM_ARROW_UP)
   { 
-    data->setting.arrow_up.state = data->temp.activate1;
+    data->setting.arrow_up.state = data->temp.state;
     data->setting.arrow_up.pos.x = data->temp.x1;
     data->setting.arrow_up.pos.y = data->temp.y1;
   }
   else if (item == ITEM_ARROW_DOWN)
   { 
-    data->setting.arrow_down.state = data->temp.activate1;
+    data->setting.arrow_down.state = data->temp.state;
     data->setting.arrow_down.pos.x = data->temp.x1;
     data->setting.arrow_down.pos.y = data->temp.y1;
   }
 
   else if (item == ITEM_BACKROUND)
   {
-    data->setting.background.state = data->temp.activate1;
-    data->setting.background_color = data->temp.color1;
+    data->setting.background.state = data->temp.state;
+    //data->setting.background_color = data->temp.color1;
     data->setting.background.pos.x = data->temp.x1;
     data->setting.background.pos.y = data->temp.y1;
   }
-  else if (item == ITEM_ADDITIONAL)
-  {
-    data->setting.screen = data->temp.activate1;
-    data->setting.soft = data->temp.activate2;
-    data->setting.animation = data->temp.activate3;
-  }
+  //else if (item == ITEM_ADDITIONAL)
+  //{
+    //data->setting.screen = data->temp.activate1;
+    //data->setting.soft = data->temp.activate2;
+    //data->setting.animation = data->temp.activate3;
+  //}
   
   if (save)
   {
-    int file = _fopen( FILE_PATH, FILE_NAME, FSX_O_WRONLY, FSX_S_IWRITE|FSX_S_IREAD, NULL );
+    int file = _fopen( CONFIG_PATH, FILE_NAME, FSX_O_WRONLY, FSX_S_IWRITE|FSX_S_IREAD, NULL );
     if(file >= NULL) 
     {
       fwrite(file, &data->setting, sizeof(SETTING_DATA));
@@ -187,12 +182,12 @@ void SaveData(bool save, int item)
   }
 }
 
-void LoadData()
+void LoadData(FmRadio_Data* data)
 {
-  FmRadio_Data* data = GetData();
-  int file = _fopen( FILE_PATH, FILE_NAME, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL );
-  if(file >= 0) 
+  int file = _fopen( CONFIG_PATH, FILE_NAME, FSX_O_RDONLY, FSX_S_IREAD|FSX_S_IWRITE, NULL );
+  if(file >= NULL) 
   {
+    memset(&data->setting, NULL, sizeof(SETTING_DATA));
     fread(file, &data->setting, sizeof(SETTING_DATA));
     fclose(file);
   }

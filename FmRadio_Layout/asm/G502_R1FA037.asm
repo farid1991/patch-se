@@ -633,7 +633,7 @@ a       EQU b
 	defadr SetHorizontalViewVideo,0x115E729C+1
         defadr SetVerticalViewVideo,0x115E7270+1
         defadr FlightModeControl,0x1160E8CC+1
-        defadr isFlightMode,0x1160E2A0+1
+        defadr IsFlightMode,0x1160E2A0+1
         defadr SetOperatorName,0x10F4C388+1
         
         defadr GC_DrawIcon,0x1169F3E4+1
@@ -660,7 +660,7 @@ a       EQU b
         defadr ListMenu_SetTexts,0x1165868C+1
         defadr Feedback_CloseAction,0x116B5448+1
         defadr Feedback_SetIconExtended,0x116B5574+1
-        defadr MessageBox_NoImage,0x1160973C+1
+        defadr CreateToast,0x1160973C+1
         
         defadr GUIObject_SoftKeys_AllowKeylock,0x116C0798+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x10F6853C+1
@@ -714,17 +714,17 @@ a       EQU b
         DATA
         DCD New_FmRadio_Gui_OnKey
         
-        RSEG PATCH_FmRadio_OnLayout
-        DATA
-        DCD New_FmRadio_Gui_OnLayout
-        
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
-        
-        //RSEG PATCH_FmRadio_Created
+        //RSEG PATCH_FmRadio_OnLayout
         //DATA
-        //DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
+        //DCD New_FmRadio_Gui_OnLayout
+        
+        //RSEG PATCH_FmRadio_MainPage_Enter
+        //DATA
+        //DCD New_FmRadio_Main__PAGE_ENTER_EVENT
+        
+        RSEG PATCH_FmRadio_Created
+        DATA
+        DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
         
         //RSEG PATCH_Fix_FMRadio_Gui
         //CODE16
@@ -767,24 +767,6 @@ delete_data:
 nex_:
         BL      DeleteData
         POP     {R3-R7,PC}
-
-//------------------------------------------------------------------------------
-        
-        RSEG PATCH_FmRadio_NewRefresh
-	CODE16
-	LDR	R3, =new_disp_desc
-	BX	R3
-
-        RSEG  CODE
-        CODE16
-new_disp_desc:
-        LDR     R1, =FmRadio_Gui_OnConfig
-        ADD     R0, R4, #0
-        LDR	R3, =DISP_DESC_SetOnConfig
-	BLX	R3
-        ADD     R0, R4, #0
-        BL      New_FmRadio_Gui_OnRefresh
-        POP     {R4,PC}
 
 //------------------------------------------------------------------------------
 

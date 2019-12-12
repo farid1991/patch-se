@@ -22,50 +22,43 @@
 void Text_OnSelect(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_elem);
-  if (item == 0) OneOfMany_SetMode(FMSettings_Book, 2);
-  else if (item == 1) SetColor(FMSettings_Book, 1);
-  else if (item == 2) SetColor(FMSettings_Book, 2);
-  else if (item == 3) OneOfMany_SetMode(FMSettings_Book, 1);
-  else if (item == 4) SetVisual(FMSettings_Book);
+  int item = ListMenu_GetSelectedItem(FMSettings_Book->SubMenu);
+  
+  switch(item)
+  {
+  case SUBITEM_TXT_STATE:   OneOfMany_SetMode(FMSettings_Book, OOM_STATE); break;
+  case SUBITEM_TXT_COLOR:   SetColor(FMSettings_Book, 1); break;
+  case SUBITEM_TXT_OVERLAY: SetColor(FMSettings_Book, 2); break;
+  case SUBITEM_TXT_ALIGN:   OneOfMany_SetMode(FMSettings_Book, OOM_ALIGN); break;
+  case SUBITEM_TXT_VISUAL:  SetVisual(FMSettings_Book); break;
+  }
 }
 
 void Progress_OnSelect(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_elem);
-  if (item == 0) SetActivate(FMSettings_Book,PROGRESS_COUNT);
-  else if (item == 1) SetActivate(FMSettings_Book,PROGRESS_COUNT);
-  else if (item == 2) SetActivate(FMSettings_Book,PROGRESS_COUNT);
-  else if (item == 3) SetColor(FMSettings_Book, 1);
-  else if (item == 4) SetColor(FMSettings_Book, 2);
-  else if (item == 5) SetVisual(FMSettings_Book);
+  int item = ListMenu_GetSelectedItem(FMSettings_Book->SubMenu);
+  
+  switch(item)
+  {
+  case SUBITEM_PB_STATE:  SetActivate(FMSettings_Book,SUBITEM_PB_LAST); break;
+  case SUBITEM_PB_SLIDER: SetActivate(FMSettings_Book,SUBITEM_PB_LAST); break;
+  case SUBITEM_PB_ROUND:  SetActivate(FMSettings_Book,SUBITEM_PB_LAST); break;
+  case SUBITEM_PB_BCOLOR: SetColor(FMSettings_Book, 1); break;
+  case SUBITEM_PB_FCOLOR: SetColor(FMSettings_Book, 2); break;
+  case SUBITEM_PB_VISUAL: SetVisual(FMSettings_Book); break;
+  }
 }
 
 void Image_OnSelect(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_elem);
-  if (item == 0) SetActivate(FMSettings_Book,IMAGE_COUNT);
-  else if (item == 1) SetVisual(FMSettings_Book);
-}
-
-void Background_OnSelect(BOOK* book, GUI* gui)
-{
-  SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_elem);
-  if (item == 0) OneOfMany_SetMode(FMSettings_Book, 0);
-  else if (item == 1) SetColor(FMSettings_Book, 0);
-  else if (item == 2) SetVisual(FMSettings_Book);
-}
-
-void Additional_OnSelect(BOOK* book, GUI* gui)
-{
-  SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_elem);
-  if (item == 0) SetActivate(FMSettings_Book,ADDITIONAL_COUNT);
-  else if (item == 1) SetActivate(FMSettings_Book,ADDITIONAL_COUNT);
-  else if (item == 2) SetActivate(FMSettings_Book,ADDITIONAL_COUNT);
+  int item = ListMenu_GetSelectedItem(FMSettings_Book->SubMenu);
+  switch(item)
+  {
+  case SUBITEM_IMG_STATE:   SetActivate(FMSettings_Book, SUBITEM_IMG_LAST); break;
+  case SUBITEM_IMG_VISUAL:  SetVisual(FMSettings_Book); break;
+  }
 }
 
 int Text_OnMessage(GUI_MESSAGE* msg)
@@ -76,13 +69,13 @@ int Text_OnMessage(GUI_MESSAGE* msg)
       FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
-      TEXTID first_text = EMPTY_TEXTID;
-      TEXTID second_text = EMPTY_TEXTID;
+      TEXTID first_text;
+      TEXTID second_text;
       
       if (item == 0)
       {
         first_text = TextID_Global(ID_SHOW);
-        if (data->temp.activate1) second_text = TEXT_ON;
+        if (data->temp.state) second_text = TEXT_ON;
         else second_text = TEXT_OFF;
       }
       else
@@ -100,7 +93,13 @@ int Text_OnMessage(GUI_MESSAGE* msg)
             first_text = TextID_Global(ID_COLOR_OVERLAY);
             color = data->temp.color2;
           }
-          snwprintf(data->buf, MAXELEMS(data->buf)-1, L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
+          snwprintf(data->buf, 
+                    MAXELEMS(data->buf), 
+                    L"%02X, %02X, %02X, %02X", 
+                    COLOR_GET_R(color), 
+                    COLOR_GET_G(color), 
+                    COLOR_GET_B(color), 
+                    COLOR_GET_A(color));
           second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
         }
         else if (item == 3)
@@ -116,16 +115,62 @@ int Text_OnMessage(GUI_MESSAGE* msg)
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
           int font_size = (data->cur_pos+1)*font_step + (data->style_bold<<8) + (data->style_italic<<9); //data->temp.font&0xFF;
           int style = font_size >> 8; //data->temp.font>>8;
-          if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
-          else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
-          else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
-          else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
-          second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
+          if (style == 0) 
+          {
+            snwprintf(data->buf, 
+                      MAXELEMS(data->buf), 
+                      L"%d,%d,%d,%d font:%d", 
+                      data->temp.x1, 
+                      data->temp.y1, 
+                      data->temp.x2, 
+                      data->temp.y1 + font_size, 
+                      font_size);
+          }
+          else if (style == 1) 
+          {
+            snwprintf(data->buf, 
+                      MAXELEMS(data->buf), 
+                      L"%d,%d,%d,%d font:%d_B", 
+                      data->temp.x1, 
+                      data->temp.y1, 
+                      data->temp.x2, 
+                      data->temp.y1 + font_size&0xFF, 
+                      font_size&0xFF);
+          }
+          else if (style == 2)
+          {
+            snwprintf(data->buf, 
+                      MAXELEMS(data->buf), 
+                      L"%d,%d,%d,%d font:%d_I", 
+                      data->temp.x1, 
+                      data->temp.y1, 
+                      data->temp.x2, 
+                      data->temp.y1 + font_size&0xFF, 
+                      font_size&0xFF);
+          }
+          else if (style == 3) 
+          {
+            snwprintf(data->buf, 
+                      MAXELEMS(data->buf), 
+                      L"%d,%d,%d,%d font:%d_B_I", 
+                      data->temp.x1, 
+                      data->temp.y1, 
+                      data->temp.x2, 
+                      data->temp.y1 + font_size&0xFF, 
+                      font_size&0xFF);
+          }
 #else 
-          second_text = TextID_Create(Font_GetNameByFontId(data->temp.font), ENC_UCS2, TEXTID_ANY_LEN);
+          snwprintf(data->buf, 
+                    MAXELEMS(data->buf), L"%d,%d,%d,%d font:%ls", 
+                    data->temp.x1, 
+                    data->temp.y1, 
+                    data->temp.x2,
+                    data->temp.y2, 
+                    Font_GetNameByFontId(data->temp.font));
 #endif
+          second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
         }
-        if (!data->temp.activate1) GUIonMessage_SetItemDisabled(msg, TRUE);
+        if (!data->temp.state) GUIonMessage_SetItemDisabled(msg, TRUE);
       }
       
       GUIonMessage_SetMenuItemText(msg, first_text);
@@ -142,12 +187,12 @@ int Progress_OnMessage(GUI_MESSAGE* msg)
       FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
-      TEXTID first_text = EMPTY_TEXTID;
-      TEXTID second_text = EMPTY_TEXTID;
+      TEXTID first_text;
+      TEXTID second_text;
       
       if (item == 3 || item == 4)
       {
-        color_t color;
+        unsigned int color;
         if (item == 3)
         {
           first_text = TEXT_COLOR_B;
@@ -158,7 +203,13 @@ int Progress_OnMessage(GUI_MESSAGE* msg)
           first_text = TextID_Global(ID_COLOR_F);
           color = data->temp.color2;
         }
-        snwprintf(data->buf, MAXELEMS(data->buf)-1, L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
+        snwprintf(data->buf, 
+                  MAXELEMS(data->buf), 
+                  L"%02X, %02X, %02X, %02X",
+                  COLOR_GET_R(color), 
+                  COLOR_GET_G(color),
+                  COLOR_GET_B(color), 
+                  COLOR_GET_A(color));
         second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
       }
       else
@@ -167,22 +218,28 @@ int Progress_OnMessage(GUI_MESSAGE* msg)
         {
         case 0:
           first_text = TextID_Global(ID_SHOW);
-          if (data->temp.activate1) second_text = TEXT_ON;
+          if (data->temp.state) second_text = TEXT_ON;
           else second_text = TEXT_OFF;
           break;
         case 1:
           first_text = TextID_Global(ID_SLIDER);
-          if (data->temp.activate2) second_text = TEXT_ON;
+          if (data->temp.slider) second_text = TEXT_ON;
           else second_text = TEXT_OFF;
           break;
         case 2:
           first_text = TEXT_PTYPE;
-          if (data->temp.activate3) second_text = TextID_Global(ID_PTYPE_2);
+          if (data->temp.round) second_text = TextID_Global(ID_PTYPE_2);
           else second_text = TextID_Global(ID_PTYPE_1);
           break;
         case 5:
           first_text = TextID_Global(ID_VISUAL);
-          snwprintf(data->buf, MAXELEMS(data->buf) - 1, L"%d, %d, %d, %d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y2);
+          snwprintf(data->buf, 
+                    MAXELEMS(data->buf), 
+                    L"X:%d, Y:%d, W:%d, H:%d", 
+                    data->temp.x1, 
+                    data->temp.y1, 
+                    data->temp.x2-data->temp.x1, 
+                    data->temp.y2-data->temp.y1);
           second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
           break;
         }
@@ -201,99 +258,34 @@ int Image_OnMessage(GUI_MESSAGE* msg)
       FmRadio_Data* data = GetData();
       int item = GUIonMessage_GetCreatedItemIndex(msg);
       
-      TEXTID first_text = EMPTY_TEXTID;
-      TEXTID second_text = EMPTY_TEXTID;
+      TEXTID first_text;
+      TEXTID second_text;
       
       switch (item)
       {
       case 0:
         first_text = TextID_Global(ID_SHOW);
-        if (data->temp.activate1) second_text = TEXT_ON;
-        else second_text = TEXT_OFF;
+        if (data->temp.state) 
+        {
+          second_text = TEXT_ON;
+        }
+        else 
+        {
+          second_text = TEXT_OFF;
+        }
         break;
       case 1:
         first_text = TextID_Global(ID_VISUAL);
-        snwprintf(data->buf, MAXELEMS(data->buf) - 1, L"%d, %d, %d, %d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y2);
+        snwprintf(data->buf,
+                  MAXELEMS(data->buf), 
+                  L"X:%d, Y:%d", 
+                  data->temp.x1, 
+                  data->temp.y1);
         second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
-        if (!data->temp.activate1) GUIonMessage_SetItemDisabled(msg, TRUE);
+        if (!data->temp.state) GUIonMessage_SetItemDisabled(msg, TRUE);
         break;
       }
       
-      GUIonMessage_SetMenuItemText(msg, first_text);
-      GUIonMessage_SetMenuItemSecondLineText(msg, second_text);
-  }
-  return 1;
-}
-
-int Background_OnMessage(GUI_MESSAGE* msg)
-{
-  switch(GUIonMessage_GetMsg(msg))
-  {
-    case LISTMSG_GetItem:
-      FmRadio_Data* data = GetData();
-      int item = GUIonMessage_GetCreatedItemIndex(msg);
-      
-      TEXTID first_text = EMPTY_TEXTID;
-      TEXTID second_text = EMPTY_TEXTID;
-      
-      if (item==0)
-      {
-        first_text = TEXT_MODE;
-        if (data->temp.activate1 == TYPE_IMAGE) second_text = TEXT_IMAGE;
-        else if (data->temp.activate1 == TYPE_THEME) second_text = TEXT_THEME;
-        else if (data->temp.activate1 == TYPE_COLOR) second_text = TEXT_COLOR;
-      }
-      else if (item==1)
-      {
-        first_text = TEXT_COLOR;
-        color_t color = data->temp.color1;
-        snwprintf(data->buf, MAXELEMS(data->buf) - 1, L"%02X, %02X, %02X, %02X", COLOR_GET_R(color), COLOR_GET_G(color), COLOR_GET_B(color), COLOR_GET_A(color));
-        second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
-        if (data->temp.activate1 == TYPE_IMAGE || data->temp.activate1 == TYPE_THEME) GUIonMessage_SetItemDisabled(msg, TRUE);
-      }
-      else if (item==2)
-      {
-        first_text = TextID_Global(ID_VISUAL);
-        snwprintf(data->buf, MAXELEMS(data->buf) - 1, L"%d, %d, %d, %d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y2);
-        second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
-        if (data->temp.activate1 == TYPE_THEME || data->temp.activate1 == TYPE_COLOR) GUIonMessage_SetItemDisabled(msg, TRUE);
-      }
-      GUIonMessage_SetMenuItemText(msg, first_text);
-      GUIonMessage_SetMenuItemSecondLineText(msg, second_text);
-  }
-  return 1;
-}
-
-int Additional_OnMessage(GUI_MESSAGE* msg)
-{
-  switch(GUIonMessage_GetMsg(msg))
-  {
-    case LISTMSG_GetItem:
-      FmRadio_Data* data = GetData();
-      int item = GUIonMessage_GetCreatedItemIndex(msg);
-      
-      TEXTID first_text = EMPTY_TEXTID;
-      TEXTID second_text = EMPTY_TEXTID;
-      
-      switch (item)
-      {
-      case 0:
-        first_text = TEXT_SCREEN;
-        if (data->temp.activate1) second_text = TEXT_ON;
-        else second_text = TEXT_OFF;
-        break;
-      case 1:
-        first_text = TextID_Global(ID_SOFT);
-        if (data->temp.activate2) second_text = TEXT_ON;
-        else second_text = TEXT_OFF;
-        break;
-      case 2:
-        first_text = TEXT_ANIMATION;
-        if (data->temp.activate3) second_text = TEXT_ON;
-        else second_text = TEXT_OFF;
-        break;
-      }
-      GUIonMessage_SetItemDisabled(msg, TRUE);
       GUIonMessage_SetMenuItemText(msg, first_text);
       GUIonMessage_SetMenuItemSecondLineText(msg, second_text);
   }
@@ -303,52 +295,43 @@ int Additional_OnMessage(GUI_MESSAGE* msg)
 void Editor_OnBack(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  if (FMSettings_Book->change) SaveData(FALSE, FMSettings_Book->element);
-  FREE_GUI (FMSettings_Book->gui_elem);
+  if (FMSettings_Book->changed) SaveData(FALSE, FMSettings_Book->element);
+  FREE_GUI (FMSettings_Book->SubMenu);
 }
 
-void CreateEditor(FmRadio_Data* data, SETTING_BOOK* FMSettings_Book, int type, int count)
+void CreateEditor(FmRadio_Data* data, SETTING_BOOK* FMSettings_Book, int SubItemCount)
 {
-  FMSettings_Book->gui_elem = CreateListMenu(FMSettings_Book, UIDisplay_Main);
-  //FMSettings_Book->gui_elem = gui;
-  
-  if (type == 0)
+  FMSettings_Book->SubMenu = CreateListMenu(FMSettings_Book, UIDisplay_Main);
+
+  char type = FMSettings_Book->elem_type;
+  if (type == ELEM_TEXT)
   {
-    ListMenu_SetOnMessage(FMSettings_Book->gui_elem, Text_OnMessage);
-    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_SELECT1, Text_OnSelect);
+    ListMenu_SetOnMessage(FMSettings_Book->SubMenu, Text_OnMessage);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->SubMenu, ACTION_SELECT1, Text_OnSelect);
   }
-  else if (type == 1)
+  else if (type == ELEM_RECT)
   {
-    ListMenu_SetOnMessage(FMSettings_Book->gui_elem, Progress_OnMessage);
-    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_SELECT1, Progress_OnSelect);
+    ListMenu_SetOnMessage(FMSettings_Book->SubMenu, Progress_OnMessage);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->SubMenu, ACTION_SELECT1, Progress_OnSelect);
   }
-  else if (type == 2)
+  else if (type == ELEM_ICON)
   {
-    ListMenu_SetOnMessage(FMSettings_Book->gui_elem, Image_OnMessage);
-    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_SELECT1, Image_OnSelect);
-  }
-  else if (type == 3)
-  {
-    ListMenu_SetOnMessage(FMSettings_Book->gui_elem, Background_OnMessage);
-    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_SELECT1, Background_OnSelect);
-  }
-  else if (type == 4)
-  {
-    ListMenu_SetOnMessage(FMSettings_Book->gui_elem, Additional_OnMessage);
-    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_SELECT1, Additional_OnSelect);
+    ListMenu_SetOnMessage(FMSettings_Book->SubMenu, Image_OnMessage);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->SubMenu, ACTION_SELECT1, Image_OnSelect);
   }
   
-  GUIObject_SetTitleText(FMSettings_Book->gui_elem, TextID_Setting(FMSettings_Book->element));
-  ListMenu_SetItemCount(FMSettings_Book->gui_elem, count);
-  ListMenu_SetCursorToItem(FMSettings_Book->gui_elem, 0);
-  ListMenu_SetItemStyle(FMSettings_Book->gui_elem, 3);
-  GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_elem, ACTION_BACK, Editor_OnBack);
-  GUIObject_Show(FMSettings_Book->gui_elem);
+  GUIObject_SetTitleText(FMSettings_Book->SubMenu, TextID_Setting(FMSettings_Book->element));
+  ListMenu_SetItemCount(FMSettings_Book->SubMenu, SubItemCount);
+  ListMenu_SetCursorToItem(FMSettings_Book->SubMenu, 0);
+  ListMenu_SetItemStyle(FMSettings_Book->SubMenu, 3);
+  GUIObject_SoftKeys_SetAction(FMSettings_Book->SubMenu, ACTION_BACK, Editor_OnBack);
+  GUIObject_SoftKeys_SetAction(FMSettings_Book->SubMenu, ACTION_LONG_BACK, Editor_OnBack);
+  GUIObject_Show(FMSettings_Book->SubMenu);
 }
 
 //******************************************************************************
 
-int Setting_OnMessage(GUI_MESSAGE* msg)
+int Settings_OnMessage(GUI_MESSAGE* msg)
 {
   switch (GUIonMessage_GetMsg(msg))
   {
@@ -359,156 +342,149 @@ int Setting_OnMessage(GUI_MESSAGE* msg)
   return 1;
 }
 
-void Setting_OnSelect(BOOK* book, GUI* gui)
+void Settings_OnSelect(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  int item = ListMenu_GetSelectedItem(FMSettings_Book->gui_set);
+  int item = ListMenu_GetSelectedItem(FMSettings_Book->MainMenu);
   FMSettings_Book->element = item;
-  FMSettings_Book->change = FALSE;
+  FMSettings_Book->changed = FALSE;
   
   FmRadio_Data* data = GetData();
-  data->temp.activate1 = NULL;
-  data->temp.activate2 = NULL;
-  data->temp.activate3 = NULL;
-  data->temp.align = NULL;
-  data->temp.color1 = NULL;
-  data->temp.color2 = NULL;
-  data->temp.overlay = NULL;
-  data->temp.font = NULL;
-  data->temp.x1 = NULL;
-  data->temp.y1 = NULL;
-  data->temp.x2 = NULL;
-  data->temp.y2 = NULL;
-  
+  memset(&data->temp, NULL, sizeof(TEMP_DATA));
+
   if (item == ITEM_FREQUENCY)
   {
-    data->temp.activate1 = data->setting.frequency.state;
+    FMSettings_Book->elem_type = ELEM_TEXT;
+    data->temp.state = data->setting.frequency.state;
     data->temp.align = data->setting.frequency.align;
-    data->temp.color1 = data->setting.frequency.tcolor;
+    data->temp.color1 = data->setting.frequency.text_color;
     data->temp.color2 = data->setting.frequency.ocolor;
     data->temp.overlay = data->setting.frequency.overlay;
     data->temp.font = data->setting.frequency.font;
     data->temp.x1 = data->setting.frequency.coord.x1;
     data->temp.y1 = data->setting.frequency.coord.y1;
     data->temp.x2 = data->setting.frequency.coord.x2;
-    CreateEditor(data, FMSettings_Book, 0, TEXT_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_TXT_LAST);
   }
   else if (item == ITEM_CHANNEL)
   {
-    data->temp.activate1 = data->setting.channel.state;
+    FMSettings_Book->elem_type = ELEM_TEXT;
+    data->temp.state = data->setting.channel.state;
     data->temp.align = data->setting.channel.align;
-    data->temp.color1 = data->setting.channel.tcolor;
+    data->temp.color1 = data->setting.channel.text_color;
     data->temp.color2 = data->setting.channel.ocolor;
     data->temp.overlay = data->setting.channel.overlay;
     data->temp.font = data->setting.channel.font;
     data->temp.x1 = data->setting.channel.coord.x1;
     data->temp.y1 = data->setting.channel.coord.y1;
     data->temp.x2 = data->setting.channel.coord.x2;
-    CreateEditor(data, FMSettings_Book, 0, TEXT_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_TXT_LAST);
   }
   else if (item == ITEM_CHANNELNAME)
   {
-    data->temp.activate1 = data->setting.channel_name.state;
+    FMSettings_Book->elem_type = ELEM_TEXT;
+    data->temp.state = data->setting.channel_name.state;
     data->temp.align = data->setting.channel_name.align;
-    data->temp.color1 = data->setting.channel_name.tcolor;
+    data->temp.color1 = data->setting.channel_name.text_color;
     data->temp.color2 = data->setting.channel_name.ocolor;
     data->temp.overlay = data->setting.channel_name.overlay;
     data->temp.font = data->setting.channel_name.font;
     data->temp.x1 = data->setting.channel_name.coord.x1;
     data->temp.y1 = data->setting.channel_name.coord.y1;
     data->temp.x2 = data->setting.channel_name.coord.x2;
-    CreateEditor(data, FMSettings_Book, 0, TEXT_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_TXT_LAST);
   }
   else if (item == ITEM_RDS_DATA)
   {
-    data->temp.activate1 = data->setting.RDS_data.state;
+    FMSettings_Book->elem_type = ELEM_TEXT;
+    data->temp.state = data->setting.RDS_data.state;
     data->temp.align = data->setting.RDS_data.align;
-    data->temp.color1 = data->setting.RDS_data.tcolor;
+    data->temp.color1 = data->setting.RDS_data.text_color;
     data->temp.color2 = data->setting.RDS_data.ocolor;
     data->temp.overlay = data->setting.RDS_data.overlay;
     data->temp.font = data->setting.RDS_data.font;
     data->temp.x1 = data->setting.RDS_data.coord.x1;
     data->temp.y1 = data->setting.RDS_data.coord.y1;
     data->temp.x2 = data->setting.RDS_data.coord.x2;
-    CreateEditor(data, FMSettings_Book, 0, TEXT_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_TXT_LAST);
   }
   else if (item == ITEM_FREQ_INDICATOR)
   {
-    data->temp.activate1 = data->setting.freq_indicator.state;
-    data->temp.activate2 = data->setting.freq_indicator.slider;
-    data->temp.activate3 = data->setting.freq_indicator.round;
+    FMSettings_Book->elem_type = ELEM_RECT;
+    data->temp.state = data->setting.freq_indicator.state;
+    data->temp.slider = data->setting.freq_indicator.slider;
+    data->temp.round = data->setting.freq_indicator.round;
     data->temp.color1 = data->setting.freq_indicator.progress_bcolor;
     data->temp.color2 = data->setting.freq_indicator.progress_fcolor;
     data->temp.x1 = data->setting.freq_indicator.progress_rect.x1;
     data->temp.y1 = data->setting.freq_indicator.progress_rect.y1;
     data->temp.x2 = data->setting.freq_indicator.progress_rect.x2;
     data->temp.y2 = data->setting.freq_indicator.progress_rect.y2;
-    CreateEditor(data, FMSettings_Book, 1, PROGRESS_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_PB_LAST);
   }
   
   else if (item == ITEM_RDS_ICN)
   {
-    data->temp.activate1 = data->setting.rds_icn.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.rds_icn.state;
     data->temp.x1 = data->setting.rds_icn.pos.x;
     data->temp.y1 = data->setting.rds_icn.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_AF_ICN)
   {
-    data->temp.activate1 = data->setting.af_icn.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.af_icn.state;
     data->temp.x1 = data->setting.af_icn.pos.x;
     data->temp.y1 = data->setting.af_icn.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_AUDIO_ICN)
   {
-    data->temp.activate1 = data->setting.audio_icn.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.audio_icn.state;
     data->temp.x1 = data->setting.audio_icn.pos.x;
     data->temp.y1 = data->setting.audio_icn.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_ARROW_LEFT)
   {
-    data->temp.activate1 = data->setting.arrow_left.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.arrow_left.state;
     data->temp.x1 = data->setting.arrow_left.pos.x;
     data->temp.y1 = data->setting.arrow_left.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_ARROW_RIGHT)
   {
-    data->temp.activate1 = data->setting.arrow_right.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.arrow_right.state;
     data->temp.x1 = data->setting.arrow_right.pos.x;
     data->temp.y1 = data->setting.arrow_right.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_ARROW_UP)
   {
-    data->temp.activate1 = data->setting.arrow_up.state;
+    data->temp.state = data->setting.arrow_up.state;
     data->temp.x1 = data->setting.arrow_up.pos.x;
     data->temp.y1 = data->setting.arrow_up.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_ARROW_DOWN)
   {
-    data->temp.activate1 = data->setting.arrow_down.state;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.arrow_down.state;
     data->temp.x1 = data->setting.arrow_down.pos.x;
     data->temp.y1 = data->setting.arrow_down.pos.y,
-    CreateEditor(data, FMSettings_Book, 2, IMAGE_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
   else if (item == ITEM_BACKROUND)
   {
-    data->temp.activate1 = data->setting.background.state;
-    data->temp.color1 = data->setting.background_color;
+    FMSettings_Book->elem_type = ELEM_ICON;
+    data->temp.state = data->setting.background.state;
     data->temp.x1 = data->setting.background.pos.x;
     data->temp.y1 = data->setting.background.pos.y;
-    CreateEditor(data, FMSettings_Book, 3, BACKGROUND_COUNT);
-  }
-  else if (item == ITEM_ADDITIONAL)
-  {
-    data->temp.activate1 = data->setting.screen;
-    data->temp.activate2 = data->setting.soft;
-    data->temp.activate3 = data->setting.animation;
-    CreateEditor(data, FMSettings_Book, 4, ADDITIONAL_COUNT);
+    CreateEditor(data, FMSettings_Book, SUBITEM_IMG_LAST);
   }
 }
 
@@ -517,40 +493,22 @@ void Question_OnYes(BOOK* book, GUI* gui)
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   SaveData(TRUE, FMSettings_Book->element);
   FmRadio_Data* data = GetData();
-  LoadData();
+  LoadData(data);
   
-  if((DISP_OBJ*)data->DispObj_FmRadio) DispObject_InvalidateRect((DISP_OBJ*)data->DispObj_FmRadio,NULL);
   FreeBook(FMSettings_Book);
-  /*
-  FmRadio_Data* data = GetData();
-  if (data->setting.screen)
-  {
-    GUIObject_SetStyle(data->gui, UI_OverlayStyle_TrueFullScreen);
-  }
-  else
-  {
-    GUIObject_SetStyle(data->gui, UI_OverlayStyle_Default);
-  }
   
-  if (!data->setting.soft)
-  {
-    GUIObject_SoftKeys_Hide(data->gui);
-  }
-  else
-  {
-    GUIObject_SoftKeys_Show(data->gui);
-  }
-  */
+  if(data->DispObj_FmRadio) DispObject_InvalidateRect(data->DispObj_FmRadio,NULL);
 }
 
 void Question_OnNo(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   FmRadio_Data* data = GetData();
-  LoadData();
+  LoadData(data);
   
-  if((DISP_OBJ*)data->DispObj_FmRadio) DispObject_InvalidateRect((DISP_OBJ*)data->DispObj_FmRadio,NULL);
   FreeBook(FMSettings_Book);
+  
+  if(data->DispObj_FmRadio) DispObject_InvalidateRect(data->DispObj_FmRadio,NULL);
 }
 
 void Question_OnBack(BOOK* book, GUI* gui)
@@ -559,10 +517,10 @@ void Question_OnBack(BOOK* book, GUI* gui)
   FREE_GUI(FMSettings_Book->gui_question);
 }
 
-void Setting_OnBack(BOOK* book, GUI* gui)
+void Settings_OnBack(BOOK* book, GUI* gui)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  if (FMSettings_Book->change)
+  if (FMSettings_Book->changed)
   {
     FMSettings_Book->gui_question = CreateYesNoQuestion(book, UIDisplay_Main);
     YesNoQuestion_SetDescriptionText(FMSettings_Book->gui_question, TEXT_CHANGE);
@@ -579,15 +537,16 @@ void Setting_OnBack(BOOK* book, GUI* gui)
 int pg_FmRadio_Settings_EnterAction(void* data, BOOK* book)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
-  FMSettings_Book->gui_set = CreateListMenu(FMSettings_Book, UIDisplay_Main);
-  GUIObject_SetTitleText(FMSettings_Book->gui_set, TEXT_LAYOUT);
-  ListMenu_SetItemCount(FMSettings_Book->gui_set, SETTING_COUNT);
-  ListMenu_SetOnMessage(FMSettings_Book->gui_set, Setting_OnMessage);
-  ListMenu_SetCursorToItem(FMSettings_Book->gui_set, 0);
-  ListMenu_SetItemStyle(FMSettings_Book->gui_set, 0);
-  GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_set, ACTION_SELECT1, Setting_OnSelect);
-  GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_set, ACTION_BACK, Setting_OnBack);
-  GUIObject_Show(FMSettings_Book->gui_set);
+  FMSettings_Book->MainMenu = CreateListMenu(FMSettings_Book, UIDisplay_Main);
+  GUIObject_SetTitleText(FMSettings_Book->MainMenu, TEXT_LAYOUT);
+  ListMenu_SetItemCount(FMSettings_Book->MainMenu, ITEM_LAST);
+  ListMenu_SetOnMessage(FMSettings_Book->MainMenu, Settings_OnMessage);
+  ListMenu_SetCursorToItem(FMSettings_Book->MainMenu, 0);
+  ListMenu_SetItemStyle(FMSettings_Book->MainMenu, 0);
+  GUIObject_SoftKeys_SetAction(FMSettings_Book->MainMenu, ACTION_SELECT1, Settings_OnSelect);
+  GUIObject_SoftKeys_SetAction(FMSettings_Book->MainMenu, ACTION_BACK, Settings_OnBack);
+  GUIObject_SoftKeys_SetAction(FMSettings_Book->MainMenu, ACTION_LONG_BACK, Settings_OnBack);
+  GUIObject_Show(FMSettings_Book->MainMenu);
   return 1;
 }
 
@@ -595,11 +554,11 @@ int pg_FmRadio_Settings_ExitAction(void* data, BOOK* book)
 {
   SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
   
-  FREE_GUI (FMSettings_Book->gui_set);
-  FREE_GUI (FMSettings_Book->gui_elem);
+  FREE_GUI (FMSettings_Book->MainMenu);
+  FREE_GUI (FMSettings_Book->SubMenu);
   FREE_GUI (FMSettings_Book->gui_question);
-  FREE_GUI (FMSettings_Book->gui_oom);
-  FREE_GUI (FMSettings_Book->gui_color);
+  FREE_GUI (FMSettings_Book->OptionMenu);
+  FREE_GUI (FMSettings_Book->ColorPicker);
   
   return 1;
 }
@@ -638,8 +597,13 @@ const PAGE_DESC FmRadio_Settings_Main_Page = {"FmRadio_Layout_Main_Page", NULL, 
 
 void SettingBook_onClose(BOOK* book)
 {
-  pg_FmRadio_Settings_ExitAction(NULL, book);
-  FreeBook(book);
+  SETTING_BOOK* FMSettings_Book = (SETTING_BOOK*)book;
+  
+  FREE_GUI (FMSettings_Book->MainMenu);
+  FREE_GUI (FMSettings_Book->SubMenu);
+  FREE_GUI (FMSettings_Book->gui_question);
+  FREE_GUI (FMSettings_Book->OptionMenu);
+  FREE_GUI (FMSettings_Book->ColorPicker);
 }
 
 void FmRadio_LayoutSetting(BOOK* book, GUI* gui)
@@ -656,16 +620,8 @@ void FmRadio_LayoutSetting(BOOK* book, GUI* gui)
   }
 }
 
-#define actionID 0x11
-
 extern "C"
 void FmRadio_NewSoftKey(GUI* gui)
 {
-  GUIObject_SoftKeys_SetActionAndText(gui, actionID, FmRadio_LayoutSetting, TEXT_LAYOUT);
-}
-
-extern "C"
-void FmRadio_UpdateSoftKeys(GUI* gui, BOOL state)
-{
-  GUIObject_SoftKeys_SetVisible(gui, actionID, state );
+  GUIObject_SoftKeys_SetActionAndText(gui, FMRADIO_ACTION_LAYOUT, FmRadio_LayoutSetting, TEXT_LAYOUT);
 }

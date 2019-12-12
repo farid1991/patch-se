@@ -51,20 +51,26 @@ void Get_GetPSName(FmRadio_Data* Data)
 IMAGEID Get_RDS_State(FmRadio_Data* Data)
 {
   FmRadio_Book* fmbook = (FmRadio_Book*)Data->FmRadioBook;
-  if(fmbook->RDS) return Data->Image[RDS_ACTIVE_ICN].ID;
-  else return Data->Image[RDS_INACTIVE_ICN].ID;
+  if(fmbook->RDS) 
+    return Data->Image[RDS_ACTIVE_ICN].ID;
+  else 
+    return Data->Image[RDS_INACTIVE_ICN].ID;
 }
 
 IMAGEID Get_AF_State(FmRadio_Data* Data)
 {
   FmRadio_Book* fmbook = (FmRadio_Book*)Data->FmRadioBook;
-  if(fmbook->AF) return Data->Image[AF_ON_ICN].ID;
-  else return Data->Image[AF_OFF_ICN].ID;
+  if(fmbook->AF) 
+    return Data->Image[AF_ON_ICN].ID;
+  else 
+    return Data->Image[AF_OFF_ICN].ID;
 }
 
 IMAGEID Get_Audio_State(FmRadio_Data* Data)
 {
   FmRadio_Book* fmbook = (FmRadio_Book*)Data->FmRadioBook;
-  if(fmbook->Settings.StereoReception) return Data->Image[MONO_ICN].ID;
-  else return Data->Image[STEREO_ICN].ID;
+  if(fmbook->Settings.StereoReception) 
+    return Data->Image[MONO_ICN].ID;
+  else 
+    return Data->Image[STEREO_ICN].ID;
 }

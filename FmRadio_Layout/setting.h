@@ -1,6 +1,20 @@
 #ifndef _SETTING_H_
 #define _SETTING_H_
 
+enum
+{
+  ELEM_TEXT,
+  ELEM_RECT,
+  ELEM_ICON
+};
+
+enum
+{
+  OOM_STATE,
+  OOM_ALIGN,
+  OOM_LAST
+};
+
 typedef enum
 {
   ITEM_FREQUENCY = 0,
@@ -9,6 +23,7 @@ typedef enum
   ITEM_RDS_DATA,
   
   ITEM_FREQ_INDICATOR,
+  
   ITEM_RDS_ICN,
   ITEM_AF_ICN,
   ITEM_AUDIO_ICN,
@@ -16,37 +31,73 @@ typedef enum
   ITEM_ARROW_RIGHT,
   ITEM_ARROW_UP,
   ITEM_ARROW_DOWN,
-  
   ITEM_BACKROUND,
-  ITEM_ADDITIONAL,
+  
   ITEM_LAST
-}ITEM_SETTING;
+} ITEM_MAINMENU;
 
 typedef enum
 {
-  TYPE_IMAGE = 0,
-  TYPE_THEME,
-  TYPE_COLOR
-}BACKGROUND_TYPE;
+  SUBITEM_PB_STATE,
+  SUBITEM_PB_SLIDER,
+  SUBITEM_PB_ROUND,
+  SUBITEM_PB_BCOLOR,
+  SUBITEM_PB_FCOLOR,
+  SUBITEM_PB_VISUAL,
+  SUBITEM_PB_LAST
+} SUBITEM_PROGRESSBAR;
 
-#define SETTING_COUNT ITEM_LAST
-#define TEXT_COUNT 5
-#define IMAGE_COUNT 2
-#define PROGRESS_COUNT 6
-#define BACKGROUND_COUNT 3
-#define ADDITIONAL_COUNT 3
+typedef enum
+{
+  SUBITEM_TXT_STATE,
+  SUBITEM_TXT_COLOR,
+  SUBITEM_TXT_OVERLAY,
+  SUBITEM_TXT_ALIGN,
+  SUBITEM_TXT_VISUAL,
+  SUBITEM_TXT_LAST
+} SUBITEM_TXT;
+
+typedef enum
+{
+  TXT_FREQUENCY,
+  TXT_CHANNEL,
+  TXT_CHANNELNAME,
+  TXT_RDS_DATA,
+  TXT_LAST
+} ITEM_TXT;
+
+typedef enum
+{
+  SUBITEM_IMG_STATE,
+  SUBITEM_IMG_VISUAL,
+  SUBITEM_IMG_LAST
+} SUBITEM_IMG;
+
+typedef enum
+{
+  IMG_RDS_ICN,
+  IMG_AF_ICN,
+  IMG_AUDIO_ICN,
+  IMG_ARROW_LEFT,
+  IMG_ARROW_RIGHT,
+  IMG_ARROW_UP,
+  IMG_ARROW_DOWN,
+  IMG_BACKROUND,
+  IMG_LAST
+} ITEM_IMG;
 
 typedef struct _SETTING_BOOK : BOOK
 {
-  GUI_LIST* gui_set;
-  GUI_LIST* gui_elem;
-  GUI* gui_question;
-  GUI_ONEOFMANY* gui_oom;
-  GUI* gui_color;
-  int color_type;
+  GUI_LIST* MainMenu;
+  GUI_LIST* SubMenu;
+  GUI_ONEOFMANY* OptionMenu;
   
-  int element;
-  bool change;
+  GUI* gui_question;
+  GUI* ColorPicker;
+  char color_type;
+  char element;
+  char elem_type;
+  bool changed;
 }SETTING_BOOK;
 
 void FmRadio_Setting(BOOK* book, GUI* gui);

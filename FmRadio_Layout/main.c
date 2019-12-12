@@ -66,7 +66,7 @@ void UnRegisterImage(FmRadio_Data* Data)
   int *SYNC = &_SYNC;
   char error_code;
   
-  for (int i = 0; i < IMG_COUNT; i++)
+  for (int i = 0; i < LAST_ICN; i++)
     if (Data->Image[i].ID != NOIMAGE)
       REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, Data->Image[i].Handle, 0, 0, Data->Image[i].ID, 1, &error_code);
 }
@@ -96,7 +96,7 @@ void LoadImage(FmRadio_Data* Data)
   };
   
   int i;
-  for (i = 0; i < IMG_COUNT; i++)
+  for (i = 0; i < LAST_ICN; i++)
   {
     if( FSX_IsFileExists(CONFIG_PATH, (wchar_t*)ImageName[i]))
     {
@@ -109,9 +109,9 @@ void LoadImage(FmRadio_Data* Data)
 extern "C"
 int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
 {
-  LoadData();
-  
   FmRadio_Data* Data = GetData();
+  LoadData(Data);
+  
   Data->DispObj_FmRadio = disp_obj;
   
   Data->Channel = EMPTY_TEXTID;
@@ -123,8 +123,7 @@ int New_FmRadio_Gui_OnCreate(DISP_OBJ* disp_obj)
   Data->cstep = 1;
   
   LoadImage(Data);
-  DispObject_SetRefreshTimer(disp_obj, 1000);
-  
+
   return FmRadio_Gui_OnCreate(disp_obj);
 }
 
@@ -139,23 +138,21 @@ void New_FmRadio_Gui_OnClose(DISP_OBJ* disp_obj)
   TEXT_FREE(Data->PSName);
   TEXT_FREE(Data->Buffer_Text);
   
-  DispObject_KillRefreshTimer(disp_obj);
-  
   UnRegisterImage(Data);
   FmRadio_Gui_OnClose(disp_obj);
 }
 
-void DrawImage(int width, int height, IMAGEID imageID)
+void DrawImage(int x, int y, IMAGEID imageID)
 {
 #if defined (DB3200) || defined (DB3210) || defined (DB3350)
   if(imageID!=NOIMAGE) dll_GC_PutChar(get_DisplayGC(),
-                                      width,
-                                      height,
+                                      x,
+                                      y,
                                       0,
                                       0,
                                       imageID );
 #else
-  if(imageID!=NOIMAGE) GC_DrawIcon(width,height,imageID);
+  if(imageID!=NOIMAGE) GC_DrawIcon(x,y,imageID);
 #endif
 }
 
@@ -168,37 +165,14 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
   
   FmRadio_Data* data = GetData();
-  
-  switch(data->setting.background.state)
-  {
-  case TYPE_IMAGE:
-    DrawImage(data->setting.background.pos.x,
-              data->setting.background.pos.y,
-              data->Image[BACKGROUND_ICN].ID);
-    break;
-  case TYPE_THEME:
-    DispObject_SetThemeImage(disp_obj, 0x1E);
-    break;
-  case TYPE_COLOR:
-    DispObject_SetLayerColor(disp_obj, data->setting.background_color);
-    break;
-  }
-  /*
-  if (data->setting.background.state == TYPE_IMAGE) // Background
+
+  if(data->setting.background.state)
   {
     DrawImage(data->setting.background.pos.x,
               data->setting.background.pos.y,
               data->Image[BACKGROUND_ICN].ID);
   }
-  else if (data->setting.background.state == TYPE_THEME)
-  {
-    DispObject_SetThemeImage(disp_obj, 0x1E);
-  }
-  else if (data->setting.background.state == TYPE_COLOR)
-  {
-    DispObject_SetLayerColor(disp_obj, data->setting.background_color);
-  }
-  */
+
   if (data->setting.rds_icn.state) // RDS ICN
   {
     DrawImage(data->setting.rds_icn.pos.x,
@@ -265,8 +239,8 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   if (data->setting.arrow_up.state)
   {
     DrawImage(data->setting.arrow_up.pos.x,
-                data->setting.arrow_up.pos.y,
-                data->Image[ARROW_UP_IDLE_ICN].ID );
+              data->setting.arrow_up.pos.y,
+              data->Image[ARROW_UP_IDLE_ICN].ID );
     if(key_pressed==KEY_UP)
     {
       if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
@@ -280,8 +254,8 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
   if (data->setting.arrow_down.state)
   {
     DrawImage(data->setting.arrow_down.pos.x,
-                data->setting.arrow_down.pos.y,
-                data->Image[ARROW_DOWN_IDLE_ICN].ID);
+              data->setting.arrow_down.pos.y,
+              data->Image[ARROW_DOWN_IDLE_ICN].ID);
     if(key_pressed==KEY_DOWN)
     {
       if(mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
@@ -312,7 +286,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       data->setting.frequency.coord.x1, 
                       data->setting.frequency.coord.y1, 
                       data->setting.frequency.coord.x2,
-                      data->setting.frequency.tcolor,
+                      data->setting.frequency.text_color,
                       data->setting.frequency.ocolor,
                       data->setting.frequency.overlay );
   }
@@ -326,7 +300,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       data->setting.channel.coord.x1, 
                       data->setting.channel.coord.y1, 
                       data->setting.channel.coord.x2,
-                      data->setting.channel.tcolor,
+                      data->setting.channel.text_color,
                       data->setting.channel.ocolor,
                       data->setting.channel.overlay );
   }
@@ -340,7 +314,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       data->setting.channel_name.coord.x1, 
                       data->setting.channel_name.coord.y1, 
                       data->setting.channel_name.coord.x2,
-                      data->setting.channel_name.tcolor,
+                      data->setting.channel_name.text_color,
                       data->setting.channel_name.ocolor,
                       data->setting.channel_name.overlay );
   }
@@ -354,7 +328,7 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       data->setting.RDS_data.coord.x1, 
                       data->setting.RDS_data.coord.y1, 
                       data->setting.RDS_data.coord.x2,
-                      data->setting.RDS_data.tcolor,
+                      data->setting.RDS_data.text_color,
                       data->setting.RDS_data.ocolor,
                       data->setting.RDS_data.overlay );
   }
@@ -366,27 +340,88 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
       int font_size = (data->cur_pos+1)*font_step + (data->style_bold<<8) + (data->style_italic<<9); //data->temp.font&0xFF;
       int style = font_size >> 8; //data->temp.font>>8;
-      if (style == 0) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
-      else if (style == 1) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
-      else if (style == 2) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
-      else if (style == 3) snwprintf(data->buf, MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size&0xFF, font_size&0xFF);
+      if (style == 0) 
+      {
+        snwprintf(data->buf, 
+                  MAXELEMS(data->buf), 
+                  L"%d,%d,%d,%d font:%d", 
+                  data->temp.x1, 
+                  data->temp.y1, 
+                  data->temp.x2, 
+                  data->temp.y1 + font_size, 
+                  font_size);
+      }
+      else if (style == 1) 
+      {
+        snwprintf(data->buf, 
+                  MAXELEMS(data->buf), 
+                  L"%d,%d,%d,%d font:%d_B", 
+                  data->temp.x1, 
+                  data->temp.y1, 
+                  data->temp.x2, 
+                  data->temp.y1 + font_size&0xFF, 
+                  font_size&0xFF);
+      }
+      else if (style == 2) 
+      {
+        snwprintf(data->buf, 
+                  MAXELEMS(data->buf), 
+                  L"%d,%d,%d,%d font:%d_I", 
+                  data->temp.x1, 
+                  data->temp.y1, 
+                  data->temp.x2, 
+                  data->temp.y1 + font_size&0xFF, 
+                  font_size&0xFF);
+      }
+      else if (style == 3)
+      {
+        snwprintf(data->buf, 
+                  MAXELEMS(data->buf), 
+                  L"%d,%d,%d,%d font:%d_B_I", 
+                  data->temp.x1, 
+                  data->temp.y1, 
+                  data->temp.x2, 
+                  data->temp.y1 + font_size&0xFF,
+                  font_size&0xFF);
+      }
       data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 #else
-      data->Buffer_Text = TextID_Create(Font_GetNameByFontId(data->temp.font), ENC_UCS2, TEXTID_ANY_LEN);
+      snwprintf(data->buf, 
+                MAXELEMS(data->buf),
+                L"%d,%d,%d,%d, font:%ls",
+                data->temp.x1, 
+                data->temp.y1, 
+                data->temp.x2, 
+                data->temp.y2, 
+                Font_GetNameByFontId(data->temp.font));
+      data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 #endif
     }
-    else
+    else if(data->icon)
     {
-      snwprintf(data->buf, MAXELEMS(data->buf) - 1, L"%d, %d, %d, %d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y2);
+      snwprintf(data->buf,
+                MAXELEMS(data->buf), 
+                L"X:%d, Y:%d", 
+                data->temp.x1, 
+                data->temp.y1);
+      data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
+    }
+    else if(data->rect)
+    {
+      snwprintf(data->buf, MAXELEMS(data->buf), 
+                L"X:%d, Y:%d, W:%d, H:%d",
+                data->temp.x1, 
+                data->temp.y1, 
+                data->temp.x2-data->temp.x1, 
+                data->temp.y2-data->temp.y1);
       data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
     }
     
-    //DrawRect(0, 297, 240, 319, clBlack, 0x35FFFFFF);
-    DrawRect(0, 247, 240, 272, clBlack, 0x35FFFFFF);
+    DrawRect(0, 247, 240, 272, clBlack, 0x50FFFFFF);
     
     //2a3f6d30
     DrawString_Params(data->Buffer_Text,
-                      FONT_E_18R,
+                      FONT_E_16R,
                       UITextAlignment_Center,
                       1,
                       248, //298,
@@ -394,12 +429,14 @@ void New_FmRadio_Gui_OnRedraw(DISP_OBJ* disp_obj, int r1, RECT* rect, int r3)
                       clBlack,
                       clEmpty,
                       0);
-    TextID_Destroy(data->Buffer_Text);
+    TEXT_FREE(data->Buffer_Text);
   }
   
   if (data->text)
   {
-    DrawRect(data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + (data->temp.font&0xFF), clBlack, 0x35FFFFFF);
+    DrawRect(data->temp.x1, data->temp.y1, 
+             data->temp.x2, data->temp.y1 + (data->temp.font&0xFF), 
+             clBlack, 0x35FFFFFF);
   }
 }
 
@@ -416,7 +453,7 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
   else
   {
     GUI* FMRadio_gui = DispObject_GetGUI(disp_obj);
-    FmRadio_Book* fmbook = (FmRadio_Book*)GUIObject_GetBook(FMRadio_gui);
+    FmRadio_Book* fmbook = (FmRadio_Book*) GUIObject_GetBook(FMRadio_gui);
     
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
     {
@@ -436,20 +473,32 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         {
           if ((--data->cur_pos) < 0) data->cur_pos = data->total_fonts - 1;
         }
-        else data->temp.y2 -= data->cstep;
+        else if(data->rect) 
+        {
+          data->temp.y2 -= data->cstep;
+        }
         break;
       case KEY_DOWN:
         if (data->text)
         {
           if (++data->cur_pos >= data->total_fonts) data->cur_pos = 0;
         }
-        else data->temp.y2 += data->cstep;
+        else  if(data->rect) 
+        {
+          data->temp.y2 += data->cstep;
+        }
         break;
       case KEY_LEFT:
-        if ((data->temp.x2 -= data->cstep) < data->temp.x1) data->temp.x2 = data->temp.x1;
+        if (data->text || data->rect)
+        {
+          if ((data->temp.x2 -= data->cstep) < data->temp.x1) data->temp.x2 = data->temp.x1;
+        }
         break;
       case KEY_RIGHT:
-        if ((data->temp.x2 += data->cstep) > scr_w) data->temp.x2 = scr_w;
+        if (data->text || data->rect)
+        {
+          if ((data->temp.x2 += data->cstep) > scr_w) data->temp.x2 = scr_w;
+        }
         break;
       case KEY_DIGITAL_0 + 2:
         if ((data->temp.y1 -= data->cstep) < 0)
@@ -527,17 +576,17 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
         data->text = FALSE;
         data->rect = FALSE;
         SaveData(TRUE, data->element);
-        MessageBox_NoImage(EMPTY_TEXTID, TEXT_SAVE, 0, 1500, fmbook);
-        GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
+        CreateToast(EMPTY_TEXTID, TEXT_SAVE, 0, 1500, fmbook);
+        GUIObject_SoftKeys_SetVisible(fmbook->FmRadio_Gui,ACTION_BACK,TRUE);
         FmRadio_SetActiveSoftKeys(fmbook,TRUE); //
         break;
       case KEY_DIGITAL_0:
         data->edit_visual = FALSE;
         data->text = FALSE;
         data->rect = FALSE;
-        LoadData();
-        MessageBox_NoImage(EMPTY_TEXTID, TEXT_CANCEL, 0, 1500, fmbook);
-        GUIObject_SoftKeys_SetVisible(FMRadio_gui,ACTION_BACK,TRUE);
+        LoadData(data);
+        CreateToast(EMPTY_TEXTID, TEXT_CANCEL, 0, 1500, fmbook);
+        GUIObject_SoftKeys_SetVisible(fmbook->FmRadio_Gui,ACTION_BACK,TRUE);
         FmRadio_SetActiveSoftKeys(fmbook,TRUE);
         break;
       }
@@ -547,7 +596,8 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
         data->temp.font = (data->cur_pos + 1) * font_step + (data->style_bold<<8) + (data->style_italic<<9);
 #else
-        data->temp.font = GetFontDesc()[data->cur_pos].id;
+        FONT_DESC* font_desc = GetFontDesc();
+        data->temp.font = font_desc[data->cur_pos].id;
 #endif
       }
       
@@ -557,36 +607,17 @@ void New_FmRadio_Gui_OnKey(DISP_OBJ* disp_obj, int key, int unk, int repeat, int
     }
   }
 }
-
+/*
 extern "C"
 void New_FmRadio_Gui_OnLayout(DISP_OBJ* disp_obj, void* layoutstruct)
 {
-  FmRadio_Data* Data = GetData();
-  if (Data->setting.background.state== TYPE_COLOR) DispObject_SetLayerColor(disp_obj, Data->setting.background_color);
-  //FmRadio_Gui_OnLayout(disp_obj,layoutstruct);
+  DispObject_SetLayerColor(disp_obj, clEmpty);
 }
-
-extern "C"
-void New_FmRadio_Gui_OnRefresh(DISP_OBJ* disp_obj)
-{
-  DispObject_InvalidateRect(disp_obj, NULL);
-  DispObject_SetRefreshTimer(disp_obj, 1000);
-}
-
-extern "C"
-int New_FmRadio_Main__PAGE_ENTER_EVENT(void* data, BOOK* book)
-{
-  FmRadio_Data* Data = GetData();
-  Data->FmRadioBook = (FmRadio_Book*)book;
-
-  return pg_FmRadio_Main__PAGE_ENTER_EVENT(data,book);
-}
-
-/*
+*/
 extern "C"
 int New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT(void* data, BOOK* book)
 {
+  FmRadio_Data* Data = GetData();
+  Data->FmRadioBook = (FmRadio_Book*)book;
   return pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT(data,book);
 }
-
-*/

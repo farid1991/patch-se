@@ -4,6 +4,10 @@
 #ifndef _C510_R1HA035_
 #define _C510_R1HA035_
 
+#define FILE_NAME L"FMRadio.cfg"
+
+#define CONFIG_PATH L"/usb/other/ZBin/Config/FmRadio"
+
 #define COLOR_LIST              (unsigned int*)0x1580F354
 
 #define POPUP_WARNING_ICN 0xF831
@@ -14,7 +18,7 @@
 #define TEXT_ON               0x869   // L"Включено"
 #define TEXT_OFF              0x1EC7  // L"Выключено"
 #define TEXT_CHANGE           0x218   // L"Внесены изменения"
-#define TEXT_QUESTION         0x656   // L"Сохранить?"
+#define TEXT_QUESTION         0x219   // L"Сохранить?"
 #define TEXT_SAVE             0x291   // L"Сохранено"
 #define TEXT_LEFT             0xFC8   // L"Влево"
 #define TEXT_RIGHT            0x1064  // L"Вправо"
@@ -39,8 +43,6 @@
 #define TEXT_ANIMATION        0x14CF  // L"Анимация"
 
 #define TEXT_LAYOUT           0x78E
-#define TEXT_ON_OOM           0x1E8     // L"????????"
-#define TEXT_OFF_OOM          0x1E5     // L"?????????"
 #define TEXT_THEME            0x10C7    // L"?? ????"
 
 #define TEXT_RDS          0x94F
@@ -48,6 +50,8 @@
 #define TEXT_NAV_RIGHT    0x1C5B
 #define TEXT_NAV_UP       0x1C5F
 #define TEXT_NAV_DOWN     0x1C54
+
+#define FMRADIO_ACTION_LAYOUT 0x11
 
 // interface id ----------------------------------------------------
 /*
@@ -675,7 +679,7 @@
 //#define UI_EXTERNAL_KEYLOCK_DEACTIVATE_EVENT UNDEFINED
 #define UI_FLIGHTMODE_SELECTION_EVENT 0x788
 #define UI_FMRADIO_CONTROL_EVENT 0x26B1
-//#define UI_FMRADIO_CREATED_EVENT UNDEFINED
+#define UI_FMRADIO_CREATED_EVENT 0x2148
 #define UI_INITIATED_EVENT 0xC
 #define UI_INITIATED_SPECIAL_EVENT 0xD
 #define UI_INITIATING_ALARM_EVENT 0x9

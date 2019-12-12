@@ -4,6 +4,9 @@
 #ifndef _G502_R1FA037_
 #define _G502_R1FA037_
 
+#define FILE_NAME L"FMRadio.cfg"
+#define CONFIG_PATH L"/usb/other/ZBin/Config/FmRadio"
+
 #define PATH                    0x11989974 // "/usb/other"
 #define _SYNC_              	0x11A8331C
 
@@ -11,6 +14,8 @@
 #define COLOR_LIST              (unsigned int*)0x11B23134
 
 #define DB_UPDATE_EVENT         0x1770
+
+#define FMRADIO_ACTION_LAYOUT   0x11
 
 #define ACTION_MP_FILE          0x8
 #define ACTION_MP_SETTINGS      0xF
@@ -134,8 +139,8 @@
 #define TEXT_NAV_UP       0x22BC
 #define TEXT_NAV_DOWN     0x22AC
   
-#define GETFONTDESC		(FONT_DESC*)0x2A2846AC
-#define GETFONTCOUNT		(int*)0x2A284A1C
+#define GetFontDesc_p     ((FONT_DESC*)0x2A2846AC)
+#define GetFontCount_p    ((int*)0x2A284A1C)
 
 #endif
 #endif
