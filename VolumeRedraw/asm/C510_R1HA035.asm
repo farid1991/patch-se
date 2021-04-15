@@ -599,9 +599,9 @@ a       equ b
         defadr pb_ui_search_bk_create_search_menu,0x14DCCCF4+1
         defadr GUIObject_SoftKeys_SubActionPressedNotification,0x1419D54C+1
         // dll function ----------------------------------------------------
-        defadr DisplayGC_AddRef,0x144CDAA4+1
-        defadr TextObject_SetText,0x14183164+1
-        defadr TextObject_SetFont,0x1449CD74+1
+        defadr DisplayGC_GetCanvas,0x144CDAA4+1
+        defadr IUIRichText_SetText,0x14183164+1
+        defadr IUIRichText_SetFont,0x1449CD74+1
         defadr Illumination_LedID_SetLevel_Gradually,0x143A0420+1
         defadr Illumination_LedID_SetLevel,0x1444D9C4+1
         defadr Illumination_LedID_Off,0x142E2904+1

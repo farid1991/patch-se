@@ -202,7 +202,7 @@ void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int
   if (text && (text!=EMPTY_TEXTID))
   {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    dll_DrawString( text, font, align, XPos, YPos, XPos+width, YPos+(font&0xFF), NormalColor);
+    dll_DrawString( text, font, align, XPos, YPos, XPos+width, YPos+(font&0xFF), NormalColor, FALSE, clEmpty);
 #else
     SetFont(font);
     DrawString(text,align,XPos,YPos,XPos+width,YPos+(font&0xFF),0,1,NormalColor,clEmpty); 

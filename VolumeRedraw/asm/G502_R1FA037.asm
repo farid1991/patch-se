@@ -629,7 +629,11 @@ a       EQU b
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
         defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
 
-	defadr VolumeControl_OnRedraw,0x116DF370+1
+        defadr FSX_IsFileExists,0x110272DC+1
+
+	defadr VolumeControl_OnCreate,0x116DF218+1
+        defadr VolumeControl_OnClose,0x116DF2FC+1
+        defadr VolumeControl_OnRedraw,0x116DF370+1
 	defadr pg_VolumeControl_Active_EnterAction,0x116DFB24+1
 	defadr pg_VolumeControl_Active_ExitAction,0x116DFB68+1
 
@@ -646,10 +650,6 @@ a       EQU b
         DATA
         DCD New_pg_VolumeControl_Active_EnterAction
         
-        //RSEG PATCH_VOLUMEONPAGEXIT
-        //DATA
-        //DCD New_pg_VolumeControl_Active_ExitAction
-        
         RSEG PATCH_VOLUMEONCREATE
         DATA
         DCD New_VolumeControl_OnCreate
@@ -657,11 +657,11 @@ a       EQU b
         RSEG PATCH_VOLUMEONCLOSE
         DATA
         DCD New_VolumeControl_OnClose
-
         
         RSEG PATCH_VOLUMEONREDRAW
         DATA
         DCD New_VolumeControl_OnRedraw
+	
         
 #endif
         END

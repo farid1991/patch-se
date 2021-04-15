@@ -138,8 +138,8 @@
         <option>
           <name>CCDefines</name>
           <state>A2</state>
+          <state>DB3150_V1</state>
           <state>G502_R1FA037</state>
-          <state>DB3150v1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -407,8 +407,8 @@
         <option>
           <name>ADefines</name>
           <state>A2</state>
+          <state>DB3150_V1</state>
           <state>G502_R1FA037</state>
-          <state>DB3150v1</state>
         </option>
         <option>
           <name>AList</name>
