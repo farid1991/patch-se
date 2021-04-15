@@ -1,13 +1,9 @@
-#VSCode
+# VisualStudioCode
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
 
-# Local History for Visual Studio Code
-.history/
+# VisualStudioCode Patch
+# Ignore all local history of files
+**/.history
 
 # IAR C-STAT and C-RUN
 # Comment this out if you use C-Stat or C-Run to compile/analyze your project
@@ -58,3 +54,7 @@ Backup*
 
 # Trash files
 *.bak
+
+#Build Config
+C510_R1HA035/
+G502_R1FA037/
