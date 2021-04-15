@@ -9,112 +9,112 @@
       <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
       <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
       <file>$PROJ_DIR$\..\include\dll.c</file>
-      <file>$PROJ_DIR$\main.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W902_R3EG004.r79</file>
-      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W610_R6CA001_ORANGE.r79</file>
-      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W595_R3EG004_Orange.r79</file>
-      <file>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
       <file>$PROJ_DIR$\asm\W595_R3EG004_Orange.asm</file>
-      <file>$PROJ_DIR$\asm\W580_R8BE001.asm</file>
-      <file>$PROJ_DIR$\..\include\Colors.h</file>
       <file>$PROJ_DIR$\asm\W890_R1FA035.asm</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\W580_R8BE001.r79</file>
       <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
+      <file>$PROJ_DIR$\main.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
       <file>$PROJ_DIR$\asm\W595_R3EF001.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\VolumeRedraw.pbd</file>
+      <file>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</file>
       <file>$PROJ_DIR$\asm\W580_R6CA001.asm</file>
-      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\VolumeRedraw.pbd</file>
+      <file>$PROJ_DIR$\asm\W580_R8BE001.asm</file>
       <file>$PROJ_DIR$\asm\W902_R3EG004.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.pbi</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\G502_R1FA037.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\K800_R8BF003.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\VolumeRedraw.map</file>
-      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W595_R3EF001.r79</file>
-      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
-      <file>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W890_R1FA035.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.lst</file>
-      <file>$PROJ_DIR$\asm\C905_R1FA035.asm</file>
-      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
-      <file>$PROJ_DIR$\asm\W995_R1GA026.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Exe\VolumeRedraw.elf</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
-      <file>$PROJ_DIR$\asm\K800_R8BF003.asm</file>
-      <file>$PROJ_DIR$\asm\C901_R1GA028.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W995_R1GA026.r79</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\K810_R8BA024_ORANGE.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.r79</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W580_R6CA001.r79</file>
-      <file>$PROJ_DIR$\..\include\types\OPA_Types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\C905_R1FA035.r79</file>
-      <file>$PROJ_DIR$\..\include\types\IAlarm_types.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\J105_R1HA035.r79</file>
-      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
-      <file>$PROJ_DIR$\..\include\types\FMRadio_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIGraphic_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UITextRendering_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\registry_interface_errors.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIIconTypes.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIFontManager.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIUtil_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIRichText_types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\W995_R1HA035.r79</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\..\include\Function.h</file>
-      <file>$PROJ_DIR$\..\include\book\VolumeControlBook.h</file>
-      <file>$PROJ_DIR$\..\include\dll.h</file>
-      <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
-      <file>$PROJ_DIR$\..\include\Types.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\dll.lst</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\dll.s79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W902_R3EG004.r79</file>
+      <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W610_R6CA001_ORANGE.r79</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W595_R3EG004_Orange.r79</file>
+      <file>$PROJ_DIR$\..\include\Colors.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\C510_R1HA035.r79</file>
-      <file>$PROJ_DIR$\Target\C510_R1HA035.h</file>
+      <file>$PROJ_DIR$\..\include\dll.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.i</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\C510_R1HA035.lst</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\dll.lst</file>
       <file>$PROJ_DIR$\C510_R1HA035\List\dll.i</file>
-      <file>$PROJ_DIR$\C510_R1HA035\Obj\C901_R1GA028.r79</file>
-      <file>$PROJ_DIR$\main.c</file>
-      <file>$PROJ_DIR$\xcl\C510_R1HA035.xcl</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.s79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\dll.s79</file>
+      <file>$PROJ_DIR$\asm\J105_R1HA035.asm</file>
+      <file>$PROJ_DIR$\Target\C510_R1HA035.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
       <file>$PROJ_DIR$\asm\W995_R1HA035.asm</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\C510_R1HA035.lst</file>
-      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUITextRenderingManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
-      <file>$PROJ_DIR$\C510_R1HA035\List\main.i</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\C901_R1GA028.r79</file>
+      <file>$PROJ_DIR$\xcl\C510_R1HA035.xcl</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.s79</file>
+      <file>$PROJ_DIR$\..\include\types\registry_interface_errors.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIIconTypes.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIUtil_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRichText_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\FMRadio_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W995_R1HA035.r79</file>
+      <file>$PROJ_DIR$\..\include\types\UITextRendering_types.h</file>
+      <file>$PROJ_DIR$\..\include\Function.h</file>
+      <file>$PROJ_DIR$\..\include\book\VolumeControlBook.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\..\include\types\UIGraphic_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\asm\K800_R8BF003.asm</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\K810_R8BA024_ORANGE.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\asm\W995_R1GA026.asm</file>
+      <file>$PROJ_DIR$\asm\C901_R1GA028.asm</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W995_R1GA026.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Exe\VolumeRedraw.elf</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\VolumeRedraw.map</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W595_R3EF001.r79</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\K800_R8BF003.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\List\main.lst</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\asm\C905_R1FA035.asm</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.pbi</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W890_R1FA035.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\C905_R1FA035.r79</file>
+      <file>$PROJ_DIR$\..\include\types\IAlarm_types.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\W580_R6CA001.r79</file>
+      <file>$PROJ_DIR$\..\include\types\OPA_Types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\dll.r79</file>
+      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
+      <file>$PROJ_DIR$\C510_R1HA035\Obj\J105_R1HA035.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\ISockets.h</file>
       <file>$PROJ_DIR$\C510_R1HA035\Obj\main.r79</file>
+      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
       <file>$TOOLKIT_DIR$\lib\dl5tptinl8n.r79</file>
-      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIRichText.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ISockets.h</file>
       <file>$PROJ_DIR$\..\include\classes\ICopsManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\asm\C510_R1HA035.asm</name>
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 80 89</file>
+          <file> 24 29</file>
         </tool>
       </outputs>
     </file>
@@ -123,7 +123,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 23</file>
+          <file> 65</file>
         </tool>
       </outputs>
     </file>
@@ -131,22 +131,45 @@
       <name>$PROJ_DIR$\..\include\dll.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 42 82 79 78</file>
+          <name>BICOMP</name>
+          <file> 77</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 22</file>
+          <name>ICCARM</name>
+          <file> 89 31 32 30</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 81 77 47 8 73 13 57 46 90 99 92 49 28 5 101 59 97 100 58 44 64 43 40 69 51 95 7 87 26 20 55 33 16 68 61 66 60 98 63 70 56 91 53 65 54 62 36 67 50 75</file>
+          <name>BICOMP</name>
+          <file> 28 90 55 22 49 27 94 23 73 96 101 100 43 81 88 62 86 97 35 79 59 45 99 87 37 92 52 80 60 91 25</file>
         </tool>
         <tool>
+          <name>ICCARM</name>
+          <file> 34 28 90 18 55 22 49 85 27 94 23 83 73 20 96 51 101 100 43 81 41 88 62 47 86 97 10 35 75 4 79 59 8 45 42 46 50 99 54 48 87 37 92 52 80 58 60 44 91 25</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
           <name>BICOMP</name>
-          <file> 77 47 73 13 57 90 99 92 28 101 97 100 58 44 43 40 51 95 87 55 33 68 98 56 91 53 65 54 36 50 75</file>
+          <file> 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 95 26 40 74</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 28 90 55 22 49 27 94 23 73 96 101 100 43 81 88 62 86 97 35 79 59 45 99 87 37 92 52 80 60 91 25 56 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 34 28 90 18 55 22 49 85 27 94 23 83 73 20 96 51 101 100 43 81 41 88 62 47 86 97 10 35 75 4 79 59 8 45 42 46 50 99 54 48 87 37 92 52 80 58 60 44 91 25 56 9</file>
         </tool>
       </inputs>
     </file>
@@ -155,16 +178,7 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 35 25</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 41</file>
+          <file> 69 70</file>
         </tool>
       </outputs>
     </file>
@@ -173,16 +187,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 9</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 15</file>
+          <file> 21</file>
         </tool>
       </outputs>
     </file>
@@ -191,7 +196,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 30</file>
+          <file> 78</file>
         </tool>
       </outputs>
     </file>
@@ -200,7 +205,25 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 27</file>
+          <file> 71</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 64</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\W580_R6CA001.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 84</file>
         </tool>
       </outputs>
     </file>
@@ -209,16 +232,16 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 22 72</file>
+          <file> 77 57</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\asm\W580_R6CA001.asm</name>
+      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 45</file>
+          <file> 7</file>
         </tool>
       </outputs>
     </file>
@@ -227,7 +250,34 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 4</file>
+          <file> 17</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 93</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\W995_R1HA035.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 53</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 72</file>
         </tool>
       </outputs>
     </file>
@@ -236,16 +286,7 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 6</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 48</file>
+          <file> 19</file>
         </tool>
       </outputs>
     </file>
@@ -254,7 +295,16 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 39</file>
+          <file> 68</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 38</file>
         </tool>
       </outputs>
     </file>
@@ -263,72 +313,22 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 25</file>
+          <file> 70</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 85 80 42 94 96</file>
+          <file> 39 24 89 95 98</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
+      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 24</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 83</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\J105_R1HA035.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 52</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\main.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 94 93 86 31</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 72</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 81 77 47 8 73 13 57 46 90 99 92 49 28 5 101 59 97 100 58 44 64 43 40 69 51 95 7 87 26 20 55 33 16 68 61 66 60 98 63 70 56 91 53 65 54 62 36 67 50 75 74 3</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 77 47 73 13 57 90 99 92 28 101 97 100 58 44 43 40 51 95 87 55 33 68 98 56 91 53 65 54 36 50 75 74 3</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\asm\W995_R1HA035.asm</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 71</file>
+          <file> 82</file>
         </tool>
       </outputs>
     </file>
@@ -337,15 +337,7 @@
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
-      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W595_R3EG004_Orange.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
@@ -357,31 +349,19 @@
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
+      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W580_R6CA001.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W902_R3EG004.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W995_R1GA026.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
@@ -392,101 +372,120 @@
       <name>$PROJ_DIR$\asm\W995_R1HA035.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W995_R1GA026.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
   </configuration>
   <configuration>
     <name>G502_R1FA037</name>
     <outputs>
-      <file>$PROJ_DIR$\asm\C510_R1HA035.asm</file>
       <file>$PROJ_DIR$\asm\G502_R1FA037.asm</file>
       <file>$PROJ_DIR$\..\include\dll.c</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
       <file>$PROJ_DIR$\main.h</file>
-      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
       <file>$PROJ_DIR$\..\include\types\IMetaData_types.h</file>
       <file>$PROJ_DIR$\..\include\types\Basic_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\AudioControl_types.h</file>
       <file>$PROJ_DIR$\..\include\Colors.h</file>
-      <file>$PROJ_DIR$\..\include\types\MusicServer_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\Time_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
-      <file>$PROJ_DIR$\..\include\types\OPA_Types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\IAlarm_types.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
-      <file>$PROJ_DIR$\gui.c</file>
-      <file>$PROJ_DIR$\..\include\types\FMRadio_types.h</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\dll.s79</file>
-      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
-      <file>$PROJ_DIR$\Function.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIGraphic_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
+      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
+      <file>$PROJ_DIR$\..\include\Types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
       <file>$PROJ_DIR$\..\include\types\registry_interface_errors.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
-      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFont_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFlashLightControl.h</file>
       <file>$PROJ_DIR$\..\include\types\UIIconTypes.h</file>
       <file>$PROJ_DIR$\..\include\classes\IUIFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIFontParam_types.h</file>
       <file>$PROJ_DIR$\..\include\types\UIUtil_types.h</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.pbd</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.r79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\dll.i</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.map</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
-      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.pbi</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Exe\VolumeRedraw.elf</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\gui.r79</file>
-      <file>$PROJ_DIR$\VolumeRedraw.h</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\dll.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.i</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.r79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.s79</file>
-      <file>$PROJ_DIR$\VolumeRedraw.c</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\main.i</file>
-      <file>$PROJ_DIR$\..\include\book\VolumeControllerBook.h</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\gui.pbi</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
-      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.pbi</file>
+      <file>$PROJ_DIR$\..\include\classes\IRoot.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIRect_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\FMRadio_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIClipboardManager.h</file>
       <file>$PROJ_DIR$\..\include\Function.h</file>
       <file>$PROJ_DIR$\..\include\book\VolumeControlBook.h</file>
-      <file>$PROJ_DIR$\..\include\Types.h</file>
-      <file>$PROJ_DIR$\main.c</file>
-      <file>$PROJ_DIR$\..\include\classes\IMMEManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IShell.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IAlarmManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIGraphic_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IMusicServer_Manager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIImageManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IAudioControlManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\IMMETypes.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIMediaCenterManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIGraphicManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ISEMCRegistryManager.h</file>
+      <file>$PROJ_DIR$\..\include\types\IAlarm_types.h</file>
+      <file>$PROJ_DIR$\..\include\types\OPA_Types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIndicationDeviceManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIRichTextLayoutOptions.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IIlluminationControl.h</file>
+      <file>$PROJ_DIR$\..\include\types\UIGUI_types.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUIUtilManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUITextFactory.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ITextRenderingManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\ISockets.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IUnknown.h</file>
       <file>$PROJ_DIR$\..\include\classes\IMetaData.h</file>
       <file>$TOOLKIT_DIR$\lib\dl5tptinl8n.r79</file>
-      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\ISockets.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.lst</file>
+      <file>$PROJ_DIR$\gui.c</file>
+      <file>$PROJ_DIR$\Function.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.r79</file>
       <file>$PROJ_DIR$\..\include\classes\ICopsManager.h</file>
-      <file>$PROJ_DIR$\..\include\classes\IFMRadioManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\dll.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.pbd</file>
+      <file>$PROJ_DIR$\..\include\classes\IFontManager.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IClockManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\VolumeRedraw.pbi</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\dll.i</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\gui.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\main.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.i</file>
+      <file>$PROJ_DIR$\xcl\G502_R1FA037.xcl</file>
+      <file>$PROJ_DIR$\VolumeRedraw.c</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Exe\VolumeRedraw.elf</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.map</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.r79</file>
+      <file>$PROJ_DIR$\VolumeRedraw.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\G502_R1FA037.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\main.r79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.s79</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\dll.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\G502_R1FA037.lst</file>
+      <file>$PROJ_DIR$\G502_R1FA037\List\VolumeRedraw.lst</file>
+      <file>$PROJ_DIR$\Target\G502_R1FA037.h</file>
+      <file>$PROJ_DIR$\..\include\classes\IRegistryManager.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\dll.pbi</file>
+      <file>$PROJ_DIR$\..\include\book\VolumeControllerBook.h</file>
+      <file>$PROJ_DIR$\G502_R1FA037\Obj\gui.pbi</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\asm\G502_R1FA037.asm</name>
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 50 67</file>
+          <file> 72 76</file>
         </tool>
       </outputs>
     </file>
@@ -494,22 +493,45 @@
       <name>$PROJ_DIR$\..\include\dll.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 59 48 34 56</file>
+          <name>BICOMP</name>
+          <file> 80</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 68</file>
+          <name>ICCARM</name>
+          <file> 70 62 57 75</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 79 71 20 6 69 7 28 19 74 81 75 21 11 4 83 32 80 82 29 18 39 17 16 44 23 77 5 73 10 9 26 12 8 24 40 25 43 37 41 35 38 15 42 22</file>
+          <name>BICOMP</name>
+          <file> 13 42 26 9 22 12 46 10 32 47 60 56 17 36 41 31 39 49 14 34 29 44 25 35 30 43</file>
         </tool>
         <tool>
+          <name>ICCARM</name>
+          <file> 78 13 42 7 26 9 22 38 12 46 10 37 32 8 47 24 60 56 17 36 15 41 31 21 39 49 6 14 33 3 34 29 4 44 25 35 19 16 20 23 28 30 18 43</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
           <name>BICOMP</name>
-          <file> 71 20 69 7 28 74 81 75 11 83 80 82 29 18 17 16 23 77 73 26 12 24 40 25 15 22</file>
+          <file> 54</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 73 11 64 51</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 42 26 9 22 12 46 10 32 47 60 56 17 36 41 31 39 49 14 34 29 44 25 35 30 43 27 5</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 78 13 42 7 26 9 22 38 12 46 10 37 32 8 47 24 60 56 17 36 15 41 31 21 39 49 6 14 33 3 34 29 4 44 25 35 19 16 20 23 28 30 18 43 27 5</file>
         </tool>
       </inputs>
     </file>
@@ -518,7 +540,7 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 53 49</file>
+          <file> 68 69</file>
         </tool>
       </outputs>
     </file>
@@ -526,18 +548,18 @@
       <name>$PROJ_DIR$\gui.c</name>
       <outputs>
         <tool>
-          <name>ICCARM</name>
-          <file> 54</file>
+          <name>BICOMP</name>
+          <file> 82</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 65</file>
+          <name>ICCARM</name>
+          <file> 63</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 71 69 7 13 74 15 30 27 14 11 77 76 73 16 12 64 36</file>
+          <file> 13 26 9 48 12 30 59 40 45 32 49 79 14 31 29 81 53</file>
         </tool>
       </inputs>
     </file>
@@ -546,7 +568,30 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 68 45</file>
+          <file> 80 54</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\VolumeRedraw.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 61</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 55 65 74 77</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 26 9 48 12 30 59 40 45 32 49 79 14 31 29 81 53 71</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 78 13 26 9 48 12 30 59 40 45 7 32 8 49 6 79 14 33 3 31 29 4 81 53 71</file>
         </tool>
       </inputs>
     </file>
@@ -555,59 +600,13 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 49</file>
+          <file> 69</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 51 50 59 57 78</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\VolumeRedraw.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 47 58 60 66</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 52</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 79 71 69 7 13 74 15 30 27 14 6 11 4 77 5 76 73 10 9 16 12 8 64 36 55</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 71 69 7 13 74 15 30 27 14 11 77 76 73 16 12 64 36 55</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\main.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 57 63 62 33</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 45</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 79 71 20 6 69 7 28 19 74 81 75 21 11 4 83 32 80 82 29 18 39 17 16 44 23 77 5 73 10 9 26 12 8 24 40 25 43 37 41 35 38 15 42 22 70 3</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 71 20 69 7 28 74 81 75 11 83 80 82 29 18 17 16 23 77 73 26 12 24 40 25 15 22 70 3</file>
+          <file> 66 72 70 73 50</file>
         </tool>
       </inputs>
     </file>
@@ -616,15 +615,7 @@
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
-      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W595_R3EG004_Orange.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
@@ -636,31 +627,19 @@
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
+      <name>$PROJ_DIR$\asm\K810_R8BA024_ORANGE.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W580_R6CA001.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W580_R8BE001.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
       <name>$PROJ_DIR$\asm\W902_R3EG004.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\W995_R1GA026.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
-      <tool>AARM</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
     <forcedrebuild>
@@ -669,6 +648,26 @@
     </forcedrebuild>
     <forcedrebuild>
       <name>$PROJ_DIR$\asm\W995_R1HA035.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\K800_R8BF003.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W610_R6CA001_ORANGE.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\W995_R1GA026.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\C901_R1GA028.asm</name>
+      <tool>AARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\asm\C905_R1FA035.asm</name>
       <tool>AARM</tool>
     </forcedrebuild>
   </configuration>
