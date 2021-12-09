@@ -1,8 +1,0 @@
--carm
-
--Z(CODE)PATCH_Equalizer_EnterAction=11B65328
--Z(CODE)PATCH_Equalizer_CancelAction=11B65338
-
--Z(CODE)PATCH_SetEqualizerGain=115B8018
-
--Z(CODE)CODE,DATA_C,INITTAB=12224920//120E8400

@@ -1,4 +1,5 @@
-#ifdef K800_R8BF003
+//#ifdef K800_R8BF003
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -12,6 +13,8 @@ a       equ     b
         defadr REQUEST_DATEANDTIME_GET,0x44E562D0+1
         defadr datetime2unixtime,0x4510FAD4+1
         defadr unixtime2datetime,0x4510FBE8+1
+
+        EXTERN  GetRemainingTimeID
         
         RSEG   ALARM_LIST
         CODE16
@@ -36,7 +39,5 @@ alarm_standby:
         str r0, [r5,#4]
         ldr r3, =0x453C21C6+1
         bx r3
-       
-        EXTERN  GetRemainingTimeID
-#endif
-          END
+
+        END

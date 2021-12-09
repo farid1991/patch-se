@@ -1,4 +1,5 @@
-#ifdef K550_R8BA024
+//#ifdef K550_R8BA024
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -42,6 +43,4 @@ alarm_standby:
         LDR	R3, =backto_2
         bx	R3
        
-
-#endif
-          END
+        END

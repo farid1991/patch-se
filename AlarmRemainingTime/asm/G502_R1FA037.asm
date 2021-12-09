@@ -1,4 +1,5 @@
-#ifdef G502_R1FA037
+//#ifdef G502_R1FA037
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -12,6 +13,8 @@ a       equ     b
         defadr datetime2unixtime,0x111E0800+1
         defadr unixtime2datetime,0x111E0914+1
         defadr TextID_Create,0x1168442C+1
+
+        EXTERN  GetRemainingTimeID
 
         
         RSEG   ALARM_LIST
@@ -36,7 +39,5 @@ alarm_standby:
         bl	GetRemainingTimeID
         ldr r3,	=0x1160F9F4+1
         bx	r3
-       
-        EXTERN  GetRemainingTimeID
-#endif
-          END
+
+        END

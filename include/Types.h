@@ -1,8 +1,6 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
-#include "..\\include\types\UIGUI_types.h"
-
 // base types and constants ----------------------------------------------------
 
 typedef unsigned short u16;
@@ -636,7 +634,7 @@ typedef struct DIR_HANDLE
 	u16 unk_4;
 	u16 unk_6;
 	int unk_8;
-	char unk_C; // на 2010 флажки отличаются...
+	char unk_C; // пїЅпїЅ 2010 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...
 	char unk_D;
 	char ena_hidden;
 }DIR_HANDLE; //FSX_DIR?
@@ -1007,10 +1005,10 @@ typedef struct GPRS_SESSION_INFO
 
 typedef struct RAT_CI_DESC
 {
-	char unk1; // на 2010 этого нету, но пока rat никому не нужен, пусть будет так
+	char unk1; // пїЅпїЅ 2010 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ rat пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 	char RAT;
 	int CI;
-	char dummy[0x10]; // для 3150 достаточно 0x4, для 2020 надо 0x10, для 2010 вообще не надо
+	char dummy[0x10]; // пїЅпїЅпїЅ 3150 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0x4, пїЅпїЅпїЅ 2020 пїЅпїЅпїЅпїЅ 0x10, пїЅпїЅпїЅ 2010 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 }RAT_CI_DESC;
 
 typedef struct PLMN_LAC_DESC

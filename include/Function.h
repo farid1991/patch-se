@@ -7,47 +7,6 @@
 #include "zlib.h"
 #endif
 
-#include "..\\include\Colors.h"
-
-#include "..\\include\classes\IRoot.h"
-#include "..\\include\classes\IShell.h"
-#include "..\\include\classes\ISockets.h"
-
-#include "..\\include\classes\IAlarmManager.h"
-#include "..\\include\classes\IAudioControlManager.h"
-#include "..\\include\classes\IFMRadioManager.h"
-#include "..\\include\classes\IClockManager.h"
-#include "..\\include\classes\ICopsManager.h"
-#include "..\\include\classes\IFlashLightControl.h"
-#include "..\\include\classes\ISEMCRegistryManager.h"
-
-#ifdef A2
-#include "..\\include\classes\IIlluminationControl.h"
-#include "..\\include\classes\IIlluminationManager.h"
-#include "..\\include\classes\IIndicationDeviceManager.h"
-#include "..\\include\classes\IMetaData.h"
-#include "..\\include\classes\IMMEManager.h"
-#include "..\\include\classes\IUIMediaCenterManager.h"
-#include "..\\include\classes\IMusicServer_Manager.h"
-
-#if defined (DB3200) || defined (DB3210) || defined (DB3350)
-#include "..\\include\classes\IUIFontManager.h"
-#include "..\\include\classes\IUIRichText.h"
-#include "..\\include\classes\IUIRichTextLayoutOptions.h"
-#include "..\\include\classes\IUITextRenderingManager.h"
-#endif
-
-#include "..\\include\classes\IUITextFactory.h"
-#include "..\\include\classes\IUIClipboardManager.h"
-#include "..\\include\classes\IUIGraphicManager.h"
-
-//image
-#include "..\\include\classes\IUIImageManager.h"
-
-#include "..\\include\classes\IUIUtilManager.h"
-#endif
-
-
 __thumb void* malloc( int size );
 __thumb void mfree( void* mem );
 
@@ -55,18 +14,6 @@ extern "C"
 {
 #pragma swi_number=0x10D
 __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, void* param3 );
-
-#if defined(DB2010)
-  void* memalloc( int size, int f1, int f2, const char* fname, int fline );
-  void memfree( void* mem, const char* fname, int fline );
-#elif defined(DB2020)
-  void* memalloc( int zero, int size, int f1, int f2, const char *fname, int fline );
-  void memfree( int zero, void * mem, const char* fname, int fline );
-#elif defined(A2)
-  void* memalloc( int minus_one, int size, int f1, int f2, const char* fname, int fline );
-  void memfree( int zero, void* mem, const char* fname, int fline );
-  void* memcalloc( int minus_one, int size, int NoOfItems, int f1, int f2, const char* fname, int fline );
-#endif
 
 #if defined(A1)
   void* MetaData_Desc_Create( wchar_t* path, wchar_t* name );
@@ -97,7 +44,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void Display_SetBrightness( int level );
 #endif
 
-#if defined(A1) || defined(DB3150_V1) || defined(DB3150_V2)
+#if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
   //FONT_DESC* GetFontDesc( void );
   //int* GetFontCount( void );
   int SetFont( int FontSize );
@@ -692,7 +639,7 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   int GUIonMessage_GetSearchStringLength( GUI_MESSAGE* msg );
   int EqualizerGain_Get( int AudioSessionID, int Band, int* Level );
   int Theme_DestroyMenuIcons( void );
-  void CoCreateInstance( PUUID cid, PUUID iid, void** pInterface );
+  void CoCreateInstance( UUID* cid, UUID* iid, void** pInterface );
   void GUIObject_SetSecondRowTitleText( GUI*, TEXTID );
   int ListMenu_GetItemCount( GUI_LIST* );
   void OSE_GetShell( void** pInterface );
@@ -1030,9 +977,9 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   void SetOperatorName( TEXTID, int _null );
   TEXTID GetOperatorName( wchar_t* opname  );
   
-  void MSG_Marked_No( BOOK* book); //Защита от удаления сообщений, v. 3
-  void Create_BrowserMemory( int BookID, int unk, int mode ); // Отображение свободной памяти в заголовках вкладок Диспетчера файлов, v. 4
-  void DataDownloadBook_onClose( BOOK* book ); // Добавить вопрос о замене файла после приема через Bluetooth
+  void MSG_Marked_No( BOOK* book); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, v. 3
+  void Create_BrowserMemory( int BookID, int unk, int mode ); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, v. 4
+  void DataDownloadBook_onClose( BOOK* book ); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Bluetooth
  
 // LIST function ---------------------------------------------------------------
   void List_Init( LIST* list );
@@ -1068,27 +1015,27 @@ __swi __arm int elfload( const wchar_t* filename, void* param1, void* param2, vo
   char ToUpper(char c);
   
   // Socket function ----------------------------------------------------
-  int socket_create(int domain, int type, int protocol);
-  int socket_close( int sock );
-  int socket_connect(int socket, sockaddr *address, int address_len);
-  int socket_send(int socket, const void *message, int length, int flags);
-  int socket_recv(int socket, void *buffer, size_t length, int flags);
-  int socket_setsockopt(int socket, int level, int option_name, const void *option_value, int option_len);
-  int socket_getsockopt(int socket, int level, int option_name, void *option_value, int *option_len);
-  int socket_getpeername(int socket, sockaddr *address, int *address_len);
-  int socket_getsockname(int socket, sockaddr *address, int *address_len);
-  int socket_shutdown(int socket, int how);
-  int socket_accept(int socket, sockaddr *address, int *address_len);
-  int socket_bind(int socket, const sockaddr *address, int address_len);
-  int socket_listen(int socket, int backlog);
-  int socket_sendto(int socket, const void *message, int length, int flags, const sockaddr *dest_addr, int dest_len);
-  int socket_recvfrom(int socket, void *buffer, int length, int flags, sockaddr *address, int *address_len);
-  int socket_sendmsg(int socket, const struct msghdr *message, int flags);
-  int socket_recvmsg(int socket, struct msghdr *message, int flags);
-  int socket_select( int nfds, void* readfds, void* writefds, void* exceptfds, void* timeout);
-  int fcntl( int fd, int cmd, long arg );
-  int socket_lasterror( void );
-  int inet_pton(int af, const char *src, void *dst);
-  char *inet_ntop(int af, const void *src, char *dst, int size);
+  // int socket_create(int domain, int type, int protocol);
+  // int socket_close( int sock );
+  // int socket_connect(int socket, sockaddr *address, int address_len);
+  // int socket_send(int socket, const void *message, int length, int flags);
+  // int socket_recv(int socket, void *buffer, size_t length, int flags);
+  // int socket_setsockopt(int socket, int level, int option_name, const void *option_value, int option_len);
+  // int socket_getsockopt(int socket, int level, int option_name, void *option_value, int *option_len);
+  // int socket_getpeername(int socket, sockaddr *address, int *address_len);
+  // int socket_getsockname(int socket, sockaddr *address, int *address_len);
+  // int socket_shutdown(int socket, int how);
+  // int socket_accept(int socket, sockaddr *address, int *address_len);
+  // int socket_bind(int socket, const sockaddr *address, int address_len);
+  // int socket_listen(int socket, int backlog);
+  // int socket_sendto(int socket, const void *message, int length, int flags, const sockaddr *dest_addr, int dest_len);
+  // int socket_recvfrom(int socket, void *buffer, int length, int flags, sockaddr *address, int *address_len);
+  // int socket_sendmsg(int socket, const struct msghdr *message, int flags);
+  // int socket_recvmsg(int socket, struct msghdr *message, int flags);
+  // int socket_select( int nfds, void* readfds, void* writefds, void* exceptfds, void* timeout);
+  // int fcntl( int fd, int cmd, long arg );
+  // int socket_lasterror( void );
+  // int inet_pton(int af, const char *src, void *dst);
+  // char *inet_ntop(int af, const void *src, char *dst, int size);
 
 };

@@ -1,4 +1,5 @@
-#ifdef C510_R1HA035
+//#ifdef C510_R1HA035
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -47,5 +48,4 @@ _GUIObject_SoftKeys_SetAction_SetText:
         ldr r3, =softkey_add
         bx r3
         
-#endif
         END
