@@ -333,23 +333,25 @@ typedef enum GuiObjectZOrder_t
 	GuiObjectZOrderTop,		  ///< Sets the GUI Z-order to Top
 	GuiObjectZOrderBottom,	  ///< Sets the GUI Z-order to Bottom
 } GuiObjectZOrder_t;
-* /
-	/**
+
+/**
  * Display
  *
  * @param UIDisplay_Main    Main display
  * @param UIDisplay_Second  Second display. Used on clam phones
  * @param UIDisplay_Last    End
  */
-	typedef enum UI_Display_t { UIDisplay_Main = 0,
-								UIDisplay_Second,
-								UIDisplay_TVOut,
-								UIDisplay_Last,
-								UI_Display_Main = 0,
-								UI_Display_Second,
-								UI_Display_TVOut,
-								UI_Display_Last
-	} UI_Display_t;
+typedef enum UI_Display_t
+{
+	UIDisplay_Main = 0,
+	UIDisplay_Second,
+	UIDisplay_TVOut,
+	UIDisplay_Last,
+	UI_Display_Main = 0,
+	UI_Display_Second,
+	UI_Display_TVOut,
+	UI_Display_Last
+} UI_Display_t;
 
 /**
  * Display Orientation
