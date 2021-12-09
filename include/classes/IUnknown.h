@@ -4,10 +4,10 @@
 class IUnknown
 {
 public:
-  virtual void* pguid();
-  virtual void* QueryInterface(PUUID iid, void** pInterface);
-  virtual void* AddRef();
-  virtual void* Release();
+  virtual void *pguid();
+  virtual void *QueryInterface(PUUID iid, void **pInterface);
+  virtual void *AddRef();
+  virtual void *Release();
 };
 
 #endif

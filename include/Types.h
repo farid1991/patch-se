@@ -8,10 +8,10 @@ typedef int BOOL;
 typedef unsigned long LRESULT;
 typedef int jmp_buf[11];
 
-typedef unsigned short  Uint16_t;
-typedef signed short    Int16_t;
-typedef unsigned int    Uint32_t;
-typedef signed int      Int32_t;
+typedef unsigned short Uint16_t;
+typedef signed short Int16_t;
+typedef unsigned int Uint32_t;
+typedef signed int Int32_t;
 
 typedef Uint32_t size_t;
 typedef Uint32_t time_t;
@@ -31,11 +31,12 @@ typedef unsigned long LPARAM;
 class LPARAM
 {
 	unsigned long data;
+
 public:
-	LPARAM( int a ) { data = a; }
-	LPARAM( void* a ) { data = reinterpret_cast<unsigned long>( a ); }
-	operator int(){ return data; }
-	operator void*(){ return reinterpret_cast<void*>( data ); }
+	LPARAM(int a) { data = a; }
+	LPARAM(void *a) { data = reinterpret_cast<unsigned long>(a); }
+	operator int() { return data; }
+	operator void *() { return reinterpret_cast<void *>(data); }
 };
 #endif
 
@@ -44,14 +45,13 @@ typedef struct DATE
 	u16 year;
 	char mon;
 	char day;
-}DATE;
+} DATE;
 
 typedef struct WEEK
 {
-	char  type;
-	char  days[7];
-}WEEK;
-
+	char type;
+	char days[7];
+} WEEK;
 
 typedef struct TIME
 {
@@ -59,33 +59,33 @@ typedef struct TIME
 	char min;
 	char sec;
 	char msec;
-}TIME;
+} TIME;
 
 typedef struct DATETIME
 {
 	DATE date;
 	TIME time;
-}DATETIME;
+} DATETIME;
 
 typedef struct
 {
 	char dummy[0x8];
-	TIME  time;
-}CALLINFO;
+	TIME time;
+} CALLINFO;
 
 typedef struct
 {
 	char dummy[0x24];
-	TIME  time;
-	int full; 
-	int sec;      
-}TIMERBOOK;
+	TIME time;
+	int full;
+	int sec;
+} TIMERBOOK;
 
 typedef struct POINT
 {
 	int x;
 	int y;
-}POINT;
+} POINT;
 
 typedef struct RECT
 {
@@ -93,8 +93,7 @@ typedef struct RECT
 	u16 x2;
 	u16 y1;
 	u16 y2;
-}RECT;
-
+} RECT;
 
 #ifndef _NULL
 #define _NULL 0
@@ -117,12 +116,15 @@ typedef struct RECT
 #define CHIPID_DB3210 0xE800
 #define CHIPID_DB3350 0xF000
 
-
-#define MAXELEMS( x ) (sizeof(x)/sizeof(x[0]))
+#define MAXELEMS(x) (sizeof(x) / sizeof(x[0]))
 
 #ifdef __cplusplus
-template<typename BASETYPE,typename CHILDTYPE>
-void INHERITANCECHECK(){ if(static_cast<BASETYPE*>(0)==static_cast<CHILDTYPE*>(0)); }
+template <typename BASETYPE, typename CHILDTYPE>
+void INHERITANCECHECK()
+{
+	if (static_cast<BASETYPE *>(0) == static_cast<CHILDTYPE *>(0))
+		;
+}
 #endif
 
 // text ------------------------------------------------------------------------
@@ -133,29 +135,27 @@ typedef struct TEXTID_DATA
 {
 	wchar_t lenght;
 	char encoding;
-	void* ptr;
-}TEXTID_DATA;
-
+	void *ptr;
+} TEXTID_DATA;
 
 typedef enum TEXT_ENCODING
 {
-	ENC_UCS2   = 0,
-	ENC_GSM    = 1,
-	ENC_BCD    = 2,
-	ENC_FILE   = 3,
+	ENC_UCS2 = 0,
+	ENC_GSM = 1,
+	ENC_BCD = 2,
+	ENC_FILE = 3,
 	ENC_TEXTID = 5,
-	ENC_LAT1   = 6,
-	ENC_UT     = 8,
-	ENC_UTTF   = 9,
-}TEXT_ENCODING;
+	ENC_LAT1 = 6,
+	ENC_UT = 8,
+	ENC_UTTF = 9,
+} TEXT_ENCODING;
 
 #define TEXTID_ANY_LEN 0xFFFF
 #define EMPTY_TEXTID 0x6FFFFFFF
 
-
-#define TEXT( __STR__ ) L##__STR__
-#define _T( __STR__ ) L##__STR__
-#define STR( __STR__ ) TextID_Create( _T( __STR__ ), ENC_UCS2, TEXTID_ANY_LEN )
+#define TEXT(__STR__) L##__STR__
+#define _T(__STR__) L##__STR__
+#define STR(__STR__) TextID_Create(_T(__STR__), ENC_UCS2, TEXTID_ANY_LEN)
 /*
 typedef enum
 {
@@ -169,7 +169,6 @@ typedef enum
 // images ----------------------------------------------------------------------
 
 typedef wchar_t IMAGEID;
-
 
 #define NOIMAGE 0xFFFF
 
@@ -195,25 +194,23 @@ typedef unsigned long OSSEGMENT;
 typedef signed long OSFSEMVAL;
 typedef signed long OSSEMVAL;
 
-typedef void ( OSENTRYPOINT )( void );
+typedef void(OSENTRYPOINT)(void);
 
-typedef OSADDRESS( OSERRH )( OSBOOLEAN, OSERRCODE, OSERRCODE );
-
+typedef OSADDRESS(OSERRH)(OSBOOLEAN, OSERRCODE, OSERRCODE);
 
 typedef enum PROCESS_TYPE
 {
 	OS_PRI_PROC = 0,
-	OS_BG_PROC  = 64,
+	OS_BG_PROC = 64,
 	OS_INT_PROC = 128,
-	OS_TI_PROC  = 256,
-	OS_PHANTOM  = 512,
-	OS_BLOCK    = 1024,
-	OS_ZOOMBIE  = 2048,
-	OS_ILLEGAL  = 4096
-}PROCESS_TYPE;
+	OS_TI_PROC = 256,
+	OS_PHANTOM = 512,
+	OS_BLOCK = 1024,
+	OS_ZOOMBIE = 2048,
+	OS_ILLEGAL = 4096
+} PROCESS_TYPE;
 
-
-#define OS_PROCESS( x ) __interwork void x( void )
+#define OS_PROCESS(x) __interwork void x(void)
 
 // list ------------------------------------------------------------------------
 
@@ -221,40 +218,38 @@ typedef struct LIST
 {
 	u16 unk;
 	u16 FirstFree;
-	void** listdata;
-}LIST;
+	void **listdata;
+} LIST;
 
-typedef int (*LISTFINDCALLBACK)(void* listitem, void* itemtofind);
-
+typedef int (*LISTFINDCALLBACK)(void *listitem, void *itemtofind);
 
 #define LIST_ERROR 0xFFFF
 
-
 #ifdef __cplusplus
-template<typename T,typename T2> LISTFINDCALLBACK MKLISTFINDCALLBACK( int(*param)(T,T2) )
+template <typename T, typename T2>
+LISTFINDCALLBACK MKLISTFINDCALLBACK(int (*param)(T, T2))
 {
 	return reinterpret_cast<LISTFINDCALLBACK>(param);
 }
 #else
-#define MKLISTFINDCALLBACK(fn) (LISTFINDCALLBACK)fn
+#define MKLISTFINDCALLBACK(fn) (LISTFINDCALLBACK) fn
 #endif
 
-#define LIST_FIND(lst, itemtofind, cmp_proc) List_Find( lst, (void*) itemtofind, MKLISTFINDCALLBACK(cmp_proc) )
+#define LIST_FIND(lst, itemtofind, cmp_proc) List_Find(lst, (void *)itemtofind, MKLISTFINDCALLBACK(cmp_proc))
 
 //disp -------------------------------------------------------------------------
 
-typedef int (*DISP_OBJ_ONCREATE_METHOD)(DISP_OBJ*);
-typedef void (*DISP_OBJ_ONCLOSE_METHOD)(DISP_OBJ*);
-typedef void (*DISP_OBJ_ONREDRAW_METHOD)(DISP_OBJ*, int, int, int);
-typedef void (*DISP_OBJ_ONKEY_METHOD)(DISP_OBJ*, int scan_code, int unk, int repeat_num, int key_mode);
-typedef void (*DISP_OBJ_ONCONFIG_METHOD)(DISP_OBJ*, int unk, int DisplayWidth, int DisplayHeight);
-typedef void (*DISP_OBJ_ONLAYOUT_METHOD)(DISP_OBJ*, void* layoutstruct);
-typedef void (*DISP_OBJ_METHOD)(DISP_OBJ*);
-
+typedef int (*DISP_OBJ_ONCREATE_METHOD)(DISP_OBJ *);
+typedef void (*DISP_OBJ_ONCLOSE_METHOD)(DISP_OBJ *);
+typedef void (*DISP_OBJ_ONREDRAW_METHOD)(DISP_OBJ *, int, int, int);
+typedef void (*DISP_OBJ_ONKEY_METHOD)(DISP_OBJ *, int scan_code, int unk, int repeat_num, int key_mode);
+typedef void (*DISP_OBJ_ONCONFIG_METHOD)(DISP_OBJ *, int unk, int DisplayWidth, int DisplayHeight);
+typedef void (*DISP_OBJ_ONLAYOUT_METHOD)(DISP_OBJ *, void *layoutstruct);
+typedef void (*DISP_OBJ_METHOD)(DISP_OBJ *);
 
 typedef struct DISP_DESC
 {
-	char* name;
+	char *name;
 	u16 DataSize;
 	u16 field_6;
 	DISP_OBJ_METHOD Constructor;
@@ -273,27 +268,27 @@ typedef struct DISP_DESC
 	DISP_OBJ_METHOD field_39;
 	DISP_OBJ_METHOD field_3A;
 	char field_3B;
-}DISP_DESC;
+} DISP_DESC;
 
 typedef struct DISP_OBJ
 {
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)  
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 	char dummy[0x16C];
 #else
 	char dummy[0x110];
 #endif
-}DISP_OBJ;
+} DISP_OBJ;
 
-#define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD)-1
+#define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD) - 1
 
 // gui -------------------------------------------------------------------------
 
 typedef struct GUI
 {
-	DISP_OBJ* disp; // use GUIObject_GetDispObject();
-	BOOK* book;     // use GUIObject_GetBook();
-        char dummy[0x88];
-}GUI;
+	DISP_OBJ *disp; // use GUIObject_GetDispObject();
+	BOOK *book;		// use GUIObject_GetBook();
+	char dummy[0x88];
+} GUI;
 
 // 2do: remove these types
 typedef struct GUI GUI_LIST;
@@ -302,66 +297,60 @@ typedef struct GUI GUI_ONEOFMANY;
 typedef struct GUI GUI_NOFMANY;
 typedef struct GUI GUI_FEEDBACK;
 
-/*
 typedef enum UI_OverlayStyle_t
 {
 	UI_OverlayStyle_NotDefined = 0,
-	UI_OverlayStyle_Default, // Use original frame settings
-	UI_OverlayStyle_FullScreen, // Fullscreen
-	UI_OverlayStyle_FullScreenNoStatus, // Fullscreen with no statusRow
-	UI_OverlayStyle_TrueFullScreen, // True fullscreen without softkeys and statusrow
-	UI_OverlayStyle_InternalFrameSmall, // Fullscreen with small internal frame
-	UI_OverlayStyle_InternalFrameLarge, // Fullscreen with large internal frame
-	UI_OverlayStyle_InternalFrameOutput, // Informationtext style
-	UI_OverlayStyle_PopupFrame, // Popup with SW rendered frame
-	UI_OverlayStyle_PopupNoFrame, // Transparent popup window. Default popup style.
+	UI_OverlayStyle_Default,			  // Use original frame settings
+	UI_OverlayStyle_FullScreen,			  // Fullscreen
+	UI_OverlayStyle_FullScreenNoStatus,	  // Fullscreen with no statusRow
+	UI_OverlayStyle_TrueFullScreen,		  // True fullscreen without softkeys and statusrow
+	UI_OverlayStyle_InternalFrameSmall,	  // Fullscreen with small internal frame
+	UI_OverlayStyle_InternalFrameLarge,	  // Fullscreen with large internal frame
+	UI_OverlayStyle_InternalFrameOutput,  // Informationtext style
+	UI_OverlayStyle_PopupFrame,			  // Popup with SW rendered frame
+	UI_OverlayStyle_PopupNoFrame,		  // Transparent popup window. Default popup style.
 	UI_OverlayStyle_FullScreenNoSoftkeys, // Fullscreen without softkeys but with status row
 	UI_OverlayStyle_Last
 } UI_OverlayStyle_t;
-*/
-/*
+
 typedef enum UI_TitleMode_t
 {
 	UI_TitleMode_Uninitated = 0, // Uninitiated
-	UI_TitleMode_None, // Show no title
-	UI_TitleMode_Normal, // Normal title size
-	UI_TitleMode_Small, // Small title
-	UI_TitleMode_Tab, // Show tabs instead of title.
-	UI_TitleMode_Large, // Large two row title( different fonts for 1:st and 2:nd line )
-	UI_TitleMode_Desktop, // Only for desktop title. Will be removed after hb107.
+	UI_TitleMode_None,			 // Show no title
+	UI_TitleMode_Normal,		 // Normal title size
+	UI_TitleMode_Small,			 // Small title
+	UI_TitleMode_Tab,			 // Show tabs instead of title.
+	UI_TitleMode_Large,			 // Large two row title( different fonts for 1:st and 2:nd line )
+	UI_TitleMode_Desktop,		 // Only for desktop title. Will be removed after hb107.
 	UI_TitleMode_Last
 } UI_TitleMode_t;
-*/
-/*
+
 //GUIObject_SetZOrder
 typedef enum GuiObjectZOrder_t
 {
 	GuiObjectZOrderAbove = 0, ///< Sets the GUI Z-order to Above
-	GuiObjectZOrderBelow, ///< Sets the GUI Z-order to Below
-	GuiObjectZOrderTop,   ///< Sets the GUI Z-order to Top
-	GuiObjectZOrderBottom, ///< Sets the GUI Z-order to Bottom
+	GuiObjectZOrderBelow,	  ///< Sets the GUI Z-order to Below
+	GuiObjectZOrderTop,		  ///< Sets the GUI Z-order to Top
+	GuiObjectZOrderBottom,	  ///< Sets the GUI Z-order to Bottom
 } GuiObjectZOrder_t;
-*/
-/**
+* /
+	/**
  * Display
  *
  * @param UIDisplay_Main    Main display
  * @param UIDisplay_Second  Second display. Used on clam phones
  * @param UIDisplay_Last    End
  */
-/*
-typedef enum UI_Display_t
-{
-	UIDisplay_Main = 0,
-        UIDisplay_Second,
-        UIDisplay_TVOut,
-        UIDisplay_Last,
-        UI_Display_Main = 0,
-        UI_Display_Second,
-        UI_Display_TVOut,
-        UI_Display_Last
-} UI_Display_t;
-*/
+	typedef enum UI_Display_t { UIDisplay_Main = 0,
+								UIDisplay_Second,
+								UIDisplay_TVOut,
+								UIDisplay_Last,
+								UI_Display_Main = 0,
+								UI_Display_Second,
+								UI_Display_TVOut,
+								UI_Display_Last
+	} UI_Display_t;
+
 /**
  * Display Orientation
  *
@@ -370,86 +359,84 @@ typedef enum UI_Display_t
  * @param UIDisplayOrientationMode_HorizontalReversed Reversed horizontal orientation
  * @param UIDisplayOrientationMode_Last               End
  */
-/*
 typedef enum
 {
 	UIDisplayOrientationMode_Vertical = 0,
-        UIDisplayOrientationMode_Horizontal,
-        UIDisplayOrientationMode_HorizontalReversed,
-        UIDisplayOrientationMode_Last
+	UIDisplayOrientationMode_Horizontal,
+	UIDisplayOrientationMode_HorizontalReversed,
+	UIDisplayOrientationMode_Last
 } UIDisplayOrientationMode_t;
-*/
+
 // book ------------------------------------------------------------------------
 
 //struct BOOK;
 
 typedef struct UI_APP_SESSION
 {
-	LIST* listbook;
+	LIST *listbook;
 	TEXTID name;
 	IMAGEID icon;
 	int W2;
 	int SessionID;
 	int unk2;
-}UI_APP_SESSION;
+} UI_APP_SESSION;
 
 typedef struct XBOOK
 {
-	char isDestroyed;             //0
-	char* name;                   //1
-	UI_APP_SESSION* app_session;  //5
-	int parent_BookID;            //9
-	u16 unk2 ;                    //D
-	int unk3;                     //F
-	int unk4;                     //13
-	char unk5;                    //14
-	void* unk6;                   //18
-	int unk7;                     //1C
-	u16 unk8;                     //1E
-	u16 unk9;                     //20
-	char dummy7[0x8];             //28
+	char isDestroyed;			 //0
+	char *name;					 //1
+	UI_APP_SESSION *app_session; //5
+	int parent_BookID;			 //9
+	u16 unk2;					 //D
+	int unk3;					 //F
+	int unk4;					 //13
+	char unk5;					 //14
+	void *unk6;					 //18
+	int unk7;					 //1C
+	u16 unk8;					 //1E
+	u16 unk9;					 //20
+	char dummy7[0x8];			 //28
 	char orientation;
-}XBOOK;
+} XBOOK;
 
 typedef struct BOOK_SUBROUTINE
 {
-	const char* name;
-	struct PAGE_DESC* page;
-	void (*OnEnter)(void*, struct BOOK*);
-	void (*OnExit)(void*, struct BOOK*);
-}BOOK_SUBROUTINE;
+	const char *name;
+	struct PAGE_DESC *page;
+	void (*OnEnter)(void *, struct BOOK *);
+	void (*OnExit)(void *, struct BOOK *);
+} BOOK_SUBROUTINE;
 
 typedef struct PAGE_MSG
 {
 	int msg;
-	int (*proc)(void*, struct BOOK*);
-}PAGE_MSG;
+	int (*proc)(void *, struct BOOK *);
+} PAGE_MSG;
 
 typedef struct PAGE_DESC
 {
-	const char* name;
-	BOOK_SUBROUTINE* subr;
-	const PAGE_MSG* msg_lst;
-}PAGE_DESC;
+	const char *name;
+	BOOK_SUBROUTINE *subr;
+	const PAGE_MSG *msg_lst;
+} PAGE_DESC;
 
 typedef struct XGUILIST
 {
-	struct BOOK* book;
-	LIST* guilist;
-}XGUILIST;
+	struct BOOK *book;
+	LIST *guilist;
+} XGUILIST;
 
 typedef struct BOOK
 {
-	XBOOK* xbook;
-	void (*onClose)(struct BOOK*);
+	XBOOK *xbook;
+	void (*onClose)(struct BOOK *);
 	int BookID;
-	struct PAGE_DESC* current_page;
-	struct PAGE_DESC* base_page;
-	XGUILIST* xguilist;
-}BOOK;
+	struct PAGE_DESC *current_page;
+	struct PAGE_DESC *base_page;
+	XGUILIST *xguilist;
+} BOOK;
 
-typedef int (*IS_NEEDED_BOOK)(BOOK*);
-
+typedef int (*IS_NEEDED_BOOK)(BOOK *);
 
 #define NO_BOOK_ID 0xFFFFFFFF
 
@@ -457,31 +444,30 @@ typedef int (*IS_NEEDED_BOOK)(BOOK*);
 
 typedef struct GUI_MESSAGE
 {
-	char __msg; // use GUIonMessage_GetMsg( )
-	GUI* __gui; // use GUIonMessage_GetGui( )
-	BOOK* __book; // use GUIonMessage_GetBook( )
-}GUI_MESSAGE;
-
+	char __msg;	  // use GUIonMessage_GetMsg( )
+	GUI *__gui;	  // use GUIonMessage_GetGui( )
+	BOOK *__book; // use GUIonMessage_GetBook( )
+} GUI_MESSAGE;
 
 typedef enum LISTMSGS
 {
-	LISTMSG_HighlightChanged=0,
-	LISTMSG_GetItem=1,
-	LISTMSG_SubItemHighlightChanged=2,
-	LISTMSG_GetSubItem=3,
-	LISTMSG_Edit=4,
-	LISTMSG_Delete=5,
-	LISTMSG_SearchIndex=7,
-	LISTMSG_GetKeyboard=8,
-	LISTMSG_ItemSelectionChanged=9,
-	LISTMSG_DrawComplete=10,
-	LISTMSG_ListBusy=11,
+	LISTMSG_HighlightChanged = 0,
+	LISTMSG_GetItem = 1,
+	LISTMSG_SubItemHighlightChanged = 2,
+	LISTMSG_GetSubItem = 3,
+	LISTMSG_Edit = 4,
+	LISTMSG_Delete = 5,
+	LISTMSG_SearchIndex = 7,
+	LISTMSG_GetKeyboard = 8,
+	LISTMSG_ItemSelectionChanged = 9,
+	LISTMSG_DrawComplete = 10,
+	LISTMSG_ListBusy = 11,
 
 	LISTMSG_KeyRepeat = 12,
 	LISTMSG_StringInputCharProtYesCB = 13,
 	LISTMSG_StringInputCharProtNoCB = 14,
 	LISTMSG_Minipopup = 15
-}LISTMSGS;
+} LISTMSGS;
 
 typedef enum LISTMENU_HOTKEY_MODE
 {
@@ -489,64 +475,64 @@ typedef enum LISTMENU_HOTKEY_MODE
 	LKHM_SHORTCUT = 1,
 	LKHM_FOCUS = 2,
 	LKHM_PRESS = 3
-}LISTMENU_HOTKEY_MODE;
+} LISTMENU_HOTKEY_MODE;
 
 // stringinput -----------------------------------------------------------------
 
 enum INPUT_TYPES
 {
 	IT_REAL = 0,
-        IT_STRING = 1,
-        IT_INTEGER = 2,
-        IT_PHONE_NUMBER = 3,
-        IT_DIGITAL_PASS = 4,
-        IT_DIGITAL_IP = 5,
-        IT_URL = 6,
-        IT_ABC_AND_DIGIT = 8,
-        IT_UNSIGNED_DIGIT = 9,
-        IT_EXTRA_DIGIT = 10,
-        IT_ABC_OR_DIGIT = 11,
-        IT_EXTRA_DIGIT_2 = 12,
-        IT_ABC_OR_DIGIT_2 = 13,
+	IT_STRING = 1,
+	IT_INTEGER = 2,
+	IT_PHONE_NUMBER = 3,
+	IT_DIGITAL_PASS = 4,
+	IT_DIGITAL_IP = 5,
+	IT_URL = 6,
+	IT_ABC_AND_DIGIT = 8,
+	IT_UNSIGNED_DIGIT = 9,
+	IT_EXTRA_DIGIT = 10,
+	IT_ABC_OR_DIGIT = 11,
+	IT_EXTRA_DIGIT_2 = 12,
+	IT_ABC_OR_DIGIT_2 = 13,
 };
 
 typedef struct LANGUAGE
 {
 	char count;
-	char* langs;
-}LANGUAGE;
+	char *langs;
+} LANGUAGE;
 
 typedef struct DISP_OBJ_STRING_INPUT
 {
 	char dummy[0x424];
-	LANGUAGE* lng;
+	LANGUAGE *lng;
 	char cur_langID;
-}DISP_OBJ_STRING_INPUT;
+} DISP_OBJ_STRING_INPUT;
 
 // gc/gvi/graphics -------------------------------------------------------------
 
-typedef void* PCANVAS;
+typedef void *PCANVAS;
 
 typedef struct GC
 {
-	PCANVAS* pcanvas;       // 0x0
-        char unk1[0xC];
-        int pen_color;          // 0x10 use GC_GetPenColor()
-        u16 unk2;               // 0x14
-        char unk3;              // 0x16
-        char unk4[0x5];
-        void* unk5;             // 0x18
-        int brush_color;        // 0x1C use GC_GetBrushColor()
-	char GC_XX;             // 0x20
-        char unk6[0x3];
-	PCANVAS* pcanvas_text;  // 0x24
+	PCANVAS *pcanvas;
+	char unk1[0xC];
+	int pen_color;
+	u16 unk2;
+	char unk3;
+	char unk4[0x5];
+	void *unk5;
+	int brush_color;
+	char GC_XX;
+	char unk6[0x3];
+	PCANVAS *pcanvas_text;
 	int unk7;
-	PCANVAS* pcanvas_icon;  // 0x2C
-        char unk8[0x4];
-        int unk9;               // 0x34
-}GC;
+	PCANVAS *pcanvas_icon;
+	char unk8[0x4];
+	int unk9;
+} GC;
 
-typedef void* GVI_OBJ;
+typedef void *GVI_OBJ;
 typedef GVI_OBJ GVI_GC;
 typedef GVI_OBJ GVI_BMP;
 typedef GVI_OBJ GVI_PEN;
@@ -558,7 +544,7 @@ typedef struct GVI_XYWH
 	int y;
 	int w;
 	int h;
-}GVI_XYWH;
+} GVI_XYWH;
 
 typedef struct SURFACE
 {
@@ -570,7 +556,7 @@ typedef struct SURFACE
 	int BufferSize;
 	int Tag;
 	int RefCount;
-	struct SURFACE* next;
+	struct SURFACE *next;
 	int HWFlags;
 	int BitsLock;
 	int unk;
@@ -581,14 +567,14 @@ typedef struct SURFACE
 	int unk4;
 	int unk5;
 	int Display;
-}SURFACE;
+} SURFACE;
 
 #pragma pack(push, 2)
 typedef struct FONT_DESC
 {
 	u16 id;
 	wchar_t name[10];
-}FONT_DESC;
+} FONT_DESC;
 #pragma pack(pop)
 
 // files -----------------------------------------------------------------------
@@ -597,13 +583,13 @@ typedef struct FSTAT
 {
 	u16 st_ino;
 	u16 st_nlink;
-	int st_mode;//was unk1
-	int fsize;//st_size
+	int st_mode; //was unk1
+	int fsize;	 //st_size
 	time_t st_atime;
 	time_t st_mtime;
 	time_t st_ctime;
 	unsigned long st_attr;
-}FSTAT;
+} FSTAT;
 
 typedef struct W_FSTAT
 {
@@ -617,16 +603,16 @@ typedef struct W_FSTAT
 	unsigned int unk_0x1C;
 	unsigned int unk_0x20;
 	unsigned int unk_0x24;
-}W_FSTAT;
+} W_FSTAT;
 
 typedef struct FILELISTITEM
 {
 	int unk;
-	wchar_t* path;
-	wchar_t* fname;
-	char* content_type;
+	wchar_t *path;
+	wchar_t *fname;
+	char *content_type;
 	char unk1[0x2F0];
-}FILELISTITEM; //FSX_dirent?
+} FILELISTITEM; //FSX_dirent?
 
 typedef struct DIR_HANDLE
 {
@@ -634,10 +620,10 @@ typedef struct DIR_HANDLE
 	u16 unk_4;
 	u16 unk_6;
 	int unk_8;
-	char unk_C; // �� 2010 ������ ����������...
+	char unk_C;
 	char unk_D;
 	char ena_hidden;
-}DIR_HANDLE; //FSX_DIR?
+} DIR_HANDLE; //FSX_DIR?
 
 typedef struct VOLUMESIZE
 {
@@ -649,140 +635,143 @@ typedef struct VOLUMESIZE
 	long free_reserved_blocks;
 	unsigned long used_oversize_blocks;
 	unsigned long total_oversize_blocks;
-}VOLUMESIZE; //old FSX_freespace
+} VOLUMESIZE; //old FSX_freespace
 
 typedef struct VOLUMESIZE_A2
 {
-	unsigned long long TotalSpace; //total_size
-	unsigned long long FreeSpace; //free_bytes
-	unsigned long BytesPerCluster; //block_size
-	unsigned long TotalClusters; //total_blocks
+	unsigned long long TotalSpace;	 //total_size
+	unsigned long long FreeSpace;	 //free_bytes
+	unsigned long BytesPerCluster;	 //block_size
+	unsigned long TotalClusters;	 //total_blocks
 	unsigned long TotalFreeClusters; //free_blocks
 	long free_reserved_blocks;
 	unsigned long used_oversize_blocks;
 	unsigned long total_oversize_blocks;
-}VOLUMESIZE_A2; //FSX_freespace
-
+} VOLUMESIZE_A2; //FSX_freespace
 
 //lseek
-typedef enum _SEEK_SET {
-	SEEK_SET=0,
+typedef enum _SEEK_SET
+{
+	SEEK_SET = 0,
 	SEEK_CUR,
 	SEEK_END
-}_SEEK_SET;
+} _SEEK_SET;
 
 //w_lseek
-typedef enum W_SEEK_SET {
-	WSEEK_CUR=0,
-	WSEEK_END=1,
-	WSEEK_SET=2
-}W_SEEK_SET;
+typedef enum W_SEEK_SET
+{
+	WSEEK_CUR = 0,
+	WSEEK_END = 1,
+	WSEEK_SET = 2
+} W_SEEK_SET;
 
 //w_fopen
-typedef enum W_OPEN_ATTR {
-	WA_Read=1,
-	WA_Write=2,
-	WA_Append=4,
-	WA_Create=8,
-	WA_Truncate=0x40
-}W_OPEN_ATTR;
+typedef enum W_OPEN_ATTR
+{
+	WA_Read = 1,
+	WA_Write = 2,
+	WA_Append = 4,
+	WA_Create = 8,
+	WA_Truncate = 0x40
+} W_OPEN_ATTR;
 
 //fopen/_fopen (mode)
-#define FSX_O_RDONLY     0x0001 /// Open for reading only.
-#define FSX_O_WRONLY     0x0002 /// Open for writing only.
-#define FSX_O_RDWR       0x0004 /// Open for reading and writing.
+#define FSX_O_RDONLY 0x0001 /// Open for reading only.
+#define FSX_O_WRONLY 0x0002 /// Open for writing only.
+#define FSX_O_RDWR 0x0004	/// Open for reading and writing.
 
-#define FSX_O_APPEND     0x0008 /// Writes done at eof.
+#define FSX_O_APPEND 0x0008		/// Writes done at eof.
 #define FSX_O_SINGLEUSER 0x0010 /// Set file locking mechanism on
-#define FSX_O_CREAT      0x0100 /// Create and open file.
-#define FSX_O_TRUNC      0x0200 /// Open and truncate.
-#define FSX_O_EXCL       0x0400 /// Open only if file doesn't already exist.
-#define FSX_O_MULT       0x0800 /// Open for reading or writing the already opened file.
-#define FSX_O_ENCRYPT    0x1000 /// Secure Storage flag.
-#define FSX_O_DECRYPT    0x2000 /// Secure Storage flag.
-#define FSX_O_CHKPATH    0x4000 /// Check the path length considering its subfolders.
+#define FSX_O_CREAT 0x0100		/// Create and open file.
+#define FSX_O_TRUNC 0x0200		/// Open and truncate.
+#define FSX_O_EXCL 0x0400		/// Open only if file doesn't already exist.
+#define FSX_O_MULT 0x0800		/// Open for reading or writing the already opened file.
+#define FSX_O_ENCRYPT 0x1000	/// Secure Storage flag.
+#define FSX_O_DECRYPT 0x2000	/// Secure Storage flag.
+#define FSX_O_CHKPATH 0x4000	/// Check the path length considering its subfolders.
 #define FSX_O_NOROLLBACK 0x8000 /// Prevent rollback if write fails due to ENOSPC.
 
 #define FSX_O_FS_MASK (0xF70F) /* MASK for normal file's open mode*/
 
 //fopen/_fopen (mode), FSTAT.st_mode
-#define FSX_S_IRUSR   0x00000100 /// Read access, owner.
-#define FSX_S_IWUSR   0x00000080 /// Write access, owner.
-#define FSX_S_IXUSR   0x00000040 /// Execute/search access, owner.
-#define FSX_S_IREAD   FSX_S_IRUSR
-#define FSX_S_IWRITE  FSX_S_IWUSR
-#define FSX_S_IEXEC   FSX_S_IXUSR
+#define FSX_S_IRUSR 0x00000100 /// Read access, owner.
+#define FSX_S_IWUSR 0x00000080 /// Write access, owner.
+#define FSX_S_IXUSR 0x00000040 /// Execute/search access, owner.
+#define FSX_S_IREAD FSX_S_IRUSR
+#define FSX_S_IWRITE FSX_S_IWUSR
+#define FSX_S_IEXEC FSX_S_IXUSR
 #define FSX_FILE_MODE_MASK (FSX_S_IRUSR | FSX_S_IWUSR | FSX_S_IXUSR)
 
 //FSTAT.st_mode
 #define FSX_S_IFUNKNOWN 0x00000000
-#define FSX_S_IFREG     0x00001000
-#define FSX_S_IFVOL     0x00002000
-#define FSX_S_IFDIR     0x00010000
-#define FSX_S_IFLINK    0x00040000
+#define FSX_S_IFREG 0x00001000
+#define FSX_S_IFVOL 0x00002000
+#define FSX_S_IFDIR 0x00010000
+#define FSX_S_IFLINK 0x00040000
 
 //for pAttr
-#define FSX_EXT_ATTR_NONE         0x00000000  /* No attributs */
-#define FSX_FILE_ATTR_CORRUPTED	  0x00000001  /* If set, the file is corrupted */
-#define FSX_FILE_ATTR_PRIVATE     0x00000002  /* If set, the file is copyright protected */
-#define FSX_FILE_ATTR_DECODED     0x00000004  /* If set, the file can be decoded */
-#define FSX_FILE_ATTR_ENCRYPT     0x00000008  /* If set, the file will be encrypted */
-#define FSX_FILE_ATTR_HIDDEN      0x10000000  /* If set, the file will be hidden */
+#define FSX_EXT_ATTR_NONE 0x00000000	   /* No attributs */
+#define FSX_FILE_ATTR_CORRUPTED 0x00000001 /* If set, the file is corrupted */
+#define FSX_FILE_ATTR_PRIVATE 0x00000002   /* If set, the file is copyright protected */
+#define FSX_FILE_ATTR_DECODED 0x00000004   /* If set, the file can be decoded */
+#define FSX_FILE_ATTR_ENCRYPT 0x00000008   /* If set, the file will be encrypted */
+#define FSX_FILE_ATTR_HIDDEN 0x10000000	   /* If set, the file will be hidden */
 
 //for action
-#define FSX_ATTR_CLR  0 /// Clear attribute
-#define FSX_ATTR_SET  1 /// Set attribute
-#define FSX_ATTR_GET  2 /// Get attribute
+#define FSX_ATTR_CLR 0 /// Clear attribute
+#define FSX_ATTR_SET 1 /// Set attribute
+#define FSX_ATTR_GET 2 /// Get attribute
 
 // hooks -----------------------------------------------------------------------
 
-typedef int (*KEYHOOKPROC)(int key, int repeat_count, int mode, LPARAM lparam, DISP_OBJ* disp);
-typedef int (*PAGEHOOKPROC)(void* msg, BOOK* book, PAGE_DESC* page_desc, LPARAM ClientData, u16 event);
+typedef int (*KEYHOOKPROC)(int key, int repeat_count, int mode, LPARAM lparam, DISP_OBJ *disp);
+typedef int (*PAGEHOOKPROC)(void *msg, BOOK *book, PAGE_DESC *page_desc, LPARAM ClientData, u16 event);
 
 typedef enum PAGE_HOOK_MODE
 {
-	PAGE_HOOK_REMOVE=0,
+	PAGE_HOOK_REMOVE = 0,
 	PAGE_HOOK_ADD_BEFORE,
 	PAGE_HOOK_ADD_AFTER
-}PAGE_HOOK_MODE;
+} PAGE_HOOK_MODE;
 
 typedef enum KEY_HOOK_MODE
 {
-	KEY_HOOK_REMOVE=0,
+	KEY_HOOK_REMOVE = 0,
 	KEY_HOOK_ADD
-}KEY_HOOK_MODE;
+} KEY_HOOK_MODE;
 
 #define BLOCK_EVENT_GLOBALLY 666
 #define BLOCK_EVENT_IN_THIS_SESSION 667
 
-
 #ifdef __cplusplus
-template<typename T,typename T2> KEYHOOKPROC MKKEYHOOKPROC( int(*param)(int,int,int,T*,T2*) )
+template <typename T, typename T2>
+KEYHOOKPROC MKKEYHOOKPROC(int (*param)(int, int, int, T *, T2 *))
 {
-	INHERITANCECHECK<DISP_OBJ,T2>();
+	INHERITANCECHECK<DISP_OBJ, T2>();
 	return reinterpret_cast<KEYHOOKPROC>(param);
 }
 #else
-#define MKKEYHOOKPROC(fn) (KEYHOOKPROC)fn
+#define MKKEYHOOKPROC(fn) (KEYHOOKPROC) fn
 #endif
 
-#define MODIFYKEYHOOK( proc, mode, lparam ) ModifyKeyHook( MKKEYHOOKPROC(proc), mode, lparam )
+#define MODIFYKEYHOOK(proc, mode, lparam) ModifyKeyHook(MKKEYHOOKPROC(proc), mode, lparam)
 
 #ifdef __cplusplus
-template<typename T, typename TBOOK> PAGEHOOKPROC MKPAGEHOOKPROC( int(*param)(void*,TBOOK*,PAGE_DESC*,T*,u16) )
+template <typename T, typename TBOOK>
+PAGEHOOKPROC MKPAGEHOOKPROC(int (*param)(void *, TBOOK *, PAGE_DESC *, T *, u16))
 {
-	INHERITANCECHECK<BOOK,TBOOK>();
+	INHERITANCECHECK<BOOK, TBOOK>();
 	return reinterpret_cast<PAGEHOOKPROC>(param);
 }
 #else
-#define MKPAGEHOOKPROC(fn) (PAGEHOOKPROC)fn
+#define MKPAGEHOOKPROC(fn) (PAGEHOOKPROC) fn
 #endif
 
-#define MODIFYUIPAGEHOOK( event, proc, ClientData, mode ) ModifyUIPageHook( event, MKPAGEHOOKPROC(proc), ClientData, mode )
+#define MODIFYUIPAGEHOOK(event, proc, ClientData, mode) ModifyUIPageHook(event, MKPAGEHOOKPROC(proc), ClientData, mode)
 
 // other -----------------------------------------------------------------------
 
-typedef char* BCD_TEXT;
+typedef char *BCD_TEXT;
 
 // events ----------------------------------------------------------------------
 
@@ -795,7 +784,7 @@ typedef struct CALLMANAGER_EVENT_DATA
 	char unk1;
 	char unk2;
 	char CallCause;
-}CALLMANAGER_EVENT_DATA;
+} CALLMANAGER_EVENT_DATA;
 
 typedef struct CALLMANAGER_EVENT_DATA_A2
 {
@@ -808,7 +797,7 @@ typedef struct CALLMANAGER_EVENT_DATA_A2
 	char CallCause;
 	char unk3;
 	char unk4;
-}CALLMANAGER_EVENT_DATA_A2;
+} CALLMANAGER_EVENT_DATA_A2;
 
 typedef struct REDRAW_RELEASE_MESSAGE
 {
@@ -818,8 +807,7 @@ typedef struct REDRAW_RELEASE_MESSAGE
 	DISP_OBJ_ONREDRAW_METHOD SI_NewOnRedraw;
 	DISP_OBJ_ONREDRAW_METHOD SK_OldOnRedraw;
 	DISP_OBJ_ONREDRAW_METHOD SK_NewOnRedraw;
-}REDRAW_RELEASE_MESSAGE;
-
+} REDRAW_RELEASE_MESSAGE;
 
 // #define MINUTE_TICK_EVENT 999
 #define ELF_SHOW_INFO_EVENT 998
@@ -832,37 +820,37 @@ typedef struct REDRAW_RELEASE_MESSAGE
 typedef struct
 {
 	unsigned char data[16];
-}UUID, *PUUID;
-
+} UUID, *PUUID;
 
 // #define IID_PPV_ARG( Type, Expr ) &IID_##Type, reinterpret_cast<void**>( static_cast<Type**>( Expr ) )
 #ifdef __cplusplus
-template<typename T> void** PPINTERFACE( T** pp )
+template <typename T>
+void **PPINTERFACE(T **pp)
 {
-	return reinterpret_cast<void**>( pp );
+	return reinterpret_cast<void **>(pp);
 }
 #else
-#define PPINTERFACE( v ) (void**)v
+#define PPINTERFACE(v) (void **)v
 #endif
 
 // softkeys --------------------------------------------------------------------
 
-typedef void (*SKACTIONPROC)( BOOK*, GUI* );
+typedef void (*SKACTIONPROC)(BOOK *, GUI *);
 
 typedef struct SKLABEL
 {
 	TEXTID text;
 	wchar_t unk1;
 	char unk2;
-}SKLABEL;
+} SKLABEL;
 
 typedef struct SOFTKEY_DESC_A2
 {
 	u16 action;
 	u16 unk1;
-	BOOK* book;
-	DISP_OBJ* disp_object;
-	void* IUIImage;
+	BOOK *book;
+	DISP_OBJ *disp_object;
+	void *IUIImage;
 	TEXTID ButtonText;
 	TEXTID MenuText;
 	TEXTID DisabledMessage;
@@ -870,22 +858,22 @@ typedef struct SOFTKEY_DESC_A2
 	TEXTID LongSKButtonText;
 	u16 parent_action;
 	u16 SubItemHighlight_action;
-	LIST* subitems_list;
-	void (*proc)(BOOK*, GUI*);
-	void (*DisabledAction)(BOOK*, GUI*);
+	LIST *subitems_list;
+	void (*proc)(BOOK *, GUI *);
+	void (*DisabledAction)(BOOK *, GUI *);
 	char unk2[8];
 	char enable;
 	char visible;
 	char SuppressDefaultAction;
 	char unk3[49];
-}SOFTKEY_DESC_A2;
+} SOFTKEY_DESC_A2;
 
 typedef struct SOFTKEY_DESC
 {
 	u16 action;
 	u16 unk1;
-	BOOK* book;
-	DISP_OBJ* disp_object;
+	BOOK *book;
+	DISP_OBJ *disp_object;
 	IMAGEID Icon;
 	u16 unk2;
 	TEXTID ButtonText;
@@ -894,34 +882,34 @@ typedef struct SOFTKEY_DESC
 	TEXTID HelpText;
 	u16 parent_action;
 	u16 SubItemHighlight_action;
-	LIST* subitems_list;
-	void (*proc)(BOOK*, GUI*);
-	void (*DisabledAction)(BOOK*, GUI*);
+	LIST *subitems_list;
+	void (*proc)(BOOK *, GUI *);
+	void (*DisabledAction)(BOOK *, GUI *);
 	char unk3[8];
 	char enable;
 	char visible;
 	char SuppressDefaultAction;
 	char unk4[49];
-}SOFTKEY_DESC;
-
+} SOFTKEY_DESC;
 
 #ifdef __cplusplus
-template<typename T,typename T2> SKACTIONPROC MKSKACTIONPROC( void(*param)(T*,T2*) )
+template <typename T, typename T2>
+SKACTIONPROC MKSKACTIONPROC(void (*param)(T *, T2 *))
 {
-	INHERITANCECHECK<BOOK,T>();
-	INHERITANCECHECK<GUI,T2>();
+	INHERITANCECHECK<BOOK, T>();
+	INHERITANCECHECK<GUI, T2>();
 	return reinterpret_cast<SKACTIONPROC>(param);
 }
 #else
-#define MKSKACTIONPROC(fn) (SKACTIONPROC)fn
+#define MKSKACTIONPROC(fn) (SKACTIONPROC) fn
 #endif
 
 // hardware/multimedia ---------------------------------------------------------
 
-typedef enum 
+typedef enum
 {
-  Charging = 2,
-  Completed = 8
+	Charging = 2,
+	Completed = 8
 } ChargingState;
 
 typedef struct BATT
@@ -940,7 +928,7 @@ typedef struct BATT
 	int NrOfChargingCycles;
 	int NrOfSecondsOnSafetyTimer;
 	char SuspensionCause;
-}BATT;
+} BATT;
 
 typedef struct NEIGHBOUR_CELLDATA
 {
@@ -975,7 +963,7 @@ typedef struct NEIGHBOUR_CELLDATA
 	char unk39[3];
 	int unk3C;
 	int unk40;
-}NEIGHBOUR_CELLDATA;
+} NEIGHBOUR_CELLDATA;
 
 typedef struct CUR_CELLDATA
 {
@@ -994,22 +982,22 @@ typedef struct CUR_CELLDATA
 	int unk1C;
 	char unk20[2];
 	signed char rxlev;
-}CUR_CELLDATA;
+} CUR_CELLDATA;
 
 typedef struct GPRS_SESSION_INFO
 {
 	int SesTime;
 	int SentBytes;
 	int RcvBytes;
-}GPRS_SESSION_INFO;
+} GPRS_SESSION_INFO;
 
 typedef struct RAT_CI_DESC
 {
-	char unk1; // �� 2010 ����� ����, �� ���� rat ������ �� �����, ����� ����� ���
+	char unk1;
 	char RAT;
 	int CI;
-	char dummy[0x10]; // ��� 3150 ���������� 0x4, ��� 2020 ���� 0x10, ��� 2010 ������ �� ����
-}RAT_CI_DESC;
+	char dummy[0x10];
+} RAT_CI_DESC;
 
 typedef struct PLMN_LAC_DESC
 {
@@ -1019,49 +1007,49 @@ typedef struct PLMN_LAC_DESC
 	char unk1[2];
 	char LAC[2];
 	char unk2[2];
-}PLMN_LAC_DESC;
+} PLMN_LAC_DESC;
 
 typedef struct CONNECTION_INFO_DESC
 {
 	char ValidLAI;
-        char unk1;
-        char MCC[3];
-        char MNC[2];
-        char PLMN_x;
-        wchar_t LAC;
-        char ValidRAC;
-        char ValidCI;
-#if defined (DB3200) || defined (DB3210) || defined (DB3350)
-        int unk2;
+	char unk1;
+	char MCC[3];
+	char MNC[2];
+	char PLMN_x;
+	wchar_t LAC;
+	char ValidRAC;
+	char ValidCI;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+	int unk2;
 #endif
-        int CI;
-        char RAT;
-        char Coverage;
-        char CSReg;
-        char PSReg;
-        char Priority;
-        char EPriority;
-        char EGPRS;
-        char DTMSup;
-        char HSDPA;
-        char unk3;
-        char MSC;
-        char SGSN;
-}CONNECTION_INFO_DESC;
+	int CI;
+	char RAT;
+	char Coverage;
+	char CSReg;
+	char PSReg;
+	char Priority;
+	char EPriority;
+	char EGPRS;
+	char DTMSup;
+	char HSDPA;
+	char unk3;
+	char MSC;
+	char SGSN;
+} CONNECTION_INFO_DESC;
 
-typedef void* PAudioControl;
+typedef void *PAudioControl;
 
 typedef struct BT_FILE_2020
 {
 	wchar_t fname[255];
 	wchar_t fpath[255];
-}BT_FILE_2020;
+} BT_FILE_2020;
 
 typedef struct BT_FILE_2010
 {
 	wchar_t fname[252];
 	wchar_t fpath[252];
-}BT_FILE_2010;
+} BT_FILE_2010;
 
 typedef struct SEND_OBEX_STRUCT
 {
@@ -1072,14 +1060,14 @@ typedef struct SEND_OBEX_STRUCT
 	u16 obex_flag;
 	union
 	{
-		LIST* lst;
+		LIST *lst;
 		union
 		{
 			BT_FILE_2020 btf2020;
 			BT_FILE_2010 btf2010;
 		};
 	};
-}SEND_OBEX_STRUCT;
+} SEND_OBEX_STRUCT;
 
 // addressbook -----------------------------------------------------------------
 
@@ -1088,20 +1076,20 @@ typedef struct AB_NUM_ITEM
 	u16 RecordID;
 	char num[41]; // 2
 	char xx[0x35];
-}AB_NUM_ITEM;
+} AB_NUM_ITEM;
 
 typedef struct AB_STR_ITEM
 {
 	u16 len;
 	char encodingID;
 	char str[255];
-}AB_STR_ITEM;
+} AB_STR_ITEM;
 
 typedef struct AB_GET_STRUCT
 {
 	u16 unk_02;
 	int rec_num;
-}AB_GET_STRUCT;
+} AB_GET_STRUCT;
 
 typedef struct AB_ITEM_DESC_A2
 {
@@ -1115,7 +1103,7 @@ typedef struct AB_ITEM_DESC_A2
 	u16 field_10;
 	u16 ID;
 	u16 null;
-}AB_ITEM_DESC_A2;
+} AB_ITEM_DESC_A2;
 
 typedef struct AB_ITEM_DESC_2020
 {
@@ -1129,7 +1117,7 @@ typedef struct AB_ITEM_DESC_2020
 	u16 big_icon;
 	u16 field_10;
 	u16 ID;
-}AB_ITEM_DESC_2020;
+} AB_ITEM_DESC_2020;
 
 typedef struct AB_ITEM_DESC
 {
@@ -1150,39 +1138,39 @@ typedef struct AB_ITEM_DESC
 	char field_19;
 	char field_1A;
 	char field_1B;
-}AB_ITEM_DESC;
+} AB_ITEM_DESC;
 
 // applications/shortcuts ------------------------------------------------------
 
 typedef struct APP_DESC
 {
-	int (*SigHandler)(union SIGNAL** sig);
-	PAGE_DESC* default_page;
-	char* name;
-	int (*MsgHandler)(void* msg);
-	char* (*GetMsgName)(int);
-}APP_DESC;
+	int (*SigHandler)(union SIGNAL **sig);
+	PAGE_DESC *default_page;
+	char *name;
+	int (*MsgHandler)(void *msg);
+	char *(*GetMsgName)(int);
+} APP_DESC;
 
 typedef struct MIDP_DESC_ITEM
 {
 	u16 item_name_len;
 	char const_2;
-	wchar_t* item_name;
-}MIDP_DESC_ITEM;
+	wchar_t *item_name;
+} MIDP_DESC_ITEM;
 
 typedef struct MIDP_DESC
 {
-	MIDP_DESC_ITEM* name;
-	MIDP_DESC_ITEM* vendor;
-	MIDP_DESC_ITEM* point;
-}MIDP_DESC;
+	MIDP_DESC_ITEM *name;
+	MIDP_DESC_ITEM *vendor;
+	MIDP_DESC_ITEM *point;
+} MIDP_DESC;
 
 typedef struct JavaAppFullpath
 {
 	wchar_t fullpath_len;
 	char unk_2;
-	wchar_t* fullpath;
-}JavaAppFullpath;
+	wchar_t *fullpath;
+} JavaAppFullpath;
 
 typedef struct SHORTCUT_DESC
 {
@@ -1190,7 +1178,7 @@ typedef struct SHORTCUT_DESC
 	wchar_t null;
 	wchar_t shortcut_state;
 	wchar_t erasable_flag;
-}SHORTCUT_DESC;
+} SHORTCUT_DESC;
 
 typedef struct SHORTCUT_DESC_A2
 {
@@ -1201,25 +1189,25 @@ typedef struct SHORTCUT_DESC_A2
 	char xxx1;
 	char xxx2;
 	char item_type;
-	char lock_type;	//0 - no lock, 1 - locked, 2 - lockedposition
+	char lock_type; //0 - no lock, 1 - locked, 2 - lockedposition
 	IMAGEID icon;
-}SHORTCUT_DESC_A2;
+} SHORTCUT_DESC_A2;
 
+typedef enum SHORTCUT_STATE
+{
+	SC_State_None = 0,
+	SC_State_OutOfUse = 1,
+	SC_State_Activated = 2,
+	SC_State_MainMenu = 3
+} SHORTCUT_STATE;
 
-typedef enum SHORTCUT_STATE {
-	SC_State_None=0,
-	SC_State_OutOfUse=1,
-	SC_State_Activated=2,
-	SC_State_MainMenu=3
-}SHORTCUT_STATE;
-
-
-typedef enum SHORTCUT_ITEM_TYPE {
-	SC_Type_Standard=0,
-	SC_Type_JavaItem=1,
-	SC_Type_MainMenu=2,
-	SC_Type_AddShortcut=3
-}SHORTCUT_ITEM_TYPE;
+typedef enum SHORTCUT_ITEM_TYPE
+{
+	SC_Type_Standard = 0,
+	SC_Type_JavaItem = 1,
+	SC_Type_MainMenu = 2,
+	SC_Type_AddShortcut = 3
+} SHORTCUT_ITEM_TYPE;
 
 // databrowser/associations ----------------------------------------------------
 
@@ -1230,143 +1218,143 @@ typedef struct FILESUBROUTINE
 	int cmd;
 	union
 	{
-		int (*ON_CMD)(struct SUB_EXECUTE*);
-		int (*ON_CMD_RUN)(struct SUB_EXECUTE*);
-		int (*ON_CMD_ICON)(struct SUB_EXECUTE*, IMAGEID* iconid);
-		int (*ON_CMD_TEXTID)(struct SUB_EXECUTE*, TEXTID* strid);
+		int (*ON_CMD)(struct SUB_EXECUTE *);
+		int (*ON_CMD_RUN)(struct SUB_EXECUTE *);
+		int (*ON_CMD_ICON)(struct SUB_EXECUTE *, IMAGEID *iconid);
+		int (*ON_CMD_TEXTID)(struct SUB_EXECUTE *, TEXTID *strid);
 	};
 	TEXTID StrID;
 	union
 	{
-		int (*ON_CHECK)(struct SUB_EXECUTE*, void*);
-		int (*ON_CMD_RUN_CHECK)(struct SUB_EXECUTE*);
+		int (*ON_CHECK)(struct SUB_EXECUTE *, void *);
+		int (*ON_CMD_RUN_CHECK)(struct SUB_EXECUTE *);
 	};
-}FILESUBROUTINE;
+} FILESUBROUTINE;
 
 typedef struct FILEITEM
 {
-	wchar_t* __fname; // use FILEITEM_SetFname / FILEITEM_GetFname
-	wchar_t* __path; // use FILEITEM_SetPath / FILEITEM_GetPath
-	char* MIME_type;
-	wchar_t* extension;
-	int* FSTAT;
-	int* DRMHandle;
+	wchar_t *__fname; // use FILEITEM_SetFname / FILEITEM_GetFname
+	wchar_t *__path;  // use FILEITEM_SetPath / FILEITEM_GetPath
+	char *MIME_type;
+	wchar_t *extension;
+	int *FSTAT;
+	int *DRMHandle;
 	char DRM_Flag;
-}FILEITEM;
+} FILEITEM;
 
 typedef struct DB_EXT_FOLDERS
 {
 	TEXTID StrID_FolderName;
 	TEXTID StrID_SavedTo;
-	wchar_t* Path;
+	wchar_t *Path;
 	int isInternal;
-}DB_EXT_FOLDERS;
+} DB_EXT_FOLDERS;
 
 typedef struct DB_EXT
 {
-	char** content_type;
-	wchar_t** ext_list;
-	void (*GetMethods)(struct SUB_EXECUTE*);
+	char **content_type;
+	wchar_t **ext_list;
+	void (*GetMethods)(struct SUB_EXECUTE *);
 	int sub_execute_size;
-	const DB_EXT_FOLDERS* dbf;
+	const DB_EXT_FOLDERS *dbf;
 	char type_group;
 	int drm_flags;
 	char unk2;
 	char unk3;
-}DB_EXT;
+} DB_EXT;
 
 typedef struct DB_EXT_2010
 {
-	char** content_type;
-	wchar_t** ext_list;
-	void (*GetMethods)(struct SUB_EXECUTE*);
+	char **content_type;
+	wchar_t **ext_list;
+	void (*GetMethods)(struct SUB_EXECUTE *);
 	int sub_execute_size;
-	const DB_EXT_FOLDERS* dbf;
+	const DB_EXT_FOLDERS *dbf;
 	int drm_flags;
 	char unk2;
 	char unk3;
-}DB_EXT_2010;
+} DB_EXT_2010;
 
 typedef struct SUB_EXECUTE
 {
-	FILESUBROUTINE* filesub;  //0
-	FILEITEM* file_item;      //4
-	BOOK* BrowserItemBook;    //8
-	int DB_BookID;            //C
-	void* unk2;               //10
-	GUI* gui;                 //14
-	GUI_FEEDBACK* gui_fb;     //18
-	void* strinp_struct;      //1C
+	FILESUBROUTINE *filesub; //0
+	FILEITEM *file_item;	 //4
+	BOOK *BrowserItemBook;	 //8
+	int DB_BookID;			 //C
+	void *unk2;				 //10
+	GUI *gui;				 //14
+	GUI_FEEDBACK *gui_fb;	 //18
+	void *strinp_struct;	 //1C
 	char dummy1[0x2D0];
 #if defined(DB3150v1)
 	char dummy2[0x4];
 #endif
-	void* pIMMEPlayer;        //2F4
-}SUB_EXECUTE;
+	void *pIMMEPlayer; //2F4
+} SUB_EXECUTE;
 
-typedef int (*DB_FILE_FILTER)(const wchar_t* ExtList, const wchar_t* ItemPath, const wchar_t* ItemName);
+typedef int (*DB_FILE_FILTER)(const wchar_t *ExtList, const wchar_t *ItemPath, const wchar_t *ItemName);
 
 // elfloader internal ----------------------------------------------------------
 
 typedef struct EP_DATA
 {
-	LIST* UserDataList;//unused
-	LIST* gKbdHookList;
+	LIST *UserDataList; //unused
+	LIST *gKbdHookList;
 	PROCESS HPID;
-	LIST* UIHookList;
-	LIST* OseHookList;//unused
-	LIST* DBExtList;
-	FILESUBROUTINE* elf_ext_m;
-	LIST* DLLList;
-	LIST* UIPageHook_Before;
-	DB_EXT* (*CreateDbExt)(void);
+	LIST *UIHookList;
+	LIST *OseHookList; //unused
+	LIST *DBExtList;
+	FILESUBROUTINE *elf_ext_m;
+	LIST *DLLList;
+	LIST *UIPageHook_Before;
+	DB_EXT *(*CreateDbExt)(void);
 	IMAGEID IconSmall;
 	IMAGEID IconBig;
-	void** LibraryCache; // ?? ??????????!!!!!
-	void* LibraryDLL;
+	void **LibraryCache; // ?? ??????????!!!!!
+	void *LibraryDLL;
 	wchar_t LastKey;
-	LIST* UIPageHook_After;
-}EP_DATA;
+	LIST *UIPageHook_After;
+} EP_DATA;
 
 // timers ----------------------------------------------------------------------
 
-typedef void (*TIMERPROC)( u16 timerID, LPARAM lparam );
-
+typedef void (*TIMERPROC)(u16 timerID, LPARAM lparam);
 
 #ifdef __cplusplus
-template<typename T> TIMERPROC MKTIMERPROC( void(*param)(u16,T*) )
+template <typename T>
+TIMERPROC MKTIMERPROC(void (*param)(u16, T *))
 {
 	return reinterpret_cast<TIMERPROC>(param);
 }
 #else
-#define MKTIMERPROC(fn) (TIMERPROC)fn
+#define MKTIMERPROC(fn) (TIMERPROC) fn
 #endif
 
-#define TIMER_RESET( timer, time, onTimer, lparam ) Timer_ReSet( timer, time, MKTIMERPROC(onTimer), lparam )
-#define TIMER_SET( time, onTimer, lparam ) Timer_Set( time, MKTIMERPROC(onTimer), lparam )
+#define TIMER_RESET(timer, time, onTimer, lparam) Timer_ReSet(timer, time, MKTIMERPROC(onTimer), lparam)
+#define TIMER_SET(time, onTimer, lparam) Timer_Set(time, MKTIMERPROC(onTimer), lparam)
 
 //pb_ui_search_bk_create_search_menu
-#define MODE_PB		0x0001
-#define MODE_GROUPS	0x0002
-#define MODE_SIM	0x0008
-#define MODE_UNSAVED	0x0010
+#define MODE_PB 0x0001
+#define MODE_GROUPS 0x0002
+#define MODE_SIM 0x0008
+#define MODE_UNSAVED 0x0010
 
-
-typedef enum URISchemeID {
-	file=0,
-	http=1,
-	https=2,
-	rtsp=3,
-	mailto=4,
-	smsto=5,
-	mmsto=6,
-	sms=7,
-	mms=8,
-	tel=9,
-	vcard=10,
-	vnote=11,
-	vcal=12
-}URISchemeID;
+typedef enum URISchemeID
+{
+	file = 0,
+	http = 1,
+	https = 2,
+	rtsp = 3,
+	mailto = 4,
+	smsto = 5,
+	mmsto = 6,
+	sms = 7,
+	mms = 8,
+	tel = 9,
+	vcard = 10,
+	vnote = 11,
+	vcal = 12
+} URISchemeID;
 
 // page cache --------------------------------------------------------------------
 
@@ -1377,8 +1365,7 @@ typedef struct pageCache
 	wchar_t next_i;
 	wchar_t swapPrio;
 	wchar_t x;
-}pageCache;
-
+} pageCache;
 
 typedef struct pagePool
 {
@@ -1387,9 +1374,8 @@ typedef struct pagePool
 	char x1;
 	wchar_t usedPages;
 	wchar_t x2;
-	int baseAddr;  
-}pagePool;
-
+	int baseAddr;
+} pagePool;
 
 #define FS_MEMMAP_WRITE 0x1
 #define FS_MEMMAP_READ 0x2
@@ -1404,23 +1390,23 @@ typedef struct pagePool
 
 typedef struct
 {
-	wchar_t* elem_id;	// 0x0 use DynamicMenu_GetElementId( );
+	wchar_t *elem_id;	// 0x0 use DynamicMenu_GetElementId( );
 	char dummy_1[0x4];	// 0x4
-	u16 item;               // 0x8
-	char __msg;		// 0xA Use DynamicMenu_GetElementMsg( )
+	u16 item;			// 0x8
+	char __msg;			// 0xA Use DynamicMenu_GetElementMsg( )
 	char dummy_2;		// 0xB
-	GUI* menu_list;		// 0xC
-	BOOK* book;		// 0x10
+	GUI *menu_list;		// 0xC
+	BOOK *book;			// 0x10
 	char state1;		// 0x14
 	char state2;		// 0x15
 	char dummy_3;		// 0x16
-	char dummy_4;		// 0x17	
+	char dummy_4;		// 0x17
 	TEXTID firstline;	// 0x18
 	TEXTID info;		// 0x1C
 	TEXTID secondline;	// 0x20
-	TEXTID unavailable;	// 0x24
+	TEXTID unavailable; // 0x24
 	IMAGEID item_icon;	// 0x28
-}DYNAMIC_MENU_ELEMENT;
+} DYNAMIC_MENU_ELEMENT;
 
 enum DYNAMIC_MENU_ELEMENT_MSG
 {
@@ -1448,7 +1434,6 @@ enum METADATA_TAGS
 	TAG_YEAR,
 	TAG_GENRE
 };
-
 
 // obsolete --------------------------------------------------------------------
 
