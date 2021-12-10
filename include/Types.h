@@ -8,6 +8,8 @@ typedef int BOOL;
 typedef unsigned long LRESULT;
 typedef int jmp_buf[11];
 
+typedef unsigned char Uint8_t;
+typedef signed char Int8_t;
 typedef unsigned short Uint16_t;
 typedef signed short Int16_t;
 typedef unsigned int Uint32_t;
@@ -156,16 +158,16 @@ typedef enum TEXT_ENCODING
 #define TEXT(__STR__) L##__STR__
 #define _T(__STR__) L##__STR__
 #define STR(__STR__) TextID_Create(_T(__STR__), ENC_UCS2, TEXTID_ANY_LEN)
-/*
+
 typedef enum
 {
 	UITextAlignment_Left = 0,
-        UITextAlignment_Right,
-        UITextAlignment_Center,
-        UITextAlignment_LeftDynamic,
-        UITextAlignment_RightDynamic
-}UITextAlignment_t;
-*/
+	UITextAlignment_Right,
+	UITextAlignment_Center,
+	UITextAlignment_LeftDynamic,
+	UITextAlignment_RightDynamic
+} UITextAlignment_t;
+
 // images ----------------------------------------------------------------------
 
 typedef wchar_t IMAGEID;
