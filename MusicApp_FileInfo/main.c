@@ -11,7 +11,6 @@ int pg_MusicApplication_FileInfo__EnterAction(void *Data, BOOK *book)
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
   if (pMusicBook)
   {
-    // IMusicServer *pIMusicServer = (IMusicServer *)pMusicBook->pMusicServer;
     if (pMusicBook->CurrentTrack)
     {
       wchar_t *fpath = FILEITEM_GetPath(pMusicBook->CurrentTrack->file_item);
@@ -20,9 +19,6 @@ int pg_MusicApplication_FileInfo__EnterAction(void *Data, BOOK *book)
       wchar_t *fullpath = FSX_MakeFullPath(fpath, fname);
       MusicApplication_ExecuteSubroutine(pMusicBook, DB_ACTION_INFO, fullpath);
       FSX_FreeFullPath(fullpath);
-
-      // debug_printf("\n[current_track_id]: %d\n", pMusicBook->current_track_id);
-      // debug_printf("\n[selected_track_id]: %d\n", pMusicBook->selected_track_id);
     }
     else
     {
