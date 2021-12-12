@@ -162,10 +162,13 @@ typedef struct _MusicApplication_Book : BOOK
   int unk_0x30;                  // 0x30
   Uint16_t current_track_id;     // 0x34
   Uint16_t selected_track_id;    // 0x36
-  Uint16_t tracks_count;         // 0x38
+  Uint16_t unk_0x38;             // 0x38
   char unk_0x3A;                 // 0x3A
   char unk_0x3B;                 // 0x3B
-  int unk_0x3C;                  // 0x3C
+  char unk_0x3C;                 // 0x3C
+  char unk_0x3D;                 // 0x3D
+  char unk_0x3E;                 // 0x3E
+  char unk_0x3F;                 // 0x3F
   int unk_0x40;                  // 0x40
   TMusicServer_Time ElapsedTime; // 0x44
   int unk_0x50;                  // 0x50
@@ -173,9 +176,6 @@ typedef struct _MusicApplication_Book : BOOK
   TEXTID ErrorText;              // 0x58
   char unk_0x5C[0x38];           // 0x5C
   char unk_0x94;                 // 0x94
-  char unk_0x95;                 // 0x95
-  char unk_0x96;                 // 0x96
-  char unk_0x97;                 // 0x97
 } MusicApplication_Book;
 #endif
 

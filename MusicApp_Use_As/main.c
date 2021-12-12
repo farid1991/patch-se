@@ -53,20 +53,28 @@ void onSelectGui(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
 
-  wchar_t *path = FILEITEM_GetPath(pMusicBook->CurrentTrack->file_item);
-  wchar_t *name = FILEITEM_GetFname(pMusicBook->CurrentTrack->file_item);
+  if (pMusicBook->CurrentTrack)
+  {
+    wchar_t *path = FILEITEM_GetPath(pMusicBook->CurrentTrack->file_item);
+    wchar_t *name = FILEITEM_GetFname(pMusicBook->CurrentTrack->file_item);
 
-  int item = ListMenu_GetSelectedItem(pMusicBook->Gui_submenu);
-  if (item == 0)
-    SetRingtone(pMusicBook, path, name);
-  else if (item == 1)
-    SetSMSAlert(pMusicBook, path, name);
-  else if (item == 2)
-    Sound_SetAlarmsignal(pMusicBook, 1, path, name);
+    int item = ListMenu_GetSelectedItem(pMusicBook->Gui_submenu);
+    if (item == 0)
+      SetRingtone(pMusicBook, path, name);
+    else if (item == 1)
+      SetSMSAlert(pMusicBook, path, name);
+    else if (item == 2)
+      Sound_SetAlarmsignal(pMusicBook, 1, path, name);
+    else
+    {
+      Media_AddToContact(BookObj_GetBookID(pMusicBook), path, wstrlen(path), name, wstrlen(name), 0);
+      FREE_GUI(pMusicBook->Gui_submenu);
+    }
+  }
   else
   {
-    Media_AddToContact(BookObj_GetBookID(pMusicBook), path, wstrlen(path), name, wstrlen(name), 0);
-    FREE_GUI(pMusicBook->Gui_submenu);
+    pMusicBook->ErrorText = 0x1644;
+    BookObj_CallPage(pMusicBook, page_MusicApplication_ShowMessage);
   }
 }
 
