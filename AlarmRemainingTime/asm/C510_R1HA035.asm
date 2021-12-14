@@ -1,5 +1,4 @@
-//#ifdef C510_R1HA035
-#include "target.h"
+//C510_R1HA035
 
 defadr  MACRO   a,b
         PUBLIC  a

@@ -1,5 +1,4 @@
-//#ifdef U10_R1BA049
-#include "target.h"
+//#U10_R1BA049
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -52,7 +51,7 @@ a       EQU     b
         defadr TIME_SWAP,0x156B2CA8+1
 
         defadr FindBook,0x143D9C00+1
-        defadr IsAudioPlayerBook,0x1433799C+1
+        defadr IsMusicApplication_Book,0x1433799C+1
         defadr BookObj_CallPage,0x141046E8+1
         defadr BookObj_ReturnPage,0x14104918+1
 
@@ -62,7 +61,7 @@ a       EQU     b
         defadr FSX_MakeFullPath,0x141F4398+1
         defadr FSX_FreeFullPath,0x1415584C+1
 
-        defadr CreateToast,0x147AD51C+1
+        defadr CreateMessageBox,0x147AD51C+1
 
         defadr pg_MusicApplication_PreviousAction,0x155AD0EC+1
         defadr pg_MusicApplication_CancelAction,0x152C2890+1
@@ -79,7 +78,7 @@ a       EQU     b
 
         RSEG    PATCH_MUSIC_SOFTKEYS
         CODE16
-        ldr     R3, =PATCH_New_Softkeys
+        ldr     R3, =PATCH_Music_Softkeys
         bx      R3
 
         RSEG   PATCH_MUSIC_DESTROY
@@ -97,7 +96,7 @@ PATCH_Music_Timer:
         BL      Kill_Timer
         POP     {R3-R7,PC}
 
-PATCH_New_Softkeys:
+PATCH_Music_Softkeys:
         ldr     r2, =0x1678
         mov     R1, #6
         ldr     R0, [R4,#0x20]

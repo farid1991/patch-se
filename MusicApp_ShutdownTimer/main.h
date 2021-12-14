@@ -1,19 +1,13 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define TI_GET_HOUR(x) ((unsigned int)x & 0xFF)
-#define TI_GET_MIN(x) (((unsigned int)x >> 8) & 0xFF)
-#define TI_GET_SEC(x) (((unsigned int)x >> 16) & 0xFF)
-
 #define EMP_NAME "AudioTimer"
-
 typedef struct
 {
   bool TimerOn;
   Uint16_t TimerID;
   Uint8_t Hour;
   Uint8_t Min;
-  Uint8_t Sec;
   int Interval;
 } TIMER_DATA;
 

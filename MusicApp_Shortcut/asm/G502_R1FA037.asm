@@ -79,8 +79,8 @@ a       EQU b
         defadr strcmp,0x105542A0+1
         defadr strlen,0x105542FC+1
         defadr wstr2strn,0x10FCD3AC+1
-        defadr int2strID,0x1168426C+1
-        defadr Str2ID,0x1168442C+1
+        defadr TextID_CreateIntegerID,0x1168426C+1
+        defadr TextID_Create,0x1168442C+1
         defadr StrID2Str,0x116849D0+1
         defadr TextID2wstr,0x11684898+1
         defadr TextGetLength,0x11684798+1
@@ -106,8 +106,6 @@ a       EQU b
         defadr ListMenu_SetOnMessage,0x11658684+1
         defadr manifest_GetParam,0x10FE94D8+1
         defadr lseek,0x10FDD8C8+1
-        defadr get_VBUFFER,0x100ABCF9
-        defadr SetLampLevel,0x100A970E+1
         defadr List_RemoveAt,0x1142AD9C+1
         defadr GetCurrentPID,0x100A9C3C+1
         defadr List_IndexOf,0x1142ADD0+1
@@ -147,7 +145,7 @@ a       EQU b
         defadr wstrrchr,0x10FCE610+1
         defadr BookObj_CallSubroutine,0x116037E0+1
         defadr List_InsertLast,0x1142AE18+1
-        defadr debug_printf,0x2A20E3E1
+        defadr debug_printf,0x2A20E3E0+1
         defadr PlayFile,0x111EB278+1
         defadr REQUEST_PROFILE_GETACTIVEPROFILE,0x1179F4A8+1
         defadr Profile_SetActive,0x117A19C8+1
@@ -213,11 +211,11 @@ a       EQU b
         defadr MainInput_getVisible,0x116CCDE4+1
         defadr MainInput_strlen,0x116CCEA8+1
         defadr MainInput_getPNUM,0x116CCED8+1
-        defadr BookObj_GetBookID,0x116040AC+1
+        defadr BOOK_GetBookID,0x116040AC+1
         defadr wstrncmp,0x10554C60+1
-        defadr DISP_OBJ_GetAbsoluteXPos,0x1169D53C+1
-        defadr DISP_OBJ_GetAbsoluteYPos,0x1169D570+1
-        defadr DISP_OBJ_GetWindow,0x1169C850+1
+        defadr DispObject_GetAbsoluteXPos,0x1169D53C+1
+        defadr DispObject_GetAbsoluteYPos,0x1169D570+1
+        defadr DispObject_GetWindow,0x1169C850+1
         defadr GetThemeColor,0x116C4554+1
         defadr REQUEST_SETTING_SILENCE_SET,0x1179EEDC+1
         defadr REQUEST_SETTING_SILENCE_GET,0x1179EE84+1
@@ -245,33 +243,33 @@ a       EQU b
         defadr SBY_GetStatusIndication,0x112A13F8+1
         defadr REQUEST_PHONEBOOK_ACCESSSTATUS_TOTAL_GET,0x10EDAF98+1
         defadr PID_MMI,0x2A2775F0
-        defadr DISP_OBJ_GetGUI,0x1169BC14+1
+        defadr DispObject_GetGUI,0x1169BC14+1
         defadr Display_GetFocusedDispObject,0x1169BB60+1
-        defadr DISP_OBJ_getVisible,0x1169C1B8+1
-        defadr DISP_OBJ_GetDESC,0x100B8C68+1
+        defadr DispObject_getVisible,0x1169C1B8+1
+        defadr DispObject_GetDESC,0x100B8C68+1
         defadr DISP_DESC_SetName,0x116971FC+1
-        defadr DISP_OBJ_GetName,0x1169D2AC+1
+        defadr DispObject_GetName,0x1169D2AC+1
         defadr DISP_DESC_SetSize,0x11697200+1
         defadr DISP_DESC_SetOnCreate,0x11697204+1
-        defadr DISP_OBJ_GetOnCreate,0x11697280+1
+        defadr DispObject_GetOnCreate,0x11697280+1
         defadr DISP_DESC_SetOnClose,0x11697208+1
-        defadr DISP_OBJ_GetOnClose,0x1169729C+1
+        defadr DispObject_GetOnClose,0x1169729C+1
         defadr DISP_DESC_SetOnRedraw,0x1169720C+1
-        defadr DISP_OBJ_GetOnRedraw,0x116972B8+1
+        defadr DispObject_GetOnRedraw,0x116972B8+1
         defadr DISP_DESC_SetOnKey,0x11697214+1
-        defadr DISP_OBJ_GetOnKey,0x116972F0+1
+        defadr DispObject_GetOnKey,0x116972F0+1
         defadr DISP_DESC_SetonRefresh,0x11697210+1
-        defadr DISP_OBJ_GetonRefresh,0x116972D4+1
+        defadr DispObject_GetonRefresh,0x116972D4+1
         defadr DISP_DESC_SetMethod06,0x11697218+1
-        defadr DISP_OBJ_GetMethod06,0x1169730C+1
+        defadr DispObject_GetMethod06,0x1169730C+1
         defadr DISP_DESC_SetMethod08,0x11697220+1
         defadr DispObject_GetOnLayout,0x11697344+1
         defadr DISP_DESC_SetMethod09,0x11697224+1
         defadr DispObject_GetOnConfig,0x11697360+1
         defadr DISP_DESC_SetMethod0A,0x11697228+1
-        defadr DISP_OBJ_GetMethod0A,0x1169737C+1
+        defadr DispObject_GetMethod0A,0x1169737C+1
         defadr DISP_DESC_SetMethod0B,0x1169722C+1
-        defadr DISP_OBJ_GetMethod0B,0x11697398+1
+        defadr DispObject_GetMethod0B,0x11697398+1
         defadr DISP_DESC_SetMethod0C,0x11697230+1
         defadr JavaSession_Manager,0x1114AF10+1
         defadr JavaSession_GetName,0x1115F714+1
@@ -354,7 +352,7 @@ a       EQU b
         defadr GetImageHeight,0x116A0688+1
         defadr CallID_GetCallStatusDesc,0x10F23FB0+1
         defadr CallStatusDesc_GetName,0x10F235D4+1
-        defadr List_FreeElements,0x1142AFB0+1
+        defadr List_DestroyElements,0x1142AFB0+1
         defadr strstr,0x10554408+1
         defadr GPRS_GetLastSessionInfo,0x117161E8+1
         defadr wstrcmpni,0x10FCE6AC+1
@@ -475,11 +473,11 @@ a       EQU b
         defadr GUIObject_SetTitleIcon,0x116A71B0+1
         defadr GUIObject_SetBackgroundImage,0x10075690+1
         defadr DispObject_Softkeys_GetParams,0x116BDA80+1
-        defadr DispObject_Softkeys_GetList,0x116BDAC4+1
+        defadr DispObject_SoftKeys_GetList,0x116BDAC4+1
         defadr BookObj_GetDisplayOrientation,0x1160414C+1
-        defadr BookObj_SetDisplayOrientation,0x116040E4+1
+        defadr BookObj_SetDisplayOrientation,0x11250F38+1
         defadr Display_GetTopBook,0x11603568+1
-        defadr Display_SetBrightness_A2,0x11625590+1
+        defadr Display_SetBrightness,0x11625590+1
         defadr Display_GetBrightness,0x116255C4+1
         defadr DataBrowserDesc_Menu_AddFSFunctions,0x11022FC8+1
         defadr DataBrowserDesc_Menu_AddNewFolder,0x11023024+1
@@ -517,10 +515,10 @@ a       EQU b
         defadr CHF_GetState,0x116260A8+1
         defadr GUIObject_Softkeys_RemoveBackground,0x116C0850+1
         defadr GUIObject_Softkeys_RestoreBackground,0x116C085C+1
-        defadr SetTrayIcon,0x11610840+1
+        defadr SetTrayIcon,0x11696BF0+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x1179EB9C+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x1179ED78+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x1179ECE0+1
+        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x1179ECF4+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x1179F15C+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x1179EC58+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x1179EF84+1
@@ -547,7 +545,7 @@ a       EQU b
         defadr MediaPlayer_SoftKeys_SetText,0x115BE1F4+1
         defadr MediaPlayer_SoftKeys_SetAction,0x115BE1AC+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x115BE254+1
-        defadr MediaPlayer_SoftKey_AddHelpStr,0x115BE284+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x115BE284+1
         defadr DispObject_Show,0x1169C058+1
         defadr Request_EventChannel_Subscribe,0x1003F198+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x116C0818+1
@@ -607,12 +605,14 @@ a       EQU b
         defadr DispObject_SetTitleImage,0x1169B21C+1
         defadr TabMenuBar_SetTabTitle,0x116B3DB8+1
         defadr GUIObject_GetBook,0x116A6AD4+1
-        defadr Softkeys_GetSelectedAction,0x116BC6EC+1
+        defadr SoftKeys_GetSelectedAction,0x116BC6EC+1
         defadr MonitorFeedback_SetTimer,0x1160AC8C+1
         defadr ListMenu_DestroyItems,0x11658A38+1
         defadr DispObject_SetScrollBarBackgroundColor,0x1169D7BC+1
         defadr DispObject_SetScrollBarColor,0x1169D794+1
         defadr DispObject_SetSoftkeysColor,0x116BCC84+1
+        defadr YesNoQuestion_SetIcon,0x116B5E98+1
+        defadr GUIObject_SetBacklightTimeout,0x116A6DB0+1
         defadr ListMenu_SetHotkeyMode,0x116586B0+1
         defadr ListMenu_SetSearchLanguageMode,0x11658B98+1
         defadr ListMenu_EnableSearchHeader,0x11658BC0+1
@@ -622,25 +622,31 @@ a       EQU b
         defadr Theme_DestroyMenuIcons,0x116C515C+1
         defadr GUIObject_SetSecondRowTitleText,0x116A7194+1
 	defadr ListMenu_GetItemCount,0x11658588+1
+        
+        defadr OSE_GetShell,0x111DFEE0+1
+	defadr CoCreateInstance,0x117065BC+1
+        
+///////////////////////////////////////////////////////////////////////        
+        
+        defadr CreateStringInput,0x1163619C+1
+        defadr StringInput_SetText,0x11636C4C+1
+        defadr StringInput_SetMaxLen,0x11636B48+1
+        defadr StringInput_SetMode,0x11636A3C+1
+        defadr StringInput_unk0x2,0x11636AB8+1
+        
+	defadr Bluetooth_Control,0x10EF6DDC+1
         defadr SetHorizontalViewVideo,0x115E729C+1
         defadr SetVerticalViewVideo,0x115E7270+1
         defadr FlightModeControl,0x1160E8CC+1
         defadr isFlightMode,0x1160E2A0+1
         defadr SetOperatorName,0x10F4C388+1
+        defadr GetOperatorName,0x10F4B180+1
 
 	defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
-
-//////////////////
-        defadr Sound_Check,0x1161C2C8+1
-        defadr Sound_SetRingsignal,0x1161C340+1
-        defadr Sound_SetMessageAlert,0x1127A40C+1
-        defadr Sound_SetAlarmsignal,0x10F35850+1
-        defadr Media_AddToContact,0x10F553D0+1
-        defadr SETTING_RINGTYPESOUNDFILE_SET,0x1179ECE0+1
         
         defadr ListMenu_SetTexts,0x1165868C+1
-        defadr Feedback_CloseAction,0x116B5448+1
+        defadr ListMenu_un,0x116587D8+1
         defadr Feedback_SetIconExtended,0x116B5574+1
         
         defadr MusicApp_PrevAction,0x115B8AA8+1
@@ -650,28 +656,113 @@ a       EQU b
         defadr pg_MusicApplication_UnplugPHF__CancelAction,0x115B853C+1
         defadr pg_MusicApplication_UnplugPHF__ExitAction,0x115B85A8+1
         
-        EXTERN create_new_softkeys
-
-	RSEG  CODE
-        CODE16
-add_softkeys:
-        LDR	R0, [R4,#0x1C]
-	BL	create_new_softkeys
+        defadr MusicApp_ShowMyMusic,0x115B9CC4+1  //(BOOK*, GUI*)
+        defadr MusicApp_Minimize,0x115B9C78+1     //(BOOK*, GUI*)
         
-	MOV	R2, #0xB
-	MOV	R1, #8
-        LDR	R0, [R4,#0x1C]
-        LDR	R3, =GUIObject_SoftKeys_SetItemAsSubItem
-	BLX	R3
+        defadr MediaPlayer_SoftKeys_SetVisible,0x115BE224+1
         
-	LDR	R3, =0x115B95D6+1
-	BX	R3
+        defadr MessageBox_NoImage,0x1160973C+1
+        
+        defadr List_GetCount,0x1142AE90+1
+        defadr List_RemoveFirst,0x1142AE68+1
+        defadr List_RemoveLast,0x1142AE6C+1
+        
+//------------------------------------------------------------------------------
 
-
-        RSEG    PATCH_ADD_SOFTKEYS
+        EXTERN Set_New_Key
+        EXTERN Set_New_Action
+        
+        RSEG    PATCH_NEW_ACTION
         CODE16
-	LDR	R3, =add_softkeys
-	BX	R3
+        LDR	R3, =new_action
+        BX	R3
+        
+        RSEG  CODE
+        CODE16
+new_action:
+        LDR     R0, [R4,#0x1C]
+        MOV     R1, #2
+        MOV     R2, #1
+        LDR     R3, =MediaPlayer_SoftKeys_SetVisible
+        BLX     R3
+        LDR     R0, [R4,#0x1C]
+        BL      Set_New_Action
+        LDR	R3, =0x115B9704+1
+        BX	R3
 
-          END
-          
+//------------------------------------------------------------------------------
+        
+        RSEG    PATCH_NEW_KEY
+        CODE16
+        LDR	R1, =new_key
+        BX	R1
+        
+        RSEG  CODE
+        CODE16
+new_key:
+        LDR	R1, [R5,#0]
+        LSL	R3, R3,	#0x18
+        LSR	R3, R3,	#0x18
+        
+        CMP	R0, #9
+        BEQ	key_up_down
+        CMP	R0, #0xD
+        BEQ	key_up_down
+        CMP	R0, #0xF
+        BEQ	key_left
+        CMP	R0, #0xB
+        BEQ	key_right
+        
+        CMP	R0, #0x13
+        BEQ	set_new_k
+        CMP	R0, #0x14
+	BEQ	set_new_k
+        CMP	R0, #0x15
+        BEQ	set_new_k
+        CMP	R0, #0x16
+        BEQ	set_new_k
+        CMP	R0, #0x17
+        BEQ	set_new_k
+        CMP	R0, #0x18
+        BEQ	set_new_k
+        CMP	R0, #0x19
+        BEQ	set_new_k
+        CMP	R0, #0x1A
+        BEQ	set_new_k
+        CMP	R0, #0x1B
+        BEQ	set_new_k
+        CMP	R0, #0x1C
+        BEQ	set_new_k
+        
+        CMP	R0, #0x1E
+        BEQ	Button_Diez
+        B	nex
+
+key_left:
+	LDR	R7, =0x115BA038+1
+	BX	R7
+        
+key_right:
+	LDR	R7, =0x115BA014+1
+	BX	R7
+
+key_up_down:
+	LDR	R3, =0x115B9FEE+1
+	BX	R3
+        
+set_new_k:
+        ADD     R1, R0, #0      // Key
+        ADD     R0, R4, #0      // BOOK*
+        BL      Set_New_Key
+        B       nex
+
+Button_Diez:
+        LDR     R1, [R4,#0x1C]  // GUI*
+        ADD     R0, R4,#0       // BOOK*
+        LDR     R3, =MusicApp_Minimize
+        BLX     R3
+nex:
+        LDR     R0, =0x115BA06A+1
+        BX      R0
+
+        END

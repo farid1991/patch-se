@@ -1,5 +1,4 @@
-//#ifdef K550_R8BA024
-#include "target.h"
+//K550_R8BA024
 
 defadr  MACRO   a,b
         PUBLIC  a

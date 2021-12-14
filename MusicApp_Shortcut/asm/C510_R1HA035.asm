@@ -2,9 +2,8 @@
 
 defadr  MACRO   a,b
         PUBLIC  a
-a       equ     b
+a       EQU     b
         ENDM
-        
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
@@ -652,7 +651,7 @@ a       equ     b
         defadr GUIObject_SoftKeys_SetSubItemHighlight,0x1419D758+1
         defadr GUIObject_SoftKeys_SetItemOnKey,0x1427D5D4+1
         defadr GUIObject_SoftKeys_RemoveItemFromKey,0x1420309C+1
-        defadr GUIObject_SoftKeys_SetAction_SetText,0x143AA4E8+1
+        defadr GUIObject_SoftKeys_SetActionAndText,0x143AA4E8+1
         defadr GUIObject_SoftKeys_SetAction_SetText_SetInfoText_SetVisible,0x154653C8+1
         // disp_obj function ----------------------------------------------------
         defadr DispObject_SetAnimationApp,0x1423B694+1
@@ -714,10 +713,10 @@ a       equ     b
         defadr StringInput_SetActionOK,0x142CD43C+1
         defadr StringInput_SetActionBack,0x1408E9B8+1
         defadr StringInput_SetActionLongBack,0x142CD440+1
-        defadr StringInput_SetStrinpText,0x1401CDA4+1
+        defadr StringInput_SetText,0x1401CDA4+1
         defadr StringInput_SetFixedText,0x142DB614+1
-        defadr StringInput_SetTextMinLengh,0x144A99F8+1
-        defadr StringInput_SetTextMaxLengh,0x14062D6C+1
+        defadr StringInput_SetMinLen,0x144A99F8+1
+        defadr StringInput_SetMaxLen,0x14062D6C+1
         defadr StringInput_SetEnableEmptyText,0x142CEB28+1
         defadr StringInput_DispObject_StartSelecteText,0x1512E4C8+1
         defadr StringInput_DispObject_CopySelecteText,0x1512E554+1
@@ -750,48 +749,126 @@ a       equ     b
         defadr FSX_FreeFullPath,0x14336024+1
         defadr MakeFullPath,0x14298BE0+1
         defadr MessageBox_Animation,0x1585B1EC+1
-        defadr MessageBox_NoIMAGE,0x14CE140C+1
+        defadr MessageBox_NoImage,0x14CE140C+1
         defadr PlaySystemSound_SendEvent,0x14FA9150+1
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
-        defadr DataDownloadBook_onClose,0x14EF13A8+1
         
-        RSEG   DDB_Question
+        defadr GUIObject_SoftKeys_AllowKeylock,0x1439DA94+1
+
+        defadr List_RemoveFirst,0x1430DCFC+1
+        defadr List_RemoveLast,0x1430E428+1
+        defadr List_GetCount,0x140CC074+1
+        
+//------------------------------------------------------------------------------
+
+        defadr MusicApp_PrevAction,0x14022A08+1
+        defadr MusicApp_CancelAction,0x14F3B420+1
+        defadr MusicApp_ShowMyMusic,0x15348024+1  //(BOOK*, GUI*)
+        defadr MusicApp_Minimize,0x14E39300+1     //(BOOK*, GUI*)
+        
+        defadr pg_MusicApplication_UnplugPHF__PreviousAction,0x153474EC+1
+        defadr pg_MusicApplication_UnplugPHF__CancelAction,0x1534782C+1
+        defadr pg_MusicApplication_UnplugPHF__ExitAction,0x14F15900+1
+
+//------------------------------------------------------------------------------
+
+        EXTERN Set_New_Key
+        EXTERN Set_New_Action
+        
+        RSEG    PATCH_NEW_ACTION
         CODE16
-        ldr     r3, =_DDB_Question+1
-        bx      r3
+        LDR	R3, =new_action
+        BX	R3
         
-        RSEG   DDB_File
+        RSEG  CODE
         CODE16
-        ldr     r3, =_File+1
-        bx      r3
+new_action:
+        LDR     R0, [R4,#0x20]
+        MOV     R1, #2
+        MOV     R2, #1
+        LDR     R3, =MediaPlayer_SoftKeys_SetVisible
+        BLX     R3
+        LDR     R0, [R4,#0x20]
+        BL      Set_New_Action
+        LDR	R3, =0x14F15074+1
+        BX	R3
+
+//------------------------------------------------------------------------------
         
-        RSEG   DDB_Close
-        DATA
-        dcd Close
+        RSEG    PATCH_NEW_KEY
+        CODE16
+        LDR	R1, =new_key
+        BX	R1
         
-        RSEG   CODE
-        DATA
-_DDB_Question:
-        ; mov     r1, r4
-        ; add     r1, #0x18
-        ; ldr     r1, [r1,#4]
-        mov     r0, r4
-        bl      Question
-        ldr     r3, =0x14CB7000+1
-        bx      r3
+        RSEG  CODE
+        CODE16
+new_key:
+        LDRB    R2, [R1,#1]
+        LDR     R1, =0xFFFF
+        LSL	R3, R3,	#0x18
+        LSR	R3, R3,	#0x18
         
-_File:
-        bl      File
-        ldr     r0, [r5,#0]
-        ldr     r3, =FILEITEM_GetPath
-        blx     r3
-        ldr     r3, =0x14DDAB02+1
-        bx      r3
+        CMP	R6, #9
+        BEQ	key_up_down
+        CMP	R6, #0xD
+        BEQ	key_up_down
+        CMP	R6, #0xF
+        BEQ	key_left
+        CMP	R6, #0xB
+        BEQ	key_right
         
-        EXTERN  Question
-        EXTERN  File
-        EXTERN  Close
+        CMP	R6, #0x18
+        BEQ	set_new_k
+        CMP	R6, #0x19
+	BEQ	set_new_k
+        CMP	R6, #0x1A
+        BEQ	set_new_k
+        CMP	R6, #0x1B
+        BEQ	set_new_k
+        CMP	R6, #0x1C
+        BEQ	set_new_k
+        CMP	R6, #0x1D
+        BEQ	set_new_k
+        CMP	R6, #0x1E
+        BEQ	set_new_k
+        CMP	R6, #0x1F
+        BEQ	set_new_k
+        CMP	R6, #0x20
+        BEQ	set_new_k
+        CMP	R6, #0x21
+        BEQ	set_new_k
+        
+        CMP	R6, #0x23
+        BEQ	Button_Diez
+        B	nex
+
+key_left:
+	LDR	R7, =0x144301FE+1
+	BX	R7
+        
+key_right:
+	LDR	R7, =0x144301C8+1
+	BX	R7
+
+key_up_down:
+	LDR	R3, =0x144301A2+1
+	BX	R3
+        
+set_new_k:
+        ADD     R1, R6, #0      // Key
+        ADD     R0, R4, #0      // BOOK*
+        BL      Set_New_Key
+        B       nex
+
+Button_Diez:
+        LDR     R1, [R4,#0x20]  // GUI*
+        ADD     R0, R4,#0       // BOOK*
+        LDR     R3, =MusicApp_Minimize
+        BLX     R3
+nex:
+        LDR     R0, =0x14430234+1
+        BX      R0
 
         END

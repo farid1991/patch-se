@@ -1,29 +1,84 @@
 #ifndef C510_R1HA035
 #define C510_R1HA035
 
-#define A2
-#define DB3210
+#define ACTION_MP_FILE          0x8
+#define ACTION_MP_SETTINGS      0xF
+#define ACTION_MP_SKINEDITOR    0x12
+#define ACTION_MP_VISUALISATION 0x13
+#define ACTION_MP_USE_AS        0x15
+#define ACTION_MP_SHORTCUT      0x20
 
-#define DataDownload_Main_Page (PAGE_DESC *)0x15B6AD68
+#define SHORTCUT_TXT      0xCF4
 
-#define DescriptionText 0x73E
-#define QuestionText 0x73F
+#define FILE_PATH (wchar_t*)0x15A86E38 
+
+#define TEXT_EQUALIZER  0x135C
+#define TEXT_MANUAL     0x1379
+#define TEXT_PRESET     0x13A1
+#define TEXT_SELECT     0x23FA
+
+#define TXT_GOTO  0xAA2
+#define TXT_OUT   0x25B5
+#define TXT_INPUT 0x204B
+
+#define ITEM_1 0x1208
+#define ITEM_2 0x1209
+#define ITEM_3 0x120A
+#define ITEM_4 0x122D
+#define ITEM_5 0x1E64
+
+#define POPUP_WARNING_ICN 0xF831
+
+#define TEXT_STOP             0xCC0   // L"Стоп"
+#define TEXT_TURN             0x728   // L"Свернуть"
+#define TEXT_SETTING          0x268B  // L"Настройки"
+#define TEXT_ON               0x869   // L"Включено"
+#define TEXT_OFF              0x1EC7  // L"Выключено"
+#define TEXT_CHANGE           0x218   // L"Внесены изменения"
+#define TEXT_QUESTION         0x656   // L"Сохранить?"
+#define TEXT_SAVE             0x291   // L"Сохранено"
+#define TEXT_LEFT             0xFC8   // L"Влево"
+#define TEXT_RIGHT            0x1064  // L"Вправо"
+#define TEXT_CENTRE           0x2C3   // L"Центр"
+#define TEXT_IMAGE            0xBFA   // L"Изображение"
+#define TEXT_CANCEL           0x89    // L"Отменено"
+#define TEXT_PLAY             0x631   // L"Воспр."
+#define TEXT_PAUSE            0x1390  // L"Пауза"
+#define TEXT_TIME             0xC48   // L"Перейти"
+#define TEXT_YEAR             0x140A  // L"Год"
+#define TEXT_GENRE            0x745   // L"Жанр"
+#define TEXT_COVER            0x13EF  // L"Обложка альб."
+#define TEXT_BACKROUND        0x10C8  // L"Фоновый рисунок"
+#define TEXT_ADDITIONAL       0x7D    // L"Дополнительно"
+#define TEXT_ACTIVATE         0xCD7   // L"Показать"
+#define TEXT_COLOR            0x1D18  // L"Цвет"
+#define TEXT_COLOR_TEXT       0x1D64  // L"Цвет текста"
+#define TEXT_PTYPE            0x103F  // L"Тип"
+#define TEXT_COLOR_B          0x1D14  // L"Цвет фона"
+#define TEXT_MODE             0x1750  // L"Режим отображ."
+#define TEXT_SCREEN           0x4ED   // L"На весь экран"
+#define TEXT_ANIMATION        0x14CF  // L"Анимация"
+
+#define TEXT_LAYOUT           0x962
+#define TEXT_ON_OOM           0x85E     // L"????????"
+#define TEXT_OFF_OOM          0x85C   // L"?????????"
+#define TEXT_THEME            0x27C4   // L"?? ????"
 
 // interface id ----------------------------------------------------
-
-#define CID_IUIFontManager (PUUID)0x15AC227C
+/*
+#define CID_CUIFontManager (PUUID)0x15AC227C
 #define IID_IUIFontManager (PUUID)0x15AFB108
-#define CID_IUIImageManager (PUUID)0x15AC4F1C
+#define CID_CUIImageManager (PUUID)0x15AC4F1C
 #define IID_IUIImageManager (PUUID)0x15AFD4C4
-#define CID_ITextRenderingManager (PUUID)0x15AC99C4
+#define CID_CTextRenderingManager (PUUID)0x15AC99C4
 #define IID_ITextRenderingManager (PUUID)0x15AFFFA4
 #define CID_CRegistryManager (PUUID)0x15AB0808
 #define IID_IRegistryManager (PUUID)0x15AF0B20
 #define CID_CMetaData (PUUID)0x15A9EEE0
 #define IID_IMetaData (PUUID)0x15AE2FFC
-#define CID_CAudioFile (PUUID)0x15A83AE8
-#define IID_IAudioFile (PUUID)0x15A84F90
-#define CID_IAudioControlManager (PUUID)0x15A915C4
+#define CID_CPlayerManager (PUUID)0x15A83AE8
+#define IID_IPlayerManager (PUUID)0x15A84F90
+#define CID_CAudioControlManager (PUUID)0x15A915C4
 #define IID_IAudioControlManager (PUUID)0x15ACC7A0
 #define CID_CCopsManager (PUUID)0x15A839A8
 #define IID_ICopsManager (PUUID)0x15A84A20
@@ -33,55 +88,63 @@
 #define IID_IIlluminationControl (PUUID)0x15ADE21C
 #define CID_CFlashLightControl (PUUID)0x15A97F00
 #define IID_IFlashLightControl (PUUID)0x15ADE1EC
-
+*/
 // function ----------------------------------------------------
 
-#define GET_IMEI (char *)0x4BA019D0
+#define GET_IMEI (char*)0x4BA019D0
 #define GetSignalQuality_Send_SignalID 0x12C00040
 #define GetSignalQuality_Receive_SignalID 0x12C007C0
-#define MainInput_data (char *)0x4BA2654C
+#define MainInput_data (char*)0x4BA2654C
 #define MainInput_CurPos_Offset 0x8
-#define MissedEvents (char *)0x4BA1B07C
-#define ROOT_APP (LIST **)0x4BA26730
-#define GetAudioControlPtr (PAudioControl *)0x4BA2CE98
-#define StatusRow_p (DISP_OBJ **)0x4BA2B924
-#define get_APP_DESC_TABLE (void *)0x15B25D68
-#define get_AB_ITEMS_DESC (AB_ITEM_DESC *)0x1592DC7C
-#define PID_MMI (PROCESS *)0x4BA2B6E4
-#define LastExtDB (DB_EXT *)0x15B5CE04
-#define get_Surfaces (SURFACE **)0x4BD57DB4
+#define MissedEvents (char*)0x4BA1B07C
+#define ROOT_APP (LIST**)0x4BA26730
+#define GetAudioControlPtr (PAudioControl*)0x4BA2CE98
+#define StatusRow_p (DISP_OBJ**)0x4BA2B924
+#define get_APP_DESC_TABLE (void*)0x15B25D68
+#define get_AB_ITEMS_DESC (AB_ITEM_DESC*)0x1592DC7C
+#define PID_MMI (PROCESS*)0x4BA2B6E4
+#define LastExtDB (DB_EXT*)0x15B5CE04
+#define get_Surfaces (SURFACE**)0x4BD57DB4
 #define mfree_adr() mfree
 
 // var_arg ----------------------------------------------------
+#define VAR_BOOK (char*)0x45C4BD52
+#define VAR_ARG_YESNO_QUESTION (char*)0x45C4BDC0
+#define VAR_SOME (char*)0x45C4BDB4
 
-#define VAR_BOOK (char *)0x15CAB83E
-#define VAR_HEADER_TEXT (char *)0x15CAB89E
-#define VAR_OK_PROC (char *)0x15CAB82C
-#define VAR_PREV_ACTION_PROC (char *)0x15CAB888
-#define VAR_LONG_BACK_PROC (char *)0x15CAB840
-#define VAR_STRINP_MODE (char *)0x15CAB866
-#define VAR_STRINP_FIXED_TEXT (char *)0x15CAB886
-#define VAR_STRINP_TEXT (char *)0x15CAB852
-#define VAR_STRINP_NEW_LINE (char *)0x15CAB85C
-#define VAR_STRINP_ENABLE_EMPTY_STR (char *)0x15CAB864
-#define VAR_STRINP_MAX_LEN (char *)0x15CAB86E
-#define VAR_STRINP_MIN_LEN (char *)0x15CAB876
-#define VAR_STRINP_IS_PASS_MODE (char *)0x15CAB88C
-#define VAR_STRINP_OK_ON_DIEZ (char *)0x15CAB82E
-#define VAR_STRINP_SET_INT_VAL (char *)0x15CAB850
-#define VAR_STRINP_MIN_INT_VAL (char *)0x15CAB87A
-#define VAR_STRINP_MAX_INT_VAL (char *)0x15CAB872
-#define VAR_YESNO_PRE_QUESTION (char *)0x15CAB858
-#define VAR_YESNO_QUESTION (char *)0x15CAB88A
-#define VAR_YESNO_YES_ACTION (char *)0x15CAB8A4
-#define VAR_YESNO_NO_ACTION (char *)0x15CAB880
-#define VAR_PERINP_ROWNUM (char *)0x15CAB892
-#define VAR_PERINP_CURPERC (char *)0x15CAB856
-#define VAR_DATEINP_DATEFORMAT (char *)0x15CAB848
-#define VAR_DATEINP_DATE (char *)0x15CAB84C
-#define VAR_TIMEINP_TIMEFORMAT_SEC (char *)0x15CAB898
-#define VAR_TIMEINP_TIMEFORMAT (char *)0x15CAB89A
-#define VAR_TIMEINP_TIME (char *)0x15CAB854
+//#define VAR_BOOK (char*)0x15CAB83E
+#define VAR_HEADER_TEXT (char*)0x15CAB89E
+#define VAR_OK_PROC (char*)0x15CAB82C
+#define VAR_PREV_ACTION_PROC (char*)0x15CAB888
+#define VAR_LONG_BACK_PROC (char*)0x15CAB840
+#define VAR_STRINP_MODE (char*)0x15CAB866
+#define VAR_STRINP_FIXED_TEXT (char*)0x15CAB886
+#define VAR_STRINP_TEXT (char*)0x15CAB852
+#define VAR_STRINP_NEW_LINE (char*)0x15CAB85C
+#define VAR_STRINP_ENABLE_EMPTY_STR (char*)0x15CAB864
+#define VAR_STRINP_MAX_LEN (char*)0x15CAB86E
+#define VAR_STRINP_MIN_LEN (char*)0x15CAB876
+#define VAR_STRINP_IS_PASS_MODE (char*)0x15CAB88C
+#define VAR_STRINP_OK_ON_DIEZ (char*)0x15CAB82E
+#define VAR_STRINP_SET_INT_VAL (char*)0x15CAB850
+#define VAR_STRINP_MIN_INT_VAL (char*)0x15CAB87A
+#define VAR_STRINP_MAX_INT_VAL (char*)0x15CAB872
+#define VAR_YESNO_PRE_QUESTION (char*)0x15CAB858
+//#define VAR_YESNO_QUESTION (char*)0x15CAB88A
+#define VAR_YESNO_YES_ACTION (char*)0x15CAB8A4
+#define VAR_YESNO_NO_ACTION (char*)0x15CAB880
+#define VAR_PERINP_ROWNUM (char*)0x15CAB892
+#define VAR_PERINP_CURPERC (char*)0x15CAB856
+#define VAR_DATEINP_DATEFORMAT (char*)0x15CAB848
+#define VAR_DATEINP_DATE (char*)0x15CAB84C
+#define VAR_TIMEINP_TIMEFORMAT_SEC (char*)0x15CAB898
+#define VAR_TIMEINP_TIMEFORMAT (char*)0x15CAB89A
+#define VAR_TIMEINP_TIME (char*)0x15CAB854
+
+// my events ----------------------------------------------------
+
+#define SHUTDOWN_SYSTEM_1 0x962
+#define SHUTDOWN_SYSTEM_2 0x963
 
 // base events ----------------------------------------------------
 
@@ -733,6 +796,7 @@
 #define VOLUMEUPKEY_SHORT_PRESS_EVENT 0x60
 //#define WAP_APPLICATION_START_EVENT UNDEFINED
 
+
 //unused ----------------------
 #define CAMERAONOFFKEY_LONG_PRESS_EVENT 0x4E
 #define CAMERAONOFFKEY_LONG_RELEASE_EVENT 0x4F
@@ -839,5 +903,11 @@
 #define VC_STARTMAGICWORDRECOGNITION_EVENT 0x84D9
 #define VC_SUPPRESS_MAGICWORD_EVENT 0x84DB
 #define VOLUMECONTROL_DECREASE_REPEAT_SECOND_EVENT 0x5EF8
+
+#define TEXT_RDS          0xB97
+#define TEXT_NAV_LEFT     0x22B0
+#define TEXT_NAV_RIGHT    0x22B8
+#define TEXT_NAV_UP       0x22BC
+#define TEXT_NAV_DOWN     0x22AC
 
 #endif

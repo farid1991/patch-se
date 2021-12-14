@@ -1,5 +1,5 @@
-#ifndef _K800_R8BF003_
-#define _K800_R8BF003_
+#ifndef K800_R8BF003
+#define K800_R8BF003
 
 #define A1
 #define DB2020

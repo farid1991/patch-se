@@ -1,5 +1,5 @@
-#ifndef _U10_R1BA049_
-#define _U10_R1BA049_
+#ifndef U10_R1BA049
+#define U10_R1BA049
 
 #define A2
 #define DB3350

@@ -30,7 +30,7 @@ void onTimer(u16 timerID, LPARAM lparam)
   {
     Data->TimerOn = FALSE;
 
-    BOOK *MusicBook = FindBook(IsAudioPlayerBook);
+    BOOK *MusicBook = FindBook(IsMusicApplication_Book);
     if (MusicBook)
     {
       MusicApplication_CancelAction(MusicBook, NULL);
@@ -164,7 +164,6 @@ int pg_MusicApplication_ShutdownTimer__EnterAction(void *wData, BOOK *book)
     else
       GUIObject_SoftKeys_SetVisible(pMusicBook->Gui_submenu, 1, FALSE);
 
-    GUIInput_SetIcon(pMusicBook->Gui_submenu, INPUT_ICN);
     GUIObject_Show(pMusicBook->Gui_submenu);
   }
   return 1;

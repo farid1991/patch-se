@@ -1,5 +1,4 @@
-//#ifdef G502_R1FA037
-#include "target.h"
+//G502_R1FA037
 
 defadr  MACRO a,b
         PUBLIC a
@@ -664,7 +663,7 @@ a       EQU b
         defadr MediaPlayer_SoftKeys_SetInfoText,0x115BE284+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x10F6853C+1
         
-        defadr CreateToast,0x1160973C+1
+        defadr CreateMessageBox,0x1160973C+1
         defadr CreateTimeInput,0x116B59CC+1
         
         defadr List_GetCount,0x1142AE90+1

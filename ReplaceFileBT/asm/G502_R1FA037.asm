@@ -1,5 +1,4 @@
-//#ifdef G502_R1FA037
-#include "target.h"
+//G502_R1FA037
 
 defadr  MACRO   a,b
         PUBLIC  a

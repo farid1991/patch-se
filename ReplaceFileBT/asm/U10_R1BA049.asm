@@ -1,5 +1,4 @@
-//#ifdef U10_R1BA049
-#include "target.h"
+//U10_R1BA049
 
 defadr  MACRO   a,b
 		PUBLIC  a
@@ -9,7 +8,7 @@ a       equ     b
 		defadr debug_printf,0x4FC00008
 		defadr memalloc,0x4FC00394
         defadr memfree,0x4FC003BC
-		defadr memset,0x140EA530 //0x1482A884 //0x10293790 //
+		defadr memset,0x140EA530
 		defadr get_envp,0x102932CC+1
 		defadr set_envp,0x102932E0+1
 		defadr FileDelete,0x1465DD28+1
