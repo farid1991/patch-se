@@ -661,7 +661,7 @@ a       EQU b
         
         defadr MediaPlayer_SoftKeys_SetVisible,0x115BE224+1
         
-        defadr MessageBox_NoImage,0x1160973C+1
+        defadr CreateMessageBox,0x1160973C+1
         
         defadr List_GetCount,0x1142AE90+1
         defadr List_RemoveFirst,0x1142AE68+1
@@ -669,8 +669,8 @@ a       EQU b
         
 //------------------------------------------------------------------------------
 
-        EXTERN Set_New_Key
-        EXTERN Set_New_Action
+        EXTERN Set_New_Keyboard
+        EXTERN Set_New_SoftKeys
         
         RSEG    PATCH_NEW_ACTION
         CODE16
@@ -686,7 +686,7 @@ new_action:
         LDR     R3, =MediaPlayer_SoftKeys_SetVisible
         BLX     R3
         LDR     R0, [R4,#0x1C]
-        BL      Set_New_Action
+        BL      Set_New_SoftKeys
         LDR	R3, =0x115B9704+1
         BX	R3
 
@@ -753,7 +753,7 @@ key_up_down:
 set_new_k:
         ADD     R1, R0, #0      // Key
         ADD     R0, R4, #0      // BOOK*
-        BL      Set_New_Key
+        BL      Set_New_Keyboard
         B       nex
 
 Button_Diez:

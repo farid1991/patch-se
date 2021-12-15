@@ -8,16 +8,16 @@ typedef int BOOL;
 typedef unsigned long LRESULT;
 typedef int jmp_buf[11];
 
-typedef unsigned char Uint8_t;
-typedef signed char Int8_t;
-typedef unsigned short Uint16_t;
-typedef signed short Int16_t;
-typedef unsigned int Uint32_t;
-typedef signed int Int32_t;
+typedef unsigned char uint8_t;
+typedef signed char int8_t;
+typedef unsigned short uint16_t;
+typedef signed short int16_t;
+typedef unsigned int uint32_t;
+typedef signed int int32_t;
 
-typedef Uint32_t size_t;
-typedef Uint32_t time_t;
-typedef Uint32_t color_t;
+typedef uint32_t size_t;
+typedef uint32_t time_t;
+typedef uint32_t color_t;
 
 struct BOOK;
 struct GUI;

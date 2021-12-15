@@ -5,9 +5,9 @@
 typedef struct
 {
   bool TimerOn;
-  Uint16_t TimerID;
-  Uint8_t Hour;
-  Uint8_t Min;
+  uint16_t TimerID;
+  uint8_t Hour;
+  uint8_t Min;
   int Interval;
 } TIMER_DATA;
 

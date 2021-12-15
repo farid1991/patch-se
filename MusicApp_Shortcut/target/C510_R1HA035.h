@@ -1,6 +1,9 @@
 #ifndef C510_R1HA035
 #define C510_R1HA035
 
+#define A2
+#define DB3210
+
 #define ACTION_MP_FILE          0x8
 #define ACTION_MP_SETTINGS      0xF
 #define ACTION_MP_SKINEDITOR    0x12

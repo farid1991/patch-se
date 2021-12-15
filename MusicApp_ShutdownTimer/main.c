@@ -83,7 +83,7 @@ void MusicApplication_ShutdownTimer__OnAcceptTimeInput(BOOK *book, GUI *gui)
 
   Data->TimerOn = TRUE;
   onTimer(0, 0);
-  CreateToast(EMPTY_TEXTID, TURNEDON_TXT, 1, 1500, pMusicBook);
+  CreateMessageBox(EMPTY_TEXTID, TURNEDON_TXT, 1, 1500, pMusicBook);
   FREE_GUI(pMusicBook->Gui_submenu);
 }
 
@@ -98,9 +98,8 @@ void MusicApplication_ShutdownTimer__OnDisableTimer(BOOK *book, GUI *gui)
     Timer_Kill(&Data->TimerID);
     Data->TimerID = NULL;
     Data->TimerOn = FALSE;
-    CreateToast(EMPTY_TEXTID, TURNEDOFF_TXT, 1, 2000, pMusicBook);
+    CreateMessageBox(EMPTY_TEXTID, TURNEDOFF_TXT, 1, 2000, pMusicBook);
   }
-
   FREE_GUI(pMusicBook->Gui_submenu);
 }
 
@@ -200,7 +199,7 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
 #ifndef DB3350
   MediaPlayer_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHUTDOWNTIMER);
   MediaPlayer_SoftKeys_SetAction(player_gui, ACTION_MP_SHUTDOWNTIMER, Call_TimerPage);
-  MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHUTDOWNTIMER, TIMER_TEXT);
+  MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHUTDOWNTIMER, TIMER_TXT);
   //MediaPlayer_SoftKeys_SetInfoText( player_gui, ACTION_MP_SHUTDOWNTIMER, GetRemainingTimeID() );
 #endif
 }

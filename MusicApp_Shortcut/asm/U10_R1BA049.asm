@@ -8,6 +8,7 @@ a       EQU     b
         defadr memalloc,0x4FC00394
         defadr memfree,0x4FC003BC
         defadr debug_printf,0x4FC00008
+        defadr snwprintf,0x148298C8+1
         defadr List_DestroyElements,0x141F2D1C+1
         defadr List_Destroy,0x1427BA18+1
         defadr List_Create,0x1427B71C+1
@@ -59,10 +60,12 @@ a       EQU     b
         defadr CreateMessageBox,0x147AD51C+1
 
         defadr MusicApplication_Keyboard,0x147B8D14+1
+        defadr MusicApplication_Pause,0x150CF1EC+1
         defadr MusicApplication_FastForward,0x153ABA94+1
         defadr MusicApplication_Rewind,0x155ACFAC+1
         defadr MusicApplication_NextTrack,0x15137B30+1
         defadr MusicApplication_PreviousTrack,0x152FED58+1
+        defadr MusicApplication_Minimise,0x15255068+1
 
 //------------------------------------------------------------------------------
 

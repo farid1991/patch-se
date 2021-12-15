@@ -8,6 +8,7 @@ extern "C"
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
     void *memset(void *mem, char chr, int size);
+    int snwprintf(wchar_t *buffer, int size, const wchar_t *fmt, ...);
 
     int _fopen(const wchar_t *filpath, const wchar_t *filname, unsigned int mode, unsigned int rights, FILELISTITEM *destfname);
     int fclose(int file);
@@ -69,8 +70,8 @@ extern "C"
     void MediaPlayer_SoftKeys_SetAction(GUI *player_gui, int actionID, SKACTIONPROC proc);
     void MediaPlayer_SoftKeys_SetItemAsSubItem(GUI *player_gui, int item, int subitem);
 
-     void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
-     void debug_printf(const char *fmt, ...);
+    void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
+    void debug_printf(const char *fmt, ...);
 };
 
 #endif

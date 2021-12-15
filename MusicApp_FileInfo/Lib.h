@@ -11,6 +11,9 @@ extern "C"
     void GUIObject_SoftKeys_SetText(GUI *, u16 actionID, TEXTID);
     void GUIObject_SoftKeys_SetItemAsSubItem(GUI *, u16 actionID, int subitem);
 
+    int DataBrowser_ExecuteSubroutine(SUB_EXECUTE *sub, int action, wchar_t *unk);
+    FILEITEM *FILEITEM_CreateCopy(FILEITEM *);
+    void FILEITEM_Destroy(FILEITEM *);
     wchar_t *FILEITEM_GetFname(FILEITEM *);
     wchar_t *FILEITEM_GetPath(FILEITEM *);
     wchar_t *FSX_MakeFullPath(wchar_t *fpath, wchar_t *fname);

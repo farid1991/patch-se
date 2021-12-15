@@ -339,8 +339,7 @@ a       EQU b
         defadr textidname2id,0x10EA71D8+1
         defadr ListMenu_SetNoItemText,0x11658704+1
         defadr IsFmRadioBook,0x1132CF6D
-        defadr IsAudioPlayerBook,0x115B8271
-        defadr get_IsAudioPlayerBook,0x115B8271
+        defadr IsMusicApplication_Book,0x115B8270+1
         defadr PlayerControl,0x115B7E34+1
         defadr SwitchRadioStationFromList,0x1132B0B8+1
         defadr Shortcut_Run,0x116C6F18+1
@@ -673,7 +672,7 @@ a       EQU b
 //------------------------------------------------------------------------------
 
         EXTERN Kill_Timer
-        EXTERN Set_New_Action
+        EXTERN Set_New_SoftKeys
         
         RSEG   PATCH_MUSIC_DESTROY
         CODE16
@@ -682,7 +681,7 @@ a       EQU b
 
         RSEG  PATCH_MUSIC_SOFTKEYS
         CODE16
-        LDR   R3, =PATCH_Set_New_Action
+        LDR   R3, =PATCH_Set_New_SoftKeys
         BX    R3
         
         RSEG  CODE
@@ -696,9 +695,9 @@ PATCH_Music_Timer:
         LDR     R3, =0x115B8490+1
         BX      R3
 
-PATCH_Set_New_Action:
+PATCH_Set_New_SoftKeys:
         LDR     R0, [R4,#0x1C]
-        BL      Set_New_Action
+        BL      Set_New_SoftKeys
         LDR     R0, [R4,#0x1C]
         ADD     R2, R5, #0
         MOV     R1, #0x12

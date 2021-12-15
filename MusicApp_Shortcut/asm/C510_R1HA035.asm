@@ -749,7 +749,7 @@ a       EQU     b
         defadr FSX_FreeFullPath,0x14336024+1
         defadr MakeFullPath,0x14298BE0+1
         defadr MessageBox_Animation,0x1585B1EC+1
-        defadr MessageBox_NoImage,0x14CE140C+1
+        defadr CreateMessageBox,0x14CE140C+1
         defadr PlaySystemSound_SendEvent,0x14FA9150+1
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
@@ -774,8 +774,8 @@ a       EQU     b
 
 //------------------------------------------------------------------------------
 
-        EXTERN Set_New_Key
-        EXTERN Set_New_Action
+        EXTERN Set_New_Keyboard
+        EXTERN Set_New_SoftKeys
         
         RSEG    PATCH_NEW_ACTION
         CODE16
@@ -791,7 +791,7 @@ new_action:
         LDR     R3, =MediaPlayer_SoftKeys_SetVisible
         BLX     R3
         LDR     R0, [R4,#0x20]
-        BL      Set_New_Action
+        BL      Set_New_SoftKeys
         LDR	R3, =0x14F15074+1
         BX	R3
 
@@ -859,7 +859,7 @@ key_up_down:
 set_new_k:
         ADD     R1, R6, #0      // Key
         ADD     R0, R4, #0      // BOOK*
-        BL      Set_New_Key
+        BL      Set_New_Keyboard
         B       nex
 
 Button_Diez:

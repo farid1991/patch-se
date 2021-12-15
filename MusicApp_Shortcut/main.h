@@ -61,10 +61,13 @@ typedef struct MusicApplication_Shortcut_Book : BOOK
 extern "C"
 {
   void MusicApplication_Keyboard(BOOK *book, int key, int repeat, int mode, void *unk);
+  int MusicApplication_Play(BOOK *book);
+  int MusicApplication_Pause(BOOK *book, BOOL);
   int MusicApplication_FastForward(BOOK *book);
   int MusicApplication_Rewind(BOOK *book);
   int MusicApplication_NextTrack(BOOK *book, BOOL);
   int MusicApplication_PreviousTrack(BOOK *book);
+  void MusicApplication_Minimise(BOOK *book, GUI *gui);
 }
 
 #endif

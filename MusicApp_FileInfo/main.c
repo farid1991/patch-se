@@ -2,7 +2,7 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\book\MusicApplication_book.h"
-#include "IMusicServer.h"
+#include "..\\include\classes\IMusicServer.h"
 #include "Lib.h"
 #include "main.h"
 

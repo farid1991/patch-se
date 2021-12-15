@@ -19,6 +19,9 @@ a       EQU     b
 
         defadr BookObj_CallPage,0x141046E8+1
         defadr SUB_EXECUTE_Get_FILEITEM,0x146D24D0+1
+        defadr FILEITEM_CreateCopy,0x146D1F84+1
+        defadr FILEITEM_Destroy,0x146D1C50+1
+        defadr DataBrowser_ExecuteSubroutine,0x146D199C+1
         defadr FSX_MakeFullPath,0x141F4398+1
         defadr FSX_FreeFullPath,0x1415584C+1
 

@@ -2,17 +2,18 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\book\MusicApplication_book.h"
+#include "..\\include\classes\IMusicServer.h"
 
 #include "Lib.h"
 #include "main.h"
 #include "Pages.h"
 
-__thumb void *malloc(int size)
+void *malloc(int size)
 {
   return (memalloc(0xFFFFFFFF, size, 1, 5, "kb", 0));
 }
 
-__thumb void mfree(void *mem)
+void mfree(void *mem)
 {
   if (mem)
     memfree(0, mem, "kb", 0);
@@ -118,9 +119,6 @@ int GetChecked(LIST *list, char item_pos)
     }
     mfree(mydata);
   }
-#ifdef DEBUG
-  debug_printf("\nGetChecked()=>0x%x=>0x%x", item_pos, ret);
-#endif
   return ret;
 }
 
@@ -131,9 +129,6 @@ TEXTID GetSecondLine(LIST *list, char item_num)
   SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(list, index);
   if (elem)
     ret = elem->textid;
-#ifdef DEBUG
-  debug_printf("\nGetSecondLine()=>0x%x=>0x%x", item_num, elem->textid);
-#endif
   return ret;
 }
 
@@ -241,11 +236,11 @@ int pg_MusicApplication_SelectShortcut_EnterAction(void *data, BOOK *book)
   if (pShortcutBook->SubMenu = CreateOneOfMany(pShortcutBook))
   {
     GUIObject_SetTitleText(pShortcutBook->SubMenu, Get_Menu_Text(pShortcutBook->CurrentItem));
-// #ifdef U10_R1BA049
-//     GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_Default);
-// #else
+#ifdef U10_R1BA049
+    GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_Default);
+#else
     GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_FullScreen);
-// #endif
+#endif
     OneOfMany_SetChecked(pShortcutBook->SubMenu, GetChecked(pShortcutBook->SoftkeyList, pShortcutBook->CurrentItem));
     OneOfMany_SetItemCount(pShortcutBook->SubMenu, List_GetCount(pShortcutBook->SoftkeyList));
     OneOfMany_SetOnMessage(pShortcutBook->SubMenu, SelectShortcut_onMessage);
@@ -360,7 +355,6 @@ MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
     mfree(pShortcutBook);
     return 0;
   }
-
   pShortcutBook->MainMenu = NULL;
   pShortcutBook->SubMenu = NULL;
   pShortcutBook->SoftkeyList = NULL;
@@ -388,15 +382,6 @@ void Call_ShortcutPage(BOOK *book, GUI *gui)
   MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
   DISP_OBJ *DispObj = GUIObject_GetDispObject(pMusicBook->Gui_NowPlaying);
   pShortcutBook->SoftkeyList = Create_SoftkeyList(DispObject_SoftKeys_GetList(DispObj, pMusicBook, NULL));
-#ifdef DEBUG
-  for (int index = 0; index < List_GetCount(pShortcutBook->SoftkeyList); index++)
-  {
-    SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(pShortcutBook->SoftkeyList, index);
-    char str[64];
-    TextID_GetString(elem->textid, str, MAXELEMS(str));
-    debug_printf("\n[SOFTKEYS_LIST]: 0x%x=>0x%x:%s", elem->action, elem->textid, str);
-  }
-#endif
   BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
 }
 
@@ -412,7 +397,6 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
 #endif
 }
 
-#ifdef DB3350
 void execute_kb(BOOK *book, char key)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
@@ -432,16 +416,10 @@ void execute_kb(BOOK *book, char key)
     GUIObject_SoftKeys_ExecuteAction(pMusicBook->Gui_NowPlaying, actionID);
 }
 
-extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void* unk)
+#ifdef DB3350
+extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void *unk)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-#ifdef DEBUG
-  debug_printf("\n[R0]: %s", pMusicBook->xbook->name);
-  debug_printf("\n[R1]: 0x%x", key);
-  debug_printf("\n[R2]: 0x%x", repeat);
-  debug_printf("\n[R3]: 0x%x", mode);
-  debug_printf("\n[R4]: 0x%x", unk);
-#endif
 
   switch (key)
   {
@@ -457,34 +435,25 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
   case KEY_DIGITAL_9:
     execute_kb(pMusicBook, key);
     break;
+  case KEY_STAR:
+  case KEY_DIEZ:
+    if (mode == KBD_SHORT_RELEASE)
+      MusicApplication_Minimise(pMusicBook, NULL);
+    else if (mode == KBD_LONG_PRESS)
+      FreeBook(pMusicBook);
+    break;
   default:
-    MusicApplication_Keyboard(book, key, repeat, mode, unk);
+    MusicApplication_Keyboard(pMusicBook, key, repeat, mode, unk);
     break;
   }
 }
 
 #else
 
-extern "C" void Set_New_Keyboard((BOOK *book, char key)
+extern "C" void Set_New_Keyboard(BOOK *book, char key)
 {
-  // u16 actionID;
-  // char key_id = GetKeyID(key);
-
-  // FSTAT _fstat;
-  // if ((fstat(FILE_PATH, FILE_NAME, &_fstat)) >= 0)
-  // {
-  //   int size = _fstat.fsize;
-  //   FILE_DATA *mydata = (FILE_DATA *)malloc(size);
-  //   GetData(mydata, size);
-  //   actionID = mydata->action[key_id];
-  //   mfree(mydata);
-  // }
-  // if (actionID != 0xFF)
-  //   GUIObject_SoftKeys_ExecuteAction(gui, actionID);
-
+  MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
   execute_kb(pMusicBook, key);
-#ifdef DEBUG
-  debug_printf("\n[KEYPRESSED]: %d", key);
-#endif
 }
+
 #endif
