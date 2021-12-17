@@ -18,6 +18,7 @@ extern "C"
 
     TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len);
 
+    void FreeBook(BOOK *book);
     void BookObj_CallPage(BOOK *book, const PAGE_DESC *page);
 
     void GUIObject_SetTitleText(GUI *, TEXTID);

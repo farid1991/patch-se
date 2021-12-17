@@ -70,7 +70,6 @@ int CheckPassword(void *data, BOOK *book)
 
 int CreateBrowser(void *data, BOOK *book)
 {
-  // debug_printf("\n\n\n[BOOKNAME]: %s\n\n\n", book->xbook->name);
   void *desc = DataBrowserDesc_Create();
   const wchar_t *folder_list[2];
   folder_list[0] = GetRecyclerPath();
@@ -102,7 +101,6 @@ void OpenRecycler(BOOK *book, GUI *gui)
 void OnDelete(BOOK *book, GUI *gui)
 {
   SetEnvp(TRUE);
-  //MessageBox_NoImage( EMPTY_TEXTID, TextID_Create(L"File will deleted permanently",ENC_UCS2,0xFF), 0, 0, book );
 }
 
 extern "C" void SetKey(GUI *gui, int mode)
@@ -118,7 +116,7 @@ extern "C" void SetKey(GUI *gui, int mode)
   GUIObject_SoftKeys_SetItemOnKey(gui, 2, KEY_DIEZ, KBD_SHORT_PRESS);
 }
 
-extern "C" void SetFileDelete(wchar_t *path, wchar_t *filename, int* error)
+extern "C" void SetFileDelete(wchar_t *path, wchar_t *filename, int *error)
 {
   if (!get_envp(get_bid(current_process()), "RB"))
   {
@@ -139,9 +137,3 @@ extern "C" void SetFileDelete(wchar_t *path, wchar_t *filename, int* error)
   else
     FileDelete(path, filename, error);
 }
-
-/*extern "C"
-void filewrite(wchar_t* path)
-{
-  MessageBox(EMPTY_TEXTID, TextID_Create(path, ENC_UCS2, TEXTID_ANY_LEN), NOIMAGE, 1, 0, 0);
-}*/

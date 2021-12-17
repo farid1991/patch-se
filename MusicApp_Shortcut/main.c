@@ -397,23 +397,26 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
 #endif
 }
 
-void execute_kb(BOOK *book, char key)
+void execute_kb(BOOK *book, char key, int mode)
 {
-  MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-  u16 actionID;
-  char key_id = GetKeyID(key);
-
-  FSTAT _fstat;
-  if ((fstat(FILE_PATH, FILE_NAME, &_fstat)) >= 0)
+  if (mode == KBD_SHORT_RELEASE)
   {
-    int size = _fstat.fsize;
-    FILE_DATA *mydata = (FILE_DATA *)malloc(size);
-    GetData(mydata, size);
-    actionID = mydata->action[key_id];
-    mfree(mydata);
+    MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
+    u16 actionID;
+    char key_id = GetKeyID(key);
+
+    FSTAT _fstat;
+    if ((fstat(FILE_PATH, FILE_NAME, &_fstat)) >= 0)
+    {
+      int size = _fstat.fsize;
+      FILE_DATA *mydata = (FILE_DATA *)malloc(size);
+      GetData(mydata, size);
+      actionID = mydata->action[key_id];
+      mfree(mydata);
+    }
+    if (actionID != 0xFF)
+      GUIObject_SoftKeys_ExecuteAction(pMusicBook->Gui_NowPlaying, actionID);
   }
-  if (actionID != 0xFF)
-    GUIObject_SoftKeys_ExecuteAction(pMusicBook->Gui_NowPlaying, actionID);
 }
 
 #ifdef DB3350
@@ -433,7 +436,7 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
   case KEY_DIGITAL_7:
   case KEY_DIGITAL_8:
   case KEY_DIGITAL_9:
-    execute_kb(pMusicBook, key);
+    execute_kb(pMusicBook, key, mode);
     break;
   case KEY_STAR:
   case KEY_DIEZ:
@@ -447,9 +450,7 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
     break;
   }
 }
-
 #else
-
 extern "C" void Set_New_Keyboard(BOOK *book, char key)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;

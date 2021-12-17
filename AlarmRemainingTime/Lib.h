@@ -21,11 +21,7 @@ extern "C"
     int datetime2unixtime(DATETIME *dt);
     void unixtime2datetime(int, DATETIME *);
 
-// #if defined(A1)
     TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len);
-// #elif defined(A2)
-    // TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len, char *filename, int line_num);
-// #endif
 }
 
 #endif

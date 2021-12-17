@@ -45,28 +45,28 @@ a       EQU     b
         defadr DataBrowserDesc_Destroy,0x145BAAC8+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14735BD4+1
 
+        EXTERN SetFileDelete
+        EXTERN SetKey
+
         RSEG   SET_KEY_FILE_1
         CODE16
         LDR    R3, =set_key_file_1
         BX     R3
-        
+
         RSEG   SET_KEY_FILE_2
         CODE16
         LDR    R3, =set_key_file_2
         BX     R3
-        
+
         RSEG   SET_KEY_PATH
         CODE16
         LDR    R3, =set_key_path
         BX     R3
-        
+
         RSEG   FILE_DELETE
         CODE16
         LDR    R3, =file_delete
         BX     R3
-        
-        EXTERN SetFileDelete
-        EXTERN SetKey
         
         RSEG   CODE
         CODE16
@@ -93,14 +93,14 @@ set_key_file_2:
         bl	SetKey
         ldr 	r3, =0x15118FEA+1
         bx	r3
-		
+	
 set_key_path:
         ldr 	r1, =0xFC5
-        ldr 	r0, [r5,#0x14]
+        ldr 	r0, [r4,#0x14]
         ldr 	r3, =GUIObject_SoftKeys_SetAction
         blx 	r3
         mov 	r1, #1
-        ldr 	r0, [r5,#0x14]
+        ldr 	r0, [r4,#0x14]
         bl	SetKey
         ldr 	r3, =0x15355818+1
         bx	r3

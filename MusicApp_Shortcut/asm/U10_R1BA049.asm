@@ -7,6 +7,7 @@ a       EQU     b
         ENDM
         defadr memalloc,0x4FC00394
         defadr memfree,0x4FC003BC
+        defadr memset,0x140EA530
         defadr debug_printf,0x4FC00008
         defadr snwprintf,0x148298C8+1
         defadr List_DestroyElements,0x141F2D1C+1
@@ -18,7 +19,6 @@ a       EQU     b
         defadr _fopen,0x146F6100+1
         defadr fread,0x141B4D98+1
         defadr fclose,0x14644828+1
-        defadr memset,0x140EA530
         defadr fwrite,0x146F6F9C+1
         defadr fstat,0x141F353C+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x15116508+1

@@ -50,6 +50,7 @@ a       EQU     b
         defadr TimeInput_SetEnableSec,0x158F8768+1
         defadr TIME_SWAP,0x156B2CA8+1
 
+        defadr FreeBook,0x141043A0+1
         defadr FindBook,0x143D9C00+1
         defadr IsMusicApplication_Book,0x1433799C+1
         defadr BookObj_CallPage,0x141046E8+1

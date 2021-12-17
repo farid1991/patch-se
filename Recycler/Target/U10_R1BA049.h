@@ -4,8 +4,7 @@
 #define A2
 #define DB3350
 
-#define PATH_RECYCLER L"/card/RECYCLER"
-#define TEXTID_LOCK 0x360 // Защита
+#define TEXTID_LOCK 0xF1F // Защита
 
 #define NIL_EVENT 0
 #define ACCEPT_EVENT 2

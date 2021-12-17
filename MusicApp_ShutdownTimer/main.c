@@ -22,26 +22,38 @@ TIMER_DATA *Get_TimerData()
   return Create_TimerData();
 }
 
+extern "C" void Kill_Timer()
+{
+  TIMER_DATA *Data = Get_TimerData();
+  if (Data)
+  {
+    if (Data->TimerID)
+    {
+      Timer_Kill(&Data->TimerID);
+      Data->TimerID = NULL;
+      Data->TimerOn = FALSE;
+    }
+    memfree(0, Data, "tm", 0);
+  }
+}
+
 void onTimer(u16 timerID, LPARAM lparam)
 {
   TIMER_DATA *Data = Get_TimerData();
 
   if (Data->Interval == 0)
   {
-    Data->TimerOn = FALSE;
-
+    Kill_Timer();
     BOOK *MusicBook = FindBook(IsMusicApplication_Book);
     if (MusicBook)
     {
-      MusicApplication_CancelAction(MusicBook, NULL);
-      Data->TimerID = NULL;
-      Data->TimerOn = FALSE;
+      FreeBook(MusicBook);
     }
   }
 
   if (Data->TimerOn)
   {
-    Data->Interval = Data->Interval - 1;
+    Data->Interval--;
     Timer_ReSet(&Data->TimerID, 1000, onTimer, lparam);
   }
 }
@@ -56,28 +68,28 @@ void MusicApplication_ShutdownTimer__OnAcceptTimeInput(BOOK *book, GUI *gui)
   switch (selected)
   {
   case 0:
-    Data->Interval = 5*60;
+    Data->Interval = 5 * 60;
     break;
   case 1:
-    Data->Interval = 10*60;
+    Data->Interval = 10 * 60;
     break;
   case 2:
-    Data->Interval = 15*60;
+    Data->Interval = 15 * 60;
     break;
   case 3:
-    Data->Interval = 20*60;
+    Data->Interval = 20 * 60;
     break;
   case 4:
-    Data->Interval = 30*60;
+    Data->Interval = 30 * 60;
     break;
   case 5:
-    Data->Interval = 40*60;
+    Data->Interval = 40 * 60;
     break;
   case 6:
-    Data->Interval = 50*60;
+    Data->Interval = 50 * 60;
     break;
   case 7:
-    Data->Interval = 60*60;
+    Data->Interval = 60 * 60;
     break;
   }
 
@@ -112,28 +124,28 @@ int MusicApplication_ShutdownTimer__OnMessage(GUI_MESSAGE *msg)
     switch (item)
     {
     case 0:
-      GUIonMessage_SetMenuItemText(msg,STR("5 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("5 Minutes"));
       break;
     case 1:
-      GUIonMessage_SetMenuItemText(msg,STR("10 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("10 Minutes"));
       break;
     case 2:
-      GUIonMessage_SetMenuItemText(msg,STR("15 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("15 Minutes"));
       break;
     case 3:
-      GUIonMessage_SetMenuItemText(msg,STR("20 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("20 Minutes"));
       break;
     case 4:
-      GUIonMessage_SetMenuItemText(msg,STR("30 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("30 Minutes"));
       break;
     case 5:
-      GUIonMessage_SetMenuItemText(msg,STR("40 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("40 Minutes"));
       break;
     case 6:
-      GUIonMessage_SetMenuItemText(msg,STR("50 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("50 Minutes"));
       break;
     case 7:
-      GUIonMessage_SetMenuItemText(msg,STR("60 Minutes"));
+      GUIonMessage_SetMenuItemText(msg, STR("60 Minutes"));
       break;
     }
   }
@@ -202,19 +214,4 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
   MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHUTDOWNTIMER, TIMER_TXT);
   //MediaPlayer_SoftKeys_SetInfoText( player_gui, ACTION_MP_SHUTDOWNTIMER, GetRemainingTimeID() );
 #endif
-}
-
-extern "C" void Kill_Timer()
-{
-  TIMER_DATA *Data = Get_TimerData();
-  if (Data)
-  {
-    if (Data->TimerID)
-    {
-      Timer_Kill(&Data->TimerID);
-      Data->TimerID = NULL;
-      Data->TimerOn = FALSE;
-    }
-    memfree(0, Data, "tm", 0);
-  }
 }
