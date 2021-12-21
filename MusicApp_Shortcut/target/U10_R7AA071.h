@@ -44,6 +44,6 @@
 
 #define SHORTCUT_TXT 0x2231
 
-#define FILE_PATH (wchar_t *)0x15C1E0C4
+#define FILE_PATH (wchar_t *)0x15C32E78
 
 #endif
