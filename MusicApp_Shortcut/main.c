@@ -236,11 +236,7 @@ int pg_MusicApplication_SelectShortcut_EnterAction(void *data, BOOK *book)
   if (pShortcutBook->SubMenu = CreateOneOfMany(pShortcutBook))
   {
     GUIObject_SetTitleText(pShortcutBook->SubMenu, Get_Menu_Text(pShortcutBook->CurrentItem));
-#ifdef U10_R1BA049
     GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_Default);
-#else
-    GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_FullScreen);
-#endif
     OneOfMany_SetChecked(pShortcutBook->SubMenu, GetChecked(pShortcutBook->SoftkeyList, pShortcutBook->CurrentItem));
     OneOfMany_SetItemCount(pShortcutBook->SubMenu, List_GetCount(pShortcutBook->SoftkeyList));
     OneOfMany_SetOnMessage(pShortcutBook->SubMenu, SelectShortcut_onMessage);
@@ -309,11 +305,7 @@ int pg_MusicApplication_Shortcut_EnterAction(void *data, BOOK *book)
   if (pShortcutBook->MainMenu = CreateListMenu(pShortcutBook, UIDisplay_Main))
   {
     GUIObject_SetTitleText(pShortcutBook->MainMenu, SHORTCUT_TXT);
-#ifdef U10_R1BA049
     GUIObject_SetStyle(pShortcutBook->MainMenu, UI_OverlayStyle_Default);
-#else
-    GUIObject_SetStyle(pShortcutBook->MainMenu, UI_OverlayStyle_FullScreen);
-#endif
     ListMenu_SetItemCount(pShortcutBook->MainMenu, Item_Key_Last);
     ListMenu_SetItemStyle(pShortcutBook->MainMenu, 3);
     ListMenu_SetCursorToItem(pShortcutBook->MainMenu, pShortcutBook->CurrentItem);

@@ -8,11 +8,6 @@
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void Get_IUIFontManager(IFontManager **ppIFontManager)
-{
-  CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(ppIFontManager));
-}
-
 void dll_SetFont(int font_size, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
@@ -20,8 +15,7 @@ void dll_SetFont(int font_size, IFont **ppFont)
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
 
-  //CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
-  Get_IUIFontManager(&pFontManager);
+  CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
 
   int font_size_without_style = font_size & 0xFF;
@@ -38,12 +32,6 @@ void dll_SetFont(int font_size, IFont **ppFont)
 }
 
 // DrawString ----------------------------------------------------
-
-void Get_ITextRenderingManager(ITextRenderingManager **ppITextRenderingManager)
-{
-  CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(ppITextRenderingManager));
-}
-
 void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
 {
   TUIRectangle rect;
@@ -58,7 +46,7 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
 
   dll_SetFont(font, &pFont);
 
-  Get_ITextRenderingManager(&pTextRenderingManager);
+  CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
   pTextRenderingFactory->CreateRichTextLayout(pTextObject, 0, 0, &pRichTextLayout);
@@ -92,11 +80,6 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
 
 // GC_PutChar ----------------------------------------------------
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
-{
-  CoCreateInstance(CID_IUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
-}
-
 void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID)
 {
   IUIImageManager *pIUIImageManager = NULL;
@@ -109,7 +92,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
   rect.Size.Width = width;
   rect.Size.Height = height;
 
-  Get_IUIImageManager(&pIUIImageManager);
+  CoCreateInstance(CID_IUIImageManager, IID_IUIImageManager, PPINTERFACE(&pIUIImageManager));
   pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
 
   DisplayGC_AddRef(gc, &pGC);
@@ -122,45 +105,5 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
     pUIImage->Release();
   if (pGC)
     pGC->Release();
-}
-
-// GetImageWidthHeight ----------------------------------------------------
-
-int dll_GetImageWidth(IMAGEID imageID)
-{
-  IUIImageManager *pIUIImageManager = NULL;
-  IUIImage *pUIImage = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
-
-  Get_IUIImageManager(&pIUIImageManager);
-  if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
-    pUIImage->GetDimensions(&image_width, NULL, &image_height, NULL);
-
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
-  if (pUIImage)
-    pUIImage->Release();
-
-  return image_width;
-}
-
-int dll_GetImageHeight(IMAGEID imageID)
-{
-  IUIImageManager *pIUIImageManager = NULL;
-  IUIImage *pUIImage = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
-
-  Get_IUIImageManager(&pIUIImageManager);
-  if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
-    pUIImage->GetDimensions(&image_width, NULL, &image_height, NULL);
-
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
-  if (pUIImage)
-    pUIImage->Release();
-
-  return image_height;
 }
 #endif

@@ -166,7 +166,7 @@ int Bright_onCreate(DISP_OBJ_BRIGHT *disp_obj)
     disp_obj->image = disp_obj->Images[3].ImageID;
   else
     disp_obj->image = disp_obj->Images[1].ImageID;
-    
+
   return 1;
 }
 
@@ -188,7 +188,7 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   dll_DrawString(font, text, align, x1, y1 + 1, x2, font_height, ocolor);
   dll_DrawString(font, text, align, x1 - 1, y1, x2, font_height, ocolor);
   dll_DrawString(font, text, align, x1, y1 - 1, x2, font_height, ocolor);
-  dll_DrawString(font, text, align, x1, y1, x2, font_height, tcolor);
+  dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
 #else
 
   SetFont(font);
@@ -196,7 +196,7 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   DrawString(text, align, x1, y1 + 1, x2, font_height, 0, 0, ocolor, 0);
   DrawString(text, align, x1 - 1, y1, x2, font_height, 0, 0, ocolor, 0);
   DrawString(text, align, x1, y1 - 1, x2, font_height, 0, 0, ocolor, 0);
-  DrawString(text, align, x1, y1, x2, font_height, 0, 0, tcolor, 0);
+  DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, 0);
 #endif
 }
 
@@ -311,6 +311,27 @@ void Bright_destr(GUI *gui)
 {
 }
 
+void Bright_CallBack(DISP_OBJ *, void *msg, GUI *)
+{
+}
+
+GUI_BRIGHT *Create_GUIBright(BOOK *book)
+{
+  GUI_BRIGHT *gui = (GUI_BRIGHT *)malloc(sizeof(GUI_BRIGHT));
+
+  if (!GUIObject_Create(gui, Bright_destr, Bright_constr, book, Bright_CallBack, UIDisplay_Main, sizeof(GUI_BRIGHT)))
+  {
+    mfree(gui);
+    return 0;
+  }
+
+  if (book)
+    BookObj_AddGUIObject(book, gui);
+
+  GUIObject_SetTitleType(gui, UI_TitleMode_None);
+  return gui;
+}
+
 void Bright_LongClose(BOOK *book, GUI *gui)
 {
   SetBook *pSetBook = (SetBook *)book;
@@ -331,31 +352,19 @@ void Bright_Save(BOOK *book, GUI *gui)
   FreeBook(pSetBook);
 }
 
-void Bright_CallBack(DISP_OBJ *, void *msg, GUI *)
-{
-}
-
 extern "C" int VisualBrightness(void *data, BOOK *book)
 {
   SetBook *pSetBook = (SetBook *)book;
-
   pSetBook->bright = (char *)Display_GetBrightness(UIDisplay_Main);
 
-  GUI_BRIGHT *gui = (GUI_BRIGHT *)malloc(sizeof(GUI_BRIGHT));
-  pSetBook->gui = gui;
-
-  if (!GUIObject_Create(pSetBook->gui, Bright_destr, Bright_constr, pSetBook, Bright_CallBack, UIDisplay_Main, sizeof(GUI_BRIGHT)))
-    mfree(gui);
-  if (pSetBook)
-    BookObj_AddGUIObject(pSetBook, pSetBook->gui);
-
-  GUIObject_SetTitleType(pSetBook->gui, UI_TitleMode_None);
-  GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_LONG_BACK, Bright_LongClose);
-  GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_BACK, Bright_Close);
-  GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_SELECT1, Bright_Save);
-  GUIObject_SoftKeys_SetText(pSetBook->gui, ACTION_SELECT1, TEXTID_SAVE);
-
-  GUIObject_Show(pSetBook->gui);
+  if (pSetBook->gui = Create_GUIBright(pSetBook))
+  {
+    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_LONG_BACK, Bright_LongClose);
+    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_BACK, Bright_Close);
+    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_SELECT1, Bright_Save);
+    GUIObject_SoftKeys_SetText(pSetBook->gui, ACTION_SELECT1, TEXTID_SAVE);
+    GUIObject_Show(pSetBook->gui);
+  }
   return 1;
 }
 
