@@ -40,6 +40,7 @@ void Question_OnYes(BOOK *book, GUI *gui)
   fd->mode = true;
 
   DataDownloadBook *pDDBook = (DataDownloadBook *)book;
+  FREE_GUI(pDDBook->gui);
   BookObj_GotoPage(pDDBook, DataDownload_Main_Page);
 }
 
