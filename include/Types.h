@@ -17,7 +17,7 @@ typedef signed int int32_t;
 
 typedef uint32_t size_t;
 typedef uint32_t time_t;
-typedef uint32_t color_t;
+// typedef uint32_t color_t;
 
 struct BOOK;
 struct GUI;
@@ -161,11 +161,11 @@ typedef enum TEXT_ENCODING
 
 typedef enum
 {
-	UITextAlignment_Left = 0,
-	UITextAlignment_Right,
-	UITextAlignment_Center,
-	UITextAlignment_LeftDynamic,
-	UITextAlignment_RightDynamic
+	AlignLeft = 0,
+	AlignRight,
+	AlignCenter,
+	Alignment_LeftDynamic,
+	Alignment_RightDynamic
 } UITextAlignment_t;
 
 // images ----------------------------------------------------------------------
@@ -348,11 +348,7 @@ typedef enum UI_Display_t
 	UIDisplay_Main = 0,
 	UIDisplay_Second,
 	UIDisplay_TVOut,
-	UIDisplay_Last,
-	UI_Display_Main = 0,
-	UI_Display_Second,
-	UI_Display_TVOut,
-	UI_Display_Last
+	UIDisplay_Last
 } UI_Display_t;
 
 /**
@@ -371,6 +367,98 @@ typedef enum
 	UIDisplayOrientationMode_Last
 } UIDisplayOrientationMode_t;
 
+/**
+ * Theme colors.
+ *
+ */
+typedef enum
+{
+  UIThemeColor_BrowserUnderline,
+  UIThemeColor_BrowserTableBorder,
+  UIThemeColor_CalendarWeekendText,
+  UIThemeColor_CalendarWeekendHighlight,
+  UIThemeColor_InputScrollBar,
+  UIThemeColor_InputText,
+  UIThemeColor_InputOverlay,
+  UIThemeColor_InputOverlayHighlight,
+  UIThemeColor_InputOverlayFrame,
+  UIThemeColor_HomeScreen,
+  UIThemeColor_HomeScreenNonSel,         
+  UIThemeColor_HomeScreenTab,
+  UIThemeColor_HomeScreenTabNonSel,
+  UIThemeColor_HomeScreenTabSel,
+  UIThemeColor_HomeScreenTabText,
+  UIThemeColor_HomeScreenHighlight,
+  UIThemeColor_HomeScreenHighlightNonSel,
+  UIThemeColor_HomeScreenScrollBar,
+  UIThemeColor_HomeScreenFrame,          
+  UIThemeColor_Morelist,
+  UIThemeColor_MorelistNonSel,           
+  UIThemeColor_MorelistHighlight,
+  UIThemeColor_MorelistHighlightNonSel,  
+  UIThemeColor_MorelistScrollBar,
+  UIThemeColor_MorelistFrame,            
+  UIThemeColor_TopMenu,
+  UIThemeColor_Highlight,
+  UIThemeColor_HighlightNonSel,          
+  UIThemeColor_NonSel,                   
+  UIThemeColor_OverlayFrame,             
+  UIThemeColor_OverlayHighlight,
+  UIThemeColor_OverlayHighlightNonSel,   
+  UIThemeColor_OverlayNonSel,            
+  UIThemeColor_OverlayScrollBar,
+  UIThemeColor_OverlayText,
+  UIThemeColor_OverlayTitle,
+  UIThemeColor_ScrollBar,
+  UIThemeColor_OverlayDim,
+  UIThemeColor_SoftkeyNonSel,            
+  UIThemeColor_SoftkeyBarLeft,
+  UIThemeColor_SoftkeyBarRight,
+  UIThemeColor_SoftkeyTextLeftPressed,
+  UIThemeColor_SoftkeyTextRightPressed,
+  UIThemeColor_SoftkeyTextLeft,          
+  UIThemeColor_SoftkeyTextLeftNonSel,    
+  UIThemeColor_SoftkeyTextRight,         
+  UIThemeColor_SoftkeyTextRightNonSel,   
+  UIThemeColor_StandbyOperatorName,
+  UIThemeColor_StandbyTime,
+  UIThemeColor_Tab,
+  UIThemeColor_TabText,
+  UIThemeColor_TabNonSel,
+  UIThemeColor_TabSel,
+  UIThemeColor_Text,
+  UIThemeColor_Title,
+  UIThemeColor_VolumeStaples,
+  UIThemeColor_ProgressBarOutline,
+  UIThemeColor_ProgressBar,
+  UIThemeColor_CalendarWeekViewMarkings,
+  UIThemeColor_TopMenuShadow,            
+  UIThemeColor_Notes,                    
+  UIThemeColor_OverlayTitleShadow,       
+  UIThemeColor_TabTextShadow,            
+  UIThemeColor_HomeScreenTabTextShadow,  
+  UIThemeColor_TitleShadow,              
+  UIThemeColor_Cursor,                   
+  UIThemeColor_OverlayCursor,            
+  UIThemeColor_OverlayPrompt,            
+  UIThemeColor_Prompt,                   
+  UIThemeColor_InternalFrame,
+  UIThemeColor_InternalFrameText,
+  UIThemeColor_InternalFrameNonSel,
+  UIThemeColor_InternalFrameHighlight,
+  UIThemeColor_MediaBackground,
+  UIThemeColor_MediaBackgroundSearch,
+  UIThemeColor_MediaIcon,
+  UIThemeColor_MediaText,
+  UIThemeColor_MediaHighlightIcon,
+  UIThemeColor_MediaHighlightText,
+  UIThemeColor_MediaLine,
+  UIThemeColor_MediaWalkmanHighlight,
+  UIThemeColor_MediaWalkmanParticle,
+  UIThemeColor_MediaParticle,
+  UIThemeColor_Last
+} UIThemeColor_t;
+
 // book ------------------------------------------------------------------------
 
 //struct BOOK;
@@ -387,19 +475,19 @@ typedef struct UI_APP_SESSION
 
 typedef struct XBOOK
 {
-	char isDestroyed;			 //0
-	char *name;					 //1
-	UI_APP_SESSION *app_session; //5
-	int parent_BookID;			 //9
-	u16 unk2;					 //D
-	int unk3;					 //F
-	int unk4;					 //13
-	char unk5;					 //14
-	void *unk6;					 //18
-	int unk7;					 //1C
-	u16 unk8;					 //1E
-	u16 unk9;					 //20
-	char dummy7[0x8];			 //28
+	char isDestroyed;
+	char *name;
+	UI_APP_SESSION *app_session;
+	int parent_BookID;
+	u16 unk2;
+	int unk3;
+	int unk4;
+	char unk5;
+	void *unk6;
+	int unk7;
+	u16 unk8;
+	u16 unk9;
+	char dummy7[0x8];
 	char orientation;
 } XBOOK;
 
@@ -1289,7 +1377,7 @@ typedef struct SUB_EXECUTE
 	GUI *gui;				 //14
 	GUI_FEEDBACK *gui_fb;	 //18
 	void *strinp_struct;	 //1C
-	char dummy1[0x2D0];
+	char dummy1[0x2D0];		//20
 #if defined(DB3150v1)
 	char dummy2[0x4];
 #endif

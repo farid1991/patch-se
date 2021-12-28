@@ -6,7 +6,7 @@
 #include "..\\include\Types.h"
 
 #include "Lib.h"
-#include "IMMEPlayer.h"
+#include "..\\include\classes\IMMEPlayer.h"
 
 extern "C"
 void ActionPause(BOOK* book, GUI* gui)

@@ -190,7 +190,6 @@ void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2,
   dll_DrawString(font, text, align, x1, y1 - 1, x2, font_height, ocolor);
   dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
 #else
-
   SetFont(font);
   DrawString(text, align, x1 + 1, y1, x2, font_height, 0, 0, ocolor, 0);
   DrawString(text, align, x1, y1 + 1, x2, font_height, 0, 0, ocolor, 0);

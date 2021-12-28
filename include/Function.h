@@ -959,7 +959,7 @@ extern "C"
   int Volume_Get(int TAudioControl_VolumeType, char *volume); // GetAudioSettings
 
   void MessageBox_Animation(TEXTID header_text, TEXTID message_text, IMAGEID, int style, int time, BOOK *book, char *animation);
-  void CreateToast(TEXTID header_text, TEXTID message_text, int style, int time, BOOK *book);
+  void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
 
   //int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event);

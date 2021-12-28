@@ -4,7 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
-        
+
         defadr debug_printf,0x4FC00008
 	defadr memalloc,0x4FC00394
         defadr memfree,0x4FC003BC
@@ -30,9 +30,9 @@ a       EQU     b
 	defadr BookObj_GetBookID,0x143D9B54+1
 	defadr UI_Event_toBookID,0x14647524+1
 	defadr UI_Event,0x1427AD8C+1
-	
+
 	defadr iconidname2id,0x140D0C68+1
-	
+
         defadr strlen,0x10294408+1
 	defadr strstr,0x1482B176+1
 	defadr strcmp,0x10294370+1
@@ -46,7 +46,7 @@ a       EQU     b
 	defadr manifest_GetParam,0x1447A4F8+1
 	defadr TextID_Create,0x145382A0+1
         defadr TextID_GetString,0x142C005C+1
-	
+
 	defadr List_DestroyElements,0x141F2D1C+1
 	defadr List_Destroy,0x1427BA18+1
 	defadr List_Create,0x1427B71C+1
@@ -56,14 +56,14 @@ a       EQU     b
 
 	defadr root_list_get_session_count,0x147E9428+1
 	defadr root_list_get_session,0x142BF868+1
-	
+
 	defadr JavaAppDesc_GetFirstApp,0x143E8F44+1
         defadr JavaAppDesc_GetNextApp,0x145E27B0+1
 	defadr JavaAppDesc_GetJavaAppInfo,0x1411A324+1
 	defadr JavaApp_LogoImageID_Get,0x1433C900+1
         defadr JavaDialog_Open,0x1465B53C+1
 	defadr JavaDialog_Close,0x14119DB8+1
-        
+
 	defadr IsVolumeControllerBook,0x142537F8+1
 	defadr IsRightNowBook,0x14006F24+1
         defadr Find_StandbyBook,0x147D93C4+1
@@ -92,7 +92,7 @@ a       EQU     b
 	defadr GUIObject_SoftKeys_SetVisible,0x143B067C+1
 	defadr GUIObject_SoftKeys_SetItemOnKey,0x14668620+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x15116508+1
-	
+
 	defadr TabMenuBar_SetTabGui,0x1410ADF0+1
 	defadr TabMenuBar_SetTabTitle,0x143C26B8+1
         defadr TabMenuBar_GetFocusedTab,0x1410A998+1
@@ -111,25 +111,25 @@ a       EQU     b
         ; EXTERN CreateShortcutMenu
         ; EXTERN CreateElfMenu
         ; EXTERN CreateBookMenu
-        
+
         ; RSEG   TAB_ICON_1
         ; CODE16
         ; ldr   r7, =_IconInternet
         ; bx    r7
-        
+
         ; RSEG   TAB_ICON_2
         ; DATA
         ; DCD   0x82E
-        
+
         ; RSEG   TAB_FOCUS_FIX
         ; CODE16
         ; NOP
-        
+
         ; RSEG   INTERNET
         ; CODE16
         ; ldr   r3, =_Internet
         ; bx    r3
-        
+
         ; RSEG   SHORTCURTS
         ; CODE16
         ; ldr   r3, =_Shortcurts
@@ -145,9 +145,9 @@ a       EQU     b
 ;         ldr   r1, =0xCEF
 ;         str   r1, [r0,#0xC]
 ;         pop   {r4,r5,pc}
-        
+
 //------------------------------------------------------------------------------
-        
+
         ; RSEG   GUI_CREATE
         ; CODE16
         ; ldr     r3, =_onCreate
@@ -232,7 +232,7 @@ a       EQU     b
 ;         ADD   R0, R4, #0
 ;         bl    CreateShortcutMenu
 ;         pop   {r4-r6,pc}
-        
+
 ; _Shortcurts:
 ;         ADD   R1, R5, #0
 ;         ADD   R0, R4, #0
@@ -243,7 +243,7 @@ a       EQU     b
         EXTERN CreateBookMenu
         EXTERN DestroyBookMenu
         EXTERN CreateBooksList
-        
+
         RSEG    BM_ENTER
 	DATA
         DCD     CreateBookMenu

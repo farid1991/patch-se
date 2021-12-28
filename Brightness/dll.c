@@ -8,7 +8,7 @@
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, IFont **ppFont)
+void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
@@ -18,11 +18,26 @@ void dll_SetFont(int font_size, IFont **ppFont)
   CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
 
-  int font_size_without_style = font_size & 0xFF;
-
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
-  pFontData.size = (float)font_size_without_style;
-  pFontData.TUIEmphasisStyle = font_size >> 8;
+  pFontData.size = font_size;
+  TUIEmphasisStyle fontstyle;
+  switch (font_style)
+  {
+  case 1:
+    fontstyle = UI_Emphasis_Bold;
+    break;
+  case 2:
+    fontstyle = UI_Emphasis_Italic;
+    break;
+  case 3:
+    fontstyle = UI_Emphasis_BoldItalic;
+    break;
+  default:
+    fontstyle = UI_Emphasis_Normal;
+    break;
+  }
+  pFontData.emphasis = fontstyle;
+
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
   if (pFontManager)
@@ -32,7 +47,7 @@ void dll_SetFont(int font_size, IFont **ppFont)
 }
 
 // DrawString ----------------------------------------------------
-void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
+void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
 {
   TUIRectangle rect;
   int lineWidth = x2 - x1;
@@ -44,7 +59,9 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   IUnknown *pGC = NULL;
   IFont *pFont = NULL;
 
-  dll_SetFont(font, &pFont);
+  int fontsize_wo_style = (font_size & 0xFF);
+  int font_style = font_size >> 8;
+  dll_SetFont(fontsize_wo_style, font_style, &pFont);
 
   CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
@@ -52,9 +69,9 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   pTextRenderingFactory->CreateRichTextLayout(pTextObject, 0, 0, &pRichTextLayout);
 
   TextObject_SetText(pTextObject, text);
-  TextObject_SetFont(pTextObject, pFont, FSINT32_MIN, FSINT32_MAX);
-  pTextObject->SetTextColor(text_color, FSINT32_MIN, FSINT32_MAX);
-  pTextObject->SetAlignment((TUITextAlignment)align, FSINT32_MIN, FSINT32_MAX);
+  TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pTextObject->SetAlignment(align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pRichTextLayout->Compose(lineWidth);
 
   rect.Point.X = x1;

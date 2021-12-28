@@ -13,7 +13,7 @@ public:
   virtual uint32_t GetItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
   virtual uint32_t GetFocusedItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle, wchar_t *pFilename, TMusicServer_Time *pPlaylength, TMusicServer_Time *pResumePosition, BOOL *pContainsAlbumart, BOOL *pIsRealMediaFile);
   virtual uint32_t GetFilename(uint32_t itemIndex, uint32_t length, wchar_t *pFilename);
-  virtual uint32_t unk_0x28();
+  virtual uint32_t GetAlbumArt(uint32_t itemIndex, uint32_t length, wchar_t *filename, int *Offset, int *Size, char *pImageType, BOOL *IsDRMProtected);
   virtual uint32_t unk_0x2C();
   virtual uint32_t unk_0x30();
   virtual uint32_t Play(uint32_t itemIndex);                 //0x34
@@ -27,7 +27,7 @@ public:
   virtual uint32_t unk_0x54();
   virtual uint32_t SetEqualizerGain(uint32_t equalizerBand, int32_t equalizerGain);
   virtual uint32_t SetSettings_Boolean(TMusicServer_Settings settingType, BOOL setting); //void* unk_0x5C();
-  virtual uint32_t SetSettings_Int(uint16_t setting);                                     //void* unk_0x60();
+  virtual uint32_t SetSettings_Int(uint16_t setting);                                    //void* unk_0x60();
   virtual uint32_t unk_0x64();
   virtual uint32_t SetSettings_Time(TMusicServer_Time settingTime);                       // unk_0x68();
   virtual uint32_t GetSettings_Boolean(TMusicServer_Settings settingType, BOOL *setting); //unk_0x6C();
@@ -37,7 +37,49 @@ public:
   virtual uint32_t RemoveFromPlaylist(uint32_t itemIndex);
   virtual uint32_t SavePlayQueue(wchar_t *pPlaylistname);
 };
-
+#elif defined(DB3150v2)
+class IMusicServer : public IUnknown
+{
+public:
+  virtual void *unk_0x10();
+  virtual void *unk_0x14();
+  virtual uint32_t GetItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
+  virtual uint32_t GetFocusedItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle, wchar_t *pFilename, TMusicServer_Time *pPlaylength, TMusicServer_Time *pResumePosition, BOOL *pContainsAlbumart, BOOL *pIsRealMediaFile);
+  virtual uint32_t GetFilename(uint32_t itemIndex, uint32_t length, wchar_t *pFilename);
+  virtual uint32_t GetAlbumArt(uint32_t itemIndex, uint32_t length, wchar_t *filename, int *Offset, int *Size, char *pImageType, BOOL *IsDRMProtected);
+};
+#elif defined(DB3200) || defined(DB3210)
+class IMusicServer1 : public IUnknown
+{
+public:
+  virtual uint32_t StartMusicServer(IUnknown *pICBMusicServer, uint16_t msgBase, int clientData, char StartMode, int track_id);
+  virtual uint32_t Destroy(unsigned long subscriptionHandle);
+  virtual uint32_t Subscribe(IUnknown *pICBMusicServer, uint16_t msgBase, int clientData, unsigned long *pSubscriptionHandle);
+  virtual uint32_t Unsubscribe(unsigned long subscriptionHandle);
+  virtual uint32_t StartApplication(TMusicServer_Action action);
+  virtual uint32_t StopApplication(void);
+  virtual uint32_t SetPurchaseFlag(void);
+  virtual uint32_t GetItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
+  virtual uint32_t GetFocusedItem(uint32_t itemIndex, uint32_t length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle, wchar_t *pFilename, TMusicServer_Time *pPlaylength, TMusicServer_Time *pResumePosition, BOOL *pContainsAlbumart, BOOL *pIsRealMediaFile);
+  virtual uint32_t GetFilename(uint32_t itemIndex, uint32_t length, wchar_t *pFilename);
+  virtual uint32_t GetAlbumArt(uint32_t itemIndex, uint32_t length, wchar_t *filename, int *Offset, int *Size, char *pImageType, BOOL *IsDRMProtected);
+  virtual uint32_t GetState(char *State);
+  virtual uint32_t Play(uint32_t itemIndex);
+  virtual uint32_t Pause(void);
+  virtual uint32_t FastFoward(void);
+  virtual uint32_t Rewind(void);
+  virtual void *unk_0x50();
+  virtual uint32_t Previous(void);
+  virtual uint32_t SetElapsedTime(TMusicServer_Time time);
+  virtual uint32_t GetElapsedTime(TMusicServer_Time *time);
+  virtual uint32_t SetWindowMode(char mode);
+  virtual uint32_t SetStarted(bool started);
+  virtual uint32_t SetStereoWidening(bool enable);
+  virtual uint32_t EnableEqualizer(void);
+  virtual uint32_t DisableEqualizer(void);
+  virtual uint32_t EqualizerGain_Set(int band, int level);
+  virtual uint32_t EqualizerPreset_Set(int equalizerPreset);
+};
 #elif defined(DB3350)
 class IMusicServer : public IUnknown
 {

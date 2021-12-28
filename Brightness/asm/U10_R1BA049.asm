@@ -50,8 +50,8 @@ a       equ     b
         defadr TextID_CreateIntegerID,0x14538140+1
         defadr DynamicMenu_SetElement_SecondLineText,0x147EC468+1
 
-        defadr Display_GetWidth,0x140F54B8
-        defadr Display_GetHeight,0x140F54C8
+        defadr Display_GetWidth,0x140F54B8+1
+        defadr Display_GetHeight,0x140F54C8+1
 
         EXTERN  VisualBrightness
         EXTERN  SecondLineText

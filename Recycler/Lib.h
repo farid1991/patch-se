@@ -5,7 +5,6 @@
 
 extern "C"
 {
-    void debug_printf(const char *fmt, ...);
 #if defined(DB2010)
     void *memalloc(int size, int f1, int f2, const char *fname, int fline);
     void memfree(void *mem, const char *fname, int fline);
@@ -18,6 +17,8 @@ extern "C"
     void *memcalloc(int minus_one, int size, int NoOfItems, int f1, int f2, const char *fname, int fline);
 #endif
     void *memset(void *mem, char chr, int size);
+    void debug_printf(const char *fmt, ...);
+    int List_GetCount(LIST *);
 
     PROCESS current_process(void);
     OSADDRESS get_envp(PROCESS pid, char *name);
@@ -27,10 +28,13 @@ extern "C"
     void GUIObject_SoftKeys_SetAction(GUI *, u16 actionID, SKACTIONPROC proc);
     void GUIObject_SoftKeys_SetText(GUI *, u16 actionID, TEXTID);
     void GUIObject_SoftKeys_SetItemOnKey(GUI *, u16 actionID, int key, int mode);
+    GUI *GUIObject_Destroy(GUI *);
+    void GUIObject_Show(GUI *);
 
     TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len);
 
     void BookObj_GotoPage(BOOK *book, const PAGE_DESC *page);
+    void BookObj_ReturnPage(BOOK *book, int);
     int BookObj_GetBookID(BOOK *book);
     void UI_Event_toBookID(int event, int BookID);
     BOOK *MainDisplay_GetTopBook(void);
@@ -44,7 +48,13 @@ extern "C"
     int DataBrowser_ItemDesc_CheckFileToCopyMove(FILEITEM *);
     int GetMemoryStickStatus(void);
 
+    GUI *CreateYesNoQuestion(BOOK *book, int display);
+    void YesNoQuestion_SetQuestionText(GUI *, TEXTID);
+    void YesNoQuestion_SetDescriptionText(GUI *, TEXTID);
+    void YesNoQuestion_SetIcon(GUI *, IMAGEID);
+
     void CreatePasswordInputWindow(int BookID, int mode_0, int password_2, TEXTID title); // password: 2 - phone
+    void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
 
     void *DataBrowserDesc_Create(void);
     void DataBrowserDesc_SetItemStyle(void *DataBrowserDesc, int style);

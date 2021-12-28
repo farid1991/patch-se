@@ -16,6 +16,7 @@
 #define KEY_STAR 0x22
 #define KEY_DIEZ 0x23
 
-
+#define ACTION_YES 0xFC5
+#define ACTION_NO 0xFBE
 
 #endif
