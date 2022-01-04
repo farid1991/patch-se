@@ -55,7 +55,7 @@ typedef struct MusicApplication_Shortcut_Book : BOOK
   GUI_LIST *MainMenu;
   GUI_LIST *SubMenu;
   LIST *SoftkeyList;
-  char CurrentItem;
+  uint8_t CurrentItem;
 } MusicApplication_Shortcut_Book;
 
 extern "C"

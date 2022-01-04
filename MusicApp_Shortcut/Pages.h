@@ -18,7 +18,7 @@ const PAGE_MSG bk_msglst_sc[] =
         CANCEL_EVENT, pg_MusicApplication_Shortcut_CancelAction,
         NIL_EVENT, NULL};
 
-const PAGE_DESC MusicApplication_SelectShortcut_Page = {"MusicApplication_SelectShortcut_Page", NULL, bk_msglst_sc};
+const PAGE_DESC MusicApplication_SelectShortcut_Page = {"MusicApplication_Shortcut_SelectAction_Page", NULL, bk_msglst_sc};
 
 const PAGE_MSG bk_msglst_base[] =
     {

@@ -1,19 +1,26 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\book\MusicApplication_book.h"
-#include "..\\include\classes\IMusicServer.h"
+#if defined(DB3150v1)
+#include "..\\include\book\DB3150v1\MusicApplication_Book.h"
+#elif defined(DB3150v2)
+#include "..\\include\book\DB3150v2\MusicApplication_Book.h"
+#elif defined(DB3210) || defined(DB3210)
+#include "..\\include\book\DB3210\MusicApplication_Book.h"
+#elif defined(DB3350)
+#include "..\\include\book\DB3350\MusicApplication_Book.h"
+#endif
 
 #include "Lib.h"
 #include "main.h"
 #include "Pages.h"
 
-void *malloc(int size)
+__thumb void *malloc(int size)
 {
   return (memalloc(0xFFFFFFFF, size, 1, 5, "kb", 0));
 }
 
-void mfree(void *mem)
+__thumb void mfree(void *mem)
 {
   if (mem)
     memfree(0, mem, "kb", 0);
@@ -39,7 +46,7 @@ void SoftkeyFree(void *item)
   if (elem)
   {
     elem->action = NULL;
-    elem->textid = EMPTY_TEXTID;
+    elem->textid = NULL;
     mfree(elem);
   }
 }
@@ -78,11 +85,14 @@ LIST *Create_SoftkeyList(LIST *slist)
 void GetData(void *mydata, int size)
 {
   int file = _fopen(FILE_PATH, FILE_NAME, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IRUSR | FSX_S_IWUSR, 0);
-  fread(file, mydata, size);
-  fclose(file);
+  if (file >= 0)
+  {
+    fread(file, mydata, size);
+    fclose(file);
+  }
 }
 
-void WriteData(char key_id, u16 action_id)
+void WriteData(u16 key_id, u16 action_id)
 {
   FILE_DATA *fdata = (FILE_DATA *)malloc(sizeof(FILE_DATA));
   memset(fdata, 0xFF, sizeof(FILE_DATA));
@@ -91,24 +101,27 @@ void WriteData(char key_id, u16 action_id)
   fdata->action[key_id] = action_id;
 
   int file = _fopen(FILE_PATH, FILE_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, 0);
-  fwrite(file, fdata, sizeof(FILE_DATA));
-  fclose(file);
-
+  if (file >= 0)
+  {
+    fwrite(file, fdata, sizeof(FILE_DATA));
+    fclose(file);
+  }
   mfree(fdata);
 }
 
-int GetChecked(LIST *list, char item_pos)
+int GetChecked(LIST *list, int item_pos)
 {
-  int ret = 0xFF;
+  int ret = 0;
 
   FSTAT _fstat;
-  if ((fstat(FILE_PATH, FILE_NAME, &_fstat)) >= 0)
+  int file = fstat(FILE_PATH, FILE_NAME, &_fstat);
+  if (file >= 0)
   {
     int size = _fstat.fsize;
     FILE_DATA *mydata = (FILE_DATA *)malloc(size);
     GetData(mydata, size);
 
-    for (int i = 0; i <= List_GetCount(list); i++)
+    for (int i = 0; i < List_GetCount(list); i++)
     {
       SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(list, i);
       if (mydata->action[item_pos] == elem->action)
@@ -122,7 +135,7 @@ int GetChecked(LIST *list, char item_pos)
   return ret;
 }
 
-TEXTID GetSecondLine(LIST *list, char item_num)
+TEXTID GetSecondLine(LIST *list, int item_num)
 {
   TEXTID ret = EMPTY_TEXTID;
   int index = GetChecked(list, item_num);
@@ -132,39 +145,39 @@ TEXTID GetSecondLine(LIST *list, char item_num)
   return ret;
 }
 
-char GetKeyID(char key)
+char GetKeyID(int key)
 {
   char key_id;
   switch (key)
   {
-  case KEY_DIGITAL_0 + 0:
+  case KEY_DIGITAL_0:
     key_id = Item_Key_0;
     break;
-  case KEY_DIGITAL_0 + 1:
+  case KEY_DIGITAL_1:
     key_id = Item_Key_1;
     break;
-  case KEY_DIGITAL_0 + 2:
+  case KEY_DIGITAL_2:
     key_id = Item_Key_2;
     break;
-  case KEY_DIGITAL_0 + 3:
+  case KEY_DIGITAL_3:
     key_id = Item_Key_3;
     break;
-  case KEY_DIGITAL_0 + 4:
+  case KEY_DIGITAL_4:
     key_id = Item_Key_4;
     break;
-  case KEY_DIGITAL_0 + 5:
+  case KEY_DIGITAL_5:
     key_id = Item_Key_5;
     break;
-  case KEY_DIGITAL_0 + 6:
+  case KEY_DIGITAL_6:
     key_id = Item_Key_6;
     break;
-  case KEY_DIGITAL_0 + 7:
+  case KEY_DIGITAL_7:
     key_id = Item_Key_7;
     break;
-  case KEY_DIGITAL_0 + 8:
+  case KEY_DIGITAL_8:
     key_id = Item_Key_8;
     break;
-  case KEY_DIGITAL_0 + 9:
+  case KEY_DIGITAL_9:
     key_id = Item_Key_9;
     break;
   }
@@ -209,15 +222,13 @@ void Shortcut_CancelAction(BOOK *book, GUI *gui)
 
 int SelectShortcut_onMessage(GUI_MESSAGE *msg)
 {
+  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)GUIonMessage_GetBook(msg);
   switch (GUIonMessage_GetMsg(msg))
   {
   case LISTMSG_GetItem:
-    MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)GUIonMessage_GetBook(msg);
-
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(pShortcutBook->SoftkeyList, index);
     GUIonMessage_SetMenuItemText(msg, elem->textid);
-    break;
   }
   return 1;
 }
@@ -236,7 +247,7 @@ int pg_MusicApplication_SelectShortcut_EnterAction(void *data, BOOK *book)
   if (pShortcutBook->SubMenu = CreateOneOfMany(pShortcutBook))
   {
     GUIObject_SetTitleText(pShortcutBook->SubMenu, Get_Menu_Text(pShortcutBook->CurrentItem));
-    GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_Default);
+    GUIObject_SetStyle(pShortcutBook->SubMenu, UI_OverlayStyle_PopupFrame);
     OneOfMany_SetChecked(pShortcutBook->SubMenu, GetChecked(pShortcutBook->SoftkeyList, pShortcutBook->CurrentItem));
     OneOfMany_SetItemCount(pShortcutBook->SubMenu, List_GetCount(pShortcutBook->SoftkeyList));
     OneOfMany_SetOnMessage(pShortcutBook->SubMenu, SelectShortcut_onMessage);
@@ -259,42 +270,20 @@ void Shortcut_EnterAction(BOOK *book, GUI *gui)
 {
   MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
   pShortcutBook->CurrentItem = ListMenu_GetSelectedItem(pShortcutBook->MainMenu);
-
   BookObj_CallPage(pShortcutBook, &MusicApplication_SelectShortcut_Page);
-}
-
-void Shortcut_PrevAction(BOOK *book, GUI *gui)
-{
-  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
-  FreeBook(pShortcutBook);
 }
 
 int Shortcut_OnMessage(GUI_MESSAGE *msg)
 {
+  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)GUIonMessage_GetBook(msg);
   switch (GUIonMessage_GetMsg(msg))
   {
   case LISTMSG_GetItem:
-    MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)GUIonMessage_GetBook(msg);
-
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     GUIonMessage_SetMenuItemText(msg, Get_Menu_Text(index));
     GUIonMessage_SetMenuItemSecondLineText(msg, GetSecondLine(pShortcutBook->SoftkeyList, index));
     break;
   }
-  return 1;
-}
-
-int pg_MusicApplication_Shortcut_PrevAction(void *data, BOOK *book)
-{
-  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
-  BookObj_ReturnPage(pShortcutBook, PREVIOUS_EVENT);
-  return 1;
-}
-
-int pg_MusicApplication_Shortcut_CancelAction(void *data, BOOK *book)
-{
-  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
-  BookObj_ReturnPage(pShortcutBook, CANCEL_EVENT);
   return 1;
 }
 
@@ -312,7 +301,7 @@ int pg_MusicApplication_Shortcut_EnterAction(void *data, BOOK *book)
     ListMenu_SetHotkeyMode(pShortcutBook->MainMenu, LKHM_SHORTCUT);
     ListMenu_SetOnMessage(pShortcutBook->MainMenu, Shortcut_OnMessage);
     GUIObject_SoftKeys_SetAction(pShortcutBook->MainMenu, ACTION_SELECT1, Shortcut_EnterAction);
-    GUIObject_SoftKeys_SetAction(pShortcutBook->MainMenu, ACTION_BACK, Shortcut_PrevAction);
+    GUIObject_SoftKeys_SetAction(pShortcutBook->MainMenu, ACTION_BACK, Shortcut_CancelAction);
     GUIObject_SoftKeys_SetAction(pShortcutBook->MainMenu, ACTION_LONG_BACK, Shortcut_CancelAction);
     GUIObject_Show(pShortcutBook->MainMenu);
   }
@@ -326,14 +315,27 @@ int pg_MusicApplication_Shortcut_ExitAction(void *data, BOOK *book)
   return 1;
 }
 
+int pg_MusicApplication_Shortcut_PrevAction(void *data, BOOK *book)
+{
+  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
+  BookObj_ReturnPage(pShortcutBook, PREVIOUS_EVENT);
+  return 1;
+}
+
+int pg_MusicApplication_Shortcut_CancelAction(void *data, BOOK *book)
+{
+  MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
+  BookObj_ReturnPage(pShortcutBook, CANCEL_EVENT);
+  return 1;
+}
+
 void MusicApplication_Shortcut_Destroy(BOOK *book)
 {
   MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
   FREE_GUI(pShortcutBook->MainMenu);
   FREE_GUI(pShortcutBook->SubMenu);
   FreeList(pShortcutBook->SoftkeyList, SoftkeyFree);
-  pShortcutBook->CurrentItem = 0;
-  FreeBook(pShortcutBook);
+  pShortcutBook->CurrentItem = NULL;
 }
 
 MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
@@ -357,23 +359,12 @@ MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
 void Call_ShortcutPage(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-#if defined(DB3150v1)
-  pMusicBook->unk_0x75 = TRUE;
-#elif defined(DB3150v2)
-  pMusicBook->unk_0x8C = TRUE;
-#elif defined(DB3200) || defined(DB3210)
-#ifdef WALKMAN
-  pMusicBook->unk_0x98 = TRUE;
-#else
-  pMusicBook->unk_0x90 = TRUE;
-#endif
-#elif defined(DB3350)
-  pMusicBook->unk_0x94 = TRUE;
-#endif
+  pMusicBook->Callpage = TRUE;
 
   MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
-  DISP_OBJ *DispObj = GUIObject_GetDispObject(pMusicBook->Gui_NowPlaying);
-  pShortcutBook->SoftkeyList = Create_SoftkeyList(DispObject_SoftKeys_GetList(DispObj, pMusicBook, NULL));
+  DISP_OBJ *disp_obj = GUIObject_GetDispObject(pMusicBook->Gui_NowPlaying);
+  pShortcutBook->SoftkeyList = Create_SoftkeyList(DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL));
+
   BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
 }
 
@@ -394,11 +385,12 @@ void execute_kb(BOOK *book, char key, int mode)
   if (mode == KBD_SHORT_RELEASE)
   {
     MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-    u16 actionID;
+    u16 actionID = 0xFF;
     char key_id = GetKeyID(key);
 
     FSTAT _fstat;
-    if ((fstat(FILE_PATH, FILE_NAME, &_fstat)) >= 0)
+    int f = fstat(FILE_PATH, FILE_NAME, &_fstat);
+    if (f >= 0)
     {
       int size = _fstat.fsize;
       FILE_DATA *mydata = (FILE_DATA *)malloc(size);
@@ -411,11 +403,9 @@ void execute_kb(BOOK *book, char key, int mode)
   }
 }
 
-#ifdef DB3350
 extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void *unk)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-
   switch (key)
   {
   case KEY_DIGITAL_0:
@@ -442,11 +432,3 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
     break;
   }
 }
-#else
-extern "C" void Set_New_Keyboard(BOOK *book, char key)
-{
-  MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-  execute_kb(pMusicBook, key);
-}
-
-#endif

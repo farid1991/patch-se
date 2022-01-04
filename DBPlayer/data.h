@@ -13,10 +13,10 @@
 typedef struct TEXT_ITEM_DATA
 {
   bool state;
-  char align;
+  uint8_t align;
   uint32_t tcolor;
   uint32_t ocolor;
-  char overlay;
+  uint8_t overlay;
   uint16_t font;
   RECT coord;
 } TEXT_ITEM_DATA;
@@ -90,7 +90,7 @@ typedef struct _TEMP_DATA
   uint32_t color1;
   uint32_t color2;
   uint8_t overlay;
-  uint8_t font;
+  uint32_t font;
   int x1;
   int y1;
   int x2;

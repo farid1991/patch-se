@@ -5,6 +5,10 @@
 
 extern "C"
 {
+#ifndef DB3350
+#pragma swi_number = 0x10D
+    __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
+#endif
 #if defined(DB2010)
     void *memalloc(int size, int f1, int f2, const char *fname, int fline);
     void memfree(void *mem, const char *fname, int fline);
@@ -29,6 +33,7 @@ extern "C"
     int Disp_GetTextIDHeight(TEXTID);
     int Disp_GetTextIDWidth(TEXTID, int len);
 #endif
+    int GetImageHeight_int(IMAGEID ImageID);
 
     void debug_printf(const char *fmt, ...);
     void *memset(void *mem, char chr, int size);

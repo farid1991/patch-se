@@ -141,12 +141,14 @@ const uint16_t ENABLE_TRAFFIC_ANNOUNCEMENTS = 0x08; //bin: 0000 0000 0000 1000
 
 typedef struct _DISP_OBJ_FMRADIO
 {
-#if defined(DB3200) || defined(DB3210)
-  uint8_t dummy_1[0x194];
-#elif defined(DB3150v1)
-  uint8_t dummy_1[0x134];
-#elif defined(DB2020)
+#if defined(DB2020)
   uint8_t dummy_1[0xD8];
+#elif defined(DB3150v1)
+  uint8_t dummy_1[0x138];
+#elif defined(DB3150v2)
+  uint8_t dummy_1[0x148];
+#elif defined(DB3200) || defined(DB3210)
+  uint8_t dummy_1[0x194];
 #endif
   uint16_t key_pressed;
   uint8_t key_mode;
@@ -156,17 +158,52 @@ typedef struct FmRadio_Settings
 {
   bool SpeakerMode;
   bool StereoReception; // true=stereo //false=mono
-  bool FmRadio_Settings_3;
-  bool FmRadio_Settings_4;
+  uint8_t FmRadio_Settings_3;
+  uint8_t FmRadio_Settings_4;
 } FmRadio_Settings;
 
 typedef struct FmRadio_Channel
 {
   uint16_t Frequency;
   uint16_t FmRadio_Channel;
-  wchar_t Name[17];
+  wchar_t Name[0x11];
 } FmRadio_Channel;
 
+#ifdef DB3150v2
+typedef struct _FmRadio_Book : BOOK
+{
+  GUI *FmRadio_Gui;              // 0x18
+  int unk_0x1C;                  // 0x1C
+  GUI *FmRadio_Gui_Submenu1;     // 0x20
+  GUI *FmRadio_Gui_Submenu2;     // 0x24
+  int unk_0x24;                  // 0x28
+  uint8_t CurrentChannel;        // 0x2C
+  uint8_t unk_0x29;              // 0x2D
+  uint16_t CurrentFrequency;     // 0x2E
+  uint16_t unk_0x2C;             // 0x30
+  wchar_t ProgramServiceName[9]; // 0x32
+  uint16_t unk_0x40;             // 0x44
+  FmRadio_Channel Channel[20];   // 0x46
+  uint16_t unk_0x33E;            // 0x33E
+  int RadioVal;                  // 0x340
+  int unk_0x344;                 // 0x344
+  int unk_0x348;                 // 0x348
+  void *pIAudioControl;          // 0x34C
+  int unk_0x350;                 // 0x350
+  void *pIFMRadio;               // 0x354
+  int unk_0x358;                 // 0x358
+  void *pIAccessoryServer;       // 0x35C
+  FmRadio_Settings Settings;     // 0x360
+  uint16_t unk_0x366;            // 0x364
+  uint16_t TimerID;              // 0x366
+  uint16_t FrequencySearch;      // 0x368
+  uint16_t unk_0x36A;            // 0x36A
+  uint8_t dummy_4[0x2E];         // 0x36C
+  bool RDS;                      // 0x39A
+  bool AF;                       // 0x39B
+  uint8_t unk_0x39C;             // 0x39C
+} FmRadio_Book;
+#else
 typedef struct _FmRadio_Book : BOOK
 {
   GUI *FmRadio_Gui;              // 0x18
@@ -199,5 +236,6 @@ typedef struct _FmRadio_Book : BOOK
   bool AF;                       // 0x397
   uint8_t unk_0x398;             // 0x398
 } FmRadio_Book;
+#endif
 
 #endif

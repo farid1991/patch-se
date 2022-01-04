@@ -1,8 +1,6 @@
 #ifndef _LIB_H_
 #define _LIB_H_
 
-#include "temp\target.h"
-
 extern "C"
 {
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);

@@ -15,7 +15,7 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
 
-  CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
+  CoCreateInstance(CID_CUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
 
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
@@ -63,7 +63,7 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   int font_style = font_size >> 8;
   dll_SetFont(fontsize_wo_style, font_style, &pFont);
 
-  CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
+  CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
   pTextRenderingFactory->CreateRichTextLayout(pTextObject, NULL, NULL, &pRichTextLayout);
@@ -100,7 +100,7 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
-  CoCreateInstance(CID_IUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
+  CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
 }
 
 void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID)
@@ -151,6 +151,9 @@ int dll_GetImageWidth(IMAGEID imageID)
 
 int dll_GetImageHeight(IMAGEID imageID)
 {
+#ifdef DB3150v2
+  return GetImageHeight_int(imageID);
+#else
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
   long image_width = NULL;
@@ -166,6 +169,7 @@ int dll_GetImageHeight(IMAGEID imageID)
     pUIImage->Release();
 
   return image_height;
+#endif
 }
 #endif
 
@@ -232,7 +236,7 @@ int dll_MetaData_Desc_GetTrackNum(void *MetaData_Desc, int __NULL)
   return (track_num);
 }
 
-int dll_MetaData_Desc_HaveAlbumArt(void *MetaData_Desc, wchar_t *path, wchar_t *name)
+int dll_MetaData_Desc_HasAlbumArt(void *MetaData_Desc, wchar_t *path, wchar_t *name)
 {
   if (((METADATA_DESC *)MetaData_Desc)->pIMetaData->HasAlbumArt(path, name))
     return TRUE;

@@ -20,7 +20,8 @@ a       EQU     b
 		defadr fstat,0x141F09F0+1
 		defadr lseek,0x14118B30+1
 		defadr w_fopen,0x10147900+1
-        defadr w_lseek,0x10283C44
+        ; defadr w_lseek,0x10283C44
+        defadr w_lseek,0x14817918+1
         defadr w_fclose,0x10244F18+1
         defadr w_fread,0x101AC33C+1
 		defadr snwprintf,0x1481CAFC+1

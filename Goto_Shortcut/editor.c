@@ -548,7 +548,6 @@ void Editor_onBack(BOOK *book, GUI *gui)
   {
     void *Item = List_RemoveFirst(mbk->ShortcutList);
     ShortcutFree(Item);
-    //UpdateMainPage(NULL, mbk);
   }
   BookObj_ReturnPage(book, ACCEPT_EVENT);
 }
@@ -574,6 +573,7 @@ int Editor_onMessage(GUI_MESSAGE *msg)
   }
   return 1;
 }
+
 int pg_SC_Editor_Main_EnterAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
@@ -619,13 +619,13 @@ void EditorRun(BOOK *book, int mode)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   if (mode == ADDING_MODE)
   {
-    SHORTCUT *Shortcut = (SHORTCUT *)malloc(sizeof(SHORTCUT));
-    memset(Shortcut, NULL, sizeof(SHORTCUT));
+    SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)malloc(sizeof(SC_LIST_ELEM));
+    memset(Shortcut, NULL, sizeof(SC_LIST_ELEM));
     List_InsertFirst(mbk->ShortcutList, Shortcut);
-    mbk->ShortcutItem = (SHORTCUT *)List_Get(mbk->ShortcutList, 0);
+    mbk->ShortcutItem = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, 0);
   }
   else
-    mbk->ShortcutItem = (SHORTCUT *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
+    mbk->ShortcutItem = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
 
   BookObj_CallPage(mbk, &Goto_Editor_Main_PageDesc);
 }

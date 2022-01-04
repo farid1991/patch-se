@@ -42,9 +42,9 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetText,0x146585A8+1
         defadr MediaPlayer_SoftKeys_SetAction,0x146582F4+1
 
-        defadr pg_MusicApplication_PreviousAction,0x155AD0EC+1
-        defadr pg_MusicApplication_CancelAction,0x152C2890+1
-        defadr pg_MusicApplication_ExitAction,0x151D3464+1
+        defadr pg_MusicApplication_PreviousEvent,0x155AD0EC+1
+        defadr pg_MusicApplication_CancelEvent,0x152C2890+1
+        defadr pg_MusicApplication_ExitEvent,0x151D3464+1
 
         defadr MusicApp_PrevAction,0x155AD08C+1
         defadr MusicApp_CancelAction,0x1530F414+1

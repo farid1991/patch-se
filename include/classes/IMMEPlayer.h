@@ -398,7 +398,24 @@ typedef struct MME_DATA
 typedef struct MME_DATA
 {
   char dummy[0x2C];
-  TMMEMediaProperties mediaProperties;
+  uint8_t contentType;                                                     ///< Type of content, @see TMMEContentType.
+  char dummy_2[0x3];                                                       ///< unknown value
+  TMMETime mediaLength;                                                    ///< Media file total playback time, @see TMMETime.
+  uint8_t fileFormatId;                                                    ///< Media file format identifier.
+  uint8_t fileFormatType;                                                  ///< File format type description, @see TMMEFileFormatIdType.
+  uint8_t audioOutput;                                                     ///< Mono/stero audio output, @see TMMEAudioOutput.
+  uint8_t audioCodecId;                                                    ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
+  uint32_t audioCodecType;                                                 ///< Audio codec id type description, @see TMMEAudioCodecIdType.
+  uint32_t audioSampleRate;                                                ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
+  u16 bpmTempo;                                                            ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
+  bool videoImageSizePresent;                                              ///< TRUE if there is available information about VideoImageSize.
+  TMMEVideoImageSize videoImageSize;                                       ///< Video image size, @see TMMEVideoImageSize.
+  uint8_t videoCodecId;                                                    ///< Video codec id of an video encoding type.
+  TMMEVideoCodecIdType videoCodecType;                                     ///< Video codec id type description, @see TMMEVideoCodecIdType.
+  wchar_t streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
+  uint32_t streamingContentId;                                             ///< Streaming content format identifier.
+  bool isLiveStreaming;                                                    ///< Description if the content is live streamig or not.
+  bool is_DRM_Protected;                                                   ///< Description if the content
 } MME_DATA;
 #endif
 /**

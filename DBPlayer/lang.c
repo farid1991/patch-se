@@ -133,7 +133,7 @@ TEXTID TextID_Global(int id)
     break;
 #ifndef DB3350
   case ID_TAG_EDITOR:
-    result = TEXT_TAG_EDITOR;
+    result = TEXT_ID_TAG_EDITOR;
     break;
 #endif
   }

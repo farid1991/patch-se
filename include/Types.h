@@ -274,11 +274,7 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 	char dummy[0x16C];
-#else
-	char dummy[0x110];
-#endif
 } DISP_OBJ;
 
 #define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD) - 1
@@ -287,9 +283,7 @@ typedef struct DISP_OBJ
 
 typedef struct GUI
 {
-	DISP_OBJ *disp; // use GUIObject_GetDispObject();
-	BOOK *book;		// use GUIObject_GetBook();
-	char dummy[0x88];
+	char dummy[0x90];
 } GUI;
 
 // 2do: remove these types
@@ -373,90 +367,90 @@ typedef enum
  */
 typedef enum
 {
-  UIThemeColor_BrowserUnderline,
-  UIThemeColor_BrowserTableBorder,
-  UIThemeColor_CalendarWeekendText,
-  UIThemeColor_CalendarWeekendHighlight,
-  UIThemeColor_InputScrollBar,
-  UIThemeColor_InputText,
-  UIThemeColor_InputOverlay,
-  UIThemeColor_InputOverlayHighlight,
-  UIThemeColor_InputOverlayFrame,
-  UIThemeColor_HomeScreen,
-  UIThemeColor_HomeScreenNonSel,         
-  UIThemeColor_HomeScreenTab,
-  UIThemeColor_HomeScreenTabNonSel,
-  UIThemeColor_HomeScreenTabSel,
-  UIThemeColor_HomeScreenTabText,
-  UIThemeColor_HomeScreenHighlight,
-  UIThemeColor_HomeScreenHighlightNonSel,
-  UIThemeColor_HomeScreenScrollBar,
-  UIThemeColor_HomeScreenFrame,          
-  UIThemeColor_Morelist,
-  UIThemeColor_MorelistNonSel,           
-  UIThemeColor_MorelistHighlight,
-  UIThemeColor_MorelistHighlightNonSel,  
-  UIThemeColor_MorelistScrollBar,
-  UIThemeColor_MorelistFrame,            
-  UIThemeColor_TopMenu,
-  UIThemeColor_Highlight,
-  UIThemeColor_HighlightNonSel,          
-  UIThemeColor_NonSel,                   
-  UIThemeColor_OverlayFrame,             
-  UIThemeColor_OverlayHighlight,
-  UIThemeColor_OverlayHighlightNonSel,   
-  UIThemeColor_OverlayNonSel,            
-  UIThemeColor_OverlayScrollBar,
-  UIThemeColor_OverlayText,
-  UIThemeColor_OverlayTitle,
-  UIThemeColor_ScrollBar,
-  UIThemeColor_OverlayDim,
-  UIThemeColor_SoftkeyNonSel,            
-  UIThemeColor_SoftkeyBarLeft,
-  UIThemeColor_SoftkeyBarRight,
-  UIThemeColor_SoftkeyTextLeftPressed,
-  UIThemeColor_SoftkeyTextRightPressed,
-  UIThemeColor_SoftkeyTextLeft,          
-  UIThemeColor_SoftkeyTextLeftNonSel,    
-  UIThemeColor_SoftkeyTextRight,         
-  UIThemeColor_SoftkeyTextRightNonSel,   
-  UIThemeColor_StandbyOperatorName,
-  UIThemeColor_StandbyTime,
-  UIThemeColor_Tab,
-  UIThemeColor_TabText,
-  UIThemeColor_TabNonSel,
-  UIThemeColor_TabSel,
-  UIThemeColor_Text,
-  UIThemeColor_Title,
-  UIThemeColor_VolumeStaples,
-  UIThemeColor_ProgressBarOutline,
-  UIThemeColor_ProgressBar,
-  UIThemeColor_CalendarWeekViewMarkings,
-  UIThemeColor_TopMenuShadow,            
-  UIThemeColor_Notes,                    
-  UIThemeColor_OverlayTitleShadow,       
-  UIThemeColor_TabTextShadow,            
-  UIThemeColor_HomeScreenTabTextShadow,  
-  UIThemeColor_TitleShadow,              
-  UIThemeColor_Cursor,                   
-  UIThemeColor_OverlayCursor,            
-  UIThemeColor_OverlayPrompt,            
-  UIThemeColor_Prompt,                   
-  UIThemeColor_InternalFrame,
-  UIThemeColor_InternalFrameText,
-  UIThemeColor_InternalFrameNonSel,
-  UIThemeColor_InternalFrameHighlight,
-  UIThemeColor_MediaBackground,
-  UIThemeColor_MediaBackgroundSearch,
-  UIThemeColor_MediaIcon,
-  UIThemeColor_MediaText,
-  UIThemeColor_MediaHighlightIcon,
-  UIThemeColor_MediaHighlightText,
-  UIThemeColor_MediaLine,
-  UIThemeColor_MediaWalkmanHighlight,
-  UIThemeColor_MediaWalkmanParticle,
-  UIThemeColor_MediaParticle,
-  UIThemeColor_Last
+	UIThemeColor_BrowserUnderline,
+	UIThemeColor_BrowserTableBorder,
+	UIThemeColor_CalendarWeekendText,
+	UIThemeColor_CalendarWeekendHighlight,
+	UIThemeColor_InputScrollBar,
+	UIThemeColor_InputText,
+	UIThemeColor_InputOverlay,
+	UIThemeColor_InputOverlayHighlight,
+	UIThemeColor_InputOverlayFrame,
+	UIThemeColor_HomeScreen,
+	UIThemeColor_HomeScreenNonSel,
+	UIThemeColor_HomeScreenTab,
+	UIThemeColor_HomeScreenTabNonSel,
+	UIThemeColor_HomeScreenTabSel,
+	UIThemeColor_HomeScreenTabText,
+	UIThemeColor_HomeScreenHighlight,
+	UIThemeColor_HomeScreenHighlightNonSel,
+	UIThemeColor_HomeScreenScrollBar,
+	UIThemeColor_HomeScreenFrame,
+	UIThemeColor_Morelist,
+	UIThemeColor_MorelistNonSel,
+	UIThemeColor_MorelistHighlight,
+	UIThemeColor_MorelistHighlightNonSel,
+	UIThemeColor_MorelistScrollBar,
+	UIThemeColor_MorelistFrame,
+	UIThemeColor_TopMenu,
+	UIThemeColor_Highlight,
+	UIThemeColor_HighlightNonSel,
+	UIThemeColor_NonSel,
+	UIThemeColor_OverlayFrame,
+	UIThemeColor_OverlayHighlight,
+	UIThemeColor_OverlayHighlightNonSel,
+	UIThemeColor_OverlayNonSel,
+	UIThemeColor_OverlayScrollBar,
+	UIThemeColor_OverlayText,
+	UIThemeColor_OverlayTitle,
+	UIThemeColor_ScrollBar,
+	UIThemeColor_OverlayDim,
+	UIThemeColor_SoftkeyNonSel,
+	UIThemeColor_SoftkeyBarLeft,
+	UIThemeColor_SoftkeyBarRight,
+	UIThemeColor_SoftkeyTextLeftPressed,
+	UIThemeColor_SoftkeyTextRightPressed,
+	UIThemeColor_SoftkeyTextLeft,
+	UIThemeColor_SoftkeyTextLeftNonSel,
+	UIThemeColor_SoftkeyTextRight,
+	UIThemeColor_SoftkeyTextRightNonSel,
+	UIThemeColor_StandbyOperatorName,
+	UIThemeColor_StandbyTime,
+	UIThemeColor_Tab,
+	UIThemeColor_TabText,
+	UIThemeColor_TabNonSel,
+	UIThemeColor_TabSel,
+	UIThemeColor_Text,
+	UIThemeColor_Title,
+	UIThemeColor_VolumeStaples,
+	UIThemeColor_ProgressBarOutline,
+	UIThemeColor_ProgressBar,
+	UIThemeColor_CalendarWeekViewMarkings,
+	UIThemeColor_TopMenuShadow,
+	UIThemeColor_Notes,
+	UIThemeColor_OverlayTitleShadow,
+	UIThemeColor_TabTextShadow,
+	UIThemeColor_HomeScreenTabTextShadow,
+	UIThemeColor_TitleShadow,
+	UIThemeColor_Cursor,
+	UIThemeColor_OverlayCursor,
+	UIThemeColor_OverlayPrompt,
+	UIThemeColor_Prompt,
+	UIThemeColor_InternalFrame,
+	UIThemeColor_InternalFrameText,
+	UIThemeColor_InternalFrameNonSel,
+	UIThemeColor_InternalFrameHighlight,
+	UIThemeColor_MediaBackground,
+	UIThemeColor_MediaBackgroundSearch,
+	UIThemeColor_MediaIcon,
+	UIThemeColor_MediaText,
+	UIThemeColor_MediaHighlightIcon,
+	UIThemeColor_MediaHighlightText,
+	UIThemeColor_MediaLine,
+	UIThemeColor_MediaWalkmanHighlight,
+	UIThemeColor_MediaWalkmanParticle,
+	UIThemeColor_MediaParticle,
+	UIThemeColor_Last
 } UIThemeColor_t;
 
 // book ------------------------------------------------------------------------
@@ -580,6 +574,7 @@ enum INPUT_TYPES
 	IT_DIGITAL_PASS = 4,
 	IT_DIGITAL_IP = 5,
 	IT_URL = 6,
+	IT_EMAIL = 7,
 	IT_ABC_AND_DIGIT = 8,
 	IT_UNSIGNED_DIGIT = 9,
 	IT_EXTRA_DIGIT = 10,
@@ -1377,8 +1372,8 @@ typedef struct SUB_EXECUTE
 	GUI *gui;				 //14
 	GUI_FEEDBACK *gui_fb;	 //18
 	void *strinp_struct;	 //1C
-	char dummy1[0x2D0];		//20
-#if defined(DB3150v1)
+	char dummy1[0x2D0];		 //20
+#if defined(DB3150v1) ||  defined(DB3150v2)
 	char dummy2[0x4];
 #endif
 	void *pIMMEPlayer; //2F4
@@ -1502,11 +1497,12 @@ typedef struct
 
 enum DYNAMIC_MENU_ELEMENT_MSG
 {
-	MENU_onCall = 0,
-	MENU_onText,
-	MENU_onState,
-	MENU_onUnk1,
-	MENU_onUnk2
+	DYNAMIC_MENU_onCall = 0,
+	DYNAMIC_MENU_onText,
+	DYNAMIC_MENU_onState,
+	DYNAMIC_MENU_onUnk1,
+	DYNAMIC_MENU_onUnk2,
+	DYNAMIC_MENU_last
 };
 // registry --------------------------------------------------------------------
 

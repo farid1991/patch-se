@@ -9,7 +9,7 @@
 #ifndef DB3350
 __arm void StartElf(wchar_t *Name)
 {
-  //  elfload(Name, NULL, NULL, NULL);
+  elfload(Name, NULL, NULL, NULL);
 }
 #endif
 
@@ -27,7 +27,7 @@ void *SHORTCUT_DESC_A2_Init(wchar_t *param)
   SHORTCUT_DESC_A2 *w_buf = (SHORTCUT_DESC_A2 *)malloc(sizeof(SHORTCUT_DESC_A2));
   memset(w_buf, NULL, sizeof(w_buf));
   wstrcpy(w_buf->name, param);
-  if (!wstrcmp(w_buf->name, MAIN_MENU))
+  if (!wstrcmp(w_buf->name, L"MainMenu"))
   {
     w_buf->item_type = SC_Type_MainMenu;
   }
@@ -107,7 +107,7 @@ void OpenFolder(wchar_t *folders)
   }
 }
 
-void RunShortcut(SHORTCUT *ShortcutItem)
+void RunShortcut(SC_LIST_ELEM *ShortcutItem)
 {
   switch (ShortcutItem->ShortcutType)
   {
@@ -209,7 +209,7 @@ void SaveConfig(LIST *List)
     int i;
     for (i = 0; i < List_GetCount(List); i++)
     {
-      SHORTCUT *Shortcut = (SHORTCUT *)List_Get(List, i);
+      SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(List, i);
       fwrite(File, &Shortcut->ShortcutType, sizeof(char));
       sDataLen = WStringLength(Shortcut->ShortcutLink);
       fwrite(File, &sDataLen, sizeof(int));
@@ -242,7 +242,7 @@ LIST *LoadConfig()
       int i = 0;
       while (/*Ret->FirstFree*/ i < Count)
       {
-        SHORTCUT *Shortcut = (SHORTCUT *)malloc(sizeof(SHORTCUT));
+        SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)malloc(sizeof(SC_LIST_ELEM));
         fread(File, &Shortcut->ShortcutType, sizeof(char));
         fread(File, &sDataLen, sizeof(int));
         Shortcut->ShortcutLink = WStringAlloc(sDataLen);

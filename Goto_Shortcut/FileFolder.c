@@ -111,7 +111,7 @@ int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 Selec
       *(rev + 1) = 0;
     else
       *rev = 0;
-    AddToFList(name, back, IS_BACK);
+    AddToFList(name, back, ITEM_BACK);
     n++;
   }
   void *dir = w_diropen(str);
@@ -133,14 +133,14 @@ int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 Selec
       if (fs.attr & 0x4000)
       {
         snwprintf(name, 63, L"/%ls", next);
-        AddToFList(path, name, IS_FOLDER);
+        AddToFList(path, name, ITEM_FOLDER);
         n++;
       }
       else
       {
         if (type == SFILE)
         {
-          AddToFList(path, next, IS_FILE);
+          AddToFList(path, next, ITEM_FILE);
           n++;
         }
       }
@@ -174,16 +174,16 @@ FILELIST *FindFLISTtByNS(int *i, int si)
 FILELIST *FindFLISTtByN(int n)
 {
   FILELIST *flist;
-  flist = FindFLISTtByNS(&n, IS_BACK);
+  flist = FindFLISTtByNS(&n, ITEM_BACK);
 
   if (!n && flist)
     return flist;
 
-  flist = FindFLISTtByNS(&n, IS_FOLDER);
+  flist = FindFLISTtByNS(&n, ITEM_FOLDER);
   if (!n && flist)
     return flist;
 
-  flist = FindFLISTtByNS(&n, IS_FILE);
+  flist = FindFLISTtByNS(&n, ITEM_FILE);
 
   if (!n && flist)
     return flist;
@@ -226,7 +226,7 @@ void Self_onEnterPressed(BOOK *book, GUI *)
   if (flist)
   {
     wchar_t *path = WStringAlloc(255);
-    if (flist->is_folder == IS_FOLDER || flist->is_folder == IS_BACK)
+    if (flist->is_folder == ITEM_FOLDER || flist->is_folder == ITEM_BACK)
     {
       wstrncpy(path, flist->fullname, 255);
       FREE_FLGUI(mbk->SelectFolder);
@@ -251,7 +251,7 @@ void Self_onSelectPressed(BOOK *book, GUI *gui)
   FILELIST *flist = FindFLISTtByN(item);
   if (flist)
   {
-    if ((flist->is_folder == IS_FOLDER && mbk->FType == SFOLDER) || flist->is_folder == IS_FILE)
+    if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SFOLDER) || flist->is_folder == ITEM_FILE)
     {
       TEXTID str = TextID_Get(flist->fullname);
       StringInput_SetText(mbk->FolderInput, str);
@@ -305,7 +305,7 @@ GUI_LIST *CreateFileFolderSelect(BOOK *book, wchar_t *str)
   GUI_LIST *f_list_gui = CreateListMenu(mbk, UIDisplay_Main);
   GUIObject_SetTitleText(f_list_gui, TextID_Get(str));
   ListMenu_SetItemCount(f_list_gui, count);
-  ListMenu_SetCursorToItem(f_list_gui, 0);
+  ListMenu_SetCursorToItem(f_list_gui, ITEM_BACK);
   ListMenu_SetOnMessage(f_list_gui, OnMessage);
   GUIObject_SoftKeys_SetActionAndText(f_list_gui, ACTION_SELECT1, Self_onEnterPressed, OPEN_TXT);
   GUIObject_SoftKeys_SetActionAndText(f_list_gui, 1, Self_onSelectPressed, SELECT_TXT);

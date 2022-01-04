@@ -1,7 +1,15 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\book\MusicApplication_book.h"
+#if defined(DB3150v1)
+#include "..\\include\book\DB3150v1\MusicApplication_Book.h"
+#elif defined(DB3150v2)
+#include "..\\include\book\DB3150v2\MusicApplication_Book.h"
+#elif defined(DB3210)
+#include "..\\include\book\DB3210\MusicApplication_Book.h"
+#elif defined(DB3350)
+#include "..\\include\book\DB3350\MusicApplication_Book.h"
+#endif
 
 #include "Lib.h"
 #include "main.h"
@@ -194,11 +202,8 @@ const PAGE_DESC MusicApplication_ShutdownTimer_Page = {"MusicApplication_Shutdow
 void Call_TimerPage(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-#if defined(DB3150v1)
-  pMusicBook->unk_0x75 = TRUE;
-#elif defined(DB3350) || defined(DB3150v2)
-  pMusicBook->unk_0x94 = TRUE;
-#endif
+  pMusicBook->Callpage = TRUE;
+
   BookObj_CallPage(pMusicBook, &MusicApplication_ShutdownTimer_Page);
 }
 

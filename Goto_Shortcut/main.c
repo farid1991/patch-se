@@ -35,7 +35,7 @@ __thumb void mfree(void *mem)
 
 void ShortcutFree(void *Item)
 {
-  SHORTCUT *Shortcut = (SHORTCUT *)Item;
+  SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)Item;
   if (Shortcut)
   {
     WStringFree(Shortcut->ShortcutLink);
@@ -67,7 +67,7 @@ void Menu_DeleteItem(BOOK *book, GUI *gui)
 
   if (List_GetCount(mbk->ShortcutList))
   {
-    SHORTCUT *Shortcut = (SHORTCUT *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
+    SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
 
     if (mbk->YesNoQuestion = CreateYesNoQuestion(mbk, UIDisplay_Main))
     {
@@ -106,7 +106,7 @@ void Menu_About(BOOK *book, GUI *gui)
 void Menu_Select(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  SHORTCUT *sc = (SHORTCUT *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
+  SC_LIST_ELEM *sc = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
   if (sc)
     RunShortcut(sc);
 
@@ -130,7 +130,7 @@ int Menu_onMessage(GUI_MESSAGE *msg)
   {
   case LISTMSG_GetItem:
     int index = GUIonMessage_GetCreatedItemIndex(msg);
-    SHORTCUT *Shortcut = (SHORTCUT *)List_Get(mbk->ShortcutList, index);
+    SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, index);
 
     GUIonMessage_SetMenuItemText(msg, TextID_Get(Shortcut->ShortcutText));
     GUIonMessage_SetMenuItemIcon(msg, 0, Shortcut->ShortcutIcon);
@@ -178,7 +178,6 @@ int pg_Goto_Shortcut_CancelAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->MainMenu);
-  FreeBook(mbk);
   return 1;
 }
 

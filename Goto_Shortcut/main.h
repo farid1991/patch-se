@@ -39,9 +39,9 @@ enum SHORTCUT_TYPE
 
 enum FILEFOLDERTYPES
 {
-  IS_BACK,
-  IS_FOLDER,
-  IS_FILE
+  ITEM_BACK,
+  ITEM_FOLDER,
+  ITEM_FILE
 };
 
 enum SELF
@@ -74,7 +74,7 @@ typedef struct
   wchar_t *ShortcutLink;
   wchar_t *ShortcutText;
   IMAGEID ShortcutIcon;
-} SHORTCUT;
+} SC_LIST_ELEM;
 
 typedef struct GotoShortcut_Book : BOOK
 {
@@ -93,7 +93,7 @@ typedef struct GotoShortcut_Book : BOOK
 #ifndef DB3350
   LIST *JavaList;
 #endif
-  SHORTCUT *ShortcutItem;
+  SC_LIST_ELEM *ShortcutItem;
   uint8_t CurrentItem;
   uint8_t FType;
 } GotoShortcut_Book;

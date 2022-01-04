@@ -1,7 +1,7 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\book\MusicApplication_book.h"
+#include "..\\include\book\DB3350\MusicApplication_Book.h"
 #include "..\\include\classes\IMusicServer.h"
 #include "Lib.h"
 #include "main.h"
@@ -43,7 +43,7 @@ const PAGE_DESC MusicApplication_FileInfo_Page = {"MusicApplication_FileInfo_Pag
 void Call_FileInfoPage(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-  pMusicBook->unk_0x94 = TRUE;
+  pMusicBook->Callpage = TRUE;
   BookObj_CallPage(pMusicBook, &MusicApplication_FileInfo_Page);
 }
 
