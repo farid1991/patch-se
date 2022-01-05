@@ -111,13 +111,30 @@ a       EQU b
 
         EXTERN GotoShortcut
 
-	//RSEG STANDBY_SOFTKEY_LEFT
-        //DATA
-	//DCD 0x2CB0
+        RSEG STANDBY_SOFTKEY_FIX1(2)
+        CODE16
+        LSL     R1, R5, #0
+        ADD     R0, #0x18       ; Menu
 
-        //RSEG STANDBY_SOFTKEY_RIGHT
-        //DATA
-	//DCD 0x2CB0
+        RSEG STANDBY_SOFTKEY_FIX2(1)
+        CODE16
+        SUB     R0, #0x44       ; Back
+
+        RSEG STANDBY_SOFTKEY_FIX3
+        CODE16
+        ADD     R0, #0xF        ; Video
+
+        RSEG STANDBY_SOFTKEY_FIX4(1)
+        CODE16
+        ADD     R0, #0xC3       ; OK
+
+        RSEG STANDBY_SOFTKEY_FIX5(1)
+        CODE16
+        ADD     R6, #0x7E       ; Send message
+
+        RSEG STANDBY_SOFTKEY_RIGHT
+        DATA
+	DCD 0xE89
 
         RSEG STANDBY_LINK_RIGHT
         DATA
