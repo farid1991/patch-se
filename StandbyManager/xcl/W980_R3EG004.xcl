@@ -1,0 +1,8 @@
+//W980_R3EG004
+-carm
+//Тело патча
+-Z(CODE)CODE,DATA_C=127CB7A0
+//Создаем свой пункт
+-Z(CODE)PATCH_Standby=11B90364-11B90367
+-Z(CODE)PATCH_StandbyFunc=11B90368-11B9036B
+-Z(CODE)PATCH_StatusIndication_SetItemText=10D8BB68

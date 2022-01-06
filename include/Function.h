@@ -15,6 +15,16 @@ extern "C"
 #pragma swi_number = 0x10D
   __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
 
+#if defined(DB2010)
+  void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+  void memfree(void *mem, const char *fname, int fline);
+#elif defined(DB2020)
+  void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
+  void memfree(int zero, void *mem, const char *fname, int fline);
+#elif defined(A2)
+  void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
+  void memfree(int zero, void *mem, const char *fname, int fline);
+#endif
 #if defined(A1)
   void *MetaData_Desc_Create(wchar_t *path, wchar_t *name);
   void MetaData_Desc_Destroy(void *MetaData_Desc);

@@ -1,5 +1,4 @@
 /*
-;G502 SW-R1FA037
 ;Blinking Orange LED while charging
 ;Stop Charging when battery is full/unplug charger
 ;v.2 (menu.ml version)

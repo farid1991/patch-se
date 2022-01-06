@@ -1,0 +1,8 @@
+//U10_R7AA071
+-carm
+//Тело патча
+-Z(CODE)CODE,DATA_C=162C4400
+//Создаем свой пункт
+-Z(CODE)PATCH_Standby=15B6A5A4-15B6A5A7
+-Z(CODE)PATCH_StandbyFunc=15B6A5A8-15B6A5AB
+-Z(CODE)PATCH_StatusIndication_SetItemText=141435D8
