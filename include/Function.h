@@ -892,7 +892,7 @@ extern "C"
 
   // BOOK function ---------------------------------------------------------------
   BOOL IsBook_onTop(BOOK *book);
-  void *BOOK_SetFocus(UI_APP_SESSION *session, int focus);
+  int Session_SetFocus(UI_APP_SESSION *session, int focus);
   BOOK *GetTopBook(void);
   int IsStandbyTickerBook(BOOK *book);
   IS_NEEDED_BOOK get_IsStandbyTickerBook(void);
@@ -973,7 +973,7 @@ extern "C"
 
   //int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event);
-  TEXTID TextID_CreateFromASCII(int);
+  TEXTID TextID_CreateCharacterID(char);
 
   void OnOffBook_ShuttingDown(void);
   void Shutdown(void);

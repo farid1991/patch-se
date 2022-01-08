@@ -285,7 +285,7 @@ extern "C" void CreateBooksList()
     for (int k = 0; k < List_GetCount(session->listbook); k++)
     {
       BOOK *book = (BOOK *)List_Get(session->listbook, k);
-      if ((gui_count = List_GetCount(book->xguilist->guilist) || (((int)book->onClose) & FLASH_MASK) != mask))
+      if ((gui_count = List_GetCount(book->xguilist->guilist) || ((int)book->onClose) & FLASH_MASK) != mask)
       {
         if (!IsVolumeControllerBook(book) && !IsRightNowBook(book) && !IsRSSTickerBook(book))
         {

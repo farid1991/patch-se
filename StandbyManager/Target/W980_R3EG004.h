@@ -19,14 +19,14 @@
 #define PAGE_ENTER_EVENT        0xF
 #define NIL_EVENT               0
 
-#define TEXTID_TITLE            0x935  // Отображение:
-#define SOFTKEY_TEXTID          0x67C  // Инфо
+#define TEXTID_TITLE            0x935  // Display:
+#define SOFTKEY_TEXTID          0x1A02 // About
 
 #define TEXTID_SWITCHED_OFF     0xA82  // Отключено
-#define TEXTID_OFF              0x10A  // Отключить
+#define TEXTID_OFF              0x867  // Отключить
 #define TEXTID_OP3              0x2C9D // Оператор 3
 #define TEXTID_OP2              0x2C9C // Оператор 2
-#define TEXTID_OP1              0x1C96 // Оператор 1
+#define TEXTID_OP1              0x2CA4 // Оператор 1
 #define TEXTID_SF               0x1C97 // Поиск и Flight
 #define TEXTID_NO               0x1DD6
 #define TEXTID_PROF             0x1E3A

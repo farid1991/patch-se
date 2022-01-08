@@ -465,6 +465,7 @@ typedef struct UI_APP_SESSION
 	int W2;
 	int SessionID;
 	int unk2;
+	char unk3;
 } UI_APP_SESSION;
 
 typedef struct XBOOK
@@ -1477,22 +1478,23 @@ typedef struct pagePool
 
 typedef struct
 {
-	wchar_t *elem_id;	// 0x0 use DynamicMenu_GetElementId( );
-	char dummy_1[0x4];	// 0x4
-	u16 item;			// 0x8
-	char __msg;			// 0xA Use DynamicMenu_GetElementMsg( )
-	char dummy_2;		// 0xB
-	GUI *menu_list;		// 0xC
-	BOOK *book;			// 0x10
-	char state1;		// 0x14
-	char state2;		// 0x15
-	char dummy_3;		// 0x16
-	char dummy_4;		// 0x17
-	TEXTID firstline;	// 0x18
-	TEXTID info;		// 0x1C
-	TEXTID secondline;	// 0x20
-	TEXTID unavailable; // 0x24
-	IMAGEID item_icon;	// 0x28
+	// wchar_t *elem_id;	// 0x0 use DynamicMenu_GetElementId( );
+	// char dummy_1[0x4];	// 0x4
+	// u16 item;			// 0x8
+	// char __msg;			// 0xA Use DynamicMenu_GetElementMsg( )
+	// char dummy_2;		// 0xB
+	// GUI *menu_list;		// 0xC
+	// BOOK *book;			// 0x10
+	// char state1;		// 0x14
+	// char state2;		// 0x15
+	// char dummy_3;		// 0x16
+	// char dummy_4;		// 0x17
+	// TEXTID firstline;	// 0x18
+	// TEXTID info;		// 0x1C
+	// TEXTID secondline;	// 0x20
+	// TEXTID unavailable; // 0x24
+	// IMAGEID item_icon;	// 0x28
+	char dummy[0x30];
 } DYNAMIC_MENU_ELEMENT;
 
 enum DYNAMIC_MENU_ELEMENT_MSG
@@ -1504,6 +1506,41 @@ enum DYNAMIC_MENU_ELEMENT_MSG
 	DYNAMIC_MENU_onUnk2,
 	DYNAMIC_MENU_last
 };
+
+// softkeys
+typedef enum
+{
+  UNDEFINED_SOFTKEY = -1,   // See documentation for CreateSoftkey
+  ABORT_SOFTKEY = 4011,     // Predefined softkey for abort
+  ACCEPT_SOFTKEY,           // Predefined master softkey for the accept family: ok, save, done, continue...
+  ADD_SOFTKEY,              // Predefined softkey for add
+  ADDITEM_SOFTKEY,          // Predefined softkey for add item
+  CANCEL_SOFTKEY,           // Predefined softkey for cancel
+  CHECK_SOFTKEY,            // Predefined softkey for check
+  CONTINUE_SOFTKEY,         // Predefined softkey for continue
+  CREATE_MORELIST_SOFTKEY,  // Predefined softkey for create more list
+  DESTROY_MORELIST_SOFTKEY, // Predefined softkey for destroy more list
+  DELETE_SOFTKEY,           // Predefined softkey for delete
+  DONE_SOFTKEY,             // Predefined softkey for done
+  EDIT_SOFTKEY,             // Predefined softkey for edit
+  HELP_SOFTKEY,             // Predefined softkey for help
+  HYPERLINK_SOFTKEY,        // Predefined softkey for hyperlink
+  INFO_SOFTKEY,             // Predefined softkey for info
+  INPUT_EMPTY_SOFTKEY,      // Predefined softkey for empty input
+  INPUT_NOT_EMPTY_SOFTKEY,  // Predefined softkey for not empty input
+  KEYLOCK_SOFTKEY,          // Predefined softkey for key lock
+  MARKSEVERAL_SOFTKEY,      // Predefined softkey for abort
+  NO_SOFTKEY,               // Predefined softkey for no
+  OK_SOFTKEY,               // Predefined softkey for OK
+  PREVIOUS_SOFTKEY,         // Predefined softkey for previous
+  SAVE_SOFTKEY,             // Predefined softkey for save
+  SELECT_SOFTKEY,           // Predefined softkey for select
+  UNCHECK_SOFTKEY,          // Predefined softkey for uncheck
+  UNMARK_ALL_SOFTKEY,       // Predefined softkey for unmark all
+  YES_SOFTKEY,              // Predefined softkey for yes
+  LAST_SOFTKEY              // Last softkey
+} TUIPredefinedSoftkey;
+
 // registry --------------------------------------------------------------------
 
 enum RegistryType_t

@@ -372,7 +372,7 @@ void LCloseStandbyManager_Book(BOOK *book, GUI *gui)
 void Copyright(BOOK *book, GUI *gui)
 {
   StandbyManager_Book *SMBook = (StandbyManager_Book *)book;
-  TEXTID text = TextID_Create("Standby Manager\n\n(c) Ploik & MaPkiZzz\n(p) farid", ENC_LAT1, TEXTID_ANY_LEN);
+  TEXTID text = STR("Standby Manager\n\n(c) Ploik & MaPkiZzz\n(p) farid");
   CreateMessageBox(EMPTY_TEXTID, text, 1, 0, SMBook);
 };
 
@@ -446,7 +446,7 @@ int StandbyManager_Main_PageOnMessage(GUI_MESSAGE *msg)
     int item = GUIonMessage_GetCreatedItemIndex(msg);
     GUIonMessage_SetMenuItemText(msg, items_text[item + 1]);
     GUIonMessage_SetMenuItemSecondLineText(msg, GetTextID(Check_Num(item)));
-    GUIonMessage_SetMenuItemIcon(msg, 0, iconID[item]);
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, iconID[item]);
     break;
   }
   return 1;
@@ -455,7 +455,6 @@ int StandbyManager_Main_PageOnMessage(GUI_MESSAGE *msg)
 int StandbyManager_Main_PageOnCreate(void *data, BOOK *book)
 {
   StandbyManager_Book *SMBook = (StandbyManager_Book *)book;
-  FREE_GUI(SMBook->MainMenu);
 
   if (SMBook->MainMenu = CreateListMenu(SMBook, UIDisplay_Main))
   {
@@ -544,8 +543,8 @@ TEXTID AddDayToDate(TEXTID textid)
 BOOL IsStandby_Book(BOOK *book, BOOK *book_cmp)
 {
   if (!strcmp(book->xbook->name, book_cmp->xbook->name))
-    return 1;
-  return 0;
+    return TRUE;
+  return FALSE;
 }
 
 extern "C" void OnSetText(GUI *gui, int item, TEXTID textid)

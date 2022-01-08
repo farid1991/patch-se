@@ -18,4 +18,9 @@ typedef struct _StandbyBook : BOOK
   TEXTID searching;      // 0x58
 } StandbyBook;
 
+typedef struct _StandbyExternalBook : BOOK
+{
+  GUI *StatusIndication; // 0x18
+} StandbyExternalBook;
+
 #endif
