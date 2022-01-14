@@ -100,15 +100,15 @@ int onCallback_MainList(GUI_MESSAGE *msg)
 
       if (timeint <= 59)
       {
-        snwprintf(timebuff, 32, L"%d sec.", dt.time.sec);
+        snwprintf(timebuff, MAXELEMS(timebuff), L"%d sec.", dt.time.sec);
       }
       else if (timeint < (60 * 60))
       {
-        snwprintf(timebuff, 32, L"%02d:%02d", dt.time.min, dt.time.sec);
+        snwprintf(timebuff, MAXELEMS(timebuff), L"%02d:%02d", dt.time.min, dt.time.sec);
       }
       else
       {
-        snwprintf(timebuff, 32, L"%02d:%02d:%02d", dt.time.hour, dt.time.min, dt.time.sec);
+        snwprintf(timebuff, MAXELEMS(timebuff), L"%02d:%02d:%02d", dt.time.hour, dt.time.min, dt.time.sec);
       }
       textid_time = TextID_Create(timebuff, ENC_UCS2, TEXTID_ANY_LEN);
     }
@@ -143,14 +143,6 @@ int onCallback_MainList(GUI_MESSAGE *msg)
   }
   }
   return 1;
-}
-
-char *StringAlloc(int lenght)
-{
-  int size = (lenght + 1) * sizeof(char);
-  char *s = (char *)malloc(size);
-  memset(s, NULL, size);
-  return (s);
 }
 
 void MainList_Select_Action(BOOK *bk, GUI *gui)
@@ -229,6 +221,7 @@ void MainList_Cancel_Action(BOOK *book, GUI *gui)
   FreeBook(book);
   UI_Event(RETURN_TO_STANDBY_EVENT);
 }
+
 void Clear_TempData(BOOK *book)
 {
   BacklightControlBook *BCBook = (BacklightControlBook *)book;

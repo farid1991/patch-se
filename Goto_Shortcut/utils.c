@@ -87,11 +87,11 @@ void OpenFolder(wchar_t *folders)
     void *DBDesc = DataBrowserDesc_Create();
     if (DBDesc)
     {
-      const wchar_t *path[2];
-      path[0] = folders;
-      path[1] = 0;
+      const wchar_t *Folders[2];
+      Folders[0] = folders;
+      Folders[1] = 0;
       DataBrowserDesc_SetHeaderText(DBDesc, TextID_Get(folders));
-      DataBrowserDesc_SetFolders(DBDesc, path);
+      DataBrowserDesc_SetFolders(DBDesc, Folders);
       DataBrowserDesc_SetFoldersNumber(DBDesc, 1);
       DataBrowserDesc_SetSelectAction(DBDesc, 0);
       DataBrowserDesc_Menu_AddFSFunctions(DBDesc, 0);

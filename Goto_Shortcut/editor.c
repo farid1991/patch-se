@@ -79,8 +79,8 @@ void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
 
 int pg_SC_Editor_SelectShortcut_CancelAction(void *data, BOOK *book)
 {
-  BookObj_ReturnPage(book, NIL_EVENT);
-  return (1);
+  Action_Back(book,0);
+  return 1;
 }
 
 int pg_SC_Editor_SelectShortcut_EnterAction(void *data, BOOK *book)
@@ -88,11 +88,11 @@ int pg_SC_Editor_SelectShortcut_EnterAction(void *data, BOOK *book)
   BOOK *MainMenu = MenuBook_Desktop(1, BookObj_GetBookID(book));
   if (MainMenu)
   {
-    BookObj_SoftKeys_SetAction(MainMenu, 0x0, Menu_SetShortcut);
-    BookObj_SoftKeys_SetText(MainMenu, 0x0, SHC_SET_SHORTCUT_SK);
+    BookObj_SoftKeys_SetAction(MainMenu, 0, Menu_SetShortcut);
+    BookObj_SoftKeys_SetText(MainMenu, 0, SHC_SET_SHORTCUT_SK);
 
-    BookObj_SoftKeys_SetAction(MainMenu, 0x1, Menu_SetMainMenu);
-    BookObj_SoftKeys_SetText(MainMenu, 0x1, SHC_SET_MM);
+    BookObj_SoftKeys_SetAction(MainMenu, 1, Menu_SetMainMenu);
+    BookObj_SoftKeys_SetText(MainMenu, 1, SHC_SET_MM);
 
     return TRUE;
   }
@@ -117,7 +117,7 @@ int JavaMenu_Callback(GUI_MESSAGE *msg)
     GotoShortcut_Book *mbk = (GotoShortcut_Book *)GUIonMessage_GetBook(msg);
     JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)List_Get(mbk->JavaList, GUIonMessage_GetCreatedItemIndex(msg));
     GUIonMessage_SetMenuItemText(msg, TextID_Get(elem->Name));
-    GUIonMessage_SetMenuItemIcon(msg, 0, elem->ImageID);
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, elem->ImageID);
   }
   return 1;
 }
@@ -125,14 +125,14 @@ int JavaMenu_Callback(GUI_MESSAGE *msg)
 void JavaMenu_Ok(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  JAVA_LIST_ELEM *Elem = (JAVA_LIST_ELEM *)List_Get(mbk->JavaList, ListMenu_GetSelectedItem(mbk->JavaMenu));
+  JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)List_Get(mbk->JavaList, ListMenu_GetSelectedItem(mbk->JavaMenu));
 
-  WStringRealloc(Elem->Name, &mbk->ShortcutItem->ShortcutLink);
+  WStringRealloc(elem->Name, &mbk->ShortcutItem->ShortcutLink);
   mbk->ShortcutItem->ShortcutIcon = DB_LIST_JAVA_ICN;
   mbk->ShortcutItem->ShortcutType = TYPE_JAVA;
 
   if (!mbk->ShortcutItem->ShortcutText)
-    WStringRealloc(Elem->Name, &mbk->ShortcutItem->ShortcutText);
+    WStringRealloc(elem->Name, &mbk->ShortcutItem->ShortcutText);
 
   AcceptShortcut(mbk);
 }
@@ -163,14 +163,14 @@ int CreateJavaList(void *data, BOOK *book)
       GUIObject_Show(mbk->JavaMenu);
     }
   }
-  return 0;
+  return 1;
 }
 
 int CloseJavaList(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_JAVAGUI(mbk->JavaMenu, mbk->JavaList, JavaFree);
-  return 0;
+  return 1;
 }
 
 const PAGE_MSG Goto_Editor_JavaList_PageEvents[] =
@@ -195,7 +195,7 @@ int pg_SC_Editor_SelectElf_AcceptAction(void *data, BOOK *book)
     WStringRealloc(FILEITEM_GetFname(file_item), &mbk->ShortcutItem->ShortcutText);
 
   AcceptShortcut(mbk);
-  return 0;
+  return 1;
 }
 
 int DB_Filter(const wchar_t *ExtTable, const wchar_t *fpath, const wchar_t *fname)
@@ -292,14 +292,14 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
     GUIObject_SetTitleText(mbk->EventInput, EVENT_TXT);
     GUIObject_Show(mbk->EventInput);
   }
-  return 0;
+  return 1;
 }
 
 int pg_SC_Editor_EventInput_ExitAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->EventInput);
-  return 0;
+  return 1;
 }
 
 const PAGE_MSG Goto_Editor_EventInput_PageEvents[] =
@@ -367,14 +367,14 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
 
     GUIObject_Show(mbk->FolderInput);
   }
-  return 0;
+  return 1;
 }
 
 int pg_SC_Editor_SelectFolder_ExitAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->SelectFolder);
-  return 0;
+  return 1;
 }
 
 const PAGE_MSG Goto_Editor_SelectFolder_PageEvents[] =
@@ -464,7 +464,7 @@ int pg_SC_Editor_TypesList_ExitAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->TypesList);
-  return 0;
+  return 1;
 }
 
 const PAGE_MSG Goto_Editor_TypesList_PageEvents[] =
@@ -508,14 +508,14 @@ int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
     GUIObject_SoftKeys_SetAction(mbk->CaptionInput, ACTION_BACK, Action_Back);
     GUIObject_Show(mbk->CaptionInput);
   }
-  return 0;
+  return 1;
 }
 
 int pg_SC_Editor_LabelInput_ExitAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->CaptionInput);
-  return 0;
+  return 1;
 }
 
 const PAGE_MSG Goto_Editor_CaptionInput_PageEvents[] =

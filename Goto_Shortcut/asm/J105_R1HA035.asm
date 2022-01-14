@@ -1,15 +1,10 @@
 //J105_R1HA035
 
-        RSEG CODE
-
-        CODE32
-
-defadr  MACRO   a,b
-        PUBLIC  a
-a       EQU     b
+defadr  MACRO a,b
+        PUBLIC a
+a       EQU b
         ENDM
 
-        RSEG  CODE
         defadr memalloc,0x4BA31878
         defadr memfree,0x4BA318A0
         defadr memset,0x14BFE6B0

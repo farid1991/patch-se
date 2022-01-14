@@ -9,7 +9,7 @@
 int WStringLength(wchar_t *wstr)
 {
   if (wstr)
-    return (wstrlen(wstr));
+    return wstrlen(wstr);
   else
     return NULL;
 }

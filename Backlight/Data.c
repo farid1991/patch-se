@@ -66,19 +66,19 @@ void DeleteData(int num, BOOK *book, int count)
   }
 }
 
-char *GetNameFromData(FILEDATA wd[], int index)
+char *GetNameFromData(FILEDATA fdata[], int index)
 {
-  return (wd[index].bookname);
+  return (fdata[index].bookname);
 }
 
-int GetTimeFromData(FILEDATA wd[], int index)
+int GetTimeFromData(FILEDATA fdata[], int index)
 {
-  return (wd[index].time);
+  return (fdata[index].time);
 }
 
-int GetBrightFromData(FILEDATA wd[], int index)
+int GetBrightFromData(FILEDATA fdata[], int index)
 {
-  return (wd[index].bright);
+  return (fdata[index].bright);
 }
 
 void GetData(void *mydata, int size)
