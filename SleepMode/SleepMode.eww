@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\OLED.ewp</path>
+    <path>$WS_DIR$\SleepMode.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

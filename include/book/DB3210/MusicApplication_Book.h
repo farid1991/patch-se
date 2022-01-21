@@ -25,7 +25,8 @@ typedef struct _MusicApplication_Book : BOOK
   uint8_t PlayerState;           // 0x3E
   uint8_t state_2;               // 0x3F
   uint8_t unk_0x40;              // 0x40
-  MusicApp_PlayMode PlayMode;    // 0x41
+  bool Loop;                     // 0x41
+  bool Random;                   // 0x42
   uint8_t unk_0x43;              // 0x43
   TMusicServer_Time ElapsedTime; // 0x44
   bool AreTracksInQueue;         // 0x50
@@ -67,7 +68,8 @@ typedef struct _MusicApplication_Book : BOOK
   uint8_t PlayerState;           // 0x3E
   uint8_t state_2;               // 0x3F
   uint8_t unk_0x40;              // 0x40
-  MusicApp_PlayMode PlayMode;    // 0x41
+  bool Loop;                     // 0x41
+  bool Random;                   // 0x42
   uint8_t unk_0x43;              // 0x43
   TMusicServer_Time ElapsedTime; // 0x44
   bool AreTracksInQueue;         // 0x50

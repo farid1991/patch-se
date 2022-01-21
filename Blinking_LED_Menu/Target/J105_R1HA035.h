@@ -1,8 +1,8 @@
 #ifndef J105_R1HA035
-#error J105_R1HA035 configuration needed for this header!
-#else
-#ifndef _J105_R1HA035_
-#define _J105_R1HA035_
+#define J105_R1HA035
+
+#define A2
+#define DB3200
 
 #define ACTION_LONG_BACK        0xFAF
 #define ACTION_SELECT1          0xFC2
@@ -34,5 +34,4 @@
 #define DISABLED_TXT  0x867
 #define FLASH_TXT     0x1C96
 
-#endif
 #endif

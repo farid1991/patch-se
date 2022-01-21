@@ -1,83 +1,26 @@
-//#include "classes.h"
-#ifdef USEPNG
-#include "png.h"
-#endif
-
-#ifdef USEZLIB
-#include "zlib.h"
-#endif
-
-__thumb void *malloc(int size);
-__thumb void mfree(void *mem);
-
 extern "C"
 {
+#ifndef DB3350
 #pragma swi_number = 0x10D
-  __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
-
-#if defined(DB2020)
-  void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
-  void memfree(int zero, void *mem, const char *fname, int fline);
+    __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
+#endif
+#if defined(DB2010)
+    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+    void memfree(void *mem, const char *fname, int fline);
+#elif defined(DB2020)
+    void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
+    void memfree(int zero, void *mem, const char *fname, int fline);
 #elif defined(A2)
-  void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
-  void memfree(int zero, void *mem, const char *fname, int fline);
-#else
-  void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-  void memfree(void *mem, const char *fname, int fline);
+    void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
+    void memfree(int zero, void *mem, const char *fname, int fline);
 #endif
-
-#if defined(A1)
-  void *MetaData_Desc_Create(wchar_t *path, wchar_t *name);
-  void MetaData_Desc_Destroy(void *MetaData_Desc);
-  int MetaData_Desc_GetCoverInfo(void *MetaData_Desc, char *cover_type, int *size, int *cover_offset);
-  wchar_t *MetaData_Desc_GetTags(void *MetaData_Desc, int tagID);
-  void Display_SetBrightness(int display, int brightness);
-
-  int AB_READSTRING(AB_STR_ITEM *, int rec_num, int field_ID);
-  int MainInput_isPlus(GUI *gui);
-  int MainInput_getCurPos(GUI *);
-  void OrangeLED_Control(int _free_val, int or_LED_ID, int level, int fade_time);
-
-  void GUIObject_SetTitleBackgroundImage(GUI *, IMAGEID);
-  void GUIObject_SetCursorImage(GUI *, IMAGEID);
-  void GUIObject_SetBackgroundImage(GUI *, IMAGEID);
-  void GUIObject_SetTitleTextColor(GUI *, int color);
-
-  int GetChipID(void);
-  char *GetIMSI(void);
-  int GetRadioState(char *level, char *flag);
-  int GetSignalQuality(char *rssi, char *ber);
-  int ConnectionManager_Connection_GetState(void);
-  int get_CellData(PLMN_LAC_DESC *desc1, RAT_CI_DESC *desc2, char *CSReg);
-
-  OSBOOLEAN get_mem(PROCESS pid, OSADDRESS from, void *to, OSADDRESS size);
-#else
-  void Display_SetBrightness(int level);
-#endif
-
-#if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
-  //FONT_DESC* GetFontDesc( void );
-  //int* GetFontCount( void );
-  int SetFont(int FontSize);
-  void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
-  void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
-  void GC_DrawIcon(int x, int y, IMAGEID);
-  void GC_DrawImage(int x, int y, IMAGEID);
-  int GetImageHeight(IMAGEID);
-  int GetImageWidth(IMAGEID);
-  int Disp_GetTextIDHeight(TEXTID);
-  int Disp_GetTextIDWidth(TEXTID, int len);
-  int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE *);
-#else
-  int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE_A2 *);
-#endif
-
   void *memset(void *mem, char chr, int size);
   int memcpy(void *dest, const void *source, int cnt);
   int sprintf(char *buf, const char *fmt, ...);
   int snwprintf(wchar_t *buffer, int size, const wchar_t *fmt, ...);
   int _fopen(const wchar_t *filpath, const wchar_t *filname, unsigned int mode, unsigned int rights, FILELISTITEM *destfname);
   int fclose(int file);
+  int FSX_Close(int file, int);
   int fread(int file, void *ptr, int size);
   int fwrite(int file, const void *ptr, int size);
   int fstat(const wchar_t *path, const wchar_t *fname, FSTAT *fstat_stuct);
@@ -92,10 +35,11 @@ extern "C"
   void DataBrowserDesc_Destroy(void *DataBrowserDesc);
   wchar_t *getFileExtention(wchar_t *fname);
   int DataBrowser_isFileInListExt(const wchar_t *ext_table, const wchar_t *path, const wchar_t *fname);
+  DB_FILE_FILTER DataBrowser_isFileInListExt_adr(void);
   void Timer_ReSet(u16 *timer, int time, TIMERPROC onTimer, LPARAM lparam);
   u16 Timer_Set(int time, TIMERPROC onTimer, LPARAM lparam);
   void Timer_Kill(u16 *timerID);
-  int CreateBook(BOOK *pbook, void (*onClose)(BOOK *), const PAGE_DESC *bp, const char *name, int ParentBookID, const APP_DESC *appdesc);
+  int CreateBook(BOOK *pbook, void (*onClose)(BOOK *), const PAGE_DESC *bp, const char *name, int ParentBookID, APP_DESC *);
   void BookObj_KillBook(BOOK *book);
   void BookObj_GotoPage(BOOK *book, const PAGE_DESC *page);
   void BookObj_ReturnPage(BOOK *book, int);
@@ -106,7 +50,7 @@ extern "C"
   void GUIObject_SetTitleText(GUI *, TEXTID);
   void GUIObject_Show(GUI *);
   void ListMenu_SetCursorToItem(GUI_LIST *, int item);
-  void GUIObject_SetStyle(GUI *, int UI_OverlayStyle_t);
+  void GUIObject_SetStyle(GUI *, int style);
   int GUIonMessage_GetCreatedItemIndex(GUI_MESSAGE *msg);
   char GUIonMessage_SetMenuItemText(GUI_MESSAGE *msg, TEXTID);
   char GUIonMessage_SetMenuItemSecondLineText(GUI_MESSAGE *msg, TEXTID);
@@ -116,7 +60,9 @@ extern "C"
   void DispObject_SetTitleText(DISP_OBJ *, TEXTID);
   int ListMenu_GetSelectedItem(GUI_LIST *);
   void ListMenu_SetItemStyle(GUI_LIST *, int style);
+  void GC_PutChar(GC *gc, int x, int y, int _zero, int zero1, wchar_t wchar);
   int IsScreenSaverBook(BOOK *bk);
+  IS_NEEDED_BOOK get_IsScreenSaverBook(void);
   void StatusIndication_SetItemText(GUI *, int item, TEXTID);
   void StatusIndication_ShowNotes(TEXTID);
   GUI *CreateStringInputVA(int, ...);
@@ -143,24 +89,23 @@ extern "C"
   int strcmp(const char *str1, const char *str2);
   int strlen(const char *str);
   char *wstr2strn(char *str, const wchar_t *wstr, int maxlen);
-
   TEXTID TextID_CreateIntegerID(int num);
-  TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len);
+  TEXTID TextID_Create(const void *wstr, TEXT_ENCODING flag, int len);
   void TextID_GetString(TEXTID, char *str, int maxlen);
   int TextID_GetWString(TEXTID, wchar_t *dest, int maxlen);
   int TextID_GetLength(TEXTID);
   void TextID_Destroy(TEXTID);
-  TEXTID TextID_Copy(TEXTID);
-
   int AB_DEFAULTNBR_GET(int rec_num, void *mem_0x30, int *unk);
+  int AB_READSTRING(AB_STR_ITEM *, int rec_num, int field_ID);
   int AB_READPHONENBR(AB_NUM_ITEM *, int rec_num, int field_ID);
   int AB_GETNBROFITEMS(int get_from, int sub_id);
-  int PNUM_len(BCD_TEXT pnum);
-  void PNUM2str(char *str, BCD_TEXT pnum, int len, int max_len);
+  int PNUM_len(void *pnum);
+  void PNUM2str(char *str, void *pnum, int len, int max_len);
   DISP_OBJ *GUIObject_GetDispObject(GUI *);
   LIST *List_Create(void);
   void List_Destroy(LIST *lst);
   int List_InsertFirst(LIST *lst, void *item);
+  int Gif2ID(u16 IMAGEHANDLE, const wchar_t *path, const wchar_t *fname, IMAGEID *);
   int REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(const int *sync, u16 *ImageHandler, char *unk);
   void REQUEST_DATEANDTIME_GET(const int *sync, DATETIME *dt);
   void IndicationDevice_Backlight_FadeToLevel(int unk_zero, int bl_level);
@@ -171,6 +116,7 @@ extern "C"
   void ListMenu_SetOnMessage(GUI_LIST *, int (*proc)(GUI_MESSAGE *));
   char *manifest_GetParam(const char *buf, const char *param_name, int unk);
   int lseek(int file, int offset, int mode);
+  int get_VBUFFER(void);
   void SetLampLevel(int level);
   void *List_RemoveAt(LIST *lst, int index);
   PROCESS GetCurrentPID(void);
@@ -189,12 +135,14 @@ extern "C"
   void kill_proc(PROCESS pid);
   union SIGNAL *receive_w_tmo(OSTIME timeout, SIGSELECT *sel);
   void stop(PROCESS pid);
+  OSBOOLEAN get_mem(PROCESS pid, OSADDRESS from, void *to, OSADDRESS size);
   OSADDRESS get_envp(PROCESS pid, char *name);
   OSBOOLEAN set_envp(PROCESS pid, char *name, OSADDRESS value);
   PROCESS get_bid(PROCESS pid);
   int datetime2unixtime(DATETIME *dt);
   char *strcpy(char *dest, const char *source);
   char *UIEventName(int event);
+  char *MissedEvents(void);
   void UI_Event(int event);
   void UI_Event_wData(int event, void *message, void (*free_proc)(void *));
   void UI_Event_toBookID(int event, int BookID);
@@ -210,19 +158,23 @@ extern "C"
   int Profile_SetActive(int NUMprof, int set_in_gdfs_flag);
   int isKeylocked(void);
   int IsMediaPlayerVideoBook(BOOK *bk);
+  IS_NEEDED_BOOK get_IsMediaPlayerVideoBook(void);
   int REQUEST_DATEFORMAT_GET(const int *sync, char *DateFormat);
   int REQUEST_TIMEFORMAT_GET(const int *sync, char *TimeFormat);
   TEXTID Date2ID(DATE *, int DateFormat, int);
   TEXTID Time2ID(TIME *, char TimeFormat, int isSec);
   GUI_LIST *CreateListMenu(BOOK *, int display);
   void ListMenu_SetItemCount(GUI_LIST *, int item_count);
+  LIST **ROOT_APP(void);
   void GUIObject_SoftKeys_SetInfoText(GUI *, u16 actionID, TEXTID);
   void GUIObject_SoftKeys_SetItemAsSubItem(GUI *, u16 actionID, int subitem);
   int REQUEST_SYSTEM_SHUTDOWN(void);
   int REQUEST_SYSTEM_RESTART(void);
   void GUIObject_SoftKeys_SetTexts(GUI *, u16 actionID, TEXTID short_text, TEXTID full_text);
   int IsRightNowBook(BOOK *book);
+  IS_NEEDED_BOOK get_IsRightNowBook(void);
   int IsVolumeControllerBook(BOOK *book);
+  IS_NEEDED_BOOK get_IsVolumeControllerBook(void);
   GUI_TABMENUBAR *CreateTabMenuBar(BOOK *book);
   void TabMenuBar_SetTabCount(GUI_TABMENUBAR *, int count);
   void TabMenuBar_SetTabGui(GUI_TABMENUBAR *, int tab, GUI *);
@@ -230,7 +182,15 @@ extern "C"
   GUI *GUIObject_Destroy(GUI *);
   void GUIInput_SetIcon(GUI *, IMAGEID);
   int StringInput_GetStringAndLen(GUI *, wchar_t **, u16 *);
+  PAudioControl *GetAudioControlPtr(void);
   int AudioControl_Vibrate(PAudioControl pIAudioControl, int vibratime, int pausetime, int totaltime);
+
+#if defined(DB2010) || defined(DB2020) || defined(DB3150v1)
+  int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE *);
+#elif defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
+  int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE_A2 *);
+#endif
+
   GUI_NOFMANY *CreateNOfMany(BOOK *book);
   void NOfMany_SetTexts(GUI_NOFMANY *, TEXTID *strids, int items_count);
   void NOfMany_SetChecked(GUI_NOFMANY *, u16 *checked_table, int items_count);
@@ -252,14 +212,19 @@ extern "C"
   void GC_ValidateRect(GC *gc, RECT *);
   void BookObj_AddGUIObject(BOOK *book, GUI *);
   void DrawRect(int x1, int y1, int x2, int y2, int pen_color, int brush_color);
+  void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
   void XGUIList_AddGUIObject(XGUILIST *xguilist, GUI *);
   void DispObject_InvalidateRect(DISP_OBJ *, RECT *);
   int GUIObject_Create(GUI *, void (*GuiDestroy)(GUI *), void (*DispDescCreate)(DISP_DESC *), BOOK *, void (*DispObjCallBack)(DISP_OBJ *, void *msg, GUI *), int display, int size_of_gui);
+  int SetFont(int);
+  DISP_OBJ **StatusRow_p(void);
   int root_list_get_session_count(void);
   UI_APP_SESSION *root_list_get_session(int num_session);
   BOOK *SESSION_GetTopBook(UI_APP_SESSION *);
+  int MainInput_getVisible(GUI *);
   int MainInput_strlen(GUI *);
-  BCD_TEXT MainInput_getPNUM(GUI *);
+  char *MainInput_getPNUM(GUI *);
+  int MainInput_isPlus(GUI *);
   int BookObj_GetBookID(BOOK *book);
   int wstrncmp(const wchar_t *, const wchar_t *, int);
   int DispObject_GetAbsoluteXPos(DISP_OBJ *);
@@ -280,20 +245,24 @@ extern "C"
   int MSG_SendMessage_DestroyMessage(void *);
   int MSG_SendMessage_AddRecipient(void *, wchar_t *, wchar_t *, int, int);
   int MSG_SendMessage_Start(int, void *, int);
+  void *get_APP_DESC_TABLE(void);
   int AB_POSITIONNBR_GET(void *ab_name, char *, u16 *, void *ab_num);
   TEXTID AB_NAME_ITEM2TextID(AB_STR_ITEM *ab_name);
   TEXTID AB_NUM_ITEM2TextID(AB_NUM_ITEM *ab_num_item);
-  int GetABRecNum(AB_GET_STRUCT *);            //nullsub(void)
-  GUI *SBY_GetMainInput(BOOK *StandBy);        // !!!!! Not real !!!!!!
-  GUI *SBY_GetStatusIndication(BOOK *StandBy); // !!!!! Not real !!!!!!
+  int GetABRecNum(AB_GET_STRUCT *);
+  AB_ITEM_DESC *get_AB_ITEMS_DESC(void);
+  GUI *SBY_GetMainInput(BOOK *StandBy);        // !!!!! не настоящий !!!!!!
+  GUI *SBY_GetStatusIndication(BOOK *StandBy); // !!!!! не настоящий !!!!!!
   int REQUEST_PHONEBOOK_ACCESSSTATUS_TOTAL_GET(const int *sync, int *);
+  PROCESS *PID_MMI(void);
   GUI *DispObject_GetGUI(DISP_OBJ *);
   DISP_OBJ *Display_GetFocusedDispObject(int display);
   char DispObject_GetVisible(DISP_OBJ *);
-  DISP_DESC *DispObject_GetDESC(DISP_OBJ *); // !!!!! Not real !!!!!!
+  DISP_DESC *DispObject_GetDESC(DISP_OBJ *); // !!!!! не настоящий !!!!!!
   void DISP_DESC_SetName(DISP_DESC *, const char *name);
   char *DispObject_GetName(DISP_OBJ *);
   void DISP_DESC_SetSize(DISP_DESC *, u16 size);
+  u16 DISP_DESC_GetSize(DISP_OBJ *);
   void DISP_DESC_SetOnCreate(DISP_DESC *, DISP_OBJ_ONCREATE_METHOD);
   DISP_OBJ_ONCREATE_METHOD DispObject_GetOnCreate(DISP_OBJ *);
   void DISP_DESC_SetOnClose(DISP_DESC *, DISP_OBJ_ONCLOSE_METHOD);
@@ -304,16 +273,27 @@ extern "C"
   DISP_OBJ_ONKEY_METHOD DispObject_GetOnKey(DISP_OBJ *);
   void DISP_DESC_SetOnRefresh(DISP_DESC *, DISP_OBJ_METHOD);
   DISP_OBJ_METHOD DispObject_GetonRefresh(DISP_OBJ *);
+  void DISP_DESC_SetMethod04(DISP_DESC *, void (*)(void *));
+  DISP_OBJ_METHOD DispObject_GetMethod04(DISP_OBJ *);
+  void DISP_DESC_SetMethod05(DISP_DESC *, void (*)(void *));
+  DISP_OBJ_METHOD DispObject_GetMethod05(DISP_OBJ *);
   void DISP_DESC_SetMethod06(DISP_DESC *, DISP_OBJ_METHOD);
   DISP_OBJ_METHOD DispObject_GetMethod06(DISP_OBJ *);
-  void DISP_DESC_SetOnLayout(DISP_DESC *, DISP_OBJ_ONLAYOUT_METHOD);
+  void DISP_DESC_SetMethod07(DISP_DESC *, void (*)(void *));
+  DISP_OBJ_METHOD DispObject_GetMethod07(DISP_OBJ *);
+  void DISP_DESC_SetOnLayout(DISP_DESC *, DISP_OBJ_METHOD);
   DISP_OBJ_METHOD DispObject_GetOnLayout(DISP_OBJ *);
-  void DISP_DESC_SetOnConfig(DISP_DESC *, DISP_OBJ_ONCONFIG_METHOD);
+  void DISP_DESC_SetOnConfig(DISP_DESC *, void (*)(void *));
   DISP_OBJ_METHOD DispObject_GetOnConfig(DISP_OBJ *);
-  void DISP_DESC_SetMethod0A(DISP_DESC *, DISP_OBJ_METHOD);
+  void DISP_DESC_SetMethod0A(DISP_DESC *, void (*)(void *));
   DISP_OBJ_METHOD DispObject_GetMethod0A(DISP_OBJ *);
-  void JavaSession_Manager(int cmd); //nullsub(void)
-  TEXTID JavaSession_GetName(void);  //nullsub(ret 0x6FFFFFFF)
+  void DISP_DESC_SetMethod0B(DISP_DESC *, void (*)(void *));
+  DISP_OBJ_METHOD DispObject_GetMethod0B(DISP_OBJ *);
+  void DISP_DESC_SetMethod0C(DISP_DESC *, void (*)(void *));
+  DISP_OBJ_METHOD DispObject_GetMethod0C(DISP_OBJ *);
+  void JavaSession_Manager(int cmd);
+  TEXTID JavaSession_GetName(void);
+  TEXTID TextID_Copy(TEXTID);
   UI_APP_SESSION *BookObj_GetSession(BOOK *book);
   void GUIonMessage_SetNumberOfSubItems(GUI_MESSAGE *msg, int unk, int num_sub_items);
   void GUIonMessage_SubItem_SetText(GUI_MESSAGE *msg, TEXTID);
@@ -322,9 +302,10 @@ extern "C"
   int GUIonMessage_SubItem_GetSelectedIndex(GUI_MESSAGE *msg);
   void GUIonMessage_SubItem_SetDisabled(GUI_MESSAGE *msg, BOOL state);
   int PlayFileV(const wchar_t *path, const wchar_t *fname, int vol);
-  BOOL GetSilent(void);
+  int GetSilent(void);
   int GetVibrator(int ignorevibrator, int ignoresilent);
   int GetAudioSettings(int what, char *retvalue);
+  int GetChipID(void);
   int GUIonMessage_SubItem_GetCreatedIndex(GUI_MESSAGE *msg);
   int GUIonMessage_SubItem_GetSelectedParentIndex(GUI_MESSAGE *msg);
   void DestroyDirHandle(DIR_HANDLE *handle);
@@ -342,27 +323,8 @@ extern "C"
   void GC_DrawFRect(GC *gc, int color, int x1, int y1, int x2, int y2);
   int GC_WritePixels(GC *gc, int x1, int y1, int x2, int y2, int *bmp);
 
-#ifdef USEPNG
-  png_structp png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr, png_malloc_ptr malloc_fn, png_free_ptr free_fn);
-  void png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr);
-  png_infop png_create_info_struct(png_structp png_ptr);
-  void png_destroy_info_struct(png_structp png_ptr, png_infopp info_ptr_ptr);
-  void png_set_progressive_read_fn(png_structp png_ptr, png_voidp progressive_ptr, png_progressive_info_ptr info_fn, png_progressive_row_ptr row_fn, png_progressive_end_ptr end_fn);
-  void png_process_data(png_structp png_ptr, png_infop info_ptr, png_bytep buffer, png_size_t buffer_size);
-  void png_read_update_info(png_structp png_ptr, png_infop info_ptr);
-  png_voidp png_get_progressive_ptr(png_structp png_ptr);
-  png_uint_32 png_get_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 *width, png_uint_32 *height, int *bit_depth, int *color_type, int *interlace_method, int *compression_method, int *filter_method);
-  void png_set_strip_16(png_structp png_ptr);
-  void png_set_gray_1_2_4_to_8(png_structp png_ptr);
-  void png_set_gray_to_rgb(png_structp png_ptr);
-  png_uint_32 png_get_valid(png_structp png_ptr, png_infop info_ptr, png_uint_32 flag);
-  void png_set_tRNS_to_alpha(png_structp png_ptr);
-  void png_set_filler(png_structp png_ptr, png_uint_32 filler, int flags);
-  void png_set_palette_to_rgb(png_structp png_ptr);
-  png_uint_32 png_get_rowbytes(png_structp png_ptr, png_infop info_ptr);
-  void png_progressive_combine_row(png_structp png_ptr, png_bytep old_row, png_bytep new_row);
-  int png_sig_cmp(png_bytep sig, png_size_t start, png_size_t num_to_check);
-#endif
+  int setjmp(jmp_buf jmpbuf);
+  void longjmp(jmp_buf, int);
 
   int memcmp(const void *m1, const void *m2, int n);
   int strncmp(const char *s1, const char *s2, int len);
@@ -372,12 +334,13 @@ extern "C"
   void GUIonMessage_SetItemDisabled(GUI_MESSAGE *msg, BOOL);
   int REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(const int *sync, u16 ImageHandler, wchar_t *path, wchar_t *fname, int unk, IMAGEID *, char *error);
   int REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(const int *sync, u16 ImageHandler, u16 *, u16 *, IMAGEID, int unk_1, char *error);
+  SURFACE **get_Surfaces(void);
   int iconidname2id(const wchar_t *idname, int maxnamelen, int *id);
   int textidname2id(const wchar_t *idname, int maxnamelen, TEXTID *id);
   void ListMenu_SetNoItemText(GUI_LIST *, TEXTID str);
   int IsFmRadioBook(BOOK *bk);
   IS_NEEDED_BOOK get_IsFmRadioBook(void);
-  int IsAudioPlayerBook(BOOK *book);
+  int IsAudioPlayerBook(BOOK *bk);
   IS_NEEDED_BOOK get_IsAudioPlayerBook(void);
   void PlayerControl(BOOK *AudioPlayerBook, int);
   void SwitchRadioStationFromList(BOOK *FmRadioBook, int);
@@ -386,6 +349,8 @@ extern "C"
   int rmdir(const wchar_t *path, int zero);
   int chmod(const wchar_t *path, const wchar_t *fname, int amode);
   int rename(const wchar_t *oldpath, const wchar_t *oldfname, const wchar_t *newpath, const wchar_t *newfname, int zero);
+  int GetImageWidth(IMAGEID);
+  int GetImageHeight(IMAGEID);
   void *CallID_GetCallStatusDesc(int CallID);
   wchar_t *CallStatusDesc_GetName(void *CallStatusDesc);
   void List_DestroyElements(LIST *lst, int (*cmp_proc)(void *item), void (*free_proc)(void *item));
@@ -401,9 +366,9 @@ extern "C"
   void GUIObject_SoftKeys_Hide(GUI *);
   void GUIObject_SoftKeys_Show(GUI *);
   DISP_OBJ *DispObject_SoftKeys_Get(void);
-  int ThemeImage_SetImage(int type, int, int, const wchar_t *path, const wchar_t *fname, int);
+  int StandbyBackground_SetImage(int type, int, int, const wchar_t *path, const wchar_t *fname, int);
   GUI *CreateYesNoQuestionVA(int zero, ...);
-  void ListMenu_SetItemSecondLineText(GUI_LIST *, u16 Item, TEXTID);
+  void ListMenu_SetItemSecondLineText(GUI_LIST *, int elem_num, TEXTID);
   void _REQUEST_OAF_START_APPLICATION(const int *sync, int __zero, MIDP_DESC *, int ___zero);
   wchar_t *FSX_GetInvalidChar(wchar_t *name);
   void DataBrowserDesc_SetFoldersNumber(void *DataBrowserDesc, int state);
@@ -418,12 +383,15 @@ extern "C"
   void FSX_RemoveIllegalSymbolsName(FILEITEM *);
   FILEITEM *FILEITEM_Create(void);
   void FILEITEM_Destroy(FILEITEM *);
+  void *FILEITEM_Destroy_adr(void);
   GUI *CreateDateInputVA(int zero, ...);
   GUI *CreateTimeInputVA(int zero, ...);
   void StringInput_SetCursorPosition(GUI *, u16 curs_pos, char unk);
   void BookObj_CallPage(BOOK *book, const PAGE_DESC *page);
   unsigned int DateInput_GetDateInt(GUI *);
   unsigned int TimeInput_GetTimeInt(GUI *);
+  FONT_DESC *GetFontDesc(void);
+  int *GetFontCount(void);
   int GC_GetBrushColor(GC *gc);
   void GC_SetBrushColor(GC *gc, int brush_color);
   void GC_DrawRoundRect(GC *gc, RECT *, int arcWidth, int arcHeight, int border_flag, int fill_flag);
@@ -455,22 +423,29 @@ extern "C"
   int JavaAppDesc_GetFirstApp(void *JavaDesc);
   int JavaAppDesc_GetNextApp(void *JavaDesc);
   int JavaAppDesc_GetJavaAppInfo(void *JavaDesc, int ID, wchar_t **wstr);
+  void OrangeLED_Control(int _free_val, int or_LED_ID, int level, int fade_time);
   void DispObject_SetRefreshTimer(DISP_OBJ *, int time);
   void DispObject_KillRefreshTimer(DISP_OBJ *);
   int IsDataBrowserBook(BOOK *book);
+  IS_NEEDED_BOOK get_IsDataBrowserBook(void);
   SUB_EXECUTE *BrowserItem_Get_SUB_EXECUTE(BOOK *BrowserItemBook);
   TEXTID Shortcut_Get_MenuItemName(void *);
   IMAGEID Shortcut_Get_MenuItemIconID(void *);
   BOOK *FindBookEx(int (*cmp_proc)(BOOK *book_from_list, int *param), int *param);
   FILEITEM *FILEITEM_CreateCopy(FILEITEM *);
-  IMAGEID ImageID_Copy(IMAGEID);
   int BookObj_GetSessionID(BOOK *book);
   void UI_Event_toSID(int event, int sess_id);
+  char *GetIMSI(void);
   void UI_CONTROLLED_SHUTDOWN_RESPONSE(int book_id);
+  int MainInput_getCurPos(GUI *);
   void MainInput_Hide(GUI *);
   void DispObject_SoftKeys_RestoreDefaultAction(DISP_OBJ *, int action);
-  TEXTID PNUM2Name(BCD_TEXT pnum, int isIconNeeded, int only_full_number_flag);
-  int SpeedDial_GetPNUM(int _zero, char charter0__9, BCD_TEXT PNUM);
+  TEXTID PNUM2Name(void *pnum, int isIconNeeded, int only_full_number_flag);
+  int SpeedDial_GetPNUM(int _zero, char charter0__9, void *PNUM);
+  void *MetaData_Desc_Create(wchar_t *path, wchar_t *name);
+  void MetaData_Desc_Destroy(void *MetaData_Desc);
+  wchar_t *MetaData_Desc_GetTags(void *MetaData_Desc, int tagID);
+  int MetaData_Desc_GetTrackNum(void *MetaData_Desc, int __NULL);
   int DispObject_GetWindowWidth(DISP_OBJ *);
   int DispObject_GetWindowHeight(DISP_OBJ *);
   int get_system_langID(void);
@@ -484,11 +459,15 @@ extern "C"
   int w_fclose(int f);
   int w_mkdir(const wchar_t *path, int mode);
   int DirHandle_SetFilterStr(DIR_HANDLE *, const wchar_t *filter);
+  int Disp_GetTextIDWidth(TEXTID, int len);
+  int MetaData_Desc_GetCoverInfo(void *MetaData_Desc, char *cover_type, int *size, int *cover_offset);
   int ImageID_GetIndirect(void *buf_image, int size, int __NULL, wchar_t *image_type, IMAGEID *);
   void unixtime2datetime(int, DATETIME *);
   int List_Insert(LIST *lst, int i, void *item);
   int FileCopy(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
   int FileMove(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
+  void RedLED_On(int __NULL);
+  void RedLED_Off(int __NULL);
   void DispObject_SetLayerColor(DISP_OBJ *, int color);
   int JavaAppDesc_GetJavaAppID(void *JavaDesc);
   void REQUEST_UI_OAF_START_APPLICATION(const int *sync, int appID, char *flag);
@@ -499,12 +478,16 @@ extern "C"
   void ProgressBar_SetPercentValue(GUI *, int value);
   void ProgressBar_SetBarDisabled(GUI *, BOOL);
   void StringInput_DispObject_SetText(DISP_OBJ *, TEXTID);
+  void GUIObject_SetTitleBackgroundImage(GUI *, IMAGEID);
   void GUIObject_SetTitleIcon(GUI *, IMAGEID);
+  void GUIObject_SetCursorImage(GUI *, IMAGEID);
+  void GUIObject_SetBackgroundImage(GUI *, IMAGEID);
   void *DispObject_SoftKeys_GetParams(DISP_OBJ *);
   LIST *DispObject_SoftKeys_GetList(DISP_OBJ *, BOOK *book, char __zero);
   int BookObj_GetDisplayOrientation(BOOK *book);
   void BookObj_SetDisplayOrientation(BOOK *book, int orientation);
   BOOK *Display_GetTopBook(int display);
+  void Display_SetBrightness(int display, int brightness);
   int Display_GetBrightness(int display);
   void DataBrowserDesc_Menu_AddFSFunctions(void *DataBrowserDesc, int);
   void DataBrowserDesc_Menu_AddNewFolder(void *DataBrowserDesc, int);
@@ -512,8 +495,10 @@ extern "C"
   void SetTheme(wchar_t *path, wchar_t *name, int bookid, int unk_1);
   void SoftKeys_GetLabel(DISP_OBJ *softkeys, SKLABEL *lbl, int id);
   void SoftKeys_Update(DISP_OBJ *softkeys);
+  int get_CellData(PLMN_LAC_DESC *desc1, RAT_CI_DESC *desc2, char *CSReg);
   void *IncommingCall_Reject(BOOK *book);
   void *IncommingCall_Mute(BOOK *book);
+  int GetRadioState(char *level, char *flag);
   int Bluetooth_GetState(void);
   int Bluetooth_GetPhoneVisibility(void);
   int Bluetooth_isBusy(void);
@@ -523,15 +508,27 @@ extern "C"
   int w_dirclose(void *);
   int w_rename(const wchar_t *dst, const wchar_t *src);
   int w_remove(const wchar_t *dir);
+  int ConnectionManager_Connection_GetState(void);
+  int GetSignalQuality(char *rssi, char *ber);
   int IsCameraBook(BOOK *bk);
+  IS_NEEDED_BOOK get_IsCameraBook(void);
   int IsSoundRecorderBook(BOOK *bk);
+  IS_NEEDED_BOOK get_IsSoundRecorderBook(void);
   void StringInput_MenuItem_SetPriority(GUI *strinp, int prio, int actionID);
+  void VideoPlayerControl(BOOK *VideoPlayerBook, int);
   void Video_ActionBack(BOOK *VideoPlayerBook, void *);
   void Video_ExtractFrame(BOOK *VideoPlayerBook, void *);
   void Video_ZoomOn(BOOK *VideoPlayerBook, void *);
   void RightNow_SetActive(int flag);
+  void VideoResize_AutomateMode(BOOK *VideoPlayerBook, u16 VideoWidth, u16 VideoHeight, u16 *NewWidth, u16 *NewHeight);
+  void VideoResize_AllScreenMode(BOOK *VideoPlayerBook, u16 VideoWidth, u16 VideoHeight, u16 *NewWidth, u16 *NewHeight);
+  int Video_GetCurrentSkinID(BOOK *VideoPlayerBook);
+  void Video_SetSkin(GUI *VideoPlayerGUI, int skinID);
+  int Video_SetPermit(BOOK *VideoPlayerBook, u16 NewWidth, u16 NewHeight);
+  int Video_Refresh(BOOK *VideoPlayerBook, GUI *VideoPlayerGUI);
   void Video_Play(BOOK *VideoPlayerBook, void *);
   void Video_Pause(BOOK *VideoPlayerBook, void *);
+  void Video_Stop(BOOK *VideoPlayerBook, void *);
   void Audio_Pause(BOOK *);
   void Audio_Play(BOOK *);
   GUI *CreatePercentInputVA(int zero, ...);
@@ -558,12 +555,6 @@ extern "C"
   int SoundRecorderDesc_SetRecordSize(void *desc, const int size);
   int SoundRecorder_Create(void *desc);
   int SoundRecorder_RecordCall(BOOK *OngoingCallBook);
-
-  int SoundRecorderDesc_SetRecordTime(void *sd, ...);
-  int SoundRecorderDesc_SetRadioVal(void *desc, int value);
-  int SoundRecorderDesc_SetTitle(void *desc, TEXTID Title);
-  int SoundRecorderDesc_SetStyle(void *desc, int style);
-
   int Browser_OpenURI(BOOK *book, char *URI, int mode);
   char *GetURIScheme(int schemeID);
   char *CreateURI(wchar_t *fpath, wchar_t *fname, char *URIScheme);
@@ -571,12 +562,15 @@ extern "C"
   int Alarm_GetCurrentTypeAndAlarmID(char *type, wchar_t *AlarmID);
   int Alarm_GetState(char *state, int AlarmID);
   int Alarm_GetTIME(TIME *AlarmTime, int AlarmID);
-  int Alarm_GetWeekSettings(WEEK *week, int AlarmID);
+  int Alarm_GetWeekSettings(void *week, int AlarmID);
+  int IrDa_GetState(char *state);
   void REQUEST_SETTING_ALLOWEDCALLERS_GET(const int *sync, int ProfileNum, char *state);
   void *IncommingCall_Accept(BOOK *book);
   void MediaPlayer_SoftKeys_SetText(GUI *player_gui, int actionID, TEXTID);
   void MediaPlayer_SoftKeys_SetAction(GUI *player_gui, int actionID, SKACTIONPROC proc);
   void MediaPlayer_SoftKeys_SetItemAsSubItem(GUI *player_gui, int item, int subitem);
+  void MediaPlayer_SoftKeys_AddHelpStr(GUI *player_gui, int item, TEXTID);
+  void MediaPlayer_ShowNowPlaying(DISP_OBJ *, int);
   void DispObject_Show(DISP_OBJ *, int mode);
   int Request_EventChannel_Subscribe(const int *sync, int mode, int event);
   void GUIObject_SoftKeys_ExecuteAction(GUI *, u16 actionID);
@@ -618,16 +612,20 @@ extern "C"
   void GVI_FillSolidTriangle(GVI_GC gc, int x1, int y1, int x2, int y2, int x3, int y3, int color);
   GC *GC_CreateMemoryGC(int xsize, int ysize, int bpp, int unk, void *somefn, int unk2);
   void GC_FreeGC(GC *gc);
+  void REQUEST_ALARMCLOCKSTATUS_GET(const int *sync, char *alarm_status);
+  void REQUEST_ALARMCLOCKTIME_GET(const int *sync, TIME *t);
+  void REQUEST_ALARMDATEANDTIMESTATUS_GET(const int *sync, DATETIME *);
   int Settings_ShowNumber_Get(char *state);
   GVI_BMP GVI_CreateBitmap(int xsize, int ysize, int bpp);
   GVI_GC GVI_CreateMemoryGC(GVI_BMP bitmap);
   void GVI_DeleteMemoryGC(GVI_GC gc);
   int StringInput_DispObject_SetLanguage(DISP_OBJ_STRING_INPUT *, int langID, int flag);
   int List_InsertSorted(LIST *list, void *item, int (*cmp_proc)(void *, void *));
-  int ListMenu_SetItemIcon(GUI_LIST *, u16 Item, u16 unk_FFFF, int mode, IMAGEID);
+  int ListMenu_SetItemIcon(GUI_LIST *, int Item, wchar_t unk_FFFF, int mode, IMAGEID);
   void wstrnupr(wchar_t *wstr, int maxlen);
   void wstrnlwr(wchar_t *wstr, int maxlen);
   int ListMenu_SetItemTextScroll(GUI_LIST *, int scroll);
+  void GUIObject_SetTitleTextColor(GUI *, int color);
   void GUIObject_SetListTextColor(GUI *, int unk1, int list_color, int unk2, int unk3, int list_select_color, int unk4, int _zerro);
   void DispObject_SetTitleTextColor(DISP_OBJ *, int color);
   void DispObject_SetListTextColor(DISP_OBJ *, int unk1, int list_color, int unk2, int unk3, int list_select_color, int unk4, int _zerro);
@@ -638,6 +636,18 @@ extern "C"
   BOOK *GUIObject_GetBook(GUI *);
   u16 SoftKeys_GetSelectedAction(void);
   void MonitorFeedback_SetTimer(GUI_FEEDBACK *, int time, void (*callback)(BOOK *));
+  void (*getListMenuOnGuiDestroy())(GUI *);
+  void (*getListMenuOnDescCreate())(DISP_DESC *);
+  void (*getListMenuOnDispMessage())(DISP_OBJ *, void *, GUI *);
+  void (*getTabMenuBarOnGuiDestroy())(GUI *);
+  void (*getTabMenuBarOnDescCreate())(DISP_DESC *);
+  void (*getTabMenuBarOnDispMessage())(DISP_OBJ *, void *, GUI *);
+  void (*getOneOfManyOnGuiDestroy())(GUI *);
+  void (*getOneOfManyOnDescCreate())(DISP_DESC *);
+  void (*getOneOfManyOnDispMessage())(DISP_OBJ *, void *, GUI *);
+  void (*getNOfManyOnGuiDestroy())(GUI *);
+  void (*getNOfManyOnDescCreate())(DISP_DESC *);
+  void (*getNOfManyOnDispMessage())(DISP_OBJ *, void *, GUI *);
   void ListMenu_DestroyItems(GUI_LIST *);
   void DispObject_SetScrollBarBackgroundColor(DISP_OBJ *, int color);
   void DispObject_SetScrollBarColor(DISP_OBJ *, int color);
@@ -651,7 +661,7 @@ extern "C"
   int GUIonMessage_GetSearchStringLength(GUI_MESSAGE *msg);
   int EqualizerGain_Get(int AudioSessionID, int Band, int *Level);
   int Theme_DestroyMenuIcons(void);
-  void CoCreateInstance(UUID *cid, UUID *iid, void **pInterface);
+  void CoCreateInstance(PUUID cid, PUUID iid, void **pInterface);
   void GUIObject_SetSecondRowTitleText(GUI *, TEXTID);
   int ListMenu_GetItemCount(GUI_LIST *);
   void OSE_GetShell(void **pInterface);
@@ -665,388 +675,29 @@ extern "C"
   void DispObject_SoftKeys_ExecuteAction(DISP_OBJ *, u16 actionID);
   LIST *DataBrowserBook_GetCurrentFoldersList(BOOK *DataBrowserBook);
   void DispObject_SetAnimation(DISP_OBJ *, int style);
-  void GUIObject_SetZOrder(GUI *, char, GUI *);
-  int StringInput_GetCursorPosition(GUI *, u16 *pos, char *_zero);
-  void str2PNUM(BCD_TEXT pnum, char *str, int len, int max_len);
-  void pb_ui_search_bk_create_search_menu(int BookID, int mode);
-  void GUIObject_SoftKeys_SubActionPressedNotification(GUI *, u16 actionID, BOOL);
-  int fs_demand_cache_page(int virtAddr, int mode, int intrMask);
-  int fs_demand_pagePool_alloc_mem(pagePool *pagePool_p, int intrMask);
-  wchar_t fs_demand_get_page_i_from_queue(wchar_t *queue, char only_allocked_pool, int page_count);
-  void fs_demand_remove_from_queue(pageCache *page_p_to_remove, wchar_t page_i_to_insert);
-  int fs_demand_kick_out_page(wchar_t page_i, int intrMask);
-  char *getSWAP_DATA_BASE(void);
 
-#ifdef A2
-  // Library DLL function --------------------------------------------------------
-  //void DisplayGC_AddRef( GC*, void* pICanvas );
-  void DisplayGC_GetCanvas(GC *, void *pICanvas);
-  void IUIRichText_SetText(void *pIUIRichText, TEXTID);
-  void IUIRichText_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
-  int IUIRichTextLayout_GetTextWidth(TEXTID, void *pIUIRichTextLayout, void *pIUIFont);
+  void DisplayGC_AddRef(GC *, void *);
 
-  int Illumination_LedID_SetLevel_Gradually(int LED_ID, int level, int fade_time);
-  int Illumination_LedID_SetLevel(int LED_ID, int level);
-  int Illumination_LedID_Off(int LED_ID);
-
-  int REQUEST_HPHONEBOOK_READSTRING(const int *sync, void *buf);
-  void AB_STR_ITEM_Copy(AB_STR_ITEM *dest, AB_STR_ITEM *source);
-  int Request_SIM_IMSI_Read(const int *sync, const int unk, char *imsi, char *error_cause);
-  int get_imsi_const(void);
-  int Request_SL_GetRadioState(const int *sync, char *level, char *flag, char *error_cause);
-  int Network_INetworkConnection_GetConnectionInfo(CONNECTION_INFO_DESC *desc);
-  int GetChipID_int(void);
-  OSBOOLEAN get_mem_int(int, int, void *);
+  TEXTID TextID_CreateImageID(IMAGEID);
+  int GetChargingState();
+  int FlightGetState(void);
+  int FlightControl(int status);
+  int GetNewEvent(void);
   int ConnectionManager_Connection_GetState_int(char *buf);
-#endif
-
-  // DynamicMenu function --------------------------------------------------------
-  int DynamicMenu_GetElementMsg(DYNAMIC_MENU_ELEMENT *dme);
-  wchar_t *DynamicMenu_GetElementId(DYNAMIC_MENU_ELEMENT *);
-  void DynamicMenu_SetElement_FirstLineText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
-  void DynamicMenu_SetElement_HelpText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
-  void DynamicMenu_SetElement_Icon(DYNAMIC_MENU_ELEMENT *dme, int mode, IMAGEID);
-  void DynamicMenu_SetElement_UnavailableState(DYNAMIC_MENU_ELEMENT *dme, BOOL state);
-  void DynamicMenu_SetElement_UnavailableText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
-  void DynamicMenu_SetElement_SecondLineText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
-  void DynamicMenu_SetElement_TitleText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
-
-  // SoftKeys function -----------------------------------------------------------
-  void BookObj_SoftKeys_SetItemOnKey(BOOK *book, u16 actionID, int key, int mode);
-  void BookObj_SoftKeys_SetKey_SoftAction(BOOK *book, u16 actionID, int key, int mode);
-
-  void GUIObject_SoftKeys_AllowKeylock(GUI *, BOOL allow);
-  void GUIObject_SoftKeys_SetLongSKButtonText(GUI *, u16 actionID, TEXTID);
-  void GUIObject_SoftKeys_SetIcon(GUI *, u16 actionID, IMAGEID);
-  void GUIObject_SoftKeys_MoveItemAfter(GUI *, u16 actionID, u16 after_actionID);
-  void GUIObject_SoftKeys_MoveItemBefore(GUI *, u16 actionID, u16 before_actionID);
-  void GUIObject_SoftKeys_MoveItemFirst(GUI *, u16 actionID);
-  void GUIObject_SoftKeys_SetDisabledAction(GUI *, u16 actionID, int unk);
-  void GUIObject_SoftKeys_SetSubItemHighlight(GUI *, u16 actionID, int subitem);
   void GUIObject_SoftKeys_SetItemOnKey(GUI *, u16 actionID, int key, int mode);
-  void GUIObject_SoftKeys_RemoveItemFromKey(GUI *, u16 actionID, int key, int mode);
-  void GUIObject_SoftKeys_SetActionAndText(GUI *gui, u16 actionID, SKACTIONPROC proc, TEXTID);
-  void GUIObject_SoftKeys_SetAction_SetText_SetInfoText_SetVisible(GUI *, u16 actionID, SKACTIONPROC proc, TEXTID name, TEXTID info, BOOL visible);
+  void GUIObject_TabTitleRemove(GUI *, int mode);
+  void TabMenuBar_SetTabIcon(GUI_TABMENUBAR *, int tab, IMAGEID, int for_state);
 
-  void MediaPlayer_SoftKeys_SetVisible(GUI *player_gui, u16 actionID, BOOL);
-  void MediaPlayer_SoftKeys_SetInfoText(GUI *player_gui, u16 actionID, TEXTID);
-  void MediaPlayer_SoftKeys_SetEnable(GUI *player_gui, u16 actionID, BOOL);
-  void MediaPlayer_SoftKeys_AddErrorStr(GUI *player_gui, u16 actionID, TEXTID);
+  TEXTID SetOperatorName(TEXTID, int _null);
+  TEXTID GetOperatorName(wchar_t *);
 
-  void DispObject_SoftKeys_SetAction(DISP_OBJ *, BOOK *, int __zero, u16 actionID, SKACTIONPROC);
-  void DispObject_SoftKeys_SetIcon(DISP_OBJ *, BOOK *, int __zero, u16 actionID, IMAGEID);
-  void DispObject_SoftKeys_SetText(DISP_OBJ *, BOOK *, int __zero, u16 actionID, TEXTID);
-  void DispObject_SoftKeys_SetLongSKButtonText(DISP_OBJ *, u16 actionID, TEXTID);
-  void DispObject_SoftKeys_SetVisible(DISP_OBJ *, BOOK *, int __zero, u16 actionID, BOOL);
-  //
-  //
-  //
-  void DispObject_SoftKeys_AddErrorStr(DISP_OBJ *, BOOK *, int __zero, u16 actionID, TEXTID);
-  //
-  void DispObject_SoftKeys_MoveItemFirst(DISP_OBJ *, BOOK *, int __zero, u16 actionID);
-  void DispObject_SoftKeys_MoveItemBefore(DISP_OBJ *, BOOK *, int __zero, u16 actionID, u16 before_actionID);
-  void DispObject_SoftKeys_MoveItemAfter(DISP_OBJ *, BOOK *, int __zero, u16 actionID, u16 after_actionID);
-  void DispObject_SoftKeys_SetItemAsSubItem(DISP_OBJ *, BOOK *, int __zero, u16 actionID, int subitem);
-  void DispObject_SoftKeys_SetSubItemHighlight(DISP_OBJ *, BOOK *, int __zero, u16 actionID, int subitem);
-  void DispObject_SoftKeys_SetItemOnKey(DISP_OBJ *, BOOK *, int __zero, u16 actionID, int key, int mode);
-  void DispObject_SoftKeys_RemoveItemFromKey(DISP_OBJ *, BOOK *, int __zero, u16 actionID, int key, int mode);
-  void DispObject_SoftKeys_RemoveItem(DISP_OBJ *, BOOK *, int __zero, u16 actionnID);
-  void DispObject_SoftKeys_SuppressDefaultAction(DISP_OBJ *, u16 actionID);
-  void DispObject_SoftKeys_ExecuteAction(DISP_OBJ *, u16 actionID);
-  void DispObject_SoftKeys_IgnoreSoftkeyButton(DISP_OBJ *, u16);
-  void DispObject_SoftKeys_AllowKeylock(DISP_OBJ *, BOOL);
-  void DispObject_SoftKeys_Hide(DISP_OBJ *);
-  void DispObject_SoftKeys_Show(DISP_OBJ *);
-  void DispObject_SoftKeys_RemoveBackground(DISP_OBJ *);
-  void DispObject_SoftKeys_RestoreBackground(DISP_OBJ *);
-  void DispObject_SoftKeys_SubActionPressedNotification(DISP_OBJ *, BOOK *, int __zero, u16 actionID, BOOL);
-  void DispObject_SoftKeys_SetDisabledAction(DISP_OBJ *, int unk);
+  int List_GetCount(LIST*);
 
-  // DISP_OBJ function -----------------------------------------------------------
-
-  void ListMenu_DispObject_SetCursorToItem(DISP_OBJ *, int item);
-  int ListMenu_DispObject_GetSelectedItem(DISP_OBJ *);
-  void ListMenu_DispObject_SetItemCount(DISP_OBJ *, int item_count);
-  int ListMenu_DispObject_GetItemCount(DISP_OBJ *);
-  void ListMenu_DispObject_SetTexts(DISP_OBJ *, const TEXTID *text, int count);
-  void ListMenu_DispObject_SetHotkeyMode(DISP_OBJ *, LISTMENU_HOTKEY_MODE);
-  void ListMenu_DispObject_SetNoItemText(DISP_OBJ *, TEXTID str);
-  int ListMenu_DispObject_SetItemFirstLineText(DISP_OBJ *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_DispObject_SetHelpText(DISP_OBJ *, u16 Item, u16 unk_FFFF, TEXTID);
-  int ListMenu_DispObject_SetItemIcon(DISP_OBJ *, u16 Item, u16 unk_FFFF, int mode, IMAGEID);
-  void ListMenu_DispObject_SetItemUnavailableState(DISP_OBJ *, u16 Item, u16 unk_FFFF, char state);
-  void ListMenu_DispObject_SetItemUnavailableText(DISP_OBJ *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_Disp_Object_SetItemSecondLineText(DISP_OBJ *, int elem_num, TEXTID);
-
-  void DispObject_StatusIndication_SetItemText(DISP_OBJ *, int ID, TEXTID);
-
-  void DispObject_SetThemeImage(DISP_OBJ *, int theme_image);
-  void DispObject_SetAnimationApp(DISP_OBJ *, char *style);
-  int DispObject_GetDisplay(DISP_OBJ *);
-  void DispObject_SetStyle(DISP_OBJ *, int style);
-  int DispObject_GetStyle(DISP_OBJ *);
-
-  void DispObject_SetTitleType(DISP_OBJ *, int type);
-  int DispObject_GetTitleType(DISP_OBJ *);
-  void DispObject_SetTitleIconHasPriority(DISP_OBJ *, BOOL titleIconHasPrio);
-  void DispObject_SetTitleAlignment(DISP_OBJ *, char titleAlignment);
-  int DispObject_GetTitleAlignment(DISP_OBJ *);
-
-  void DispObject_Backlight(DISP_OBJ *, int mode); // 0 - on; 1 - off; 2 - blink; 3 - timeout; 4 - restore;
-  void DispObject_BacklightBlinkTime(DISP_OBJ *, int time_on, int time_off);
-  void DispObject_BacklightRestore(DISP_OBJ *);
-  void DispObject_SetInternalBackground(DISP_OBJ *, IMAGEID);
-
-  DISP_OBJ *Get_MediaPlayer_DispObject(DISP_OBJ *);
-  int DispObject_GetStatusRowHeight(DISP_OBJ *);
-  void DispObject_DateInput_MoveCursor(DISP_OBJ *, int offset);
-  void DispObject_DateInput_SetDateFormat(DISP_OBJ *, char format);
-  void DispObject_DateInput_SetDate(DISP_OBJ *, DATE *);
-  void DispObject_TimeInput_SetTime(DISP_OBJ *, TIME *, char *format);
-  void DispObject_TimeInput_SetSecEnable(DISP_OBJ *, int state);
-  int DispObject_TimeInput_MoveCursor(DISP_OBJ *, int offset);
-
-  // GUI function ----------------------------------------------------------------
-  GUI *CreateDateInput(BOOK *, int display);
-  void DateInput_SetDateFormat(GUI *, char format);
-  void DateInput_SetDate(GUI *, DATE *);
-
-  GUI *CreatePercentInput(BOOK *, int display);
-  void PercentInput_ExecuteOnKey(GUI *PercentInput, void proc(int _unk_0, char value));
-  void PercentInput_SetCurrentPercent(GUI *PercentInput, TEXTID);
-  void PercentInput_SetTitleText(GUI *PercentInput, TEXTID);
-  void PercentInput_SetRowNumbers(GUI *PercentInput, int row);
-
-  GUI *CreateTimeInput(BOOK *, int display);
-  void TimeInput_SetTime(GUI *, TIME *, char *time_format);
-  void TimeInput_SetEnableSec(GUI *, BOOL);
-
-  GUI_LIST *CreateMultiChoiceMenu(BOOK *);
-  void MultiChoiceMenu_SetMessage(GUI_LIST *, int offset, TEXTID);
-  void MultiChoiceMenu_SetCursorToItem(GUI_LIST *, int item);
-
-  GUI *CreateOnOffList(BOOK *book);
-  int OnOffList_GetSelected(GUI *OnOffList);
-  void OnOffList_SetChecked(GUI *, int checked);
-  void OnOffList_SetFirstText(GUI *OnOffList, TEXTID);
-  void OnOffList_SetSecondText(GUI *OnOffList, TEXTID);
-
-  void Feedback_SetIcon(GUI_FEEDBACK *, IMAGEID);
-  void Feedback_CloseAction(GUI_FEEDBACK *, u16 actionID);
-  void Feedback_SetTextAlignment(GUI_FEEDBACK *, int UITextAlignment_t);
-  void Feedback_SetDescriptionImage(GUI_FEEDBACK *, IMAGEID);
-
-  void ProgressBar_SetDescriptionIcon(GUI *, IMAGEID);
-  void ProgressBar_SetDescriptionIconOffset(GUI *, int offset);
-  int ProgressBar_IsScrolling(GUI *);
-
-  GUI *CreateYesNoQuestion(BOOK *book, int display);
-  void YesNoQuestion_SetQuestionText(GUI *, TEXTID);
-  void YesNoQuestion_SetDescriptionText(GUI *, TEXTID);
-  void YesNoQuestion_SetDescriptionIconOffset(GUI *, int offset);
-
-  void OneOfMany_SetInfoText(GUI_ONEOFMANY *, u16 actionID, u16 unk_FFFF, TEXTID);
-  int NOfMany_GetItemCount(GUI_NOFMANY *);
-  void NOfMany_SetItemCount(GUI_NOFMANY *, int count);
-  void NOfMany_ItemGetChecked(GUI_NOFMANY *, int item);
-
-  GUI *CreateStringInput(BOOK *book);
-  void StringInput_SetMode(GUI *, int mode);
-  void StringInput_SetActionOK(GUI *strinp, void (*proc)(BOOK *book, wchar_t *string, int len));
-  void StringInput_SetActionBack(GUI *strinp, void (*proc)(BOOK *book, wchar_t *string, int len));
-  void StringInput_SetActionCancel(GUI *strinp, void (*proc)(BOOK *book, wchar_t *string, int len));
-  void StringInput_SetText(GUI *strinp, TEXTID);
-  void StringInput_SetFixedText(GUI *strinp, TEXTID);
-  void StringInput_SetMinLen(GUI *strinp, int len);
-  void StringInput_SetMaxLen(GUI *strinp, int len);
-  void StringInput_SetEnableEmptyText(GUI *strinp, BOOL state);
-  void StringInput_DispObject_StartSelectedText(DISP_OBJ *strinp_dispobj);
-  void StringInput_DispObject_CopySelectedText(DISP_OBJ *strinp_dispobj);
-
-  int ListMenu_SetFirstLineText(GUI_LIST *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_SetInfoText(GUI_LIST *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_SetItemUnavailableState(GUI_LIST *, u16 Item, u16 unk_FFFF, char state);
-  void ListMenu_SetItemUnavailableText(GUI_LIST *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_SetTexts(GUI_LIST *, TEXTID *textids, int Count);
-  void ListMenu_Activate_AddCount(GUI_LIST *, int mode);
-  void ListMenu_SetMaxItemCount(GUI_LIST *, int count);
-  void ListMenu_ErrorAddCount(GUI_LIST *, TEXTID);
-
-  void GUIObject_TabTitleRemove(GUI *, BOOL);
-  void GUIObject_SetAnimationApp(GUI *, char *style);
-  void GUIObject_RefreshLayout(GUI *);
-  int GUIObject_GetDisplay(GUI *);
-  int GUIObject_GetStyle(GUI *);
-  int GUIObject_GetTitleType(GUI *);
-  void GUIObject_SetTitleIconHasPriority(GUI *, BOOL titleIconHasPrio);
-  void GUIObject_SetTitleAlignment(GUI *, char titleAlignment);
-  int GUIObject_GetTitleAlignment(GUI *);
-  void GUIObject_BacklightOn(GUI *);
-  void GUIObject_BacklightOff(GUI *);
-  void GUIObject_BacklightTimeout(GUI *);
-  void GUIObject_BacklightBlink(GUI *);
-  void GUIObject_BacklightBlinkTime(GUI *, int time_on, int time_off);
-  void GUIObject_BacklightRestore(GUI *);
-  void GUIObject_SetInternalBackground(GUI *, IMAGEID);
-
-  GUI *CreatePalette(BOOK *book, TEXTID title, const unsigned int *color, int num_of_color, char __zero, void (*onCancel)(BOOK *, void *), void (*onBack)(BOOK *, void *), void (*onSelect)(BOOK *, unsigned int color));
-
-  // BOOK function ---------------------------------------------------------------
-  BOOL IsBook_onTop(BOOK *book);
-  int Session_SetFocus(UI_APP_SESSION *session, int focus);
-  BOOK *GetTopBook(void);
-  int IsStandbyTickerBook(BOOK *book);
-  IS_NEEDED_BOOK get_IsStandbyTickerBook(void);
-
-  int IsTimerBook(BOOK *book);
-  IS_NEEDED_BOOK get_IsTimerBook(void);
-
-  void FreeAllBook(BOOK *book, GUI *gui);
-  void Free_RightNowBook(void);
-
-  BOOK *DynamicMenu_GetElementBook(DYNAMIC_MENU_ELEMENT *);
-  BOOK *DynamicMenu_CreateSetBook(void);
-  BOOK *DynamicMenu_CreateXSetBook(int minus_one);
-
-  // SUB_EXECUTE function --------------------------------------------------------
-  FILEITEM *SUB_EXECUTE_Get_FILEITEM(SUB_EXECUTE *);
-  wchar_t *FILEITEM_GetFExtension(FILEITEM *);
-  FSTAT *FILEITEM_GetFSTAT(FILEITEM *);
-  void *FILEITEM_GetDRMHandle(FILEITEM *);
-  char FILEITEM_GetDRM_Flag(FILEITEM *);
-  char *FILEITEM_GetContentType(FILEITEM *);
-  int FILEITEM_SetContentType(FILEITEM *, char *type);
-  int GetFileLocation(wchar_t *fullpath); // 0 - card, 1 - phone
-  int GetMemoryStickStatus(void);
-  int DataBrowser_ItemDesc_CheckFileToCopyMove(FILEITEM *);
-
-  int FSX_IsFileExists(wchar_t *pDir, wchar_t *pFile);
-  wchar_t *FSX_MakeFullPath(wchar_t *pDir, wchar_t *pFile);
-  void FSX_FreeFullPath(wchar_t *fullpath);
-  int FSX_Attribute(const wchar_t *pDir, const wchar_t *pFile, unsigned long *pAttr, int action);
-  wchar_t *MakeFullPath(wchar_t *pDir, wchar_t *pFile);
-
-  // other function --------------------------------------------------------------
-
-  int CallInfo_Get(const int *SYNC, int CallType, CALLINFO *, signed char *error);
-
-  void CreateQuickInfo(DISP_OBJ *dispobj, TEXTID, int unk);
-  void CreatePasswordInputWindow(int BookID, int mode_0, int password_2, TEXTID title); // password: 2 - phone
-
-  void SaveBrightness(int brightness_level);
-  void Generic_DRM_Info(wchar_t *path, wchar_t *name, int BookID);
-
-  int Image_SetWallpaper(const wchar_t *path, const wchar_t *fname);
-
-  int SETTING_RINGTYPESOUNDFILE_SET(const int *sync, int minus_one, char zero, wchar_t *path, wchar_t *name, char *error);
-  int Sound_Check(wchar_t *fname);
-  int Sound_SetRingsignal(wchar_t *fpath, wchar_t *fname);
-  int Sound_SetMessageAlert(wchar_t *fpath, wchar_t *fname);
-  void Sound_SetAlarmsignal(BOOK *book, int one, wchar_t *fpath, wchar_t *fname);
-  void Sound_AddToContact(int BookID, wchar_t *fpath, int len_path, wchar_t *fname, int len_name, int zero);
-
-  wchar_t *MetaData_GetTags(wchar_t *path, wchar_t *name, int tagID);
-  IMAGEID MetaData_GetCover(wchar_t *filename);
-
-  int MusicApp_GetFocusedItem(BOOK *MusicBook, int itemIndex, int length,
-                              wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle,
-                              wchar_t *pFilename,
-                              void *pPlaylength, void *pResumePosition,
-                              bool *pContainsAlbumart, bool *pIsRealMediaFile);
-  int MusicApp_GetItem(BOOK *MusicBook, int itemIndex, int length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
-  int MusicApp_GetFilename(BOOK *MusicBook, int itemIndex, int length, wchar_t *pFilename);
-  int MusicApp_Resume(BOOK *MusicBook);
-  int MusicApp_Play(BOOK *MusicBook);
-  int MusicApp_Pause(BOOK *MusicBook);
-  int MusicApp_FastFoward(BOOK *MusicBook);
-  int MusicApp_Rewind(BOOK *MusicBook);
-  int MusicServer_Next(BOOK *MusicBook, bool activePress);
-  int MusicApp_Previous(BOOK *MusicBook);
-  int MusicServer_RemoveFromPlaylist(BOOK *MusicBook, int itemIndex);
-  int MusicServer_SavePlayQueue(BOOK *MusicBook, wchar_t *pPlaylistName);
-  int MusicApp_SetApplicationWindowMode(BOOK *MusicBook, bool maximized);
-
-  void Volume_Set(int TAudioControl_VolumeType, char volume);
-  int Volume_Get(int TAudioControl_VolumeType, char *volume); // GetAudioSettings
-
-  void MessageBox_Animation(TEXTID header_text, TEXTID message_text, IMAGEID, int style, int time, BOOK *book, char *animation);
-  void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
-
-  //int Get_MediaPlayer_State( DISP_OBJ* );
-  void PlaySystemSound_SendEvent(int sound, int event);
-  TEXTID TextID_CreateCharacterID(char);
-
-  void OnOffBook_ShuttingDown(void);
   void Shutdown(void);
-  void Reboot(void);
-  void Keylock_Activate(void);
-  BOOL Charging_GetState(void);
-  int NewEvent_GetCount(void); //GetNewEvent(void);
+  void Restart(void);
 
-  BOOL FlightMode_GetState(void);
-  void FlightMode_SetState(BOOL state);
-  void Bluetooth_SetState(BOOL state);
-  void SetOperatorName(TEXTID, int _null);
-  TEXTID GetOperatorName(wchar_t *opname);
-
-  void MSG_Marked_No(BOOK *book);                           //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, v. 3
-  void Create_BrowserMemory(int BookID, int unk, int mode); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, v. 4
-  void DataDownloadBook_onClose(BOOK *book);                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Bluetooth
-
-  // LIST function ---------------------------------------------------------------
-  void List_Init(LIST *list);
-  void List_Erase(LIST *list);
-  int List_InsertLast(LIST *lst, void *item);
-  int List_InsertBefore(LIST *list, void *pElem, int itemno);
-  int List_InsertAfter(LIST *list, void *pElem, int itemno);
-  void *List_RemoveFirst(LIST *lst);
-  void *List_RemoveLast(LIST *lst);
-  int List_GetCount(LIST *);
-  void *List_GetFirst(LIST *list);
-  void *List_GetLast(LIST *list);
-  void *List_FindNext(LIST *list, void *pElem);
-  void *List_FindPrev(LIST *list, void *pElem);
-  int List_Last(LIST *list);
-  int List_Next(LIST *list, int itemno);
-
-  // Registry function ----------------------------------------------------
-  void Registry_Write(char *name, int type, int size, void *data);
-  void Registry_Read(char *name, int type, int size, void *data);
-
-  // String function ----------------------------------------------------
-  BOOL IsAlnum(char c);
-  BOOL IsAlpha(char c);
-  BOOL IsCntrl(char c);
-  BOOL IsLower(char c);
-  BOOL IsPunct(char c);
-  BOOL IsSpace(char c);
-  BOOL IsUpper(char c);
-  BOOL IsGraph(char c);
-
-  char ToLower(char c);
-  char ToUpper(char c);
-
-  // Socket function ----------------------------------------------------
-  // int socket_create(int domain, int type, int protocol);
-  // int socket_close( int sock );
-  // int socket_connect(int socket, sockaddr *address, int address_len);
-  // int socket_send(int socket, const void *message, int length, int flags);
-  // int socket_recv(int socket, void *buffer, size_t length, int flags);
-  // int socket_setsockopt(int socket, int level, int option_name, const void *option_value, int option_len);
-  // int socket_getsockopt(int socket, int level, int option_name, void *option_value, int *option_len);
-  // int socket_getpeername(int socket, sockaddr *address, int *address_len);
-  // int socket_getsockname(int socket, sockaddr *address, int *address_len);
-  // int socket_shutdown(int socket, int how);
-  // int socket_accept(int socket, sockaddr *address, int *address_len);
-  // int socket_bind(int socket, const sockaddr *address, int address_len);
-  // int socket_listen(int socket, int backlog);
-  // int socket_sendto(int socket, const void *message, int length, int flags, const sockaddr *dest_addr, int dest_len);
-  // int socket_recvfrom(int socket, void *buffer, int length, int flags, sockaddr *address, int *address_len);
-  // int socket_sendmsg(int socket, const struct msghdr *message, int flags);
-  // int socket_recvmsg(int socket, struct msghdr *message, int flags);
-  // int socket_select( int nfds, void* readfds, void* writefds, void* exceptfds, void* timeout);
-  // int fcntl( int fd, int cmd, long arg );
-  // int socket_lasterror( void );
-  // int inet_pton(int af, const char *src, void *dst);
-  // char *inet_ntop(int af, const void *src, char *dst, int size);
+  GUI *CreateYesNoQuestion(BOOK *, int display);
+  void YesNoQuestion_CreatePreQuestion(GUI *, int);
+  void YesNoQuestion_CreateQuestion(GUI *, int);
+  void YesNoQuestion_SetIcon(GUI *, wchar_t);
 };

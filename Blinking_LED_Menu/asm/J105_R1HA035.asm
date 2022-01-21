@@ -80,12 +80,6 @@ a       EQU     b
         defadr strcmp,0x14CE5914+1
         defadr strlen,0x14CE5970+1
         defadr wstr2strn,0x144C6E04+1
-        defadr TextID_CreateIntegerID,0xEDA51BD1
-        defadr TextID_Create,0xEDA51BD1
-        defadr TextID_GetString,0xEDA51BD1
-        defadr TextID_GetWString,0xEDA51BD1
-        defadr TextID_GetLength,0xEDA51BD1
-        defadr TextID_Destroy,0xEDA51BD1
         defadr AB_DEFAULTNBR_GET,0x1453EC1C+1
         defadr AB_READSTRING,0xEDA51BD1
         defadr AB_READPHONENBR,0x15250030+1
@@ -614,9 +608,9 @@ a       EQU     b
 	defadr Illumination_LedID_SetLevel,0x14516124+1
 	defadr Illumination_LedID_Off,0x143A771C+1
 
-	defadr GetChargingState,0x142DAA90+1
-	defadr Str2ID,0x14227418+1
-        defadr int2strID,0x14522D1C+1
+	defadr Battery_GetChargingState,0x142DAA90+1
+	defadr TextID_Create,0x14227418+1
+        defadr TextID_CreateIntegerID,0x14522D1C+1
 	defadr Bluetooth_Control,0x14CEFAB8+1
         
 	defadr DynamicMenu_GetElementMsg,0x141545BC+1

@@ -5,7 +5,7 @@
 #include "..\\include\book\DB3150v1\MusicApplication_Book.h"
 #elif defined(DB3150v2)
 #include "..\\include\book\DB3150v2\MusicApplication_Book.h"
-#elif defined(DB3210) || defined(DB3210)
+#elif defined(DB3200) || defined(DB3210)
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
 #elif defined(DB3350)
 #include "..\\include\book\DB3350\MusicApplication_Book.h"
@@ -370,6 +370,7 @@ void Call_ShortcutPage(BOOK *book, GUI *gui)
 
 extern "C" void Set_New_SoftKeys(GUI *player_gui)
 {
+#ifdef A2
   GUIObject_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
   GUIObject_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
   GUIObject_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
@@ -377,6 +378,14 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
   MediaPlayer_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
   MediaPlayer_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
   MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
+#endif
+#else
+  MediaPlayer_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
+  MediaPlayer_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
+  MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
+  GUIObject_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
+  GUIObject_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
+  GUIObject_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
 #endif
 }
 
@@ -425,7 +434,7 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
     if (mode == KBD_SHORT_RELEASE)
       MusicApplication_Minimise(pMusicBook, NULL);
     else if (mode == KBD_LONG_PRESS)
-      FreeBook(pMusicBook);
+      MusicApplication_CancelAction(pMusicBook, NULL);
     break;
   default:
     MusicApplication_Keyboard(pMusicBook, key, repeat, mode, unk);

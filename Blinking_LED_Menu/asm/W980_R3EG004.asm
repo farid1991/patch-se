@@ -101,12 +101,12 @@ Start_Timer:
         LDR     R7, =0x10BF23AA+1
         BLX     R7
 
-sub_Timer_ReSet:                         
-        PUSH    {R3}            
+sub_Timer_ReSet:
+        PUSH    {R3}
         LDR     R3, =Timer_ReSet
-        MOV     R12, R3         
-        POP     {R3}            
-        BX      R12            
+        MOV     R12, R3
+        POP     {R3}
+        BX      R12
         NOP
 
         END

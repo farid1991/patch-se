@@ -68,6 +68,7 @@ extern "C"
   int MusicApplication_NextTrack(BOOK *book, BOOL);
   int MusicApplication_PreviousTrack(BOOK *book);
   void MusicApplication_Minimise(BOOK *book, GUI *gui);
+  void MusicApplication_CancelAction(BOOK *book, GUI *gui);
 }
 
 #endif

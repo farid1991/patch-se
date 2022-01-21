@@ -5,7 +5,7 @@
 #include "..\\include\book\DB3150v1\MusicApplication_Book.h"
 #elif defined(DB3150v2)
 #include "..\\include\book\DB3150v2\MusicApplication_Book.h"
-#elif defined(DB3210)
+#elif defined(DB3200) || defined(DB3210)
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
 #elif defined(DB3350)
 #include "..\\include\book\DB3350\MusicApplication_Book.h"
