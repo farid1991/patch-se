@@ -49,6 +49,7 @@ extern "C"
     void FreeBook(BOOK *book);
     BOOK *FindBook(IS_NEEDED_BOOK);
     BOOK *MainDisplay_GetTopBook(void);
+    BOOK *Display_GetTopBook(int);
     UI_APP_SESSION *BookObj_GetSession(BOOK *book);
     int IsMainDisplayActive();
 

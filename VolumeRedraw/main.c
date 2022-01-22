@@ -322,6 +322,13 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
 #endif
 }
 
+#ifdef DB2010
+BOOK* MainDisplay_GetTopBook()
+{
+  return Display_GetTopBook(UIDisplay_Main);
+}
+#endif
+
 extern "C" int New_pg_VolumeControl_Active_EnterEvent(void *data, BOOK *book)
 {
   if (pg_VolumeControl_Active_EnterEvent(data, book))

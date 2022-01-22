@@ -1,0 +1,12 @@
+#ifndef W810_R4EA031
+#define W810_R4EA031
+
+#define A1
+#define DB2010
+
+#define OTHER_PATH 0x44665A58
+#define DEFAULT_PATH 0x4464B72C
+#define ONGOINGCALLBOOK 0x444D56A8
+#define MOCALLBOOK 0x44934697
+
+#endif
