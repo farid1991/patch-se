@@ -1,20 +1,20 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\Function.h"
 #include "..\\include\Color.h"
 #include "..\include\book\ScreenSaverBook.h"
 
 #include "main.h"
+#include "Lib.h"
 
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(0, size, 1, 5, "", 0));
+  return memalloc(0, size, 1, 5, "", 0);
 #elif defined(A2)
-  return (memalloc(clWhite, size, 1, 5, "", 0));
+  return memalloc(clWhite, size, 1, 5, "", 0);
 #else
-  return (memalloc(size, 1, 5, "", 0));
+  return memalloc(size, 1, 5, "", 0);
 #endif
 }
 
@@ -34,32 +34,30 @@ __thumb void mfree(void *mem)
 
 u16 *getTimerID()
 {
-  return (u16 *)get_envp(get_bid(current_process()), VARNAME);
+  return (u16 *)get_envp(NULL, VARNAME);
 }
 
 u16 *createTimerID()
 {
   u16 *pTimerID = (u16 *)malloc(sizeof(u16));
   memset(pTimerID, NULL, sizeof(u16));
-  set_envp(get_bid(current_process()), VARNAME, (OSADDRESS)pTimerID);
+  set_envp(NULL, VARNAME, (OSADDRESS)pTimerID);
   return pTimerID;
 }
 
-void onTimer(u16 timerID, LPARAM param)
+void onTimer(u16 timerID, LPARAM disp_obj)
 {
   u16 *pTimerID = getTimerID();
-  ScreenSaverBook *ScrSavBook = (ScreenSaverBook *)FindBook(IsScreenSaverBook);
-  DISP_OBJ *disp_sleepmode = GUIObject_GetDispObject(ScrSavBook->sleepmode);
-  Timer_ReSet(pTimerID, 1000, onTimer, param);
-  DispObject_InvalidateRect(disp_sleepmode, NULL);
+  Timer_ReSet(pTimerID, 1000, onTimer, disp_obj);
+  DispObject_InvalidateRect((DISP_OBJ *)disp_obj, NULL);
 }
 
-extern "C" void SetRefreshTimer()
+extern "C" void SetRefreshTimer(DISP_OBJ* disp_obj)
 {
   u16 *pTimerID = getTimerID();
   if (!pTimerID)
     pTimerID = createTimerID();
-  *pTimerID = Timer_Set(1000, onTimer, NULL);
+  *pTimerID = Timer_Set(1000, onTimer, (LPARAM*)disp_obj);
 }
 
 extern "C" void KillRefreshTimer()
@@ -72,7 +70,7 @@ extern "C" void KillRefreshTimer()
   }
 }
 
-extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *dobj, int a, int b, int c)
+extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
   int _SYNC = 0;
   int *SYNC = &_SYNC;
@@ -104,7 +102,7 @@ extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *dobj, int a, int b, int c)
 
   int missed[ICONS_COUNT + 2];
   int *id = missed;
-  int events = *((char *)MissedEvents);
+  int events = *(MissedEvents);
   int index;
 
   for (index = 0; index < ICONS_COUNT; index++)

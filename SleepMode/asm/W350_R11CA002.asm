@@ -57,6 +57,7 @@ a       equ b
 SetTimer:
         LDR     R3, =0x21101608+1
         BLX	R3
+        ADD     R0, R4, #0
         BL      SetRefreshTimer
 	MOV	R0, #1
         POP	{R2-R7,PC}

@@ -637,9 +637,6 @@ a       EQU b
 
 	defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
-////////////////////////////////////////////////
-
-        defadr Rest_Run,0x116A3914+1
 
         EXTERN  New_SleepMode_OnRedraw
         EXTERN  SetRefreshTimer
@@ -648,37 +645,38 @@ a       EQU b
 
         RSEG  CODE
         CODE16
-Timer_Run:
+SetTimer:
 	MOV     R1, #1
-        LDR     R3, =Rest_Run
+        LDR     R3, =0x116A3914+1
         BLX	R3
+        ADD     R0, R4, #0
         BL      SetRefreshTimer
         MOV	R0, #1
         POP	{R2-R7,PC}
 
         RSEG  CODE
         CODE16
-Timer_Kil:
+KillTimer:
         LDR	R0, [R5,#0]
 	MOV	R2, #0
 	ADD	R1, R2,	#0
-        LDR	R3, =TextID_Create
+        LDR	R3, =TextID_Destroy
 	BLX	R3
         BL      KillRefreshTimer
 	POP	{R4,R5,PC}
 
-        RSEG    PATCH_DRAWSCREENSAVER
-        DATA
-        DCD     New_SleepMode_OnRedraw
-
-        RSEG    PATCH_TIMER_RUN
+        RSEG    PATCH_TIMER_SET
         CODE16
-        LDR     R3, =Timer_Run
+        LDR     R3, =SetTimer
         BX	R3
 
         RSEG    PATCH_TIMER_KILL
         CODE16
-        LDR     R3, =Timer_Kil
+        LDR     R3, =KillTimer
         BX	R3
+
+        RSEG    PATCH_SLEEPMODE_ONREDRAW
+        DATA
+        DCD     New_SleepMode_OnRedraw
 
         END
