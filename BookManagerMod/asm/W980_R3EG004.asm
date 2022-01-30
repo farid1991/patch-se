@@ -130,7 +130,7 @@ a       EQU b
         defadr FlightControl,0x11A696E4+1
         defadr Request_ICA_ShutdownAllConnections,0x114A1408+1
         defadr Display_GetBrightness,0x10DC06B8+1
-        defadr GetNewEvent,0x10B37018+1
+        defadr NewEvents_GetCount,0x10B37018+1
 
         EXTERN GetFocusTab
         EXTERN CreateBookAndElfsLists

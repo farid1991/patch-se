@@ -2,18 +2,20 @@ extern "C"
 {
 #ifndef DB3350
 #pragma swi_number = 0x10D
-    __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
+  __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
 #endif
-#if defined(DB2010)
-    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-    void memfree(void *mem, const char *fname, int fline);
-#elif defined(DB2020)
-    void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
-    void memfree(int zero, void *mem, const char *fname, int fline);
+
+#if defined(DB2020)
+  void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
+  void memfree(int zero, void *mem, const char *fname, int fline);
 #elif defined(A2)
-    void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
-    void memfree(int zero, void *mem, const char *fname, int fline);
+  void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
+  void memfree(int zero, void *mem, const char *fname, int fline);
+#else
+  void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+  void memfree(void *mem, const char *fname, int fline);
 #endif
+
   void *memset(void *mem, char chr, int size);
   int memcpy(void *dest, const void *source, int cnt);
   int sprintf(char *buf, const char *fmt, ...);
@@ -682,7 +684,7 @@ extern "C"
   int GetChargingState();
   int FlightGetState(void);
   int FlightControl(int status);
-  int GetNewEvent(void);
+  int NewEvents_GetCount(void);
   int ConnectionManager_Connection_GetState_int(char *buf);
   void GUIObject_SoftKeys_SetItemOnKey(GUI *, u16 actionID, int key, int mode);
   void GUIObject_TabTitleRemove(GUI *, int mode);
@@ -691,7 +693,7 @@ extern "C"
   TEXTID SetOperatorName(TEXTID, int _null);
   TEXTID GetOperatorName(wchar_t *);
 
-  int List_GetCount(LIST*);
+  int List_GetCount(LIST *);
 
   void Shutdown(void);
   void Restart(void);

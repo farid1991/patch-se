@@ -5,15 +5,15 @@
 
 extern "C"
 {
-#if defined(DB2010)
-    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-    void memfree(void *mem, const char *fname, int fline);
-#elif defined(DB2020)
+#if defined(DB2020)
     void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
 #elif defined(A2)
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
+#else
+    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+    void memfree(void *mem, const char *fname, int fline);
 #endif
 
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
@@ -50,7 +50,8 @@ extern "C"
 #else
     void Display_SetBrightness(int brightness);
 #endif
-    void SaveBrightness(int brightness_level);int Display_GetBrightness(int display);
+    void SaveBrightness(int brightness_level);
+    int Display_GetBrightness(int display);
 
     void GUIObject_SetTitleText(GUI *, TEXTID);
     void GUIObject_Show(GUI *);

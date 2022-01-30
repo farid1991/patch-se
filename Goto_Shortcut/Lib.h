@@ -9,15 +9,15 @@ extern "C"
 #pragma swi_number = 0x10D
     __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
 #endif
-#if defined(DB2010)
-    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-    void memfree(void *mem, const char *fname, int fline);
-#elif defined(DB2020)
+#if defined(DB2020)
     void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
 #elif defined(A2)
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
+#else
+    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+    void memfree(void *mem, const char *fname, int fline);
 #endif
 
     void debug_printf(const char *fmt, ...);

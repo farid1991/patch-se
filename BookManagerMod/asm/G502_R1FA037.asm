@@ -632,7 +632,7 @@ a       EQU     b
 	defadr Bluetooth_Control,0x10EF6DDC+1
         defadr FlightControl,0x1160E8CC+1
         defadr FlightGetState,0x1160E2A0+1
-        defadr GetNewEvent,0x116D60E4+1
+        defadr NewEvents_GetCount,0x116D60E4+1
         defadr SetOperatorName,0x10F4C388+1
         defadr GetOperatorName,0x10F4B180+1
         defadr GetChargingState,0x116E7C14+1

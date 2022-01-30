@@ -1374,7 +1374,7 @@ typedef struct SUB_EXECUTE
 	GUI_FEEDBACK *gui_fb;	 //18
 	void *strinp_struct;	 //1C
 	char dummy1[0x2D0];		 //20
-#if defined(DB3150v1) ||  defined(DB3150v2)
+#if defined(DB3150v1) || defined(DB3150v2)
 	char dummy2[0x4];
 #endif
 	void *pIMMEPlayer; //2F4
@@ -1510,35 +1510,35 @@ enum DYNAMIC_MENU_ELEMENT_MSG
 // softkeys
 typedef enum
 {
-  UNDEFINED_SOFTKEY = -1,   // See documentation for CreateSoftkey
-  ABORT_SOFTKEY = 4011,     // Predefined softkey for abort
-  ACCEPT_SOFTKEY,           // Predefined master softkey for the accept family: ok, save, done, continue...
-  ADD_SOFTKEY,              // Predefined softkey for add
-  ADDITEM_SOFTKEY,          // Predefined softkey for add item
-  CANCEL_SOFTKEY,           // Predefined softkey for cancel
-  CHECK_SOFTKEY,            // Predefined softkey for check
-  CONTINUE_SOFTKEY,         // Predefined softkey for continue
-  CREATE_MORELIST_SOFTKEY,  // Predefined softkey for create more list
-  DESTROY_MORELIST_SOFTKEY, // Predefined softkey for destroy more list
-  DELETE_SOFTKEY,           // Predefined softkey for delete
-  DONE_SOFTKEY,             // Predefined softkey for done
-  EDIT_SOFTKEY,             // Predefined softkey for edit
-  HELP_SOFTKEY,             // Predefined softkey for help
-  HYPERLINK_SOFTKEY,        // Predefined softkey for hyperlink
-  INFO_SOFTKEY,             // Predefined softkey for info
-  INPUT_EMPTY_SOFTKEY,      // Predefined softkey for empty input
-  INPUT_NOT_EMPTY_SOFTKEY,  // Predefined softkey for not empty input
-  KEYLOCK_SOFTKEY,          // Predefined softkey for key lock
-  MARKSEVERAL_SOFTKEY,      // Predefined softkey for abort
-  NO_SOFTKEY,               // Predefined softkey for no
-  OK_SOFTKEY,               // Predefined softkey for OK
-  PREVIOUS_SOFTKEY,         // Predefined softkey for previous
-  SAVE_SOFTKEY,             // Predefined softkey for save
-  SELECT_SOFTKEY,           // Predefined softkey for select
-  UNCHECK_SOFTKEY,          // Predefined softkey for uncheck
-  UNMARK_ALL_SOFTKEY,       // Predefined softkey for unmark all
-  YES_SOFTKEY,              // Predefined softkey for yes
-  LAST_SOFTKEY              // Last softkey
+	UNDEFINED_SOFTKEY = -1,	  // See documentation for CreateSoftkey
+	ABORT_SOFTKEY = 4011,	  // Predefined softkey for abort
+	ACCEPT_SOFTKEY,			  // Predefined master softkey for the accept family: ok, save, done, continue...
+	ADD_SOFTKEY,			  // Predefined softkey for add
+	ADDITEM_SOFTKEY,		  // Predefined softkey for add item
+	CANCEL_SOFTKEY,			  // Predefined softkey for cancel
+	CHECK_SOFTKEY,			  // Predefined softkey for check
+	CONTINUE_SOFTKEY,		  // Predefined softkey for continue
+	CREATE_MORELIST_SOFTKEY,  // Predefined softkey for create more list
+	DESTROY_MORELIST_SOFTKEY, // Predefined softkey for destroy more list
+	DELETE_SOFTKEY,			  // Predefined softkey for delete
+	DONE_SOFTKEY,			  // Predefined softkey for done
+	EDIT_SOFTKEY,			  // Predefined softkey for edit
+	HELP_SOFTKEY,			  // Predefined softkey for help
+	HYPERLINK_SOFTKEY,		  // Predefined softkey for hyperlink
+	INFO_SOFTKEY,			  // Predefined softkey for info
+	INPUT_EMPTY_SOFTKEY,	  // Predefined softkey for empty input
+	INPUT_NOT_EMPTY_SOFTKEY,  // Predefined softkey for not empty input
+	KEYLOCK_SOFTKEY,		  // Predefined softkey for key lock
+	MARKSEVERAL_SOFTKEY,	  // Predefined softkey for abort
+	NO_SOFTKEY,				  // Predefined softkey for no
+	OK_SOFTKEY,				  // Predefined softkey for OK
+	PREVIOUS_SOFTKEY,		  // Predefined softkey for previous
+	SAVE_SOFTKEY,			  // Predefined softkey for save
+	SELECT_SOFTKEY,			  // Predefined softkey for select
+	UNCHECK_SOFTKEY,		  // Predefined softkey for uncheck
+	UNMARK_ALL_SOFTKEY,		  // Predefined softkey for unmark all
+	YES_SOFTKEY,			  // Predefined softkey for yes
+	LAST_SOFTKEY			  // Last softkey
 } TUIPredefinedSoftkey;
 
 // registry --------------------------------------------------------------------

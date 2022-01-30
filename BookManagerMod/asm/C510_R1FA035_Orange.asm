@@ -64,7 +64,7 @@ a       EQU     b
         defadr ListMenu_DestroyItems,0x1427CFB4+1
         defadr FlightGetState,0x141B2E50+1
         defadr FlightControl,0x144CC008+1
-        defadr GetNewEvent,0x14385228+1
+        defadr NewEvents_GetCount,0x14385228+1
         defadr ConnectionManager_Connection_GetState_int,0x1440BB74+1
         defadr GUIObject_SoftKeys_SetItemOnKey,0x14279C5C+1
         defadr GUIObject_TabTitleRemove,0x143BCED0+1

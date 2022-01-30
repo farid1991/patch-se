@@ -1,7 +1,12 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+
+#ifdef DB2010
+#include "..\\include\book\RightNowBook.h"
+#else
 #include "..\\include\book\ActivityMenuBook.h"
+#endif
 
 #include "Lib.h"
 #include "main.h"
@@ -13,25 +18,26 @@ __arm void _elfload(const wchar_t *filepath, const wchar_t *filename)
 
 void *malloc(int size)
 {
-#if defined(DB2010)
-  return (memalloc(size, 1, 5, "bm_mem", 0));
-#elif defined(DB2020)
+#if defined(DB2020)
   return (memalloc(0, size, 1, 5, "bm_mem", 0));
 #elif defined(A2)
   return (memalloc(0xFFFFFFFF, size, 1, 5, "bm_mem", 0));
+#else
+  return (memalloc(size, 1, 5, "bm_mem", 0));
 #endif
 }
 
 void mfree(void *mem)
 {
-#if defined(DB2010)
-  memfree(mem, "bm_mem", 0);
-#elif defined(DB2020)
+#if defined(DB2020)
   if (mem)
     memfree(0, mem, "bm_mem", 0);
 #elif defined(A2)
   if (mem)
     memfree(0, mem, "bm_mem", 0);
+#else
+  if (mem)
+    memfree(mem, "bm_mem", 0);
 #endif
 }
 
@@ -39,13 +45,13 @@ BOOK_MANAGER *CreateData()
 {
   BOOK_MANAGER *data = (BOOK_MANAGER *)malloc(sizeof(BOOK_MANAGER));
   memset(data, NULL, sizeof(BOOK_MANAGER));
-  set_envp(get_bid(current_process()), EMP_NAME, (OSADDRESS)data);
+  set_envp(NULL, EMP_NAME, (OSADDRESS)data);
   return data;
 }
 
 BOOK_MANAGER *GetData()
 {
-  BOOK_MANAGER *data = (BOOK_MANAGER *)get_envp(get_bid(current_process()), EMP_NAME);
+  BOOK_MANAGER *data = (BOOK_MANAGER *)get_envp(NULL, EMP_NAME);
   if (data)
     return data;
   return CreateData();
@@ -223,9 +229,9 @@ int CheckEvent(BOOK *book, int event)
   return 0;
 }
 
-void onDelete_BookAndElfs(BOOK *book, GUI *gui)
+void onDelete_BookAndElfs(BOOK *rbook, GUI *gui)
 {
-  ActivityMenuBook *pActBook = (ActivityMenuBook *)book;
+  ActivityMenuBook *pActBook = (ActivityMenuBook *)rbook;
 
   BOOK_MANAGER *data = GetData();
   if (GetActiveTab(pActBook) == TAB_BOOKS)
@@ -233,17 +239,17 @@ void onDelete_BookAndElfs(BOOK *book, GUI *gui)
     BOOK_LIST_ELEM *elem = GetBookListItem(TAB_BOOKS);
     if (elem)
     {
-      BOOK *bk = elem->book;
-      if (bk != Find_StandbyBook())
+      BOOK *book = elem->book;
+      if (book != Find_StandbyBook())
       {
         if (elem->isJava == TRUE)
-          UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID(bk));
+          UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID(book));
         else
         {
-          if (CheckEvent(bk, TERMINATE_SESSION_EVENT))
-            UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID((BOOK *)List_Get(bk->xbook->app_session->listbook, List_GetCount(bk->xbook->app_session->listbook) - 1)));
-          else if (CheckEvent(bk, RETURN_TO_STANDBY_EVENT))
-            UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID((BOOK *)List_Get(bk->xbook->app_session->listbook, List_GetCount(bk->xbook->app_session->listbook) - 1)));
+          if (CheckEvent(book, TERMINATE_SESSION_EVENT))
+            UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID((BOOK *)List_Get(book->xbook->app_session->listbook, List_GetCount(book->xbook->app_session->listbook) - 1)));
+          else if (CheckEvent(book, RETURN_TO_STANDBY_EVENT))
+            UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID((BOOK *)List_Get(book->xbook->app_session->listbook, List_GetCount(book->xbook->app_session->listbook) - 1)));
         }
         UI_Event(RESTARTED_ACTIVITY_MENU_EVENT);
         data->elf = FALSE;
@@ -254,17 +260,17 @@ void onDelete_BookAndElfs(BOOK *book, GUI *gui)
   {
     if (data->elfs_count)
     {
-      BOOK *bk = GetBook(TAB_ELFS);
-      if (bk)
+      BOOK *book = GetBook(TAB_ELFS);
+      if (book)
       {
-        if (CheckEvent(bk, RETURN_TO_STANDBY_EVENT))
-          UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID(bk));
+        if (CheckEvent(book, RETURN_TO_STANDBY_EVENT))
+          UI_Event_toBookID(RETURN_TO_STANDBY_EVENT, BookObj_GetBookID(book));
         else
         {
-          if (CheckEvent(bk, ELF_TERMINATE_EVENT))
-            UI_Event_toBookID(ELF_TERMINATE_EVENT, BookObj_GetBookID(bk));
+          if (CheckEvent(book, ELF_TERMINATE_EVENT))
+            UI_Event_toBookID(ELF_TERMINATE_EVENT, BookObj_GetBookID(book));
           else
-            MessageBox(EMPTY_TEXTID, STR("TerminateEvent not supported by elf..."), NOIMAGE, 1, 2500, bk);
+            MessageBox(EMPTY_TEXTID, STR("TerminateEvent not supported by elf..."), NOIMAGE, 1, 2500, book);
         }
         UI_Event(RESTARTED_ACTIVITY_MENU_EVENT);
         data->elf = TRUE;
@@ -314,6 +320,22 @@ void Close_AllBooks(BOOK *book, GUI *gui)
   ActivityMenuBook *pActBook = (ActivityMenuBook *)book;
   UI_Event(RETURN_TO_STANDBY_EVENT);
   FreeBook(pActBook);
+}
+
+void myOnKey_Unified( DISP_OBJ* disp_obj, int keyID, int i2, int i3, int press_mode )
+{
+	BOOK_MANAGER *data = GetData();
+
+	data->oldOnKey( disp_obj, keyID, i2, i3, press_mode );
+
+	if ( keyID == KEY_DIEZ && press_mode == KBD_SHORT_RELEASE )
+	{
+		Minimize_AllBooks( data->RightNowBook, NULL );
+	}
+	else if ( keyID == KEY_STAR && press_mode == KBD_SHORT_RELEASE )
+	{
+		Close_AllBooks( data->RightNowBook, NULL );
+	}
 }
 
 TEXTID GetBookName(char *book_name)
@@ -402,6 +424,7 @@ extern "C" void CreateBookMenu(BOOK *book, int tab_num)
   ActivityMenuBook *pActBook = (ActivityMenuBook *)book;
 
   BOOK_MANAGER *data = GetData();
+  data->RightNowBook = book;
   data->elf = FALSE;
 
   if (data->book_index > data->books_count - 1)
@@ -412,7 +435,7 @@ extern "C" void CreateBookMenu(BOOK *book, int tab_num)
   ListMenu_SetItemCount(data->books_menu, data->books_count);
   ListMenu_SetCursorToItem(data->books_menu, data->book_index);
   GUIObject_SetStyle(data->books_menu, UI_OverlayStyle_PopupNoFrame);
-  GUIObject_TabTitleRemove(data->books_menu, TRUE);
+  GUIObject_TabTitleRemove(data->books_menu, 2);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_BACK, onCloseBook);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_LONG_BACK, onLongCloseBook);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_SELECT1, onEnterPressed_Books);
@@ -420,10 +443,8 @@ extern "C" void CreateBookMenu(BOOK *book, int tab_num)
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_DELETE, onDelete_BookAndElfs);
   GUIObject_SoftKeys_SetVisible(data->books_menu, ACTION_DELETE, FALSE);
 
-  GUIObject_SoftKeys_SetAction(data->books_menu, 0, Minimize_AllBooks);
-  GUIObject_SoftKeys_SetItemOnKey(data->books_menu, 0, KEY_DIEZ, KBD_SHORT_PRESS);
-  GUIObject_SoftKeys_SetAction(data->books_menu, 1, Close_AllBooks);
-  GUIObject_SoftKeys_SetItemOnKey(data->books_menu, 1, KEY_STAR, KBD_SHORT_PRESS);
+  data->oldOnKey = DispObject_GetOnKey(GUIObject_GetDispObject(data->books_menu));
+  DISP_DESC_SetOnKey(DispObject_GetDESC(GUIObject_GetDispObject(data->books_menu)), myOnKey_Unified);
 
   TabMenuBar_SetTabGui(pActBook->main_tab, tab_num, data->books_menu);
   TabMenuBar_SetTabTitle(pActBook->main_tab, tab_num, Get_FreeHeap());
@@ -468,13 +489,17 @@ void RefreshElfSoftkeys(BOOK_MANAGER *data)
       GUIObject_SoftKeys_SetVisible(data->elf_menu, ACTION_SELECT1, FALSE);
     else
       GUIObject_SoftKeys_SetVisible(data->elf_menu, ACTION_SELECT1, TRUE);
+    GUIObject_SoftKeys_SetEnable(data->elf_menu, ACTION_DELETE, TRUE);
     GUIObject_SoftKeys_SetVisible(data->elf_menu, 0, TRUE);
+    GUIObject_SoftKeys_SetVisible(data->elf_menu, 1, TRUE);
   }
   else
   {
     ListMenu_SetNoItemText(data->elf_menu, STR("No elfs in memory"));
     GUIObject_SoftKeys_SetVisible(data->elf_menu, ACTION_SELECT1, FALSE);
+    GUIObject_SoftKeys_SetEnable(data->elf_menu, ACTION_DELETE, FALSE);
     GUIObject_SoftKeys_SetVisible(data->elf_menu, 0, FALSE);
+    GUIObject_SoftKeys_SetVisible(data->elf_menu, 1, FALSE);
     data->elf_index = NULL;
   }
 }
@@ -581,7 +606,7 @@ extern "C" void CreateElfMenu(BOOK *book, int tab_num)
   ListMenu_SetItemCount(data->elf_menu, data->elfs_count);
   ListMenu_SetCursorToItem(data->elf_menu, data->elf_index);
   GUIObject_SetStyle(data->elf_menu, UI_OverlayStyle_PopupNoFrame);
-  GUIObject_TabTitleRemove(data->elf_menu, TRUE);
+  GUIObject_TabTitleRemove(data->elf_menu, 1);
   GUIObject_SoftKeys_SetAction(data->elf_menu, ACTION_BACK, onCloseBook);
   GUIObject_SoftKeys_SetAction(data->elf_menu, ACTION_LONG_BACK, onLongCloseBook);
   GUIObject_SoftKeys_SetAction(data->elf_menu, ACTION_SELECT1, onEnterPressed_Elfs);
@@ -682,7 +707,7 @@ extern "C" void CreateShortcutMenu(BOOK *book, int tab_num)
   ListMenu_SetItemCount(data->sc_menu, 5);
   ListMenu_SetCursorToItem(data->sc_menu, 0);
   GUIObject_SetStyle(data->sc_menu, UI_OverlayStyle_PopupNoFrame);
-  GUIObject_TabTitleRemove(data->sc_menu, TRUE);
+  GUIObject_TabTitleRemove(data->sc_menu, 1);
   GUIObject_SoftKeys_SetAction(data->sc_menu, ACTION_BACK, onCloseBook);
   GUIObject_SoftKeys_SetAction(data->sc_menu, ACTION_LONG_BACK, onLongCloseBook);
   GUIObject_SoftKeys_SetAction(data->sc_menu, ACTION_SELECT1, ShortcutMenu_onEnterPressed);
@@ -732,10 +757,12 @@ void DestroyConfigBuffer(BOOK_MANAGER *data)
   }
 }
 
+#ifndef DB2010
 int isRSSTickerBook(BOOK *book)
 {
   return FALSE == strcmp(book->xbook->name, "RSSTicker_Book");
 }
+#endif
 
 extern "C" void CreateBookAndElfsLists()
 {
@@ -766,7 +793,11 @@ extern "C" void CreateBookAndElfsLists()
       BOOK *book = (BOOK *)List_Get(session->listbook, listbook_index);
       if ((total_gui = List_GetCount(book->xguilist->guilist)) || (((int)book->onClose) & FLASH_MASK) != mask)
       {
+#ifdef DB2010
+        if (!IsVolumeControllerBook(book) && !IsRightNowBook(book))
+#else
         if (!IsVolumeControllerBook(book) && !IsRightNowBook(book) && !isRSSTickerBook(book))
+#endif
         {
           char str[MAX_BOOK_NAME_LEN + 1];
           BOOK_LIST_ELEM *elem = (BOOK_LIST_ELEM *)malloc(sizeof(BOOK_LIST_ELEM));
@@ -875,7 +906,7 @@ extern "C" void ActivityBook_onClose()
 
 extern "C" TEXTID EventsTitleText()
 {
-  int total_evt = GetNewEvent();
+  int total_evt = NewEvents_GetCount();
   wchar_t buf[32];
   snwprintf(buf, MAXELEMS(buf), L"New event: %d", total_evt);
   return TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN);

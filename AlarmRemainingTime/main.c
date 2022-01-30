@@ -60,9 +60,5 @@ TEXTID GetRemainingTimeID(TIME *alarm)
 
   wchar_t buf[64];
   snwprintf(buf, MAXELEMS(buf), L"%02d:%02d (%02d:%02d)", alarm->hour, alarm->min, datetime_back.time.hour, datetime_back.time.min);
-// #ifdef A2
-  // return TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN, NULL, NULL);
-// #else
   return TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN);
-// #endif
 }

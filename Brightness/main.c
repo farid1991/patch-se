@@ -23,25 +23,26 @@
 
 void *malloc(int size)
 {
-#if defined(DB2010)
-  return (memalloc(size, 1, 5, "br", 0));
-#elif defined(DB2020)
+#if defined(DB2020)
   return (memalloc(0, size, 1, 5, "br", 0));
 #elif defined(A2)
   return (memalloc(0xFFFFFFFF, size, 1, 5, "br", 0));
+#else
+  return (memalloc(size, 1, 5, "br", 0));
 #endif
 }
 
 void mfree(void *mem)
 {
-#if defined(DB2010)
-  memfree(mem, "br", 0);
-#elif defined(DB2020)
+#if defined(DB2020)
   if (mem)
     memfree(0, mem, "br", 0);
 #elif defined(A2)
   if (mem)
     memfree(0, mem, "br", 0);
+#else
+  if (mem)
+    memfree(mem, "br", 0);
 #endif
 }
 

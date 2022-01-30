@@ -169,7 +169,7 @@ a       EQU     b
         defadr Display_GetBrightness,0x14DD6C94+1
         defadr root_list_get_session_count,0x14063814+1
         defadr root_list_get_session,0x1419E844+1
-        defadr GetNewEvent,0x14FB3440+1
+        defadr NewEvents_GetCount,0x14FB3440+1
         defadr iconidname2id,0x14358D08+1
         
         defadr MessageBox,0x1583DCFC+1

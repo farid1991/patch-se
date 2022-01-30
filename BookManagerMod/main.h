@@ -25,9 +25,8 @@
 
 typedef struct _BOOK_MANAGER
 {
-  // BOOK* book;
-  // GUI_TABMENUBAR* gui;
-  //DISP_OBJ_ONKEY_METHOD oldOnKey;
+  BOOK* RightNowBook;
+  DISP_OBJ_ONKEY_METHOD oldOnKey;
   GUI_LIST *books_menu;
   GUI_LIST *elf_menu;
   GUI_LIST *sc_menu;
@@ -75,8 +74,8 @@ typedef struct
 } MSG_BCFG;
 
 void Init_ConfigFile(BOOK_MANAGER *data);
-// __thumb void *malloc(int size);
-// __thumb void mfree(void *mem);
+__thumb void *malloc(int size);
+__thumb void mfree(void *mem);
 
 // #pragma swi_number = 0x10D
 // __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);

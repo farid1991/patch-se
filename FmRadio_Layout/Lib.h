@@ -5,15 +5,15 @@
 
 extern "C"
 {
-#if defined(DB2010)
-    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-    void memfree(void *mem, const char *fname, int fline);
-#elif defined(DB2020)
+#if defined(DB2020)
     void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
 #elif defined(A2)
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
+#else
+    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
+    void memfree(void *mem, const char *fname, int fline);
 #endif
 
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
@@ -29,7 +29,7 @@ extern "C"
     int Disp_GetTextIDHeight(TEXTID);
     int Disp_GetTextIDWidth(TEXTID, int len);
 #endif
-    // void debug_printf(const char *fmt, ...);
+    void debug_printf(const char *fmt, ...);
 
     void *memset(void *mem, char chr, int size);
     int snwprintf(wchar_t *buffer, int size, const wchar_t *fmt, ...);
