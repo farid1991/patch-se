@@ -274,7 +274,11 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
+#ifdef DB2010
+	char dummy[0xB8];
+#else
 	char dummy[0x16C];
+#endif
 } DISP_OBJ;
 
 #define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD) - 1
@@ -715,27 +719,27 @@ typedef struct DIR_HANDLE
 
 typedef struct VOLUMESIZE
 {
-	unsigned long TotalSpace;
-	unsigned long FreeSpace;
-	unsigned long BytesPerCluster;
-	unsigned long TotalClusters;
-	unsigned long TotalFreeClusters;
-	long free_reserved_blocks;
-	unsigned long used_oversize_blocks;
-	unsigned long total_oversize_blocks;
-} VOLUMESIZE; //old FSX_freespace
+	unsigned long TotalSpace;			 /* Total size of FS in bytes */
+	unsigned long FreeSpace;			 /* Number of free bytes */
+	unsigned long BytesPerCluster;		 /* File system block size */
+	unsigned long TotalClusters;		 /* Logical file system size */
+	unsigned long TotalFreeClusters;	 /* Number of free blocks, both phyical and logical */
+	long free_reserved_blocks;			 /* Number of free reserved blocks. */
+	unsigned long used_oversize_blocks;	 /* Number of used oversize blocks. */
+	unsigned long total_oversize_blocks; /* Number of available oversize blocks. */
+} VOLUMESIZE;							 //old FSX_freespace
 
 typedef struct VOLUMESIZE_A2
 {
-	unsigned long long TotalSpace;	 //total_size
-	unsigned long long FreeSpace;	 //free_bytes
-	unsigned long BytesPerCluster;	 //block_size
-	unsigned long TotalClusters;	 //total_blocks
-	unsigned long TotalFreeClusters; //free_blocks
-	long free_reserved_blocks;
-	unsigned long used_oversize_blocks;
-	unsigned long total_oversize_blocks;
-} VOLUMESIZE_A2; //FSX_freespace
+	unsigned long long TotalSpace;		 /* Total size of FS in bytes */
+	unsigned long long FreeSpace;		 /* Number of free bytes */
+	unsigned long BytesPerCluster;		 /* File system block size */
+	unsigned long TotalClusters;		 /* Logical file system size */
+	unsigned long TotalFreeClusters;	 /* Number of free blocks, both phyical and logical */
+	long free_reserved_blocks;			 /* Number of free reserved blocks. */
+	unsigned long used_oversize_blocks;	 /* Number of used oversize blocks. */
+	unsigned long total_oversize_blocks; /* Number of available oversize blocks. */
+} VOLUMESIZE_A2;						 //FSX_freespace
 
 //lseek
 typedef enum _SEEK_SET
@@ -804,6 +808,11 @@ typedef enum W_OPEN_ATTR
 #define FSX_FILE_ATTR_DECODED 0x00000004   /* If set, the file can be decoded */
 #define FSX_FILE_ATTR_ENCRYPT 0x00000008   /* If set, the file will be encrypted */
 #define FSX_FILE_ATTR_HIDDEN 0x10000000	   /* If set, the file will be hidden */
+
+//for lseek mode
+#define FSX_SEEK_SET  0 /// Seek to an absolute position
+#define FSX_SEEK_CUR  1 /// Seek relative to current position
+#define FSX_SEEK_END  2 /// Seek relative to end of file
 
 //for action
 #define FSX_ATTR_CLR 0 /// Clear attribute

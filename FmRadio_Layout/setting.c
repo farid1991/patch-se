@@ -1,12 +1,3 @@
-/*
-;Fm Radio Layout Editor
-;- Ability to hide/show all items.
-;- Ability to change coordinates of each item in realtime.
-;- Ability to choose Text color, font, etc.
-;- Ability to use color or Theme Image on the background.
-;v. 1.5
-;(c) farid
-*/
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
@@ -608,19 +599,6 @@ int pg_FmRadio_Settings_EnterAction(void *data, BOOK *book)
   return 1;
 }
 
-// int pg_FmRadio_Settings_ExitAction(void *data, BOOK *book)
-// {
-//   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)book;
-//   FREE_GUI(FMSettings_Book->main_menu);
-//   return 1;
-// }
-
-// int pg_FmRadio_Settings_PreviousAction(void *data, BOOK *book)
-// {
-//   BookObj_ReturnPage(book, PREVIOUS_EVENT);
-//   return 1;
-// }
-
 //******************************************************************************
 
 int pg_FmRadio_Settings_CancelAction(void *data, BOOK *book)
@@ -637,9 +615,6 @@ const PAGE_MSG base_evlist[] =
 const PAGE_MSG main_evlist[] =
     {
         PAGE_ENTER_EVENT, pg_FmRadio_Settings_EnterAction,
-        // PAGE_EXIT_EVENT, pg_FmRadio_Settings_ExitAction,
-        // PREVIOUS_EVENT, pg_FmRadio_Settings_PreviousAction,
-        // CANCEL_EVENT, pg_FmRadio_Settings_CancelAction,
         NIL_EVENT, NULL};
 
 const PAGE_DESC FmRadio_Settings_Base_Page = {"FmRadio_Layout_Base_Page", NULL, base_evlist};
@@ -650,9 +625,6 @@ void SettingBook_onClose(BOOK *book)
   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)book;
   FREE_GUI(FMSettings_Book->main_menu);
   FREE_GUI(FMSettings_Book->sub_menu);
-  // FREE_GUI(FMSettings_Book->gui_question);
-  // FREE_GUI(FMSettings_Book->OptionMenu);
-  // FREE_GUI(FMSettings_Book->ColorPicker);
 }
 
 void FmRadio_LayoutSetting(BOOK *book, GUI *gui)

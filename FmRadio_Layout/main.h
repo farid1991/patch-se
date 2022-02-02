@@ -8,9 +8,9 @@
         g = NULL;             \
     }
 
-// #define FREE_IMAGE(a) \
-//     if (a != NOIMAGE) \
-//         ImageID_Free(a);
+#define FREE_IMAGE(a) \
+    if (a != NOIMAGE) \
+        ImageID_Free(a);
 
 #define TEXT_FREE(text)       \
     if (text != EMPTY_TEXTID) \

@@ -96,6 +96,8 @@ extern "C"
     void DISP_DESC_SetOnKey(DISP_DESC *, DISP_OBJ_ONKEY_METHOD);
     void DISP_DESC_SetOnRefresh(DISP_DESC *, DISP_OBJ_METHOD);
 
+    void DispObject_SetTitleType( DISP_OBJ*, int type );
+
     int Display_GetHeight(int display);
     int Display_GetWidth(int display);
     int GetImageHeight_int(IMAGEID ImageID);

@@ -2,16 +2,17 @@
 #include "target.h"
 
 defadr	MACRO	a,b
-		PUBLIC	a
-a       equ		b
-		ENDM
-
+	PUBLIC	a
+a       equ	b
+	ENDM
 
 	defadr memalloc,0x4BA33B64
 	defadr memfree,0x4BA33B8C
 	defadr memset,0x108F2864
 	defadr get_envp,0x101EC73C+1
 	defadr set_envp,0x101EC750+1
+        defadr current_process,0x101E5C80
+        defadr get_bid,0x101E5CB8
 
 	defadr _fopen,0x1403EB5C+1
 	defadr fclose,0x140FD63C+1
@@ -30,7 +31,7 @@ a       equ		b
 	defadr GUIObject_SetTitleType,0x143A26B0+1
 	defadr GUIObject_Show,0x144ACC2C+1
 	defadr GUIObject_Destroy,0x14512BE0+1
-	
+
 	defadr GUIonMessage_GetMsg,0x142F1378+1
 	defadr GUIonMessage_GetCreatedItemIndex,0x142F1284+1
 	defadr GUIonMessage_SetMenuItemText,0x142F0CFC+1
@@ -45,13 +46,13 @@ a       equ		b
 	defadr ListMenu_SetOnMessage,0x142DA720+1
 	defadr ListMenu_SetItemSecondLineText,0x142DA5A4+1
 	defadr ListMenu_DestroyItems,0x143C3870+1
-	
+
 	defadr CreateOneOfMany,0x140F6A6C+1
 	defadr OneOfMany_SetItemCount,0x150CE954+1
 	defadr OneOfMany_SetChecked,0x141117A0+1
 	defadr OneOfMany_SetTexts,0x141AE38C+1
 	defadr OneOfMany_GetSelected,0x1509EAB8+1
-	
+
 	defadr GUIObject_SoftKeys_SetAction,0x14105420+1
 	defadr GUIObject_SoftKeys_SetText,0x14105150+1
 	defadr GUIObject_SoftKeys_SetVisible,0x141053FC+1
@@ -66,8 +67,8 @@ a       equ		b
 
 	defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14EB3BFC+1
 	defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x1515F1C8+1
-	defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x1515F250+1	
-	
+	defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x1515F250+1
+
 	defadr get_DisplayGC,0x1416CA0C+1
 	defadr GC_GetRect,0x14117B70+1
 	defadr GC_GetXX,0x142337A4+1
@@ -90,17 +91,17 @@ a       equ		b
 
 	defadr Display_GetHeight,0x1411B1D0+1
 	defadr Display_GetWidth,0x141AA5B8+1
-	
+
 	defadr CreateYesNoQuestion,0x1423638C+1
 	defadr YesNoQuestion_SetDescriptionText,0x14082FCC+1
 	defadr YesNoQuestion_SetQuestionText,0x14082FBC+1
 	defadr YesNoQuestion_SetIcon,0x150C67E4+1
-	
+
 	defadr CoCreateInstance,0x14461E40+1
 	defadr DisplayGC_AddRef,0x143D02EC+1
 	defadr TextObject_SetText,0x14170568+1
 	defadr TextObject_SetFont,0x1417346C+1
-	
+
 	defadr FmRadio_SetActiveSoftKeys,0x14F955B0+1
 
 	defadr FmRadio_Gui_OnCreate,0x14EE8714+1
@@ -110,7 +111,6 @@ a       equ		b
 	defadr FmRadio_Gui_OnMethod0A,0x14D4A868+1
 
 	defadr pg_FmRadio_Main__PAGE_ENTER_EVENT,0x14F5472C+1
-	defadr pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT,0x1564EBB0+1
 
 //------------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@ a       equ		b
 	EXTERN FmRadio_NewSoftKeys
 	EXTERN FmRadio_UpdateSoftKeys
 	EXTERN DeleteData
-	EXTERN New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
+	EXTERN New_FmRadio_Main__PAGE_ENTER_EVENT
 
 	RSEG PATCH_FmRadio_OnCreate
 	DATA
@@ -139,16 +139,16 @@ a       equ		b
 	DATA
 	DCD New_FmRadio_Gui_OnKey
 
-	RSEG PATCH_FmRadio_Created
-	DATA
-	DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
+	RSEG PATCH_FmRadio_MainPage_Enter
+        DATA
+        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 
 	RSEG PATCH_FmRadio_DeleteData
 	CODE16
-	LDR		R3, =delete_data
-	BX		R3
+	LDR	R3, =delete_data
+	BX	R3
 
 	RSEG  CODE
 	CODE16
@@ -161,31 +161,9 @@ delete_data:
 	BLX     R1
 	MOV     R0, #0
 	STR     R0, [R4,#8]
-	BL      DeleteData
-
 cont_:
-	POP     {R3-R7,PC}
-
-//------------------------------------------------------------------------------
-
-;         RSEG PATCH_FmRadio_NewRefresh
-; 	CODE16
-; 	LDR	R3, =new_disp_desc
-; 	BX	R3
-
-;         RSEG  CODE
-;         CODE16
-; new_disp_desc:
-;         LDR     R1, =FmRadio_Gui_OnMethod0A
-;         ADD     R0, R4, #0
-;         LDR	R3, =DISP_DESC_SetMethod0A
-; 	BLX	R3
-;         ADD     R0, R4, #0
-;         BL      New_FmRadio_Gui_OnRefresh
-;         MOV     R1, #0
-;         ADD     R0, R4, #0
-;         BL      New_FmRadio_Gui_OnLayout
-;         POP     {R4,PC}
+	BL      DeleteData
+	POP     {R2-R7,PC}
 
 //------------------------------------------------------------------------------
 
@@ -227,7 +205,7 @@ update_softkeys:
 	ADD     R2, R5, #0
 	LDR	R3, =GUIObject_SoftKeys_SetVisible
 	BLX	R3
-	LDR	R0, =0x14F955DE+1
-	BX	R0
+	LDR	R3, =0x14F955DE+1
+	BX	R3
 
 	END

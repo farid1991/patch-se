@@ -4,6 +4,10 @@
 #define A2
 #define DB3210
 
+#define DISP_MAX_HEIGHT 266
+#define STATUSROW_HEIGHT 24
+#define SOFTKEYS_HEIGHT 30
+
 #define COLOR_LIST              (unsigned int*)0x15D03C94
 
 #define ACTION_ACCEPT 0xFAC

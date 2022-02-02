@@ -1,12 +1,3 @@
-/*
-;Fm Radio Layout Editor
-;- Ability to hide/show all items.
-;- Ability to change coordinates of each item in realtime.
-;- Ability to choose Text color, font, etc.
-;- Ability to use color or Theme Image on the background.
-;v. 1.5
-;(c) farid
-*/
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
@@ -160,7 +151,6 @@ void SaveData(bool save, int item)
   else if (item == ITEM_BACKROUND)
   {
     data->setting.background.state = data->temp.state;
-    //data->setting.background_color = data->temp.color1;
     data->setting.background.pos.x = data->temp.x1;
     data->setting.background.pos.y = data->temp.y1;
   }

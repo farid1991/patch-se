@@ -4,6 +4,10 @@
 #define A2
 #define DB3150v2
 
+#define DISP_MAX_HEIGHT 266
+#define STATUSROW_HEIGHT 24
+#define SOFTKEYS_HEIGHT 30
+
 #define PGetFontDesc (FONT_DESC *)0x4BB9D07C
 #define PGetFontCount (int *)0x4BB9D3EC
 #define CID_CUIImageManager (PUUID)0x11DE4690
@@ -67,40 +71,23 @@
 #define KEY_VOL_DOWN 0x17
 #define KEY_VOL_UP 0x16
 
-#define TEXT_LAYOUT 0x972
-// #define TEXT_STOP 0x5B8           // L"????"
-// #define TEXT_TURN 0xBE3           // L"????????"
-// #define TEXT_SETTING 0x32D        // L"?????????"
-#define TEXT_ON 0x1E6  // L"On"
-#define TEXT_OFF 0x1E3 // L"Off"
-// #define TEXT_ON_OOM 0x85E         // L"????????"
-// #define TEXT_OFF_OOM 0x85C        // L"?????????"
-#define TEXT_CHANGE 0xD5C   // L"Change"
-#define TEXT_QUESTION 0x72E // L"Save now?"
-#define TEXT_SAVE 0x121     // L"Save"
+#define TEXT_LAYOUT 0x972         // L"layout"
+#define TEXT_ON 0x1E6             // L"On"
+#define TEXT_OFF 0x1E3            // L"Off"
+#define TEXT_CHANGE 0xD5C         // L"Change"
+#define TEXT_QUESTION 0x72E       // L"Save now?"
+#define TEXT_SAVE 0x121           // L"Save"
 #define TEXT_LEFT 0x17E8          // L"Left"
 #define TEXT_RIGHT 0x17E9         // L"Right"
 #define TEXT_CENTRE STR("Center") // L"Center"
 #define TEXT_IMAGE 0x1031         // L"???????????"
-#define TEXT_CANCEL 0x860 // L"Cancel"
-// #define TEXT_PLAY 0x15C0          // L"?????."
-// #define TEXT_PAUSE 0x15B9         // L"?????"
-// #define TEXT_TIME 0xD22           // L"???????"
-// #define TEXT_YEAR 0x1653          // L"???"
-// #define TEXT_GENRE 0x1588         // L"????"
-// #define TEXT_COVER 0x1639         // L"??????? ????."
+#define TEXT_CANCEL 0x860         // L"Cancel"
 #define TEXT_BACKROUND 0x2E72     // L"Background"
 #define TEXT_ADDITIONAL 0x12E     // L"Advanced"
-// #define TEXT_ACTIVATE 0xCD7       // L"????????"
 #define TEXT_COLOR 0x23AA         // L"Colour"
 #define TEXT_COLOR_TEXT 0x23FA    // L"Text colour"
 #define TEXT_PTYPE 0x2B45         // L"Type:"
 #define TEXT_COLOR_B 0x23A6       // L"Background colour"
-// #define TEXT_MODE 0x1A0F          // L"????? ???????."
-// #define TEXT_SCREEN 0x59C         // L"Fullscreen"
-// #define TEXT_ANIMATION 0x1727     // L"????????"
-// #define TEXT_THEME 0x27C4         // L"?? ????"
-// #define TEXT_UNKNOWN 0x110
 
 #define TEXT_RDS 0xBA7
 #define TEXT_NAV_LEFT 0x22D1

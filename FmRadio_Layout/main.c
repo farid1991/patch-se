@@ -1,12 +1,3 @@
-/*
-;Fm Radio Layout Editor
-;- Ability to hide/show all items.
-;- Ability to change coordinates of each item in realtime.
-;- Ability to choose Text color, font, etc.
-;- Ability to use color or Theme Image on the background.
-;v. 1.5
-;(c) farid
-*/
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
@@ -77,7 +68,7 @@ void UnRegisterImage(FmRadio_Data *Data)
 
 void LoadImage(FmRadio_Data *Data)
 {
-  const wchar_t *ImageName[] =
+  const wchar_t *ImageName[LAST_ICN] =
       {
           L"BACKGROUND_ICN.png",           //0
           L"RDS_ACTIVE_ICN.png",           //1
@@ -153,6 +144,12 @@ void DrawImage(int x, int y, IMAGEID imageID)
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
   if (imageID != NOIMAGE)
     dll_GC_PutChar(x, y, 0, 0, imageID);
+#elif defined(DB2010)
+  if (imageID != NOIMAGE)
+  {
+    GC *pGC = get_DisplayGC();
+    GC_PutChar(pGC, x, y, 0, 0, imageID);
+  }
 #else
   if (imageID != NOIMAGE)
     GC_DrawImage(x, y, imageID);
@@ -419,13 +416,17 @@ extern "C" void New_FmRadio_Gui_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect,
       data->Buffer_Text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
     }
 
-    DrawRect(0, 247, 240, 272, clBlack, 0x50FFFFFF);
+    DrawRect(0,
+             (DISP_MAX_HEIGHT - SOFTKEYS_HEIGHT - STATUSROW_HEIGHT),
+             data->scr_w, (DISP_MAX_HEIGHT - STATUSROW_HEIGHT),
+             clBlack,
+             0x50FFFFFF);
     DrawString_Params(data->Buffer_Text,
                       FONT_E_16R,
                       AlignCenter,
                       1,
-                      248, //298,
-                      239,
+                      (DISP_MAX_HEIGHT - SOFTKEYS_HEIGHT - STATUSROW_HEIGHT),
+                      (data->scr_w - 1),
                       clBlack,
                       clEmpty,
                       0);
@@ -450,8 +451,6 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
   }
   else
   {
-    // GUI *FMRadio_gui = DispObject_GetGUI(disp_obj);
-    // FmRadio_Book *fmbook = (FmRadio_Book *)GUIObject_GetBook(FMRadio_gui);
     FmRadio_Book *fmbook = (FmRadio_Book *)data->FmRadioBook;
 
     if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
@@ -553,21 +552,21 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
         {
           if ((!data->style_bold) && (!data->style_italic))
           {
-            data->style_bold = 1;
+            data->style_bold = TRUE;
           }
           else if ((data->style_bold) && (!data->style_italic))
           {
-            data->style_bold = 0;
-            data->style_italic = 1;
+            data->style_bold = FALSE;
+            data->style_italic = TRUE;
           }
           else if ((!data->style_bold) && (data->style_italic))
           {
-            data->style_bold = 1;
+            data->style_bold = TRUE;
           }
           else if ((data->style_bold) && (data->style_italic))
           {
-            data->style_bold = 0;
-            data->style_italic = 0;
+            data->style_bold = FALSE;
+            data->style_italic = FALSE;
           }
         }
         break;
@@ -618,16 +617,20 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
   }
 }
 
-// extern "C"
-// void New_FmRadio_Gui_OnLayout(DISP_OBJ* disp_obj, void* layoutstruct)
-// {
-//   DispObject_SetLayerColor(disp_obj, clEmpty);
-// }
+#ifdef DB2010
+extern "C" void New_FmRadio_Gui_OnConfig(DISP_OBJ *disp_obj)
+{
+  if (disp_obj)
+    DispObject_SetTitleType(disp_obj, UI_TitleMode_None);
+  else
+    DispObject_SetTitleType(NULL, UI_TitleMode_None);
+}
+#endif
 
-extern "C" int New_FmRadio_Main__PAGE_ENTER_EVENT(void *data, BOOK *book)
+extern "C" int New_FmRadio_Main__PAGE_ENTER_EVENT(void *rdata, BOOK *book)
 {
   FmRadio_Data *Data = GetData();
   Data->FmRadioBook = (FmRadio_Book *)book;
-  pg_FmRadio_Main__PAGE_ENTER_EVENT(data, book);
+  pg_FmRadio_Main__PAGE_ENTER_EVENT(rdata, book);
   return 1;
 }

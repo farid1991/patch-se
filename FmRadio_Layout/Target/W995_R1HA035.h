@@ -4,26 +4,24 @@
 #define A2
 #define DB3210
 
-//
+#define DISP_MAX_HEIGHT 266
+#define STATUSROW_HEIGHT 24
+#define SOFTKEYS_HEIGHT 30
+
 #define CID_IUIFontManager (PUUID)0x15BE3748
 #define IID_IUIFontManager (PUUID)0x15C1D864
 #define CID_ITextRenderingManager (PUUID)0x15BEAEB4
 #define IID_ITextRenderingManager (PUUID)0x15C22700
 #define CID_CUIImageManager (PUUID)0x15BE640C
 #define IID_IUIImageManager (PUUID)0x15C1FC20
-//
 
 #define ACTION_ACCEPT 0xFAC
 #define ACTION_ADD 0xFAD
 #define ACTION_BACK 0xFC0
 #define ACTION_CANCEL 0xFAB
 #define ACTION_CHECK 0xFB0
-//#define ACTION_CLIPBOARD_COPYALL UNDEFINED
-//#define ACTION_CLIPBOARD_MARKANDCOPY UNDEFINED
-//#define ACTION_CLIPBOARD_PASTE UNDEFINED
 #define ACTION_CONTACTS 0xFBA
 #define ACTION_CONTINUE 0xFB1
-//#define ACTION_DB_MANAGEFILE UNDEFINED
 #define ACTION_DELETE 0xFB4
 #define ACTION_DONE 0xFB5
 #define ACTION_EDIT 0xFB6
@@ -114,46 +112,28 @@
 
 #define POPUP_WARNING_ICN 0xF831
 
-#define TEXT_LAYOUT           0x962
-#define TEXT_STOP             0x5B8   // L"????"
-#define TEXT_TURN             0xBE3   // L"????????"
-#define TEXT_SETTING          0x32D  // L"?????????"
-#define TEXT_ON               0x1E1   // L"????????"
-#define TEXT_OFF              0x1DF  // L"?????????"
-#define TEXT_ON_OOM           0x85E     // L"????????"
-#define TEXT_OFF_OOM          0x85C   // L"?????????"
-#define TEXT_CHANGE           0xD54   // L"??????? ?????????"
-#define TEXT_QUESTION         0x723   // L"??????????"
-#define TEXT_SAVE             0x121   // L"?????????"
-#define TEXT_LEFT             0x17D3   // L"?????"
-#define TEXT_RIGHT            0x17D4  // L"??????"
-#define TEXT_CENTRE           STR("Center")   // L"Center"
-#define TEXT_IMAGE            0x1021   // L"???????????"
-#define TEXT_CANCEL           0x855    // L"????????"
-#define TEXT_PLAY             0x15C0   // L"?????."
-#define TEXT_PAUSE            0x15B9  // L"?????"
-#define TEXT_TIME             0xD22   // L"???????"
-#define TEXT_YEAR             0x1653  // L"???"
-#define TEXT_GENRE            0x1588   // L"????"
-#define TEXT_COVER            0x1639  // L"??????? ????."
-#define TEXT_BACKROUND        0x2E4F  // L"???"
-#define TEXT_ADDITIONAL       0x12E    // L"?????????????"
-//#define TEXT_ACTIVATE         0xCD7   // L"????????"
-#define TEXT_COLOR            0x2389  // L"????"
-#define TEXT_COLOR_TEXT       0x23D9  // L"???? ??????"
-#define TEXT_PTYPE            0x2B21  // L"???"
-#define TEXT_COLOR_B          0x2385  // L"???? ????"
-#define TEXT_MODE             0x1A0F  // L"????? ???????."
-#define TEXT_SCREEN           0x59C   // L"Fullscreen"
-#define TEXT_ANIMATION        0x1727  // L"????????"
-#define TEXT_THEME            0x27C4   // L"?? ????"
-#define TEXT_UNKNOWN          0x110
+#define TEXT_LAYOUT 0x12DE        // L"Layout"
+#define TEXT_ON 0x700             // L"On"
+#define TEXT_OFF 0x6FE            // L"Off"
+#define TEXT_CHANGE 0x65C         // L"Change"
+#define TEXT_QUESTION 0x432       // L"Save now?"
+#define TEXT_SAVE 0x215           // L"Save"
+#define TEXT_LEFT 0xE08           // L"Left"
+#define TEXT_RIGHT 0xE09          // L"Right"
+#define TEXT_CENTRE STR("Center") // L"Center"
+#define TEXT_IMAGE 0x1031         // L"???????????"
+#define TEXT_CANCEL 0x6BB         // L"Cancel"
+#define TEXT_BACKROUND 0x12B3     // L"Background"
+#define TEXT_ADDITIONAL 0xDD6     // L"Advanced"
+#define TEXT_COLOR 0x12B6         // L"Colour"
+#define TEXT_COLOR_TEXT 0x1303    // L"Text colour"
+#define TEXT_PTYPE 0x1440         // L"Type:"
+#define TEXT_COLOR_B 0x12B2       // L"Background colour"
 
-#define TEXT_RDS          0xB97
-#define TEXT_NAV_LEFT     0x22B0
-#define TEXT_NAV_RIGHT    0x22B8
-#define TEXT_NAV_UP       0x22BC
-#define TEXT_NAV_DOWN     0x22AC
-
+#define TEXT_RDS 0x659
+#define TEXT_NAV_LEFT 0x1225
+#define TEXT_NAV_RIGHT 0x122B
+#define TEXT_NAV_UP 0x122F
+#define TEXT_NAV_DOWN 0x1222
 
 #endif

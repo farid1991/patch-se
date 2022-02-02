@@ -119,10 +119,6 @@ a       EQU b
         DATA
         DCD New_FmRadio_Gui_OnKey
 
-        ; RSEG PATCH_FmRadio_Created
-        ; DATA
-        ; DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
-
         RSEG PATCH_FmRadio_MainPage_Enter
         DATA
         DCD New_FmRadio_Main__PAGE_ENTER_EVENT

@@ -1,12 +1,3 @@
-/*
-;Fm Radio Layout Editor
-;- Ability to hide/show all items.
-;- Ability to change coordinates of each item in realtime.
-;- Ability to choose Text color, font, etc.
-;- Ability to use color or Theme Image on the background.
-;v. 1.5
-;(c) farid
-*/
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
@@ -22,22 +13,33 @@ void Get_IUIFontManager(IFontManager **ppIFontManager)
   CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(ppIFontManager));
 }
 
-void dll_SetFont(int font_size, IFont **ppFont)
+void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
 
-  //CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   Get_IUIFontManager(&pFontManager);
   pFontManager->GetFontFactory(&pFontFactory);
 
-  int font_size_without_style = font_size & 0xFF;
-
-  pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
-  pFontData.size = (float)font_size_without_style;
-  pFontData.TUIEmphasisStyle = font_size >> 8;
+  TUIEmphasisStyle fontstyle;
+  switch (font_style)
+  {
+  case 1:
+    fontstyle = UI_Emphasis_Bold;
+    break;
+  case 2:
+    fontstyle = UI_Emphasis_Italic;
+    break;
+  case 3:
+    fontstyle = UI_Emphasis_BoldItalic;
+    break;
+  default:
+    fontstyle = UI_Emphasis_Normal;
+    break;
+  }
+  pFontData.emphasis = fontstyle;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
   if (pFontManager)
@@ -53,7 +55,7 @@ void Get_ITextRenderingManager(ITextRenderingManager **ppITextRenderingManager)
   CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(ppITextRenderingManager));
 }
 
-void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
+void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   TUIRectangle rect;
   int lineWidth = x2 - x1;
@@ -65,9 +67,10 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   IUnknown *pGC = NULL;
   IFont *pFont = NULL;
 
-  dll_SetFont(font, &pFont);
+  int fontsize_wo_style = (font_size & 0xFF);
+  int font_style = font_size >> 8;
+  dll_SetFont(fontsize_wo_style, font_style, &pFont);
 
-  // CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   Get_ITextRenderingManager(&pTextRenderingManager);
 
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);

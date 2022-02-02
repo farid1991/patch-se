@@ -15,20 +15,19 @@ typedef struct
 
 typedef struct
 {
-  u16 unk_00;       // 0
-  u16 unk_02;       // 0x2
-  BOOK *audio_book; // 0x4
-  char dummy[0x1C]; // 0x8
-  int hours;        // 0x24
-  int minutes;      // 0x28
-  int seconds;      // 0x2C
-  int mseconds;     // 0x30
+  u16 unk_00;                  // 0
+  u16 unk_02;                  // 0x2
+  AudioPlayerBook *audio_book; // 0x4
+  char dummy[0x1C];            // 0x8
+  int hours;                   // 0x24
+  int minutes;                 // 0x28
+  int seconds;                 // 0x2C
+  int mseconds;                // 0x30
 } UI_MEDIAPLAYER_PLAYING_TIME_DATA;
 
 #ifdef DB2010
-typedef struct DISP_OBJ_NOWPLAYING
+typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
 {
-  char disp_obj[0xB8];    // 0
   IMAGEID MP_BACKGROUND;  // 0xB8
   IMAGEID MP_MODE_NORMAL; // 0xBA
   IMAGEID MP_MODE_RANDOM; // 0xBC
@@ -83,43 +82,42 @@ typedef struct DISP_OBJ_NOWPLAYING
   char dummy_14B;         // 0x14B
 } DISP_OBJ_NOWPLAYING;
 
-typedef struct DISP_OBJ_MP_AUDIO
+typedef struct DISP_OBJ_MP_AUDIO : DISP_OBJ
 {
-  char disp_obj[0xB8];          // 0
-  IMAGEID MP_BACKGROUND;        // 0xB8
-  IMAGEID MP_LIST_BACKGROUND;   // 0xBA
-  IMAGEID MOIMAGE_BC;           // 0xBC
-  IMAGEID MP_MODE_NORMAL;       // 0xBE
-  IMAGEID MP_MODE_RANDOM;       // 0xC0
-  IMAGEID MP_MODE_REPEAT;       // 0xC2
-  IMAGEID MP_LOW_BACKGROUND;    // 0xC4
-  u16 FontSize_C6;              // 0xC6
-  u16 FontHeight_C6;            // 0xC8
-  u16 FontSize_CA;              // 0xCA
-  u16 FontHeight_CA;            // 0xCC
-  u16 FontSize_CE;              // 0xCE
-  u16 FontHeight_CE;            // 0xD0
-  u16 FontSize_D2;              // 0xD2
-  u16 FontHeight_D2;            // 0xD4
-  char dummy_D6[0x52];          // 0xD6
-  void *disp_obj_mp_listmenu;   // 0x128
-  void *disp_obj_mp_scrolltext; // 0x12C
-  void *disp_obj_mp_volume;     // 0x130
-  void *disp_obj_mp_nowplaying; // 0x134
-  u16 current_track_id;         // 0x138
-  u16 total_tracks;             // 0x13A
-  u16 full_time;                // 0x13C
-  u16 elapsed_time;             // 0x13E
-  char dummy_140[0x6];          // 0x140
-  IMAGEID MP_PLAY;              // 0x146
-  IMAGEID MOIMAGE_148;          // 0x148
-  IMAGEID MP_STOP;              // 0x14A
-  IMAGEID MP_PAUSE;             // 0x14C
-  IMAGEID MP_FAST_FORWARD;      // 0x14E
-  IMAGEID MP_REWIND;            // 0x150
-  IMAGEID MOIMAGE_152;          // 0x152
-  IMAGEID MP_SLOW_MOTION;       // 0x154
-  char dummy_156[0x36];         // 0x156
+  IMAGEID MP_BACKGROUND;              // 0xB8
+  IMAGEID MP_LIST_BACKGROUND;         // 0xBA
+  IMAGEID MOIMAGE_BC;                 // 0xBC
+  IMAGEID MP_MODE_NORMAL;             // 0xBE
+  IMAGEID MP_MODE_RANDOM;             // 0xC0
+  IMAGEID MP_MODE_REPEAT;             // 0xC2
+  IMAGEID MP_LOW_BACKGROUND;          // 0xC4
+  u16 FontSize_C6;                    // 0xC6
+  u16 FontHeight_C6;                  // 0xC8
+  u16 FontSize_CA;                    // 0xCA
+  u16 FontHeight_CA;                  // 0xCC
+  u16 FontSize_CE;                    // 0xCE
+  u16 FontHeight_CE;                  // 0xD0
+  u16 FontSize_D2;                    // 0xD2
+  u16 FontHeight_D2;                  // 0xD4
+  char dummy_D6[0x52];                // 0xD6
+  DISP_OBJ *mp_playqueue;             // 0x128
+  DISP_OBJ *mp_scrolltext;            // 0x12C
+  DISP_OBJ *mp_volume;                // 0x130
+  DISP_OBJ_NOWPLAYING *mp_nowplaying; // 0x134
+  u16 current_track_id;               // 0x138
+  u16 total_tracks;                   // 0x13A
+  u16 full_time;                      // 0x13C
+  u16 elapsed_time;                   // 0x13E
+  char dummy_140[0x6];                // 0x140
+  IMAGEID MP_PLAY;                    // 0x146
+  IMAGEID MOIMAGE_148;                // 0x148
+  IMAGEID MP_STOP;                    // 0x14A
+  IMAGEID MP_PAUSE;                   // 0x14C
+  IMAGEID MP_FAST_FORWARD;            // 0x14E
+  IMAGEID MP_REWIND;                  // 0x150
+  IMAGEID MOIMAGE_152;                // 0x152
+  IMAGEID MP_SLOW_MOTION;             // 0x154
+  char dummy_156[0x36];               // 0x156
 } DISP_OBJ_MP_AUDIO;
 #endif
 
@@ -127,7 +125,7 @@ typedef struct DISP_OBJ_MP_AUDIO
 typedef struct MM_BrowserToplevelBook : BOOK
 {
   GUI *MM_TopLevel; // 0x18
-  int b;            // 0x1C
+  int unk_1C;       // 0x1C
   u16 index;        // 0x20
   u16 unk_22;       // 0x22
   int unk_24;       // 0x24
