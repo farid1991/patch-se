@@ -235,7 +235,11 @@ void Self_onEnterPressed(BOOK *book, GUI *)
     else
     {
       TEXTID str = TextID_Get(flist->fullname);
+#ifdef DB2010
+      StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
+#else
       StringInput_SetText(mbk->FolderInput, str);
+#endif
       FREE_FLGUI(mbk->SelectFolder);
       DeleteFData();
     }
@@ -254,7 +258,11 @@ void Self_onSelectPressed(BOOK *book, GUI *gui)
     if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SFOLDER) || flist->is_folder == ITEM_FILE)
     {
       TEXTID str = TextID_Get(flist->fullname);
+#ifdef DB2010
+      StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
+#else
       StringInput_SetText(mbk->FolderInput, str);
+#endif
       FREE_FLGUI(mbk->SelectFolder);
       DeleteFData();
     }
@@ -311,7 +319,7 @@ GUI_LIST *CreateFileFolderSelect(BOOK *book, wchar_t *str)
   GUIObject_SoftKeys_SetActionAndText(f_list_gui, 1, Self_onSelectPressed, SELECT_TXT);
   GUIObject_SoftKeys_SetAction(f_list_gui, ACTION_BACK, Self_OnBack);
   GUIObject_Show(f_list_gui);
-  
+
   WStringFree(ustr);
   return f_list_gui;
 }

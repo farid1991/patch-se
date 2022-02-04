@@ -125,7 +125,7 @@ extern "C"
     void GUIObject_Show(GUI *);
     void GUIObject_SetStyle(GUI *, int UI_OverlayStyle_t);
     GUI *GUIObject_Destroy(GUI *);
-    // DISP_OBJ *GUIObject_GetDispObject(GUI *);
+    DISP_OBJ *GUIObject_GetDispObject(GUI *);
 
     void GUIObject_SoftKeys_SetAction(GUI *, u16 actionID, SKACTIONPROC proc);
     void GUIObject_SoftKeys_SetText(GUI *, u16 actionID, TEXTID);
@@ -149,10 +149,11 @@ extern "C"
     void GUIonMessage_SetMenuItemIcon(GUI_MESSAGE *msg, int align, IMAGEID);
     char GUIonMessage_SetMenuItemSecondLineText(GUI_MESSAGE *msg, TEXTID);
 
+    GUI *CreateStringInputVA(int, ...);
     GUI *CreateStringInput(BOOK *book);
     void StringInput_SetMode(GUI *, int mode);
     void StringInput_SetText(GUI *strinp, TEXTID);
-    // void StringInput_DispObject_SetText(DISP_OBJ *, TEXTID);
+    void StringInput_DispObject_SetText(DISP_OBJ *, TEXTID);
     void StringInput_SetMinLen(GUI *strinp, int len);
     void StringInput_SetMaxLen(GUI *strinp, int len);
     void StringInput_SetEnableEmptyText(GUI *strinp, BOOL state);

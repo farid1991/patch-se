@@ -79,7 +79,7 @@ void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
 
 int pg_SC_Editor_SelectShortcut_CancelAction(void *data, BOOK *book)
 {
-  Action_Back(book,0);
+  Action_Back(book, 0);
   return 1;
 }
 
@@ -136,13 +136,6 @@ void JavaMenu_Ok(BOOK *book, GUI *gui)
 
   AcceptShortcut(mbk);
 }
-
-/*
-void JavaMenu_Back(BOOK* book, GUI* gui)
-{
-  BookObj_ReturnPage(mbk, NIL_EVENT);
-}
-*/
 
 int CreateJavaList(void *data, BOOK *book)
 {
@@ -276,6 +269,26 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->EventInput);
 
+#ifdef DB2010
+  TEXTID input_text;
+  if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_EVENT))
+    input_text = TextID_Get(mbk->ShortcutItem->ShortcutLink);
+  else
+    input_text = EMPTY_TEXTID;
+
+  mbk->EventInput = CreateStringInputVA(0,
+                                        VAR_ARG_BOOK, mbk,
+                                        VAR_ARG_HTEXT, EVENT_TXT,
+                                        VAR_ARG_STRINP_TEXT, input_text,
+                                        VAR_ARG_STRINP_MODE, IT_ABC_AND_DIGIT,
+                                        VAR_ARG_STRINP_EMPTY_STR_EN, FALSE,
+                                        VAR_ARG_STRINP_MAX_LEN, 4,
+                                        VAR_ARG_STRINP_MIN_LEN, 1,
+                                        VAR_ARG_CALL_BACK_PREV_ACT, OnBackEventInput,
+                                        VAR_ARG_CALL_BACK_LONG_BACK, OnBackEventInput,
+                                        VAR_ARG_CALL_BACK_OK, OnOkEventInput,
+                                        0);
+#else
   if (mbk->EventInput = CreateStringInput(mbk))
   {
     StringInput_SetMode(mbk->EventInput, IT_ABC_AND_DIGIT);
@@ -292,6 +305,7 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
     GUIObject_SetTitleText(mbk->EventInput, EVENT_TXT);
     GUIObject_Show(mbk->EventInput);
   }
+#endif
   return 1;
 }
 
@@ -349,6 +363,27 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->FolderInput);
 
+#ifdef DB2010
+  TEXTID input_text;
+  if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_FOLDER))
+    input_text = TextID_Get(mbk->ShortcutItem->ShortcutLink);
+  else
+    input_text = EMPTY_TEXTID;
+
+  mbk->FolderInput = CreateStringInputVA(0,
+                                         VAR_ARG_BOOK, mbk,
+                                         VAR_ARG_STRINP_MODE, IT_STRING,
+                                         VAR_ARG_STRINP_TEXT, input_text,
+                                         VAR_ARG_STRINP_EMPTY_STR_EN, FALSE,
+                                         VAR_ARG_STRINP_MAX_LEN, 0xFF,
+                                         VAR_ARG_STRINP_MIN_LEN, 1,
+                                         VAR_ARG_CALL_BACK_PREV_ACT, SC_Editor_SelectFolder_onBack,
+                                         VAR_ARG_CALL_BACK_LONG_BACK, SC_Editor_SelectFolder_onBack,
+                                         VAR_ARG_CALL_BACK_OK, SC_Editor_SelectFolder_onEnter,
+                                         0);
+  GUIObject_SoftKeys_SetActionAndText(mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT);
+  StringInput_MenuItem_SetPriority(mbk->FolderInput, 0, 0);
+#else
   if (mbk->FolderInput = CreateStringInput(mbk))
   {
     StringInput_SetMode(mbk->FolderInput, IT_STRING);
@@ -357,7 +392,7 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
     if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_FOLDER))
       StringInput_SetText(mbk->FolderInput, TextID_Get(mbk->ShortcutItem->ShortcutLink));
 
-    //StringInput_SetMinLen( mbk->FolderInput, 1 );
+    StringInput_SetMinLen(mbk->FolderInput, 1);
     StringInput_SetMaxLen(mbk->FolderInput, 0xFF);
     StringInput_SetActionOK(mbk->FolderInput, SC_Editor_SelectFolder_onEnter);
     StringInput_SetActionBack(mbk->FolderInput, SC_Editor_SelectFolder_onBack);
@@ -367,6 +402,7 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
 
     GUIObject_Show(mbk->FolderInput);
   }
+#endif
   return 1;
 }
 
@@ -437,12 +473,6 @@ int TypesList_onMessage(GUI_MESSAGE *msg)
   }
   return 1;
 }
-/*
-void Types_Back(BOOK* book, GUI* gui)
-{
-  BookObj_ReturnPage(book, NIL_EVENT);    
-}
-*/
 
 int pg_SC_Editor_TypesList_EnterAction(void *data, BOOK *book)
 {
@@ -485,17 +515,25 @@ void OnOkCaptionInput(BOOK *book, wchar_t *string, int len)
 
   BookObj_ReturnPage(mbk, ACCEPT_EVENT);
 }
-/*
-void OnBackCaptionInput(BOOK* book, wchar_t* string, int len)
-{
-  BookObj_ReturnPage(book, NIL_EVENT);
-}
-*/
+
 int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->CaptionInput);
 
+#ifdef DB2010
+  mbk->CaptionInput = CreateStringInputVA(0,
+                                          VAR_ARG_BOOK, mbk,
+                                          VAR_ARG_STRINP_MODE, IT_STRING,
+                                          VAR_ARG_STRINP_TEXT, TextID_Get(mbk->ShortcutItem->ShortcutText),
+                                          VAR_ARG_STRINP_EMPTY_STR_EN, TRUE,
+                                          VAR_ARG_STRINP_MAX_LEN, 63,
+                                          VAR_ARG_STRINP_MIN_LEN, 1,
+                                          VAR_ARG_CALL_BACK_PREV_ACT, Action_Back,
+                                          VAR_ARG_CALL_BACK_LONG_BACK, Action_Back,
+                                          VAR_ARG_CALL_BACK_OK, OnOkCaptionInput,
+                                          0);
+#else
   if (mbk->CaptionInput = CreateStringInput(mbk))
   {
     StringInput_SetMode(mbk->CaptionInput, IT_STRING);
@@ -508,6 +546,7 @@ int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
     GUIObject_SoftKeys_SetAction(mbk->CaptionInput, ACTION_BACK, Action_Back);
     GUIObject_Show(mbk->CaptionInput);
   }
+#endif
   return 1;
 }
 
