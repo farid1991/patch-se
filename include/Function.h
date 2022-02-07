@@ -920,7 +920,7 @@ extern "C"
   int GetMemoryStickStatus(void);
   int DataBrowser_ItemDesc_CheckFileToCopyMove(FILEITEM *);
 
-  int FSX_IsFileExists(wchar_t *pDir, wchar_t *pFile);
+  BOOL FSX_IsFileExists(wchar_t *pDir, wchar_t *pFile);
   wchar_t *FSX_MakeFullPath(wchar_t *pDir, wchar_t *pFile);
   void FSX_FreeFullPath(wchar_t *fullpath);
   int FSX_Attribute(const wchar_t *pDir, const wchar_t *pFile, unsigned long *pAttr, int action);
@@ -975,6 +975,9 @@ extern "C"
   //int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event);
   TEXTID TextID_CreateCharacterID(char);
+
+  void Clipboard_SetText( wchar_t* text, int len );
+  int Clipboard_GetText( wchar_t** text );
 
   void OnOffBook_ShuttingDown(void);
   void Shutdown(void);

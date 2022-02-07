@@ -1,5 +1,5 @@
-#ifndef _ACTIVITYMENUBOOK_H_
-#define _ACTIVITYMENUBOOK_H_
+#ifndef ActivityMenuBook_H
+#define ActivityMenuBook_H
 
 //LIST_SHORTCURTS (LIST*)0x4BA24274
 //LIST_ACTIVETASKS (LIST*)0x4BA24264

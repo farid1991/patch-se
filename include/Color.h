@@ -15,6 +15,7 @@
 #define clBlue 0xFF0000FF
 #define clBlue50 0xFF000080
 #define clWhite 0xFFFFFFFF
+#define clWhite2 0xF0FFFFFF
 #define clYellow 0xFFFFFF00
 #define clHint 0xFFFFFF80
 #define clHint2 0x80FFFF80

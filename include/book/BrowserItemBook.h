@@ -1,5 +1,5 @@
-#ifndef _BrowserItemBook_H_
-#define _BrowserItemBook_H_
+#ifndef BrowserItemBook_H_
+#define BrowserItemBook_H_
 
 typedef struct _BrowserItemBook : BOOK
 {

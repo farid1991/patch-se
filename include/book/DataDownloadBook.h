@@ -1,7 +1,7 @@
-#ifndef _DataDownloadBook_H_
-#define _DataDownloadBook_H_
+#ifndef DataDownloadBook_H_
+#define DataDownloadBook_H_
 
-typedef struct _DataDownloadBook : BOOK
+typedef struct DataDownloadBook : BOOK
 {
   void *unk_0x18; // 0x18
   FILEITEM *fi;   // 0x1C

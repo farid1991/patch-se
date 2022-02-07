@@ -1,5 +1,5 @@
-#ifndef _SetBook_H_
-#define _SetBook_H_
+#ifndef SetBook_H_
+#define SetBook_H_
 
 typedef struct _SetBook : BOOK
 {

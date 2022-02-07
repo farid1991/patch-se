@@ -1,5 +1,5 @@
-#ifndef _FMRADIO_BOOK_H_
-#define _FMRADIO_BOOK_H_
+#ifndef FmRadio_Book_H
+#define FmRadio_Book_H
 
 //////////////////////////////////////////////////////////////////////
 /// @name Typedefs

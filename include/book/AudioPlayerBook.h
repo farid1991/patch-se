@@ -1,5 +1,5 @@
-#ifndef _AudioPlayerBook_H_
-#define _AudioPlayerBook_H_
+#ifndef AudioPlayerBook_H
+#define AudioPlayerBook_H
 
 struct AudioPlayerBook;
 

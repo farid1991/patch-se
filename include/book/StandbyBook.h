@@ -1,7 +1,7 @@
 #ifndef _STANDBYBOOK_H_
 #define _STANDBYBOOK_H_
 
-typedef struct _StandbyBook : BOOK
+typedef struct StandbyBook : BOOK
 {
   GUI *StatusIndication; // 0x18
   GUI *MainInput;        // 0x1C
@@ -18,7 +18,7 @@ typedef struct _StandbyBook : BOOK
   TEXTID searching;      // 0x58
 } StandbyBook;
 
-typedef struct _StandbyExternalBook : BOOK
+typedef struct StandbyExternalBook : BOOK
 {
   GUI *StatusIndication; // 0x18
 } StandbyExternalBook;

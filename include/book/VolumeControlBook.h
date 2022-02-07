@@ -1,5 +1,5 @@
-#ifndef _VOLUMECONTROL_BOOK_H_
-#define _VOLUMECONTROL_BOOK_H_
+#ifndef VolumeControlBook_H
+#define VolumeControlBook_H
 
 typedef struct _VolumeControlBook : BOOK
 {

@@ -1,6 +1,6 @@
 
-#ifndef _ScreenSaverBook_H_
-#define _ScreenSaverBook_H_
+#ifndef ScreenSaverBook_H_
+#define ScreenSaverBook_H_
 
 typedef struct ScreenSaverBook : BOOK
 {
