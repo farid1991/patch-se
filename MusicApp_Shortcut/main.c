@@ -1,6 +1,7 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+
 #if defined(DB3150v1)
 #include "..\\include\book\DB3150v1\MusicApplication_Book.h"
 #elif defined(DB3150v2)
@@ -360,17 +361,14 @@ void Call_ShortcutPage(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
   pMusicBook->Callpage = TRUE;
-
-  MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
   DISP_OBJ *disp_obj = GUIObject_GetDispObject(pMusicBook->Gui_NowPlaying);
+  MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
   pShortcutBook->SoftkeyList = Create_SoftkeyList(DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL));
-
   BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
 }
 
 extern "C" void Set_New_SoftKeys(GUI *player_gui)
 {
-#ifdef A2
   GUIObject_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
   GUIObject_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
   GUIObject_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
@@ -378,14 +376,6 @@ extern "C" void Set_New_SoftKeys(GUI *player_gui)
   MediaPlayer_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
   MediaPlayer_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
   MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
-#endif
-#else
-  MediaPlayer_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
-  MediaPlayer_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
-  MediaPlayer_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
-  GUIObject_SoftKeys_SetItemAsSubItem(player_gui, ACTION_MP_SETTINGS, ACTION_MP_SHORTCUT);
-  GUIObject_SoftKeys_SetAction(player_gui, ACTION_MP_SHORTCUT, Call_ShortcutPage);
-  GUIObject_SoftKeys_SetText(player_gui, ACTION_MP_SHORTCUT, SHORTCUT_TXT);
 #endif
 }
 
@@ -429,7 +419,6 @@ extern "C" void Set_New_Keyboard(BOOK *book, int key, int repeat, int mode, void
   case KEY_DIGITAL_9:
     execute_kb(pMusicBook, key, mode);
     break;
-  case KEY_STAR:
   case KEY_DIEZ:
     if (mode == KBD_SHORT_RELEASE)
       MusicApplication_Minimise(pMusicBook, NULL);

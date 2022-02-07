@@ -52,7 +52,7 @@ a       EQU b
         defadr ListMenu_GetSelectedItem,0x11658560+1
         defadr ListMenu_SetItemStyle,0x116585B0+1
         defadr GC_PutChar,0x116A4BD4+1
-        defadr IsScreenSaverBook,0x116DDAED
+        defadr isScreenSaverBook,0x116DDAED
         defadr StatusIndication_SetItemText,0x116B4D98+1
         defadr StatusIndication_ShowNotes,0x11610664+1
         defadr CreateStringInputVA,0x11636244+1
@@ -82,16 +82,16 @@ a       EQU b
         defadr TextID_CreateIntegerID,0x1168426C+1
         defadr TextID_Create,0x1168442C+1
         defadr StrID2Str,0x116849D0+1
-        defadr TextID_GetWString,0x11684898+1
+        defadr TextID2wstr,0x11684898+1
         defadr TextGetLength,0x11684798+1
-        defadr TextID_Destroy,0x116846C4+1
+        defadr TextFree,0x116846C4+1
         defadr AB_DEFAULTNBR_GET,0x10F62A38+1
         defadr AB_READSTRING,0x10F68000+1
         defadr AB_READPHONENBR,0x10F680D0+1
         defadr AB_GETNBROFITEMS,0x10F68188+1
         defadr PNUM_len,0x11683A30+1
         defadr PNUM2str,0x114ADA50+1
-        defadr GUIObject_GetDispObject,0x116A6AC0+1
+        defadr GUIObj_GetDISPObj,0x116A6AC0+1
         defadr List_Create,0x1142AC9C+1
         defadr List_Destroy,0x1142ACC4+1
         defadr List_InsertFirst,0x1142AE10+1
@@ -153,7 +153,7 @@ a       EQU b
         defadr Profile_SetActive,0x117A19C8+1
         defadr SetBrightnessOfScreen,0x11625698+1
         defadr isKeylocked,0x116DDB28+1
-        defadr IsMediaPlayerVideoBook,0x115E7941
+        defadr isMediaPlayerVideoBook,0x115E7941
         defadr ShuttingDown,0x1160B5B0+1
         defadr Vibra,0x111B905C+1
         defadr REQUEST_DATEFORMAT_GET,0x10EB1064+1
@@ -189,7 +189,7 @@ a       EQU b
         defadr NOfMany_SetonMessage,0x1165A324+1
         defadr AudioControl_Init,0x111EB3C4+1
         defadr OneOfMany_SetFocused,0x1165A838+1
-        defadr OneOfMany_SetonMessage,0x1165A89C+1
+        defadr OneOfMany_SetOnMessage,0x1165A89C+1
         defadr CreateMonitorFeedback,0x1160ABE4+1
         defadr FeedBack_SetText,0x1160AC98+1
         defadr GetBatteryState,0x105DD82C+1
@@ -250,32 +250,32 @@ a       EQU b
         defadr DISP_OBJ_getVisible,0x1169C1B8+1
         defadr DISP_OBJ_GetDESC,0x100B8C68+1
         defadr DISP_DESC_SetName,0x116971FC+1
-        defadr DispObject_GetName,0x1169D2AC+1
+        defadr DISP_OBJ_GetName,0x1169D2AC+1
         defadr DISP_DESC_SetSize,0x11697200+1
         defadr DISP_DESC_SetOnCreate,0x11697204+1
-        defadr DispObject_GetOnCreate,0x11697280+1
+        defadr DISP_OBJ_GetOnCreate,0x11697280+1
         defadr DISP_DESC_SetOnClose,0x11697208+1
-        defadr DispObject_GetOnClose,0x1169729C+1
+        defadr DISP_OBJ_GetOnClose,0x1169729C+1
         defadr DISP_DESC_SetOnRedraw,0x1169720C+1
-        defadr DispObject_GetOnRedraw,0x116972B8+1
+        defadr DISP_OBJ_GetOnRedraw,0x116972B8+1
         defadr DISP_DESC_SetOnKey,0x11697214+1
-        defadr DispObject_GetOnKey,0x116972F0+1
+        defadr DISP_OBJ_GetOnKey,0x116972F0+1
         defadr DISP_DESC_SetonRefresh,0x11697210+1
-        defadr DispObject_GetonRefresh,0x116972D4+1
+        defadr DISP_OBJ_GetonRefresh,0x116972D4+1
         defadr DISP_DESC_SetMethod06,0x11697218+1
-        defadr DispObject_GetMethod06,0x1169730C+1
+        defadr DISP_OBJ_GetMethod06,0x1169730C+1
         defadr DISP_DESC_SetMethod08,0x11697220+1
         defadr DispObject_GetOnLayout,0x11697344+1
         defadr DISP_DESC_SetMethod09,0x11697224+1
         defadr DispObject_GetOnConfig,0x11697360+1
         defadr DISP_DESC_SetMethod0A,0x11697228+1
-        defadr DispObject_GetMethod0A,0x1169737C+1
+        defadr DISP_OBJ_GetMethod0A,0x1169737C+1
         defadr DISP_DESC_SetMethod0B,0x1169722C+1
-        defadr DispObject_GetMethod0B,0x11697398+1
+        defadr DISP_OBJ_GetMethod0B,0x11697398+1
         defadr DISP_DESC_SetMethod0C,0x11697230+1
         defadr JavaSession_Manager,0x1114AF10+1
         defadr JavaSession_GetName,0x1115F714+1
-        defadr TextID_Copy,0x116845D0+1
+        defadr TextCopyId,0x116845D0+1
         defadr BookObj_GetSession,0x1160404C+1
         defadr GUIonMessage_SetNumberOfSubItems,0x11659110+1
         defadr GUIonMessage_SubItem_SetText,0x11659188+1
@@ -340,9 +340,8 @@ a       EQU b
         defadr iconidname2id,0x10CFB8F8+1
         defadr textidname2id,0x10EA71D8+1
         defadr ListMenu_SetNoItemText,0x11658704+1
-        defadr IsFmRadioBook,0x1132CF6D
-        defadr IsAudioPlayerBook,0x115B8271
-        defadr get_IsAudioPlayerBook,0x115B8271
+        defadr isFmRadioBook,0x1132CF6D
+        defadr isAudioPlayerBook,0x115B8271
         defadr PlayerControl,0x115B7E34+1
         defadr SwitchRadioStationFromList,0x1132B0B8+1
         defadr Shortcut_Run,0x116C6F18+1
@@ -354,7 +353,7 @@ a       EQU b
         defadr GetImageHeight,0x116A0688+1
         defadr CallID_GetCallStatusDesc,0x10F23FB0+1
         defadr CallStatusDesc_GetName,0x10F235D4+1
-        defadr List_DestroyElements,0x1142AFB0+1
+        defadr List_FreeElements,0x1142AFB0+1
         defadr strstr,0x10554408+1
         defadr GPRS_GetLastSessionInfo,0x117161E8+1
         defadr wstrcmpni,0x10FCE6AC+1
@@ -396,9 +395,9 @@ a       EQU b
         defadr GC_SetBrushColor,0x116A4A80+1
         defadr GC_DrawRoundRect,0x116A5634+1
         defadr MenuBook_Desktop,0x116C6838+1
-        defadr MenuBook_Desktop_GetSelectedItemID,0x116C5E8C+1
-        defadr BookObj_SoftKeys_SetAction,0x116BAC20+1
-        defadr BookObj_SoftKeys_SetText,0x116BAC58+1
+        defadr MenuBook_Desktop_GetSelectedItemID,0x116C6988+1
+        defadr BookObj_Softkey_SetAction,0x116BAC20+1
+        defadr BookObj_Softkey_SetText,0x116BAC58+1
         defadr FindBookByID,0x11601A90+1
         defadr TextFeedbackWindow,0x116B5078+1
         defadr Feedback_SetKeyHook,0x116B5480+1
@@ -499,8 +498,8 @@ a       EQU b
         defadr w_rename,0x1142A5F4+1
         defadr w_remove,0x1142A5A8+1
         defadr ConnectionManager_Connection_GetState,0x114479B0+1
-        defadr IsCameraBook,0x114ED09D
-        defadr IsSoundRecorderBook,0x110B3F1D
+        defadr isCameraBook,0x114ED09D
+        defadr isSoundRecorderBook,0x110B3F1D
         defadr StringInput_MenuItem_SetPriority,0x11636C1C+1
         defadr Video_ActionBack,0x115E7338+1
         defadr Video_ExtractFrame,0x115E7AE8+1
@@ -600,13 +599,13 @@ a       EQU b
         defadr wstrnlwr,0x11317738+1
         defadr ListMenu_SetItemTextScroll,0x11658CB4+1
         defadr GUIObject_SetListTextColor,0x11659B94+1
-        defadr DispObject_SetTitleTextColor,0x1169B0A0+1
-        defadr DispObject_SetListTextColor,0x1164CD20+1
-        defadr DispObject_SetHighlightImage,0x1164CCDC+1
-        defadr DispObject_SetBackgroundImage,0x1164CCF8+1
-        defadr DispObject_SetTitleImage,0x1169B21C+1
+        defadr DISP_OBJ_SetTitleTextColor,0x1169B0A0+1
+        defadr DISP_OBJ_SetListTextColor,0x1164CD20+1
+        defadr DISP_OBJ_SetHighlightImage,0x1164CCDC+1
+        defadr DISP_OBJ_SetBackgroundImage,0x1164CCF8+1
+        defadr DISP_OBJ_SetTitleImage,0x1169B21C+1
         defadr TabMenuBar_SetTabTitle,0x116B3DB8+1
-        defadr GUI_GetBook,0x116A6AD4+1
+        defadr GUIObject_GetBook,0x116A6AD4+1
         defadr Softkeys_GetSelectedAction,0x116BC6EC+1
         defadr MonitorFeedback_SetTimer,0x1160AC8C+1
         defadr ListMenu_DestroyItems,0x11658A38+1
@@ -622,59 +621,47 @@ a       EQU b
         defadr GUIonMessage_GetSearchStringLength,0x1165928C+1
         defadr EqualizerGain_Get,0x111B71D8+1
         defadr Theme_DestroyMenuIcons,0x116C515C+1
-        defadr GUIObject_SetSecondRowTitleText,0x116A7194+1
-	defadr ListMenu_GetItemCount,0x11658588+1
-        
-        defadr OSE_GetShell,0x111DFEE0+1
-	defadr CoCreateInstance,0x117065BC+1
-        
-	defadr Bluetooth_Control,0x10EF6DDC+1
+        defadr DataBrowserBook_GetCurrentFoldersList,0x1101F1DC+1
+
+        defadr SetHorizontalViewVideo,0x115E729C+1
+        defadr SetVerticalViewVideo,0x115E7270+1
         defadr FlightModeControl,0x1160E8CC+1
         defadr isFlightMode,0x1160E2A0+1
         defadr SetOperatorName,0x10F4C388+1
-        
-        defadr CreateYesNoQuestion,0x116B5AE4+1
-	defadr YesNoQuestion_SetDescriptionText,0x116B5E78+1
-	defadr YesNoQuestion_SetQuestionText,0x116B5E68+1
-        
-        defadr CreateStringInput,0x1163619C+1
-        defadr StringInput_SetText,0x11636C4C+1
-        defadr StringInput_SetMinLen,0x11636A98+1
-        defadr StringInput_SetMaxLen,0x11636B48+1
-        defadr StringInput_SetMode,0x11636A3C+1
-        defadr StringInput_SetEnableEmptyText,0x11636AB8+1
-        defadr StringInput_SetFixedText,0x11636B74+1
-        defadr StringInput_SetActionOK,0x11636A8C+1
-        defadr StringInput_SetActionBack,0x11636A90+1
-        
-        defadr CreatePalette,0x116B3A24+1
 
-	defadr ListMenu_SetBackgroundImage,0x116589EC+1
-	defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
-	
-	defadr List_GetCount,0x1142AE90+1
-        defadr List_RemoveFirst,0x1142AE68+1
-        defadr List_RemoveLast,0x1142AE6C+1
-        
         defadr CreateMessageBox,0x1160973C+1
-	defadr GUIObject_SoftKeys_SetActionAndText,0x10F6853C+1
-        
+
         defadr FSX_MakeFullPath,0x10FDF284+1
         defadr FSX_FreeFullPath,0x10FDF2F0+1
         defadr FSX_IsFileExists,0x110272DC+1
-        
-        EXTERN GotoShortcut
+        defadr FSX_Attribute,0x10FDD0BC+1
 
-	//RSEG STANDBY_SOFTKEY_LEFT
-        //DATA
-	//DCD 0x2CB0
+        defadr CreateOnOffList,0x1165AC30+1
+        defadr OnOffList_SetChecked,0x1165ACC4+1
+        defadr OnOffList_GetSelected,0x1165ACD4+1
 
-        RSEG STANDBY_SOFTKEY_RIGHT
-        DATA
-	DCD 0x2CB0
-        
-        RSEG STANDBY_LINK_RIGHT
-        DATA
-        DCD GotoShortcut
+
+        EXTERN  SetAction
+
+        RSEG    PATCH_DB_NEWSOFTKEY
+        CODE16
+        LDR     R3, =newcode
+        BX      R3
+
+        RSEG CODE
+        CODE16
+newcode:
+        ADD     R0, R7, #0 //GUI *gui
+        BL      SetAction
+        LDR     R0, [R5,#0]
+        LDR     R0, [R0,#0x14]
+        CMP     R0, #0
+        BEQ     next
+        LDR     R3, =0x1101D838+1
+        BX      R3
+next:
+        LDR     R3, =0x1101D864+1
+        BX      R3
 
         END
+
