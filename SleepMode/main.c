@@ -12,7 +12,7 @@ __thumb void *malloc(int size)
 #if defined(DB2020)
   return memalloc(0, size, 1, 5, "", 0);
 #elif defined(A2)
-  return memalloc(clWhite, size, 1, 5, "", 0);
+  return memalloc(0xFFFFFFFF, size, 1, 5, "", 0);
 #else
   return memalloc(size, 1, 5, "", 0);
 #endif
@@ -52,12 +52,12 @@ void onTimer(u16 timerID, LPARAM disp_obj)
   DispObject_InvalidateRect((DISP_OBJ *)disp_obj, NULL);
 }
 
-extern "C" void SetRefreshTimer(DISP_OBJ* disp_obj)
+extern "C" void SetRefreshTimer(DISP_OBJ *disp_obj)
 {
   u16 *pTimerID = getTimerID();
   if (!pTimerID)
     pTimerID = createTimerID();
-  *pTimerID = Timer_Set(1000, onTimer, (LPARAM*)disp_obj);
+  *pTimerID = Timer_Set(1000, onTimer, (LPARAM *)disp_obj);
 }
 
 extern "C" void KillRefreshTimer()
@@ -72,16 +72,15 @@ extern "C" void KillRefreshTimer()
 
 extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
+  u16 disp_width = Display_GetWidth(UIDisplay_Main);
+  TEXTID text_id;
+
   int _SYNC = 0;
   int *SYNC = &_SYNC;
 
   char weekday;
 
   DATETIME dt;
-  TEXTID text_id;
-
-  u16 disp_width = Display_GetWidth(UIDisplay_Main);
-
   REQUEST_DATEANDTIME_GET(SYNC, &dt);
 
   text_id = Time2ID(&dt.time, 2, FALSE);

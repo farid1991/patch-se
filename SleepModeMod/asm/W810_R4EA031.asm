@@ -602,44 +602,22 @@ a       equ b
         defadr DispObject_SetBackgroundImage,0x452E669C+1
         defadr DispObject_SetTitleImage,0x452E66C4+1
 
-        defadr defpage, 0x452AB594+1
+        defadr FSX_IsFileExists,0x452510D8+1
 
-        EXTERN  SetRefreshTimer
-        EXTERN  KillRefreshTimer
+        defadr SleepMode_OnCreate,0x452AB23C+1
+        defadr SleepMode_OnClose,0x452AB338+1
+
+        EXTERN  New_SleepMode_OnCreate
+        EXTERN  New_SleepMode_OnClose
         EXTERN  New_SleepMode_OnRedraw
 
-        RSEG  CODE
-        CODE16
+        RSEG    PATCH_SLEEPMODE_ONCREATE
+        DATA
+        DCD     New_SleepMode_OnCreate
 
-SetTimer:
-        ADD     R0, R4, #0
-        LDR     R3, =0x453066AC+1
-        BLX	R3
-        ADD     R0, R4, #0
-        BL      SetRefreshTimer
-	MOV	R0, #1
-        POP	{R4-R7,PC}
-
-        RSEG  CODE
-        CODE16
-
-KillTimer:
-        LDR	R3, =TextID_Destroy
-	BLX	R3
-        LDR	R3, =0x453035A8+1
-	BLX	R3
-        BL      KillRefreshTimer
-	POP	{R4,R5,PC}
-
-        RSEG    PATCH_TIMER_SET
-        CODE16
-        LDR     R3, =SetTimer
-        BX	R3
-
-        RSEG    PATCH_TIMER_KILL
-        CODE16
-        LDR     R3, =KillTimer
-        BX	R3
+        RSEG    PATCH_SLEEPMODE_ONCLOSE
+        DATA
+        DCD     New_SleepMode_OnClose
 
         RSEG    PATCH_SLEEPMODE_ONREDRAW
         DATA
