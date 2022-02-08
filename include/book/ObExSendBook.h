@@ -1,7 +1,7 @@
 #ifndef ObExSendBook_H
 #define ObExSendBook_H
 
-// DB2010
+#if defined(DB2010)
 typedef struct ObExSendBook : BOOK
 {
   GUI *ProgressBar;        // 0x18
@@ -17,5 +17,21 @@ typedef struct ObExSendBook : BOOK
   IMAGEID Receiver_ICN;    // 0x444
   wchar_t short_name[0xE]; // 0x446
 } ObExSendBook;
+
+#elif defined(DB3200) || defined(DB3210)
+typedef struct ObExSendBook : BOOK
+{
+  GUI *ProgressBar;        // 0x18
+ char dummy1[0x1C];        // 0x1C
+    wchar_t file_name[0xFF];  // 0x38
+    wchar_t file_path[0xFF];  // 0x236
+    char dummy2[0x10];        // 0x434
+    int file_sent;            // 0x444
+    int file_size;            // 0x448
+    char dummy3[0x8];         // 0x44C
+    IMAGEID Receiver_ICN;     // 0x454
+    wchar_t short_name[0x1F]; // 0x456
+} ObExSendBook;
+#endif
 
 #endif

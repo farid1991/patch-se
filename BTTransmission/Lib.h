@@ -101,6 +101,12 @@ extern "C"
   void debug_printf(const char *fmt, ...);
 
   int Division(int a, int b);
+
+  GC *get_DisplayGC(void);
+  void CoCreateInstance(UUID *cid, UUID *iid, void **pInterface);
+  void DisplayGC_AddRef(GC *, void *pICanvas);
+  void TextObject_SetText(void *pIUIRichText, TEXTID);
+  void TextObject_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
 };
 
 #endif
