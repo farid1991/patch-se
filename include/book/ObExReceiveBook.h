@@ -28,7 +28,13 @@ typedef struct ObExReceiveBook : BOOK
   char unk_63F;              // 0x63F
 } ObExReceiveBook;
 
-#elif defined(DB3200) || defined(DB3210)
+#elif defined(DB3150v1)
+typedef struct ObExReceiveBook : BOOK
+{
+  GUI *ProgressBar; // 0x18
+} ObExReceiveBook;
+
+#elif defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 typedef struct ObExReceiveBook : BOOK
 {
   GUI *ProgressBar;        // 0x18

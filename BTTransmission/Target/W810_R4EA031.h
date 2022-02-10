@@ -8,6 +8,9 @@
 #define OBEXRECEIVEBOOK 0x444DA598
 #define StatusRow_p (DISP_OBJ**)0x4C2DF7AC
 
+#define DISP_WIDTH 176
+#define STATUS_HEIGHT 20
+
 #define FONT_D_18B 0x2D
 #define FONT_D_24B 0x2F
 #define FONT_D_29B 0x30

@@ -8,6 +8,9 @@
 #define OBEXRECEIVEBOOK 0x158AF3AC
 #define StatusRow_p (DISP_OBJ**)0x4BA29FC4
 
+#define DISP_WIDTH 240
+#define STATUS_HEIGHT 24
+
 #define CID_CUIFontManager (PUUID)0x159F8668
 #define IID_IUIFontManager (PUUID)0x15A3138C
 #define CID_CUIImageManager (PUUID)0x159FB308

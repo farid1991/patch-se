@@ -94,33 +94,3 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
     pGC->Release();
 }
 #endif
-
-// GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID)
-{
-  IUIImageManager *pIUIImageManager = NULL;
-  IUIImage *pUIImage = NULL;
-  IUnknown *pGC = NULL;
-
-  TUIRectangle rect;
-  rect.Point.X = x;
-  rect.Point.Y = y;
-  rect.Size.Width = width;
-  rect.Size.Height = height;
-
-  CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(&pIUIImageManager));
-  pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
-
-  DisplayGC_AddRef(gc, &pGC);
-
-  pIUIImageManager->Draw(pUIImage, pGC, rect);
-
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
-  if (pUIImage)
-    pUIImage->Release();
-  if (pGC)
-    pGC->Release();
-}
-#endif

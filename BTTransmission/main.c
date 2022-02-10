@@ -5,7 +5,7 @@
 #include "..\\include\book\ObExReceiveBook.h"
 #include "..\\include\book\ObExSendBook.h"
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 #include "dll.h"
 #endif
 
@@ -115,10 +115,10 @@ extern "C" void New_StatusRow_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect, i
               ObexSBook->file_size >> 10);
     TEXTID text_id = TextID_Create(buff, ENC_UCS2, TEXTID_ANY_LEN);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    dll_DrawString(FONT_E_16R, text_id, AlignCenter, 0, 0, 240, 24, clWhite);
+    dll_DrawString(FONT_E_16R, text_id, AlignCenter, 0, 0, DISP_WIDTH, STATUS_HEIGHT, clWhite);
 #else
     SetFont(FONT_E_14R);
-    DrawString(text_id, AlignCenter, 0, 0, 176, 20, 20, 5, clWhite, clEmpty);
+    DrawString(text_id, AlignCenter, 0, 0, DISP_WIDTH, STATUS_HEIGHT, 20, 5, clWhite, clEmpty);
 #endif
     TextID_Destroy(text_id);
   }
@@ -136,10 +136,10 @@ extern "C" void New_StatusRow_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect, i
               ObexRBook->file_size >> 10);
     TEXTID text_id = TextID_Create(buff, ENC_UCS2, TEXTID_ANY_LEN);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    dll_DrawString(FONT_E_16R, text_id, AlignCenter, 0, 0, 240, 24, clWhite);
+    dll_DrawString(FONT_E_16R, text_id, AlignCenter, 0, 0, DISP_WIDTH, STATUS_HEIGHT, clWhite);
 #else
     SetFont(FONT_E_14R);
-    DrawString(text_id, AlignCenter, 0, 0, 176, 20, 20, 5, clWhite, clEmpty);
+    DrawString(text_id, AlignCenter, 0, 0, DISP_WIDTH, STATUS_HEIGHT, 20, 5, clWhite, clEmpty);
 #endif
     TextID_Destroy(text_id);
   }
