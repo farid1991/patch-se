@@ -139,11 +139,9 @@ extern "C"
     void YesNoQuestion_SetIcon(GUI *, IMAGEID);
 
     void CoCreateInstance(UUID *cid, UUID *iid, void **pInterface);
-#ifdef A2
     void DisplayGC_AddRef(GC *, void *pICanvas);
     void TextObject_SetText(void *pIUIRichText, TEXTID);
     void TextObject_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
-#endif
 };
 
 #endif
