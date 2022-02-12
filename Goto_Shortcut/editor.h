@@ -10,8 +10,11 @@ const IMAGEID TypesIcons[TYPE_LAST] =
     {
         SHORTCUT_LIST_ICN,
 #ifndef DB3350
+
         DB_LIST_JAVA_ICN,
+#ifndef PNX5230
         ENTERTAINMENT_ICN,
+#endif
 #endif
         GUI_UNAVAILABLE_ICN,
         DB_LIST_FOLDER_ICN};

@@ -6,11 +6,13 @@
 #include "main.h"
 #include "strlib.h"
 
-#ifndef DB3350
+#ifndef DB3350 
+#ifndef PNX5320
 __arm void StartElf(wchar_t *Name)
 {
   elfload(Name, NULL, NULL, NULL);
 }
+#endif
 #endif
 
 #if defined(A1)
@@ -118,9 +120,11 @@ void RunShortcut(SC_LIST_ELEM *ShortcutItem)
   case TYPE_JAVA:
     StartJava_ByName(ShortcutItem->ShortcutLink);
     break;
+#ifndef PNX5230
   case TYPE_ELF:
     StartElf(ShortcutItem->ShortcutLink);
     break;
+#endif
 #endif
   case TYPE_EVENT:
     ExecuteEvent(ShortcutItem->ShortcutLink);

@@ -30,7 +30,9 @@ enum SHORTCUT_TYPE
   TYPE_SHORTCUT,
 #ifndef DB3350
   TYPE_JAVA,
+#ifndef PNX5230
   TYPE_ELF,
+#endif
 #endif
   TYPE_EVENT,
   TYPE_FOLDER,

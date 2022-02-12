@@ -174,7 +174,7 @@ const PAGE_MSG Goto_Editor_JavaList_PageEvents[] =
 const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, 0, Goto_Editor_JavaList_PageEvents};
 
 //------------------------------------------------------------------------------
-
+#ifndef PNX5230
 int pg_SC_Editor_SelectElf_AcceptAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
@@ -232,6 +232,7 @@ const PAGE_MSG Goto_Editor_DataBrowser_PageEvents[] =
         NIL_EVENT, NULL};
 const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, 0, Goto_Editor_DataBrowser_PageEvents};
 #endif
+#endif
 //------------------------------------------------------------------------------
 
 void OnOkEventInput(BOOK *book, wchar_t *string, int len)
@@ -246,13 +247,13 @@ void OnOkEventInput(BOOK *book, wchar_t *string, int len)
 
     int event = wstr2h(string, len);
 
-    //wchar_t *EventName = WStringAlloc(len);
-    //str2wstr(EventName,UIEventName(event));
+    // wchar_t *EventName = WStringAlloc(len);
+    // str2wstr(EventName,UIEventName(event));
 
     if (!mbk->ShortcutItem->ShortcutText)
       WStringRealloc(string, &mbk->ShortcutItem->ShortcutText);
 
-    //WStringFree(EventName);
+    // WStringFree(EventName);
   }
   AcceptShortcut(mbk);
 }
@@ -429,7 +430,9 @@ TEXTID Get_SCTypes_Text(int item)
           L"Menu Item",
 #ifndef DB3350
           L"Java",
+#ifndef PNX5230
           L"Elf",
+#endif
 #endif
           L"Event",
           L"Folder"};
@@ -448,9 +451,11 @@ void TypesList_onSelect(BOOK *book, GUI *gui)
   case TYPE_JAVA:
     BookObj_CallPage(mbk, &Goto_Editor_JavaList_PageDesc);
     break;
+#ifndef PNX5230
   case TYPE_ELF:
     BookObj_CallPage(mbk, &Goto_Editor_DataBrowser_PageDesc);
     break;
+#endif
 #endif
   case TYPE_EVENT:
     BookObj_CallPage(mbk, &Goto_Editor_EventInput_PageDesc);
@@ -542,7 +547,7 @@ int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
     StringInput_SetMinLen(mbk->CaptionInput, 1);
     StringInput_SetMaxLen(mbk->CaptionInput, 63);
     StringInput_SetActionOK(mbk->CaptionInput, OnOkCaptionInput);
-    //StringInput_SetActionNo( mbk->CaptionInput, OnBackCaptionInput );
+    // StringInput_SetActionNo( mbk->CaptionInput, OnBackCaptionInput );
     GUIObject_SoftKeys_SetAction(mbk->CaptionInput, ACTION_BACK, Action_Back);
     GUIObject_Show(mbk->CaptionInput);
   }
