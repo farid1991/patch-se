@@ -106,6 +106,8 @@ typedef struct RECT
 
 #define TRUE 1
 #define FALSE 0
+#define ON 1
+#define OFF 0
 
 // if( GetChipID( ) &CHIPID_MASK == CHIPID_DB... )
 #define CHIPID_MASK 0xFE00
