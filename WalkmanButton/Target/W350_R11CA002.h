@@ -4,7 +4,14 @@
 #define A1
 #define PNX5230
 
+#define get_Surfaces (SURFACE**)0x4809FA78
+#define LastExtDB (DB_EXT *)0x216CEB98 
+#define SYNC (int*)0x217073E0
 #define CONFIG_PATH (wchar_t*)0x213F8278
+
+#define FOREIGN_APP (char*)0x217A1550
+#define JAVA_STR (char*)0x21795070
+#define CUIDisplayableBook (char*)0x21799C20
 
 #define ACTION_ACCEPT 0xFAC
 #define ACTION_ADD 0xFAD
@@ -33,16 +40,35 @@
 #define ACTION_YES 0xFC5
 
 #define NIL_EVENT 0
+#define ACCEPT_EVENT 2
+#define PREVIOUS_EVENT 3
 #define CANCEL_EVENT 4
 #define PAGE_ENTER_EVENT 0x7
 #define KEYPLAYSTOP_PRESSED_EVENT 0x44
 #define MEDIAPLAYERKEY_PRESS_EVENT 0x46
 #define MEDIAPLAYERKEY_LONG_PRESSED_EVENT 0x48
 #define RETURN_TO_STANDBY_EVENT 0x848
+#define TERMINATE_SESSION_EVENT 0x84A
+
+#define KBD_LONG_PRESS 0x1
+#define KBD_LONG_RELEASE 0x4
+#define KBD_REPEAT 0x2
+#define KBD_SHORT_PRESS 0x0
+#define KBD_SHORT_RELEASE 0x3
+
+#define KEY_DEL 0x5
+#define KEY_VOL_UP 0x11
+#define KEY_VOL_DOWN 0x12
+#define KEY_STAR 0x1D
+#define KEY_DIEZ 0x1E
+#define KEY_MEDIAPLAYER 0x23
 
 #define MEDIAPLAYER_LINK (wchar_t*)0x217C22B4
 
 #define BUTTON_TXT 0xED4
 #define WALKMAN_TXT 0x601
+
+#define BOOK_ITEM_ICON 0xEC23
+#define DB_LIST_JAVA_ICN 0xEA0D
 
 #endif

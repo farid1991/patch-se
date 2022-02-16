@@ -2,7 +2,7 @@
 
 #include "..\\include\Types.h"
 
-#ifdef DB2010
+#ifdef A1
 #include "..\\include\book\RightNowBook.h"
 #else
 #include "..\\include\book\ActivityMenuBook.h"
@@ -19,11 +19,11 @@ __arm void _elfload(const wchar_t *filepath, const wchar_t *filename)
 void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(0, size, 1, 5, "bm_mem", 0));
+  return memalloc(0, size, 1, 5, "bm_mem", 0);
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, "bm_mem", 0));
+  return memalloc(0xFFFFFFFF, size, 1, 5, "bm_mem", 0);
 #else
-  return (memalloc(size, 1, 5, "bm_mem", 0));
+  return memalloc(size, 1, 5, "bm_mem", 0);
 #endif
 }
 
@@ -57,7 +57,7 @@ BOOK_MANAGER *GetData()
   return CreateData();
 }
 
-#ifdef DB3150v1
+#if defined(A1) || defined(DB3150v1)
 int dll_ConnectionManager_Connection_GetState()
 {
   return ConnectionManager_Connection_GetState();
@@ -124,7 +124,7 @@ void GetIconByName(wchar_t *name, int &imageid)
     for (int i = 0; i < 4; i++)
     {
       imageid += wcharh2int(name[2 + i]) * N;
-      N = N / 0x10;
+      N = N >> 4;
     }
   }
   else
@@ -322,20 +322,20 @@ void Close_AllBooks(BOOK *book, GUI *gui)
   FreeBook(pActBook);
 }
 
-void myOnKey_Unified( DISP_OBJ* disp_obj, int keyID, int i2, int i3, int press_mode )
+void myOnKey_Unified(DISP_OBJ *disp_obj, int keyID, int i2, int i3, int press_mode)
 {
-	BOOK_MANAGER *data = GetData();
+  BOOK_MANAGER *data = GetData();
 
-	data->oldOnKey( disp_obj, keyID, i2, i3, press_mode );
+  data->oldOnKey(disp_obj, keyID, i2, i3, press_mode);
 
-	if ( keyID == KEY_DIEZ && press_mode == KBD_SHORT_RELEASE )
-	{
-		Minimize_AllBooks( data->RightNowBook, NULL );
-	}
-	else if ( keyID == KEY_STAR && press_mode == KBD_SHORT_RELEASE )
-	{
-		Close_AllBooks( data->RightNowBook, NULL );
-	}
+  if (keyID == KEY_DIEZ && press_mode == KBD_SHORT_RELEASE)
+  {
+    Minimize_AllBooks(data->RightNowBook, NULL);
+  }
+  else if (keyID == KEY_STAR && press_mode == KBD_SHORT_RELEASE)
+  {
+    Close_AllBooks(data->RightNowBook, NULL);
+  }
 }
 
 TEXTID GetBookName(char *book_name)
@@ -415,7 +415,7 @@ int BookMenu_onMessage(GUI_MESSAGE *msg)
 TEXTID Get_FreeHeap()
 {
   wchar_t buf[64];
-  snwprintf(buf, MAXELEMS(buf), L"Heap: %dKB", GetFreeBytesOnHeap() / 1024);
+  snwprintf(buf, MAXELEMS(buf), L"Heap: %dKB", GetFreeBytesOnHeap() >> 10);
   return TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
@@ -435,7 +435,7 @@ extern "C" void CreateBookMenu(BOOK *book, int tab_num)
   ListMenu_SetItemCount(data->books_menu, data->books_count);
   ListMenu_SetCursorToItem(data->books_menu, data->book_index);
   GUIObject_SetStyle(data->books_menu, UI_OverlayStyle_PopupNoFrame);
-  GUIObject_TabTitleRemove(data->books_menu, 2);
+  GUIObject_TabTitleRemove(data->books_menu, 1);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_BACK, onCloseBook);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_LONG_BACK, onLongCloseBook);
   GUIObject_SoftKeys_SetAction(data->books_menu, ACTION_SELECT1, onEnterPressed_Books);

@@ -2,8 +2,10 @@
 
 #include "..\\include\Types.h"
 
+#include "bookman.h"
 #include "main.h"
 #include "Lib.h"
+#include "screenshot.h"
 
 __thumb void *malloc(int size)
 {
@@ -100,10 +102,17 @@ TEXTID GetSubMenuTitle(int KeyMode)
 void CreateLinkSelector(BOOK *book)
 {
   WalkmanShortcutBook *wsbook = (WalkmanShortcutBook *)book;
+  TEXTID items_text[SUBITEM_COUNT] = {
+      BUTTON_TXT,
+      WALKMAN_TXT,
+      STR("QuickAccess Menu"),
+      STR("Activity Menu"),
+      STR("Book Manager"),
+      STR("Next Book"),
+      STR("Screenshoter")};
 
-  if (wsbook->SubMenu = CreateOneOfMany(book))
+  if (wsbook->SubMenu = CreateOneOfMany(wsbook))
   {
-    TEXTID items_text[SUBITEM_COUNT] = {BUTTON_TXT, WALKMAN_TXT, STR("QuickAccess Menu"), STR("Activity Menu")};
     GUIObject_SetTitleText(wsbook->SubMenu, GetSubMenuTitle(wsbook->KeyMode));
     GUIObject_SetStyle(wsbook->SubMenu, UI_OverlayStyle_FullScreen);
     OneOfMany_SetItemCount(wsbook->SubMenu, SUBITEM_COUNT);
@@ -129,7 +138,7 @@ void LinkEditor_Close(BOOK *book, GUI *gui)
   FreeBook(wsbook);
 }
 
-int pg_WalkmanShortcut_EnterAction(void *data, BOOK *book)
+int pg_WalkmanShortcut_EnterEvent(void *data, BOOK *book)
 {
   WalkmanShortcutBook *wsbook = (WalkmanShortcutBook *)book;
   if (wsbook->MainMenu = CreateListMenu(book, UIDisplay_Main))
@@ -148,25 +157,12 @@ int pg_WalkmanShortcut_EnterAction(void *data, BOOK *book)
   return 1;
 }
 
-int pg_WalkmanShortcut_CancelAction(void *data, BOOK *book)
+int pg_WalkmanShortcut_CancelEvent(void *data, BOOK *book)
 {
   WalkmanShortcutBook *wsbook = (WalkmanShortcutBook *)book;
   FREE_GUI(wsbook->MainMenu);
   return 1;
 }
-
-const PAGE_MSG bk_msglst_base[] =
-    {
-        CANCEL_EVENT, pg_WalkmanShortcut_CancelAction,
-        RETURN_TO_STANDBY_EVENT, pg_WalkmanShortcut_CancelAction,
-        NIL_EVENT, NULL};
-const PAGE_DESC WalkmanShortcut_Base_Page = {"WalkmanShortcut_Base_Page", NULL, bk_msglst_base};
-
-const PAGE_MSG bk_msglst_main[] =
-    {
-        PAGE_ENTER_EVENT, pg_WalkmanShortcut_EnterAction,
-        NIL_EVENT, NULL};
-const PAGE_DESC WalkmanShortcut_Main_Page = {"WalkmanShortcut_Main_Page", NULL, bk_msglst_main};
 
 void WalkmanShortcutBook_onClose(BOOK *book)
 {
@@ -215,6 +211,12 @@ void NewAction(int item)
     Create_QuickAccessBook(-1);
   else if (item == 3)
     Create_RightNowBook(4, 0);
+  else if (item == 4)
+    Create_BookManager();
+  else if (item == 5)
+    NextBook();
+  else if (item == 6)
+    Screenshoter(Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main));
 }
 
 extern "C" int New_OnOffKey_Long_Pressed(void *data, BOOK *book)
