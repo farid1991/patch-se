@@ -1,12 +1,17 @@
 #ifndef ScreenShot_H
 #define ScreenShot_H
 
-#define MAGIC_WORD 0x4D42
-#define SIZE_WO_MAGIC 52
+#define BMP_SIGNATURE 0x4D42
+#define SIZE_WO_SIGNATURE 52
 #define HEADER_SIZE 40
 #define DATA_OFFSET 54
 #define NBR_OF_PLANE 1
-#define BITSPERPLANE 24
+#define NBR_OF_BITS 24
+#define IMAGE_SIZE(w,h) (w*h*3)
+#define MAX_FILENAME_LEN 50
+
+
+#define SNAPSHOT_PATH L"/tpa/user/picture/SnapShots"
 
 #pragma pack(1)
 typedef struct

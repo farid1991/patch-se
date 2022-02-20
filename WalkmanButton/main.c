@@ -175,7 +175,7 @@ extern "C" void LinkEditor(BOOK *book, GUI *gui)
 {
   WalkmanShortcutBook *wsbook = (WalkmanShortcutBook *)malloc(sizeof(WalkmanShortcutBook));
   memset(wsbook, NULL, sizeof(WalkmanShortcutBook));
-  if (CreateBook(wsbook, WalkmanShortcutBook_onClose, &WalkmanShortcut_Base_Page, "WalkmanShortcutBook", -1, NULL))
+  if (CreateBook(wsbook, WalkmanShortcutBook_onClose, &WalkmanShortcut_Base_Page, "WalkmanShortcutBook", NO_BOOK_ID, NULL))
   {
     wsbook->short_press = GetChecked(SHORT_PRESS);
     wsbook->long_press = GetChecked(LONG_PRESS);

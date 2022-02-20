@@ -139,7 +139,7 @@ a       equ b
         defadr REQUEST_SYSTEM_SHUTDOWN,0x2106B318+1
         defadr REQUEST_SYSTEM_RESTART,0x2106B328+1
         defadr Shortcut_Run,0x2112DDE8+1
-        defadr FlightMode_GetState,0x2107AA28+1
+        defadr FlightMode_GetState,0x2107AA50+1
         defadr FlightMode_SetState,0x21066F60+1
 
         defadr CreateYesNoQuestion,0x21114964+1

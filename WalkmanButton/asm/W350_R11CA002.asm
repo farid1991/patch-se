@@ -10,7 +10,9 @@ a       equ b
         defadr memset,0x20105B58
         defadr memcpy,0x20151A7C
         defadr debug_printf,0x2086B1D0+1
+        defadr sprintf,0x20380730+1
         defadr snwprintf,0x20380BC4+1
+        defadr swscanf,0x20380BF8+1
         defadr _fopen,0x20C86CB4+1
         defadr fread,0x20C88340+1
         defadr fclose,0x20C880EC+1
@@ -21,23 +23,30 @@ a       equ b
         defadr w_fclose,0x2067F5E0+1
 
         defadr wstrlen,0x20C48D0C+1
+        defadr wstrcmp,0x20C48D20+1
         defadr wstrncmp,0x20381210+1
         defadr wstrcpy,0x20381198+1
         defadr wstrcat,0x2038113C+1
+        defadr wstrwstr,0x203812D8+1
+        defadr wstr2strn,0x20C48E2C+1
         defadr strncmp,0x20380A40+1
         defadr str2wstr,0x20C49FD4+1
         defadr strlen,0x20380A04+1
         defadr strstr,0x20380B0C+1
         defadr strcpy,0x203809D0+1
+        defadr strncpy,0x20380A74+1
         defadr strcmp,0x203809A8+1
+        defadr strcat,0x20380970+1
 
         defadr TextID_Create,0x210EBC80+1
         defadr TextID_CreateIntegerID,0x210EBAD0+1
         defadr TextID_Copy,0x210EBE10+1
         defadr TextID_GetString,0x210EC274+1
+        defadr TextID_GetWString,0x210EC13C+1
         defadr TextID_Destroy,0x210EBF00+1
 
         defadr iconidname2id,0x20A453CC+1
+        defadr ImageID_Free,0x20C3E70C+1
         defadr GetFreeBytesOnHeap,0x20DACCB0+1
         defadr REQUEST_DATEANDTIME_GET,0x20B54AE0+1
 
@@ -61,11 +70,23 @@ a       equ b
         defadr OneOfMany_SetItemCount,0x210C5290+1
         defadr OneOfMany_SetTexts,0x210C52E0+1
         defadr OneOfMany_SetChecked,0x210C52AC+1
+
+        defadr StringInput_SetText,0x2109C6E8+1
+        defadr CreateStringInput,0x2109BC48+1
+        defadr StringInput_SetMode,0x2109C4F0+1
+        defadr StringInput_SetEnableEmptyText,0x2109C664+1
+        defadr StringInput_SetMinLen,0x2109C548+1
+        defadr StringInput_SetMaxLen,0x2109C5E8+1
+        defadr StringInput_SetActionOK,0x2109C53C+1
+        defadr StringInput_SetActionBack,0x2109C540+1
+        defadr StringInput_SetActionCancel,0x2109C544+1
+        defadr StringInput_GetStringAndLen,0x2109C568+1
+
         defadr GUIObject_SetTitleText,0x21104674+1
         defadr GUIObject_SetTitleType,0x21104658+1
         defadr GUIObject_SetSecondRowTitleText,0x21104690+1
         defadr GUIObject_SetStyle,0x21104188+1
-        
+
         defadr GUIObject_Show,0x21104138+1
         defadr GUIObject_Destroy,0x21103ECC+1
         defadr DispObject_SetAnimation,0x210FC3D0+1
@@ -78,21 +99,37 @@ a       equ b
         defadr GUIonMessage_SetItemDisabled,0x210C3D6C+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x210C3CF0+1
         defadr GUIonMessage_GetSelectedItem,0x210C3CAC+1
+        
+        defadr GUIonMessage_SetNumberOfSubItems,0x210C3D60+1
+        defadr GUIonMessage_SubItem_GetCreatedParentIndex,0x210C3DCC+1
+        defadr GUIonMessage_SubItem_GetCreatedIndex,0x210C3DC0+1
+        defadr GUIonMessage_SubItem_SetText,0x210C3DD8+1
+        defadr GUIonMessage_SubItem_SetDisabled,0x210C3E2C+1
+        defadr GUIonMessage_SubItem_GetSelectedIndex,0x210C3D9C+1
 
         defadr UI_Event,0x21053B9C+1
         defadr UI_Event_toBookID,0x21053BF4+1
         defadr Shortcut_Run,0x2112DDE8+1
+        defadr CreateMessageBox,0x21060634+1
 
         defadr CreateBook,0x2105506C+1
         defadr FreeBook,0x2105566C+1
-        defadr BookObj_GotoPage,0x21054DE8+1
-        defadr BookObj_ReturnPage,0x21054F50+1
         defadr BookObj_GetSession,0x210556B4+1
         defadr BookObj_GetBookID,0x21055714+1
+        defadr BookObj_ReturnPage,0x21054F50+1
+        defadr BookObj_CallPage,0x21054EE8+1
+        defadr BookObj_GotoPage,0x21054DE8+1
+        defadr Shortcut_Get_MenuItemIconID,0x21125A34+1
+        defadr MenuBook_Desktop_GetSelectedItemID,0x21125930+1
+        defadr Shortcut_Get_MenuItemName,0x2112CA08+1
+        defadr MenuBook_Desktop,0x211257B8+1
+        defadr BookObj_SoftKeys_SetAction,0x2111B9A0+1
+        defadr BookObj_SoftKeys_SetText,0x2111B9D8+1
 
         defadr IsAudioPlayerBook,0x20D2E30C+1
         defadr FindBook,0x21053808+1
         defadr FindBookEx,0x21053868+1
+        defadr FindBookByID,0x210537D4+1
         defadr IsScreenSaverBook,0x21132970+1
         defadr MainDisplay_GetTopBook,0x210548A4+1
         defadr MediaPlayer_Audio_Minimize,0x20D30A68+1
@@ -113,15 +150,17 @@ a       equ b
         defadr DispObject_GetOnKey,0x210F63A0+1
         defadr DispObject_GetDESC,0x20EEC090+1
         defadr DISP_DESC_SetOnKey,0x210F62D0+1
-        
+
         defadr JavaDialog_Open,0x20C9B9E8+1
         defadr JavaAppDesc_GetFirstApp,0x20C95748+1
         defadr JavaAppDesc_GetJavaAppInfo,0x20C9537C+1
         defadr JavaApp_LogoImageID_Get,0x20D56F6C+1
         defadr JavaAppDesc_GetNextApp,0x20C95750+1
+        defadr JavaAppDesc_GetJavaAppID,0x20C9F388+1
         defadr JavaDialog_Close,0x20C9F268+1
         defadr JavaSession_GetName,0x20ED384C+1
         defadr manifest_GetParam,0x21024398+1
+        defadr REQUEST_UI_OAF_START_APPLICATION,0x20D61064+1
 
         defadr List_DestroyElements,0x20F739D0+1
         defadr List_Destroy,0x20F73630+1
@@ -131,6 +170,7 @@ a       equ b
         defadr root_list_get_session_count,0x21053908+1
         defadr root_list_get_session,0x21053914+1
         defadr List_InsertFirst,0x20F73768+1
+        defadr List_InsertLast,0x20F73770+1
 
         defadr GUIObject_SoftKeys_SetAction,0x21120904+1
         defadr GUIObject_SoftKeys_SetText,0x2112097C+1
@@ -150,7 +190,7 @@ a       equ b
         RSEG    PATCH_WALKMANKEY1
         CODE16
 	NOP
-        
+
         RSEG    PATCH_WALKMANKEY2(1)
         CODE16
 	MOV	R0, #0x1E
@@ -180,9 +220,7 @@ a       equ b
         RSEG  CODE
         CODE16
 _quickaccess:
-        BNE     _exit
         BL      New_OnOffKey_Short_Pressed
-_exit:
         MOV     R0, #1
         POP     {PC}
 
