@@ -344,7 +344,7 @@ MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
   MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)malloc(sizeof(MusicApplication_Shortcut_Book));
   memset(pShortcutBook, NULL, sizeof(MusicApplication_Shortcut_Book));
 
-  int mbk = CreateBook(pShortcutBook, MusicApplication_Shortcut_Destroy, &MusicApplication_Shortcut_Base_Page, BOOKNAME, -1, NULL);
+  int mbk = CreateBook(pShortcutBook, MusicApplication_Shortcut_Destroy, &MusicApplication_Shortcut_Base_Page, BOOKNAME, NO_BOOK_ID, NULL);
   if (!mbk)
   {
     mfree(pShortcutBook);
