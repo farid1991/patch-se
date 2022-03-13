@@ -171,9 +171,11 @@ typedef enum
 } UITextAlignment_t;
 
 // images ----------------------------------------------------------------------
-
+#ifdef DB3350
+typedef int IMAGEID;
+#else
 typedef wchar_t IMAGEID;
-
+#endif
 #define NOIMAGE 0xFFFF
 
 // OSE -------------------------------------------------------------------------
@@ -350,6 +352,40 @@ typedef enum UI_Display_t
 	UIDisplay_TVOut,
 	UIDisplay_Last
 } UI_Display_t;
+
+/**
+ * Backlight mode.
+ *
+ * @param UIBacklightMode_On        Always on
+ * @param UIBacklightMode_Off       Always off
+ * @param UIBacklightMode_Automatic Automatic
+ * @param UIBacklightMode_LowOff    Automatic with low instead of off
+ * @param UIBacklightMode_LowOn     Automatic with low instead of on
+ */
+typedef enum
+{
+  UIBacklightMode_On,
+  UIBacklightMode_Off,
+  UIBacklightMode_Automatic,
+  UIBacklightMode_LowOff,
+  UIBacklightMode_LowOn
+} UIBacklightMode_t;
+
+/**
+ * Backlight status.
+ *
+ * @param UIBacklightStatus_On    Backlight is on
+ * @param UIBacklightStatus_Off   Backlight is off
+ * @param UIBacklightStatus_Blink Backlight is blinking
+ * @param UIBacklightStatus_Low   Backlight is on with low intensity
+ */
+typedef enum
+{
+  UIBacklightStatus_On,
+  UIBacklightStatus_Off,
+  UIBacklightStatus_Blink,
+  UIBacklightStatus_Low
+} UIBacklightStatus_t;
 
 /**
  * Display Orientation
@@ -1376,15 +1412,15 @@ typedef struct DB_EXT_2010
 
 typedef struct SUB_EXECUTE
 {
-	FILESUBROUTINE *filesub; //0
-	FILEITEM *file_item;	 //4
-	BOOK *BrowserItemBook;	 //8
-	int DB_BookID;			 //C
-	void *unk2;				 //10
-	GUI *gui;				 //14
-	GUI_FEEDBACK *gui_fb;	 //18
-	void *strinp_struct;	 //1C
-	char dummy1[0x2D0];		 //20
+	FILESUBROUTINE *filesub;
+	FILEITEM *file_item;
+	BOOK *BrowserItemBook;
+	int DB_BookID;
+	void *unk2;
+	GUI *gui;
+	GUI_FEEDBACK *gui_fb;
+	void *strinp_struct;
+	char dummy1[0x2D0];
 #if defined(DB3150v1) || defined(DB3150v2)
 	char dummy2[0x4];
 #endif

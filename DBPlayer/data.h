@@ -6,9 +6,22 @@
 
 #define EMP_NAME "DBP_emp"
 
-#define IMG_COUNT 10
+enum
+{
+  IMG_BACKGROUND,
+  IMG_NO_COVER,
+  IMG_FRAME,
+  IMG_PLAY,
+  IMG_PAUSE,
+  IMG_ARTIST,
+  IMG_TITLE,
+  IMG_ALBUM,
+  IMG_SLIDER,
+  IMG_MUTE,
+  IMG_LAST
+};
 
-//typedef struct GUI GUI_DBP;
+// typedef struct GUI GUI_DBP;
 
 typedef struct TEXT_ITEM_DATA
 {
@@ -112,12 +125,15 @@ typedef struct _DBP_DATA
   MME_DATA *pMMEData;
 #endif
   GUI *time_input;
+  wchar_t *path;
+  wchar_t *name;
+  wchar_t *fullpath;
 
   SETTING_DATA setting;
 
-  FILE_INFO file;
+  // FILE_INFO file;
   TEMP_DATA temp;
-  IMG Image[IMG_COUNT];
+  IMG Image[IMG_LAST];
 
   int tagger;
   bool paused;
@@ -146,13 +162,13 @@ typedef struct _DBP_DATA
   wchar_t buf[64];
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  int style_bold;
-  int style_italic;
+  bool style_bold;
+  bool style_italic;
 #endif
 } DBP_DATA;
 
 DBP_DATA *GetData();
-void DeleteData();
+void DeleteData(DBP_DATA *data);
 void SaveData(bool save, int item);
 void LoadData(DBP_DATA *);
 

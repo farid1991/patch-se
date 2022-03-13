@@ -146,9 +146,9 @@ public:
   virtual int CreateFontStyleManager(IUnknown *pIUIFontStyleManager);
   virtual int CreateRichText(IRichText **pRichText);
   virtual int CreateTextContainer(IUnknown *pIUITextContainer);
-  virtual int CreateRichTextLayout(IRichText *pRichText, IUnknown *pIUIRichTextLayoutControl, IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions, IRichTextLayout **pRichTextLayout);
-  virtual int CreateSingleLineLayout(IUnknown *pIUIRichTextLayoutControl, IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions, IUnknown **pIUISingleLineLayout);
-  virtual int CreateRichTextLayoutControl(IUnknown **pIUIRichTextLayoutControl);
+  virtual int CreateRichTextLayout(IRichText *pRichText, IUIRichTextLayoutControl *pIUIRichTextLayoutControl, IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions, IRichTextLayout **pRichTextLayout);
+  virtual int CreateSingleLineLayout(IUIRichTextLayoutControl *pIUIRichTextLayoutControl, IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions, IUnknown **pIUISingleLineLayout);
+  virtual int CreateRichTextLayoutControl(IUIRichTextLayoutControl **pIUIRichTextLayoutControl);
   virtual int CreateRichTextLayoutOptions(IUIRichTextLayoutOptions **pIUIRichTextLayoutOptions);
   virtual int CreatePolygon(IUnknown **pIUIPolygon);
   virtual int CreateBasicTextHandler(IUnknown **pIUIBasicTextHandling);

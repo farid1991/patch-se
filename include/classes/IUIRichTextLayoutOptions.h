@@ -161,4 +161,17 @@ public:
   virtual int RemoveDictionary(TUICustomDictionary dictionary);
 };
 
+typedef enum
+{ 
+  UIRichTextLayoutControlTag_THA,  ///< Thai 
+  UIRichTextLayoutControlTag_ICN,  ///< Icons 
+  UIRichTextLayoutControlTag_EMOT  ///< Emoticons 
+} TUIRichTextLayoutControlTag;
+
+class IUIRichTextLayoutControl : public IUnknown
+{
+  virtual int AddDictionary (TUIRichTextLayoutControlTag  tag, IUnknown* pIFullPath );
+  virtual int RemoveDictionary(TUIRichTextLayoutControlTag tag);
+};
+
 #endif

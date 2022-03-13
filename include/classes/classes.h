@@ -5,6 +5,7 @@
 #include "IAudioControlManager.h"
 #include "IUIImageManager.h"
 #include "IFontManager.h"
+#include "IFontStyleManager.h"
 #include "IUIRichTextLayoutOptions.h"
 #include "ITextRenderingManager.h"
 #include "IMetaData.h"

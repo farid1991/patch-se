@@ -19,7 +19,7 @@ const int MME_STREAMING_WLAN_FIREWALL_TRAVERSAL_INTERVAL = 60000;
  */
 typedef enum
 {
-  //General
+  // General
   MME_UED_GENERAL_ERROR, ///< Returned when none of the other error codes are applicable.
   MME_UED_INTERRUPTED,   ///< Returned when the session or the player was interrupted by another session or player (with the same or
                          ///< higher priority) or a call.
@@ -31,17 +31,17 @@ typedef enum
   MME_UED_INPUT_PARAM_ERROR, ///< Returned when there was some error in the input parameters.
   MME_UED_NOT_ALLOWED_ERROR, ///< Returned when an action is not allowed to be performed (due to wrong state etc.).
 
-  //Player specific
+  // Player specific
   MME_UED_NOT_AUTHORIZED,     ///< Returned when there are not any available resources, and another ongoing activity has higher priority.
   MME_UED_FILE_NOT_FOUND,     ///< Returned when the specified file is not found, local or on media server.
   MME_UED_END_OF_FILE,        ///< Returned when the player stopped since end of file was reached.
   MME_UED_CLIENT_TERMINATION, ///< Returned when the player stopped since the client called the stopped method.
 
-  //DRM specific
+  // DRM specific
   MME_UED_DRM_ERROR,                   ///< Returned when the specified file is a DRM file, and DRM is returning an error of unknown reason.
   MME_UED_DRM_PLAYRIGHTS_EXPIRED,      ///< Returned when the specified file is a DRM file, and the credentials not allows playback.
   MME_UED_DRM_AUDIO_ROUTING_FORBIDDEN, ///< Returned when the specified file is a DRM file, and audio routing to an accessory is forbidden.
-  //MME_UED_DRM_NOT_ALLOWED,                  ///< Returned when the specified DRM file is not allowed to be played.
+                                       // MME_UED_DRM_NOT_ALLOWED,                  ///< Returned when the specified DRM file is not allowed to be played.
 
   // Streaming specific
   MME_UED_STREAMING_NETWORK_ERROR,            ///< Returned when connection/registrating to the network failed or network initiated close.
@@ -131,7 +131,7 @@ typedef enum
 } TMMECreatePlayer;
 
 /**
- * The set of values that determines 
+ * The set of values that determines
  * the MME player priority.
  */
 typedef enum
@@ -147,7 +147,7 @@ typedef enum
 } TMMEPlayerPriority;
 
 /**
- * The set of audio configurations. The values may be used to 
+ * The set of audio configurations. The values may be used to
  * create a mask containing all settings.
  *
  * E.g. TMMEAudioConfig_FollowSilentMode | TMMEAudioConfig_Mute_When_Rerouting_To_Speaker
@@ -163,7 +163,7 @@ typedef enum
 
 /**
  * The set of values type that
- * determines the MME session priority. 
+ * determines the MME session priority.
  */
 typedef enum
 {
@@ -311,7 +311,7 @@ typedef enum
   TMMEVideoCodecIdType_NONE,
   TMMEVideoCodecIdType_H263,
   TMMEVideoCodecIdType_H264,
-  TMMEVideoCodecIdType_M4V, //MPEG4
+  TMMEVideoCodecIdType_M4V, // MPEG4
   TMMEVideoCodecIdType_WMV,
   TMMEVideoCodecIdType_REAL,
   TMMEVideoCodecIdType_UNKNOWN, // Put new codec types before this.
@@ -320,7 +320,7 @@ typedef enum
 
 /**
  * The set of audio format (codec) types
- * a file format may contain. 
+ * a file format may contain.
  *
  * Note: These values are re-mapped and type checks must therefore
  * be performed against audioCodecType. Will NOT work with AudioCodecId!
@@ -374,21 +374,22 @@ typedef struct
 #ifdef DB3350
 typedef struct MME_DATA
 {
-  char dummy_1[0x48];                                                      ///< unknown value
-  uint8_t contentType;                                                     ///< Type of content, @see TMMEContentType.
-  char dummy_2[0x3];                                                       ///< unknown value
-  TMMETime mediaLength;                                                    ///< Media file total playback time, @see TMMETime.
-  uint8_t fileFormatId;                                                    ///< Media file format identifier.
-  uint8_t fileFormatType;                                                  ///< File format type description, @see TMMEFileFormatIdType.
-  uint8_t audioOutput;                                                     ///< Mono/stero audio output, @see TMMEAudioOutput.
-  uint8_t audioCodecId;                                                    ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
-  uint32_t audioCodecType;                                                 ///< Audio codec id type description, @see TMMEAudioCodecIdType.
-  uint32_t audioSampleRate;                                                ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
-  u16 bpmTempo;                                                            ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
-  bool videoImageSizePresent;                                              ///< TRUE if there is available information about VideoImageSize.
-  TMMEVideoImageSize videoImageSize;                                       ///< Video image size, @see TMMEVideoImageSize.
-  uint8_t videoCodecId;                                                    ///< Video codec id of an video encoding type.
-  TMMEVideoCodecIdType videoCodecType;                                     ///< Video codec id type description, @see TMMEVideoCodecIdType.
+  char dummy_1[0x48];                  ///< unknown value
+  uint8_t contentType;                 ///< Type of content, @see TMMEContentType.
+  char dummy_2[0x3];                   ///< unknown value
+  TMMETime mediaLength;                ///< Media file total playback time, @see TMMETime.
+  uint8_t fileFormatId;                ///< Media file format identifier.
+  uint8_t fileFormatType;              ///< File format type description, @see TMMEFileFormatIdType.
+  uint8_t audioOutput;                 ///< Mono/stereo audio output, @see TMMEAudioOutput.
+  uint8_t audioCodecId;                ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
+  uint32_t audioCodecType;             ///< Audio codec id type description, @see TMMEAudioCodecIdType.
+  uint32_t audioSampleRate;            ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
+  u16 bpmTempo;                        ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
+  bool videoImageSizePresent;          ///< TRUE if there is available information about VideoImageSize.
+  TMMEVideoImageSize videoImageSize;   ///< Video image size, @see TMMEVideoImageSize.
+  uint8_t videoCodecId;                ///< Video codec id of an video encoding type.
+  TMMEVideoCodecIdType videoCodecType; ///< Video codec id type description, @see TMMEVideoCodecIdType.
+
   wchar_t streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
   uint32_t streamingContentId;                                             ///< Streaming content format identifier.
   bool isLiveStreaming;                                                    ///< Description if the content is live streamig or not.
@@ -454,8 +455,8 @@ typedef enum
 } TMMEEqBand;
 
 /**
-  * The different equalizer presets. Only avaialble for Clear Audio!
-  */
+ * The different equalizer presets. Only avaialble for Clear Audio!
+ */
 typedef enum
 {
   TMMEEqPreset_Normal,
@@ -484,7 +485,7 @@ typedef enum
 
 /**
  * The set of data to describe where to draw video on the display.
- * 
+ *
  * Contains:
  *
  * X      (TSigned)   - Start point, x-coordinate of the upper left corner of the rectangle.
@@ -543,7 +544,7 @@ typedef enum
 const int MME_AUDIOCONTROL_HANDLE_NOT_USED = 0;
 
 /**
- * This type is used to indicate the fade direction when 
+ * This type is used to indicate the fade direction when
  * using fading sound in an MME player.
  */
 typedef enum
@@ -572,11 +573,11 @@ typedef enum
 } TMMEMuteReason;
 
 /**
- * This type is used to configure the fastforward and rewind operation when a 
+ * This type is used to configure the fastforward and rewind operation when a
  * boundary is reached (end of file or beginning of file).
- * 
- * E.g. if the TMMEWindCondition_BOF_Paused is set the player will 
- * pause, instead of stop, when the beginning of the file is reached. 
+ *
+ * E.g. if the TMMEWindCondition_BOF_Paused is set the player will
+ * pause, instead of stop, when the beginning of the file is reached.
  */
 typedef enum
 {
@@ -598,12 +599,12 @@ typedef u16 TMMEWindConditionFlagField;
 class IMMEPlayer : public IUnknown
 {
 public:
-  virtual int GetHandle(int *handle);                    //10
-  virtual int GetState(TMMEState *state);                //14
-  virtual int GetTime(TMMETime *elapsedTime);            //18
-  virtual int SetTime(TMMETime *offsetTime);             //1C
-  virtual int SetDisplayAppearance(RECT *TMMEVideoArea); //20
-  virtual int Play(int unk_null, bool repeat);           //24
+  virtual int GetHandle(int *handle);
+  virtual int GetState(TMMEState *state);
+  virtual int GetTime(TMMETime *elapsedTime);
+  virtual int SetTime(TMMETime *offsetTime);
+  virtual int SetDisplayAppearance(RECT *TMMEVideoArea);
+  virtual int Play(int unk_null, bool repeat);
   virtual int Pause();
   virtual int SetFastForwardRewindBoundaryConditions(TMMEWindCondition windCondition);
   virtual int SetWindTimerInterval(int time);

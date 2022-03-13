@@ -5,10 +5,11 @@
 
 #include "Lib.h"
 #include "dll.h"
+#include "main.h"
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
+void dll_SetFont(int font_size, int font_style, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
@@ -20,24 +21,7 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
   pFontData.size = (float)font_size;
-
-  TUIEmphasisStyle fontstyle;
-  switch (font_style)
-  {
-  case 1:
-    fontstyle = UI_Emphasis_Bold;
-    break;
-  case 2:
-    fontstyle = UI_Emphasis_Italic;
-    break;
-  case 3:
-    fontstyle = UI_Emphasis_BoldItalic;
-    break;
-  default:
-    fontstyle = UI_Emphasis_Normal;
-    break;
-  }
-  pFontData.emphasis = fontstyle;
+  pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
   if (pFontManager)
@@ -47,11 +31,8 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 }
 
 // DrawString ----------------------------------------------------
-void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
+void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
 {
-  TUIRectangle rect;
-  int lineWidth = x2 - x1;
-
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
@@ -59,9 +40,9 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   IUnknown *pGC = NULL;
   IFont *pFont = NULL;
 
-  int fontsize_wo_style = (font_size & 0xFF);
-  int font_style = font_size >> 8;
-  dll_SetFont(fontsize_wo_style, font_style, &pFont);
+  int font_size = font & 0xFF;
+  int font_style = font >> 8;
+  dll_SetFont(font_size, font_style, &pFont);
 
   CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
@@ -73,8 +54,10 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pTextObject->SetAlignment(align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 
+  int lineWidth = x2 - x1;
   pRichTextLayout->Compose(lineWidth);
 
+  TUIRectangle rect;
   rect.Point.X = x1;
   rect.Point.Y = y1;
   rect.Size.Width = x2 - x1;
@@ -93,6 +76,53 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
     pTextObject->Release();
   if (pGC)
     pGC->Release();
+}
+
+int dll_Disp_GetTextIDWidth(TEXTID strid, int len)
+{
+  ITextRenderingManager *pTextRenderingManager = NULL;
+  ITextRenderingFactory *pTextRenderingFactory = NULL;
+  IRichTextLayout *pRichTextLayout = NULL;
+  IRichText *pTextObject = NULL;
+
+  int width = 0;
+  TEXTID temp_strid = EMPTY_TEXTID;
+
+  CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
+  pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
+  pTextRenderingFactory->CreateRichText(&pTextObject);
+  pTextRenderingFactory->CreateRichTextLayout(pTextObject, NULL, NULL, &pRichTextLayout);
+
+  IFont *pFont = NULL;
+
+  int font_size = FONT_E_20R & 0xFF;
+  int font_style = FONT_E_20R >> 8;
+  dll_SetFont(font_size, font_style, &pFont);
+
+  if (len == TEXTID_ANY_LEN)
+    temp_strid = TextID_Copy(strid);
+  else
+  {
+    wchar_t *buf = (wchar_t *)malloc(sizeof(wchar_t) * (len + 1));
+    TextID_GetWString(strid, buf, len + 1);
+    temp_strid = TextID_Create(buf, ENC_UCS2, len);
+    mfree(buf);
+  }
+
+  width = RichTextLayout_GetTextWidth(temp_strid, pRichTextLayout, pFont);
+
+  TextID_Destroy(temp_strid);
+
+  if (pTextRenderingManager)
+    pTextRenderingManager->Release();
+  if (pTextRenderingFactory)
+    pTextRenderingFactory->Release();
+  if (pRichTextLayout)
+    pRichTextLayout->Release();
+  if (pTextObject)
+    pTextObject->Release();
+
+  return (width);
 }
 #endif
 
@@ -175,7 +205,7 @@ int dll_GetImageHeight(IMAGEID imageID)
 
 void *dll_MetaData_Desc_Create(wchar_t *path, wchar_t *name)
 {
-  METADATA_DESC *MetaData_Desc = (METADATA_DESC *)memalloc(0xFFFFFFFF, sizeof(METADATA_DESC), 1, 5, "mdd", NULL);
+  METADATA_DESC *MetaData_Desc = (METADATA_DESC *)malloc(sizeof(METADATA_DESC));
   MetaData_Desc->pIMetaData = 0;
   MetaData_Desc->artist[0] = 0;
   MetaData_Desc->title[0] = 0;
@@ -194,7 +224,7 @@ void dll_MetaData_Desc_Destroy(void *MetaData_Desc)
   if (((METADATA_DESC *)MetaData_Desc)->pIMetaData)
     ((METADATA_DESC *)MetaData_Desc)->pIMetaData->Release();
   if (MetaData_Desc)
-    memfree(NULL, MetaData_Desc, "mdd", NULL);
+    mfree(MetaData_Desc);
 }
 
 wchar_t *dll_MetaData_Desc_GetTags(void *MetaData_Desc, int tagID)
@@ -203,25 +233,25 @@ wchar_t *dll_MetaData_Desc_GetTags(void *MetaData_Desc, int tagID)
   wchar_t *buf;
   switch (tagID)
   {
-  case 0:
+  case TMetadataTagId_Artist:
     buf = mdd->artist;
     break;
-  case 1:
+  case TMetadataTagId_Title:
     buf = mdd->title;
     break;
-  case 2:
+  case TMetadataTagId_Album:
     buf = mdd->album;
     break;
-  case 3:
+  case TMetadataTagId_Year:
     buf = mdd->year;
     break;
-  case 4:
+  case TMetadataTagId_Genre:
     buf = mdd->genre;
     break;
-  case 5:
+  case TMetadataTagId_x6:
     buf = mdd->x6;
     break;
-  case 6:
+  case TMetadataTagId_x7:
     buf = mdd->x7;
     break;
   }
@@ -229,10 +259,10 @@ wchar_t *dll_MetaData_Desc_GetTags(void *MetaData_Desc, int tagID)
   return (buf);
 }
 
-int dll_MetaData_Desc_GetTrackNum(void *MetaData_Desc, int __NULL)
+int dll_MetaData_Desc_GetTrackNum(void *MetaData_Desc)
 {
   int track_num;
-  ((METADATA_DESC *)MetaData_Desc)->pIMetaData->GetTrackNum(__NULL, &track_num);
+  ((METADATA_DESC *)MetaData_Desc)->pIMetaData->GetTrackNum(NULL, &track_num);
   return (track_num);
 }
 

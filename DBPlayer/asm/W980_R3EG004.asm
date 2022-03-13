@@ -8,6 +8,7 @@ a       EQU     b
         defadr memalloc,0x4BB00584
         defadr memfree,0x4BB005AC
         defadr memset,0x4BB010C4
+        defadr memcpy,0x1013E508
         defadr debug_printf,0x4BB37FED
         defadr set_envp,0x10005AEC+1
         defadr get_envp,0x10005AD8+1
@@ -18,6 +19,8 @@ a       EQU     b
         defadr fclose,0x1170F520+1
         defadr fread,0x10957474+1
         defadr fstat,0x109564E4+1
+        defadr lseek,0x109577A0+1
+        defadr w_fstat,0x112A40E4+1
         defadr w_fopen,0x112A402C+1
         defadr w_lseek,0x11A5F694+1
         defadr w_fread,0x112A405C+1
@@ -64,12 +67,15 @@ a       EQU     b
         defadr DispObject_SetThemeImage,0x109C8980+1
         defadr DispObject_SetLayerColor,0x109C8E24+1
         defadr DispObject_SetAnimation,0x109C8EDC+1
+        defadr DispObject_SetBacklightMode,0x109C9C04+1
         defadr GUIObject_GetDispObject,0x109D02CC+1
         defadr GUIObject_Create,0x109D007C+1
         defadr BookObj_AddGUIObject,0x10DEFD64+1
         defadr GUIObject_SetTitleType,0x109D0640+1
         defadr FreeBook,0x10DF0054+1
         defadr TextID_CreateIntegerID,0x10F683EC+1
+        defadr TextID_GetLength,0x10F68A04+1
+        defadr Disp_GetTextIDWidth,0x109CB674+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x107A25F0+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x107A2668+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x107A26F0+1
@@ -113,8 +119,19 @@ a       EQU     b
         defadr ImageID_GetIndirect,0x107A0608+1
         defadr ImageID_Free,0x107A6788+1
         defadr MetaData_GetTags,0x11804760+1
-        defadr wstrlen,0x10D65030+1
+        defadr strlen,0x106F7014+1
+        defadr strncpy,0x106F7084+1
+        defadr strstr,0x106F7120+1
+        defadr str2wstr,0x10D662F8+1
+        defadr wstrlen,0x106F7938+1
+        defadr wstrcpy,0x106F7900+1
         defadr wstrncmp,0x106F7978+1
+        defadr wstrrchr,0x10D663B4+1
+        defadr wstrcat,0x106F78A4+1
+        defadr wstr2strn,0x10D65150+1
+        defadr Timer_Set,0x10DEBF78+1
+        defadr Timer_ReSet,0x10DEBFAC+1
+        defadr Timer_Kill,0x10DEC004+1
         defadr Volume_Set,0x119EEA3C+1
         defadr Volume_Get,0x119EEB0C+1
         
