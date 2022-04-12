@@ -62,13 +62,13 @@ a       equ b
         defadr OneOfMany_SetTexts,0x451726F8+1
         defadr OneOfMany_GetSelected,0x451726D4+1
         defadr StatusIndication_Item8_SetText,0x452AE460+1
-        defadr GUIObject_Softkey_SetAction,0x4519B824+1
-        defadr GUIObject_Softkey_SetText,0x4519B90C+1
-        defadr GUIObject_SoftKey_SetEnable,0x4519BA78+1
-        defadr GUIObject_SoftKey_AddErrorStr,0x4519B9E8+1
-        defadr GUIObject_SoftKey_RemoveItem,0x4519B7B4+1
-        defadr GUIObject_SoftKey_SetVisible,0x4519B9A4+1
-        defadr GUIObject_SoftKey_SuppressDefaultAction,0x4519BE20+1
+        defadr GUIObject_SoftKeys_SetAction,0x4519B824+1
+        defadr GUIObject_SoftKeys_SetText,0x4519B90C+1
+        defadr GUIObject_SoftKeys_SetEnable,0x4519BA78+1
+        defadr GUIObject_SoftKeys_AddErrorStr,0x4519B9E8+1
+        defadr GUIObject_SoftKeys_RemoveItem,0x4519B7B4+1
+        defadr GUIObject_SoftKeys_SetVisible,0x4519B9A4+1
+        defadr GUIObject_SoftKeys_SuppressDefaultAction,0x4519BE20+1
         defadr wstrcpy,0x44E25C34+1
         defadr wstrncpy,0x44E25CE8+1
         defadr wstrcat,0x44E25BD4+1
@@ -76,14 +76,14 @@ a       equ b
         defadr wstrcmp,0x44E25C04+1
         defadr wstrlen,0x44E25C70+1
         defadr str2wstr,0x44FEAE4C+1
-        defadr _strcmp,0x44E252EC+1
+        defadr strcmp,0x44E252EC+1
         defadr strlen,0x44E25354+1
         defadr wstr2strn,0x44FE9C44+1
         defadr int2strID,0x452FE300+1
         defadr TextID_Create,0x452FE69C+1
         defadr StrID2Str,0x452FF248+1
         defadr TextID2wstr,0x452FEA1C+1
-        defadr TextGetLength,0x452FE8FC+1
+        defadr TextID_GetLength,0x452FE8FC+1
         defadr TextID_Destroy,0x452FE86C+1
         defadr AB_DEFAULTNBR_GET,0x4521430C+1
         defadr AB_READSTRING,0x452196AC+1
@@ -159,11 +159,11 @@ a       equ b
         defadr CreateListMenu,0x45170674+1
         defadr ListMenu_SetItemCount,0x4517089C+1
         defadr ROOT_APP,0x4C2DC794
-        defadr GUIObject_Softkey_SetInfoText,0x4519B8D0+1
-        defadr GUIObject_Softkey_SetItemAsSubItem,0x4519BAC0+1
+        defadr GUIObject_SoftKeys_SetInfoText,0x4519B8D0+1
+        defadr GUIObject_SoftKeys_SetItemAsSubItem,0x4519BAC0+1
         defadr REQUEST_SYSTEM_SHUTDOWN,0x45643FB0+1
         defadr REQUEST_SYSTEM_RESTART,0x45643FC0+1
-        defadr GUIObject_Softkey_SetTexts,0x4519B954+1
+        defadr GUIObject_SoftKeys_SetTexts,0x4519B954+1
         defadr IsRightNowBook,0x4563E6CC+1
         defadr IsVolumeControllerBook,0x45643CC0+1
         defadr CreateTabMenuBar,0x45153758+1
@@ -352,8 +352,8 @@ a       equ b
         defadr wstrwstr,0x44E25E48+1
         defadr wstrcmpi,0x44FEAFB4+1
         defadr wstrchr,0x44E25BF0+1
-        defadr GUIObject_HideSoftkeys,0x4519BEA4+1
-        defadr GUIObject_ShowSoftkeys,0x4519BEB0+1
+        defadr GUIObject_SoftKeys_Hide,0x4519BEA4+1
+        defadr GUIObject_SoftKeys_Show,0x4519BEB0+1
         defadr DispObject_SoftKeys_Get,0x4519ADCC+1
         defadr StandbyBackground_SetImage,0x45541C18+1
         defadr CreateYesNoQuestionVA,0x45196C30+1
@@ -447,7 +447,7 @@ a       equ b
         defadr w_fclose,0x44B24B48+1
         defadr w_mkdir,0x455E5C10+1
         defadr DirHandle_SetFilterStr,0x455B2910+1
-        defadr Disp_GetStrIdWidth,0x45308098+1
+        defadr Disp_GetTextIDWidth,0x45308098+1
         defadr MetaData_Desc_GetCoverInfo,0x4496577C+1
         defadr ImageID_GetIndirect,0x45426D24+1
         defadr unixtime2datetime,0x4526C950+1
@@ -601,8 +601,12 @@ a       equ b
         defadr DispObject_SetCursorImage,0x452E6680+1
         defadr DispObject_SetBackgroundImage,0x452E669C+1
         defadr DispObject_SetTitleImage,0x452E66C4+1
+        defadr GUIObject_SetBacklightTimeout,0x451940B4+1
+        defadr DispObject_SetBacklightTimeout,0x453066F4+1
 
         defadr FSX_IsFileExists,0x452510D8+1
+        defadr FSX_MakeFullPath,0x455B6EE0+1
+        defadr FSX_FreeFullPath,0x455B6F30+1
 
         defadr SleepMode_OnCreate,0x452AB23C+1
         defadr SleepMode_OnClose,0x452AB338+1
@@ -610,6 +614,7 @@ a       equ b
         EXTERN  New_SleepMode_OnCreate
         EXTERN  New_SleepMode_OnClose
         EXTERN  New_SleepMode_OnRedraw
+        EXTERN  SetBacklightTimeout
 
         RSEG    PATCH_SLEEPMODE_ONCREATE
         DATA
@@ -622,5 +627,23 @@ a       equ b
         RSEG    PATCH_SLEEPMODE_ONREDRAW
         DATA
         DCD     New_SleepMode_OnRedraw
+
+        RSEG    PATCH_SLEEPMODE_BACKLIGHT
+        CODE16
+        LDR     R3, =_SetBacklightTimeout
+        BX	R3
+
+        RSEG  CODE
+        CODE16
+_SetBacklightTimeout:
+        BL      SetBacklightTimeout
+        CMP     R4, #0
+        BEQ     null_disp
+        LDR	R3, =0x452AB9C6+1
+	BLX	R3
+
+null_disp:
+        LDR	R3, =0x452AB9CA+1
+	BLX	R3
         
         END

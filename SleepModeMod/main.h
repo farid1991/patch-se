@@ -1,23 +1,28 @@
-#ifndef _Main_H_
-#define _Main_H_
+#ifndef Main_H
+#define Main_H
 
-#define EMP_NAME "SLEEPMODE"
+#define ENV_NAME "SleepmodeEnv"
 #define ICONS_COUNT 8
 #define TEXTID_CONST 0x78000000
 
+#define REFRESH_TIME 1
+#define BACKLIGHT_TIMEOUT 10
+#define BACKLIGHT_MAX_TIMEOUT 86399
+#define SECOND(tm) tm * 1000
+
 #define SLEEPMODE_PATH L"/usb/other/Sleepmode"
 
-#define IMAGE_FREE(img)             \
-  if (img != NOIMAGE)               \
-  {                                 \
-    ImageID_Free(img);              \
-  }
+#define FREE(mem) \
+  if (mem)        \
+    mfree(mem);
 
-#define TEXT_FREE(text)               \
-  if (text != EMPTY_TEXTID)           \
-  {                                   \
-    TextID_Destroy(text);             \
-  }
+#define IMAGE_FREE(img) \
+  if (img != NOIMAGE)   \
+    ImageID_Free(img);  
+  
+#define TEXT_FREE(text)     \
+  if (text != EMPTY_TEXTID) \
+    TextID_Destroy(text);   
 
 const int days[7] = {TEXTID_1, TEXTID_2, TEXTID_3, TEXTID_4, TEXTID_5, TEXTID_6, TEXTID_7};
 const int missed_icons[ICONS_COUNT] = {
@@ -30,20 +35,36 @@ const int missed_icons[ICONS_COUNT] = {
     APPOINTMENT_REMINDER_SLEEPMODE_ICN + TEXTID_CONST,
     TASK_REMINDER_SLEEPMODE_ICN + TEXTID_CONST};
 
+typedef struct
+{
+  unsigned int timer;
+  wchar_t *lrcinfo;
+} TimerList;
+
 typedef struct SLEEPMODE_DATA
 {
-  DISP_OBJ *ScrScv;
+  DISP_OBJ *sleepmode;
   TEXTID text_id;
   IMAGEID Background;
   IMAGEID CoverArt;
-  BOOL HasCover;
-  u16 DispWidth;
+  BOOL has_cover;
+  u16 disp_width;
+  u16 disp_height;
   u16 TimerID;
-  TRACK_DESC* CurrentTrack; 
+  u16 TimerLyric;
+  TRACK_DESC *CurrentTrack;
+  char *lrcbuf;
+  TimerList *lrclist;
+  int lrc_state;
+  int current_offset;
+  int total_offset;
+  int offset_len;
 } SLEEPMODE_DATA;
 
 void *malloc(int size);
 void mfree(void *mem);
+SLEEPMODE_DATA *GetData();
+void refresh_screen(DISP_OBJ *disp_obj);
 
 extern "C"
 {

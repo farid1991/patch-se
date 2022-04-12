@@ -838,6 +838,12 @@
     <name>$PROJ_DIR$\CurrentTrack.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\fmradio.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\lyric.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>

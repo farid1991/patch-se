@@ -42,6 +42,9 @@
 #define FONT_E_20R 0x24
 #define FONT_ICON_16BIT_V2 0x38
 
+#define Lyric_AFont FONT_E_16B
+#define Lyric_Font FONT_E_16R
+
 #define FONT_TIME FONT_D_29B
 #define FONT_DATE FONT_E_20R
 #define FONT_DAY FONT_E_20R
