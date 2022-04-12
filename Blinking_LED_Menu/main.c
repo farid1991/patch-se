@@ -21,7 +21,7 @@
 
 __thumb void *malloc(int size)
 {
-  return (memalloc(0xFFFFFFFF, size, 1, 5, "oled", 0));
+  return (memalloc(MINUS_ONE, size, 1, 5, "oled", 0));
 }
 
 __thumb void mfree(void *mem)
@@ -84,13 +84,13 @@ void SaveData(BOOK *book)
   }
 }
 
-void BeginTimer(u16 timerID, void *param)
+void BeginTimer(u16 timerID, LPARAM param)
 {
   BATT_DATA *Data = Get_BATT_DATA();
   if (Battery_GetChargingState())
   {
     Illumination_LedID_SetLevel(Data->LED_ID, 100);
-    Timer_ReSet(&Data->timerID, Data->OnTime, MKTIMERPROC(onTimer), 0);
+    Timer_ReSet(&Data->timerID, Data->OnTime, onTimer, param);
   }
   else
   {
@@ -99,11 +99,11 @@ void BeginTimer(u16 timerID, void *param)
   }
 }
 
-void onTimer(u16 unk, void *param)
+void onTimer(u16 timerID, LPARAM param)
 {
   BATT_DATA *Data = Get_BATT_DATA();
   Illumination_LedID_Off(Data->LED_ID);
-  Timer_ReSet(&Data->timerID, Data->OffTime, MKTIMERPROC(BeginTimer), 0);
+  Timer_ReSet(&Data->timerID, Data->OffTime, BeginTimer, param);
 }
 
 extern "C" void Start_LED()
@@ -185,7 +185,7 @@ TEXTID Get_TitleText(BOOK *book)
 void CreateTimeInput(BOOK *book)
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
-  if(oledBook->StringInput=CreateStringInput(oledBook))
+  if (oledBook->StringInput = CreateStringInput(oledBook))
   {
     StringInput_SetMode(oledBook->StringInput, IT_INTEGER);
     StringInput_SetMinLen(oledBook->StringInput, 1);
@@ -230,12 +230,12 @@ void SetEnabled(BOOK *book)
   if (oledBook->state)
   {
     oledBook->state = FALSE;
-    ListMenu_SetItemSecondLineText(oledBook->MainMenu, 0, DISABLED_TXT);
+    ListMenu_SetItemSecondLineText(oledBook->MainMenu, ITEM_1, DISABLED_TXT);
   }
   else
   {
     oledBook->state = TRUE;
-    ListMenu_SetItemSecondLineText(oledBook->MainMenu, 0, ENABLED_TXT);
+    ListMenu_SetItemSecondLineText(oledBook->MainMenu, ITEM_1, ENABLED_TXT);
   }
 }
 
@@ -343,19 +343,19 @@ const PAGE_DESC BlinkingOled_Main_Page = {"BlinkingOrangeLED_Main_Page", 0, bk_m
 void BlinkingOled_onBookDestroy(BOOK *book)
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
-  FREE_GUI(oledBook->MainMenu);
-  FREE_GUI(oledBook->StringInput);
   oledBook->state = 0;
   oledBook->OnTime = 0;
   oledBook->OffTime = 0;
   oledBook->LED_ID = 0;
+  FREE_GUI(oledBook->MainMenu);
+  FREE_GUI(oledBook->StringInput);
 }
 
 extern "C" __thumb void CreateOLED_Menu()
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)malloc(sizeof(BlinkingOledBook));
   memset(oledBook, NULL, sizeof(BlinkingOledBook));
-  if (!CreateBook(oledBook, BlinkingOled_onBookDestroy, &BlinkingOled_Base_Page, "BlinkingOled_Book", -1, 0))
+  if (!CreateBook(oledBook, BlinkingOled_onBookDestroy, &BlinkingOled_Base_Page, "BlinkingOled_Book", NO_BOOK_ID, NULL))
   {
     mfree(oledBook);
   }

@@ -4,6 +4,8 @@
 #define EMP_NAME "BATT_EMP"
 #define DYNMENU_ID L"OLEDEditor_Id"
 
+#define MINUS_ONE 0xFFFFFFFF
+
 enum ITEMID
 {
   ITEM_1,
@@ -48,7 +50,6 @@ typedef struct _BlinkingOledBook : BOOK
   uint8_t LED_ID;
 } BlinkingOledBook;
 
-void onTimer(u16 timerID, void *param);
-void BeginTimer(u16 timerID, void *param);
+void onTimer(u16 timerID, LPARAM param);
 
 #endif
