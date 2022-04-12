@@ -177,8 +177,8 @@ a       EQU     b
         defadr GetFreeBytesOnHeap,0x4BA30F54
         defadr REQUEST_SYSTEM_SHUTDOWN,0x10483E60+1
         defadr REQUEST_SYSTEM_RESTART,0x10483E80+1
-        defadr FlightGetState,0x14153F2C+1
-        defadr FlightControl,0x14D755AC+1
+        defadr FlightMode_GetState,0x14153F2C+1
+        defadr FlightMode_SetState,0x14D755AC+1
 
         EXTERN GetFocusTab
         EXTERN CreateBookAndElfsLists

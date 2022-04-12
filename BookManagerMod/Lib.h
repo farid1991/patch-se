@@ -682,8 +682,8 @@ extern "C"
 
   TEXTID TextID_CreateImageID(IMAGEID);
   int GetChargingState();
-  int FlightGetState(void);
-  int FlightControl(int status);
+  int FlightMode_GetState(void);
+  int FlightMode_SetState(int status);
   int NewEvents_GetCount(void);
   int ConnectionManager_Connection_GetState_int(char *buf);
   void GUIObject_SoftKeys_SetItemOnKey(GUI *, u16 actionID, int key, int mode);

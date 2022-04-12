@@ -630,8 +630,8 @@ a       EQU     b
         defadr DisplayGC_AddRef,0x116A45C8+1
         
 	defadr Bluetooth_Control,0x10EF6DDC+1
-        defadr FlightControl,0x1160E8CC+1
-        defadr FlightGetState,0x1160E2A0+1
+        defadr FlightMode_SetState,0x1160E8CC+1
+        defadr FlightMode_GetState,0x1160E2A0+1
         defadr NewEvents_GetCount,0x116D60E4+1
         defadr SetOperatorName,0x10F4C388+1
         defadr GetOperatorName,0x10F4B180+1
@@ -741,8 +741,6 @@ _onCreate:
 	MOV	R1, #9
 	ldr	r3, =GUIObject_SetStyle
         blx	r3
-        ldr	r1, [r4,#0x28]
-        mov	r0, r4
         bl	CreateBookAndElfsLists
         ldr	r1, =0x116D026C+1
         ldr	r0, [r4,#0x28]
@@ -760,7 +758,7 @@ _onClose:
 _Internet:
         mov	r1, r5
         mov	r0, r4
-        bl	CreateJavaMenu
+        bl	CreateShortcutMenu
         pop	{r4-r6,pc}
 
 _Shortcurts:

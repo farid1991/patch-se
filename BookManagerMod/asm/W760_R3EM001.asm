@@ -12,7 +12,7 @@ a       EQU b
         defadr set_envp,0x10005C4C+1
         defadr get_envp,0x10005C38+1
         defadr ConnectionManager_Connection_GetState_int,0x10CBFFBC+1
-        defadr iconidname2id,0x117A42A4+1
+        defadr iconidname2id,0x115BABB0+1
         defadr BookObj_GetSession,0x10E8A278+1
         defadr TextID_GetString,0x10FFC64C+1
         defadr strncmp,0x107989A0+1
@@ -20,7 +20,7 @@ a       EQU b
         defadr strcmp,0x10798908+1
         defadr fstat,0x109F61A4+1
         defadr _fopen,0x109F5840+1
-        defadr fread,0x109F5840+1
+        defadr fread,0x109F71D4+1
         defadr fclose,0x117A443C+1
         defadr TabMenuBar_GetFocusedTab,0x1180E95C+1
         defadr ListMenu_GetSelectedItem,0x11B107D0+1
@@ -68,10 +68,10 @@ a       EQU b
         defadr REQUEST_SYSTEM_SHUTDOWN,0x11596430+1
         defadr REQUEST_SYSTEM_RESTART,0x11596450+1
         defadr Shortcut_Run,0x10E76124+1
-        defadr FlightGetState,0x11AEC68C+1
-        defadr FlightControl,0x11AECEA0+1
+        defadr FlightMode_GetState,0x11AEC68C+1
+        defadr FlightMode_SetState,0x11AECEA0+1
         defadr Request_ICA_ShutdownAllConnections,0x115373AC+1
-        defadr Display_GetBrightness,0x10E5AABC+1
+        defadr Display_GetBrightness,0x10E5AA44+1
         defadr List_DestroyElements,0x11B56FA4+1
         defadr List_Destroy,0x11B56CB8+1
         defadr List_Create,0x11B56C90+1

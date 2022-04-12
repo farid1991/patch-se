@@ -126,8 +126,8 @@ a       EQU b
         defadr REQUEST_SYSTEM_SHUTDOWN,0x114FF020+1
         defadr REQUEST_SYSTEM_RESTART,0x114FF040+1
         defadr Shortcut_Run,0x10DDBF08+1
-        defadr FlightGetState,0x11A68ED0+1
-        defadr FlightControl,0x11A696E4+1
+        defadr FlightMode_GetState,0x11A68ED0+1
+        defadr FlightMode_SetState,0x11A696E4+1
         defadr Request_ICA_ShutdownAllConnections,0x114A1408+1
         defadr Display_GetBrightness,0x10DC06B8+1
         defadr NewEvents_GetCount,0x10B37018+1

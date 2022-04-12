@@ -642,10 +642,10 @@ void ShortcutMenu_onEnterPressed(BOOK *book, GUI *gui)
   }
   else if (item == 3)
   {
-    if (FlightGetState())
-      FlightControl(FALSE);
+    if (FlightMode_GetState())
+      FlightMode_SetState(FALSE);
     else
-      FlightControl(TRUE);
+      FlightMode_SetState(TRUE);
   }
   else if (item == 4)
   {
@@ -675,7 +675,7 @@ int ShortcutMenu_onMessage(GUI_MESSAGE *msg)
   }
   else if (item == 3)
   {
-    if (!FlightGetState())
+    if (!FlightMode_GetState())
     {
       if (dll_ConnectionManager_Connection_GetState())
       {
