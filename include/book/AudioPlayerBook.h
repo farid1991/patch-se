@@ -74,7 +74,7 @@ typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
   int elapsed_time;       // 0x140
   char dummy_144;         // 0x144
   bool Random;            // 0x145
-  char Repeat;            // 0x146
+  bool Repeat;            // 0x146
   char dummy_147;         // 0x147
   char EqPreset;          // 0x148
   char dummy_149;         // 0x149
@@ -261,9 +261,12 @@ typedef struct AudioPlayerBook : BOOK
   char unk_0x1A;               // 0x1A
   char unk_0x1B;               // 0x1B
   GUI *Gui_NowPlaying;         // 0x1C
-  GUI *Gui_PlayQueue;          // 0x20
-  GUI *Gui_submenu;            // 0x24
-  char dummy0[0x34];           // 0x28
+  GUI *Gui_SubMenu;            // 0x20
+  GUI *unk;                    // 0x24
+  int dummy28;                 // 0x28
+  int dummy2C;                 // 0x2C
+  int sample_rate;             // 0x30
+  char dummy34[0x28];          // 0x34
   wchar_t pos;                 // 0x5C
   char dummy1[0xE];            // 0x5E
   int ElapsedTime;             // 0x6C
@@ -274,7 +277,52 @@ typedef struct AudioPlayerBook : BOOK
   wchar_t pos3;                // 0x7C
   char dummy4[0x16];           // 0x7E
   int total_tracks;            // 0x94
+  bool Loop;                   // 0x95
+  bool Random;                 // 0x96
 } AudioPlayerBook;
+#endif
+
+#ifdef DB2020
+typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
+{
+  IMAGEID MP_BACKGROUND;     // 0xB4
+  IMAGEID IMG_B6;            // 0xB6
+  IMAGEID MP_MODE_NORMAL;    // 0xB8
+  IMAGEID MP_MODE_RANDOM;    // 0xBA
+  IMAGEID MP_MODE_REPEAT;    // 0xBC
+  IMAGEID MP_EQ_NORMAL_1;    // 0xBE
+  IMAGEID IMG_C0;            // 0xC0
+  IMAGEID MP_EQ_MANUAL;      // 0xC2
+  IMAGEID MP_EQ_NORMAL_2;    // 0xC4
+  IMAGEID MP_EQ_BASS;        // 0xC6
+  IMAGEID MP_EQ_MEGABASS;    // 0xC8
+  IMAGEID MP_EQ_VOICE;       // 0xCA
+  IMAGEID MP_EQ_TREBLEBOOST; // 0xCC
+  char dummy_CC[0x18];       // 0xCE
+  IMAGEID MP_PB_PLAY1_ICN;   // 0xE6
+  IMAGEID IMG_E2;            // 0xE8
+  IMAGEID MP_PB_STOP_ICN;    // 0xEA
+  IMAGEID MP_PB_PAUSE_ICN;   // 0xEC
+  IMAGEID IMG_E8;            // 0xEE
+  IMAGEID IMG_EA;            // 0xF0
+  IMAGEID MP_PB_PLAY2_ICN;   // 0xF2
+  char dummy_100[0x3C];      // 0xF4
+  TEXTID Text_Artis;         // 0x130
+  TEXTID Text_Title;         // 0x134
+  TEXTID Text_Album;         // 0x138
+  int full_time;             // 0x13C
+  int total_tracks;          // 0x140
+  int current_track_id;      // 0x144
+  int elapsed_time;          // 0x148
+  char dummy_14C;            // 0x14C
+  bool Random;               // 0x14D
+  bool Repeat;               // 0x14E
+  char dummy_14F;            // 0x14F
+  char dummy_150;            // 0x150
+  char EqPreset;             // 0x151
+  char dummy_152;            // 0x152
+  char dummy_153;            // 0x153
+} DISP_OBJ_NOWPLAYING;
 #endif
 
 #endif

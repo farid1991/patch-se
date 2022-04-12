@@ -50,8 +50,8 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
         // Delete
         pos = wstrwstr(pos_uni_pair, L"\r\n") + sizeof("\r\n") - sizeof("");
 
-        fwrite(file, bookman->booknames_buf, (pos_uni_pair - bookman->booknames_buf) * sizeof(wchar_t));   //пишем начало файла
-        fwrite(file, pos, bookman->booknames_buf_size - (pos - bookman->booknames_buf) * sizeof(wchar_t)); //пишем остаток файла
+        fwrite(file, bookman->booknames_buf, (pos_uni_pair - bookman->booknames_buf) * sizeof(wchar_t));   //write the beginning of the file
+        fwrite(file, pos, bookman->booknames_buf_size - (pos - bookman->booknames_buf) * sizeof(wchar_t)); //write the rest of the file
         fclose(file);
       }
     }
@@ -66,11 +66,11 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
         {
           // ReWrite
           pos = pos_uni_pair + wstrlen(orig_name) + sizeof(": ") - sizeof("");
-          int len_minus = wstrlen(cur_name); //длина старого названия
+          int len_minus = wstrlen(cur_name); //length of the old name
 
-          fwrite(file, bookman->booknames_buf, (pos - bookman->booknames_buf) * sizeof(wchar_t));                                      //пишем начало файла
-          fwrite(file, new_name, new_name_len * sizeof(wchar_t));                                                                      //пишем новое название
-          fwrite(file, pos + len_minus, bookman->booknames_buf_size - ((pos - bookman->booknames_buf) + len_minus) * sizeof(wchar_t)); //пишем остаток файла
+          fwrite(file, bookman->booknames_buf, (pos - bookman->booknames_buf) * sizeof(wchar_t));                                      //write the beginning of the file
+          fwrite(file, new_name, new_name_len * sizeof(wchar_t));                                                                      //write a new name
+          fwrite(file, pos + len_minus, bookman->booknames_buf_size - ((pos - bookman->booknames_buf) + len_minus) * sizeof(wchar_t)); //write the rest of the file
           fclose(file);
         }
       }
@@ -79,7 +79,7 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
         if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
         {
           // Append
-          fwrite(file, bookman->booknames_buf, bookman->booknames_buf_size); //пишем старый файл
+          fwrite(file, bookman->booknames_buf, bookman->booknames_buf_size); //write old file
           fwrite(file, orig_name, wstrlen(orig_name) * sizeof(wchar_t));
           fwrite(file, L": ", (sizeof(L": ") - sizeof(wchar_t)));
           fwrite(file, new_name, wstrlen(new_name) * sizeof(wchar_t));

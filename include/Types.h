@@ -278,8 +278,10 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
-#ifdef DB2010
+#if defined (DB2010)
 	char dummy[0xB8];
+#elif defined(DB2020)
+	char dummy[0xB4];
 #else
 	char dummy[0x16C];
 #endif
