@@ -129,7 +129,7 @@ a       EQU b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x10FCBCC0+1
 
         defadr Shortcut_Get_MenuItemIconID,0x1165A720+1
-        defadr MenuBook_Desktop_GetSelectedItemID,0x1165A720+1
+        defadr MenuBook_Desktop_GetSelectedItemID,0x11659B84+1
         defadr Shortcut_Get_MenuItemName,0x116659B0+1
         defadr Shortcut_Run,0x1165AC10+1
         defadr MenuBook_Desktop,0x1165A530+1
