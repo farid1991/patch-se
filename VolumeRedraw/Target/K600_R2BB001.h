@@ -1,0 +1,12 @@
+#ifndef K600_R2BB001
+#define K600_R2BB001
+
+#define A1
+#define DB2000
+
+#define OTHER_PATH 0x20EDE6E4
+#define DEFAULT_PATH 0x21161C44
+#define ONGOINGCALLBOOK 0x20F040BD
+#define MOCALLBOOK 0x214198CC
+
+#endif

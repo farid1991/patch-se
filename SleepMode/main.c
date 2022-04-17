@@ -2,7 +2,6 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\include\book\ScreenSaverBook.h"
 
 #include "main.h"
 #include "Lib.h"
@@ -48,8 +47,8 @@ u16 *createTimerID()
 void onTimer(u16 timerID, LPARAM disp_obj)
 {
   u16 *pTimerID = getTimerID();
-  Timer_ReSet(pTimerID, 1000, onTimer, disp_obj);
   DispObject_InvalidateRect((DISP_OBJ *)disp_obj, NULL);
+  Timer_ReSet(pTimerID, 1000, onTimer, disp_obj);
 }
 
 extern "C" void SetRefreshTimer(DISP_OBJ *disp_obj)

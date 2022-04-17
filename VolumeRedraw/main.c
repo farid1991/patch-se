@@ -61,6 +61,16 @@ void Delete_Volume_Function()
   }
 }
 
+#if defined(DB2000)
+int FSX_IsFileExists(wchar_t *path, wchar_t *name)
+{
+  FSTAT _fstat;
+  if (fstat(path, name, &_fstat) == 0)
+    return TRUE;
+  return FALSE;
+}
+#endif
+
 int IsOngoingCallBook(BOOK *book)
 {
   if (!strcmp(book->xbook->name, (char *)ONGOINGCALLBOOK))
@@ -322,8 +332,8 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
 #endif
 }
 
-#ifdef DB2010
-BOOK* MainDisplay_GetTopBook()
+#if defined(DB2000) || defined(DB2010)
+BOOK *MainDisplay_GetTopBook()
 {
   return Display_GetTopBook(UIDisplay_Main);
 }
