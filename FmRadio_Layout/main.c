@@ -70,24 +70,24 @@ void LoadImage(FmRadio_Data *Data)
 {
   const wchar_t *ImageName[LAST_ICN] =
       {
-          L"BACKGROUND_ICN.png",           //0
-          L"RDS_ACTIVE_ICN.png",           //1
-          L"RDS_INACTIVE_ICN.png",         //2
-          L"AF_ON_ICN.png",                //3
-          L"AF_OFF_ICN.png",               //4
-          L"MONO_ICN.png",                 //5
-          L"STEREO_ICN.png",               //6
-          L"FREQUENCY_INDICATOR_ICN.png",  //7
-          L"ARROW_LEFT_IDLE_ICN.png",      //8
-          L"ARROW_LEFT_MANUAL_ICN.png",    //9
-          L"ARROW_LEFT_AUTOSEEK_ICN.png",  //10
-          L"ARROW_RIGHT_IDLE_ICN.png",     //11
-          L"ARROW_RIGHT_MANUAL_ICN.png",   //12
-          L"ARROW_RIGHT_AUTOSEEK_ICN.png", //13
-          L"ARROW_UP_IDLE_ICN.png",        //14
-          L"ARROW_UP_ACTIVE_ICN.png",      //15
-          L"ARROW_DOWN_IDLE_ICN.png",      //16
-          L"ARROW_DOWN_ACTIVE_ICN.png",    //17
+          L"BACKGROUND_ICN.png",           // 0
+          L"RDS_ACTIVE_ICN.png",           // 1
+          L"RDS_INACTIVE_ICN.png",         // 2
+          L"AF_ON_ICN.png",                // 3
+          L"AF_OFF_ICN.png",               // 4
+          L"MONO_ICN.png",                 // 5
+          L"STEREO_ICN.png",               // 6
+          L"FREQUENCY_INDICATOR_ICN.png",  // 7
+          L"ARROW_LEFT_IDLE_ICN.png",      // 8
+          L"ARROW_LEFT_MANUAL_ICN.png",    // 9
+          L"ARROW_LEFT_AUTOSEEK_ICN.png",  // 10
+          L"ARROW_RIGHT_IDLE_ICN.png",     // 11
+          L"ARROW_RIGHT_MANUAL_ICN.png",   // 12
+          L"ARROW_RIGHT_AUTOSEEK_ICN.png", // 13
+          L"ARROW_UP_IDLE_ICN.png",        // 14
+          L"ARROW_UP_ACTIVE_ICN.png",      // 15
+          L"ARROW_DOWN_IDLE_ICN.png",      // 16
+          L"ARROW_DOWN_ACTIVE_ICN.png",    // 17
       };
 
   int i;
@@ -337,8 +337,8 @@ extern "C" void New_FmRadio_Gui_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect,
     if (data->text)
     {
 #if defined(DB3200) || defined(DB3210)
-      int font_size = (data->cur_pos + 1) * font_step + (data->style_bold << 8) + (data->style_italic << 9); //data->temp.font&0xFF;
-      int style = font_size >> 8;                                                                            //data->temp.font>>8;
+      int font_size = (data->cur_pos + 1) * font_step + (data->style_bold << 8) + (data->style_italic << 9);
+      int style = font_size >> 8;
       if (style == 0)
       {
         snwprintf(data->buf,
@@ -620,10 +620,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
 #ifdef DB2010
 extern "C" void New_FmRadio_Gui_OnConfig(DISP_OBJ *disp_obj)
 {
-  if (disp_obj)
-    DispObject_SetTitleType(disp_obj, UI_TitleMode_None);
-  else
-    DispObject_SetTitleType(NULL, UI_TitleMode_None);
+  DispObject_SetTitleType(disp_obj ? disp_obj : NULL, UI_TitleMode_None);
 }
 #endif
 

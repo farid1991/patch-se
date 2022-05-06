@@ -133,9 +133,9 @@ int Text_OnMessage(GUI_MESSAGE *msg)
       else if (item == 4)
       {
         first_text = TextID_Global(ID_VISUAL);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-        int font_size = (data->cur_pos + 1) * font_step + (data->style_bold << 8) + (data->style_italic << 9); //data->temp.font&0xFF;
-        int style = font_size >> 8;                                                                            //data->temp.font>>8;
+#if defined(DB3200) || defined(DB3210)
+        int font_size = data->temp.font & 0xFF;
+        int style = data->temp.font >> 8;
         if (style == 0)
         {
           snwprintf(data->buf,
@@ -599,8 +599,6 @@ int pg_FmRadio_Settings_EnterAction(void *data, BOOK *book)
   return 1;
 }
 
-//******************************************************************************
-
 int pg_FmRadio_Settings_CancelAction(void *data, BOOK *book)
 {
   FreeBook(book);
@@ -627,11 +625,11 @@ void SettingBook_onClose(BOOK *book)
   FREE_GUI(FMSettings_Book->sub_menu);
 }
 
-void FmRadio_LayoutSetting(BOOK *book, GUI *gui)
+void Create_FMSettings_Book()
 {
   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)malloc(sizeof(SETTING_BOOK));
   memset(FMSettings_Book, NULL, sizeof(SETTING_BOOK));
-  if (CreateBook(FMSettings_Book, SettingBook_onClose, &FmRadio_Settings_Base_Page, "FmRadio_LayoutSettingBook", -1, NULL))
+  if (CreateBook(FMSettings_Book, SettingBook_onClose, &FmRadio_Settings_Base_Page, "FmRadio_LayoutSettingBook", NO_BOOK_ID, NULL))
   {
     BookObj_GotoPage(FMSettings_Book, &FmRadio_Settings_Main_Page);
   }
@@ -639,6 +637,11 @@ void FmRadio_LayoutSetting(BOOK *book, GUI *gui)
   {
     mfree(FMSettings_Book);
   }
+}
+
+void FmRadio_LayoutSetting(BOOK *book, GUI *gui)
+{
+  Create_FMSettings_Book();
 }
 
 extern "C" void FmRadio_NewSoftKeys(GUI *gui)

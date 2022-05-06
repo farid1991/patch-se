@@ -6,7 +6,7 @@
 #include "Lib.h"
 #include "dll.h"
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 // SetFont ----------------------------------------------------
 void Get_IUIFontManager(IFontManager **ppIFontManager)
 {
@@ -23,23 +23,9 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
   Get_IUIFontManager(&pFontManager);
   pFontManager->GetFontFactory(&pFontFactory);
 
-  TUIEmphasisStyle fontstyle;
-  switch (font_style)
-  {
-  case 1:
-    fontstyle = UI_Emphasis_Bold;
-    break;
-  case 2:
-    fontstyle = UI_Emphasis_Italic;
-    break;
-  case 3:
-    fontstyle = UI_Emphasis_BoldItalic;
-    break;
-  default:
-    fontstyle = UI_Emphasis_Normal;
-    break;
-  }
-  pFontData.emphasis = fontstyle;
+  pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
+  pFontData.size = (float)font_size;
+  pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
   if (pFontManager)
@@ -55,7 +41,7 @@ void Get_ITextRenderingManager(ITextRenderingManager **ppITextRenderingManager)
   CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(ppITextRenderingManager));
 }
 
-void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
+void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
   TUIRectangle rect;
   int lineWidth = x2 - x1;
@@ -67,9 +53,9 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   IUnknown *pGC = NULL;
   IFont *pFont = NULL;
 
-  int fontsize_wo_style = (font_size & 0xFF);
-  int font_style = font_size >> 8;
-  dll_SetFont(fontsize_wo_style, font_style, &pFont);
+  int font_size = font & 0xFF;
+  int font_style = font >> 8;
+  dll_SetFont(font_size, font_style, &pFont);
 
   Get_ITextRenderingManager(&pTextRenderingManager);
 
