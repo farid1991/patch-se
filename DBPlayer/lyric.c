@@ -168,7 +168,9 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   BOOL is_supported;
   FREE(disp_obj->lrcbuf);
 
-  switch (get_encoding_type(f_buffer))
+  int encoding = get_encoding_type(f_buffer);
+
+  switch (encoding)
   {
   case UTF8:
     buff_size = strlen(f_buffer) + 1;

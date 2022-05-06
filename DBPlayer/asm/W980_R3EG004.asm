@@ -119,6 +119,7 @@ a       EQU     b
         defadr ImageID_GetIndirect,0x107A0608+1
         defadr ImageID_Free,0x107A6788+1
         defadr MetaData_GetTags,0x11804760+1
+        defadr strcpy,0x106F6FE0+1
         defadr strlen,0x106F7014+1
         defadr strncpy,0x106F7084+1
         defadr strstr,0x106F7120+1

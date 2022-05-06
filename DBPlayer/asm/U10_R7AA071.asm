@@ -8,13 +8,13 @@ a       EQU     b
         defadr debug_printf,0x4FC00008
         defadr memalloc,0x4FC00394
         defadr memfree,0x4FC003BC
-        defadr memset,0x140E2D1C
-        defadr memcpy,0x1481DA98
+        defadr memset,0x14610C2E+1
+        defadr memcpy,0x14610B4E+1
         defadr get_envp,0x1029A4E4+1
         defadr set_envp,0x1029A4F8+1
         defadr current_process,0x10299D94
         defadr get_bid,0x10299DCC
-	defadr strlen,0x1029B560+1
+	defadr strlen,0x14392AC0+1
 	defadr strncpy,0x140E03DC
 	defadr wstrrchr,0x141B2BC8+1
 	defadr wstrcat,0x1481DB10+1
@@ -138,14 +138,14 @@ a       EQU     b
         EXTERN CreateInfo
         EXTERN Get_MME_DATA
 
+        RSEG    MME_DATA_FIX
+        DATA
+        DCD	Get_MME_DATA
+
         RSEG    CREATE_GUI
         CODE16
         ldr     r3, =create_gui
         bx      r3
-
-        RSEG    MME_DATA_FIX
-        DATA
-        DCD	Get_MME_DATA
 
         RSEG   CODE
         CODE16
@@ -157,11 +157,11 @@ create_gui:
         bl	_wstrncmp
         cmp     r0, #0
         beq     isMID
-        LDR     r0, [SP,#8]     ; BOOK*
+        ldr     r0, [SP,#8]     ; BOOK*
         bl      CreateInfo
         b       ret
 isMID:
-        LDR     R0, [SP,#8]
+        ldr     R0, [SP,#8]
         bl	_KeyGrabber
         str     r0, [r4,#0x14]
         cmp     r0, #0

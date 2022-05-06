@@ -119,8 +119,8 @@ extern "C"
   void DispObject_SetLayerColor(DISP_OBJ *, int color);
   GUI *DispObject_GetGUI(DISP_OBJ *);
 
-  void GUIObject_SetAnimationApp(GUI *, const wchar_t* anim);
-  void DispObject_SetAnimationApp(DISP_OBJ *, const wchar_t* anim);
+  void GUIObject_SetAnimationApp(GUI *, const wchar_t *anim);
+  void DispObject_SetAnimationApp(DISP_OBJ *, const wchar_t *anim);
   void DispObject_SetAnimation(DISP_OBJ *, int style);
 
   void DispObject_SetBacklightMode(DISP_OBJ *, int mode);
