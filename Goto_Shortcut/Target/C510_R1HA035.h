@@ -4,6 +4,10 @@
 #define A2
 #define DB3210
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+#define ELFS_PATH_COUNT 2
+
 // Menu
 #define TITLE_TXT           0xAA2   // L"Goto"
 #define MENU_ADD_TXT        0x193A  // L"New shortcut"

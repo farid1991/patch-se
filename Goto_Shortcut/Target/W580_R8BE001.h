@@ -4,6 +4,10 @@
 #define A1
 #define DB2020
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+#define ELFS_PATH_COUNT 2
+
 // Menu
 #define TITLE_TXT 0x8C2        // L"Goto"
 #define MENU_ADD_TXT 0x93A     // L"New shortcut"

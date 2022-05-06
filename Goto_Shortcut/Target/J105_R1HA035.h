@@ -4,6 +4,10 @@
 #define A2
 #define DB3200
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+#define ELFS_PATH_COUNT 2
+
 #define NIL_EVENT 0
 #define CANCEL_EVENT 0x4
 #define PAGE_ENTER_EVENT 0xF

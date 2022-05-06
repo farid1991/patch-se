@@ -6,7 +6,7 @@
 #include "main.h"
 #include "strlib.h"
 
-#ifndef DB3350 
+#ifndef DB3350
 #ifndef PNX5320
 __arm void StartElf(wchar_t *Name)
 {

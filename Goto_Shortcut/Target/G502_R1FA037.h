@@ -4,6 +4,10 @@
 #define A2
 #define DB3150v1
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+#define ELFS_PATH_COUNT 2
+
 #define _ASYNC_           (int*)0x11A83318
 #define _SYNC_            (int*)0x11A8331C
 

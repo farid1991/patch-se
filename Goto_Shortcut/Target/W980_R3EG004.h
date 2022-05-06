@@ -5,6 +5,9 @@
 #define DB3150v2
 #define CLEARAUDIO
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_PATH_COUNT 1
+
 #define F_PATH (wchar_t *)0x11DB26F8
 
 #define ACTION_BACK 0xFC0

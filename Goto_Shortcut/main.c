@@ -12,11 +12,11 @@
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(0, size, 1, 5, "sc", 0));
+  return (memalloc(0, size, 1, 5, BOOKNAME, 0));
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, "sc", 0));
+  return (memalloc(0xFFFFFFFF, size, 1, 5, BOOKNAME, 0));
 #else
-  return (memalloc(size, 1, 5, "sc", 0));
+  return (memalloc(size, 1, 5, BOOKNAME, 0));
 #endif
 }
 
@@ -24,12 +24,12 @@ __thumb void mfree(void *mem)
 {
 #if defined(DB2020)
   if (mem)
-    memfree(0, mem, "sc", 0);
+    memfree(0, mem, BOOKNAME, 0);
 #elif defined(A2)
   if (mem)
-    memfree(0, mem, "sc", 0);
+    memfree(0, mem, BOOKNAME, 0);
 #else
-  memfree(mem, "sc", 0);
+  memfree(mem, BOOKNAME, 0);
 #endif
 }
 
@@ -106,9 +106,9 @@ void Menu_About(BOOK *book, GUI *gui)
 void Menu_Select(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  SC_LIST_ELEM *sc = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
-  if (sc)
-    RunShortcut(sc);
+  SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
+  if (Shortcut)
+    RunShortcut(Shortcut);
 
   FreeBook(mbk);
 }
@@ -133,7 +133,7 @@ int Menu_onMessage(GUI_MESSAGE *msg)
     SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, index);
 
     GUIonMessage_SetMenuItemText(msg, TextID_Get(Shortcut->ShortcutText));
-    GUIonMessage_SetMenuItemIcon(msg, 0, Shortcut->ShortcutIcon);
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, Shortcut->ShortcutIcon);
     break;
   }
   return 1;
@@ -149,14 +149,14 @@ int pg_Goto_Shortcut_EnterAction(void *data, BOOK *book)
   if (mbk->MainMenu = CreateListMenu(mbk, UIDisplay_Main))
   {
     GUIObject_SetTitleText(mbk->MainMenu, TITLE_TXT);
-
     ListMenu_SetItemCount(mbk->MainMenu, count);
     ListMenu_SetOnMessage(mbk->MainMenu, Menu_onMessage);
     ListMenu_SetCursorToItem(mbk->MainMenu, mbk->CurrentItem);
-    ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
     ListMenu_SetHotkeyMode(mbk->MainMenu, LKHM_SHORTCUT);
+#ifndef DB2000
+    ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
     ListMenu_SetNoItemText(mbk->MainMenu, EMPTY_LIST_TXT);
-
+#endif
     GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 0, Menu_AddItem, MENU_ADD_TXT);
     GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 1, Menu_ModifyItem, MENU_MODIFY_TXT);
     GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 2, Menu_About, MENU_ABOUT_TXT);
@@ -232,15 +232,16 @@ extern "C" void GotoShortcut(BOOK *book, GUI *gui)
   {
     mbk = (GotoShortcut_Book *)malloc(sizeof(GotoShortcut_Book));
     memset(mbk, NULL, sizeof(GotoShortcut_Book));
-    if (CreateBook(mbk, Goto_Shortcut_onClose, &Goto_Shortcut_Base_Page, BOOKNAME, -1, NULL))
+    if (CreateBook(mbk, Goto_Shortcut_onClose, &Goto_Shortcut_Base_Page, BOOKNAME, NO_BOOK_ID, NULL))
     {
-      mbk->CurrentItem = 0;
+      mbk->CurrentItem = NULL;
       mbk->ShortcutList = LoadConfig();
       BookObj_GotoPage(mbk, &Goto_Shortcut_Main_Page);
     }
     else
       mfree(mbk);
-  } else
+  }
+  else
   {
     BookObj_SetFocus(mbk, UIDisplay_Main);
   }

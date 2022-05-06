@@ -32,6 +32,7 @@ void Menu_SetMainMenu(BOOK *MainMenu, GUI *gui)
   void *ShortcutDesc;
 #ifdef A1
   ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
+  ((SHORTCUT_DESC *)ShortcutDesc)->shortcut_state = SC_State_MainMenu;
 #else
   ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
 #endif
@@ -51,6 +52,7 @@ void Menu_SetMainMenu(BOOK *MainMenu, GUI *gui)
 void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
+
   wchar_t *Data = MenuBook_Desktop_GetSelectedItemID(MainMenu);
   WStringRealloc(Data, &mbk->ShortcutItem->ShortcutLink);
   WStringFree(Data);
@@ -60,6 +62,7 @@ void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
   void *ShortcutDesc;
 #ifdef A1
   ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
+  ((SHORTCUT_DESC *)ShortcutDesc)->shortcut_state = SC_State_Activated;
 #else
   ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
 #endif
@@ -90,10 +93,10 @@ int pg_SC_Editor_SelectShortcut_EnterAction(void *data, BOOK *book)
   {
     BookObj_SoftKeys_SetAction(MainMenu, 0, Menu_SetShortcut);
     BookObj_SoftKeys_SetText(MainMenu, 0, SHC_SET_SHORTCUT_SK);
-
+#ifndef DB2000
     BookObj_SoftKeys_SetAction(MainMenu, 1, Menu_SetMainMenu);
     BookObj_SoftKeys_SetText(MainMenu, 1, SHC_SET_MM);
-
+#endif
     return TRUE;
   }
   return FALSE;
@@ -207,15 +210,19 @@ int pg_SC_Editor_SelectElf_EnterAction(void *data, BOOK *book)
   if (DB_Desc)
   {
     const wchar_t *Folders[3];
-    Folders[0] = L"/usb/other/ZBin";
-    Folders[1] = L"/card/other/ZBin";
+    Folders[0] = ELFS_INT_PATH;
+    #ifdef MEMORY_STICK
+    Folders[1] =ELFS_EXT_PATH;
     Folders[2] = NULL;
+    #else
+    Folders[1] = NULL;
+    #endif
     DataBrowserDesc_SetHeaderText(DB_Desc, TextID_Get(L"ELFs"));
     DataBrowserDesc_SetBookID(DB_Desc, BookObj_GetBookID(book));
     DataBrowserDesc_SetFolders(DB_Desc, Folders);
     DataBrowserDesc_SetFileExtList(DB_Desc, L"*.elf");
     DataBrowserDesc_SetItemFilter(DB_Desc, DB_Filter);
-    DataBrowserDesc_SetFoldersNumber(DB_Desc, 2);
+    DataBrowserDesc_SetFoldersNumber(DB_Desc, ELFS_PATH_COUNT);
     DataBrowserDesc_SetSelectAction(DB_Desc, 1);
     DataBrowser_Create(DB_Desc);
     DataBrowserDesc_Destroy(DB_Desc);
@@ -247,13 +254,8 @@ void OnOkEventInput(BOOK *book, wchar_t *string, int len)
 
     int event = wstr2h(string, len);
 
-    // wchar_t *EventName = WStringAlloc(len);
-    // str2wstr(EventName,UIEventName(event));
-
     if (!mbk->ShortcutItem->ShortcutText)
       WStringRealloc(string, &mbk->ShortcutItem->ShortcutText);
-
-    // WStringFree(EventName);
   }
   AcceptShortcut(mbk);
 }
@@ -270,7 +272,7 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->EventInput);
 
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
   TEXTID input_text;
   if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_EVENT))
     input_text = TextID_Get(mbk->ShortcutItem->ShortcutLink);
@@ -364,7 +366,7 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->FolderInput);
 
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
   TEXTID input_text;
   if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_FOLDER))
     input_text = TextID_Get(mbk->ShortcutItem->ShortcutLink);
@@ -383,7 +385,9 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
                                          VAR_ARG_CALL_BACK_OK, SC_Editor_SelectFolder_onEnter,
                                          0);
   GUIObject_SoftKeys_SetActionAndText(mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT);
+#ifndef K600_R2BB001
   StringInput_MenuItem_SetPriority(mbk->FolderInput, 0, 0);
+#endif
 #else
   if (mbk->FolderInput = CreateStringInput(mbk))
   {
@@ -473,7 +477,7 @@ int TypesList_onMessage(GUI_MESSAGE *msg)
   case LISTMSG_GetItem:
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     GUIonMessage_SetMenuItemText(msg, Get_SCTypes_Text(index));
-    GUIonMessage_SetMenuItemIcon(msg, 0, TypesIcons[index]);
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, TypesIcons[index]);
     break;
   }
   return 1;
@@ -526,7 +530,7 @@ int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->CaptionInput);
 
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
   mbk->CaptionInput = CreateStringInputVA(0,
                                           VAR_ARG_BOOK, mbk,
                                           VAR_ARG_STRINP_MODE, IT_STRING,
@@ -547,7 +551,6 @@ int pg_SC_Editor_LabelInput_EnterAction(void *data, BOOK *book)
     StringInput_SetMinLen(mbk->CaptionInput, 1);
     StringInput_SetMaxLen(mbk->CaptionInput, 63);
     StringInput_SetActionOK(mbk->CaptionInput, OnOkCaptionInput);
-    // StringInput_SetActionNo( mbk->CaptionInput, OnBackCaptionInput );
     GUIObject_SoftKeys_SetAction(mbk->CaptionInput, ACTION_BACK, Action_Back);
     GUIObject_Show(mbk->CaptionInput);
   }
@@ -603,7 +606,7 @@ int Editor_onMessage(GUI_MESSAGE *msg)
   case LISTMSG_GetItem:
     GotoShortcut_Book *mbk = (GotoShortcut_Book *)GUIonMessage_GetBook(msg);
     int index = GUIonMessage_GetCreatedItemIndex(msg);
-    GUIonMessage_SetMenuItemIcon(msg, 0, EditorIcons[index]);
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, EditorIcons[index]);
     if (index == 0)
     {
       GUIonMessage_SetMenuItemText(msg, EDITOR_LABEL_TXT);

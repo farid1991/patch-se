@@ -4,6 +4,10 @@
 #define A2
 #define DB3150v1
 
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+#define ELFS_PATH_COUNT 2
+
 #define F_PATH 		  (wchar_t*)0x1192056C
 
 #define ACTION_BACK       0xFC0

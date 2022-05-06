@@ -204,7 +204,7 @@ int OnMessage(GUI_MESSAGE *msg)
     GUIonMessage_SetMenuItemText(msg, str);
 
     if (wstrcmp(flist->name, back))
-      GUIonMessage_SetMenuItemIcon(msg, 0, TypesIcons[TYPE_FOLDER]);
+      GUIonMessage_SetMenuItemIcon(msg, AlignLeft, TypesIcons[TYPE_FOLDER]);
 
     break;
   }
@@ -235,7 +235,7 @@ void Self_onEnterPressed(BOOK *book, GUI *)
     else
     {
       TEXTID str = TextID_Get(flist->fullname);
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
       StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
 #else
       StringInput_SetText(mbk->FolderInput, str);
@@ -258,7 +258,7 @@ void Self_onSelectPressed(BOOK *book, GUI *gui)
     if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SFOLDER) || flist->is_folder == ITEM_FILE)
     {
       TEXTID str = TextID_Get(flist->fullname);
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
       StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
 #else
       StringInput_SetText(mbk->FolderInput, str);

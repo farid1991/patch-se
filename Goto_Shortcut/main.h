@@ -1,7 +1,7 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define BOOKNAME "GotoShortcut_Book"
+static const char* BOOKNAME = "GotoShortcut_Book";
 #define BASE_PAGE_NAME "Goto_Shortcut_Base_Page"
 #define MAIN_PAGE_NAME "Goto_Shortcut_Main_Page"
 
@@ -11,6 +11,7 @@
     GUIObject_Destroy(g); \
     g = NULL;             \
   }
+  
 #define TextID_Get(str) TextID_Create(str, ENC_UCS2, TEXTID_ANY_LEN)
 
 enum Modes
