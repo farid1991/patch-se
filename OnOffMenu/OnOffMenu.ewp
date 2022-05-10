@@ -832,7 +832,19 @@
     </file>
   </group>
   <file>
+    <name>$PROJ_DIR$\bookman.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\book_names.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\quickaccessmenu.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\shortcut.c</name>
   </file>
 </project>
 
