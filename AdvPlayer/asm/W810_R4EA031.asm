@@ -59,6 +59,9 @@ a       equ b
         defadr BookObj_CallPage,0x4529F5DC+1
         defadr BookObj_GetBookID,0x4529FD0C+1
 
+        defadr Display_GetHeight,0x45547974+1
+        defadr Display_GetWidth,0x45547984+1
+
         defadr GetImageHeight,0x45307FC0+1
         defadr GetImageWidth,0x45307FD8+1
         defadr get_DisplayGC,0x45191A98+1
@@ -133,6 +136,10 @@ a       equ b
         defadr MediaPlayer_NowPlaying_OnClose,0x45256E90+1
         defadr MediaPlayer_NowPlaying_OnRedraw,0x45256EC4+1
 
+        defadr pg_MediaPlayer_Audio_Bk_PrevEvent,0x45432C84+1
+        defadr pg_MediaPlayer_Audio_Bk_CancelEvent,0x45432CB4+1
+        defadr pg_MediaPlayer_Audio_Bk_ExitEvent,0x45432C70+1
+
         defadr pg_MEDIAPLAYER_AUDIO_PLAYING_TIME,0x45432FB0+1
         defadr pg_MEDIAPLAYER_NEW_TRACK_EVENT,0x45433008+1
         defadr pg_MEDIAPLAYER_CREATED_EVENT,0x45434224+1
@@ -184,6 +191,10 @@ a       equ b
         RSEG    PATCH_MediaPlayer_Audio_OnCreate
         DATA
         DCD     New_MediaPlayer_Audio_OnCreate
+
+        RSEG    PATCH_MediaPlayer_Audio_OnClose
+        DATA
+        DCD     New_MediaPlayer_Audio_OnClose
 
         RSEG    PATCH_MediaPlayer_NowPlaying_OnCreate
         DATA

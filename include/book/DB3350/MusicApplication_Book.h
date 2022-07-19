@@ -1,16 +1,11 @@
 #ifndef _MUSICAPPLICATION_BOOK_H_
 #define _MUSICAPPLICATION_BOOK_H_
 
-typedef struct
-{
-  uint32_t hours;
-  uint32_t minutes;
-  uint32_t seconds;
-} TMusicServer_Time;
+#include "..\..\classes\IMusicServer.h"
 
 typedef struct _MusicApplication_Book : BOOK
 {
-  void *pMusicServer;          // 0x18
+  IMusicServer *pMusicServer;  // 0x18
   uint32_t subscriptionHandle; // 0x1C
   GUI *Gui_NowPlaying;         // 0x20
   uint32_t unk_0x24;           // 0x24
@@ -55,18 +50,11 @@ typedef struct _MusicApplication_Book : BOOK
   uint32_t unk_0x80;           // 0x80
   uint32_t unk_0x84;           // 0x84
   uint32_t unk_0x88;           // 0x88
+#ifdef CLEARAUDIO
   uint32_t unk_0x8C;           // 0x8C
-  void *unk_0x90;              // 0x90
-  uint8_t Callpage;            // 0x94 Callpage?
-  uint8_t unk_0x95;            // 0x95
-  uint8_t unk_0x96;            // 0x96
-  uint8_t unk_0x97;            // 0x97
-  void *unk_0x98;              // 0x98
-  void *unk_0x9C;              // 0x9C
-  void *unk_0xA0;              // 0xA0
-  uint32_t unk_0xA4;           // 0xA4
-  uint32_t unk_0xA8;           // 0xA8
-  uint32_t unk_0xAC;           // 0xAC
+  uint32_t unk_0x90;           // 0x90
+#endif
+  uint8_t Callpage;            // 0x8C & 0x94 Callpage?
 } MusicApplication_Book;
 
 #endif

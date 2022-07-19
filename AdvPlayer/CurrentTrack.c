@@ -1,7 +1,6 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\Color.h"
 #include "..\include\book\AudioPlayerBook.h"
 
 #include "Lib.h"
@@ -14,23 +13,17 @@ void TrackDesc_Free(TRACK_DESC *track_desc)
 {
   if (track_desc)
   {
-    if (track_desc->path)
-    {
-      WStringFree(track_desc->path);
-    }
-    if (track_desc->name)
-    {
-      WStringFree(track_desc->name);
-    }
+    WStringFree(track_desc->path);
+    WStringFree(track_desc->name);
     mfree(track_desc);
   }
 }
 
-bool TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2)
+BOOL TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2)
 {
   if (t1 && t2)
   {
-    if (wstrcmp(t1->path, t2->path) == 0 && wstrcmp(t1->name, t2->name) == 0)
+    if (!wstrcmp(t1->path, t2->path) && !wstrcmp(t1->name, t2->name))
     {
       return TRUE;
     }

@@ -6,19 +6,23 @@
 enum MP_NOWPLAYING_IMAGE
 {
   BACKGROUND_ICN,
+  MP_NOCOVER_ICN,
+  MP_REFLECT_ICN,
+  MP_OVERLAY_ICN,
   MP_ARTIST_ICN,
   MP_TITLE_ICN,
   MP_ALBUM_ICN,
-  MP_NOCOVER_ICN,
   MP_PLAY_ICN,
   MP_PAUSE_ICN,
   MP_NEXT_ICN,
-  MP_PREVIOUS_ICN,
+  MP_PREV_ICN,
+  MP_FF_ICN,
+  MP_RW_ICN,
   MP_MODE_RANDOM_ICN,
   MP_MODE_REPEAT_ICN,
   MP_EQ_BASS_ICN,
-  MP_EQ_MANUAL_ICN,
   MP_EQ_MEGABASS_ICN,
+  MP_EQ_MANUAL_ICN,
   MP_EQ_NORMAL_ICN,
   MP_EQ_TREBLEBOOST_ICN,
   MP_EQ_VOICE_ICN,
@@ -45,6 +49,10 @@ typedef struct _SKIN_DATA
   int bg_enable;
   int bg_x;
   int bg_y;
+
+  int overlay_enable;
+  int overlay_x;
+  int overlay_y;
 
   int text_artist_enable;
   int text_artist_font;
@@ -133,9 +141,9 @@ typedef struct _SKIN_DATA
   int coverart_w;
   int coverart_h;
 
-  int icon_playpause_enable;
-  int icon_playpause_x;
-  int icon_playpause_y;
+  int icon_playerstate_enable;
+  int icon_playerstate_x;
+  int icon_playerstate_y;
 
   int icon_next_enable;
   int icon_next_x;
@@ -185,6 +193,7 @@ typedef struct _ADVPLAYER_DATA
   DISP_OBJ_NOWPLAYING *MediaPlayer_NowPlaying;
   SKIN_DATA *Skin;
   FILELIST *fltop;
+
   bool IsPlaying;
   char PlayerState;
   double SampleRate;
@@ -195,22 +204,26 @@ typedef struct _ADVPLAYER_DATA
 
   IMAGEID CoverArt;
   bool HasCover;
-  // int CoverSize;
+  int CoverSize;
 
   IMG skin_image[MP_LAST_IMG];
   wchar_t buffer[64];
   wchar_t SkinPath[256];
+
+  bool firstStart;
 } ADVPLAYER_DATA;
 
 ADVPLAYER_DATA *InitData();
 ADVPLAYER_DATA *GetData();
-void FreeData();
+void FreeData(ADVPLAYER_DATA *);
 
-void SetCurrentSkinPath(wchar_t *walkman_skin);
-wchar_t *GetCurrentSkinPath();
+void SaveCurrentSkinPath(wchar_t *walkman_skin);
+wchar_t *LoadCurrentSkinPath();
 void ReadConfig(SKIN_DATA *Skin, wchar_t *skin_path);
-void ReloadSkinData(wchar_t *new_skin);
+void ReloadSkinData(ADVPLAYER_DATA *data, wchar_t *new_skin_path);
+void Free_SkinData(SKIN_DATA *Skin);
 
+void GetCoverArt(ADVPLAYER_DATA *);
 void GetMediaPlayerState(BOOK *book);
 
 #endif

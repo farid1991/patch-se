@@ -12,9 +12,9 @@
 
 void Free_FLIST(void)
 {
-  ADVPLAYER_DATA *fdata = GetData();
-  FILELIST *flist = (FILELIST *)fdata->fltop;
-  fdata->fltop = NULL;
+  ADVPLAYER_DATA *data = GetData();
+  FILELIST *flist = (FILELIST *)data->fltop;
+  data->fltop = NULL;
 
   while (flist)
   {
@@ -28,7 +28,7 @@ void Free_FLIST(void)
 
 FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, bool is_folder)
 {
-  ADVPLAYER_DATA *fdata = GetData();
+  ADVPLAYER_DATA *data = GetData();
 
   FILELIST *flist;
   FILELIST *fl_next = (FILELIST *)malloc(sizeof(FILELIST));
@@ -39,12 +39,12 @@ FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, bool is_fold
   wstrcpy(fl_next->fullname, full_name);
   wstrcpy(fl_next->name, name);
   fl_next->is_folder = is_folder;
-  fl_next->next = 0;
-  flist = (FILELIST *)fdata->fltop;
+  fl_next->next = NULL;
+  flist = (FILELIST *)data->fltop;
   if (flist)
   {
     FILELIST *fl_prev;
-    fl_prev = (FILELIST *)&fdata->fltop;
+    fl_prev = (FILELIST *)&data->fltop;
     while (wstrcmpi(flist->name, fl_next->name) < 0)
     {
       fl_prev = flist;
@@ -58,7 +58,7 @@ FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, bool is_fold
   }
   else
   {
-    fdata->fltop = fl_next;
+    data->fltop = fl_next;
   }
   return fl_next;
 }
@@ -171,52 +171,56 @@ int SkinSelect_OnMessage(GUI_MESSAGE *msg)
     break;
   }
   return 1;
-};
+}
 
 void SkinSelect_onSelectPressed(BOOK *book, GUI *gui)
 {
   AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
-
   int item = ListMenu_GetSelectedItem(audioBook->Gui_SubMenu);
 
   FILELIST *flist = FindFLISTtByN(item);
   if (flist && flist->is_folder)
   {
-    SetCurrentSkinPath(flist->fullname);
-    ReloadSkinData(flist->fullname);
+    SaveCurrentSkinPath(flist->fullname);
+
+    ADVPLAYER_DATA *data = GetData();
+    ReloadSkinData(data, flist->fullname);
+
     Free_FLIST();
     FREE_GUI(audioBook->Gui_SubMenu);
 
-    ADVPLAYER_DATA *data = GetData();
+#ifdef OLD_PLAYER
+    MediaPlayer_Audio_ActionLongBack(audioBook, gui);
+#else
     if (data->fullscreen || (!data->Skin->fullscreen))
     {
       data->fullscreen = data->Skin->fullscreen;
       BookObj_GotoPage(audioBook, page_MediaPlayer_Audio_Bk_Main);
     }
+#endif
   }
 }
 
-int isDirectory(wchar_t *name)
+BOOL isDirectory(wchar_t *name)
 {
   W_FSTAT fs;
   if (w_fstat(name, &fs) != -1)
     return fs.attr & FSX_O_CHKPATH;
   else
-    return 0;
+    return FALSE;
 }
 
-TEXTID GetTitleText(ADVPLAYER_DATA *data, int count)
+TEXTID GetTitleText(int count)
 {
-  snwprintf(data->buffer, MAXELEMS(data->buffer), L"Total Skins: %d", count);
-  return TextID_Create(data->buffer, ENC_UCS2, TEXTID_ANY_LEN);
+  wchar_t ustr[32];
+  snwprintf(ustr, MAXELEMS(ustr), L"Total Skins: %d", count);
+  return TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-int pg_MediaPlayer_SkinSelector_EnterEvent(void *rdata, BOOK *book)
+int pg_MediaPlayer_SkinSelector_EnterEvent(void *data, BOOK *book)
 {
-  ADVPLAYER_DATA *data = GetData();
-
   wchar_t *str = SKIN_PATH;
-  wchar_t *ustr = WStringAlloc(255);
+  wchar_t *ustr = WStringAlloc(WStringLength(str));
   wchar_t *s;
 
   wstrcpy(ustr, str);
@@ -247,7 +251,7 @@ int pg_MediaPlayer_SkinSelector_EnterEvent(void *rdata, BOOK *book)
   AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
   FREE_GUI(audioBook->Gui_SubMenu);
 
-  if (audioBook->Gui_SubMenu = CreateListMenu(book, UIDisplay_Main))
+  if (audioBook->Gui_SubMenu = CreateListMenu(audioBook, UIDisplay_Main))
   {
     ListMenu_SetItemCount(audioBook->Gui_SubMenu, count);
     ListMenu_SetCursorToItem(audioBook->Gui_SubMenu, 0);
@@ -256,20 +260,14 @@ int pg_MediaPlayer_SkinSelector_EnterEvent(void *rdata, BOOK *book)
     GUIObject_SetTitleType(audioBook->Gui_SubMenu, UI_TitleMode_Large);
     GUIObject_SetTitleText(audioBook->Gui_SubMenu, STR("Select Skin"));
     GUIObject_SetTitleTextAlign(audioBook->Gui_SubMenu, AlignLeft);
-    GUIObject_SetSecondRowTitleText(audioBook->Gui_SubMenu, GetTitleText(data, count));
-    GUIObject_SetStyle(audioBook->Gui_SubMenu, UI_OverlayStyle_TrueFullScreen);
-    GUIObject_SoftKeys_SetAction(audioBook->Gui_SubMenu, ACTION_SELECT1, SkinSelect_onSelectPressed);
+    GUIObject_SetSecondRowTitleText(audioBook->Gui_SubMenu, GetTitleText(count));
+    GUIObject_SetStyle(audioBook->Gui_SubMenu, UI_OverlayStyle_FullScreenNoStatus);
+    if (count)
+      GUIObject_SoftKeys_SetAction(audioBook->Gui_SubMenu, ACTION_SELECT1, SkinSelect_onSelectPressed);
     GUIObject_SoftKeys_SetAction(audioBook->Gui_SubMenu, ACTION_BACK, MediaPlayer_Audio_ActionBack);
     GUIObject_SoftKeys_SetAction(audioBook->Gui_SubMenu, ACTION_LONG_BACK, MediaPlayer_Audio_ActionLongBack);
     GUIObject_Show(audioBook->Gui_SubMenu);
   }
   WStringFree(ustr);
-  return 1;
-}
-
-int pg_MediaPlayer_SkinSelector_ExitEvent(void *data, BOOK *book)
-{
-  AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
-  FREE_GUI(audioBook->Gui_SubMenu);
   return 1;
 }

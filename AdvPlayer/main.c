@@ -4,7 +4,6 @@
 #include "..\\include\book\AudioPlayerBook.h"
 
 #include "Lib.h"
-#include "cover.h"
 #include "CurrentTrack.h"
 #include "data.h"
 #include "draw.h"
@@ -18,8 +17,19 @@ void *malloc(int size)
 
 void mfree(void *mem)
 {
-  memfree(mem, "MP", NULL);
+  if (mem)
+    memfree(mem, "MP", NULL);
 }
+
+#ifdef OLD_PLAYER
+BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname)
+{
+  FSTAT fs;
+  if (!fstat(fpath, fname, &fs))
+    return TRUE;
+  return FALSE;
+}
+#endif
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
 {
@@ -31,24 +41,18 @@ void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
   img->handle = NOIMAGE;
 
   if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC, &img->handle, &error))
-  {
     if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC, img->handle, path, fname, 0, &img->id, &error))
-    {
       if (error)
-      {
         img->handle = NOIMAGE;
-      }
-    }
-  }
 }
 
 int UnLoadSkinImage(ADVPLAYER_DATA *data)
 {
+  int _SYNC = NULL;
+  int *SYNC = &_SYNC;
+  char error;
   for (int i = 0; i < MP_LAST_IMG; i++)
   {
-    int _SYNC = NULL;
-    int *SYNC = &_SYNC;
-    char error;
     REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, data->skin_image[i].handle, NULL, NULL, data->skin_image[i].id, 1, &error);
   }
   return 1;
@@ -59,19 +63,23 @@ void LoadSkinImage(ADVPLAYER_DATA *data, wchar_t *skinpath)
   const wchar_t *icons[MP_LAST_IMG] =
       {
           L"MP_BACKGROUND_ICN.png",
+          L"MP_COVERART_ICN.png",
+          L"MP_REFLECT_ICN.png",
+          L"MP_OVERLAY_ICN.png",
           L"MP_ARTIST_ICN.png",
           L"MP_TITLE_ICN.png",
           L"MP_ALBUM_ICN.png",
-          L"MP_COVERART_ICN.png",
           L"MP_PLAY_ICN.png",
           L"MP_PAUSE_ICN.png",
           L"MP_NEXT_ICN.png",
           L"MP_PREVIOUS_ICN.png",
+          L"MP_FF_ICN.png",
+          L"MP_RW_ICN.png",
           L"MP_MODE_RANDOM_ICN.png",
           L"MP_MODE_REPEAT_ICN.png",
           L"MP_EQ_BASS_ICN.png",
-          L"MP_EQ_MANUAL_ICN.png",
           L"MP_EQ_MEGABASS_ICN.png",
+          L"MP_EQ_MANUAL_ICN.png",
           L"MP_EQ_NORMAL_ICN.png",
           L"MP_EQ_TREBLEBOOST_ICN.png",
           L"MP_EQ_VOICE_ICN.png",
@@ -92,15 +100,16 @@ void LoadSkinImage(ADVPLAYER_DATA *data, wchar_t *skinpath)
   }
 }
 
-extern "C" int New_MediaPlayer_Audio_OnCreate(DISP_OBJ_MP_AUDIO *disp_obj)
+extern "C" int New_MediaPlayer_Audio_OnCreate(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
-  wstrcpy(data->SkinPath, GetCurrentSkinPath());
+  wstrcpy(data->SkinPath, LoadCurrentSkinPath());
   data->Skin = (SKIN_DATA *)malloc(sizeof(SKIN_DATA));
   ReadConfig(data->Skin, data->SkinPath);
 
-  data->MediaPlayer_Audio = disp_obj;
+  data->MediaPlayer_Audio = (DISP_OBJ_MP_AUDIO *)disp_obj;
   data->fullscreen = data->Skin->fullscreen;
+  data->firstStart = TRUE;
 
   if (UnLoadSkinImage(data))
     LoadSkinImage(data, data->SkinPath);
@@ -109,27 +118,33 @@ extern "C" int New_MediaPlayer_Audio_OnCreate(DISP_OBJ_MP_AUDIO *disp_obj)
   return 1;
 }
 
-extern "C" void New_MediaPlayer_Audio_OnClose(DISP_OBJ_MP_AUDIO *disp_obj)
+extern "C" void New_MediaPlayer_Audio_OnClose(DISP_OBJ *disp_obj)
 {
   MediaPlayer_Audio_OnClose(disp_obj);
-
   ADVPLAYER_DATA *data = GetData();
-  UnLoadSkinImage(data);
-  mfree(data->Skin);
-  IMAGE_FREE(data->CoverArt);
-  data->HasCover = FALSE;
-  TrackDesc_Free(data->CurrentTrack);
-  FreeData();
+  if (!data->firstStart)
+  {
+    UnLoadSkinImage(data);
+    IMAGE_FREE(data->CoverArt);
+    data->HasCover = FALSE;
+    Free_SkinData(data->Skin);
+    TrackDesc_Free(data->CurrentTrack);
+    FreeData(data);
+  }
+  else
+  {
+    data->firstStart = FALSE;
+  }
 }
 
-extern "C" void New_MediaPlayer_Audio_OnRedraw(DISP_OBJ_MP_AUDIO *disp_obj, int a, int b, int c)
+extern "C" void New_MediaPlayer_Audio_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
 }
 
-extern "C" void New_MediaPlayer_Audio_SetStyle(DISP_OBJ_MP_AUDIO *disp_obj)
+extern "C" void New_MediaPlayer_Audio_SetStyle(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
-  if (data->Skin->fullscreen)
+  if (data->fullscreen)
   {
     DispObject_SetStyle(disp_obj, UI_OverlayStyle_FullScreenNoStatus);
   }
@@ -142,13 +157,13 @@ extern "C" void New_MediaPlayer_Audio_SetStyle(DISP_OBJ_MP_AUDIO *disp_obj)
 void WalkmanDisplay_SetSize(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
-  if (data->Skin->fullscreen)
+  if (data->fullscreen)
   {
-    DispObject_WindowSetSize(disp_obj, 176, 196);
+    DispObject_WindowSetSize(disp_obj, Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main));
   }
   else
   {
-    DispObject_WindowSetSize(disp_obj, 176, 176);
+    DispObject_WindowSetSize(disp_obj, Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main) - SOFTKEYS_H);
   }
 }
 
@@ -163,34 +178,34 @@ extern "C" void New_MediaPlayer_PlayQueue_SetTitle(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
 
-  if (data->Skin->fullscreen)
+  if (data->fullscreen)
   {
     DispObject_SetTitleType(disp_obj, UI_TitleMode_Large);
-    DispObject_SetSecondRowTitleText(disp_obj, STR("Song list"));
+    DispObject_SetSecondRowTitleText(disp_obj, MP_BR_LISTPLAYLIST_TXT);
   }
   else
   {
     DispObject_SetTitleType(disp_obj, UI_TitleMode_Normal);
   }
-  InvalidateNowPlaying(disp_obj);
+  InvalidateDispObj(disp_obj);
 }
 
-extern "C" void New_MediaPlayer_NowPlaying_SetSize(DISP_OBJ_NOWPLAYING *disp_obj)
+extern "C" void New_MediaPlayer_NowPlaying_SetSize(DISP_OBJ *disp_obj)
 {
   WalkmanDisplay_SetSize(disp_obj);
 }
 
-extern "C" int New_MediaPlayer_NowPlaying_OnCreate(DISP_OBJ_NOWPLAYING *disp_obj)
+extern "C" int New_MediaPlayer_NowPlaying_OnCreate(DISP_OBJ *disp_obj)
 {
   MediaPlayer_NowPlaying_OnCreate(disp_obj);
 
   ADVPLAYER_DATA *data = GetData();
   data->text_id = EMPTY_TEXTID;
-  data->MediaPlayer_NowPlaying = disp_obj;
+  data->MediaPlayer_NowPlaying = (DISP_OBJ_NOWPLAYING *)disp_obj;
   return 1;
 }
 
-extern "C" void New_MediaPlayer_NowPlaying_OnClose(DISP_OBJ_NOWPLAYING *disp_obj)
+extern "C" void New_MediaPlayer_NowPlaying_OnClose(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
 
@@ -198,9 +213,11 @@ extern "C" void New_MediaPlayer_NowPlaying_OnClose(DISP_OBJ_NOWPLAYING *disp_obj
   MediaPlayer_NowPlaying_OnClose(disp_obj);
 }
 
-extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_obj, int a, int b, int c)
+extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b, int c)
 {
   ADVPLAYER_DATA *data = GetData();
+
+  DISP_OBJ_NOWPLAYING *disp_obj = (DISP_OBJ_NOWPLAYING *)dobj;
 
   if (data->Skin->bg_enable)
   {
@@ -211,7 +228,28 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
 
   if (data->Skin->coverart_enable)
   {
-    DrawCoverArt(data);
+    if (data->HasCover)
+    {
+      DrawImageEx(data->Skin->coverart_x, data->Skin->coverart_y,
+                  data->Skin->coverart_w, data->Skin->coverart_h,
+                  data->CoverArt);
+    }
+    else
+    {
+      DrawImageEx(data->Skin->coverart_x, data->Skin->coverart_y,
+                  data->Skin->coverart_w, data->Skin->coverart_h,
+                  data->skin_image[MP_NOCOVER_ICN].id);
+    }
+    DrawImageEx(data->Skin->coverart_x, data->Skin->coverart_y,
+                data->Skin->coverart_w, data->Skin->coverart_h,
+                data->skin_image[MP_REFLECT_ICN].id);
+  }
+
+  if (data->Skin->overlay_enable)
+  {
+    DrawImage(data->Skin->overlay_x,
+              data->Skin->overlay_y,
+              data->skin_image[MP_OVERLAY_ICN].id);
   }
 
   if (data->Skin->icon_walkman_enable)
@@ -244,17 +282,34 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
 
   if (data->Skin->icon_next_enable)
   {
-    DrawImage(data->Skin->icon_next_x, data->Skin->icon_next_y, data->skin_image[MP_NEXT_ICN].id);
+    if (data->PlayerState == TMusicState_FastForwarding)
+    {
+      DrawImage(data->Skin->icon_next_x, data->Skin->icon_next_y, data->skin_image[MP_FF_ICN].id);
+    }
+    else
+    {
+      DrawImage(data->Skin->icon_next_x, data->Skin->icon_next_y, data->skin_image[MP_NEXT_ICN].id);
+    }
   }
 
   if (data->Skin->icon_prev_enable)
   {
-    DrawImage(data->Skin->icon_prev_x, data->Skin->icon_prev_y, data->skin_image[MP_PREVIOUS_ICN].id);
+    if (data->PlayerState == TMusicState_Rewinding)
+    {
+      DrawImage(data->Skin->icon_prev_x, data->Skin->icon_prev_y, data->skin_image[MP_RW_ICN].id);
+    }
+    else
+    {
+      DrawImage(data->Skin->icon_prev_x, data->Skin->icon_prev_y, data->skin_image[MP_PREV_ICN].id);
+    }
   }
 
-  if (data->Skin->icon_playpause_enable)
+  if (data->Skin->icon_playerstate_enable)
   {
-    DrawPlayerState(data);
+    if (data->IsPlaying)
+      DrawImage(data->Skin->icon_playerstate_x, data->Skin->icon_playerstate_y, data->skin_image[MP_PAUSE_ICN].id);
+    else
+      DrawImage(data->Skin->icon_playerstate_x, data->Skin->icon_playerstate_y, data->skin_image[MP_PLAY_ICN].id);
   }
 
   if (data->Skin->icon_random_enable)
@@ -273,19 +328,19 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
   {
     switch (disp_obj->EqPreset)
     {
-    case 0:
+    case EqPreset_Normal:
       DrawImage(data->Skin->icon_eq_x, data->Skin->icon_eq_y, data->skin_image[MP_EQ_NORMAL_ICN].id);
       break;
-    case 1:
+    case EqPreset_Bass:
       DrawImage(data->Skin->icon_eq_x, data->Skin->icon_eq_y, data->skin_image[MP_EQ_BASS_ICN].id);
       break;
-    case 2:
+    case EqPreset_Megabass:
       DrawImage(data->Skin->icon_eq_x, data->Skin->icon_eq_y, data->skin_image[MP_EQ_MEGABASS_ICN].id);
       break;
-    case 3:
+    case EqPreset_TrebleBoost:
       DrawImage(data->Skin->icon_eq_x, data->Skin->icon_eq_y, data->skin_image[MP_EQ_TREBLEBOOST_ICN].id);
       break;
-    case 4:
+    case EqPreset_Voice:
       DrawImage(data->Skin->icon_eq_x, data->Skin->icon_eq_y, data->skin_image[MP_EQ_VOICE_ICN].id);
       break;
     default:
@@ -421,78 +476,71 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
 
   if (data->Skin->PB_enable)
   {
-    RECT rect;
-    rect.x1 = data->Skin->PB_x1;
-    rect.x2 = data->Skin->PB_x2;
-    rect.y1 = data->Skin->PB_y1;
-    rect.y2 = data->Skin->PB_y2;
     DrawProgressBar(data->skin_image[MP_PB_INDICATOR_ICN].id,
                     disp_obj->elapsed_time,
                     disp_obj->full_time,
-                    rect,
+                    data->Skin->PB_x1,
+                    data->Skin->PB_y1,
+                    data->Skin->PB_x2,
+                    data->Skin->PB_y2,
                     data->Skin->PB_color_b,
                     data->Skin->PB_color_e,
                     data->Skin->PB_enable_indicator);
   }
 }
 
-void GetAlbumArtData(BOOK *book)
+void GetPlayerData(BOOK *book)
 {
   ADVPLAYER_DATA *data = GetData();
 
   AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
   TRACK_DESC *NewTrack = TrackDesc_Get(audioBook);
-  if (TrackDesc_Compare(data->CurrentTrack, NewTrack) == false)
+  if (!TrackDesc_Compare(data->CurrentTrack, NewTrack))
   {
-    if (data->HasCover)
-      IMAGE_FREE(data->CoverArt);
-
     TrackDesc_Free(data->CurrentTrack);
     data->CurrentTrack = NewTrack;
 
-    if (MetaData_ExtractCover(data->CurrentTrack->path, data->CurrentTrack->name))
-    {
-      ImageID_Get(SKIN_CFG_PATH, L"albumart.png", &data->CoverArt);
-      data->HasCover = TRUE;
-    }
-    else
-    {
-      data->CoverArt = NOIMAGE;
-      data->HasCover = FALSE;
-    }
+    GetCoverArt(data);
   }
   else
   {
     TrackDesc_Free(NewTrack);
   }
-  InvalidateNowPlaying(data->MediaPlayer_NowPlaying);
+  InvalidateDispObj(data->MediaPlayer_NowPlaying);
 }
 
 extern "C" int New_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT(void *data, BOOK *book)
 {
-  GetAlbumArtData(book);
-  GetMediaPlayerState(book);
-  pg_MEDIAPLAYER_AUDIO_PLAYING_TIME(data, book);
-  return 1;
+  AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
+  int ret = pg_MEDIAPLAYER_AUDIO_PLAYING_TIME(data, audioBook);
+
+  GetPlayerData(audioBook);
+  GetMediaPlayerState(audioBook);
+  return ret;
 }
 
 extern "C" int New_UI_MEDIAPLAYER_NEW_TRACK_EVENT(void *data, BOOK *book)
 {
-  GetMediaPlayerState(book);
-  pg_MEDIAPLAYER_NEW_TRACK_EVENT(data, book);
-  return 1;
+  AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
+  int ret = pg_MEDIAPLAYER_NEW_TRACK_EVENT(data, audioBook);
+
+  GetMediaPlayerState(audioBook);
+  return ret;
 }
 
 extern "C" int New_UI_MEDIAPLAYER_CREATED_EVENT(void *data, BOOK *book)
 {
-  pg_MEDIAPLAYER_CREATED_EVENT(data, book);
-  GetMediaPlayerState(book);
-  return 1;
+  AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
+  int ret = pg_MEDIAPLAYER_CREATED_EVENT(data, audioBook);
+
+  GetMediaPlayerState(audioBook);
+  return ret;
 }
 
 extern "C" void CallSkinSelector(BOOK *book, GUI *gui)
 {
-  BookObj_CallPage(book, &page_MediaPlayer_SkinSelectorPage);
+  AudioPlayerBook *audioBook = (AudioPlayerBook *)book;
+  BookObj_CallPage(audioBook, &page_MediaPlayer_SkinSelectorPage);
 }
 
 extern "C" TEXTID SkinSelect_GetText()

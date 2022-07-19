@@ -17,7 +17,7 @@ typedef signed int int32_t;
 
 typedef uint32_t size_t;
 typedef uint32_t time_t;
-// typedef uint32_t color_t;
+typedef uint32_t color_t;
 
 struct BOOK;
 struct GUI;
@@ -243,7 +243,7 @@ LISTFINDCALLBACK MKLISTFINDCALLBACK(int (*param)(T, T2))
 
 #define LIST_FIND(lst, itemtofind, cmp_proc) List_Find(lst, (void *)itemtofind, MKLISTFINDCALLBACK(cmp_proc))
 
-//disp -------------------------------------------------------------------------
+// disp -------------------------------------------------------------------------
 
 typedef int (*DISP_OBJ_ONCREATE_METHOD)(DISP_OBJ *);
 typedef void (*DISP_OBJ_ONCLOSE_METHOD)(DISP_OBJ *);
@@ -278,10 +278,16 @@ typedef struct DISP_DESC
 
 typedef struct DISP_OBJ
 {
-#if defined (DB2010)
+#if defined(DB2010)
+#ifdef OLD_PLAYER
+	char dummy[0xBC];
+#else
 	char dummy[0xB8];
+#endif
 #elif defined(DB2020)
 	char dummy[0xB4];
+#elif defined(DB3150v2)
+	char dummy[0x120];
 #else
 	char dummy[0x16C];
 #endif
@@ -331,7 +337,7 @@ typedef enum UI_TitleMode_t
 	UI_TitleMode_Last
 } UI_TitleMode_t;
 
-//GUIObject_SetZOrder
+// GUIObject_SetZOrder
 typedef enum GuiObjectZOrder_t
 {
 	GuiObjectZOrderAbove = 0, ///< Sets the GUI Z-order to Above
@@ -366,11 +372,11 @@ typedef enum UI_Display_t
  */
 typedef enum
 {
-  UIBacklightMode_On,
-  UIBacklightMode_Off,
-  UIBacklightMode_Automatic,
-  UIBacklightMode_LowOff,
-  UIBacklightMode_LowOn
+	UIBacklightMode_On,
+	UIBacklightMode_Off,
+	UIBacklightMode_Automatic,
+	UIBacklightMode_LowOff,
+	UIBacklightMode_LowOn
 } UIBacklightMode_t;
 
 /**
@@ -383,10 +389,10 @@ typedef enum
  */
 typedef enum
 {
-  UIBacklightStatus_On,
-  UIBacklightStatus_Off,
-  UIBacklightStatus_Blink,
-  UIBacklightStatus_Low
+	UIBacklightStatus_On,
+	UIBacklightStatus_Off,
+	UIBacklightStatus_Blink,
+	UIBacklightStatus_Low
 } UIBacklightStatus_t;
 
 /**
@@ -499,7 +505,7 @@ typedef enum
 
 // book ------------------------------------------------------------------------
 
-//struct BOOK;
+// struct BOOK;
 
 typedef struct UI_APP_SESSION
 {
@@ -715,8 +721,8 @@ typedef struct FSTAT
 {
 	u16 st_ino;
 	u16 st_nlink;
-	int st_mode; //was unk1
-	int fsize;	 //st_size
+	int st_mode; // was unk1
+	int fsize;	 // st_size
 	time_t st_atime;
 	time_t st_mtime;
 	time_t st_ctime;
@@ -744,7 +750,7 @@ typedef struct FILELISTITEM
 	wchar_t *fname;
 	char *content_type;
 	char unk1[0x2F0];
-} FILELISTITEM; //FSX_dirent?
+} FILELISTITEM; // FSX_dirent?
 
 typedef struct DIR_HANDLE
 {
@@ -755,7 +761,7 @@ typedef struct DIR_HANDLE
 	char unk_C;
 	char unk_D;
 	char ena_hidden;
-} DIR_HANDLE; //FSX_DIR?
+} DIR_HANDLE; // FSX_DIR?
 
 typedef struct VOLUMESIZE
 {
@@ -767,7 +773,7 @@ typedef struct VOLUMESIZE
 	long free_reserved_blocks;			 /* Number of free reserved blocks. */
 	unsigned long used_oversize_blocks;	 /* Number of used oversize blocks. */
 	unsigned long total_oversize_blocks; /* Number of available oversize blocks. */
-} VOLUMESIZE;							 //old FSX_freespace
+} VOLUMESIZE;							 // old FSX_freespace
 
 typedef struct VOLUMESIZE_A2
 {
@@ -779,9 +785,9 @@ typedef struct VOLUMESIZE_A2
 	long free_reserved_blocks;			 /* Number of free reserved blocks. */
 	unsigned long used_oversize_blocks;	 /* Number of used oversize blocks. */
 	unsigned long total_oversize_blocks; /* Number of available oversize blocks. */
-} VOLUMESIZE_A2;						 //FSX_freespace
+} VOLUMESIZE_A2;						 // FSX_freespace
 
-//lseek
+// lseek
 typedef enum _SEEK_SET
 {
 	SEEK_SET = 0,
@@ -789,7 +795,7 @@ typedef enum _SEEK_SET
 	SEEK_END
 } _SEEK_SET;
 
-//w_lseek
+// w_lseek
 typedef enum W_SEEK_SET
 {
 	WSEEK_CUR = 0,
@@ -797,7 +803,7 @@ typedef enum W_SEEK_SET
 	WSEEK_SET = 2
 } W_SEEK_SET;
 
-//w_fopen
+// w_fopen
 typedef enum W_OPEN_ATTR
 {
 	WA_Read = 1,
@@ -807,7 +813,7 @@ typedef enum W_OPEN_ATTR
 	WA_Truncate = 0x40
 } W_OPEN_ATTR;
 
-//fopen/_fopen (mode)
+// fopen/_fopen (mode)
 #define FSX_O_RDONLY 0x0001 /// Open for reading only.
 #define FSX_O_WRONLY 0x0002 /// Open for writing only.
 #define FSX_O_RDWR 0x0004	/// Open for reading and writing.
@@ -825,7 +831,7 @@ typedef enum W_OPEN_ATTR
 
 #define FSX_O_FS_MASK (0xF70F) /* MASK for normal file's open mode*/
 
-//fopen/_fopen (mode), FSTAT.st_mode
+// fopen/_fopen (mode), FSTAT.st_mode
 #define FSX_S_IRUSR 0x00000100 /// Read access, owner.
 #define FSX_S_IWUSR 0x00000080 /// Write access, owner.
 #define FSX_S_IXUSR 0x00000040 /// Execute/search access, owner.
@@ -834,14 +840,14 @@ typedef enum W_OPEN_ATTR
 #define FSX_S_IEXEC FSX_S_IXUSR
 #define FSX_FILE_MODE_MASK (FSX_S_IRUSR | FSX_S_IWUSR | FSX_S_IXUSR)
 
-//FSTAT.st_mode
+// FSTAT.st_mode
 #define FSX_S_IFUNKNOWN 0x00000000
 #define FSX_S_IFREG 0x00001000
 #define FSX_S_IFVOL 0x00002000
 #define FSX_S_IFDIR 0x00010000
 #define FSX_S_IFLINK 0x00040000
 
-//for pAttr
+// for pAttr
 #define FSX_EXT_ATTR_NONE 0x00000000	   /* No attributs */
 #define FSX_FILE_ATTR_CORRUPTED 0x00000001 /* If set, the file is corrupted */
 #define FSX_FILE_ATTR_PRIVATE 0x00000002   /* If set, the file is copyright protected */
@@ -849,12 +855,12 @@ typedef enum W_OPEN_ATTR
 #define FSX_FILE_ATTR_ENCRYPT 0x00000008   /* If set, the file will be encrypted */
 #define FSX_FILE_ATTR_HIDDEN 0x10000000	   /* If set, the file will be hidden */
 
-//for lseek mode
-#define FSX_SEEK_SET  0 /// Seek to an absolute position
-#define FSX_SEEK_CUR  1 /// Seek relative to current position
-#define FSX_SEEK_END  2 /// Seek relative to end of file
+// for lseek mode
+#define FSX_SEEK_SET 0 /// Seek to an absolute position
+#define FSX_SEEK_CUR 1 /// Seek relative to current position
+#define FSX_SEEK_END 2 /// Seek relative to end of file
 
-//for action
+// for action
 #define FSX_ATTR_CLR 0 /// Clear attribute
 #define FSX_ATTR_SET 1 /// Set attribute
 #define FSX_ATTR_GET 2 /// Get attribute
@@ -1327,7 +1333,7 @@ typedef struct SHORTCUT_DESC_A2
 	char xxx1;
 	char xxx2;
 	char item_type;
-	char lock_type; //0 - no lock, 1 - locked, 2 - lockedposition
+	char lock_type; // 0 - no lock, 1 - locked, 2 - lockedposition
 	IMAGEID icon;
 } SHORTCUT_DESC_A2;
 
@@ -1427,7 +1433,7 @@ typedef struct SUB_EXECUTE
 #if defined(DB3150v1) || defined(DB3150v2)
 	char dummy2[0x4];
 #endif
-	void *pIMMEPlayer; //2F4
+	void *pIMMEPlayer; // 2F4
 } SUB_EXECUTE;
 
 typedef int (*DB_FILE_FILTER)(const wchar_t *ExtList, const wchar_t *ItemPath, const wchar_t *ItemName);
@@ -1436,11 +1442,11 @@ typedef int (*DB_FILE_FILTER)(const wchar_t *ExtList, const wchar_t *ItemPath, c
 
 typedef struct EP_DATA
 {
-	LIST *UserDataList; //unused
+	LIST *UserDataList; // unused
 	LIST *gKbdHookList;
 	PROCESS HPID;
 	LIST *UIHookList;
-	LIST *OseHookList; //unused
+	LIST *OseHookList; // unused
 	LIST *DBExtList;
 	FILESUBROUTINE *elf_ext_m;
 	LIST *DLLList;
@@ -1471,7 +1477,7 @@ TIMERPROC MKTIMERPROC(void (*param)(u16, T *))
 #define TIMER_RESET(timer, time, onTimer, lparam) Timer_ReSet(timer, time, MKTIMERPROC(onTimer), lparam)
 #define TIMER_SET(time, onTimer, lparam) Timer_Set(time, MKTIMERPROC(onTimer), lparam)
 
-//pb_ui_search_bk_create_search_menu
+// pb_ui_search_bk_create_search_menu
 #define MODE_PB 0x0001
 #define MODE_GROUPS 0x0002
 #define MODE_SIM 0x0008

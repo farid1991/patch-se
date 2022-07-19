@@ -5,10 +5,10 @@
 #include "..\\include\book\AudioPlayerBook.h"
 
 #include "Lib.h"
-#include "cover.h"
 #include "CurrentTrack.h"
 #include "data.h"
 #include "main.h"
+#include "MetaData.h"
 #include "StrLib.h"
 
 int synchsafeToNormal(char tagSize[4])
@@ -57,7 +57,7 @@ int MetaData_ExtractCover(wchar_t *path, wchar_t *name)
     FileDelete(SKIN_CFG_PATH, L"albumart.png", &error);
   }
 
-  int tag_id = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
+  int tag_id = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   char CHUCK[100 + 1];
   fread(tag_id, CHUCK, 100);
   if (CHUCK[0] == 'I' && CHUCK[1] == 'D' && CHUCK[2] == '3')
@@ -68,7 +68,7 @@ int MetaData_ExtractCover(wchar_t *path, wchar_t *name)
     tagSize[2] = CHUCK[8];
     tagSize[3] = CHUCK[9];
     int size = synchsafeToNormal(tagSize);
-    int input = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
+    int input = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
     char cm[4];
     bool HasPic = false;
     bool isMid = false;
@@ -122,12 +122,11 @@ int MetaData_ExtractCover(wchar_t *path, wchar_t *name)
       }
       char *picture = (char *)malloc(psize + 1);
       fread(input, picture, psize);
-      int output;
-      output = _fopen(SKIN_CFG_PATH, L"albumart.png", FSX_O_RDWR, FSX_S_IREAD | FSX_S_IWRITE, 0);
+      int output = _fopen(SKIN_CFG_PATH, L"albumart.png", FSX_O_RDWR, FSX_S_IREAD | FSX_S_IWRITE, NULL);
       fwrite(output, picture, psize);
       fclose(output);
       mfree(picture);
-      ret = 1;
+      ret = psize;
     }
     fclose(input);
   }

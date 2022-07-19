@@ -1,6 +1,33 @@
 #ifndef AudioPlayerBook_H
 #define AudioPlayerBook_H
 
+typedef enum
+{
+  EqPreset_Normal = 0,
+  EqPreset_Bass = 1,
+#ifdef MEGABASS
+  EqPreset_Megabass = 2,
+  EqPreset_Voice = 3,
+  EqPreset_TrebleBoost = 4,
+#else
+  EqPreset_Voice = 2,
+  EqPreset_TrebleBoost = 3,
+#endif
+  EqPreset_Manual = 6
+} TEqPreset;
+
+typedef enum
+{
+  TMusicState_Idle,           ///< Player is idle, eg is in the init phase but not yet fully initiated.
+  TMusicState_Playing,        ///< Player is playing.
+  TMusicState_Paused,         ///< Player is paused. Use the resume method to resume the playback.
+  TMusicState_FastForwarding, ///< Player is fast forwarding.
+  TMusicState_Interrupted,    ///< Player is interrupted by another playback session/player/call.
+  TMusicState_Rewinding,      ///< Player is rewinding.
+  TMusicState_Unknown,        ///< State is unknown to the Music Server.
+  TMusicState_Last            ///< Place holder. Put new data before this!
+} TMusic_State;
+
 struct AudioPlayerBook;
 
 typedef struct
@@ -26,6 +53,31 @@ typedef struct
 } UI_MEDIAPLAYER_PLAYING_TIME_DATA;
 
 #ifdef DB2010
+
+#ifdef OLD_PLAYER
+typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
+{
+  char dummy1[0x60];    // 0xBC
+  TEXTID Text_Artis;    // 0x11C
+  TEXTID Text_Title;    // 0x120
+  TEXTID Text_Album;    // 0x124
+  int full_time;        // 0x128
+  int total_tracks;     // 0x12C
+  int current_track_id; // 0x130
+  int elapsed_time;     // 0x134
+  char dummy3;          // 0x138
+  bool Random;          // 0x139
+  bool Repeat;          // 0x13A
+  char dummy4;          // 0x13B
+  char EqPreset;        // 0x13C
+} DISP_OBJ_NOWPLAYING;
+
+typedef struct DISP_OBJ_MP_AUDIO : DISP_OBJ
+{
+  char dummy[0xD0]; // 0xBC
+} DISP_OBJ_MP_AUDIO;
+#else
+
 typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
 {
   IMAGEID MP_BACKGROUND;  // 0xB8
@@ -119,6 +171,7 @@ typedef struct DISP_OBJ_MP_AUDIO : DISP_OBJ
   IMAGEID MP_SLOW_MOTION;             // 0x154
   char dummy_156[0x36];               // 0x156
 } DISP_OBJ_MP_AUDIO;
+#endif
 #endif
 
 #if defined(DB2010)
@@ -254,35 +307,6 @@ typedef struct AudioPlayerBook : BOOK
 } AudioPlayerBook;
 
 #elif defined(DB2020)
-typedef struct AudioPlayerBook : BOOK
-{
-  char unk_0x18;               // 0x18
-  char player_state;           // 0x19
-  char unk_0x1A;               // 0x1A
-  char unk_0x1B;               // 0x1B
-  GUI *Gui_NowPlaying;         // 0x1C
-  GUI *Gui_SubMenu;            // 0x20
-  GUI *unk;                    // 0x24
-  int dummy28;                 // 0x28
-  int dummy2C;                 // 0x2C
-  int sample_rate;             // 0x30
-  char dummy34[0x28];          // 0x34
-  wchar_t pos;                 // 0x5C
-  char dummy1[0xE];            // 0x5E
-  int ElapsedTime;             // 0x6C
-  char dummy2[0x4];            // 0x70
-  MEDIAPLAYER_TRACK_DESC *dsc; // 0x74
-  char dummy3[2];              // 0x78
-  wchar_t pos2;                // 0x7A
-  wchar_t pos3;                // 0x7C
-  char dummy4[0x16];           // 0x7E
-  int total_tracks;            // 0x94
-  bool Loop;                   // 0x95
-  bool Random;                 // 0x96
-} AudioPlayerBook;
-#endif
-
-#ifdef DB2020
 typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
 {
   IMAGEID MP_BACKGROUND;     // 0xB4
@@ -323,6 +347,33 @@ typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
   char dummy_152;            // 0x152
   char dummy_153;            // 0x153
 } DISP_OBJ_NOWPLAYING;
+
+typedef struct AudioPlayerBook : BOOK
+{
+  char unk_0x18;               // 0x18
+  char player_state;           // 0x19
+  char unk_0x1A;               // 0x1A
+  char unk_0x1B;               // 0x1B
+  GUI *Gui_NowPlaying;         // 0x1C
+  GUI *Gui_SubMenu;            // 0x20
+  GUI *unk;                    // 0x24
+  int dummy28;                 // 0x28
+  int dummy2C;                 // 0x2C
+  int sample_rate;             // 0x30
+  char dummy34[0x28];          // 0x34
+  wchar_t pos;                 // 0x5C
+  char dummy1[0xE];            // 0x5E
+  int ElapsedTime;             // 0x6C
+  char dummy2[0x4];            // 0x70
+  MEDIAPLAYER_TRACK_DESC *dsc; // 0x74
+  char dummy3[2];              // 0x78
+  wchar_t pos2;                // 0x7A
+  wchar_t pos3;                // 0x7C
+  char dummy4[0x16];           // 0x7E
+  int total_tracks;            // 0x94
+  bool Loop;                   // 0x95
+  bool Random;                 // 0x96
+} AudioPlayerBook;
 #endif
 
 #endif

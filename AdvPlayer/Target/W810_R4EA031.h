@@ -3,6 +3,16 @@
 
 #define A1
 #define DB2010
+#define MEGABASS
+
+#define STATUSBAR_H 20
+#define SOFTKEYS_H 24
+
+#define SKIN_CFG_NAME L"skin.cfg"
+#define SKIN_CFG_PATH L"/usb/other/WALKMAN"
+#define SKIN_PATH L"/usb/other/WALKMAN/skins"
+#define SKIN_NAME L"walkman.ini"
+#define DEFAULT_SKIN_PATH L"/usb/other/WALKMAN/skins/WALKMAN"
 
 #define ACTION_ACCEPT 0xFAC
 #define ACTION_ADD 0xFAD
@@ -40,6 +50,7 @@
 #define MM_BRW_TOPLEVEL_DESTROYED_EVENT 0x2338
 
 #define MM_BRW_TOPLEVEL_TITLE_TXT 0xAA2
+#define MP_BRW_TOPW_ICN 0xE865
 
 #define page_MediaPlayer_Audio_Bk_Main (PAGE_DESC *)0x44501424
 #define page_MM_Browser_Toplevel_Bk_NowPlaying (PAGE_DESC *)0x44548534
@@ -47,7 +58,7 @@
 #define page_MM_Browser_Toplevel_Bk_Tracks (PAGE_DESC *)0x44548510
 #define page_MM_Browser_Toplevel_Bk_Playlist (PAGE_DESC *)0x4454851C
 #define page_MM_Browser_Toplevel_Bk_Videos (PAGE_DESC *)0x44548528
-#define age_MM_Browser_Toplevel_Bk_ShowMessage (PAGE_DESC *)0x44548674
+#define page_MM_Browser_Toplevel_Bk_ShowMessage (PAGE_DESC *)0x44548674
 
 #define UNKNOWN_TXT 0xE4
 #define SKINSELECT_LIST_ICN 0xE961

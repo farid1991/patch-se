@@ -9,16 +9,33 @@
 #include "main.h"
 #include "toplevel.h"
 
+#ifdef OLD_PLAYER
+void GUIObject_SetAnimation(GUI *gui, int anim)
+{
+  DISP_OBJ *disp_obj = GUIObject_GetDispObject(gui);
+  if (anim == 0)
+  {
+    DispObject_SetAnimation(disp_obj, 0x3000000);
+  }
+  else if (anim == 1)
+  {
+    DispObject_SetAnimation(disp_obj, 0x3000010);
+  }
+  else if (anim == 2)
+  {
+    DispObject_SetAnimation(disp_obj, 0x3000020);
+  }
+}
+#endif
+
 extern "C" void New_MainMenu_TopLevelBrowser(GUI *MM_Browser)
 {
-  ADVPLAYER_DATA *data = GetData();
-  GUIObject_SetTitleText(MM_Browser, MM_BRW_TOPLEVEL_TITLE_TXT);
+  GUIObject_SetTitleBackgroundImage(MM_Browser, MP_BRW_TOPW_ICN);
   ListMenu_SetHotKeyMode(MM_Browser, LKHM_SHORTCUT);
 }
 
 extern "C" TEXTID New_ListText_TopLevelBrowser(BOOK *book, int index)
 {
-  ADVPLAYER_DATA *data = GetData();
   switch (index)
   {
   case MENU_NOW_PLAYING:
@@ -39,7 +56,6 @@ extern "C" TEXTID New_ListText_TopLevelBrowser(BOOK *book, int index)
 }
 extern "C" IMAGEID New_ListIcon_TopLevelBrowser(BOOK *book, int index)
 {
-  ADVPLAYER_DATA *data = GetData();
   switch (index)
   {
   case MENU_NOW_PLAYING:
@@ -64,7 +80,7 @@ int pg_MM_Browser_Toplevel_Bk_AlbumsPage_EnterEvent(void *data, BOOK *book)
   void *pIshell = NULL;
   int ret = Call_MM_BrowserAlbumsMain(BookObj_GetBookID(book), NULL, &pIshell);
   if (!ret)
-    BookObj_CallPage(book, age_MM_Browser_Toplevel_Bk_ShowMessage);
+    BookObj_CallPage(book, page_MM_Browser_Toplevel_Bk_ShowMessage);
   return 1;
 }
 
@@ -78,18 +94,17 @@ extern "C" void New_ListLink_TopLevelBrowser(BOOK *book, GUI *gui)
     BookObj_CallPage(mm_book, page_MM_Browser_Toplevel_Bk_NowPlaying);
     break;
   case MENU_ARTIST:
-    GUIObject_SetAnimation(mm_book->MM_TopLevel, 0);
+    GUIObject_SetAnimation(mm_book->MM_TopLevel, 2);
     BookObj_CallPage(mm_book, page_MM_Browser_Toplevel_Bk_Artists);
     break;
   case MENU_ALBUMS:
-    GUIObject_SetAnimation(mm_book->MM_TopLevel, 0);
+    GUIObject_SetAnimation(mm_book->MM_TopLevel, 2);
     BookObj_CallPage(mm_book, &page_MM_Browser_Toplevel_Bk_Albums);
     break;
   case MENU_TRACKS:
     GUIObject_SetAnimation(mm_book->MM_TopLevel, 1);
     BookObj_CallPage(mm_book, page_MM_Browser_Toplevel_Bk_Tracks);
     break;
-
   case MENU_PLAYLIST:
     GUIObject_SetAnimation(mm_book->MM_TopLevel, 1);
     BookObj_CallPage(mm_book, page_MM_Browser_Toplevel_Bk_Playlist);

@@ -15,6 +15,9 @@ extern "C"
   int pg_MEDIAPLAYER_AUDIO_PLAYING_TIME(void *data, BOOK *book);
   int pg_MEDIAPLAYER_NEW_TRACK_EVENT(void *data, BOOK *book);
   int pg_MEDIAPLAYER_CREATED_EVENT(void *data, BOOK *book);
+  int pg_MediaPlayer_Audio_Bk_ExitEvent(void *data, BOOK *book);
+  int pg_MediaPlayer_Audio_Bk_PrevEvent(void *data, BOOK *book);
+  int pg_MediaPlayer_Audio_Bk_CancelEvent(void *data, BOOK *book);
 
   int pg_MM_Browser_Toplevel_Bk_NowPlayingStartedByChild_Cancel(void *data, BOOK *book);
   int pg_MM_Browser_Toplevel_Bk_NowPlayingStartedByChild_Start(void *data, BOOK *book);
@@ -42,14 +45,6 @@ extern "C"
     TextID_Destroy(text);             \
   }
 
-#define SKIN_CFG_NAME L"skin.cfg"
-#define SKIN_CFG_PATH L"/usb/other/WALKMAN"
-
-#define SKIN_PATH L"/usb/other/WALKMAN/skins"
-#define SKIN_NAME L"walkman.ini"
-
-#define DEFAULT_SKIN_PATH L"/usb/other/WALKMAN/skins/WALKMAN"
-#define TOPLEVEL_PATH L"/usb/other/WALKMAN/TopLevel"
 
 void *malloc(int size);
 void mfree(void *mem);

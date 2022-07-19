@@ -56,8 +56,8 @@ extern "C"
 #endif
 
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
-  //FONT_DESC* GetFontDesc( void );
-  //int* GetFontCount( void );
+  // FONT_DESC* GetFontDesc( void );
+  // int* GetFontCount( void );
   int SetFont(int FontSize);
   void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
   void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
@@ -283,7 +283,7 @@ extern "C"
   int AB_POSITIONNBR_GET(void *ab_name, char *, u16 *, void *ab_num);
   TEXTID AB_NAME_ITEM2TextID(AB_STR_ITEM *ab_name);
   TEXTID AB_NUM_ITEM2TextID(AB_NUM_ITEM *ab_num_item);
-  int GetABRecNum(AB_GET_STRUCT *);            //nullsub(void)
+  int GetABRecNum(AB_GET_STRUCT *);            // nullsub(void)
   GUI *SBY_GetMainInput(BOOK *StandBy);        // !!!!! Not real !!!!!!
   GUI *SBY_GetStatusIndication(BOOK *StandBy); // !!!!! Not real !!!!!!
   int REQUEST_PHONEBOOK_ACCESSSTATUS_TOTAL_GET(const int *sync, int *);
@@ -312,8 +312,8 @@ extern "C"
   DISP_OBJ_METHOD DispObject_GetOnConfig(DISP_OBJ *);
   void DISP_DESC_SetMethod0A(DISP_DESC *, DISP_OBJ_METHOD);
   DISP_OBJ_METHOD DispObject_GetMethod0A(DISP_OBJ *);
-  void JavaSession_Manager(int cmd); //nullsub(void)
-  TEXTID JavaSession_GetName(void);  //nullsub(ret 0x6FFFFFFF)
+  void JavaSession_Manager(int cmd); // nullsub(void)
+  TEXTID JavaSession_GetName(void);  // nullsub(ret 0x6FFFFFFF)
   UI_APP_SESSION *BookObj_GetSession(BOOK *book);
   void GUIonMessage_SetNumberOfSubItems(GUI_MESSAGE *msg, int unk, int num_sub_items);
   void GUIonMessage_SubItem_SetText(GUI_MESSAGE *msg, TEXTID);
@@ -679,11 +679,11 @@ extern "C"
 
 #ifdef A2
   // Library DLL function --------------------------------------------------------
-  //void DisplayGC_AddRef( GC*, void* pICanvas );
-  void DisplayGC_GetCanvas(GC *, void *pICanvas);
-  void IUIRichText_SetText(void *pIUIRichText, TEXTID);
-  void IUIRichText_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
-  int IUIRichTextLayout_GetTextWidth(TEXTID, void *pIUIRichTextLayout, void *pIUIFont);
+  // void DisplayGC_AddRef( GC*, void* pICanvas );
+  void DisplayGC_AddRef(GC *, void *pICanvas);
+  void TextObject_SetText(void *pIUIRichText, TEXTID);
+  void TextObject_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
+  int RichTextLayout_GetTextWidth(TEXTID, void *pIUIRichTextLayout, void *pIUIFont);
 
   int Illumination_LedID_SetLevel_Gradually(int LED_ID, int level, int fade_time);
   int Illumination_LedID_SetLevel(int LED_ID, int level);
@@ -792,7 +792,8 @@ extern "C"
   void DispObject_SetTitleAlignment(DISP_OBJ *, char titleAlignment);
   int DispObject_GetTitleAlignment(DISP_OBJ *);
 
-  void DispObject_Backlight(DISP_OBJ *, int mode); // 0 - on; 1 - off; 2 - blink; 3 - timeout; 4 - restore;
+  void DispObject_SetBacklightMode(DISP_OBJ *, int mode); // 0 - on; 1 - off; 2 - blink; 3 - timeout; 4 - restore;
+  void DispObject_SetBacklightTimeout(DISP_OBJ *, int timeout);
   void DispObject_BacklightBlinkTime(DISP_OBJ *, int time_on, int time_off);
   void DispObject_BacklightRestore(DISP_OBJ *);
   void DispObject_SetInternalBackground(DISP_OBJ *, IMAGEID);
@@ -946,25 +947,25 @@ extern "C"
   void Sound_AddToContact(int BookID, wchar_t *fpath, int len_path, wchar_t *fname, int len_name, int zero);
 
   wchar_t *MetaData_GetTags(wchar_t *path, wchar_t *name, int tagID);
-  IMAGEID MetaData_GetCover(wchar_t *filename);
+  // IMAGEID MetaData_GetCover(wchar_t *filename);
 
-  int MusicApp_GetFocusedItem(BOOK *MusicBook, int itemIndex, int length,
-                              wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle,
-                              wchar_t *pFilename,
-                              void *pPlaylength, void *pResumePosition,
-                              bool *pContainsAlbumart, bool *pIsRealMediaFile);
-  int MusicApp_GetItem(BOOK *MusicBook, int itemIndex, int length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
-  int MusicApp_GetFilename(BOOK *MusicBook, int itemIndex, int length, wchar_t *pFilename);
-  int MusicApp_Resume(BOOK *MusicBook);
-  int MusicApp_Play(BOOK *MusicBook);
-  int MusicApp_Pause(BOOK *MusicBook);
-  int MusicApp_FastFoward(BOOK *MusicBook);
-  int MusicApp_Rewind(BOOK *MusicBook);
-  int MusicServer_Next(BOOK *MusicBook, bool activePress);
-  int MusicApp_Previous(BOOK *MusicBook);
-  int MusicServer_RemoveFromPlaylist(BOOK *MusicBook, int itemIndex);
-  int MusicServer_SavePlayQueue(BOOK *MusicBook, wchar_t *pPlaylistName);
-  int MusicApp_SetApplicationWindowMode(BOOK *MusicBook, bool maximized);
+  int MusicApplication_GetFocusedItem(BOOK *MusicBook, int itemIndex, int length,
+                                      wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle,
+                                      wchar_t *pFilename,
+                                      void *pPlaylength, void *pResumePosition,
+                                      bool *pContainsAlbumart, bool *pIsRealMediaFile);
+  int MusicApplication_GetItem(BOOK *MusicBook, int itemIndex, int length, wchar_t *pArtist, wchar_t *pAlbum, wchar_t *pTitle);
+  int MusicApplication_GetFilename(BOOK *MusicBook, int itemIndex, int length, wchar_t *pFilename);
+  int MusicApplication_Resume(BOOK *MusicBook);
+  int MusicApplication_Play(BOOK *MusicBook);
+  int MusicApplication_Pause(BOOK *MusicBook);
+  int MusicApplication_FastFoward(BOOK *MusicBook);
+  int MusicApplication_Rewind(BOOK *MusicBook);
+  int MusicApplication_Next(BOOK *MusicBook, bool activePress);
+  int MusicApplication_Previous(BOOK *MusicBook);
+  int MusicApplication_RemoveFromPlaylist(BOOK *MusicBook, int itemIndex);
+  int MusicApplication_SavePlayQueue(BOOK *MusicBook, wchar_t *pPlaylistName);
+  int MusicApplication_SetApplicationWindowMode(BOOK *MusicBook, bool maximized);
 
   void Volume_Set(int TAudioControl_VolumeType, char volume);
   int Volume_Get(int TAudioControl_VolumeType, char *volume); // GetAudioSettings
@@ -972,19 +973,19 @@ extern "C"
   void MessageBox_Animation(TEXTID header_text, TEXTID message_text, IMAGEID, int style, int time, BOOK *book, char *animation);
   void CreateMessageBox(TEXTID header_text, TEXTID message_text, int style, int time_in_ms, BOOK *book);
 
-  //int Get_MediaPlayer_State( DISP_OBJ* );
+  // int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event);
   TEXTID TextID_CreateCharacterID(char);
 
-  void Clipboard_SetText( wchar_t* text, int len );
-  int Clipboard_GetText( wchar_t** text );
+  void Clipboard_SetText(wchar_t *text, int len);
+  int Clipboard_GetText(wchar_t **text);
 
   void OnOffBook_ShuttingDown(void);
   void Shutdown(void);
   void Reboot(void);
   void Keylock_Activate(void);
   BOOL Charging_GetState(void);
-  int NewEvent_GetCount(void); //GetNewEvent(void);
+  int NewEvent_GetCount(void); // GetNewEvent(void);
 
   BOOL FlightMode_GetState(void);
   void FlightMode_SetState(BOOL state);

@@ -1,5 +1,5 @@
-#ifndef Cover_h
-#define Cover_h
+#ifndef MetaData_h
+#define MetaData_h
 
 #define INDEX(x) x / 8
 #define SHIFT(x) x % 8

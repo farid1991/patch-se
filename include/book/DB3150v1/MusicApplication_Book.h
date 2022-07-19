@@ -1,16 +1,68 @@
 #ifndef _MUSICAPPLICATION_BOOK_H_
 #define _MUSICAPPLICATION_BOOK_H_
 
-typedef struct
+#include "..\..\classes\IMusicServer.h"
+
+typedef struct _PLAYING_TIME_DATA
 {
-  uint32_t hours;
-  uint32_t minutes;
-  uint32_t seconds;
-} TMusicServer_Time;
+  char dummy[0x24];
+  int Hours;
+  int Minutes;
+  int Seconds;
+  int MilliSeconds;
+} PLAYING_TIME_DATA;
+
+typedef struct _NEW_TRACK_DATA
+{
+  char dummy_0x0[0x28];          // 0
+  int Track_ID;                  // 0x28
+  TMusicServer_Time ElapsedTime; // 0x2C
+  char dummy_0x30[0x24];         // 0x38
+  TMusicServer_Time FullTime;    // 0x5C
+} NEW_TRACK_DATA;
+
+typedef struct _X_TEXTID
+{
+  TEXTID Artist; // 0x110
+  TEXTID Title;  // 0x114
+  TEXTID Album;  // 0x118
+} X_TEXTID;
+
+typedef struct DISP_OBJ_NOWPLAYING
+{
+  char dummy1[0x110];     // 0
+  X_TEXTID TextID;        // 0x110
+  char dummy2[0x1E];      // 0x11C
+  IMAGEID Artist;         // 0x13A
+  IMAGEID Track1;         // 0x13C
+  IMAGEID Album;          // 0x13E
+  IMAGEID Walkman;        // 0x140
+  IMAGEID Wheel_Up;       // 0x142
+  IMAGEID Wheel_Down;     // 0x144
+  IMAGEID Wheel_Prev;     // 0x146
+  IMAGEID Wheel_Rew;      // 0x148
+  IMAGEID Wheel_Next;     // 0x14A
+  IMAGEID Wheel_FF;       // 0x14C
+  IMAGEID Wheel_Play;     // 0x14E
+  IMAGEID Wheel_Stop;     // 0x150
+  IMAGEID Wheel_BG_Land;  // 0x152
+  IMAGEID Wheel_BG_Port;  // 0x154
+  IMAGEID Shuffle;        // 0x156
+  IMAGEID Loop;           // 0x158
+  IMAGEID Eq;             // 0x15A
+  IMAGEID Normal;         // 0x15C
+  IMAGEID Unk;            // 0x15E
+  IMAGEID Eq_Manual;      // 0x160
+  IMAGEID Eq_Normal;      // 0x162
+  IMAGEID Eq_Bass;        // 0x164
+  IMAGEID Eq_Megabass;    // 0x166
+  IMAGEID Eq_Voice;       // 0x168
+  IMAGEID Eq_TrebleBoost; // 0x16A
+} DISP_OBJ_NOWPLAYING;
 
 typedef struct _MusicApplication_Book : BOOK
 {
-  void *pMusicServer;            // 0x18
+  IMusicServer *pMusicServer;    // 0x18
   GUI *Gui_NowPlaying;           // 0x1C
   GUI *Gui_PlayQueue;            // 0x20
   uint32_t unk_0x24;             // 0x24
@@ -41,7 +93,7 @@ typedef struct _MusicApplication_Book : BOOK
   uint8_t unk_0x57;              // 0x57
   TEXTID ErrorText;              // 0x58 TMusicServer_ErrorCode
   uint8_t unk_0x5C;              // 0x5C
-  uint8_t unk_0x5D;              // 0x5C
+  uint8_t unk_0x5D;              // 0x5D
   uint16_t unk_0x5E;             // 0x5E
   uint8_t unk_0x60;              // 0x60
   uint8_t unk_0x61;              // 0x61

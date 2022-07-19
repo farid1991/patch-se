@@ -8,7 +8,7 @@ typedef struct
 } TRACK_DESC;
 
 void TrackDesc_Free(TRACK_DESC *track_desc);
-bool TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2);
+BOOL TrackDesc_Compare(TRACK_DESC *t1, TRACK_DESC *t2);
 TRACK_DESC *TrackDesc_Get(BOOK *book);
 
 #endif
