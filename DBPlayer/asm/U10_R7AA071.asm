@@ -15,6 +15,7 @@ a       EQU     b
         defadr current_process,0x10299D94
         defadr get_bid,0x10299DCC
 	defadr strlen,0x14392AC0+1
+	defadr strstr,0x1481E3AA+1
 	defadr strncpy,0x140E03DC
 	defadr wstrrchr,0x141B2BC8+1
 	defadr wstrcat,0x1481DB10+1
@@ -110,6 +111,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetActionAndText,0x156B3298+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x146C6FF8+1
         defadr GUIObject_SetBacklightTimeout,0x14008440+1
+        defadr GUIObject_SetBacklightOn,0x1406105C+1
         defadr FILEITEM_GetPath,0x146CA88C+1
         defadr FILEITEM_GetFname,0x146CAC1C+1
         defadr FSX_MakeFullPath,0x141F184C+1

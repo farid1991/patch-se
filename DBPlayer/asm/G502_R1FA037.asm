@@ -629,76 +629,76 @@ a       EQU b
 
 	defadr DEFAULT_VOLUMEONREDRAW,0x116DF370+1
 	defadr DEFAULT_VOLUMEONPAGENTER,0x116DFB24+1
-        
+
         defadr GC_DrawIcon,0x1169F3E4+1
         defadr GC_DrawImage,GC_DrawIcon
-        
+
         defadr MetaData_GetTags,0x110278A4+1
         defadr MetaData_GetCover,0x115BB5C0+1
-        
+
         defadr CreateYesNoQuestion,0x116B5AE4+1
         defadr YesNoQuestion_SetDescriptionText,0x116B5E78+1
         defadr YesNoQuestion_SetQuestionText,0x116B5E68+1
         defadr CreateMessageBox,0x1160973C+1
         defadr GetIMEI,0x113AED44+1
         defadr FILEITEM_GetFextension,0x1102BF28+1
-        
+
         defadr Volume_Get,0x111B93F8+1
         defadr Volume_Set,0x111B932C+1
-        
+
         defadr FSX_MakeFullPath,0x10FDF284+1
         defadr FSX_FreeFullPath,0x10FDF2F0+1
         defadr FSX_IsFileExists,0x110272DC+1
-        
+
         defadr GUIObject_SoftKeys_AllowKeylock,0x116C0798+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x10F6853C+1
-        
+
         defadr DispObject_SetThemeImage,0x1169DE30+1
-        
-//-----------
-		
+
         EXTERN CreateInfo
-        
-        org 0x11017ABA   //FIX_TIME1
+
+        RSEG   FIX_TIME1
         CODE16
-        ADD   R4, R0, #0
-		
-	org 0x11017AC4	//FIX_TIME2
+        PUSH    {R0,R4-R7,LR}
+        ADD     R4, R0, #0
+        ADD     R0, R1, #0
+
+	RSEG   FIX_TIME2
         CODE16
-        ADD   R0, R1, #0
-        
-        ORG   0x11017B06
+        ADD     R0, R1, #0
+
+        RSEG   CREATE_GUI
         CODE16
         LDR   R3, =create_gui
         BX    R3
-        
+
         RSEG  CODE
         CODE16
 create_gui:
-        LDR   R0, [R5,#4]     //=sub_execute->file_item
-        LDR   R0, [R0,#0xC]   //=FILEITEM_GetFextension
-        LDR   R1, =0x11C0BE2A //mid
-        MOV   R2, #3
-        LDR   R3, =wstrncmp
-        BLX   R3
-        CMP   R0, #0
-        BEQ   isMID
-        LDR   R2, [R5,#8] // BOOK* BrowserItemBook
-        ADD   R1, R5, #0  // SUB_EXECUTE* sub
-        ADD   R0, R4, #0  // FILE_TIME* ft
-        BL    CreateInfo
-        B     end_
+        LDR     R0, [R5,#4]
+        LDR     R3, =FILEITEM_GetFextension
+        BLX     R3
+        LDR     R1, =0x11C0BE2A ; mid
+        MOV     R2, #3
+        LDR     R3, =wstrncmp
+        BLX     R3
+        CMP     R0, #0
+        BEQ     isMID
+        LDR     R1, [R5,#8]     ; BOOK* BrowserItemBook
+        ADD     R0, R4, #0      ; FILE_TIME* ft
+        BL      CreateInfo
+        B       end_
 isMID:
-        LDR   R0, [R5,#8] //BOOK* BrowserItemBook
-        LDR   R3, =0x116A7554+1
-        BLX   R3
-        STR   R0, [R5,#0x14]
-        CMP   R0, #0
-        BEQ   end_
-        LDR   R3, =0x11017B12+1
-        BX    R3
+        LDR     R0, [R5,#8]     ; BOOK* BrowserItemBook
+        LDR     R3, =0x116A7554+1
+        BLX     R3
+        STR     R0, [R5,#0x14]
+        CMP     R0, #0
+        BEQ     end_
+        LDR     R3, =0x11017B12+1
+        BX      R3
 end_:
-        MOV   R0, #1
-        POP   {R3-R7,PC}
-        
+        MOV     R0, #1
+        POP     {R3-R7,PC}
+
         END

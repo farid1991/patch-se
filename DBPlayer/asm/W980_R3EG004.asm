@@ -7,8 +7,8 @@ a       EQU     b
 
         defadr memalloc,0x4BB00584
         defadr memfree,0x4BB005AC
-        defadr memset,0x4BB010C4
-        defadr memcpy,0x1013E508
+        defadr memset,0x118A0324+1
+        defadr memcpy,0x118A0224+1
         defadr debug_printf,0x4BB37FED
         defadr set_envp,0x10005AEC+1
         defadr get_envp,0x10005AD8+1
@@ -31,7 +31,8 @@ a       EQU     b
         defadr DrawRect,0x109C9FB4+1
         defadr SetFont,0x109CAEC0+1
         defadr DrawString,0x109CA300+1
-        defadr GetImageHeight_int,0x109CB5D4+1
+        defadr GetImageHeight,0x109CB5D4+1
+        defadr GetImageWidth,0x109CB5C0+1
         defadr ListMenu_GetSelectedItem,0x11A8D010+1
         defadr ListMenu_DestroyItems,0x11A8D4C0+1
         defadr ListMenu_SetItemCount,0x11A8D024+1
@@ -68,6 +69,8 @@ a       EQU     b
         defadr DispObject_SetLayerColor,0x109C8E24+1
         defadr DispObject_SetAnimation,0x109C8EDC+1
         defadr DispObject_SetBacklightMode,0x109C9C04+1
+        defadr GUIObject_SetBacklightOn,0x109D0580+1
+        defadr GUIObject_SetBacklightOff,0x109D05AC+1
         defadr GUIObject_GetDispObject,0x109D02CC+1
         defadr GUIObject_Create,0x109D007C+1
         defadr BookObj_AddGUIObject,0x10DEFD64+1
@@ -157,7 +160,7 @@ create_gui:
         bl      CreateInfo
         b       empty_gui
 isMID:
-        mov     r0, r5
+        add     r0, r5, #0
         ldr     r3, =KeygrabberWindow
         blx     r3
         str     r0, [r6,#0x14]

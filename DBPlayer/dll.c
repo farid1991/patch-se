@@ -35,6 +35,7 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
 {
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
+  IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
   IRichText *pTextObject = NULL;
   IUnknown *pGC = NULL;
@@ -47,12 +48,15 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
-  pTextRenderingFactory->CreateRichTextLayout(pTextObject, NULL, NULL, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichTextLayoutOptions(&pIUIRichTextLayoutOptions);
+  pTextRenderingFactory->CreateRichTextLayout(pTextObject, NULL, pIUIRichTextLayoutOptions, &pRichTextLayout);
 
   TextObject_SetText(pTextObject, text);
   TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pTextObject->SetAlignment(align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pTextObject->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+
+  pIUIRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
 
   int lineWidth = x2 - x1;
   pRichTextLayout->Compose(lineWidth);
@@ -181,9 +185,6 @@ int dll_GetImageWidth(IMAGEID imageID)
 
 int dll_GetImageHeight(IMAGEID imageID)
 {
-#ifdef DB3150v2
-  return GetImageHeight_int(imageID);
-#else
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
   long image_width = NULL;
@@ -199,84 +200,82 @@ int dll_GetImageHeight(IMAGEID imageID)
     pUIImage->Release();
 
   return image_height;
-#endif
 }
 #endif
 
-void *dll_MetaData_Desc_Create(wchar_t *path, wchar_t *name)
+METADATA_DESC *dll_MetaData_Desc_Create(wchar_t *path, wchar_t *name)
 {
   METADATA_DESC *MetaData_Desc = (METADATA_DESC *)malloc(sizeof(METADATA_DESC));
-  MetaData_Desc->pIMetaData = 0;
-  MetaData_Desc->artist[0] = 0;
-  MetaData_Desc->title[0] = 0;
-  MetaData_Desc->album[0] = 0;
-  MetaData_Desc->year[0] = 0;
-  MetaData_Desc->genre[0] = 0;
-  MetaData_Desc->x6[0] = 0;
-  MetaData_Desc->x7[0] = 0;
+  MetaData_Desc->pIMetaData = NULL;
+  MetaData_Desc->artist[0] = NULL;
+  MetaData_Desc->title[0] = NULL;
+  MetaData_Desc->album[0] = NULL;
+  MetaData_Desc->year[0] = NULL;
+  MetaData_Desc->genre[0] = NULL;
+  MetaData_Desc->x6[0] = NULL;
+  MetaData_Desc->x7[0] = NULL;
   CoCreateInstance(CID_CMetaData, IID_IMetaData, PPINTERFACE(&MetaData_Desc->pIMetaData));
   MetaData_Desc->pIMetaData->SetFile(path, name);
-  return (MetaData_Desc);
+  return MetaData_Desc;
 }
 
-void dll_MetaData_Desc_Destroy(void *MetaData_Desc)
+void dll_MetaData_Desc_Destroy(METADATA_DESC *MetaData_Desc)
 {
-  if (((METADATA_DESC *)MetaData_Desc)->pIMetaData)
-    ((METADATA_DESC *)MetaData_Desc)->pIMetaData->Release();
+  if (MetaData_Desc->pIMetaData)
+    MetaData_Desc->pIMetaData->Release();
   if (MetaData_Desc)
     mfree(MetaData_Desc);
 }
 
-wchar_t *dll_MetaData_Desc_GetTags(void *MetaData_Desc, int tagID)
+wchar_t *dll_MetaData_Desc_GetTags(METADATA_DESC *MetaData_Desc, int tagID)
 {
-  METADATA_DESC *mdd = (METADATA_DESC *)MetaData_Desc;
   wchar_t *buf;
   switch (tagID)
   {
   case TMetadataTagId_Artist:
-    buf = mdd->artist;
+    buf = MetaData_Desc->artist;
     break;
   case TMetadataTagId_Title:
-    buf = mdd->title;
+    buf = MetaData_Desc->title;
     break;
   case TMetadataTagId_Album:
-    buf = mdd->album;
+    buf = MetaData_Desc->album;
     break;
   case TMetadataTagId_Year:
-    buf = mdd->year;
+    buf = MetaData_Desc->year;
     break;
   case TMetadataTagId_Genre:
-    buf = mdd->genre;
+    buf = MetaData_Desc->genre;
     break;
   case TMetadataTagId_x6:
-    buf = mdd->x6;
+    buf = MetaData_Desc->x6;
     break;
   case TMetadataTagId_x7:
-    buf = mdd->x7;
+    buf = MetaData_Desc->x7;
     break;
   }
-  mdd->pIMetaData->GetTag(tagID, buf);
+  MetaData_Desc->pIMetaData->GetTag(tagID, buf);
   return (buf);
 }
 
-int dll_MetaData_Desc_GetTrackNum(void *MetaData_Desc)
+int dll_MetaData_Desc_GetTrackNum(METADATA_DESC *MetaData_Desc)
 {
   int track_num;
-  ((METADATA_DESC *)MetaData_Desc)->pIMetaData->GetTrackNum(NULL, &track_num);
-  return (track_num);
+  MetaData_Desc->pIMetaData->GetTrackNum(NULL, &track_num);
+  return track_num;
 }
 
-int dll_MetaData_Desc_HasAlbumArt(void *MetaData_Desc, wchar_t *path, wchar_t *name)
+BOOL dll_MetaData_Desc_HasAlbumArt(METADATA_DESC *MetaData_Desc, wchar_t *path, wchar_t *name)
 {
-  if (((METADATA_DESC *)MetaData_Desc)->pIMetaData->HasAlbumArt(path, name))
+  if (MetaData_Desc->pIMetaData->HasAlbumArt(path, name))
     return TRUE;
   return FALSE;
 }
 
-int dll_MetaData_Desc_GetCoverInfo(void *MetaData_Desc, char *cover_type, int *size, int *cover_offset)
+int dll_MetaData_Desc_GetCoverInfo(METADATA_DESC *MetaData_Desc, char *cover_type, int *size, int *cover_offset)
 {
   COVER_INFO_DESC cover_info;
-  if (((METADATA_DESC *)MetaData_Desc)->pIMetaData->GetCoverInfo(&cover_info) < 0)
+  if (MetaData_Desc->pIMetaData->GetCoverInfo(&cover_info) < 0)
     return FALSE;
   *cover_type = cover_info.cover_type;
   *size = cover_info.size;

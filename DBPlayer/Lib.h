@@ -21,6 +21,8 @@ extern "C"
 #endif
 
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
+  int GetImageHeight(IMAGEID);
+  int GetImageWidth(IMAGEID);
   int SetFont(int FontSize);
   void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
 #endif
@@ -28,12 +30,10 @@ extern "C"
 #if defined(A1) || defined(DB3150v1)
   void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
   void GC_DrawImage(int x, int y, IMAGEID);
-  int GetImageHeight(IMAGEID);
-  int GetImageWidth(IMAGEID);
+
   int Disp_GetTextIDHeight(TEXTID);
   int Disp_GetTextIDWidth(TEXTID, int len);
 #endif
-  int GetImageHeight_int(IMAGEID ImageID);
 
   void debug_printf(const char *fmt, ...);
   void *memset(void *mem, char chr, int size);
@@ -61,6 +61,8 @@ extern "C"
   void FreeBook(BOOK *book);
   void UI_Event(int event);
 
+  void GUIObject_SetBacklightOn(GUI *);
+  void GUIObject_SetBacklightOff(GUI *);
   void GUIObject_SetBacklightTimeout(GUI *, int time);
   void GUIObject_SetTitleText(GUI *, TEXTID);
   void GUIObject_Show(GUI *);

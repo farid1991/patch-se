@@ -9,15 +9,6 @@
 
 typedef enum
 {
-  UTF8,
-  UTF8_BOM,
-  UTF16_LE,
-  UTF16_BE,
-  OTHERS_ENC
-} ENCODING_T;
-
-typedef enum
-{
   NOLYRIC = -2,
   WAIT = -1,
   READY = 0

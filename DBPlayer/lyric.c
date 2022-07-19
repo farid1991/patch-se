@@ -11,28 +11,11 @@
 #include "data.h"
 #include "lyric.h"
 #include "main.h"
+#include "String.h"
 
 int is_digit(char c)
 {
   return (c >= '0' && c <= '9');
-}
-
-int get_encoding_type(char *s)
-{
-  if (s[0] == 0xFF && s[1] == 0xFE) // unicode little-endian
-  {
-    return UTF16_LE;
-  }
-  else if (s[0] == 0xFE && s[1] == 0xFF) // unicode big-endian
-  {
-    return UTF16_BE;
-  }
-  else if (s[0] == 0xEF && s[1] == 0xBB && s[2] == 0xBF) // utf-8 with BOM
-  {
-    return UTF8_BOM;
-  }
-  else // expecting ANSI encoding =)
-    return UTF8;
 }
 
 void TimerList_Free(TimerList *lrclist)
@@ -83,7 +66,7 @@ int find_current_timer_list(DISP_OBJ_DBP *disp_obj, time_t tm)
 
 int str_to_timer(char *s)
 {
-  int len = strlen(s);
+  int len = StringLength(s);
   int i = 0;
   int ret = 0;
   while (i < len)
@@ -155,65 +138,47 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   if (file < 0)
     return READ_FAIL;
 
-  char *f_buffer;
   char *utf8_buffer;
-  // wchar_t *utf16_buffer;
+  wchar_t *utf16_buffer;
 
-  f_buffer = (char *)malloc(fsize + 1);
-  memset(f_buffer, NULL, fsize + 1);
-  fread(file, f_buffer, fsize);
+  utf8_buffer = StringAlloc(fsize);
+  fread(file, utf8_buffer, fsize);
   fclose(file);
 
-  int buff_size;
   BOOL is_supported;
-  FREE(disp_obj->lrcbuf);
+  StringFree(disp_obj->lrcbuf);
 
-  int encoding = get_encoding_type(f_buffer);
+  int encoding = Encoding_GetType(utf8_buffer);
 
   switch (encoding)
   {
-  case UTF8:
-    buff_size = strlen(f_buffer) + 1;
-    disp_obj->lrcbuf = (char *)malloc(buff_size);
-    memset(disp_obj->lrcbuf, NULL, buff_size);
-    strcpy(disp_obj->lrcbuf, f_buffer);
-    is_supported = TRUE;
-    break;
-  case UTF8_BOM:
-    buff_size = strlen(f_buffer) + 1;
-    utf8_buffer = (char *)malloc(buff_size);
-    memset(utf8_buffer, NULL, buff_size);
-    memcpy(utf8_buffer, f_buffer + 3, fsize - 2);
-
-    disp_obj->lrcbuf = (char *)malloc(buff_size);
-    memset(disp_obj->lrcbuf, NULL, buff_size);
+  case ANSI:
+    disp_obj->lrcbuf = StringAlloc(StringLength(utf8_buffer));
     strcpy(disp_obj->lrcbuf, utf8_buffer);
-
-    FREE(utf8_buffer);
     is_supported = TRUE;
     break;
-  // case UTF16_LE:
-  //   buff_size = fsize / 2;
-  //   utf16_buffer = (wchar_t *)malloc(buff_size);
-  //   memset(utf16_buffer, NULL, buff_size);
-  //   memcpy(utf16_buffer, f_buffer + 2, fsize - 1);
-
-  //   disp_obj->lrcbuf = (char *)malloc(buff_size);
-  //   memset(disp_obj->lrcbuf, NULL, buff_size);
-  //   unicode2win1251(disp_obj->lrcbuf, utf16_buffer, wstrlen(utf16_buffer));
-
-  //   debug_printf("\n utf16_buffer: %ls", utf16_buffer);
-  //   debug_printf("\n lrcbuf: %s", disp_obj->lrcbuf);
-
-  //   FREE(utf16_buffer);
-  //   is_supported = TRUE;
-  //   break;
+  case UTF8:
+    disp_obj->lrcbuf = StringAlloc(StringLength(utf8_buffer));
+    utf16_buffer = WStringAlloc(StringLength(utf8_buffer) * 2);
+    UTF82unicode(utf16_buffer, utf8_buffer, StringLength(utf8_buffer));
+    wstr2strn(disp_obj->lrcbuf, utf16_buffer, StringLength(utf8_buffer));
+    WStringFree(utf16_buffer);
+    is_supported = TRUE;
+    break;
+  case UTF16_LE:
+    utf16_buffer = WStringAlloc(fsize / 2);
+    memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
+    disp_obj->lrcbuf = StringAlloc(fsize);
+    wstr2strn(disp_obj->lrcbuf, utf16_buffer, fsize + 1);
+    WStringFree(utf16_buffer);
+    is_supported = TRUE;
+    break;
   default:
     is_supported = FALSE;
     break;
   }
 
-  FREE(f_buffer);
+  StringFree(utf8_buffer);
 
   if (!is_supported)
     return READ_FAIL;
@@ -221,20 +186,19 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   if (disp_obj->lrclist)
     TimerList_Free(disp_obj->lrclist);
 
-  int list_size = sizeof(TimerList) * MAX_TIMER;
-  disp_obj->lrclist = (TimerList *)malloc(list_size);
-  memset(disp_obj->lrclist, NULL, list_size);
+  disp_obj->lrclist = (TimerList *)malloc(sizeof(TimerList) * MAX_TIMER);
+  memset(disp_obj->lrclist, NULL, sizeof(TimerList) * MAX_TIMER);
   disp_obj->total_offset = 0;
 
   int i = 0;
-  while (i < strlen(disp_obj->lrcbuf))
+  while (i < StringLength(disp_obj->lrcbuf))
   {
     if (disp_obj->lrcbuf[i] == '[')
     {
       if (is_digit(disp_obj->lrcbuf[i + 1]))
       {
         int j = 1;
-        char tmp[MAX_EXT + 1] = "";
+        char *tmp = StringAlloc(MAX_EXT);
         while (disp_obj->lrcbuf[i + j] != ']')
         {
           if (j <= MAX_EXT)
@@ -246,19 +210,19 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
         char mm[4] = "";
         char ss[4] = "";
         char ms[4] = "";
-        strncpy(mm, tmp, strlen(tmp) - strlen(strstr(tmp, ":")));
+        strncpy(mm, tmp, StringLength(tmp) - StringLength(strstr(tmp, ":")));
         if (strstr(tmp, "."))
         {
-          strncpy(ss, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - strlen(strstr(tmp, ".")) - 1);
-          strncpy(ms, strstr(tmp, ".") + 1, strlen(strstr(tmp, ".")) - 1);
+          strncpy(ss, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - StringLength(strstr(tmp, ".")) - 1);
+          strncpy(ms, strstr(tmp, ".") + 1, StringLength(strstr(tmp, ".")) - 1);
         }
         else
-          strncpy(ss, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - 1);
+          strncpy(ss, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - 1);
         disp_obj->lrclist[disp_obj->total_offset].timer = str_to_timer(ms) + str_to_timer(ss) * 1000 + str_to_timer(mm) * 1000 * 60;
 
         int m = i;
         int k = i;
-        char ttmp[MAX_STR * 2 + 1] = "";
+        char *ttmp = StringAlloc(MAX_STR * 2);
         while (disp_obj->lrcbuf[m] != '\r' && disp_obj->lrcbuf[m] != '\n')
         {
           if (!disp_obj->lrcbuf[m])
@@ -267,12 +231,11 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
           k++;
           m++;
         }
-        wchar_t wstr[MAX_STR * 2 + 1] = L"";
+        wchar_t *wstr = WStringAlloc(MAX_STR * 2);
         str2wstr(wstr, ttmp);
-        disp_obj->lrclist[disp_obj->total_offset].lrcinfo = (wchar_t *)malloc(MAX_EXT + 1);
-        memset(disp_obj->lrclist[disp_obj->total_offset].lrcinfo, NULL, MAX_EXT + 1);
+        disp_obj->lrclist[disp_obj->total_offset].lrcinfo = WStringAlloc(MAX_EXT);
         wstrcpy(disp_obj->lrclist[disp_obj->total_offset].lrcinfo, wstrrchr(wstr, ']') + 1);
-        i += (strlen(tmp) + 1);
+        i += (StringLength(tmp) + 1);
         disp_obj->total_offset++;
       }
     }
@@ -283,11 +246,8 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
 
 void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
 {
-  int len_name = wstrlen(name);
-
-  wchar_t *lrc = (wchar_t *)malloc(sizeof(wchar_t) * (len_name + 2));
-  memset(lrc, NULL, sizeof(wchar_t) * (len_name + 2));
-  songname_to_lrc(lrc, name, len_name);
+  wchar_t *lrc = WStringAlloc(wstrlen(name));
+  songname_to_lrc(lrc, name, wstrlen(name));
 
   disp_obj->offset_len = 0;
   disp_obj->lrc_state = LoadLrc(disp_obj, path, lrc);
@@ -301,7 +261,7 @@ void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
     disp_obj->current_offset = NOLYRIC;
 
   DispObject_InvalidateRect(disp_obj, NULL);
-  FREE(lrc);
+  WStringFree(lrc);
 }
 
 void lyricOnTimer(u16 timerID, LPARAM lparam)
@@ -320,13 +280,21 @@ void lyricOnTimer(u16 timerID, LPARAM lparam)
 
   int betweentimer = disp_obj->lrclist[disp_obj->current_offset + 1].timer - disp_obj->lrclist[disp_obj->current_offset].timer;
   if (width <= disp_obj->disp_width)
+  {
     Timer_ReSet(&disp_obj->TimerLyric, betweentimer / 20, lyricOnTimer, (LPARAM *)disp_obj);
+  }
   if (width > disp_obj->disp_width && width <= disp_obj->disp_width * 2)
+  {
     Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 2), lyricOnTimer, (LPARAM *)disp_obj);
+  }
   if (width > disp_obj->disp_width * 2 && width <= disp_obj->disp_width * 3)
+  {
     Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 3), lyricOnTimer, (LPARAM *)disp_obj);
+  }
   if (width > disp_obj->disp_width * 3 && width <= disp_obj->disp_width * 4)
+  {
     Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 4), lyricOnTimer, (LPARAM *)disp_obj);
+  }
 }
 
 void Start_LyricTimer(DISP_OBJ_DBP *disp_obj)

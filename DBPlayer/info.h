@@ -22,6 +22,4 @@ TEXTID GetBitrate(DBP_DATA *data);
 TEXTID GetSampleRate(DBP_DATA *data);
 TEXTID GetAudioOutput(DBP_DATA *data);
 
-IMAGEID MetaData_GetCover(wchar_t *path, wchar_t *name);
-
 #endif

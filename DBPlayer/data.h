@@ -146,7 +146,7 @@ typedef struct _DBP_DATA
 
   int total_fonts, cur_pos;
 
-  bool IsCoverArt;
+  bool HasCoverArt;
   int CoverSize;
   IMAGEID CoverArtID;
 

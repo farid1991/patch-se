@@ -1,16 +1,15 @@
-#ifndef W980_R3EG004
-#define W980_R3EG004
+#ifndef W595_R3EF001
+#define W595_R3EF001
 
 #define A2
 #define DB3150v2
-#define CLEARAUDIO
 
-#define PGetFontDesc (FONT_DESC *)0x4BB9D07C
-#define PGetFontCount (int *)0x4BB9D3EC
-#define CID_CUIImageManager (PUUID)0x11DE4690
-#define IID_IUIImageManager (PUUID)0x11E0E968
-#define CID_CMetaData (PUUID)0x11DC8C5C
-#define IID_IMetaData (PUUID)0x11DFD174
+#define PGetFontDesc (FONT_DESC *)0x4BBA1CB0
+#define PGetFontCount (int *)0x4BBA2020
+#define CID_CUIImageManager (PUUID)0x11DD5DD8
+#define IID_IUIImageManager (PUUID)0x11DFFC80
+#define CID_CMetaData (PUUID)0x11DBA3A4
+#define IID_IMetaData (PUUID)0x11DEE48C
 
 #define POPUP_WARNING_ICN 0xF831
 
@@ -31,7 +30,7 @@
 #define TEXT_COLOR 0x23AA      // L"Colour"
 #define TEXT_COLOR_TEXT 0x23FA // L"Text colour"
 #define TEXT_COLOR_B 0x23A6    // L"Background colour"
-#define TEXT_MODE 0x1A47       // L"Режим отображ."
+#define TEXT_MODE 0x1A1E       // L"Режим отображ."
 #define TEXT_ON_OOM 0x32C      // L"????????"
 #define TEXT_OFF_OOM 0x32B     // L"?????????"
 #define TEXT_ANIMATION 0x173C

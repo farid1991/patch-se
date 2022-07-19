@@ -4,6 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
+
         defadr memalloc,0x4BA31878
         defadr memfree,0x4BA318A0
         defadr memset,0x14BFE6B0
@@ -105,42 +106,41 @@ a       EQU     b
         defadr wstrncmp,0x142C8F18+1
         defadr Display_GetHeight,0x142EA238+1
         defadr Display_GetWidth,0x142EA228+1
-		
+
         EXTERN CreateInfo
-        
+
         RSEG   CODE
         CODE16
 create_gui:
-        ldr r0, [r6,#4]
-        ldr r3, =FILEITEM_GetFextension
-        blx r3
-        ldr r1, =0x15AF9F5C
-        mov r2, #3
-        ldr r3, =wstrncmp
-        blx r3
-        cmp r0, #0
-        beq isMID
-        mov r2, r5
-        mov r1, r6
-        mov r0, r4
-        bl CreateInfo
-        b ret
+        ldr     r0, [r6,#4]
+        ldr     r3, =FILEITEM_GetFextension
+        blx     r3
+        ldr     r1, =0x15AF9F5C
+        mov     r2, #3
+        ldr     r3, =wstrncmp
+        blx     r3
+        cmp     r0, #0
+        beq     isMID
+        mov     r1, r5
+        mov     r0, r4
+        bl      CreateInfo
+        b       ret
 isMID:
-        mov r0, r5
-        ldr r3, =0x14FC8208+1
-        blx r3
-        str r0, [r6,#0x14]
-        cmp r0, #0
-        beq ret
-        ldr r3, =0x14D54BD8+1
-        bx r3
+        mov     r0, r5
+        ldr     r3, =0x14FC8208+1
+        blx     r3
+        str     r0, [r6,#0x14]
+        cmp     r0, #0
+        beq     ret
+        ldr     r3, =0x14D54BD8+1
+        bx      r3
 ret:
-        mov r0, #1
-        pop {r4-r7,pc}
-        
+        mov     r0, #1
+        pop     {r4-r7,pc}
+
         RSEG   CREATE_GUI
         CODE16
-        ldr r3, =create_gui
-        bx r3
+        ldr     r3, =create_gui
+        bx      r3
 
         END

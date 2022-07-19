@@ -3,16 +3,13 @@
 #include "..\\include\Types.h"
 #include "..\\include\classes\classes.h"
 
-#ifndef DB3150v1
 #include "dll.h"
-#endif
 
 #include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "info.h"
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 wchar_t *GetCoverType(char cover_type)
 {
   if (cover_type <= 3)
@@ -33,19 +30,17 @@ wchar_t *GetCoverType(char cover_type)
   return 0;
 }
 
-IMAGEID MetaData_GetCover(wchar_t *path, wchar_t *name)
+IMAGEID MetaData_GetCover(DBP_DATA *Data)
 {
-  IMAGEID ret = NOIMAGE;
-  IMAGEID imageID;
-  METADATA_DESC *MetaData_Desc = (METADATA_DESC *)dll_MetaData_Desc_Create(path, name);
+  IMAGEID imageID = NOIMAGE;
+  METADATA_DESC *MetaData_Desc = dll_MetaData_Desc_Create(Data->path, Data->name);
 
   char cover_type;
   int size;
   int cover_offset;
   if (dll_MetaData_Desc_GetCoverInfo(MetaData_Desc, &cover_type, &size, &cover_offset))
   {
-    DBP_DATA *data = GetData();
-    int file = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    int file = _fopen(Data->path, Data->name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
     if (file >= NULL)
     {
       if (lseek(file, cover_offset, SEEK_SET))
@@ -53,45 +48,39 @@ IMAGEID MetaData_GetCover(wchar_t *path, wchar_t *name)
         char *buf = (char *)malloc(size);
         fread(file, buf, size);
         ImageID_GetIndirect(buf, size, NULL, GetCoverType(cover_type), &imageID);
-        data->CoverSize = size;
-        ret = imageID;
+        Data->CoverSize = size;
       }
       fclose(file);
     }
   }
   dll_MetaData_Desc_Destroy(MetaData_Desc);
-  return ret;
+  return imageID;
 }
-#endif
 
 IMAGEID GetCoverArt(DBP_DATA *Data)
 {
-  IMAGEID image_id;
-#ifdef DB3150v1
-  image_id = MetaData_GetCover(Data->fullpath);
-#else
-  image_id = MetaData_GetCover(Data->path, Data->name);
-#endif
+  IMAGEID image_id = MetaData_GetCover(Data);
   if (image_id == NOIMAGE)
   {
-    Data->IsCoverArt = FALSE;
-    image_id = Data->Image[1].ID;
+    Data->HasCoverArt = FALSE;
+    image_id = Data->Image[IMG_NO_COVER].ID;
   }
   else
   {
-    Data->IsCoverArt = TRUE;
+    Data->HasCoverArt = TRUE;
   }
   return image_id;
 }
 
 TEXTID GetTags(wchar_t *path, wchar_t *name, int tag_id)
 {
-  TEXTID text_id = EMPTY_TEXTID;
+  TEXTID text_id;
   wchar_t *tag = MetaData_GetTags(path, name, tag_id);
   if (tag)
   {
     text_id = TextID_Create(tag, ENC_UCS2, TEXTID_ANY_LEN);
     mfree(tag);
+    return text_id;
   }
   else if (tag_id == TMetadataTagId_Title)
   {
@@ -101,7 +90,7 @@ TEXTID GetTags(wchar_t *path, wchar_t *name, int tag_id)
   {
     return TEXT_UNKNOWN;
   }
-  return text_id;
+  return EMPTY_TEXTID;
 }
 
 wchar_t *GetFormatType(DBP_DATA *data)
@@ -182,33 +171,34 @@ int synchsafeToNormal(char tagSize[4])
 int get_tag_size(wchar_t *path, wchar_t *name)
 {
   int ret = NULL;
-  int file = _fopen(path, name, FSX_O_RDONLY, FSX_S_IWRITE | FSX_S_IREAD, NULL);
-  char buf[10 + 1];
-  fread(file, buf, 10);
-  if (buf[0] == 'I' && buf[1] == 'D' && buf[2] == '3')
+  int file = _fopen(path, name, FSX_O_RDONLY, (FSX_S_IWRITE | FSX_S_IREAD), NULL);
+  if (file >= 0)
   {
-    char tagSize[4];
-    tagSize[0] = buf[6];
-    tagSize[1] = buf[7];
-    tagSize[2] = buf[8];
-    tagSize[3] = buf[9];
-    ret = synchsafeToNormal(tagSize);
+    char buf[10 + 1];
+    fread(file, buf, 10);
+    if (buf[0] == 'I' && buf[1] == 'D' && buf[2] == '3')
+    {
+      char tagSize[4];
+      tagSize[0] = buf[6];
+      tagSize[1] = buf[7];
+      tagSize[2] = buf[8];
+      tagSize[3] = buf[9];
+      ret = synchsafeToNormal(tagSize);
+    }
+    fclose(file);
   }
-  fclose(file);
   return ret;
 }
 
 TEXTID GetBitrate(DBP_DATA *data)
 {
   int tag_size = get_tag_size(data->path, data->path);
-
-  int cover = NULL;
-  if (data->IsCoverArt)
-    cover = data->CoverSize;
   FSTAT stat;
   fstat(data->path, data->name, &stat);
-  int bitrate = (stat.fsize - cover - tag_size) / 1000 * 8 / data->full_track_time;
-  snwprintf(data->buf, MAXELEMS(data->buf), L"%d kb/s", bitrate);
+  int size_in_kb = (stat.fsize - tag_size - data->CoverSize) / 1000;
+  int bitrate = (size_in_kb * 8) / data->full_track_time;
+
+  snwprintf(data->buf, MAXELEMS(data->buf), L"%d Kbps", bitrate);
   return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 

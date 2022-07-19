@@ -180,7 +180,7 @@ int Text_OnMessage(GUI_MESSAGE *msg)
         int style = data->temp.font >> 8;
         if (style == UIFontStylePlain)
         {
-          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_R", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
         }
         else if (style == UIFontStyleBold)
         {

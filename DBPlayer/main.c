@@ -41,7 +41,7 @@ void FreeIcon(DBP_DATA *data)
     if (data->Image[i].ID != NOIMAGE)
       REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, data->Image[i].Handle, 0, 0, data->Image[i].ID, 1, &error_code);
 
-  if (data->IsCoverArt)
+  if (data->HasCoverArt)
     ImageID_Free(data->CoverArtID);
 }
 
@@ -116,7 +116,7 @@ void Draw_LyricViewer(DISP_OBJ_DBP *disp_obj)
     {
       int strr = STR("Please wait...");
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-      dll_DrawString(FONT_E_18R, strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, clYellow);
+      dll_DrawString(FONT_E_16R, strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, clYellow);
 #else
       SetFont(FONT_E_16R);
       DrawString(strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clYellow, clYellow);
@@ -146,7 +146,7 @@ void Draw_LyricViewer(DISP_OBJ_DBP *disp_obj)
         if (width1 > disp_obj->disp_width * 3 && width1 <= disp_obj->disp_width * 4)
           pos1 -= 80;
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-        dll_DrawString(FONT_E_18R, stridd[i], AlignLeft, 0, 100 + pos1 - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clWhite);
+        dll_DrawString(FONT_E_16R, stridd[i], AlignLeft, 0, 100 + pos1 - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clWhite);
 #else
         SetFont(FONT_E_16R);
         DrawString(stridd[i], AlignLeft, 0, 100 + pos1 - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clWhite, clWhite);
@@ -160,7 +160,7 @@ void Draw_LyricViewer(DISP_OBJ_DBP *disp_obj)
       {
         stridd[disp_obj->current_offset] = TextID_Create(disp_obj->lrclist[disp_obj->current_offset].lrcinfo, ENC_UCS2, TEXTID_ANY_LEN);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-        dll_DrawString(FONT_E_18B, stridd[disp_obj->current_offset], AlignLeft, 0, 100 - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clYellow);
+        dll_DrawString(FONT_E_16B, stridd[disp_obj->current_offset], AlignLeft, 0, 100 - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clYellow);
         int width2 = dll_Disp_GetTextIDWidth(stridd[disp_obj->current_offset], TextID_GetLength(stridd[disp_obj->current_offset]));
 #else
         SetFont(FONT_E_16B);
@@ -181,7 +181,7 @@ void Draw_LyricViewer(DISP_OBJ_DBP *disp_obj)
       {
         stridd[i] = TextID_Create(disp_obj->lrclist[i].lrcinfo, ENC_UCS2, TEXTID_ANY_LEN);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-        dll_DrawString(FONT_E_18R, stridd[i], AlignLeft, 0, 100 + pos - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clWhite);
+        dll_DrawString(FONT_E_16R, stridd[i], AlignLeft, 0, 100 + pos - disp_obj->offset_len, disp_obj->disp_width, disp_obj->disp_height, clWhite);
         int width3 = dll_Disp_GetTextIDWidth(stridd[i], TextID_GetLength(stridd[i]));
 #else
         SetFont(FONT_E_16R);
@@ -206,9 +206,9 @@ void Draw_LyricViewer(DISP_OBJ_DBP *disp_obj)
   {
     int strr = TextID_Create(L"No Lyric found", ENC_UCS2, TEXTID_ANY_LEN);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    dll_DrawString(FONT_E_18R, strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, clYellow);
+    dll_DrawString(FONT_E_16R, strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, clYellow);
 #else
-    SetFont(FONT_E_18R);
+    SetFont(FONT_E_16R);
     DrawString(strr, AlignCenter, 0, disp_obj->disp_height >> 1, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clYellow, clYellow);
 #endif
     TextID_Destroy(strr);
@@ -279,6 +279,7 @@ void DBPlayer_onClose(DISP_OBJ_DBP *disp_obj)
     Lyric_FreeData(disp_obj);
     Kill_LyricTimer(disp_obj);
   }
+
   DBP_DATA *data = GetData();
   FreeIcon(data);
   DeleteData(data);
@@ -306,8 +307,6 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP *disp_obj, int, int, int)
 
   disp_obj->media_volume = GetMediaVolume();
 
-  GC *pGC = get_DisplayGC();
-
   if (data->setting.background.state == TYPE_IMAGE)
     DrawImage(data->setting.background.pos.x,
               data->setting.background.pos.y,
@@ -319,11 +318,10 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP *disp_obj, int, int, int)
 
   if (data->setting.cover && (data->CoverArtID != NOIMAGE)) // Album Art
   {
-
 #ifdef DB3150v1
-    GC_PutChar(pGC,
+    GC_PutChar(get_DisplayGC(),
 #else
-    dll_GC_PutChar(pGC,
+    dll_GC_PutChar(get_DisplayGC(),
 #endif
                data->setting.cover_rect.x1,
                data->setting.cover_rect.y1,
@@ -541,7 +539,7 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP *disp_obj, int, int, int)
       if (style == UIFontStylePlain)
       {
         snwprintf(data->buf,
-                  MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d",
+                  MAXELEMS(data->buf), L"%d, %d, %d, %d font:%d_R",
                   data->temp.x1,
                   data->temp.y1,
                   data->temp.x2,
@@ -997,9 +995,9 @@ GUI_DBPLAYER *CreateGUI(BOOK *book)
 
   if (!data->setting.soft)
     GUIObject_SoftKeys_Hide(gui_dbp);
-#ifndef U10_R7AA071
-  GUIObject_SoftKeys_AllowKeylock(gui_dbp, TRUE);
-#endif
+    // #ifndef U10_R7AA071
+    //   GUIObject_SoftKeys_AllowKeylock(gui_dbp, TRUE);
+    // #endif
 
 #ifdef DB3350
   GUIObject_SetAnimationApp(gui_dbp, L"FromStatusrow");

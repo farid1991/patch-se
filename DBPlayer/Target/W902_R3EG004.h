@@ -1,16 +1,17 @@
-#ifndef W980_R3EG004
-#define W980_R3EG004
+#ifndef W902_R3EG004
+#define W902_R3EG004
 
 #define A2
 #define DB3150v2
 #define CLEARAUDIO
 
-#define PGetFontDesc (FONT_DESC *)0x4BB9D07C
-#define PGetFontCount (int *)0x4BB9D3EC
-#define CID_CUIImageManager (PUUID)0x11DE4690
-#define IID_IUIImageManager (PUUID)0x11E0E968
-#define CID_CMetaData (PUUID)0x11DC8C5C
-#define IID_IMetaData (PUUID)0x11DFD174
+#define PGetFontDesc (FONT_DESC *)0x4BBAE01C
+#define PGetFontCount (int *)0x4BBAE38C
+
+#define CID_CUIImageManager (PUUID)0x11E9D7D0
+#define IID_IUIImageManager (PUUID)0x11EC76C0
+#define CID_CMetaData (PUUID)0x11E81D9C
+#define IID_IMetaData (PUUID)0x11EB5ECC
 
 #define POPUP_WARNING_ICN 0xF831
 
