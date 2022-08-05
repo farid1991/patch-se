@@ -137,7 +137,7 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
       disp_obj->need_str = 0;
     }
   }
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   Draw_String(font,
               disp_obj->str_id,
               AlignLeft,

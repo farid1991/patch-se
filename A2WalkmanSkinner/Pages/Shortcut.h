@@ -1,11 +1,13 @@
 #ifndef _SHORTCUT_H_
 #define _SHORTCUT_H_
 
-#define FILE_NAME L"msc.bin"
+#define CONFIG_NAME L"msc.bin"
 #define TEXTID_SPACE 0x78000020
-#define BOOKNAME "MusicShortcut_Book"
-#define BASE_PAGE_NAME "MusicShortcut_Base_Page"
-#define MAIN_PAGE_NAME "MusicShortcut_Main_Page"
+
+static const char *MusicShortcutBookName = "MusicApplicationShortcut_Book";
+static const char MusicShortcut_Base_Page_Name[] = "MusicApplication_Shortcut_Base_Page";
+static const char MusicShortcut_Main_Page_Name[] = "MusicApplication_Shortcut_Main_Page";
+static const char MusicShortcut_Page_Select_Name[] = "MusicApplication_Shortcut_SelectAction_Page";
 
 enum Modes
 {
@@ -30,13 +32,13 @@ enum KeyList
 
 typedef struct
 {
-  u16 action;
+  uint16_t action;
   TEXTID textid;
 } SOFTKEY_LIST_ELEM;
 
 typedef struct
 {
-  u16 action[Item_Key_Last];
+  uint16_t action[Item_Key_Last];
 } FILE_DATA;
 
 typedef struct MusicApplication_Shortcut_Book : BOOK
@@ -66,7 +68,7 @@ const PAGE_MSG bk_msglst_sc[] =
         CANCEL_EVENT, pg_MusicApplication_Shortcut_CancelAction,
         NIL_EVENT, NULL};
 
-const PAGE_DESC MusicApplication_SelectShortcut_Page = {"MusicApplication_Shortcut_SelectAction_Page", NULL, bk_msglst_sc};
+const PAGE_DESC MusicApplication_SelectShortcut_Page = {MusicShortcut_Page_Select_Name, NULL, bk_msglst_sc};
 
 const PAGE_MSG bk_msglst_base[] =
     {
@@ -82,7 +84,7 @@ const PAGE_MSG bk_msglst_main[] =
         PAGE_EXIT_EVENT, pg_MusicApplication_Shortcut_ExitAction,
         NIL_EVENT, NULL};
 
-const PAGE_DESC MusicApplication_Shortcut_Base_Page = {"MusicApplication_Shortcut_Base_Page", NULL, bk_msglst_base};
-const PAGE_DESC MusicApplication_Shortcut_Main_Page = {"MusicApplication_Shortcut_Main_Page", NULL, bk_msglst_main};
+const PAGE_DESC MusicApplication_Shortcut_Base_Page = {MusicShortcut_Base_Page_Name, NULL, bk_msglst_base};
+const PAGE_DESC MusicApplication_Shortcut_Main_Page = {MusicShortcut_Main_Page_Name, NULL, bk_msglst_main};
 
 #endif

@@ -1,9 +1,9 @@
 #ifndef _IFONTMANAGER_H_
 #define _IFONTMANAGER_H_
 
-#include "IUIRichTextLayoutOptions.h"
+#include "..\types\Basic_types.h"
+#include "IUIRichTextLayout.h"
 
-typedef unsigned short FUint16;
 typedef FUint16 TUIRenderStyle;
 /**
  *

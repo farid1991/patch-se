@@ -9,8 +9,6 @@
 #include "..\\..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "..\\dll.h"
@@ -111,7 +109,7 @@ void LoadImage(Internal_Function *Data)
         Data->MusicPlayer[i].ImageID = NOIMAGE;
       }
     }
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
     Data->blob_w = division(dll_GetImageWidth(Data->MusicPlayer[4].ImageID), 2);
     Data->blob_h = division(dll_GetImageHeight(Data->MusicPlayer[4].ImageID), 2);
 #else

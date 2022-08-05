@@ -54,7 +54,7 @@ int SelectFont_OnCreate(DISP_OBJ_FONT_SEL *disp_obj)
   disp_obj->item_textid = EMPTY_TEXTID;
   disp_obj->t_textid = STR("Sample Text");
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   disp_obj->total_fonts = max_size / font_step;
 #else
   disp_obj->total_fonts = *GetFontCount;
@@ -72,7 +72,7 @@ void SelectFont_OnClose(DISP_OBJ_FONT_SEL *disp_obj)
 void SelectFont_OnRedraw(DISP_OBJ_FONT_SEL *disp_obj, int a, int b, int c)
 {
   wchar_t ustr[32];
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   switch (disp_obj->font_style)
   {
   case UIFontStylePlain:
@@ -123,7 +123,7 @@ void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int, int repeat, int
       if (++disp_obj->cur_pos >= disp_obj->total_fonts)
         disp_obj->cur_pos = 0;
     }
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
     else if (key == KEY_DEL)
     {
       if (++disp_obj->style > UIFontStyleBoldItalic)
@@ -187,7 +187,7 @@ void SelectFont_callback(DISP_OBJ *disp, void *msg, GUI *gui)
 void GUIObject_Font_SetDefault(GUI *gui_fontsel, int font_size)
 {
   DISP_OBJ_FONT_SEL *disp_obj = (DISP_OBJ_FONT_SEL *)GUIObject_GetDispObject(gui_fontsel);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   disp_obj->cur_pos = FONT_HEIGHT(font_size) / font_step - 1;
   int style_flags = font_size >> 8;
   disp_obj->style_bold = style_flags & bold;
@@ -203,7 +203,7 @@ void GUIObject_Font_SetDefault(GUI *gui_fontsel, int font_size)
 int GUIObject_Font_GetSize(GUI *gui_fontsel)
 {
   DISP_OBJ_FONT_SEL *disp_obj = (DISP_OBJ_FONT_SEL *)GUIObject_GetDispObject(gui_fontsel);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   return disp_obj->font_size;
 #else
   FONT_DESC *font = GetFontDesc;
@@ -211,7 +211,7 @@ int GUIObject_Font_GetSize(GUI *gui_fontsel)
 #endif
 }
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 int GUIObject_Font_GetStyle(GUI *gui_fontsel)
 {
   DISP_OBJ_FONT_SEL *disp_obj = (DISP_OBJ_FONT_SEL *)GUIObject_GetDispObject(gui_fontsel);

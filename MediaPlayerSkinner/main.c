@@ -21,6 +21,30 @@ void mfree(void *mem)
     memfree(NULL, mem, "MP", NULL);
 }
 
+wchar_t *getSampleRate(int index)
+{
+  switch (index)
+  {
+  case 8000:
+    return L"8.0KHz";
+  case 11025:
+    return L"11.02KHz";
+  case 16000:
+    return L"16.0KHz";
+  case 22050:
+    return L"22.05KHz";
+  case 24000:
+    return L"24.0KHz";
+  case 32000:
+    return L"32.0KHz";
+  case 44100:
+    return L"44.1KHz";
+  case 48000:
+    return L"48.0KHz";
+  }
+  return NULL;
+}
+
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
 {
   int _SYNC = NULL;
@@ -403,8 +427,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj)
   {
     if (data->SampleRate)
     {
-      snwprintf(data->buffer, MAXELEMS(data->buffer), L"%.1fKHz", data->SampleRate);
-      data->text_id = TextID_Create(data->buffer, ENC_UCS2, TEXTID_ANY_LEN);
+      data->text_id = TextID_Create(getSampleRate(data->SampleRate), ENC_UCS2, TEXTID_ANY_LEN);
     }
     else
     {
@@ -533,7 +556,7 @@ void GetMediaPlayerState(BOOK *book)
 
   ADVPLAYER_DATA *data = GetData();
   data->PlayerState = audioBook->player_state;
-  data->SampleRate = audioBook->sample_rate / 1000;
+  data->SampleRate = audioBook->sample_rate;
 
   if (data->PlayerState == TMusicState_Playing)
     data->IsPlaying = TRUE;

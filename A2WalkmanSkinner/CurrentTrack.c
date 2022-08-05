@@ -11,8 +11,6 @@
 #include "..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "CurrentTrack.h"
@@ -232,7 +230,7 @@ void GetNextTrackData(NEW_TRACK_DATA *TrackData, BOOK *book)
 
   if (ContainsAlbumart)
   {
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
     FUint32 pFileOffset;
     FUint32 pAlbumArtSize;
     TMusicServer_AlbumArt_ImageType pImageType;

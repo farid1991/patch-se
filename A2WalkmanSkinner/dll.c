@@ -8,7 +8,7 @@
 #include "dll.h"
 #include "main.h"
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 // SetFont ----------------------------------------------------
 void dll_SetFont(int font_size, int font_style, IFont **ppFont)
 {
@@ -131,7 +131,7 @@ int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
 #endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
   CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
@@ -165,7 +165,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
 }
 #endif
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;

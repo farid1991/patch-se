@@ -172,7 +172,7 @@ typedef enum
 
 // images ----------------------------------------------------------------------
 #ifdef DB3350
-typedef int IMAGEID;
+typedef uint32_t IMAGEID;
 #else
 typedef wchar_t IMAGEID;
 #endif

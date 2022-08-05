@@ -17,8 +17,8 @@ typedef struct _DISP_OBJ_COORD : DISP_OBJ
   TEXTID str_id;
   int need_str;
   int cstep;
-  u16 disp_width;
-  u16 disp_height;
+  uint16_t disp_width;
+  uint16_t disp_height;
 } DISP_OBJ_COORD;
 
 typedef union

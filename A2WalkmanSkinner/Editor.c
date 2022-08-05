@@ -219,7 +219,7 @@ void SelectFont_OnSelect(BOOK *book, GUI *gui)
 
   DISP_OBJ_FONT_SEL *disp_obj = (DISP_OBJ_FONT_SEL *)GUIObject_GetDispObject(mbk->font_select);
   mbk->Str_Font_Size = GUIObject_Font_GetSize(mbk->font_select);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   switch (GUIObject_Font_GetStyle(mbk->font_select))
   {
   case UIFontStylePlain:
@@ -287,7 +287,7 @@ int EditorSlider_OnMessage(GUI_MESSAGE *msg)
     int item = GUIonMessage_GetCreatedItemIndex(msg);
     if (item == 0)
     {
-      GUIonMessage_SetMenuItemText(msg, TEXT_DISABLED);
+      GUIonMessage_SetMenuItemText(msg, TEXT_ENABLED);
       if (mbk->Str_Enable)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_YES);
       else
@@ -393,7 +393,7 @@ int EditorItemIcon_OnMessage(GUI_MESSAGE *msg)
     int item = GUIonMessage_GetCreatedItemIndex(msg);
     if (item == 0)
     {
-      GUIonMessage_SetMenuItemText(msg, TEXT_DISABLED);
+      GUIonMessage_SetMenuItemText(msg, TEXT_ENABLED);
       if (mbk->Str_Enable)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_YES);
       else
@@ -566,7 +566,7 @@ int EditorItemText_OnMessage(GUI_MESSAGE *msg)
     if (item == 3)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_FONT_SIZE);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
       int style = mbk->Str_Font_Size >> 8;
       switch (style)
       {

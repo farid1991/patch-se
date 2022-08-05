@@ -2,7 +2,7 @@
 #define _LYRIC_H_
 
 #include "..\\CurrentTrack.h"
-#include "..\\GUI/AdvLyric.h"
+#include "..\\GUI\AdvLyric.h"
 
 #define MAX_STR 200
 #define MAX_EXT 100
@@ -18,7 +18,7 @@ static const char AdvLyric_Main_PageName[] = "AdvLyric_Main_Page";
 
 typedef struct
 {
-  unsigned long Timer;
+  uint32_t Timer;
   wchar_t *LrcInfo;
 } TimerList;
 
@@ -31,10 +31,10 @@ typedef struct _AdvLyricBook : BOOK
   int Display;
   int CurrentIndex;
   int Length;
-  u16 LyricShowTimer;
-  unsigned int list_num;
-  u16 scr_w;
-  u16 scr_h;
+  uint16_t LyricShowTimer;
+  uint32_t list_num;
+  uint16_t scr_w;
+  uint16_t scr_h;
 } AdvLyricBook;
 
 void Enter_Lyric(BOOK *book, GUI *gui);

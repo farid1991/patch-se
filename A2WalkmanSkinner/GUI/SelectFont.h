@@ -1,7 +1,7 @@
 #ifndef _SELECTFONT_H_
 #define _SELECTFONT_H_
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 #define font_step 1
 #define max_size 100
 #define bold 1
@@ -22,11 +22,11 @@ typedef struct _DISP_OBJ_FONT_SEL : DISP_OBJ
   int total_fonts;
   int font_size;
   int font_height;
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   bool style_bold;
   bool style_italic;
-  char font_style;
-  char style;
+  uint8_t font_style;
+  uint8_t style;
 #endif
 } DISP_OBJ_FONT_SEL;
 
@@ -39,7 +39,7 @@ GUI_FONT_SEL *Create_SelectFont(BOOK *book);
 void GUIObject_Font_SetDefault(GUI_FONT_SEL *gui_fontsel, int font_size);
 int GUIObject_Font_GetSize(GUI_FONT_SEL *gui_fontsel);
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
 int GUIObject_Font_GetStyle(GUI_FONT_SEL *gui_fontsel);
 #endif
 

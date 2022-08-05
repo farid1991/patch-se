@@ -144,7 +144,7 @@ extern "C" void New_MediaPlayer_Audio_OnRedraw(DISP_OBJ *disp_obj, int a, int b,
 extern "C" void New_MediaPlayer_Audio_SetStyle(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
-  if (data->fullscreen)
+  if (data->Skin->fullscreen)
   {
     DispObject_SetStyle(disp_obj, UI_OverlayStyle_FullScreenNoStatus);
   }
@@ -157,7 +157,7 @@ extern "C" void New_MediaPlayer_Audio_SetStyle(DISP_OBJ *disp_obj)
 void WalkmanDisplay_SetSize(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
-  if (data->fullscreen)
+  if (data->Skin->fullscreen)
   {
     DispObject_WindowSetSize(disp_obj, Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main));
   }
@@ -178,7 +178,7 @@ extern "C" void New_MediaPlayer_PlayQueue_SetTitle(DISP_OBJ *disp_obj)
 {
   ADVPLAYER_DATA *data = GetData();
 
-  if (data->fullscreen)
+  if (data->Skin->fullscreen)
   {
     DispObject_SetTitleType(disp_obj, UI_TitleMode_Large);
     DispObject_SetSecondRowTitleText(disp_obj, MP_BR_LISTPLAYLIST_TXT);
@@ -456,8 +456,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b
   {
     if (data->SampleRate)
     {
-      snwprintf(data->buffer, MAXELEMS(data->buffer), L"%.1fKHz", data->SampleRate);
-      data->text_id = TextID_Create(data->buffer, ENC_UCS2, TEXTID_ANY_LEN);
+      data->text_id = TextID_Create(getSampleRate(data->SampleRate), ENC_UCS2, TEXTID_ANY_LEN);
     }
     else
     {

@@ -7,11 +7,9 @@
 #include "..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
-#define MEM_NAME "WSK"
+#define MEM_NAME "WSK_MEM"
 #define EMP_NAME "WSK_EMP"
 
 #define DESTROY_GUI(gui)             \
@@ -31,7 +29,7 @@
 
 enum MusicPlayer_Image
 {
-  MP_BG_LD = 0,
+  MP_BG_LD,
   MP_BG_PT,
   NO_COVER_ICN,
   OVERLAY_IMAGE_P,
@@ -588,7 +586,7 @@ typedef struct _Internal_Function
   TMusicServer_Time FullTime;
   TMusicServer_Time ElapsedTime;
 
-  u16 AutoOffTimer;
+  uint16_t AutoOffTimer;
   bool TimerOn;
   int Counter;
 
@@ -598,8 +596,8 @@ typedef struct _Internal_Function
   int VolumeLevel;
   int Bitrate;
 
-  u16 blob_w;
-  u16 blob_h;
+  uint16_t blob_w;
+  uint16_t blob_h;
 
   SkinData SData;
   SkinDrawData Main;

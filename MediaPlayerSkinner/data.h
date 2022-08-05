@@ -196,7 +196,7 @@ typedef struct _ADVPLAYER_DATA
 
   bool IsPlaying;  
   char PlayerState;
-  double SampleRate;
+  int SampleRate;
   int fullscreen;
   TEXTID text_id;
 

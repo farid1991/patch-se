@@ -9,8 +9,6 @@
 #include "..\\..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "..\\FilesList.h"
@@ -63,7 +61,7 @@ LIST *Create_SoftkeyList(LIST *slist)
 
 void GetData(void *mydata, int size)
 {
-  int file = _fopen(FILE_PATH, FILE_NAME, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int file = _fopen(FILE_PATH, CONFIG_NAME, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
   if (file >= 0)
   {
     fread(file, mydata, size);
@@ -79,7 +77,7 @@ void WriteData(u16 key_id, u16 action_id)
 
   fdata->action[key_id] = action_id;
 
-  int file = _fopen(FILE_PATH, FILE_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int file = _fopen(FILE_PATH, CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
   if (file >= 0)
   {
     fwrite(file, fdata, sizeof(FILE_DATA));
@@ -93,7 +91,7 @@ int GetChecked(LIST *list, int item_pos)
   int ret = 0;
 
   FSTAT _fstat;
-  int file = fstat(FILE_PATH, FILE_NAME, &_fstat);
+  int file = fstat(FILE_PATH, CONFIG_NAME, &_fstat);
   if (file >= 0)
   {
     int size = _fstat.fsize;
@@ -322,7 +320,7 @@ MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
   MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)malloc(sizeof(MusicApplication_Shortcut_Book));
   memset(pShortcutBook, NULL, sizeof(MusicApplication_Shortcut_Book));
 
-  int mbk = CreateBook(pShortcutBook, MusicApplication_Shortcut_Destroy, &MusicApplication_Shortcut_Base_Page, BOOKNAME, NO_BOOK_ID, NULL);
+  int mbk = CreateBook(pShortcutBook, MusicApplication_Shortcut_Destroy, &MusicApplication_Shortcut_Base_Page, MusicShortcutBookName, NO_BOOK_ID, NULL);
   if (!mbk)
   {
     mfree(pShortcutBook);
@@ -354,7 +352,7 @@ void execute_kb(BOOK *book, char key, int mode)
     char key_id = GetKeyID(key);
 
     FSTAT _fstat;
-    int file = fstat(FILE_PATH, FILE_NAME, &_fstat);
+    int file = fstat(FILE_PATH, CONFIG_NAME, &_fstat);
     if (file >= 0)
     {
       int size = _fstat.fsize;

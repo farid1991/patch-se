@@ -1,8 +1,6 @@
 #ifndef _SelectFont_H_
 #define _SelectFont_H_
 
-//==============================================================================
-
 enum 
 {
   COORD_POINT,

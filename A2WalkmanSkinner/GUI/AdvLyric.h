@@ -12,8 +12,8 @@ typedef struct GUI GUI_Lyric;
 typedef struct _DISP_OBJ_ADVLYRIC : DISP_OBJ
 {
   int fastchanged;
-  u16 disp_width;
-  u16 disp_height;
+  uint16_t disp_width;
+  uint16_t disp_height;
   int media_volume;
   TEXTID TitleText;
   TEXTID LrcText[100];

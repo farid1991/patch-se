@@ -11,8 +11,6 @@
 #include "..\\..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "..\\CurrentTrack.h"
@@ -280,7 +278,7 @@ void onLrcShowTimer(u16 timerID, LPARAM lparam)
   InvalidateRect(disp_obj);
 
   int textid = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
   int width = dll_Disp_GetTextIDWidth(FONT_E_16B, textid, TextID_GetLength(textid));
 #else
   int width = Disp_GetTextIDWidth(textid, TextID_GetLength(textid));

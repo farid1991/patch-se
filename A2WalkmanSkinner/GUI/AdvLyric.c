@@ -84,7 +84,7 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
       for (int i = Lrc->CurrentIndex - 1; i >= 0; i--)
       {
         disp_obj->LrcText[i] = TextID_Create(Lrc->LrcList[i].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
         int width1 = dll_Disp_GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
 #else
         int width1 = Disp_GetTextIDWidth(disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
@@ -98,7 +98,7 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
         if (width1 > disp_obj->disp_width * 3 && width1 <= disp_obj->disp_width * 4)
           pos1 -= 80;
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
         Draw_String(FONT_E_16R,
                     disp_obj->LrcText[i],
                     AlignLeft,
@@ -118,7 +118,7 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
       if (Lrc->CurrentIndex >= 0)
       {
         disp_obj->LrcText[Lrc->CurrentIndex] = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, 0, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
         int width2 = dll_Disp_GetTextIDWidth(FONT_E_16B, disp_obj->LrcText[Lrc->CurrentIndex], TextID_GetLength(disp_obj->LrcText[Lrc->CurrentIndex]));
         Draw_String(FONT_E_16B,
                     disp_obj->LrcText[Lrc->CurrentIndex],
@@ -146,7 +146,7 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
       for (int i = (Lrc->CurrentIndex + 1); i < 100 && i >= 0; i++)
       {
         disp_obj->LrcText[i] = TextID_Create(Lrc->LrcList[i].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
         int width3 = dll_Disp_GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
         Draw_String(FONT_E_16R,
                     disp_obj->LrcText[i],

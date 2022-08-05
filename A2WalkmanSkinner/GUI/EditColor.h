@@ -31,8 +31,8 @@ typedef struct _DISP_OBJ_COLOR : DISP_OBJ
   int a_color;
   int text_color;
 
-  u16 disp_width;
-  u16 disp_height;
+  uint16_t disp_width;
+  uint16_t disp_height;
 
 } DISP_OBJ_COLOR;
 

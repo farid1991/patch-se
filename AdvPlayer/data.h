@@ -196,7 +196,7 @@ typedef struct _ADVPLAYER_DATA
 
   bool IsPlaying;
   char PlayerState;
-  double SampleRate;
+  int SampleRate;
   int fullscreen;
   TEXTID text_id;
 
@@ -222,7 +222,7 @@ wchar_t *LoadCurrentSkinPath();
 void ReadConfig(SKIN_DATA *Skin, wchar_t *skin_path);
 void ReloadSkinData(ADVPLAYER_DATA *data, wchar_t *new_skin_path);
 void Free_SkinData(SKIN_DATA *Skin);
-
+wchar_t *getSampleRate(int index);
 void GetCoverArt(ADVPLAYER_DATA *);
 void GetMediaPlayerState(BOOK *book);
 

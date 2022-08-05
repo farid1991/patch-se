@@ -13,8 +13,8 @@
 void SaveSkinData(BOOK *book, wchar_t *path, wchar_t *name)
 {
   SkinEditor_Book *mbk = (SkinEditor_Book *)book;
-  int f = _fopen(path, name, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-  if (f >= 0)
+  int File = _fopen(path, name, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (File >= 0)
   {
     SkinData *Data = (SkinData *)malloc(sizeof(SkinData));
     memset(Data, NULL, sizeof(SkinData));
@@ -418,8 +418,8 @@ void SaveSkinData(BOOK *book, wchar_t *path, wchar_t *name)
     Data->SoftKeys = mbk->SoftKeys;
     Data->Land_VisualisationEnable = mbk->Land_VisualisationEnable;
 
-    fwrite(f, Data, sizeof(SkinData));
-    fclose(f);
+    fwrite(File, Data, sizeof(SkinData));
+    fclose(File);
     mfree(Data);
   }
 }
@@ -428,12 +428,12 @@ void LoadSkinData(BOOK *book, wchar_t *path, wchar_t *name)
 {
   SkinEditor_Book *mbk = (SkinEditor_Book *)book;
 
-  int f;
-  if ((f = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= 0)
+  int File = _fopen(path, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (File >= 0)
   {
     SkinData *Data = (SkinData *)malloc(sizeof(SkinData));
     memset(Data, NULL, sizeof(SkinData));
-    fread(f, Data, sizeof(SkinData));
+    fread(File, Data, sizeof(SkinData));
 
     wstrcpy(mbk->AuthorName, Data->Author);
 
@@ -835,7 +835,7 @@ void LoadSkinData(BOOK *book, wchar_t *path, wchar_t *name)
     mbk->FullScreen = Data->FullScreen;
     mbk->SoftKeys = Data->SoftKeys;
 
-    fclose(f);
+    fclose(File);
     mfree(Data);
   }
 }
@@ -1362,7 +1362,7 @@ extern "C" void LoadPortraitData()
       Internal_Function *WData = Get_Internal_Function();
 
       WData->Portrait = TRUE;
-      
+
       // Title
       WData->Main.Title.x1 = Data->Title_x1;
       WData->Main.Title.y1 = Data->Title_y1;

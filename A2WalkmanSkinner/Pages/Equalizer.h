@@ -9,7 +9,7 @@
 
 typedef struct
 {
-  char preset;
+  uint8_t preset;
   bool manual;
 
   int8_t boost_level;

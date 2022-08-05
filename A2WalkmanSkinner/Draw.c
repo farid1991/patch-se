@@ -13,7 +13,7 @@ void Draw_String(int font, TEXTID text, int align, int x1, int y1, int x2, int y
 {
   if (text != EMPTY_TEXTID)
   {
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
     dll_DrawString(font, text, align, x1, y1, x2, y2, TextColor);
 #else
     SetFont(font);
@@ -40,7 +40,7 @@ void DrawString_onRect(int font, TEXTID textid, int text_color, int rect_x, int 
                     textid,
                     AlignCenter,
                     rect_x,
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
                     rect_y + division((rect_h - font_h(font)), 2),
 #else
                     rect_y + division((rect_h - font), 2),
@@ -79,7 +79,7 @@ void DrawSlider(int value, int max_value, RECT rect, int Color_ProgressBarOutlin
 
   if (thumb && thumb != NOIMAGE)
   {
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+#if defined(DB3200) || defined(DB3210)
     int thumb_w = division(dll_GetImageWidth(thumb), 2);
     int thumb_h = division(dll_GetImageHeight(thumb), 2);
 #else

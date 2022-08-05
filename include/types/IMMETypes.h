@@ -356,20 +356,20 @@ typedef struct
 {
   TMMEContentType contentType;         ///< Type of content, @see TMMEContentType.
   TMMETime mediaLength;                ///< Media file total playback time, @see TMMETime.
-  char fileFormatId;                   ///< Media file format identifier.
+  FUint8 fileFormatId;                 ///< Media file format identifier.
   TMMEFileFormatIdType fileFormatType; ///< File format type description, @see TMMEFileFormatIdType.
   TMMEAudioOutput audioOutput;         ///< Mono/stero audio output, @see TMMEAudioOutput.
-  char audioCodecId;                   ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
+  FUint8 audioCodecId;                 ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
   TMMEAudioCodecIdType audioCodecType; ///< Audio codec id type description, @see TMMEAudioCodecIdType.
-  int audioSampleRate;                 ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
+  FUint32 audioSampleRate;             ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
   FUint16 bpmTempo;                    ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
   TBool videoImageSizePresent;         ///< TRUE if there is available information about VideoImageSize.
   TMMEVideoImageSize videoImageSize;   ///< Video image size, @see TMMEVideoImageSize.
-  char videoCodecId;                   ///< Video codec id of an video encoding type.
+  FUint8 videoCodecId;                 ///< Video codec id of an video encoding type.
   TMMEVideoCodecIdType videoCodecType; ///< Video codec id type description, @see TMMEVideoCodecIdType.
 
   wchar_t streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
-  int streamingContentId;                                                  ///< Streaming content format identifier.
+  FUint32 streamingContentId;                                              ///< Streaming content format identifier.
   TBool isLiveStreaming;                                                   ///< Description if the content is live streamig or not.
   TBool is_DRM_Protected;                                                  ///< Description if the content is DRM protected or not.
 } TMMEMediaProperties;
@@ -393,33 +393,33 @@ typedef struct MME_DATA
   FUint8 videoCodecId;                 ///< Video codec id of an video encoding type.
   TMMEVideoCodecIdType videoCodecType; ///< Video codec id type description, @see TMMEVideoCodecIdType.
 
-  wchar_t streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
-  FUint32 streamingContentId;                                              ///< Streaming content format identifier.
-  TBool isLiveStreaming;                                                   ///< Description if the content is live streamig or not.
-  TBool is_DRM_Protected;                                                  ///< Description if the content
+  TChar streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
+  FUint32 streamingContentId;                                            ///< Streaming content format identifier.
+  TBool isLiveStreaming;                                                 ///< Description if the content is live streamig or not.
+  TBool is_DRM_Protected;                                                ///< Description if the content
 } MME_DATA;
 #else
 typedef struct MME_DATA
 {
   char dummy[0x2C];
-  FUint8 contentType;                                                      ///< Type of content, @see TMMEContentType.
-  char dummy_2[0x3];                                                       ///< unknown value
-  TMMETime mediaLength;                                                    ///< Media file total playback time, @see TMMETime.
-  FUint8 fileFormatId;                                                     ///< Media file format identifier.
-  FUint8 fileFormatType;                                                   ///< File format type description, @see TMMEFileFormatIdType.
-  FUint8 audioOutput;                                                      ///< Mono/stero audio output, @see TMMEAudioOutput.
-  FUint8 audioCodecId;                                                     ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
-  FUint32 audioCodecType;                                                  ///< Audio codec id type description, @see TMMEAudioCodecIdType.
-  FUint32 audioSampleRate;                                                 ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
-  FUint16 bpmTempo;                                                        ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
-  TBool videoImageSizePresent;                                             ///< TRUE if there is available information about VideoImageSize.
-  TMMEVideoImageSize videoImageSize;                                       ///< Video image size, @see TMMEVideoImageSize.
-  FUint8 videoCodecId;                                                     ///< Video codec id of an video encoding type.
-  TMMEVideoCodecIdType videoCodecType;                                     ///< Video codec id type description, @see TMMEVideoCodecIdType.
-  wchar_t streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
-  FUint32 streamingContentId;                                              ///< Streaming content format identifier.
-  TBool isLiveStreaming;                                                   ///< Description if the content is live streamig or not.
-  TBool is_DRM_Protected;                                                  ///< Description if the content
+  FUint8 contentType;                                                    ///< Type of content, @see TMMEContentType.
+  char dummy_2[0x3];                                                     ///< unknown value
+  TMMETime mediaLength;                                                  ///< Media file total playback time, @see TMMETime.
+  FUint8 fileFormatId;                                                   ///< Media file format identifier.
+  FUint8 fileFormatType;                                                 ///< File format type description, @see TMMEFileFormatIdType.
+  FUint8 audioOutput;                                                    ///< Mono/stero audio output, @see TMMEAudioOutput.
+  FUint8 audioCodecId;                                                   ///< Audio codec identifier (EMP value, to be used mainly for DRM checks).
+  FUint32 audioCodecType;                                                ///< Audio codec id type description, @see TMMEAudioCodecIdType.
+  FUint32 audioSampleRate;                                               ///< Sample rate of the audio encoding, values from 0 to 4294967295 Hz.
+  FUint16 bpmTempo;                                                      ///< Beats-per-minute tempo. Only valid for MIDI and iMelody files.
+  TBool videoImageSizePresent;                                           ///< TRUE if there is available information about VideoImageSize.
+  TMMEVideoImageSize videoImageSize;                                     ///< Video image size, @see TMMEVideoImageSize.
+  FUint8 videoCodecId;                                                   ///< Video codec id of an video encoding type.
+  TMMEVideoCodecIdType videoCodecType;                                   ///< Video codec id type description, @see TMMEVideoCodecIdType.
+  TChar streamingSessionName[MME_STREAMING_SESSION_NAME_MAX_LENGTH + 1]; ///< Name of the streaming session.
+  FUint32 streamingContentId;                                            ///< Streaming content format identifier.
+  TBool isLiveStreaming;                                                 ///< Description if the content is live streamig or not.
+  TBool is_DRM_Protected;                                                ///< Description if the content
 } MME_DATA;
 #endif
 /**
@@ -431,17 +431,27 @@ typedef struct
   TMMEFileFormatIdType fileFormatType; ///< File format type description, @see TMMEFileFormatIdType.
 
   // Audio
-  char audioCodecId;                   ///< Audio codec identifier.
+  FUint8 audioCodecId;                 ///< Audio codec identifier.
   TMMEAudioCodecIdType audioCodecType; ///< Audio codec id type description, @see TMMEAudioCodecIdType.
 
   // Video
-  char videoCodecId;                   ///< Video codec id of an video encoding type.
+  FUint8 videoCodecId;                 ///< Video codec id of an video encoding type.
   TMMEVideoCodecIdType videoCodecType; ///< Video codec id type description, @see TMMEVideoCodecIdType.
 } TMMEMediaFormats;
 
+#ifdef DB3150v1
+typedef enum
+{
+  TMMEEqBand_63,
+  TMMEEqBand_250,
+  TMMEEqBand_1000,
+  TMMEEqBand_4000,
+  TMMEEqBand_16000,
+  TMMEEqBand_Last
+} TMusicServer_EqBand;
 /**
  * The set of equalizer bands available.
- * 
+ *
  * The possible values are:
  *
  * TMMEEqBand_ClearBass1,   Only for Clear Audio
@@ -456,6 +466,7 @@ typedef struct
  * TMMEEqBand_16000,        Both Clear Audio and ordinary EQ
  *
  */
+#else
 typedef enum
 {
   TMMEEqBand_ClearBass1,
@@ -470,7 +481,7 @@ typedef enum
   TMMEEqBand_16000,
   TMMEEqBand_Last
 } TMMEEqBand;
-
+#endif
 /**
  * The different equalizer presets. Only avaialble for Clear Audio!
  */

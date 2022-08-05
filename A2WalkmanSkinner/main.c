@@ -1,6 +1,5 @@
 #include "temp\target.h"
 
-#include "..\\include\ASCII.h"
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
@@ -10,8 +9,6 @@
 #include "..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "dll.h"
@@ -37,7 +34,7 @@
 
 __thumb void *malloc(int size)
 {
-  return memalloc(-1, size, 1, 5, MEM_NAME, NULL);
+  return memalloc(0xFFFFFFFF, size, 1, 5, MEM_NAME, NULL);
 }
 
 __thumb void mfree(void *mem)
@@ -66,8 +63,8 @@ void Delete_Internal_Function(Internal_Function *Data)
 {
   if (Data)
   {
-    WStringFree(Data->Extension);
-    WStringFree(Data->Genre);
+    mfree(Data->Extension);
+    mfree(Data->Genre);
     mfree(Data);
     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }
@@ -233,12 +230,13 @@ void SetGUIData(GUI *gui)
 
 extern "C" void Set_WALKMAN_GUI_STYLE(GUI *gui)
 {
-  int File;
-  if ((File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= 0)
+  int File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (File >= 0)
   {
     SKIN *CurrentSkin = (SKIN *)malloc(sizeof(SKIN));
     memset(CurrentSkin, NULL, sizeof(SKIN));
     fread(File, CurrentSkin, sizeof(SKIN));
+
     int FSkin = _fopen(CurrentSkin->Path, CurrentSkin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
     if (FSkin >= 0)
     {

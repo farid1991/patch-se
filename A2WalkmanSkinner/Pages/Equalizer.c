@@ -9,8 +9,6 @@
 #include "..\\..\\include\book\DB3150v2\MusicApplication_Book.h"
 #elif defined(DB3200) || defined(DB3210)
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
-#elif defined(DB3350)
-#include "..\\..\\include\book\DB3350\MusicApplication_Book.h"
 #endif
 
 #include "..\\dll.h"
@@ -20,35 +18,13 @@
 #include "..\\GUI\Clearbass.h"
 #include "Equalizer.h"
 
+#ifndef CLEARAUDIO
+
 void SetEqualizerGain(BOOK *book, int band, int level)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
-#ifdef DB3150v1
   switch (band)
   {
-  case Eq_Band0:
-    MusicBook->pMusicServer->SetEqualizerGain(EqBand_63, level);
-    break;
-  case Eq_Band1:
-    MusicBook->pMusicServer->SetEqualizerGain(EqBand_250, level);
-    break;
-  case Eq_Band2:
-    MusicBook->pMusicServer->SetEqualizerGain(EqBand_1000, level);
-    break;
-  case Eq_Band3:
-    MusicBook->pMusicServer->SetEqualizerGain(EqBand_4000, level);
-    break;
-  case Eq_Band4:
-    MusicBook->pMusicServer->SetEqualizerGain(EqBand_16000, level);
-    break;
-  }
-#else
-  switch (band)
-  {
-  case Eq_Band0:
-    MusicBook->pMusicServer->SetEqualizerGain(TMMEEqBand_ClearBass1, level);
-    MusicBook->pMusicServer->SetEqualizerGain(TMMEEqBand_ClearBass2, level);
-    break;
   case Eq_Band1:
     MusicBook->pMusicServer->SetEqualizerGain(TMMEEqBand_63, level);
     break;
@@ -65,26 +41,16 @@ void SetEqualizerGain(BOOK *book, int band, int level)
     MusicBook->pMusicServer->SetEqualizerGain(TMMEEqBand_16000, level);
     break;
   }
-#endif
 }
 
 void SetEqualizerBands(BOOK *book, int8_t bar0, int8_t bar1, int8_t bar2, int8_t bar3, int8_t bar4, int8_t bar5)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
-#ifdef DB3150v1
   SetEqualizerGain(MusicBook, Eq_Band0, bar1 * (bar0 + 1));
   SetEqualizerGain(MusicBook, Eq_Band1, bar2 * (bar0 + 1));
   SetEqualizerGain(MusicBook, Eq_Band2, bar3 * (bar0 + 1));
   SetEqualizerGain(MusicBook, Eq_Band3, bar4 * (bar0 + 1));
   SetEqualizerGain(MusicBook, Eq_Band4, bar5 * (bar0 + 1));
-#else
-  SetEqualizerGain(MusicBook, Eq_Band0, bar0);
-  SetEqualizerGain(MusicBook, Eq_Band1, bar1 * (bar0 + 1));
-  SetEqualizerGain(MusicBook, Eq_Band2, bar2 * (bar0 + 1));
-  SetEqualizerGain(MusicBook, Eq_Band3, bar3 * (bar0 + 1));
-  SetEqualizerGain(MusicBook, Eq_Band4, bar4 * (bar0 + 1));
-  SetEqualizerGain(MusicBook, Eq_Band5, bar5 * (bar0 + 1));
-#endif
 }
 
 void Save_EqualiserData(int Preset, BOOL Manual, int b0, int b1, int b2, int b3, int b4, int b5)
@@ -224,7 +190,6 @@ void ClearbassGUI_onSwitch(BOOK *book, GUI *gui)
 
 //==============================================================================
 
-#ifndef CLEARAUDIO
 extern "C" void New_SetEqualizerGain(BOOK *book)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
@@ -250,7 +215,6 @@ extern "C" void New_SetEqualizerGain(BOOK *book)
                       settings_table[preset][Eq_Band3],
                       settings_table[preset][Eq_Band4],
                       settings_table[preset][Eq_Band5]);
-
   }
   SaveDatatoBook(MusicBook, manual, preset);
 }

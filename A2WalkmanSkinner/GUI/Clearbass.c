@@ -11,6 +11,8 @@
 #include "..\\Pages\Equalizer.h"
 #include "Clearbass.h"
 
+#ifndef CLEARAUDIO
+
 void UnRegisterEQImage(DISP_OBJ_CLEARBASS *disp_obj)
 {
   int _SYNC = NULL;
@@ -548,3 +550,4 @@ GUI *Create_ClearbassGUI(BOOK *book)
 
   return gui_cb;
 }
+#endif

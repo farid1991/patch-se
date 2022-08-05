@@ -73,6 +73,18 @@ typedef enum
   TMusicServerSetting_Random
 } TMusicServer_Settings;
 
+#ifdef DB3150v1
+typedef enum
+{
+  TMusicServerEqPreset_Normal = 0,
+  TMusicServerEqPreset_Bass = 1,
+  TMusicServerEqPreset_Megabass = 2,
+  TMusicServerEqPreset_Voice = 3,
+  TMusicServerEqPreset_TrebleBoost = 4,
+  TMusicServerEqPreset_Manual = 6
+} TMusicServer_EqPreset; // NON-CLEARBASS
+
+#else
 /**
  * The set of equalizer bands available.
  *
@@ -90,8 +102,9 @@ typedef enum
  * TMMEEqBand_16000,        Both Clear Audio and ordinary EQ
  *
  */
-// typedef TMMEEqBand TMusicServer_EqBand;
+typedef TMMEEqBand TMusicServer_EqBand;
 
+#ifdef CLEARAUDIO
 /**
  * The set of equalizer presets available.
  *
@@ -107,8 +120,8 @@ typedef enum
  * TMMEEqPreset_TrebleBoost,
  *
  */
-// typedef TMMEEqPreset TMusicServer_EqPreset;
-
+typedef TMMEEqPreset TMusicServer_EqPreset;
+#else
 typedef enum
 {
   TMusicServerEqPreset_Normal = 0,
@@ -118,16 +131,8 @@ typedef enum
   TMusicServerEqPreset_TrebleBoost = 4,
   TMusicServerEqPreset_Manual = 6
 } TMusicServer_EqPreset; // NON-CLEARBASS
-
-typedef enum
-{
-  EqBand_63,
-  EqBand_250,
-  EqBand_1000,
-  EqBand_4000,
-  EqBand_16000,
-  EqBand_Last
-} TMusicServer_EqBand;
+#endif
+#endif
 
 //**************************** End of change *****************************'
 
