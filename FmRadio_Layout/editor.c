@@ -285,7 +285,7 @@ void Color_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mode)
     else if (mode == KBD_REPEAT && repeat > 10)
       disp_obj->cstep = 8;
 
-    if (key == KEY_UP || key == KEY_DIGITAL_0 + 2)
+    if (key == KEY_UP || key == KEY_DIGITAL_2)
     {
       switch (disp_obj->current_column)
       {
@@ -308,7 +308,7 @@ void Color_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mode)
       }
       disp_obj->need_str = 1;
     }
-    else if (key == KEY_DOWN || key == KEY_DIGITAL_0 + 8)
+    else if (key == KEY_DOWN || key == KEY_DIGITAL_8)
     {
       switch (disp_obj->current_column)
       {
@@ -331,12 +331,12 @@ void Color_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mode)
       }
       disp_obj->need_str = 1;
     }
-    else if (key == KEY_LEFT || key == KEY_DIGITAL_0 + 4)
+    else if (key == KEY_LEFT || key == KEY_DIGITAL_4)
     {
       if (--disp_obj->current_column < 0)
         disp_obj->current_column = 3;
     }
-    else if (key == KEY_RIGHT || key == KEY_DIGITAL_0 + 6)
+    else if (key == KEY_RIGHT || key == KEY_DIGITAL_6)
     {
       if (++disp_obj->current_column > 3)
         disp_obj->current_column = 0;
@@ -436,7 +436,7 @@ void SetColor(BOOK *book, int type)
 
   FMSettings_Book->color_picker = gui_color;
 
-  if ((type == 0) || (type == 1))
+  if (type == 0 || type == 1)
   {
     unsigned int color = data->temp.color1;
     disp_obj->r = COLOR_GET_R(color);

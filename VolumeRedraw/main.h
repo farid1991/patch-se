@@ -1,3 +1,9 @@
+#ifndef _Main_H_
+#define _Main_H_
+
+static const uint8_t vol_table_call[9] = {0, 12, 25, 38, 50, 63, 75, 88, 100};
+static const uint8_t vol_table_media[16] = {0, 6, 13, 20, 26, 33, 40, 47, 54, 60, 66, 73, 80, 86, 93, 100};
+
 extern "C"
 {
   int VolumeControl_OnCreate(DISP_OBJ *disp);
@@ -8,11 +14,11 @@ extern "C"
   int pg_VolumeControl_Active_ExitEvent(void *, BOOK *);
 };
 
-#define FREE_GUI(gui)             \
-  if (gui)                        \
-  {                               \
-    gui = GUIObject_Destroy(gui); \
-    gui = NULL;                   \
+#define FREE_GUI(gui)       \
+  if (gui)                  \
+  {                         \
+    GUIObject_Destroy(gui); \
+    gui = NULL;             \
   };
 
 #define FREE_IMAGE(img) \
@@ -81,3 +87,5 @@ typedef struct _VolumeFunction
   bool IsJava;
   IMG Vol_Image[LAST_IMG];
 } Volume_Function;
+
+#endif

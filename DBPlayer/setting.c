@@ -165,11 +165,11 @@ int Text_OnMessage(GUI_MESSAGE *msg)
       else if (item == SUBITEM_TXT_ALIGN) // Выравнивание
       {
         first_text = TextID_Global(ID_ALIGN);
-        if (data->temp.align == 0)
+        if (data->temp.align == AlignLeft)
           second_text = TextID_Global(ID_ALIGN_LEFT);
-        else if (data->temp.align == 1)
+        else if (data->temp.align == AlignRight)
           second_text = TextID_Global(ID_ALIGN_RIGHT);
-        else if (data->temp.align == 2)
+        else if (data->temp.align == AlignCenter)
           second_text = TextID_Global(ID_ALIGN_CENTER);
       }
       else if (item == SUBITEM_TXT_VISUAL) // Визуальные
@@ -177,20 +177,20 @@ int Text_OnMessage(GUI_MESSAGE *msg)
         first_text = TextID_Global(ID_VISUAL_CONFIG);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
         int font_size = data->temp.font & 0xFF;
-        int style = data->temp.font >> 8;
-        if (style == UIFontStylePlain)
+        int font_style = data->temp.font >> 8;
+        if (font_style == UIFontStylePlain)
         {
           snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_R", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
         }
-        else if (style == UIFontStyleBold)
+        else if (font_style == UIFontStyleBold)
         {
           snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
-        else if (style == UIFontStyleItalic)
+        else if (font_style == UIFontStyleItalic)
         {
           snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
-        else if (style == UIFontStyleBoldItalic)
+        else if (font_style == UIFontStyleBoldItalic)
         {
           snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
@@ -851,7 +851,9 @@ void Setting_OnBack(BOOK *book, GUI *gui)
     }
   }
   else
+  {
     FreeBook(setbook);
+  }
 }
 
 int DBPlayer_Settings_onEnter(void *data, BOOK *book)
@@ -895,22 +897,6 @@ int DBPlayer_Settings_onCancel(void *data, BOOK *book)
   return 1;
 }
 
-const PAGE_MSG base_evtlst[] =
-    {
-        RETURN_TO_STANDBY_EVENT, DBPlayer_Settings_onCancel,
-        NIL_EVENT, NULL};
-
-const PAGE_MSG main_evtlst[] =
-    {
-        PAGE_ENTER_EVENT, DBPlayer_Settings_onEnter,
-        PAGE_EXIT_EVENT, DBPlayer_Settings_onExit,
-        PREVIOUS_EVENT, DBPlayer_Settings_onPrev,
-        CANCEL_EVENT, DBPlayer_Settings_onCancel,
-        NIL_EVENT, NULL};
-
-const PAGE_DESC DBPlayer_Settings_Base_Page = {"DBPlayer_Settings_Base_Page", NULL, base_evtlst};
-const PAGE_DESC DBPlayer_Settings_Main_Page = {"DBPlayer_Settings_Main_Page", NULL, main_evtlst};
-
 void SettingBook_onClose(BOOK *book)
 {
   SETTING_BOOK *setbook = (SETTING_BOOK *)book;
@@ -918,26 +904,37 @@ void SettingBook_onClose(BOOK *book)
   FREE_GUI(setbook->sub_menu);
   FREE_GUI(setbook->options_menu);
   FREE_GUI(setbook->question_menu);
+  setbook->element = NULL;
+  setbook->elem_type = NULL;
+  setbook->changed = NULL;
+  setbook->is_cover_art = NULL;
 }
 
-void DBPlayer_Setting(BOOK *book, GUI *gui)
+SETTING_BOOK *Create_DBPlayer_SettingBook()
 {
   SETTING_BOOK *setbook = (SETTING_BOOK *)malloc(sizeof(SETTING_BOOK));
   memset(setbook, NULL, sizeof(SETTING_BOOK));
   if (!CreateBook(setbook, SettingBook_onClose, &DBPlayer_Settings_Base_Page, "DBPlayer_SettingBook", NO_BOOK_ID, NULL))
-    mfree(setbook);
-  else
   {
-    setbook->main_menu = NULL;
-    setbook->sub_menu = NULL;
-    setbook->options_menu = NULL;
-    setbook->question_menu = NULL;
-    setbook->color_picker = NULL;
-
-    setbook->element = NULL;
-    setbook->elem_type = NULL;
-    setbook->changed = NULL;
-    setbook->is_cover_art = NULL;
-    BookObj_GotoPage(setbook, &DBPlayer_Settings_Main_Page);
+    mfree(setbook);
+    return NULL;
   }
+  setbook->main_menu = NULL;
+  setbook->sub_menu = NULL;
+  setbook->options_menu = NULL;
+  setbook->question_menu = NULL;
+  setbook->color_picker = NULL;
+
+  setbook->element = NULL;
+  setbook->elem_type = NULL;
+  setbook->changed = NULL;
+  setbook->is_cover_art = NULL;
+  return setbook;
+}
+
+void DBPlayer_Setting(BOOK *book, GUI *gui)
+{
+  SETTING_BOOK *setbook = Create_DBPlayer_SettingBook();
+  if (setbook)
+    BookObj_GotoPage(setbook, &DBPlayer_Settings_Main_Page);
 }

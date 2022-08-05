@@ -31,12 +31,12 @@ void DrawProgressBar(FmRadio_Data *data, int cur_value, int total_value, RECT re
   {
     IMAGEID image = data->Image[FREQUENCY_INDICATOR_ICN].ID;
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
-    int blob_x = bar - (dll_GetImageHeight(image) / 2);
-    int blob_y = (rect.y1 - (dll_GetImageWidth(image) / 2)) + ((rect.y2 - rect.y1) / 2);
+#if defined(DB3200) || defined(DB3210)
+    int blob_x = bar - (dll_GetImageHeight(image) >> 1);
+    int blob_y = (rect.y1 - (dll_GetImageWidth(image) >> 1)) + ((rect.y2 - rect.y1) >> 1);
 #else
-    int blob_x = bar - (GetImageHeight(image) / 2);
-    int blob_y = (rect.y1 - (GetImageWidth(image) / 2)) + ((rect.y2 - rect.y1) / 2);
+    int blob_x = bar - (GetImageHeight(image) >> 1);
+    int blob_y = (rect.y1 - (GetImageWidth(image) >> 1)) + ((rect.y2 - rect.y1) >> 1);
 #endif
     DrawImage(blob_x, blob_y, image);
   }

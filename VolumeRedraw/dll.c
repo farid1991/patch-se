@@ -17,11 +17,6 @@
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void Get_IUIFontManager(IFontManager **ppIFontManager)
-{
-  CoCreateInstance(CID_CUIFontManager, IID_IUIFontManager, PPINTERFACE(ppIFontManager));
-}
-
 void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
@@ -29,8 +24,7 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
 
-  //CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
-  Get_IUIFontManager(&pFontManager);
+  CoCreateInstance(CID_CUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
   pFontData.size = (float)font_size;
@@ -61,12 +55,6 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 }
 
 // DrawString ----------------------------------------------------
-
-void Get_ITextRenderingManager(ITextRenderingManager **ppITextRenderingManager)
-{
-  CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(ppITextRenderingManager));
-}
-
 void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
 {
   TUIRectangle rect;
@@ -83,8 +71,7 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   int font_style = font_size >> 8;
   dll_SetFont(fontsize_wo_style, font_style, &pFont);
 
-  // CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
-  Get_ITextRenderingManager(&pTextRenderingManager);
+  CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
 
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
@@ -93,13 +80,13 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   TextObject_SetText(pTextObject, text);
   TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pTextObject->SetAlignment(align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pTextObject->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 
   pRichTextLayout->Compose(lineWidth);
 
   rect.Point.X = x1;
   rect.Point.Y = y1;
-  rect.Size.Width = x2 - x1;
+  rect.Size.Width = lineWidth;
   rect.Size.Height = y2 - y1;
 
   DisplayGC_AddRef(get_DisplayGC(), &pGC);
@@ -153,7 +140,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
 }
 
 // GetImageWidthHeight ----------------------------------------------------
-
+#if defined(DB3200) || defined(DB3210)
 int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
@@ -175,9 +162,6 @@ int dll_GetImageWidth(IMAGEID imageID)
 
 int dll_GetImageHeight(IMAGEID imageID)
 {
-#ifdef DB3150v2
-  return GetImageHeight_int(imageID);
-#else
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
   long image_width = NULL;
@@ -193,6 +177,6 @@ int dll_GetImageHeight(IMAGEID imageID)
     pUIImage->Release();
 
   return image_height;
-#endif
 }
+#endif
 #endif

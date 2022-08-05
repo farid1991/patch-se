@@ -66,8 +66,10 @@ void StartJava_ByName(wchar_t *name)
         break;
       }
       else
+      {
         result = JavaAppDesc_GetNextApp(Javadesc);
-      WStringFree(sp);
+      }
+      mfree(sp);
     }
   }
   JavaDialog_Close(sp1);
@@ -82,7 +84,7 @@ void ExecuteEvent(wchar_t *name)
 
 void OpenFolder(wchar_t *folders)
 {
-  BOOK *book = FindBook(IsMyBook);
+  BOOK *book = FindBook(IsGotoShortcutBook);
   if (book)
   {
     int BookID = BookObj_GetBookID(book);
@@ -154,8 +156,8 @@ void JavaFree(void *item)
   JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)item;
   if (elem)
   {
-    WStringFree(elem->Name);
-    WStringFree(elem->Fullpath);
+    mfree(elem->Name);
+    mfree(elem->Fullpath);
     if (elem->ImageID)
       ImageID_Free(elem->ImageID);
     mfree(elem);
@@ -201,9 +203,9 @@ LIST *Create_JavaList()
 
 void SaveConfig(LIST *List)
 {
-  int File;
+  int File = _fopen(F_PATH, F_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
 
-  if ((File = _fopen(F_PATH, F_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, 0)) >= 0)
+  if (File >= 0)
   {
     int CaptionLen = 0;
     int sDataLen = 0;
@@ -230,12 +232,11 @@ void SaveConfig(LIST *List)
 LIST *LoadConfig()
 {
   LIST *Ret = List_Create();
-  int File = NULL;
 
-  FSTAT _fstat;
-  if ((fstat(F_PATH, F_NAME, &_fstat)) >= 0)
+  if (FSX_IsFileExists(F_PATH, F_NAME))
   {
-    if ((File = _fopen(F_PATH, F_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, 0)) >= 0)
+    int File = _fopen(F_PATH, F_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+    if (File >= 0)
     {
       int CaptionLen = 0;
       int sDataLen = 0;
@@ -244,7 +245,7 @@ LIST *LoadConfig()
       fread(File, &Count, sizeof(uint16_t));
 
       int i = 0;
-      while (/*Ret->FirstFree*/ i < Count)
+      while (i < Count)
       {
         SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)malloc(sizeof(SC_LIST_ELEM));
         fread(File, &Shortcut->ShortcutType, sizeof(char));

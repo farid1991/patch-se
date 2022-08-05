@@ -610,10 +610,9 @@ a       equ b
         defadr FSX_IsFileExists,0x14FBB65C+1
         defadr MainDisplay_GetTopBook,0x142F32D0+1
 
-
         defadr DisplayGC_AddRef,0x143D02EC+1
-        defadr TextObject_SetText,0x14170569
-        defadr TextObject_SetFont,0x1417346D
+        defadr TextObject_SetText,0x14170568+1
+        defadr TextObject_SetFont,0x1417346C+1
 
         defadr DynamicMenu_SetElement_SecondLineText,0x1450FBC4+1
         defadr DynamicMenu_GetElementMsg,0x141DD838+1
@@ -627,12 +626,7 @@ a       equ b
         EXTERN New_VolumeControl_OnCreate
         EXTERN New_VolumeControl_OnClose
         EXTERN New_VolumeControl_OnRedraw
-
         EXTERN New_pg_VolumeControl_Active_EnterEvent
-
-        RSEG PATCH_VOLUMEONPAGENTER
-        DATA
-        DCD New_pg_VolumeControl_Active_EnterEvent
 
         RSEG PATCH_VOLUMEONCREATE
         DATA
@@ -645,6 +639,10 @@ a       equ b
         RSEG PATCH_VOLUMEONREDRAW
         DATA
         DCD New_VolumeControl_OnRedraw
+
+        RSEG PATCH_VOLUMEONPAGENTER
+        DATA
+        DCD New_pg_VolumeControl_Active_EnterEvent
 
         END
 

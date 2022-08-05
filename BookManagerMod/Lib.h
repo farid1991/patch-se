@@ -187,7 +187,7 @@ extern "C"
   PAudioControl *GetAudioControlPtr(void);
   int AudioControl_Vibrate(PAudioControl pIAudioControl, int vibratime, int pausetime, int totaltime);
 
-#if defined(DB2010) || defined(DB2020) || defined(DB3150v1)
+#if defined(A1) || defined(DB3150v1)
   int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE *);
 #elif defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
   int GetVolumeSize(wchar_t *root_folder, VOLUMESIZE_A2 *);

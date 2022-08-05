@@ -4,6 +4,8 @@
 #define A2
 #define DB3200
 
+#define BCFGEDIT_PATH L"/usb/other/ZBin/BcfgEdit.elf"
+
 #define LastExtDB 0x15A92798
 
 #define RESTARTED_ACTIVITY_MENU_EVENT 0x1C87

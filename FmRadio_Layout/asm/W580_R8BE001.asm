@@ -1,4 +1,5 @@
 //W580_R8BE001
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -628,11 +629,11 @@ a       EQU     b
         defadr YesNoQuestion_SetIcon,0x45375AA8+1
         defadr GUIObject_SetBacklightTimeout,0x4536500C+1
         defadr ListMenu_SetHotkeyMode,0x4531E5C8+1
-        
+
         defadr CreateYesNoQuestion,0x453756CC+1
 	defadr YesNoQuestion_SetDescriptionText,0x45375A88+1
 	defadr YesNoQuestion_SetQuestionText,0x45375A78+1
-        
+
         defadr CreateStringInput,0x452F6454+1
         defadr StringInput_SetText,0x452F6F48+1
         defadr StringInput_SetMinLen,0x452F6D9C+1
@@ -642,40 +643,38 @@ a       EQU     b
         defadr StringInput_SetFixedText,0x452F6E6C+1
         defadr StringInput_SetActionOK,0x452F6D90+1
         defadr StringInput_SetActionBack,0x452F6D94+1
-        
+
         defadr DispObject_SetThemeImage,0x4535CA9C+1
-        
+
         defadr GC_DrawImage,0x4535DBF4+1
-        
+
         defadr Free_RightNowBook,0x4538B200+1
-        
+
         defadr Find_RightNowBook,0x4538B1B4+1
         defadr Find_ScreenSaverBook,0x45394098+1
-        
+
         defadr List_GetCount,0x451B5ABC+1
         defadr List_RemoveFirst,0x451B5A1C+1
-        
+
         defadr FSX_MakeFullPath,0x44E8AC64+1
         defadr FSX_IsFileExists,0x44ECB654+1
-        
+
         defadr CreateMessageBox,0x452B98C8+1
-        
+
         defadr GUIObject_TabTitleRemove,0x4531EBD4+1
-        
+
         defadr GUIObject_SoftKeys_SetItemOnKey,0x453818C4+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x44DEC378+1
-        
+
         defadr NewEvent_GetCount,0x4538C6A4+1
-        
+
         defadr CreateEventMenu,0x4538C284+1
-        
+
         defadr ActivityMenu_SetTab,0x4538AA9C+1
         defadr ActivityMenu_SendEvent,0x4538AB60+1
-        defadr ActivityMenu_GotoPage,0x4538AAB8+1    
+        defadr ActivityMenu_GotoPage,0x4538AAB8+1
         defadr ActivityMenu_RefreshBook,0x4538B87C+1
-        
-        defadr FMRADIO_ACTION_LAYOUT,0x11
-        
+
         defadr FmRadio_SetActiveSoftKeys,0x450F8C44+1
 
         defadr FmRadio_Gui_OnCreate,0x450F7A44+1
@@ -684,26 +683,21 @@ a       EQU     b
         defadr FmRadio_Gui_OnKey,0x450F7AB8+1
         defadr FmRadio_Gui_OnConfig,0x450F7BA4+1
         defadr FmRadio_Gui_OnLayout,0x450F7BB4+1
-        
+
         defadr pg_FmRadio_Main__PAGE_ENTER_EVENT,0x450F88A0+1
         defadr pg_FmRadio_Main__PAGE_EXIT_EVENT,0x450F8A00+1
         defadr pg_FmRadio_Base__UI_FMRADIO_CREATED_EVENT,0x450F9210+1
-        
+
         EXTERN New_FmRadio_Gui_OnCreate
         EXTERN New_FmRadio_Gui_OnClose
         EXTERN New_FmRadio_Gui_OnRedraw
         EXTERN New_FmRadio_Gui_OnKey
         EXTERN New_FmRadio_Gui_OnLayout
         EXTERN New_FmRadio_Gui_OnRefresh
-        
         EXTERN FmRadio_NewSoftKeys
-        
         EXTERN LoadData
         EXTERN DeleteData
-        
         EXTERN New_FmRadio_Main__PAGE_ENTER_EVENT
-        EXTERN New_FmRadio_Main__PAGE_EXIT_EVENT
-        EXTERN New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
 
         RSEG PATCH_FmRadio_OnCreate
         DATA
@@ -712,27 +706,19 @@ a       EQU     b
         RSEG PATCH_FmRadio_OnClose
         DATA
         DCD New_FmRadio_Gui_OnClose
-        
+
         RSEG PATCH_FmRadio_OnRedraw
         DATA
         DCD New_FmRadio_Gui_OnRedraw
-        
+
         RSEG PATCH_FmRadio_OnKey
         DATA
         DCD New_FmRadio_Gui_OnKey
-        
-        //RSEG PATCH_FmRadio_OnLayout
-        //DATA
-        //DCD New_FmRadio_Gui_OnLayout
-        
-        //RSEG PATCH_FmRadio_MainPage_Enter
-        //DATA
-        //DCD New_FmRadio_Main__PAGE_ENTER_EVENT
-        
-        RSEG PATCH_FmRadio_Created
+
+        RSEG PATCH_FmRadio_MainPage_Enter
         DATA
-        DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
-        
+        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
+
 //------------------------------------------------------------------------------
 
         RSEG PATCH_FmRadio_DeleteData
@@ -742,7 +728,7 @@ a       EQU     b
 
         RSEG  CODE
         CODE16
-delete_data: 
+delete_data:
         CMP     R0, #0
         BEQ     nex_
         LDR	R3, =0x450FB648+1
@@ -763,7 +749,7 @@ nex_:
 new_softkeys:
         LDR     R0, [R4,#0x18]
         MOV     R1, #5
-        LDR	R3, =GUIObject_SoftKeys_SetInfoText 
+        LDR	R3, =GUIObject_SoftKeys_SetInfoText
         BLX     R3
         LDR     R0, [R4,#0x18]
         BL      FmRadio_NewSoftKeys
@@ -771,7 +757,7 @@ new_softkeys:
 	BX	R3
 
 //------------------------------------------------------------------------------
-        
+
         RSEG PATCH_FmRadio_UpdateSoftKeys
 	CODE16
 	LDR	R3, =update_softkeys
@@ -780,17 +766,17 @@ new_softkeys:
         RSEG  CODE
         CODE16
 update_softkeys:
-        LDR    R0, [R4,#0x18]
-        ADD    R2, R5, #0
-        MOV    R1, #5
+        LDR     R0, [R4,#0x18]
+        ADD     R2, R5, #0
+        MOV     R1, #5
         LDR	R3, =GUIObject_SoftKeys_SetVisible
         BLX	R3
-        LDR    R0, [R4,#0x18]
-        MOV    R1, #FMRADIO_ACTION_LAYOUT
-        ADD    R2, R5, #0
+        LDR     R0, [R4,#0x18]
+        MOV     R1, #FMRADIO_ACTION_LAYOUT
+        ADD     R2, R5, #0
         LDR	R3, =GUIObject_SoftKeys_SetVisible
         BLX	R3
         LDR	R3, =0x450F8C86+1
         BX	R3
-         
+
         END

@@ -15,11 +15,10 @@
 
 void DrawImage(int x, int y, IMAGEID img)
 {
-#ifdef DB3150v1
   if (img != NOIMAGE)
+#ifdef DB3150v1
     GC_DrawImage(x, y, img);
 #else
-  if (img != NOIMAGE)
     dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
 #endif
 }

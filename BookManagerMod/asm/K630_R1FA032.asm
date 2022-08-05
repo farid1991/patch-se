@@ -25,7 +25,7 @@ a       EQU     b
         defadr iconidname2id,0x10CAAF14+1
         defadr BookObj_GetSession,0x11597C94+1
         defadr TextID_GetString,0x11618594+1
-        
+
         defadr fstat,0x10F85398+1
         defadr _fopen,0x10F84AA0+1
         defadr fread,0x10F861E4+1
@@ -42,7 +42,7 @@ a       EQU     b
 
         defadr Find_StandbyBook,0x115A3184+1
         defadr BookObj_GetBookID,0x11597CF4+1
-        
+
         defadr UI_Event_toBookID,0x115964DC+1
         defadr UI_Event,0x11596484+1
         defadr TextID_Create,0x11617FF0+1
@@ -53,7 +53,7 @@ a       EQU     b
 
         defadr GUIObject_SetStyle,0x1163AA58+1
         defadr GUIObject_Destroy,0x1163A804+1
-        
+
         defadr GUIonMessage_GetMsg,0x115ECC20+1
         defadr GUIonMessage_GetCreatedItemIndex,0x115ECC44+1
         defadr GUIonMessage_SetMenuItemText,0x115ECC50+1
@@ -61,7 +61,7 @@ a       EQU     b
         defadr GUIonMessage_SetItemDisabled,0x115ECCF0+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x115ECC70+1
         defadr GUIonMessage_GetSelectedItem,0x115ECC2C+1
-        
+
         defadr CreateListMenu,0x115EBF18+1
         defadr ListMenu_SetOnMessage,0x115EC258+1
         defadr ListMenu_SetItemCount,0x115EC148+1
@@ -91,10 +91,10 @@ a       EQU     b
         defadr Request_ICA_ShutdownAllConnections,0x109672AC+1
         defadr Display_GetBrightness,0x115B9148+1
         defadr ConnectionManager_Connection_GetState,0x113DD28C+1
-        
+
         defadr IsVolumeControllerBook,0x11673CC0+1
         defadr IsRightNowBook,0x11663A34+1
-        
+
         defadr JavaDialog_Open,0x10F9F3A4+1
         defadr JavaAppDesc_GetFirstApp,0x10F953B0+1
         defadr JavaAppDesc_GetJavaAppInfo,0x10F94EBC+1
@@ -114,52 +114,52 @@ a       EQU     b
         EXTERN CreateBookMenu
         EXTERN CreateElfMenu
         EXTERN CreateShortcutMenu
-        
-        
+
+
         RSEG   TAB_ICON_1
         CODE16
         ldr	r7, =_IconInternet
         bx	r7
-        
+
         RSEG   TAB_ICON_2
         DATA
         DCD	0xF346
-        
+
         RSEG   TAB_FOCUS
         CODE16
         ldr	r3, =_Tabfocus
         bx	r3
-        
+
         RSEG   GUI_CREATE
         CODE16
         ldr	r3, =_onCreate
         bx	r3
-        
+
         RSEG   BOOK_CLOSE
         CODE16
         ldr	r3, =_onClose
         bx	r3
-        
+
         RSEG   EVENTS
         CODE16
         ldr	r3, =EventsTitleText
         bx	r3
-        
+
         RSEG   INTERNET
         CODE16
         ldr	r3, =_Internet
         bx	r3
-        
+
         RSEG   SHORTCURTS
         CODE16
         ldr	r3, =_Shortcurts
         bx	r3
-        
+
         RSEG   ACTIVETASKS
         CODE16
         ldr	r3, =_Activetasks
         bx	r3
-        
+
         RSEG   CODE
         CODE16
 _IconInternet:
@@ -181,7 +181,7 @@ _Tabfocus:
         bx	r3
 set_focus:
         bl	GetFocusTab
-        mov	r5, r0
+        add	r5, r0, #0
         ldr	r3, =0x11663D2E+1
         bx	r3
 
@@ -204,20 +204,20 @@ _onClose:
         pop	{r4-r7,pc}
 
 _Internet:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateShortcutMenu
         pop	{r4-r6,pc}
 
 _Shortcurts:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateElfMenu
         pop	{r4-r6,pc}
 
 _Activetasks:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateBookMenu
         pop	{r4-r6,pc}
 

@@ -97,6 +97,8 @@ wchar_t *GetFormatType(DBP_DATA *data)
 {
   switch (data->fileFormatType)
   {
+  case TMMEFileFormatIdType_3GP:
+    return L"3GP";
   case TMMEFileFormatIdType_AAC:
     return L"AAC";
   case TMMEFileFormatIdType_AMR:
@@ -105,6 +107,8 @@ wchar_t *GetFormatType(DBP_DATA *data)
     return L"M4A";
   case TMMEFileFormatIdType_MP3:
     return L"MP3";
+  case TMMEFileFormatIdType_MP4:
+    return L"MP4";
   case TMMEFileFormatIdType_WAV:
     return L"WAV";
   case TMMEFileFormatIdType_WMA:
@@ -202,10 +206,33 @@ TEXTID GetBitrate(DBP_DATA *data)
   return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
+wchar_t *getSampleRate(int index)
+{
+  switch (index)
+  {
+  case 8000:
+    return L"8.0 KHz";
+  case 11025:
+    return L"11.02 KHz";
+  case 16000:
+    return L"16.0 KHz";
+  case 22050:
+    return L"22.05 KHz";
+  case 24000:
+    return L"24.0 KHz";
+  case 32000:
+    return L"32.0 KHz";
+  case 44100:
+    return L"44.1 KHz";
+  case 48000:
+    return L"48.0 KHz";
+  }
+  return NULL;
+}
+
 TEXTID GetSampleRate(DBP_DATA *data)
 {
-  snwprintf(data->buf, MAXELEMS(data->buf), L"%d KHz", data->SampleRate / 1000);
-  return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
+  return TextID_Create(getSampleRate(data->SampleRate), ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 TEXTID GetAudioOutput(DBP_DATA *data)

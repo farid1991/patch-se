@@ -28,7 +28,7 @@ a       EQU     b
         defadr wstrcmpi,0x14311DE4+1
         defadr wstrrchr,0x1409B4A4+1
         defadr snwprintf,0x142C75F0+1
-        
+
         defadr _fopen,0x1421A92C+1
         defadr fread,0x14310608+1
         defadr fclose,0x1410E040+1
@@ -64,7 +64,7 @@ a       EQU     b
         defadr TextID_Create,0x14226B70+1
         defadr TextID_Copy,0x142264CC+1
         defadr TextID_Destroy,0x142261D0+1
-        
+
         defadr FILEITEM_GetFname,0x144DD63C+1
         defadr FILEITEM_GetPath,0x144DD638+1
 
@@ -171,7 +171,7 @@ a       EQU     b
         defadr root_list_get_session,0x1419E844+1
         defadr NewEvents_GetCount,0x14FB3440+1
         defadr iconidname2id,0x14358D08+1
-        
+
         defadr MessageBox,0x1583DCFC+1
         defadr manifest_GetParam,0x143370D4+1
         defadr GetFreeBytesOnHeap,0x4BA30F54
@@ -192,46 +192,46 @@ a       EQU     b
         CODE16
         ldr     r7, =_IconInternet
         bx      r7
-        
+
         RSEG   TAB_ICON_2
         DATA
         DCD 0x82E
-        
+
         RSEG   TAB_FOCUS
         CODE16
         ldr     r3, =_Tabfocus
         bx      r3
-        
+
         RSEG   GUI_CREATE
         CODE16
         ldr     r3, =_onCreate
         bx      r3
-        
+
         RSEG   BOOK_CLOSE
         CODE16
         ldr     r3, =_onClose
         bx      r3
-        
+
         RSEG   EVENTS
         CODE16
         ldr     r3, =EventsTitleText
         bx      r3
-        
+
         RSEG   INTERNET
         CODE16
         ldr     r3, =_Internet
         bx      r3
-        
+
         RSEG   SHORTCURTS
         CODE16
         ldr     r3, =_Shortcurts
         bx      r3
-        
+
         RSEG   ACTIVETASKS
         CODE16
         ldr     r3, =_Activetasks
         bx      r3
-        
+
         RSEG   CODE
         CODE16
 _IconInternet:

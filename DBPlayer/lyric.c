@@ -64,9 +64,9 @@ int find_current_timer_list(DISP_OBJ_DBP *disp_obj, time_t tm)
   return MAX_TIMER;
 }
 
-int str_to_timer(char *s)
+int str_to_timer(char *str)
 {
-  int len = StringLength(s);
+  int len = strlen(str);
   int i = 0;
   int ret = 0;
   while (i < len)
@@ -79,7 +79,7 @@ int str_to_timer(char *s)
       j--;
     }
     e /= 10;
-    ret += e * (s[i] - '0');
+    ret += e * (str[i] - '0');
     i++;
   }
   return ret;
@@ -258,7 +258,9 @@ void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
     sort_timer(disp_obj);
   }
   else
+  {
     disp_obj->current_offset = NOLYRIC;
+  }
 
   DispObject_InvalidateRect(disp_obj, NULL);
   WStringFree(lrc);

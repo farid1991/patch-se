@@ -29,7 +29,8 @@ __thumb void mfree(void *mem)
   if (mem)
     memfree(0, mem, BOOKNAME, 0);
 #else
-  memfree(mem, BOOKNAME, 0);
+  if (mem)
+    memfree(mem, BOOKNAME, 0);
 #endif
 }
 
@@ -38,8 +39,8 @@ void ShortcutFree(void *Item)
   SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)Item;
   if (Shortcut)
   {
-    WStringFree(Shortcut->ShortcutLink);
-    WStringFree(Shortcut->ShortcutText);
+    mfree(Shortcut->ShortcutLink);
+    mfree(Shortcut->ShortcutText);
     mfree(Shortcut);
   }
 }
@@ -51,14 +52,14 @@ void Menu_Delete_Yes(BOOK *book, GUI *gui)
 
   void *Item = List_RemoveAt(mbk->ShortcutList, mbk->CurrentItem);
   ShortcutFree(Item);
-  UpdateMainPage(NULL, mbk);
+  pg_Goto_Shortcut_AcceptEvent(NULL, mbk);
 }
 
 void Menu_Delete_No(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   mbk->CurrentItem = ListMenu_GetSelectedItem(mbk->MainMenu);
-  UpdateMainPage(NULL, mbk);
+  pg_Goto_Shortcut_AcceptEvent(NULL, mbk);
 }
 
 void Menu_DeleteItem(BOOK *book, GUI *gui)
@@ -83,7 +84,8 @@ void Menu_DeleteItem(BOOK *book, GUI *gui)
 
 void Menu_AddItem(BOOK *book, GUI *gui)
 {
-  EditorRun(book, ADDING_MODE);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+  EditorRun(mbk, ADDING_MODE);
 }
 
 void Menu_ModifyItem(BOOK *book, GUI *gui)
@@ -94,7 +96,9 @@ void Menu_ModifyItem(BOOK *book, GUI *gui)
     EditorRun(mbk, EDITING_MODE);
   }
   else
-    CreateMessageBox(EMPTY_TEXTID, EMPTY_LIST_TXT, 1, 3000, mbk);
+  {
+    CreateMessageBox(EMPTY_TEXTID, EMPTY_LIST_TXT, 1, 0, mbk);
+  }
 }
 
 void Menu_About(BOOK *book, GUI *gui)
@@ -139,7 +143,7 @@ int Menu_onMessage(GUI_MESSAGE *msg)
   return 1;
 }
 
-int pg_Goto_Shortcut_EnterAction(void *data, BOOK *book)
+int pg_Goto_Shortcut_EnterEvent(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->MainMenu);
@@ -157,10 +161,12 @@ int pg_Goto_Shortcut_EnterAction(void *data, BOOK *book)
     ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
     ListMenu_SetNoItemText(mbk->MainMenu, EMPTY_LIST_TXT);
 #endif
-    GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 0, Menu_AddItem, MENU_ADD_TXT);
-    GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 1, Menu_ModifyItem, MENU_MODIFY_TXT);
-    GUIObject_SoftKeys_SetActionAndText(mbk->MainMenu, 2, Menu_About, MENU_ABOUT_TXT);
-
+    GUIObject_SoftKeys_SetText(mbk->MainMenu, 0, MENU_ADD_TXT);
+    GUIObject_SoftKeys_SetAction(mbk->MainMenu, 0, Menu_AddItem);
+    GUIObject_SoftKeys_SetText(mbk->MainMenu, 1, MENU_MODIFY_TXT);
+    GUIObject_SoftKeys_SetAction(mbk->MainMenu, 1, Menu_ModifyItem);
+    GUIObject_SoftKeys_SetText(mbk->MainMenu, 2, MENU_ABOUT_TXT);
+    GUIObject_SoftKeys_SetAction(mbk->MainMenu, 2, Menu_About);
     if (count)
     {
       GUIObject_SoftKeys_SetAction(mbk->MainMenu, ACTION_DELETE, Menu_DeleteItem);
@@ -174,29 +180,14 @@ int pg_Goto_Shortcut_EnterAction(void *data, BOOK *book)
   return 1;
 };
 
-int pg_Goto_Shortcut_CancelAction(void *data, BOOK *book)
+int pg_Goto_Shortcut_CancelEvent(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->MainMenu);
   return 1;
 }
 
-const PAGE_MSG bk_msglst_base[] =
-    {
-        CANCEL_EVENT, pg_Goto_Shortcut_CancelAction,
-        RETURN_TO_STANDBY_EVENT, pg_Goto_Shortcut_CancelAction,
-        NIL_EVENT, NULL};
-const PAGE_DESC Goto_Shortcut_Base_Page = {BASE_PAGE_NAME, NULL, bk_msglst_base};
-
-const PAGE_MSG bk_msglst_main[] =
-    {
-        PAGE_ENTER_EVENT, pg_Goto_Shortcut_EnterAction,
-        PAGE_EXIT_EVENT, pg_Goto_Shortcut_EnterAction,
-        ACCEPT_EVENT, UpdateMainPage,
-        NIL_EVENT, NULL};
-const PAGE_DESC Goto_Shortcut_Main_Page = {MAIN_PAGE_NAME, NULL, bk_msglst_main};
-
-int UpdateMainPage(void *data, BOOK *book)
+int pg_Goto_Shortcut_AcceptEvent(void *data, BOOK *book)
 {
   BookObj_GotoPage(book, &Goto_Shortcut_Main_Page);
   return 0;
@@ -218,28 +209,47 @@ void Goto_Shortcut_onClose(BOOK *book)
   FreeList(mbk->ShortcutList, ShortcutFree);
 }
 
-int IsMyBook(BOOK *book)
+int IsGotoShortcutBook(BOOK *book)
 {
-  if (strcmp(book->xbook->name, BOOKNAME))
-    return FALSE;
-  return TRUE;
+  return FALSE == strcmp(book->xbook->name, BOOKNAME);
+}
+
+GotoShortcut_Book *Create_GotoShortcutBook()
+{
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)malloc(sizeof(GotoShortcut_Book));
+  memset(mbk, NULL, sizeof(GotoShortcut_Book));
+
+  if (!CreateBook(mbk, Goto_Shortcut_onClose, &Goto_Shortcut_Base_Page, BOOKNAME, NO_BOOK_ID, NULL))
+  {
+    mfree(mbk);
+    return NULL;
+  }
+  mbk->MainMenu = NULL;
+  mbk->Editor = NULL;
+#ifndef DB3350
+  mbk->JavaMenu = NULL;
+  mbk->JavaList = NULL;
+#endif
+  mbk->TypesList = NULL;
+  mbk->CaptionInput = NULL;
+  mbk->YesNoQuestion = NULL;
+  mbk->EventInput = NULL;
+  mbk->CurrentItem = NULL;
+  mbk->ShortcutList = NULL;
+  mbk->FType = NULL;
+  return mbk;
 }
 
 extern "C" void GotoShortcut(BOOK *book, GUI *gui)
 {
-  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
   if (!mbk)
   {
-    mbk = (GotoShortcut_Book *)malloc(sizeof(GotoShortcut_Book));
-    memset(mbk, NULL, sizeof(GotoShortcut_Book));
-    if (CreateBook(mbk, Goto_Shortcut_onClose, &Goto_Shortcut_Base_Page, BOOKNAME, NO_BOOK_ID, NULL))
+    if (mbk = Create_GotoShortcutBook())
     {
-      mbk->CurrentItem = NULL;
       mbk->ShortcutList = LoadConfig();
       BookObj_GotoPage(mbk, &Goto_Shortcut_Main_Page);
     }
-    else
-      mfree(mbk);
   }
   else
   {

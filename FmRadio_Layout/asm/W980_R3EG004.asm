@@ -23,7 +23,8 @@ a       EQU b
         defadr DrawRect,0x109C9FB4+1
         defadr SetFont,0x109CAEC0+1
         defadr DrawString,0x109CA300+1
-        defadr GetImageHeight_int,0x109CB5D4+1
+        defadr GetImageHeight,0x109CB5D4+1
+        defadr GetImageWidth,0x109CB5C0+1
         defadr ListMenu_GetSelectedItem,0x11A8D010+1
         defadr ListMenu_DestroyItems,0x11A8D4C0+1
         defadr ListMenu_SetItemCount,0x11A8D024+1
@@ -142,7 +143,6 @@ delete_data:
         BLX     R1
         MOV     R0, #0
         STR     R0, [R6,#0x1C]
-
 nex_:
         BL      DeleteData
         POP     {R2-R7,PC}

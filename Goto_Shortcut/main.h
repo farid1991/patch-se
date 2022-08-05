@@ -49,8 +49,8 @@ enum FILEFOLDERTYPES
 
 enum SELF
 {
-  SFOLDER,
-  SFILE
+  SEL_FOLDER,
+  SEL_FILE
 };
 
 typedef struct
@@ -101,11 +101,29 @@ typedef struct GotoShortcut_Book : BOOK
   uint8_t FType;
 } GotoShortcut_Book;
 
-int IsMyBook(BOOK *bk);
-int UpdateMainPage(void *r0, BOOK *bk);
+int IsGotoShortcutBook(BOOK *bk);
+int pg_Goto_Shortcut_AcceptEvent(void *data, BOOK *bk);
+int pg_Goto_Shortcut_CancelEvent(void *data, BOOK *bk);
+int pg_Goto_Shortcut_EnterEvent(void *data, BOOK *bk);
+
 void ShortcutFree(void *Item);
 
 __thumb void *malloc(int size);
 __thumb void mfree(void *mem);
+
+const PAGE_MSG bk_msglst_base[] =
+    {
+        CANCEL_EVENT, pg_Goto_Shortcut_CancelEvent,
+        RETURN_TO_STANDBY_EVENT, pg_Goto_Shortcut_CancelEvent,
+        NIL_EVENT, NULL};
+const PAGE_DESC Goto_Shortcut_Base_Page = {BASE_PAGE_NAME, NULL, bk_msglst_base};
+
+const PAGE_MSG bk_msglst_main[] =
+    {
+        PAGE_ENTER_EVENT, pg_Goto_Shortcut_EnterEvent,
+        PAGE_EXIT_EVENT, pg_Goto_Shortcut_EnterEvent,
+        ACCEPT_EVENT, pg_Goto_Shortcut_AcceptEvent,
+        NIL_EVENT, NULL};
+const PAGE_DESC Goto_Shortcut_Main_Page = {MAIN_PAGE_NAME, NULL, bk_msglst_main};
 
 #endif

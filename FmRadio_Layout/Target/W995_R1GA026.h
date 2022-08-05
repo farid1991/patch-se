@@ -51,6 +51,15 @@
 #define KEY_RIGHT 0xB
 #define KEY_ENTER 0x8
 #define KEY_DIGITAL_0 0x18
+#define KEY_DIGITAL_1 0x19
+#define KEY_DIGITAL_2 0x1A
+#define KEY_DIGITAL_3 0x1B
+#define KEY_DIGITAL_4 0x1C
+#define KEY_DIGITAL_5 0x1D
+#define KEY_DIGITAL_6 0x1E
+#define KEY_DIGITAL_7 0x1F
+#define KEY_DIGITAL_8 0x20
+#define KEY_DIGITAL_9 0x21
 #define KEY_DEL 0x5
 
 #define FONT_D_18B 0x112

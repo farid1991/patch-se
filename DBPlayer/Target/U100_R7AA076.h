@@ -3,6 +3,7 @@
 
 #define A2
 #define DB3350
+#define REV1
 
 #define POPUP_WARNING_ICN 0xF831
 

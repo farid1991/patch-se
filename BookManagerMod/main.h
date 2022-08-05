@@ -1,10 +1,31 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#define MEM_NAME "bm_mem"
 #define EMP_NAME "bm_emp"
 
-#define TAB_BOOKS 1
-#define TAB_ELFS 2
+enum
+{
+  TAB_BOOKS = 1,
+  TAB_ELFS = 2
+};
+
+enum
+{
+  SHC_ITEM_1 = 0,
+  SHC_ITEM_2,
+  SHC_ITEM_3,
+  SHC_ITEM_4,
+  SHC_ITEM_5,
+  SHC_ITEM_LAST,
+};
+
+enum
+{
+  BCFG_UNK = 0,
+  BCFG_NOTFOUND,
+  BCFG_SUCCESS
+};
 
 #define ELF_BCFG_CONFIG_EVENT 994
 
@@ -25,7 +46,7 @@
 
 typedef struct _BOOK_MANAGER
 {
-  BOOK* RightNowBook;
+  BOOK *ActivityMenu;
   DISP_OBJ_ONKEY_METHOD oldOnKey;
   GUI_LIST *books_menu;
   GUI_LIST *elf_menu;
@@ -76,8 +97,5 @@ typedef struct
 void Init_ConfigFile(BOOK_MANAGER *data);
 __thumb void *malloc(int size);
 __thumb void mfree(void *mem);
-
-// #pragma swi_number = 0x10D
-// __swi __arm int elfload(const wchar_t *filename, void *param1, void *param2, void *param3);
 
 #endif

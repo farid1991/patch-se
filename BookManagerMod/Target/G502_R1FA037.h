@@ -13,6 +13,8 @@
 
 #define RSSTicker_Book    (char*)0x11A741D0
 
+#define BCFGEDIT_PATH L"/usb/other/ZBin/BcfgEdit.elf"
+
 //#define Phone (wchar_t*)
 //#define Card (wchar_t*)
 

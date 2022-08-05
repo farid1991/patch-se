@@ -51,9 +51,8 @@ Volume_Function *Get_Volume_Function()
   return Create_Volume_Function();
 }
 
-void Delete_Volume_Function()
+void Delete_Volume_Function(Volume_Function *Data)
 {
-  Volume_Function *Data = (Volume_Function *)get_envp(NULL, EMP_NAME);
   if (Data)
   {
     mfree(Data);
@@ -71,18 +70,21 @@ int FSX_IsFileExists(wchar_t *path, wchar_t *name)
 }
 #endif
 
-int IsOngoingCallBook(BOOK *book)
+#if defined(DB2000) || defined(DB2010)
+BOOK *MainDisplay_GetTopBook()
 {
-  if (!strcmp(book->xbook->name, (char *)ONGOINGCALLBOOK))
-    return TRUE;
-  return FALSE;
+  return Display_GetTopBook(UIDisplay_Main);
+}
+#endif
+
+BOOL IsOngoingCallBook(BOOK *book)
+{
+  return FALSE == strcmp(book->xbook->name, (char *)ONGOINGCALLBOOK);
 }
 
-int IsMOCallBook(BOOK *book)
+BOOL IsMOCallBook(BOOK *book)
 {
-  if (!strcmp(book->xbook->name, (char *)MOCALLBOOK))
-    return TRUE;
-  return FALSE;
+  return FALSE == strcmp(book->xbook->name, (char *)MOCALLBOOK);
 }
 
 BOOL IsJavaBOOK(BOOK *book)
@@ -102,11 +104,18 @@ BOOL IsJavaBOOK(BOOK *book)
   return FALSE;
 }
 
+int GetVolumeLevel(int type, int level)
+{
+  if (type == 0)
+    return vol_table_call[level];
+  return vol_table_media[level];
+}
+
 wchar_t *GetCurrentSkinPath(Volume_Function *Data)
 {
   wchar_t *path = (wchar_t *)OTHER_PATH;
-  int file;
-  if ((file = _fopen((wchar_t *)DEFAULT_PATH, L"vol.cfg", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  int file = _fopen((wchar_t *)DEFAULT_PATH, L"vol.cfg", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (file >= 0)
   {
     CPATH *ConfigData = (CPATH *)malloc(sizeof(CPATH));
     memset(ConfigData, NULL, sizeof(CPATH));
@@ -120,15 +129,15 @@ wchar_t *GetCurrentSkinPath(Volume_Function *Data)
 
 SkinConfig *GetConfig(wchar_t *cpath)
 {
-  int file;
-  SkinConfig *SkinData = (SkinConfig *)malloc(sizeof(SkinConfig));
-  memset(SkinData, NULL, sizeof(SkinConfig));
-  if ((file = _fopen(cpath, L"skin.vsf", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  SkinConfig *ConfigData = (SkinConfig *)malloc(sizeof(SkinConfig));
+  memset(ConfigData, NULL, sizeof(SkinConfig));
+  int file = _fopen(cpath, L"skin.vsf", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (file >= 0)
   {
-    fread(file, SkinData, sizeof(SkinConfig));
+    fread(file, ConfigData, sizeof(SkinConfig));
     fclose(file);
   }
-  return SkinData;
+  return ConfigData;
 }
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
@@ -153,8 +162,7 @@ void UnRegisterImage(Volume_Function *Data)
 
   for (int i = 0; i < LAST_IMG; i++)
   {
-    if (Data->Vol_Image[i].ID != NOIMAGE)
-      REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, Data->Vol_Image[i].Handle, NULL, NULL, Data->Vol_Image[i].ID, 1, &error_code);
+    REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, Data->Vol_Image[i].Handle, NULL, NULL, Data->Vol_Image[i].ID, 1, &error_code);
   }
 }
 
@@ -179,13 +187,12 @@ void InitImage(Volume_Function *Data)
 
 void DrawImage(int x, int y, IMAGEID img)
 {
-  GC *pGC = get_DisplayGC();
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
   if (img != NOIMAGE)
-    dll_GC_PutChar(pGC, x, y, 0, 0, img);
+    dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
 #else
   if (img != NOIMAGE)
-    GC_PutChar(pGC, x, y, 0, 0, img);
+    GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
 #endif
 }
 
@@ -197,30 +204,30 @@ void DrawProgressBar(IMAGEID blob_id, int value, int max_value, RECT rect, int B
   DrawRect(rect.x1, rect.y1, rect.x2, rect.y2, Bcolor, Bcolor);
   DrawRect(rect.x1, rect.y1, nx2, rect.y2, Ecolor, Ecolor);
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-  int blob_h = (dll_GetImageHeight(blob_id)) / 2;
-  int blob_w = (dll_GetImageWidth(blob_id)) / 2;
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  int blob_h = dll_GetImageHeight(blob_id) >> 1;
+  int blob_w = dll_GetImageWidth(blob_id) >> 1;
 #else
-  int blob_h = (GetImageHeight(blob_id)) / 2;
-  int blob_w = (GetImageWidth(blob_id)) / 2;
+  int blob_h = GetImageHeight(blob_id) >> 1;
+  int blob_w = GetImageWidth(blob_id) >> 1;
 #endif
   if (enable)
   {
     int blob_x = nx2 - blob_w;
-    int blob_y = (rect.y1 - blob_h) + ((rect.y2 - rect.y1) / 2);
+    int blob_y = (rect.y1 - blob_h) + ((rect.y2 - rect.y1) >> 1);
     DrawImage(blob_x, blob_y, blob_id);
   }
 }
 
-void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width, int NormalColor)
+void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width, int TextColor)
 {
-  if (text && (text != EMPTY_TEXTID))
+  if (text != EMPTY_TEXTID)
   {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    dll_DrawString(font, text, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), NormalColor);
+    dll_DrawString(font, text, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), TextColor);
 #else
     SetFont(font);
-    DrawString(text, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), 0, 1, NormalColor, clEmpty);
+    DrawString(text, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), 0, 1, TextColor, clEmpty);
 #endif
   }
 }
@@ -244,7 +251,7 @@ extern "C" void New_VolumeControl_OnClose(DISP_OBJ *disp_obj)
   TEXT_FREE(Data->vol_textid);
 
   UnRegisterImage(Data);
-  Delete_Volume_Function();
+  Delete_Volume_Function(Data);
   VolumeControl_OnClose(disp_obj);
 }
 
@@ -260,10 +267,9 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
       GUI *VolumeControlGUI = DispObject_GetGUI(disp_obj);
       VolumeControlBook *VCBook = (VolumeControlBook *)GUIObject_GetBook(VolumeControlGUI);
 
-      int Vol_Level = 0;
-      int Max_Volume = 0;
-
-      Vol_Level = VCBook->level;
+      int Vol_Level = VCBook->level;
+      int Max_Volume;
+      int Volume_Type;
 
       DrawImage(Data->Config.bg_image.x,
                 Data->Config.bg_image.y,
@@ -271,8 +277,9 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
 
       if (Vol_Level)
       {
-        if ((FindBook(IsOngoingCallBook)) || (FindBook(IsMOCallBook)))
+        if (FindBook(IsOngoingCallBook) || FindBook(IsMOCallBook))
         {
+          Volume_Type = 0;
           Max_Volume = 8;
           DrawImage(Data->Config.state_image.x,
                     Data->Config.state_image.y,
@@ -280,6 +287,7 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
         }
         else
         {
+          Volume_Type = 1;
           Max_Volume = 15;
           DrawImage(Data->Config.state_image.x,
                     Data->Config.state_image.y,
@@ -296,9 +304,9 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
       if (Data->Config.TextEnable)
       {
         TEXTID vText_id[2];
-        float vLevel = (float)((float)100 / (float)Max_Volume) * (float)Vol_Level;
+        int vLevel = GetVolumeLevel(Volume_Type, Vol_Level);
         vText_id[0] = TextID_CreateIntegerID(vLevel);
-        vText_id[1] = TextID_Create("%", ENC_GSM, 1);
+        vText_id[1] = TextID_Create(" %", ENC_GSM, 2);
         if (Data->Config.PercentageEnable)
         {
           Data->vol_textid = TextID_Create(vText_id, ENC_TEXTID, 2);
@@ -315,6 +323,7 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
                           Display_GetWidth(UIDisplay_Main),
                           Data->Config.text_color);
       }
+
       DrawProgressBar(Data->Vol_Image[BLOB_IMG].ID,
                       Vol_Level,
                       Max_Volume,
@@ -331,13 +340,6 @@ extern "C" void New_VolumeControl_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int
   }
 #endif
 }
-
-#if defined(DB2000) || defined(DB2010)
-BOOK *MainDisplay_GetTopBook()
-{
-  return Display_GetTopBook(UIDisplay_Main);
-}
-#endif
 
 extern "C" int New_pg_VolumeControl_Active_EnterEvent(void *data, BOOK *book)
 {

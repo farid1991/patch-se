@@ -113,5 +113,25 @@ typedef struct _SETTING_BOOK : BOOK
 } SETTING_BOOK;
 
 void DBPlayer_Setting(BOOK *book, GUI *gui);
+int DBPlayer_Settings_onEnter(void* data, BOOK* book);
+int DBPlayer_Settings_onExit(void* data, BOOK* book);
+int DBPlayer_Settings_onPrev(void* data, BOOK* book);
+int DBPlayer_Settings_onCancel(void* data, BOOK* book);
+
+const PAGE_MSG base_evtlst[] =
+    {
+        RETURN_TO_STANDBY_EVENT, DBPlayer_Settings_onCancel,
+        NIL_EVENT, NULL};
+
+const PAGE_MSG main_evtlst[] =
+    {
+        PAGE_ENTER_EVENT, DBPlayer_Settings_onEnter,
+        PAGE_EXIT_EVENT, DBPlayer_Settings_onExit,
+        PREVIOUS_EVENT, DBPlayer_Settings_onPrev,
+        CANCEL_EVENT, DBPlayer_Settings_onCancel,
+        NIL_EVENT, NULL};
+
+const PAGE_DESC DBPlayer_Settings_Base_Page = {"DBPlayer_Settings_Base_Page", NULL, base_evtlst};
+const PAGE_DESC DBPlayer_Settings_Main_Page = {"DBPlayer_Settings_Main_Page", NULL, main_evtlst};
 
 #endif

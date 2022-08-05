@@ -101,6 +101,15 @@
 #define KEY_DEL 0x4
 #define KEY_DIEZ 0x1B
 #define KEY_DIGITAL_0 0x10
+#define KEY_DIGITAL_1 0x11
+#define KEY_DIGITAL_2 0x12
+#define KEY_DIGITAL_3 0x13
+#define KEY_DIGITAL_4 0x14
+#define KEY_DIGITAL_5 0x15
+#define KEY_DIGITAL_6 0x16
+#define KEY_DIGITAL_7 0x17
+#define KEY_DIGITAL_8 0x18
+#define KEY_DIGITAL_9 0x19
 #define KEY_DOWN 0xA
 #define KEY_ENTER 0x5
 #define KEY_ESC 0x3

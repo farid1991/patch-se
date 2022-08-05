@@ -8,9 +8,9 @@
 #define STATUSROW_HEIGHT 24
 #define SOFTKEYS_HEIGHT 30
 
-#define CID_IUIFontManager (PUUID)0x15BE3748
+#define CID_CUIFontManager (PUUID)0x15BE3748
 #define IID_IUIFontManager (PUUID)0x15C1D864
-#define CID_ITextRenderingManager (PUUID)0x15BEAEB4
+#define CID_CTextRenderingManager (PUUID)0x15BEAEB4
 #define IID_ITextRenderingManager (PUUID)0x15C22700
 #define CID_CUIImageManager (PUUID)0x15BE640C
 #define IID_IUIImageManager (PUUID)0x15C1FC20
@@ -56,6 +56,15 @@
 #define KEY_RIGHT 0xB
 #define KEY_ENTER 0x8
 #define KEY_DIGITAL_0 0x18
+#define KEY_DIGITAL_1 0x19
+#define KEY_DIGITAL_2 0x1A
+#define KEY_DIGITAL_3 0x1B
+#define KEY_DIGITAL_4 0x1C
+#define KEY_DIGITAL_5 0x1D
+#define KEY_DIGITAL_6 0x1E
+#define KEY_DIGITAL_7 0x1F
+#define KEY_DIGITAL_8 0x20
+#define KEY_DIGITAL_9 0x21
 #define KEY_DEL 0x5
 
 #define FONT_D_18B 0x112

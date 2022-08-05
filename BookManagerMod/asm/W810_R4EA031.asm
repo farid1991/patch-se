@@ -44,7 +44,7 @@ a       EQU     b
 
         defadr TextID_Create,0x452FE69C+1
         defadr TextID_GetString,0x452FF248+1
-        
+
         defadr List_DestroyElements,0x4527F3B4+1
         defadr List_Destroy,0x4527EFC4+1
         defadr List_Create,0x4527EFAC+1
@@ -57,7 +57,7 @@ a       EQU     b
         defadr IsVolumeControllerBook,0x45643CC0+1
         defadr IsRightNowBook,0x4563E6CC+1
         defadr Find_StandbyBook,0x452AC7B8+1
-        
+
         defadr JavaDialog_Open,0x45020BF0+1
         defadr JavaDialog_Close,0x45023F98+1
         defadr JavaAppDesc_GetFirstApp,0x4501BE90+1
@@ -160,7 +160,7 @@ _onCreate:
         BLX     R3
         LDR     R3, =0x4563E3EC+1
         BX      R3
-        
+
         RSEG   BOOK_CLOSE
         CODE16
         LDR     R3, =_onClose

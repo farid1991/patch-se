@@ -4,6 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
+
         defadr memalloc,0x1009ED08
         defadr memfree,0x1009ED30
         defadr memset,0x10001630
@@ -733,7 +734,7 @@ _Tabfocus:
         bx	r3
 set_focus:
         bl	SetFocusTab
-        mov	r5, r0
+        add	r5, r0, #0
         ldr	r3, =0x116D003E+1
         bx	r3
 
@@ -756,20 +757,20 @@ _onClose:
         pop	{r4-r7,pc}
 
 _Internet:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateShortcutMenu
         pop	{r4-r6,pc}
 
 _Shortcurts:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateElfMenu
         pop	{r4-r6,pc}
 
 _Activetasks:
-        mov	r1, r5
-        mov	r0, r4
+        add	r1, r5, #0
+        add	r0, r4, #0
         bl	CreateBookMenu
         pop	{r4-r6,pc}
 

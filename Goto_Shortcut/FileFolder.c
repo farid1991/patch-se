@@ -138,7 +138,7 @@ int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 Selec
       }
       else
       {
-        if (type == SFILE)
+        if (type == SEL_FILE)
         {
           AddToFList(path, next, ITEM_FILE);
           n++;
@@ -255,7 +255,7 @@ void Self_onSelectPressed(BOOK *book, GUI *gui)
   FILELIST *flist = FindFLISTtByN(item);
   if (flist)
   {
-    if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SFOLDER) || flist->is_folder == ITEM_FILE)
+    if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SEL_FOLDER) || flist->is_folder == ITEM_FILE)
     {
       TEXTID str = TextID_Get(flist->fullname);
 #if defined(DB2000) || defined(DB2010)
@@ -315,8 +315,10 @@ GUI_LIST *CreateFileFolderSelect(BOOK *book, wchar_t *str)
   ListMenu_SetItemCount(f_list_gui, count);
   ListMenu_SetCursorToItem(f_list_gui, ITEM_BACK);
   ListMenu_SetOnMessage(f_list_gui, OnMessage);
-  GUIObject_SoftKeys_SetActionAndText(f_list_gui, ACTION_SELECT1, Self_onEnterPressed, OPEN_TXT);
-  GUIObject_SoftKeys_SetActionAndText(f_list_gui, 1, Self_onSelectPressed, SELECT_TXT);
+  GUIObject_SoftKeys_SetText(f_list_gui, ACTION_SELECT1, OPEN_TXT);
+  GUIObject_SoftKeys_SetAction(f_list_gui, ACTION_SELECT1, Self_onEnterPressed);
+  GUIObject_SoftKeys_SetText(f_list_gui, 1, SELECT_TXT);
+  GUIObject_SoftKeys_SetAction(f_list_gui, 1, Self_onSelectPressed);
   GUIObject_SoftKeys_SetAction(f_list_gui, ACTION_BACK, Self_OnBack);
   GUIObject_Show(f_list_gui);
 

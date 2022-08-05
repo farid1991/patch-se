@@ -22,7 +22,7 @@ void AcceptShortcut(BOOK *book)
 
 void Menu_SetMainMenu(BOOK *MainMenu, GUI *gui)
 {
-  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
 
   wchar_t *Data = L"MainMenu";
   WStringRealloc(Data, &mbk->ShortcutItem->ShortcutLink);
@@ -51,7 +51,7 @@ void Menu_SetMainMenu(BOOK *MainMenu, GUI *gui)
 
 void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
 {
-  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
 
   wchar_t *Data = MenuBook_Desktop_GetSelectedItemID(MainMenu);
   WStringRealloc(Data, &mbk->ShortcutItem->ShortcutLink);
@@ -180,7 +180,7 @@ const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, 
 #ifndef PNX5230
 int pg_SC_Editor_SelectElf_AcceptAction(void *data, BOOK *book)
 {
-  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsMyBook);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
   FILEITEM *file_item = (FILEITEM *)data;
 
   mbk->ShortcutItem->ShortcutLink = FSX_MakeFullPath(FILEITEM_GetPath(file_item), FILEITEM_GetFname(file_item));
@@ -196,10 +196,10 @@ int pg_SC_Editor_SelectElf_AcceptAction(void *data, BOOK *book)
 
 int DB_Filter(const wchar_t *ExtTable, const wchar_t *fpath, const wchar_t *fname)
 {
-  FSTAT fs;
   if (DataBrowser_isFileInListExt(ExtTable, fpath, fname))
     return 1;
 
+  FSTAT fs;
   fstat(fpath, fname, &fs);
   return 0 != (fs.st_mode & FSX_S_IFDIR);
 }
@@ -211,12 +211,12 @@ int pg_SC_Editor_SelectElf_EnterAction(void *data, BOOK *book)
   {
     const wchar_t *Folders[3];
     Folders[0] = ELFS_INT_PATH;
-    #ifdef MEMORY_STICK
-    Folders[1] =ELFS_EXT_PATH;
+#ifdef MEMORY_STICK
+    Folders[1] = ELFS_EXT_PATH;
     Folders[2] = NULL;
-    #else
+#else
     Folders[1] = NULL;
-    #endif
+#endif
     DataBrowserDesc_SetHeaderText(DB_Desc, TextID_Get(L"ELFs"));
     DataBrowserDesc_SetBookID(DB_Desc, BookObj_GetBookID(book));
     DataBrowserDesc_SetFolders(DB_Desc, Folders);
@@ -331,7 +331,7 @@ const PAGE_DESC Goto_Editor_EventInput_PageDesc = {EDITOR_EVENTINPUT_BASEPAGE_NA
 void SelFolder_Enter(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  mbk->FType = SFOLDER;
+  mbk->FType = SEL_FOLDER;
   wchar_t *str;
   uint16_t len;
   StringInput_GetStringAndLen(mbk->FolderInput, &str, &len);
@@ -384,7 +384,8 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
                                          VAR_ARG_CALL_BACK_LONG_BACK, SC_Editor_SelectFolder_onBack,
                                          VAR_ARG_CALL_BACK_OK, SC_Editor_SelectFolder_onEnter,
                                          0);
-  GUIObject_SoftKeys_SetActionAndText(mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT);
+  GUIObject_SoftKeys_SetText(mbk->FolderInput, 0, SELECT_FOLDER_TXT);
+  GUIObject_SoftKeys_SetAction(mbk->FolderInput, 0, SelFolder_Enter);
 #ifndef K600_R2BB001
   StringInput_MenuItem_SetPriority(mbk->FolderInput, 0, 0);
 #endif
@@ -402,7 +403,8 @@ int pg_SC_Editor_SelectFolder_EnterAction(void *data, BOOK *book)
     StringInput_SetActionOK(mbk->FolderInput, SC_Editor_SelectFolder_onEnter);
     StringInput_SetActionBack(mbk->FolderInput, SC_Editor_SelectFolder_onBack);
 
-    GUIObject_SoftKeys_SetActionAndText(mbk->FolderInput, 0, SelFolder_Enter, SELECT_FOLDER_TXT);
+    GUIObject_SoftKeys_SetText(mbk->FolderInput, 0, SELECT_FOLDER_TXT);
+    GUIObject_SoftKeys_SetAction(mbk->FolderInput, 0, SelFolder_Enter);
     StringInput_MenuItem_SetPriority(mbk->FolderInput, 0, 0);
 
     GUIObject_Show(mbk->FolderInput);

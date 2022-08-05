@@ -4,6 +4,8 @@
 #define A1
 #define DB2010
 
+#define BCFGEDIT_PATH L"/usb/other/ZBin/BcfgEdit.elf"
+
 #define LastExtDB 0x444EE0B8
 
 #define ACTION_ACCEPT 0xFAC

@@ -66,6 +66,8 @@ a       EQU b
         defadr GUIObject_GetBook,0x109D02E0+1
         defadr Display_GetWidth,0x1178CFD4+1
         defadr Display_GetHeight,0x1178CFC8+1
+        defadr GetImageWidth,0x109CB5C0+1
+        defadr GetImageHeight,0x109CB5D4+1
         defadr CreateMessageBox,0x11A64938+1
         defadr GUIonMessage_GetMsg,0x11A8DBF0+1
         defadr GUIonMessage_GetCreatedItemIndex,0x11A8DC14+1
@@ -108,12 +110,8 @@ a       EQU b
         EXTERN New_VolumeControl_OnCreate
         EXTERN New_VolumeControl_OnClose
         EXTERN New_VolumeControl_OnRedraw
-
         EXTERN New_pg_VolumeControl_Active_EnterEvent
 
-        RSEG PATCH_VOLUMEONPAGENTER
-        DATA
-        DCD New_pg_VolumeControl_Active_EnterEvent
 
         RSEG PATCH_VOLUMEONCREATE
         DATA
@@ -126,5 +124,9 @@ a       EQU b
         RSEG PATCH_VOLUMEONREDRAW
         DATA
         DCD New_VolumeControl_OnRedraw
+
+        RSEG PATCH_VOLUMEONPAGENTER
+        DATA
+        DCD New_pg_VolumeControl_Active_EnterEvent
 
         END
