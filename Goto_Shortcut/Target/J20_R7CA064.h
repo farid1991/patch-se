@@ -1,30 +1,30 @@
-#ifndef U10_R7AA071
-#define U10_R7AA071
+#ifndef J20_R7CA064
+#define J20_R7CA064
 
 #define A2
 #define DB3350
 
-#define F_PATH (wchar_t *)0x15C32E78
+#define F_PATH (wchar_t *)0x157F4D18
 
-#define TITLE_TXT 0xCE2            // L"Goto"
+#define TITLE_TXT 0xD13            // L"Goto"
 #define MENU_ADD_TXT 0x176         // L"New shortcut"
 #define MENU_MODIFY_TXT 0x1BD      // L"Edit shortcut"
-#define EMPTY_LIST_TXT 0xB77       // L"No shortcuts"
-#define MENU_ABOUT_TXT 0x2B93      // L"About"
-#define EDITOR_TITLE_TXT 0x2A7C    // L"Editor"
-#define EDITOR_LABEL_TXT 0x1120    // L"Name"
-#define EDITOR_SHORTCUT_TXT 0x1D73 // L"Shortcut"
+#define EMPTY_LIST_TXT 0xBA8       // L"No shortcuts"
+#define MENU_ABOUT_TXT 0x1A57      // L"About"
+#define EDITOR_TITLE_TXT 0x2AC6    // L"Editor"
+#define EDITOR_LABEL_TXT 0x1151    // L"Name"
+#define EDITOR_SHORTCUT_TXT 0x1DB8 // L"Shortcut"
 #define TYPES_TITLE_TXT 0x12C6     // L"Type"
-#define SHC_SET_MM 0x2238          // Set to main menu
-#define SHC_SET_SHORTCUT_SK 0x1D39 // add shortcut
-#define DELETEQ_TXT 0x222F         //delete shortcut
+#define SHC_SET_MM 0x227F          // Set to main menu
+#define SHC_SET_SHORTCUT_SK 0x1D7E // add shortcut
+#define DELETEQ_TXT 0x2276         // delete shortcut
 
-#define OPEN_TXT 0x6D1
-#define SELECT_TXT 0xD9D
+#define OPEN_TXT 0x702
+#define SELECT_TXT 0xDCE
 
-#define EVENT_TXT 0x12C4
-#define FOLDER_TXT 0xA5B
-#define SELECT_FOLDER_TXT 0xA6B
+#define EVENT_TXT 0x12F5
+#define FOLDER_TXT 0xA8C
+#define SELECT_FOLDER_TXT 0x1CF6
 
 #define HPB_OTHER_ICN 0xF761
 #define MENU_SETTINGS_ICN 0x1015

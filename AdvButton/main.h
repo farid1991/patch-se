@@ -3,14 +3,6 @@
 
 #define CONFIG_NAME L"OnOffButton.bin"
 
-
-#define FREE(mem) \
-  if (mem)        \
-  {               \
-    mfree(mem);   \
-    mem = NULL;   \
-  }
-
 #define FREE_GUI(g)       \
   if (g)                  \
   {                       \

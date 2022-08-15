@@ -624,7 +624,6 @@ a       EQU     b
         defadr GUIObject_GetBook,0x45364CAC+1
         defadr SoftKeys_GetSelectedAction,0x4537E030+1
         defadr MonitorFeedback_SetTimer,0x452BCC2C+1
-        defadr void,0x4531FEFD
         defadr ListMenu_DestroyItems,0x4531E944+1
         defadr DispObject_SetScrollBarBackgroundColor,0x4535C444+1
         defadr DispObject_SetScrollBarColor,0x4535C420+1
@@ -632,11 +631,9 @@ a       EQU     b
         defadr YesNoQuestion_SetIcon,0x45375AA8+1
         defadr GUIObject_SetBacklightTimeout,0x4536500C+1
         defadr ListMenu_SetHotkeyMode,0x4531E5C8+1
-        
         defadr CreateYesNoQuestion,0x453756CC+1
 	defadr YesNoQuestion_SetDescriptionText,0x45375A88+1
 	defadr YesNoQuestion_SetQuestionText,0x45375A78+1
-        
         defadr CreateStringInput,0x452F6454+1
         defadr StringInput_SetText,0x452F6F48+1
         defadr StringInput_SetMinLen,0x452F6D9C+1
@@ -646,25 +643,20 @@ a       EQU     b
         defadr StringInput_SetFixedText,0x452F6E6C+1
         defadr StringInput_SetActionOK,0x452F6D90+1
         defadr StringInput_SetActionBack,0x452F6D94+1
-        
         defadr List_GetCount,0x451B5ABC+1
         defadr List_RemoveFirst,0x451B5A1C+1
-        
         defadr FSX_MakeFullPath,0x44E8AC64+1
-        
         defadr CreateMessageBox,0x452B98C8+1
-        
         defadr GUIObject_SoftKeys_SetActionAndText,0x44DEC378+1
-        
+
         EXTERN GotoShortcut
-        
+
         RSEG STANDBY_SOFTKEY
         DATA
         DCD 0x1DF2
-        
+
         RSEG STANDBY_LINK
         DATA
         DCD GotoShortcut
-        
-        
+
         END

@@ -10,7 +10,6 @@ const IMAGEID TypesIcons[TYPE_LAST] =
     {
         SHORTCUT_LIST_ICN,
 #ifndef DB3350
-
         DB_LIST_JAVA_ICN,
 #ifndef PNX5230
         ENTERTAINMENT_ICN,
@@ -19,10 +18,7 @@ const IMAGEID TypesIcons[TYPE_LAST] =
         GUI_UNAVAILABLE_ICN,
         DB_LIST_FOLDER_ICN};
 
-const IMAGEID EditorIcons[2] =
-    {
-        HPB_OTHER_ICN,
-        MENU_SETTINGS_ICN};
+const IMAGEID EditorIcons[2] = {HPB_OTHER_ICN, MENU_SETTINGS_ICN};
 
 #define EDITOR_MAIN_BASEPAGE_NAME "SC_Editor_Main_Page"
 #define EDITOR_CAPTIONINPUT_BASEPAGE_NAME "SC_Editor_LabelInput_Page"
@@ -38,7 +34,7 @@ void EditorRun(BOOK *book, int mode);
 int pg_SC_Editor_Main_AcceptAction(void *data, BOOK *book);
 
 #define FREE_JAVAGUI(gui, list, free) \
-  FreeList(list, free);               \
-  FREE_GUI(gui);
+        FreeList(list, free);         \
+        FREE_GUI(gui);
 
 #endif

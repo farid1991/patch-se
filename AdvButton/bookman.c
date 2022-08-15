@@ -17,7 +17,7 @@ int LoadMode()
 {
   int ret = 0;
   int file;
-  if ((file = _fopen(BOOKMAN_PATH, L"mode.cfg", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= NULL)
+  if ((file = _fopen(BOOKMAN_PATH, L"mode.cfg", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
   {
     int *fdata = (int *)malloc(sizeof(int));
     memset(fdata, NULL, sizeof(int));
@@ -202,9 +202,9 @@ int read_config_file(wchar_t *name, void **cfg_buffer)
   void *buffer = NULL;
   int size = NULL;
   FSTAT _fstat;
-  if (fstat(BOOKMAN_PATH, name, &_fstat) == 0)
+  if (fstat(BOOKMAN_PATH, name, &_fstat) == NULL)
   {
-    if ((file = _fopen(BOOKMAN_PATH, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+    if ((file = _fopen(BOOKMAN_PATH, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
     {
       buffer = (char *)malloc(_fstat.fsize + 1);
       fread(file, buffer, _fstat.fsize);
@@ -219,14 +219,14 @@ int read_config_file(wchar_t *name, void **cfg_buffer)
 void DestroyIniBuffers(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  FREE(bookman->booknames_buf);
-  FREE(bookman->shortcuts_buf);
+  mfree(bookman->booknames_buf);
+  mfree(bookman->shortcuts_buf);
 }
 
 void LoadBookNames(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  FREE(bookman->booknames_buf);
+  mfree(bookman->booknames_buf);
 
   void *buffer;
   bookman->booknames_buf_size = read_config_file(INI_BOOK_NAMES, &buffer);
@@ -236,7 +236,7 @@ void LoadBookNames(BOOK *book)
 void LoadShortcuts(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  FREE(bookman->shortcuts_buf);
+  mfree(bookman->shortcuts_buf);
 
   void *buffer;
   bookman->shortcuts_buf_size = read_config_file(INI_SHORTCUTS, &buffer);
@@ -355,7 +355,7 @@ int GetBooksFromSession(UI_APP_SESSION *session, LIST *books_list, LIST *elfs_li
         elem->book_name = java_name;
         TextID_Destroy(tmp);
       }
-      
+
       if ((((int)book->onClose) & FLASH_MASK) == mask)
       {
         if (!elem->gui_count)
@@ -739,7 +739,7 @@ void onAuthor(BOOK *book, GUI *g)
     }
     else
     {
-      CreateMessageBox(EMPTY_TEXTID, STR("Author unknown"), 1, 3000, bookman);
+      CreateMessageBox(EMPTY_TEXTID, STR("Unknown Author"), 1, 3000, bookman);
     }
   }
 }
@@ -810,7 +810,7 @@ void onEnterPressed_Elfs(BOOK *book, GUI *gui)
   BOOK *bk = GetBook(bookman, ELFLIST);
   if (bk)
   {
-    BookObj_SetFocus(bk, 0);
+    BookObj_SetFocus(bk, UIDisplay_Main);
     FreeBook(bookman);
   }
 }
@@ -1074,7 +1074,7 @@ void CreateBookManagerGUI(BOOK *book)
     RefreshElfSoftkeys(bookman, bookman->elf_index);
 
     TabMenuBar_SetTabGui(bookman->gui, TAB_ELFS, bookman->elf_list_menu);
-    TabMenuBar_SetTabTitle(bookman->gui, TAB_ELFS, STR("Elfs"));
+    TabMenuBar_SetTabTitle(bookman->gui, TAB_ELFS, STR("ELFs"));
   }
 
   TabMenuBar_SetFocusedTab(bookman->gui, bookman->ActiveTAB);

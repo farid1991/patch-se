@@ -9,37 +9,13 @@
 
 IMAGEID GetDigitIcon(int index)
 {
-  switch (index)
-  {
-  case 0:
-    return IDN_DIGIT_0_ICON;
-  case 1:
-    return IDN_DIGIT_1_ICON;
-  case 2:
-    return IDN_DIGIT_2_ICON;
-  case 3:
-    return IDN_DIGIT_3_ICON;
-  case 4:
-    return IDN_DIGIT_4_ICON;
-  case 5:
-    return IDN_DIGIT_5_ICON;
-  case 6:
-    return IDN_DIGIT_6_ICON;
-  case 7:
-    return IDN_DIGIT_7_ICON;
-  case 8:
-    return IDN_DIGIT_8_ICON;
-  case 9:
-    return IDN_DIGIT_9_ICON;
-  default:
-    return NOIMAGE;
-  }
+  return (IDN_DIGIT_0_ICON + index);
 }
 
 void Shortcut_Append(wchar_t *name_buf, char *mask_buf, wchar_t *path)
 {
-  int file;
-  if ((file = _fopen(path, INI_SHORTCUTS, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  int file = _fopen(path, INI_SHORTCUTS, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (file >= NULL)
   {
     int size = strlen(mask_buf) + wstrlen(name_buf) + 4;
     char *temp_buf = (char *)malloc(size);
@@ -61,7 +37,7 @@ void ReWriteShortcut(BOOK *book, wchar_t *name_buf, char *mask_buf, wchar_t *pat
 
   if (bookman->shortcuts_buf)
   {
-    char *param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, 0);
+    char *param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, NULL);
 
     int len = wstrlen(name_buf);
     char *str_buf = (char *)malloc(len + 1);
@@ -70,7 +46,7 @@ void ReWriteShortcut(BOOK *book, wchar_t *name_buf, char *mask_buf, wchar_t *pat
     if (param)
     {
       pos = strstr(bookman->shortcuts_buf, mask_buf);
-      if ((file = _fopen(path, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+      if ((file = _fopen(path, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
       {
         int len_minus = strlen(param);                                                                                                       //????? ??????? ??????
         fwrite(file, bookman->shortcuts_buf, pos - bookman->shortcuts_buf + len_prefix);                                                     //????? ?????? ?????
@@ -84,7 +60,7 @@ void ReWriteShortcut(BOOK *book, wchar_t *name_buf, char *mask_buf, wchar_t *pat
     {
       if (pos = strstr(bookman->shortcuts_buf, mask_buf))
       {
-        if ((file = _fopen(path, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+        if ((file = _fopen(path, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
         {
           fwrite(file, bookman->shortcuts_buf, pos - bookman->shortcuts_buf + len_prefix);
           fwrite(file, str_buf, len);
@@ -124,10 +100,10 @@ void JAVA_LIST_ITEM_Destroy(void *item)
 
   if (elem)
   {
-    FREE(elem->name);
-    FREE(elem->vendor);
-    FREE(elem->fullpath);
-    FREE(elem->hash_name);
+    mfree(elem->name);
+    mfree(elem->vendor);
+    mfree(elem->fullpath);
+    mfree(elem->hash_name);
     if (elem->imageID != NOIMAGE)
       ImageID_Free(elem->imageID);
     mfree(elem);
@@ -278,7 +254,7 @@ void *SHORTCUT_DESC_Init(char *param)
   {
     char temp_buf[0x32];
     strncpy(temp_buf, param, MAXELEMS(temp_buf) - 1);
-    temp_buf[MAXELEMS(temp_buf) - 1] = 0;
+    temp_buf[MAXELEMS(temp_buf) - 1] = NULL;
     str2wstr(w_buf->name, temp_buf);
   }
   if (!wstrcmp(w_buf->name, L"MainMenu"))
@@ -369,7 +345,7 @@ int GetShortcutName(BOOK *book, int item_num, SC_DATA *scdata)
   char mask_buf[10];
 
   sprintf(mask_buf, "[KEY_%d]:", item_num);
-  param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, 0);
+  param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, NULL);
 
   if (param)
   {
@@ -422,7 +398,7 @@ int DeleteShortcut(BOOK *book, char *mask_buf, int file)
 
   if (bookman->shortcuts_buf)
   {
-    param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, 0);
+    param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, NULL);
     if (param)
     {
       int len_minus = strlen(param);
@@ -449,7 +425,7 @@ void ButtonList_DeleteAction(BOOK *book, GUI *gui)
   if (!GetShortcutName(bookman, dig_num, NULL))
     return;
 
-  if ((file = _fopen(BOOKMAN_PATH, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+  if ((file = _fopen(BOOKMAN_PATH, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
   {
     char mask_buf[10];
     sprintf(mask_buf, "[KEY_%d]:", dig_num);

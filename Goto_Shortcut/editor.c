@@ -206,12 +206,11 @@ int DB_Filter(const wchar_t *ExtTable, const wchar_t *fpath, const wchar_t *fnam
 
 int pg_SC_Editor_SelectElf_EnterAction(void *data, BOOK *book)
 {
-  void *DB_Desc = DataBrowserDesc_Create();
-  if (DB_Desc)
+  if (void *DB_Desc = DataBrowserDesc_Create())
   {
     const wchar_t *Folders[3];
     Folders[0] = ELFS_INT_PATH;
-#ifdef MEMORY_STICK
+#ifdef ELFS_EXT_PATH
     Folders[1] = ELFS_EXT_PATH;
     Folders[2] = NULL;
 #else

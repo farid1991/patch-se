@@ -45,7 +45,7 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
   {
     if (pos_uni_pair)
     {
-      if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+      if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
       {
         // Delete
         pos = wstrwstr(pos_uni_pair, L"\r\n") + sizeof("\r\n") - sizeof("");
@@ -62,7 +62,7 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
     {
       if (pos_uni_pair)
       {
-        if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+        if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
         {
           // ReWrite
           pos = pos_uni_pair + wstrlen(orig_name) + sizeof(": ") - sizeof("");
@@ -76,7 +76,7 @@ void onAccept_SI(BOOK *book, wchar_t *new_name, int len)
       }
       else
       {
-        if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, 0)) >= 0)
+        if ((file = _fopen(BOOKMAN_PATH, INI_BOOK_NAMES, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
         {
           // Append
           fwrite(file, bookman->booknames_buf, bookman->booknames_buf_size); // write old file
@@ -98,7 +98,7 @@ int ChangeName_Enter_Event(void *data, BOOK *book)
   BookManager *bookman = (BookManager *)book;
   TEXTID editable_strID = GetUserBookNameTEXTID(GetOriginalBookName(bookman));
 
-  bookman->string_input = CreateStringInputVA(0,
+  bookman->string_input = CreateStringInputVA(NULL,
                                               VAR_ARG_BOOK, bookman,
                                               VAR_ARG_STRINP_TEXT, editable_strID,
                                               VAR_ARG_STRINP_MAX_LEN, MAX_BOOK_NAME_LEN,
@@ -106,7 +106,7 @@ int ChangeName_Enter_Event(void *data, BOOK *book)
                                               VAR_ARG_CALL_BACK_PREV_ACT, onPrevious_SI,
                                               VAR_ARG_CALL_BACK_LONG_BACK, onCancel_SI,
                                               VAR_ARG_CALL_BACK_OK, onAccept_SI,
-                                              0);
+                                              NULL);
   return 1;
 }
 

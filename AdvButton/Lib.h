@@ -13,6 +13,7 @@ extern "C"
 
   void debug_printf(const char *fmt, ...);
   void *memset(void *mem, char chr, int size);
+  int memcpy(void *dest, const void *source, int cnt);
   int sprintf(char *buf, const char *fmt, ...);
   int snwprintf(wchar_t *buffer, int size, const wchar_t *fmt, ...);
   int swscanf(const wchar_t *buffer, const wchar_t *format, ...);
@@ -23,6 +24,7 @@ extern "C"
   int fwrite(int file, const void *ptr, int size);
   int fstat(const wchar_t *path, const wchar_t *fname, FSTAT *fstat_stuct);
 
+  int IsExternalDisplay();
   int isKeylocked(void);
   BOOK *FindBook(IS_NEEDED_BOOK);
   BOOK *FindBookByID(int BookID);
@@ -31,6 +33,11 @@ extern "C"
   int IsAudioPlayerBook(BOOK *bk);
   int IsRightNowBook(BOOK *book);
   int IsVolumeControllerBook(BOOK *book);
+
+  int Display_GetHeight(int display);
+  int Display_GetWidth(int display);
+  void PlaySystemSound(int SndNumber);
+  void REQUEST_DATEANDTIME_GET(const int *sync, DATETIME *dt);
 
   char *strcpy(char *dest, const char *source);
   wchar_t *str2wstr(wchar_t *wstr, const char *str);

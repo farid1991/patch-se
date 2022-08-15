@@ -4,6 +4,8 @@
 #define A1
 #define DB2020
 
+#define F_PATH (wchar_t *)0x457186D8
+
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/other/ZBin"
 #define ELFS_PATH_COUNT 2
@@ -44,11 +46,6 @@
 #define DB_LIST_FOLDER_ICN 0xEE7F
 
 #define SHC_DESKTOP_WATERMARK_ICN 0xF2C6
-
-#define F_PATH (wchar_t *)0x457186D8
-#define MAIN_MENU (wchar_t *)0x45BABC38
-#define JAVA_TXT (wchar_t *)0x45AC1C9C
-#define SHORTCUT_TXT (wchar_t *)0x45BC97DA
 
 //W580_R8BE001
 #define AB_ITEM_DESC_ICON_DISPLACE 0x6
