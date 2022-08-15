@@ -61,7 +61,6 @@ a       equ b
         defadr wstr2strn,0x1409E950+1
         defadr Volume_Get,0x142748C4+1
         defadr Volume_Set,0x14274AC4+1
-
         defadr TextID_CreateIntegerID,0x143D6484+1
         defadr TextID_Create,0x142D8380+1
         defadr TextID_Copy,0x1416F2A4+1
@@ -101,7 +100,6 @@ a       equ b
         defadr FindBook,0x1416E970+1
         defadr UI_Event,0x143A0D70+1
         defadr IsAudioPlayerBook,0x14271E28+1
-
         defadr GUIObject_Create,0x144AD124+1
         defadr GUIObject_SetStyle,0x14132D3C+1
         defadr GUIObject_GetStyle,0x1416DDC0+1
@@ -117,7 +115,6 @@ a       equ b
         defadr DispObject_GetGUI,0x14387AF8+1
         defadr DispObject_SetLayerColor,0x144AD814+1
         defadr DispObject_SetAnimation,0x14EEA8D0+1
-
         defadr DISP_DESC_SetName,0x14509ED0+1
         defadr DISP_DESC_SetSize,0x14509F1C+1
         defadr DISP_DESC_SetOnCreate,0x14509EC4+1
@@ -131,7 +128,6 @@ a       equ b
         defadr DISP_DESC_SetMethod0A,0x1450A1FC+1
         defadr DISP_DESC_SetMethod0B,0x1450A728+1
         defadr DISP_DESC_SetMethod0C,0x1450A3EC+1
-
         defadr get_DisplayGC,0x1416CA0C+1
         defadr DisplayGC_AddRef,0x143D02EC+1
         defadr DrawRect,0x14107C80+1
@@ -149,7 +145,6 @@ a       equ b
         defadr GC_SetBrushColor,0x14107EDC+1
         defadr GC_DrawRoundRect,0x14503E08+1
         defadr BookObj_AddGUIObject,0x14132F2C+1
-
         defadr CreateListMenu,0x14132F38+1
         defadr ListMenu_SetCursorToItem,0x141328FC+1
         defadr ListMenu_GetSelectedItem,0x1411BF24+1
@@ -163,7 +158,6 @@ a       equ b
         defadr ListMenu_DestroyItems,0x143C3870+1
         defadr ListMenu_SetItemTextScroll,0x14110BEC+1
         defadr ListMenu_SetItemSecondLineText,0x142DA5A4+1
-
         defadr GUIonMessage_GetMsg,0x142F1378+1
         defadr GUIonMessage_GetBook,0x142F1290+1
         defadr GUIonMessage_GetGui,0x142F0E68+1
@@ -176,14 +170,12 @@ a       equ b
         defadr GUIonMessage_SetMenuItemInfoText,0x14067DC8+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x14FA5DDC+1
         defadr GUIonMessage_SetMenuItemIcon,0x14045284+1
-
         defadr CreateOneOfMany,0x140F6A6C+1
         defadr OneOfMany_SetOnMessage,0x14DB8908+1
         defadr OneOfMany_SetItemCount,0x150CE954+1
         defadr OneOfMany_SetChecked,0x141117A0+1
         defadr OneOfMany_SetTexts,0x141AE38C+1
         defadr OneOfMany_GetSelected,0x1509EAB8+1
-
         defadr CreateTabMenuBar,0x1433D6D8+1
         defadr TabMenuBar_SetTabCount,0x1426F670+1
         defadr TabMenuBar_SetTabGui,0x14513C60+1
@@ -191,14 +183,12 @@ a       equ b
         defadr TabMenuBar_GetFocusedTab,0x141FFEC0+1
         defadr TabMenuBar_SetFocusedTab,0x14513970+1
         defadr TabMenuBar_SetTabTitle,0x1402BD70+1
-
         defadr TextFeedbackWindow,0x1423613C+1
         defadr Feedback_SetKeyHook,0x14E08514+1
         defadr Feedback_SetOnClose,0x14236110+1
         defadr Feedback_SetTimeout,0x14D54E30+1
         defadr Feedback_CloseAction,0x1414D540+1
         defadr Feedback_SetTextExtended,0x14235FC8+1
-
         defadr CreateStringInput,0x15072700+1
         defadr StringInput_SetMode,0x1400114C+1
         defadr StringInput_SetFixedText,0x140154EC+1
@@ -206,7 +196,6 @@ a       equ b
         defadr StringInput_SetMaxLen,0x143194FC+1
         defadr StringInput_SetEnableEmptyText,0x14F1BC34+1
         defadr StringInput_SetActionOK,0x1428A2C4+1
-
         defadr GUIObject_SoftKeys_SetAction,0x14105420+1
         defadr GUIObject_SoftKeys_SetText,0x14105150+1
         defadr GUIObject_SoftKeys_SetEnable,0x1410582C+1
@@ -243,12 +232,12 @@ a       equ b
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14EB3BFC+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x1515F1C8+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x1515F250+1
-
         defadr MainMenu_SetFromUserTheme,0x14E871B0+1
         defadr ThemeImage_Apply,0x140AAA8C+1
         defadr MessageBox,0x15966F9C+1
         defadr GetURIScheme,0x140B4538+1
         defadr CreateURI,0x140B41FC+1
+        defadr FreeURI,0x1445B870+1
         defadr Browser_OpenURI,0x14296F50+1
         defadr BookObj_SetFocus,0x145125E8+1
 

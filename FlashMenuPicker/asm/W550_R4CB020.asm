@@ -41,6 +41,7 @@ a       equ b
         defadr FreeBook,0x451C7C7C+1
         defadr GetURIScheme,0x4544C3DC+1
         defadr CreateURI,0x4544C824+1
+        defadr FreeURI,0x4544C950+1
         defadr Browser_OpenURI,0x45345870+1
         defadr BookObj_ReturnPage,0x451C765C+1
         defadr GUIObject_Destroy,0x450C022C+1

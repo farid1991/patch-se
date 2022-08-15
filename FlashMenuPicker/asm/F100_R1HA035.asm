@@ -31,6 +31,7 @@ a       EQU     b
         defadr MessageBox,0x1582ECE8+1
         defadr GetURIScheme,0x145B9008+1
         defadr CreateURI,0x145B8A80+1
+        defadr FreeURI,0x14382340+1
         defadr Browser_OpenURI,0x1424639+1
         defadr GUIObject_Destroy,0x14223460+1
         defadr CreateListMenu,0x142234B0+1

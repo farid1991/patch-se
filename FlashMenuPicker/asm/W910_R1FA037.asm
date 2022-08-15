@@ -265,6 +265,7 @@ a       EQU b
         defadr Set_SWF_AsFlashMenu,0x1123896C+1
         defadr GetURIScheme,0x11473A1C+1
         defadr CreateURI,0x11473EB8+1
+        defadr FreeURI,0x11474010+1
         defadr Browser_OpenURI,0x10F6EC70+1
 
         EXTERN FlashmenuPicker

@@ -45,7 +45,6 @@ a       EQU     b
         defadr DrawRect,0x109C9FB4+1
         defadr SetFont,0x109CAEC0+1
         defadr DrawString,0x109CA300+1
-        defadr GetImageHeight_int,0x109CB5D4+1
         defadr ListMenu_GetSelectedItem,0x11A8D010+1
         defadr ListMenu_DestroyItems,0x11A8D4C0+1
         defadr ListMenu_SetHotkeyMode,0x11A8D1A4+1
@@ -197,14 +196,12 @@ a       EQU     b
         defadr Sound_SetMessageAlert,0x10C4E930+1
         defadr Sound_SetAlarmsignal,0x1093366C+1
         defadr Sound_AddToContact,0x10B51EAC+1
-
         defadr CreateTabMenuBar,0x1178A97C+1
         defadr TabMenuBar_SetTabGui,0x1178AA4C+1
         defadr TabMenuBar_SetTabTitle,0x1178AB14+1
         defadr TabMenuBar_SetTabIcon,0x1178AACC+1
         defadr TabMenuBar_SetTabCount,0x1178ABD4+1
         defadr TabMenuBar_SetFocusedTab,0x1178AA30+1
-
         defadr CreateStringInput,0x10894AB0+1
         defadr StringInput_SetMode,0x10895368+1
         defadr StringInput_SetFixedText,0x108954AC+1
@@ -212,16 +209,15 @@ a       EQU     b
         defadr StringInput_SetMaxLen,0x10895480+1
         defadr StringInput_SetEnableEmptyText,0x108954F4+1
         defadr StringInput_SetActionOK,0x108953C4+1
-
         defadr TextFeedbackWindow,0x1178BCC8+1
         defadr Feedback_SetTextExtended,0x1178C138+1
         defadr Feedback_CloseAction,0x1178C098+1
-
         defadr MainMenu_SetFromUserTheme,0x10DDC7B0+1
         defadr Set_SWF_AsFlashMenu,0x10D2DDE4+1
         defadr MessageBox,0x11A64894+1
         defadr GetURIScheme,0x10E13024+1
         defadr CreateURI,0x10E134C0+1
+        defadr FreeURI,0x10E13614+1
         defadr Browser_OpenURI,0x1077CCD4+1
 
         EXTERN FlashmenuPicker

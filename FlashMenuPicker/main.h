@@ -4,6 +4,12 @@
 #define MEM_NAME "swf_mem"
 #define EMP_NAME "swf_emp"
 
+#ifdef DB2010
+#define URI_MODE 1
+#else
+#define URI_MODE 2
+#endif
+
 static wchar_t *CUSTOM_NAME = L"Flash_Menu_Custom.swf";
 static const char *BOOKNAME = "FlashMenuPickerBook";
 

@@ -367,12 +367,11 @@ void FlashMenuPicker_Pick_Preview(BOOK *book, GUI *gui)
       uri = CreateURI(EXT_FLASH_PATH, flist->name, uri_scheme);
     }
 #endif
-#ifdef DB2010
-    if (Browser_OpenURI(NULL, uri, 1))
-#else
-    if (Browser_OpenURI(fmbk, uri, 2))
-#endif
+    if (Browser_OpenURI(NULL, uri, URI_MODE))
+    {
       BookObj_ReturnPage(fmbk, PREVIOUS_EVENT);
+    }
+    FreeURI(uri);
   }
 }
 

@@ -50,7 +50,6 @@ a       equ     b
         defadr DynamicMenu_SetElement_SecondLineText,0x14B10B88+1
         defadr Display_GetWidth,0x144E6CD0+1
         defadr Display_GetHeight,0x144E6CE0+1
-
         defadr set_envp,0x101A246C+1
         defadr get_envp,0x101A2458+1
         defadr w_fstat,0x1003093C+1
@@ -73,10 +72,10 @@ a       equ     b
         defadr MessageBox,0x153A65E0+1
         defadr GetURIScheme,0x14227E3C+1
         defadr CreateURI,0x14228000+1
+        defadr FreeURI,0x1417A01C+1
         defadr Browser_OpenURI,0x14B6AB90+1
         defadr ThemeImage_Apply,0x14BF495C+1
         defadr MainMenu_SetFromUserTheme,0x148A7634+1
-
         defadr strcmp,0x101A34E8+1
         defadr CreateBook,0x1417FFAC+1
         defadr FindBook,0x1446C6A8+1
@@ -84,7 +83,6 @@ a       equ     b
         defadr BookObj_GotoPage,0x14051800+1
         defadr BookObj_ReturnPage,0x14235190+1
         defadr BookObj_CallPage,0x148FB4EC+1
-
         defadr CreateListMenu,0x14180708+1
         defadr ListMenu_SetItemCount,0x140DBDF4+1
         defadr ListMenu_SetCursorToItem,0x140033DC+1

@@ -122,6 +122,7 @@ a       EQU     b
         defadr MessageBox,0x1591724C+1
         defadr GetURIScheme,0x14324C30+1
         defadr CreateURI,0x14458964+1
+        defadr FreeURI,0x14458AD4+1
         defadr Browser_OpenURI,0x1441F884+1
         defadr ListMenu_SetHotkeyMode,0x14127B08+1
         defadr BookObj_CallPage,0x142BBA14+1

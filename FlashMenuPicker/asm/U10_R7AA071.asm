@@ -150,12 +150,11 @@ a       EQU     b
         defadr MetaData_GetTags,0x151752E0+1
         defadr FILEITEM_GetFextension,0x146CA5B0+1
         defadr Create_KeyGrabber,0x15109B44+1
-
         defadr MessageBox,0x1559794C+1
         defadr GetURIScheme,0x1407C8F0+1
         defadr CreateURI,0x1407C60C+1
+        defadr FreeURI,0x1407CA98+1
         defadr Browser_OpenURI,0x1530D3D8+1
-        
         defadr ThemeImage_Apply,0x140D1800+1
         defadr MainMenu_SetFromUserTheme,0x153F0C40+1
 

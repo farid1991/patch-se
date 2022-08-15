@@ -15,7 +15,6 @@ a       EQU     b
         defadr set_envp,0x10297158+1
         defadr current_process,0x102969F4
         defadr get_bid,0x10296A2C
-
         defadr _fopen,0x146C4E20+1
         defadr fwrite,0x146C5DD4+1
         defadr fclose,0x1461C0F8+1
@@ -29,7 +28,6 @@ a       EQU     b
         defadr w_chdir,0x4BFA5E2C
         defadr w_dirread,0x10280924
         defadr w_dirclose,0x4BFA5E0C
-
         defadr strcmp,0x1029826C+1
         defadr strlen,0x1437D970+1
         defadr strstr,0x147ED76A+1
@@ -43,27 +41,23 @@ a       EQU     b
         defadr wstrcmp,0x141AAA78+1
         defadr wstrcmpi,0x141AADC4+1
         defadr wstrncmp,0x147ECF30+1
-
         defadr FILEITEM_GetPath,0x146A12F4+1
         defadr FILEITEM_GetFname,0x146A1684+1
         defadr FILEITEM_GetFextension,0x146A1018+1
         defadr FSX_MakeFullPath,0x141E60AC+1
         defadr FSX_FreeFullPath,0x1414D9D8+1
         defadr FSX_IsFileExists,0x147002C0+1
-
         defadr TextID_Copy,0x142AC87C+1
         defadr TextID_GetWString,0x142AC568+1
         defadr TextID_Create,0x145128B0+1
         defadr TextID_GetLength,0x142AC9E8+1
         defadr TextID_Destroy,0x142AC5E0+1
         defadr RichTextLayout_GetTextWidth,0x14533EA8+1
-
         defadr CoCreateInstance,0x1469688C+1
         defadr TextObject_SetText,0x141A07FC+1
         defadr TextObject_SetFont,0x1438ED74+1
         defadr get_DisplayGC,0x146DE6F4+1
         defadr DisplayGC_AddRef,0x142BBE38+1
-
         defadr GC_GetRect,0x140EEDDC+1
         defadr GC_GetXX,0x1471DC80+1
         defadr GC_SetXX,0x15069F10+1
@@ -71,7 +65,6 @@ a       EQU     b
         defadr GC_SetPenColor,0x146DDCB8+1
         defadr GC_DrawLine,0x1405D4F8+1
         defadr DrawRect,0x142BC408+1
-
         defadr CreateBook,0x14157AC4+1
         defadr FreeBook,0x140FDE10+1
         defadr FindBook,0x143BC05C+1
@@ -80,7 +73,6 @@ a       EQU     b
         defadr BookObj_CallPage,0x140FE158+1
         defadr BookObj_Hide,0x14639F38+1
         defadr BookObj_SetFocus,0x14639C60+1
-
         defadr GUIObject_Create,0x1438D998+1
         defadr BookObj_AddGUIObject,0x1463A46C+1
         defadr GUIObject_GetDispObject,0x145D0C08+1
@@ -90,14 +82,12 @@ a       EQU     b
         defadr GUIObject_Show,0x1469C1AC+1
         defadr GUIObject_Destroy,0x1457BDE8+1
         defadr GUIObject_SetAnimationApp,0x145C8D0C+1
-
         defadr DispObject_InvalidateRect,0x142AA360+1
         defadr DispObject_SetBacklightMode,0x1405F658+1
         defadr DispObject_SetRefreshTimer,0x1405F010+1
         defadr DispObject_KillRefreshTimer,0x1426767C+1
         defadr DispObject_SetThemeImage,0x140DC308+1
         defadr DispObject_SetLayerColor,0x140DB818+1
-
         defadr DISP_DESC_SetName,0x1428B868+1
         defadr DISP_DESC_SetSize,0x1428B85C+1
         defadr DISP_DESC_SetOnCreate,0x1428B864+1
@@ -106,25 +96,20 @@ a       EQU     b
         defadr DISP_DESC_SetOnKey,0x1428B38C+1
         defadr DISP_DESC_SetOnLayout,0x1428B448+1
         defadr DISP_DESC_SetOnRefresh,0x1428B388+1
-
         defadr MetaData_GetTags,0x14F85808+1
-
         defadr Timer_ReSet,0x142664E0+1
         defadr Timer_Set,0x142677F4+1
         defadr Timer_Kill,0x142676B0+1
-
         defadr ImageID_Free,0x14515040+1
         defadr ImageID_GetIndirect,0x1523DA24+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x151DAEBC+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x140C8508+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x1523E9B8+1
-
         defadr Display_GetWidth,0x140EF7CC+1
         defadr Display_GetHeight,0x140EF7DC+1
         defadr Volume_Get,0x146CC77C+1
         defadr Volume_Set,0x146CC46C+1
         defadr CreateMessageBox,0x147743D8+1
-
         defadr GUIObject_SoftKeys_SetText,0x1465FA8C+1
         defadr GUIObject_SoftKeys_SetAction,0x14391FA8+1
         defadr GUIObject_SoftKeys_Show,0x14730EC4+1
@@ -132,7 +117,6 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetVisible,0x143931E0+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x1469DA5C+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x15499E3C+1
-
         defadr CreateListMenu,0x1463A478+1
         defadr ListMenu_DestroyItems,0x145968E8+1
         defadr ListMenu_SetItemCount,0x14156988+1
@@ -149,22 +133,19 @@ a       EQU     b
         defadr GUIonMessage_SetMenuItemText,0x1438CC38+1
         defadr GUIonMessage_SetMenuItemIcon,0x145150A8+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x141296F4+1
-
         defadr CreateOneOfMany,0x147DD8D8+1
         defadr OneOfMany_SetTexts,0x142453A4+1
         defadr OneOfMany_SetChecked,0x147DD774+1
         defadr OneOfMany_GetSelected,0x14734D74+1
-
         defadr CreateYesNoQuestion,0x140DF6EC+1
         defadr YesNoQuestion_SetDescriptionText,0x14488D48+1
         defadr YesNoQuestion_SetQuestionText,0x145CD45C+1
         defadr YesNoQuestion_SetIcon,0x14488D3C+1
-
         defadr MessageBox,0x1537F0C4+1
         defadr GetURIScheme,0x1407ADE4+1
         defadr CreateURI,0x1407AB00+1
+        defadr FreeURI,0x1407AF8C+1
         defadr Browser_OpenURI,0x1510318C+1
-        
         defadr ThemeImage_Apply,0x140CEEDC+1
         defadr MainMenu_SetFromUserTheme,0x151DAA74+1
 

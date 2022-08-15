@@ -36,10 +36,8 @@ a       equ b
         defadr strcmp,0x44E252EC+1
         defadr wstrcpy,0x44E25C34+1
         defadr wstrcat,0x44E25BD4+1
-
         defadr Format_Time,0x454396B0+1
         defadr TextIteratorSetTextId,0x452FE434+1
-
         defadr TextID_Create,0x452FE69C+1
         defadr TextID_CreateIntegerID,0x452FE300+1
         defadr TextID_CreateFromChar,0x452FE2F8+1
@@ -54,15 +52,12 @@ a       equ b
         defadr DispObject_GetGUI,0x453024AC+1
         defadr GUIObject_GetBook,0x45193C54+1
         defadr DispObject_SoftKeys_GetList,0x45199EB4+1
-
         defadr GUIObject_SetAnimation,0x451533E0+1
         defadr BookObj_GotoPage,0x4529F4CC+1
         defadr BookObj_CallPage,0x4529F5DC+1
         defadr BookObj_GetBookID,0x4529FD0C+1
-
         defadr Display_GetHeight,0x45547974+1
         defadr Display_GetWidth,0x45547984+1
-
         defadr GetImageHeight,0x45307FC0+1
         defadr GetImageWidth,0x45307FD8+1
         defadr get_DisplayGC,0x45191A98+1
@@ -84,16 +79,13 @@ a       equ b
         defadr DispObject_ListMenu_GetItemCount,0x452DC0FC+1
         defadr DispObject_SetThemeImage,0x45305BE4+1
         defadr DispObject_SetBackgroundImage,0x452E669C+1
-
         defadr List_GetCount,0x4527F228+1
         defadr List_Get,0x4527F250+1
-
         defadr ImageID_Get,0x45426B54+1
         defadr ImageID_Free,0x45426B44+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x455ADDD0+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x455ADE50+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x455ADEE4+1
-
         defadr GUIObject_SetStyle,0x45193EC4+1
         defadr ListMenu_SetHotkeyMode,0x45170A04+1
         defadr ListMenu_SetItemSecondLineText,0x45170C98+1
@@ -107,7 +99,6 @@ a       equ b
         defadr GUIObject_SetSecondRowTitleText,0x45193F98+1
         defadr GUIObject_Show,0x45193E64+1
         defadr GUIObject_Destroy,0x45193BE4+1
-
         defadr GUIonMessage_GetMsg,0x45171378+1
         defadr GUIonMessage_GetCreatedItemIndex,0x451713A4+1
         defadr GUIonMessage_SetMenuItemText,0x451713B4+1
@@ -118,30 +109,25 @@ a       equ b
         defadr ListMenu_SetCursorToItem,0x45170870+1
         defadr ListMenu_SetOnMessage,0x451709D8+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x45219CDC+1
-
         defadr GUIObject_SoftKeys_SetAction,0x4519B824+1
         defadr GUIObject_SoftKeys_SetText,0x4519B90C+1
         defadr MediaPlayer_SoftKeys_Validate,0x45074F90+1
-
         defadr CreateOneOfMany,0x4517250C+1
         defadr OneOfMany_SetItemCount,0x451726A0+1
         defadr OneOfMany_SetChecked,0x451726C4+1
         defadr OneOfMany_SetTexts,0x451726F8+1
         defadr OneOfMany_GetSelected,0x451726D4+1
-
         defadr Set_SWF_AsFlashMenu,0x4526F9F8+1
         defadr MessageBox,0x45533C94+1
-        
         defadr GetURIScheme,0x455292F8+1
         defadr CreateURI,0x45529740+1
+        defadr FreeURI,0x4552986C+1
         defadr Browser_OpenURI,0x45420918+1
-        
         defadr CreateBook,0x4529F750+1
         defadr FreeBook,0x4529FC78+1
         defadr FindBook,0x45531160+1
         defadr BookObj_ReturnPage,0x4529F648+1
         defadr BookObj_SetFocus,0x4529F994+1
-
         defadr GetThemeColor,0x45532A30+1
 
         EXTERN FlashmenuPicker

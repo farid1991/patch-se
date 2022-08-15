@@ -240,6 +240,7 @@ a       EQU     b
         defadr MessageBox,0x11A55944+1
         defadr GetURIScheme,0x10E10E14+1
         defadr CreateURI,0x10E112B0+1
+        defadr FreeURI,0x10E11404+1
         defadr Browser_OpenURI,0x1077CACC+1
         defadr strcmp,0x106F8468+1
 

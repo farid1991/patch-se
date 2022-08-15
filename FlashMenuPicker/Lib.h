@@ -561,6 +561,7 @@ extern "C"
   int REQUEST_WAP_URL_LOAD(const int *async, int __unk1, int __unk2, char *URI);
   char *GetURIScheme(int schemeID);
   char *CreateURI(wchar_t *fpath, wchar_t *fname, char *URIScheme);
+  void FreeURI(char *URI);
   void DataBrowserDesc_SetViewModeAndSortOrder(void *DataBrowserDesc, int view_sort_ID);
   int Alarm_GetCurrentTypeAndAlarmID(char *type, wchar_t *AlarmID);
   int Alarm_GetState(char *state, int AlarmID);
