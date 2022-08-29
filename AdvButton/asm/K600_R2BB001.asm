@@ -168,13 +168,17 @@ a       equ b
         EXTERN  Patch_BookManager
         EXTERN  Patch_NextBook
 
-        RSEG    PATCH_STANDBY_EVENT
+        RSEG    PATCH_FIX_VCKEY
+        CODE16
+        POP     {R4,PC}
+
+        RSEG    PATCH_KEYHANDLER
         DATA
-        DCD     _onoff_button
+        DCD     keyhandler
 
         RSEG  CODE
         CODE16
-_onoff_button:
+keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_act_button

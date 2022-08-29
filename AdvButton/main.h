@@ -14,6 +14,4 @@ __thumb void *malloc(int size);
 __thumb void mfree(void *mem);
 TEXTID GetFreeHeap();
 
-#define mfree_adr()			mfree
-
 #endif

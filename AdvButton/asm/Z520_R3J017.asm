@@ -29,12 +29,13 @@ a       equ b
         defadr wstrcat,0x44BBD120+1
         defadr wstrcmp,0x44BBD028+1
         defadr wstrncmp,0x44BBE558+1
-        defadr wstrwstr,0x44B0EFE8+1
+        defadr wstrwstr,0x44B0F120+1
         defadr _fopen,0x450AAE04+1
         defadr fstat,0x450AB6C4+1
         defadr fread,0x450AC300+1
         defadr fwrite,0x450AC59C+1
         defadr fclose,0x450ABFE4+1
+        defadr w_fstat,0x4479F68C+1
         defadr root_list_get_session_count,0x450209AC+1
         defadr root_list_get_session,0x450209C0+1
         defadr List_Create,0x44E258DC+1
@@ -157,17 +158,17 @@ a       equ b
         EXTERN  Patch_BookManager
         EXTERN  Patch_NextBook
 
-        org     0x44E4FAD8
+        RSEG    PATCH_FIX_MPKEY
         CODE16
-        b       0x44E4FC10
+        POP     {R4,PC}
 
-        RSEG    PATCH_STANDBY_EVENT
+        RSEG    PATCH_KEYHANDLER
         DATA
-        DCD     _onoff_button
+        DCD     keyhandler
 
         RSEG  CODE
         CODE16
-_onoff_button:
+keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_op_button

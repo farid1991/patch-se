@@ -11,6 +11,6 @@ const PAGE_MSG ChangeName_PageEvents[] = {
     PAGE_EXIT_EVENT, ChangeName_Exit_Event,
     NIL_EVENT, 0};
 
-const PAGE_DESC BookManager_ChangeName_page = {"BookManager_ChangeName_Page", 0, ChangeName_PageEvents};
+const PAGE_DESC BookManager_ChangeName_page = {"BookManager_ChangeName_Page", NULL, ChangeName_PageEvents};
 
 #endif

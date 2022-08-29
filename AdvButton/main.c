@@ -42,9 +42,11 @@ extern "C" void Patch_BookManager()
 extern "C" void Patch_NextBook()
 {
   if (!isKeylocked())
-#ifdef DB2010
-    Screenshoter(Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main));
-#else
     NextBook();
-#endif
+}
+
+extern "C" void Patch_Screenshoter()
+{
+  if (!isKeylocked())
+    Screenshoter(Display_GetWidth(UIDisplay_Main), Display_GetHeight(UIDisplay_Main));
 }

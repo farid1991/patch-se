@@ -119,13 +119,13 @@ JAVA_LIST_ITEM *CreateElem(void *JavaDesc)
 {
   JAVA_LIST_ITEM *elem = (JAVA_LIST_ITEM *)malloc(sizeof(JAVA_LIST_ITEM));
   wchar_t *sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVAAPP_NAME, &sp);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &sp);
   elem->name = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVAAPP_VENDOR, &sp);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_VENDOR, &sp);
   elem->vendor = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVAAPP_FULLPATH, &sp);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &sp);
   elem->fullpath = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVAAPP_HASH, &sp);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_HASH, &sp);
   elem->hash_name = sp;
   return elem;
 }
@@ -156,7 +156,7 @@ void CreateJavaList(BOOK *book)
     while (!result)
     {
       // check if semclet
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVAAPP_SEMCLET, &sp);
+      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &sp);
       if (sp[0])
       {
         List_InsertLast(bookman->java_list, CreateElem(JavaDesc));

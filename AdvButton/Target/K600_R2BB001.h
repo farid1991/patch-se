@@ -4,6 +4,8 @@
 #define A1
 #define DB2000
 
+#define get_VBUFFER (int*)0
+
 #define LastExtDB (DB_EXT *)0x20F1E174
 #define CONFIG_PATH (wchar_t*)0x21161C44
 #define SYNC (int*)0x20F3F914

@@ -35,7 +35,7 @@ const PAGE_MSG SetJava_PageEvents[] = {
     PAGE_EXIT_EVENT, SelectJavaApps_Exit_Event,
     NIL_EVENT, 0};
 
-const PAGE_DESC ChangeShortcuts_SelectJavaApps_page = {"BookManager_ChangeShortcuts_SelectJavaApps_Page", 0, SetJava_PageEvents};
+const PAGE_DESC ChangeShortcuts_SelectJavaApps_page = {"BookManager_ChangeShortcuts_SelectJavaApps_Page", NULL, SetJava_PageEvents};
 
 const PAGE_MSG SelectShortcut_PageEvents[] = {
     PAGE_ENTER_EVENT, SelectShortcut_Enter_Event,
@@ -43,7 +43,7 @@ const PAGE_MSG SelectShortcut_PageEvents[] = {
     CANCEL_EVENT, SelectShortcut_Cancel_Event,
     NIL_EVENT, 0};
 
-const PAGE_DESC ChangeShortcuts_SelectShortcut_page = {"BookManager_ChangeShortcuts_SelectShortcut_Page", 0, SelectShortcut_PageEvents};
+const PAGE_DESC ChangeShortcuts_SelectShortcut_page = {"BookManager_ChangeShortcuts_SelectShortcut_Page", NULL, SelectShortcut_PageEvents};
 
 const PAGE_MSG ChangeShortcuts_PageEvents[] = {
     PAGE_ENTER_EVENT, ButtonList_Enter_Event,
@@ -52,6 +52,6 @@ const PAGE_MSG ChangeShortcuts_PageEvents[] = {
     PAGE_EXIT_EVENT, ButtonList_Exit_Event,
     NIL_EVENT, 0};
 
-const PAGE_DESC ChangeShortcuts_page = {"BookManager_ChangeShortcuts_Page", 0, ChangeShortcuts_PageEvents};
+const PAGE_DESC ChangeShortcuts_page = {"BookManager_ChangeShortcuts_Page", NULL, ChangeShortcuts_PageEvents};
 
 #endif

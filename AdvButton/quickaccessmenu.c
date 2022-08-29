@@ -49,7 +49,7 @@ void Menu_Select(BOOK *book, GUI *gui)
     else
     {
       REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, ON);
-      MessageBox(EMPTY_TEXTID, EMPTY_TEXTID, POPUP_SILENT_ICN, 1, 2500, NULL);
+      MessageBox(EMPTY_TEXTID, EMPTY_TEXTID, POPUP_SILENT_ICN, 1, 2500, mbk);
     }
   }
   else if (item == ITEM_BLUETOOTH)

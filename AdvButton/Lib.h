@@ -23,6 +23,10 @@ extern "C"
   int fread(int file, void *ptr, int size);
   int fwrite(int file, const void *ptr, int size);
   int fstat(const wchar_t *path, const wchar_t *fname, FSTAT *fstat_stuct);
+  int w_fstat(const wchar_t *name, W_FSTAT *);
+
+  int get_system_langID(void);
+  char *lang_get_name(int langID);
 
   int IsExternalDisplay();
   int isKeylocked(void);
