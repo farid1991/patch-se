@@ -189,7 +189,7 @@ typedef struct _IMG
 
 typedef struct _ADVPLAYER_DATA
 {
-  DISP_OBJ_MP_AUDIO *MediaPlayer_Audio;
+  DISP_OBJ *MediaPlayer_Audio;
   DISP_OBJ_NOWPLAYING *MediaPlayer_NowPlaying;
   SKIN_DATA *Skin;
   FILELIST *fltop;

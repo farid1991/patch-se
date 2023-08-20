@@ -49,9 +49,9 @@ extern "C"
   DISP_OBJ *GUIObject_GetDispObject(GUI *);
   void DispObject_InvalidateRect(DISP_OBJ *, RECT *);
 
-  void Timer_ReSet(u16 *timer, int time, TIMERPROC onTimer, LPARAM lparam);
-  u16 Timer_Set(int time, TIMERPROC onTimer, LPARAM lparam);
-  void Timer_Kill(u16 *timerID);
+  void Timer_ReSet(uint16_t *timer, int time, TIMERPROC onTimer, LPARAM lparam);
+  uint16_t Timer_Set(int time, TIMERPROC onTimer, LPARAM lparam);
+  void Timer_Kill(uint16_t *timerID);
 
   TEXTID TextID_Create(const void *wstr, int TEXT_ENCODING, int len);
   void TextID_Destroy(TEXTID);

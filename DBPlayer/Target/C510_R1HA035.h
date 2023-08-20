@@ -4,11 +4,11 @@
 #define A2
 #define DB3210
 
-#define CID_IUIFontManager (PUUID)0x15AC227C
+#define CID_CUIFontManager (PUUID)0x15AC227C
 #define IID_IUIFontManager (PUUID)0x15AFB108
-#define CID_IUIImageManager (PUUID)0x15AC4F1C
+#define CID_CUIImageManager (PUUID)0x15AC4F1C
 #define IID_IUIImageManager (PUUID)0x15AFD4C4
-#define CID_ITextRenderingManager (PUUID)0x15AC99C4
+#define CID_CTextRenderingManager (PUUID)0x15AC99C4
 #define IID_ITextRenderingManager (PUUID)0x15AFFFA4
 #define CID_CRegistryManager (PUUID)0x15AB0808
 #define IID_IRegistryManager (PUUID)0x15AF0B20
@@ -30,10 +30,10 @@
 #define POPUP_WARNING_ICN 0xF831
 
 #define TEXT_STOP             0xCC0   // L"Стоп"
-#define TEXT_TURN             0x728   // L"Свернуть"
-#define TEXT_SETTING          0x268B  // L"Настройки"
+#define TEXT_MINIMISE         0x728   // L"Свернуть"
+#define TEXT_SETTINGS         0x2FA   // L"Настройки"
 #define TEXT_ON               0x869   // L"Включено"
-#define TEXT_OFF              0x1EC7  // L"Выключено"
+#define TEXT_OFF              0x867   // L"Выключено"
 #define TEXT_CHANGE           0x218   // L"Внесены изменения"
 #define TEXT_QUESTION         0x656   // L"Сохранить?"
 #define TEXT_SAVE             0x291   // L"Сохранено"
@@ -43,7 +43,7 @@
 #define TEXT_IMAGE            0xBFA   // L"Изображение"
 #define TEXT_CANCEL           0x89    // L"Отменено"
 #define TEXT_PLAY             0x631   // L"Воспр."
-#define TEXT_PAUSE            0x1390  // L"Пауза"
+#define TEXT_PAUSE            0x68E   // L"Пауза"
 #define TEXT_TIME             0xC48   // L"Перейти"
 #define TEXT_YEAR             0x140A  // L"Год"
 #define TEXT_GENRE            0x745   // L"Жанр"
@@ -60,9 +60,20 @@
 #define TEXT_ANIMATION        0x14CF  // L"Анимация"
 
 #define TEXT_THEME            0x27C4   // L"?? ????"
-#define TEXT_ON_OOM           0x85E     // L"????????"
-#define TEXT_OFF_OOM          0x85C   // L"?????????"
-#define TEXT_UNKNOWN          0x110
+#define TEXT_ON_OOM           0x869    // L"????????"
+#define TEXT_OFF_OOM          0x867    // L"?????????"
+#define TEXT_UNKNOWN          0x10A
+
+#define KEY_DIGITAL_0 0x18
+#define KEY_DIGITAL_1 0x19
+#define KEY_DIGITAL_2 0x1A
+#define KEY_DIGITAL_3 0x1B
+#define KEY_DIGITAL_4 0x1C
+#define KEY_DIGITAL_5 0x1D
+#define KEY_DIGITAL_6 0x1E
+#define KEY_DIGITAL_7 0x1F
+#define KEY_DIGITAL_8 0x20
+#define KEY_DIGITAL_9 0x21
 
 // function ----------------------------------------------------
 
@@ -364,7 +375,6 @@
 #define KEY_CAMERA_SHOT 0x31
 #define KEY_DEL 0x5
 #define KEY_DIEZ 0x23
-#define KEY_DIGITAL_0 0x18
 #define KEY_DOWN 0xD
 #define KEY_ENTER 0x8
 #define KEY_ESC 0x4

@@ -229,7 +229,6 @@ a       EQU     b
         defadr MetaData_GetTags,0x10FFEF54+1
         defadr MetaData_GetCover,0x11587F28+1
         defadr CreateMessageBox,0x115D88B8+1
-
         defadr CreateStringInput,0x1160550C+1
         defadr StringInput_SetMode,0x11605DAC+1
         defadr StringInput_SetFixedText,0x11605EE4+1
@@ -237,12 +236,10 @@ a       EQU     b
         defadr StringInput_SetMaxLen,0x11605EB8+1
         defadr StringInput_SetEnableEmptyText,0x11605F2C+1
         defadr StringInput_SetActionOK,0x11605DFC+1
-
         defadr CreateYesNoQuestion,0x11684F84+1
         defadr YesNoQuestion_SetDescriptionText,0x11685308+1
         defadr YesNoQuestion_SetQuestionText,0x11685318+1
         defadr YesNoQuestion_SetIcon,0x11685338+1
-
         defadr CreateKeygrabberWindow,0x116769F4+1
 
         defadr FmRadio_Gui_OnCreate,0x11302FDC+1

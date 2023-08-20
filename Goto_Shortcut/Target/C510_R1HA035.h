@@ -19,7 +19,7 @@
 #define EDITOR_TITLE_TXT    0x2755  // L"Editor"
 #define EDITOR_LABEL_TXT    0xEA1   // L"Name"
 #define EDITOR_SHORTCUT_TXT 0x198F  // L"Shortcut"
-#define TYPES_TITLE_TXT     0x103F // L"Type"
+#define TYPES_TITLE_TXT     0x103F  // L"Type"
 
 #define SHC_SET_MM          0x1C5C
 #define SHC_SET_SHORTCUT_SK 0xB5C
@@ -45,7 +45,7 @@
 
 #define SHC_DESKTOP_WATERMARK_ICN 0x0861
 
-#define F_PATH 		  (wchar_t*)0x15A86E38
+#define F_PATH 		      (wchar_t*)0x15A86E38
 #define MAIN_MENU         (wchar_t*)0x15B2C28C
 #define JAVA_TXT          (wchar_t*)0x15927760
 #define SHORTCUT_TXT      (wchar_t*)0x15924F36

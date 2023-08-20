@@ -1,7 +1,7 @@
 #ifndef _Main_H_
 #define _Main_H_
 
-#define VARNAME "SLEEPMODE"
+#define EMP_NAME "SLEEPMODE"
 #define ICONS_COUNT 8
 
 const int days[7] = {TEXTID_1, TEXTID_2, TEXTID_3, TEXTID_4, TEXTID_5, TEXTID_6, TEXTID_7};

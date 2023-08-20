@@ -5,6 +5,7 @@
 #include "Lib.h"
 #include "main.h"
 #include "strlib.h"
+#include "utils.h"
 
 #ifndef DB3350
 #ifndef PNX5320
@@ -57,7 +58,7 @@ void StartJava_ByName(wchar_t *name)
     int result = 0;
     while (!result)
     {
-      JavaAppDesc_GetJavaAppInfo(Javadesc, 0, &sp);
+      JavaAppDesc_GetJavaAppInfo(Javadesc, JAVA_APP_NAME, &sp);
       if (!wstrcmp(sp, name))
       {
         int ID = JavaAppDesc_GetJavaAppID(Javadesc);
@@ -167,8 +168,8 @@ void JavaFree(void *item)
 JAVA_LIST_ELEM *CreateElem(void *JavaDesc)
 {
   JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)malloc(sizeof(JAVA_LIST_ELEM));
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, 0, &elem->Name);
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, 5, &elem->Fullpath);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &elem->Name);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &elem->Fullpath);
   JavaApp_LogoImageID_Get(elem->Fullpath, &elem->ImageID);
   return (elem);
 }
@@ -187,7 +188,7 @@ LIST *Create_JavaList()
     int result = 0;
     while (!result)
     {
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, 6, &sp);
+      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &sp);
       if (sp[0])
       {
         List_InsertLast(java_list, CreateElem(JavaDesc));
@@ -203,7 +204,7 @@ LIST *Create_JavaList()
 
 void SaveConfig(LIST *List)
 {
-  int File = _fopen(F_PATH, F_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int File = _fopen(F_PATH, CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
 
   if (File >= 0)
   {
@@ -233,9 +234,9 @@ LIST *LoadConfig()
 {
   LIST *Ret = List_Create();
 
-  if (FSX_IsFileExists(F_PATH, F_NAME))
+  if (FSX_IsFileExists(F_PATH, CONFIG_NAME))
   {
-    int File = _fopen(F_PATH, F_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+    int File = _fopen(F_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
     if (File >= 0)
     {
       int CaptionLen = 0;

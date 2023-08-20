@@ -109,17 +109,13 @@ a       EQU     b
         defadr Display_GetHeight,0x140C93BC+1
         defadr Display_GetWidth,0x140C93AC+1
         defadr GUIObject_SoftKeys_SetInfoText,0x141283F0+1
-
         defadr DispObject_GetGUI,0x142A8F2C+1
-
         defadr FSX_IsFileExists,0x14411678+1
         defadr CreatePalette,0x157089D0+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x1527FEA8+1
 	defadr TextID_CreateIntegerID,0x1401F5BC+1
-
         defadr CreateMessageBox,0x14CE140C+1
         defadr GUIObject_GetBook,0x140CAEC8+1
-
         defadr DispObject_SetThemeImage,0x144815C4+1
 
 //------------------------------------------------------------------------------
@@ -139,8 +135,6 @@ a       EQU     b
         EXTERN New_FmRadio_Gui_OnClose
         EXTERN New_FmRadio_Gui_OnRedraw
         EXTERN New_FmRadio_Gui_OnKey
-        ; EXTERN New_FmRadio_Gui_OnLayout
-        ; EXTERN New_FmRadio_Gui_OnRefresh
         EXTERN FmRadio_NewSoftKeys
         EXTERN FmRadio_UpdateSoftKeys
         EXTERN DeleteData
@@ -188,26 +182,6 @@ delete_data:
         BL      DeleteData
         POP     {R2-R7,PC}
 
-//------------------------------------------------------------------------------
-/*
-        RSEG PATCH_FmRadio_NewLayout
-	CODE16
-	LDR	R3, =new_disp_desc
-	BX	R3
-
-        RSEG  CODE
-        CODE16
-new_disp_desc:
-        LDR     R1, =FmRadio_Gui_OnMethod0A
-        ADD     R0, R4, #0
-        LDR	R3, =DISP_DESC_SetMethod0A
-	BLX	R3
-        LDR     R1, =New_FmRadio_Gui_OnLayout
-        ADD     R0, R4, #0
-        LDR	R3, =DISP_DESC_SetOnLayout
-	BLX	R3
-        POP     {R4,PC}
-*/
 //------------------------------------------------------------------------------
 
         RSEG PATCH_FmRadio_NewSoftKeys

@@ -62,7 +62,8 @@ void FreeData(SLEEPMODE_DATA *data)
 
 void refresh_screen(DISP_OBJ *disp_obj)
 {
-  DispObject_InvalidateRect(disp_obj, NULL);
+  if (disp_obj)
+    DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void onTimerID(u16 timerID, LPARAM lparam)

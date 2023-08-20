@@ -12,13 +12,21 @@
 
 void *malloc(int size)
 {
+#if defined(DB2010)
   return memalloc(size, 1, 5, "MP", NULL);
+#elif defined(DB2020)
+  return memalloc(NULL, size, 1, 5, "MP", NULL);
+#endif
 }
 
 void mfree(void *mem)
 {
   if (mem)
+#if defined(DB2010)
     memfree(mem, "MP", NULL);
+#elif defined(DB2020)
+    memfree(NULL, mem, "MP", NULL);
+#endif
 }
 
 #ifdef OLD_PLAYER
@@ -107,7 +115,7 @@ extern "C" int New_MediaPlayer_Audio_OnCreate(DISP_OBJ *disp_obj)
   data->Skin = (SKIN_DATA *)malloc(sizeof(SKIN_DATA));
   ReadConfig(data->Skin, data->SkinPath);
 
-  data->MediaPlayer_Audio = (DISP_OBJ_MP_AUDIO *)disp_obj;
+  data->MediaPlayer_Audio = disp_obj;
   data->fullscreen = data->Skin->fullscreen;
   data->firstStart = TRUE;
 
@@ -170,7 +178,8 @@ void WalkmanDisplay_SetSize(DISP_OBJ *disp_obj)
 extern "C" void New_MediaPlayer_PlayQueue_SetStyle(DISP_OBJ *disp_obj)
 {
   WalkmanDisplay_SetSize(disp_obj);
-  DispObject_SetLayerColor(disp_obj, GetThemeColor(3, 1));
+  New_MediaPlayer_Audio_SetStyle(disp_obj);
+  DispObject_SetLayerColor(disp_obj, GetThemeColor(3, THEMEITEM_BACKGROUND));
   DispObject_SetThemeImage(disp_obj, THEMEITEM_BACKGROUND);
 }
 
@@ -186,6 +195,7 @@ extern "C" void New_MediaPlayer_PlayQueue_SetTitle(DISP_OBJ *disp_obj)
   else
   {
     DispObject_SetTitleType(disp_obj, UI_TitleMode_Normal);
+    DispObject_SetTitleText(disp_obj, 0x108B);
   }
   InvalidateDispObj(disp_obj);
 }
@@ -352,7 +362,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b
   if (data->Skin->text_artist_enable)
   {
     DrawText(data->Skin->text_artist_font,
-             TextID_GetLength(disp_obj->Text_Artis) ? disp_obj->Text_Artis : UNKNOWN_TXT,
+             TextID_GetLength(disp_obj->Text_Artis) ? disp_obj->Text_Artis : UNKNOWN_ARTIST_TXT,
              data->Skin->text_artist_align,
              data->Skin->text_artist_x,
              data->Skin->text_artist_y,
@@ -376,7 +386,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b
   if (data->Skin->text_album_enable)
   {
     DrawText(data->Skin->text_album_font,
-             TextID_GetLength(disp_obj->Text_Album) ? disp_obj->Text_Album : UNKNOWN_TXT,
+             TextID_GetLength(disp_obj->Text_Album) ? disp_obj->Text_Album : UNKNOWN_ALBUM_TXT,
              data->Skin->text_album_align,
              data->Skin->text_album_x,
              data->Skin->text_album_y,
@@ -451,7 +461,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b
              data->Skin->text_remainingtime_color);
     TEXT_FREE(data->text_id);
   }
-
+#ifndef DB2020
   if (data->Skin->text_samplerate_enable)
   {
     if (data->SampleRate)
@@ -472,7 +482,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *dobj, int a, int b
              data->Skin->text_samplerate_color);
     TEXT_FREE(data->text_id);
   }
-
+#endif
   if (data->Skin->PB_enable)
   {
     DrawProgressBar(data->skin_image[MP_PB_INDICATOR_ICN].id,
@@ -500,12 +510,12 @@ void GetPlayerData(BOOK *book)
     data->CurrentTrack = NewTrack;
 
     GetCoverArt(data);
+    InvalidateDispObj(data->MediaPlayer_NowPlaying);
   }
   else
   {
     TrackDesc_Free(NewTrack);
   }
-  InvalidateDispObj(data->MediaPlayer_NowPlaying);
 }
 
 extern "C" int New_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT(void *data, BOOK *book)

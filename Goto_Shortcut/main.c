@@ -12,25 +12,23 @@
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(0, size, 1, 5, BOOKNAME, 0));
+  return (memalloc(NULL, size, 1, 5, BOOKNAME, NULL));
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, BOOKNAME, 0));
+  return (memalloc(0xFFFFFFFF, size, 1, 5, BOOKNAME, NULL));
 #else
-  return (memalloc(size, 1, 5, BOOKNAME, 0));
+  return (memalloc(size, 1, 5, BOOKNAME, NULL));
 #endif
 }
 
 __thumb void mfree(void *mem)
 {
+  if (mem)
 #if defined(DB2020)
-  if (mem)
-    memfree(0, mem, BOOKNAME, 0);
+    memfree(NULL, mem, BOOKNAME, NULL);
 #elif defined(A2)
-  if (mem)
-    memfree(0, mem, BOOKNAME, 0);
+    memfree(NULL, mem, BOOKNAME, NULL);
 #else
-  if (mem)
-    memfree(mem, BOOKNAME, 0);
+    memfree(mem, BOOKNAME, NULL);
 #endif
 }
 
@@ -243,16 +241,15 @@ GotoShortcut_Book *Create_GotoShortcutBook()
 extern "C" void GotoShortcut(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
-  if (!mbk)
-  {
-    if (mbk = Create_GotoShortcutBook())
-    {
-      mbk->ShortcutList = LoadConfig();
-      BookObj_GotoPage(mbk, &Goto_Shortcut_Main_Page);
-    }
-  }
-  else
+  if (mbk)
   {
     BookObj_SetFocus(mbk, UIDisplay_Main);
+    return;
+  }
+
+  if (mbk = Create_GotoShortcutBook())
+  {
+    mbk->ShortcutList = LoadConfig();
+    BookObj_GotoPage(mbk, &Goto_Shortcut_Main_Page);
   }
 }

@@ -7410,7 +7410,7 @@
     </settings>
   </configuration>
   <configuration>
-    <name>W995_R1GA026</name>
+    <name>W995_R1HA035</name>
     <toolchain>
       <name>ARM</name>
     </toolchain>
@@ -7432,15 +7432,15 @@
         </option>
         <option>
           <name>ExePath</name>
-          <state>W995_R1GA026\Exe</state>
+          <state>W995_R1HA035\Exe</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>W995_R1GA026\Obj</state>
+          <state>W995_R1HA035\Obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>W995_R1GA026\List</state>
+          <state>W995_R1HA035\List</state>
         </option>
         <option>
           <name>Variant</name>

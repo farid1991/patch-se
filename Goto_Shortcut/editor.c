@@ -108,7 +108,7 @@ const PAGE_MSG Goto_Editor_MainMenu_PageEvents[] =
         PREVIOUS_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         CANCEL_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_MainMenu_PageDesc = {EDITOR_MAINMENU_BASEPAGE_NAME, 0, Goto_Editor_MainMenu_PageEvents};
+const PAGE_DESC Goto_Editor_MainMenu_PageDesc = {EDITOR_MAINMENU_BASEPAGE_NAME, NULL, Goto_Editor_MainMenu_PageEvents};
 
 //------------------------------------------------------------------------------
 #ifndef DB3350
@@ -174,7 +174,7 @@ const PAGE_MSG Goto_Editor_JavaList_PageEvents[] =
         PAGE_ENTER_EVENT, CreateJavaList,
         PAGE_EXIT_EVENT, CloseJavaList,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, 0, Goto_Editor_JavaList_PageEvents};
+const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, NULL, Goto_Editor_JavaList_PageEvents};
 
 //------------------------------------------------------------------------------
 #ifndef PNX5230
@@ -236,7 +236,7 @@ const PAGE_MSG Goto_Editor_DataBrowser_PageEvents[] =
         PREVIOUS_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         CANCEL_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, 0, Goto_Editor_DataBrowser_PageEvents};
+const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, NULL, Goto_Editor_DataBrowser_PageEvents};
 #endif
 #endif
 //------------------------------------------------------------------------------
@@ -323,7 +323,7 @@ const PAGE_MSG Goto_Editor_EventInput_PageEvents[] =
         PAGE_ENTER_EVENT, pg_SC_Editor_EventInput_EnterAction,
         PAGE_EXIT_EVENT, pg_SC_Editor_EventInput_ExitAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_EventInput_PageDesc = {EDITOR_EVENTINPUT_BASEPAGE_NAME, 0, Goto_Editor_EventInput_PageEvents};
+const PAGE_DESC Goto_Editor_EventInput_PageDesc = {EDITOR_EVENTINPUT_BASEPAGE_NAME, NULL, Goto_Editor_EventInput_PageEvents};
 
 //------------------------------------------------------------------------------
 
@@ -424,7 +424,7 @@ const PAGE_MSG Goto_Editor_SelectFolder_PageEvents[] =
         PAGE_ENTER_EVENT, pg_SC_Editor_SelectFolder_EnterAction,
         PAGE_EXIT_EVENT, pg_SC_Editor_SelectFolder_ExitAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_SelectFolder_PageDesc = {EDITOR_SELECTFOLDER_BASEPAGE_NAME, 0, Goto_Editor_SelectFolder_PageEvents};
+const PAGE_DESC Goto_Editor_SelectFolder_PageDesc = {EDITOR_SELECTFOLDER_BASEPAGE_NAME, NULL, Goto_Editor_SelectFolder_PageEvents};
 
 //------------------------------------------------------------------------------
 
@@ -512,7 +512,7 @@ const PAGE_MSG Goto_Editor_TypesList_PageEvents[] =
         PAGE_ENTER_EVENT, pg_SC_Editor_TypesList_EnterAction,
         PAGE_EXIT_EVENT, pg_SC_Editor_TypesList_ExitAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_TypesList_PageDesc = {EDITOR_TYPESLIST_BASEPAGE_NAME, 0, Goto_Editor_TypesList_PageEvents};
+const PAGE_DESC Goto_Editor_TypesList_PageDesc = {EDITOR_TYPESLIST_BASEPAGE_NAME, NULL, Goto_Editor_TypesList_PageEvents};
 
 //------------------------------------------------------------------------------
 
@@ -571,7 +571,7 @@ const PAGE_MSG Goto_Editor_CaptionInput_PageEvents[] =
         PAGE_ENTER_EVENT, pg_SC_Editor_LabelInput_EnterAction,
         PAGE_EXIT_EVENT, pg_SC_Editor_LabelInput_ExitAction,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_CaptionInput_PageDesc = {EDITOR_CAPTIONINPUT_BASEPAGE_NAME, 0, Goto_Editor_CaptionInput_PageEvents};
+const PAGE_DESC Goto_Editor_CaptionInput_PageDesc = {EDITOR_CAPTIONINPUT_BASEPAGE_NAME, NULL, Goto_Editor_CaptionInput_PageEvents};
 
 //------------------------------------------------------------------------------
 
@@ -654,11 +654,12 @@ const PAGE_MSG Goto_Editor_Main_PageEvents[] =
         ACCEPT_EVENT, pg_SC_Editor_Main_AcceptAction,
         PAGE_EXIT_EVENT, CloseEditorMenu,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_Main_PageDesc = {EDITOR_MAIN_BASEPAGE_NAME, 0, Goto_Editor_Main_PageEvents};
+const PAGE_DESC Goto_Editor_Main_PageDesc = {EDITOR_MAIN_BASEPAGE_NAME, NULL, Goto_Editor_Main_PageEvents};
 
 int pg_SC_Editor_Main_AcceptAction(void *data, BOOK *book)
 {
-  BookObj_GotoPage(book, &Goto_Editor_Main_PageDesc);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+  BookObj_GotoPage(mbk, &Goto_Editor_Main_PageDesc);
   return 0;
 }
 

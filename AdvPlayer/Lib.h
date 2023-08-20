@@ -208,8 +208,12 @@ extern "C"
   int ImageID_GetIndirect(void *buf_image, int size, int __NULL, wchar_t *image_type, IMAGEID *);
   void ImageID_Free(IMAGEID);
   wchar_t *MetaData_GetTags(wchar_t *path, wchar_t *name, int tagID);
-#ifdef DB3150v1
-  IMAGEID MetaData_GetCover(wchar_t *fullpath);
+#ifdef DB2020
+  void *MetaData_Desc_Create(wchar_t *path, wchar_t *name);
+  void MetaData_Desc_Destroy(void *MetaData_Desc);
+  wchar_t *MetaData_Desc_GetTags(void *MetaData_Desc, int tagID);
+  int MetaData_Desc_GetTrackNum(void *MetaData_Desc, int __NULL);
+  int MetaData_Desc_GetCoverInfo( void* MetaData_Desc, char* cover_type, int* size, int* cover_offset );
 #endif
 
   int Format_Time(int begin_time, int end_time, int __zero1, int __zero2, void *, int __one);
@@ -222,7 +226,6 @@ extern "C"
   void Volume_Set(int TAudioControl_VolumeType, char volume);
   int Volume_Get(int TAudioControl_VolumeType, char *volume); // GetAudioSettings
 
-  void DynamicMenu_SetElement_SecondLineText(DYNAMIC_MENU_ELEMENT *dme, TEXTID);
 };
 
 #endif

@@ -121,28 +121,28 @@
 
 #define POPUP_WARNING_ICN 0xF831
 
-#define TEXT_LAYOUT 0x12DE        // L"Layout"
-#define TEXT_ON 0x700             // L"On"
-#define TEXT_OFF 0x6FE            // L"Off"
-#define TEXT_CHANGE 0x65C         // L"Change"
-#define TEXT_QUESTION 0x432       // L"Save now?"
-#define TEXT_SAVE 0x215           // L"Save"
-#define TEXT_LEFT 0xE08           // L"Left"
-#define TEXT_RIGHT 0xE09          // L"Right"
+#define TEXT_LAYOUT 0x78E         // L"Layout"
+#define TEXT_ON 0x1E8             // L"On"
+#define TEXT_OFF 0x1E5            // L"Off"
+#define TEXT_CHANGE 0xC0E         // L"Change"
+#define TEXT_QUESTION 0x656       // L"Save now?"
+#define TEXT_SAVE 0x657           // L"Save"
+#define TEXT_LEFT 0x1558          // L"Left"
+#define TEXT_RIGHT 0x1559         // L"Right"
 #define TEXT_CENTRE STR("Center") // L"Center"
-#define TEXT_IMAGE 0x1031         // L"???????????"
-#define TEXT_CANCEL 0x6BB         // L"Cancel"
-#define TEXT_BACKROUND 0x12B3     // L"Background"
-#define TEXT_ADDITIONAL 0xDD6     // L"Advanced"
-#define TEXT_COLOR 0x12B6         // L"Colour"
-#define TEXT_COLOR_TEXT 0x1303    // L"Text colour"
-#define TEXT_PTYPE 0x1440         // L"Type:"
-#define TEXT_COLOR_B 0x12B2       // L"Background colour"
+#define TEXT_IMAGE 0x1D35         // L"Edit Background"
+#define TEXT_CANCEL 0x7BB         // L"Cancel"
+#define TEXT_BACKROUND 0x24E1     // L"Background"
+#define TEXT_ADDITIONAL 0xD05     // L"Advanced"
+#define TEXT_COLOR 0x1D18         // L"Colour"
+#define TEXT_COLOR_TEXT 0x1D64    // L"Text colour"
+#define TEXT_PTYPE 0x103F         // L"Type:"
+#define TEXT_COLOR_B 0x1D14       // L"Background colour"
 
-#define TEXT_RDS 0x659
-#define TEXT_NAV_LEFT 0x1225
-#define TEXT_NAV_RIGHT 0x122B
-#define TEXT_NAV_UP 0x122F
-#define TEXT_NAV_DOWN 0x1222
+#define TEXT_RDS 0x94F
+#define TEXT_NAV_LEFT 0x1C57
+#define TEXT_NAV_RIGHT 0x1C5B
+#define TEXT_NAV_UP 0x1C5F
+#define TEXT_NAV_DOWN 0x1C54
 
 #endif

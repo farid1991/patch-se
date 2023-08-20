@@ -640,10 +640,10 @@ _SetBacklightTimeout:
         CMP     R4, #0
         BEQ     null_disp
         LDR	R3, =0x452AB9C6+1
-	BLX	R3
+        BLX	R3
 
 null_disp:
         LDR	R3, =0x452AB9CA+1
-	BLX	R3
-        
+        BLX	R3
+
         END

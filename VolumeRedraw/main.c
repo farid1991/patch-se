@@ -64,7 +64,7 @@ void Delete_Volume_Function(Volume_Function *Data)
 int FSX_IsFileExists(wchar_t *path, wchar_t *name)
 {
   FSTAT _fstat;
-  if (fstat(path, name, &_fstat) == 0)
+  if (!fstat(path, name, &_fstat))
     return TRUE;
   return FALSE;
 }

@@ -975,7 +975,7 @@ extern "C"
 
   // int Get_MediaPlayer_State( DISP_OBJ* );
   void PlaySystemSound_SendEvent(int sound, int event);
-  TEXTID TextID_CreateCharacterID(char);
+  TEXTID TextID_CreateCharacterID(int);
 
   void Clipboard_SetText(wchar_t *text, int len);
   int Clipboard_GetText(wchar_t **text);
@@ -987,6 +987,7 @@ extern "C"
   BOOL Charging_GetState(void);
   int NewEvent_GetCount(void); // GetNewEvent(void);
 
+  int IrDa_GetState( char* state );
   BOOL FlightMode_GetState(void);
   void FlightMode_SetState(BOOL state);
   void Bluetooth_SetState(BOOL state);

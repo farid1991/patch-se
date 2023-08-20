@@ -5,7 +5,6 @@
 #define TI_GET_MIN(x) (((unsigned int)x >> 8) & 0xFF)
 #define TI_GET_SEC(x) (((unsigned int)x >> 16) & 0xFF)
 
-//#define FILE_PATH L"/tpa/system/settings/"
 #define FILE_NAME L"Backlight.bin"
 
 #define TIME_LIMIT 86399

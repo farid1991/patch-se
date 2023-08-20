@@ -8,12 +8,15 @@ a       EQU     b
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
+        defadr memcpy,0x1428AD94
+
         defadr snwprintf,0x143EEBC4+1
         defadr _fopen,0x141FA214+1
         defadr fclose,0x143CD0A0+1
         defadr fread,0x14178B8C+1
         defadr fwrite,0x143326C8+1
         defadr fstat,0x144D8BBC+1
+        defadr lseek,0x141782E0+1
         defadr CreateBook,0x142866FC+1
         defadr BookObj_GotoPage,0x14481B20+1
         defadr BookObj_ReturnPage,0x14212A58+1
@@ -34,8 +37,28 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetAction,0x1417BACC+1
         defadr GUIObject_SoftKeys_SetText,0x141C50C8+1
         defadr GUIObject_SoftKeys_SetVisible,0x141C4E24+1
+        defadr Timer_ReSet,0x1417A1C4+1
+        defadr Timer_Set,0x1449FF70+1
+        defadr Timer_Kill,0x1417A7F0+1
+        defadr wstrcpy,0x144D851C+1
+        defadr wstrncpy,0x143EEBF8+1
+        defadr wstrcat,0x144D8474+1
+        defadr wstrncat,0x14178F90+1
+        defadr wstrcmp,0x144D9600+1
         defadr wstrlen,0x14178EC8+1
+        defadr wstrncmp,0x14325C10+1
+        defadr str2wstr,0x141C9A44+1
+        defadr strcmp,0x14C0BA78+1
+        defadr strlen,0x14C0BAD4+1
+        defadr strncpy,0x1408B810+1
+        defadr wstr2strn,0x140C1BF4+1
+        defadr wstrrchr,0x143F196C+1
+        defadr TextID_Copy,0x14181E88+1
+        defadr TextID_CreateIntegerID,0x1401F5BC+1
         defadr TextID_Create,0x141818E4+1
+        defadr TextID_GetString,0x14182108+1
+        defadr TextID_GetWString,0x1418243C+1
+        defadr TextID_GetLength,0x14183014+1
         defadr TextID_Destroy,0x14182788+1
         defadr GUIObject_GetDispObject,0x140CACD8+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x144B9C9C+1
@@ -80,12 +103,14 @@ a       EQU     b
         defadr DispObject_SetLayerColor,0x140C6CA0+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x14129628+1
         defadr GUIonMessage_GetMsg,0x142C5CA4+1
+        defadr GUIonMessage_GetBook,0x142C5E94+1
         defadr ListMenu_DestroyItems,0x14280984+1
         defadr CoCreateInstance,0x1401106C+1
         defadr DispObject_SetAnimation,0x14E1B408+1
         defadr DisplayGC_AddRef,0x144CDAA4+1
         defadr TextObject_SetText,0x14183164+1
         defadr TextObject_SetFont,0x1449CD74+1
+        defadr RichTextLayout_GetTextWidth,0x14335244+1
         defadr MetaData_GetTags,0x157523B8+1
         defadr CreateYesNoQuestion,0x142CD924+1
         defadr YesNoQuestion_SetDescriptionText,0x14337444+1
@@ -98,10 +123,26 @@ a       EQU     b
         defadr w_fread,0x100F2E7C+1
         defadr DISP_DESC_SetOnLayout,0x14295474+1
         defadr GUIObject_SoftKeys_Show,0x1412982C+1
+        defadr DispObject_SetBacklightMode,0x142F0190+1
+        defadr DispObject_SoftKeys_Show,0x141297F4+1
+        defadr DispObject_SoftKeys_Hide,0x144CB14C+1
+        defadr DispObject_SetThemeImage,0x144815C4+1
+        defadr GUIObject_SoftKeys_SetActionAndText,0x143AA4E8+1
         defadr FILEITEM_GetFextension,0x142C7EEC+1
-        defadr wstrncmp,0x14325C10+1
         defadr Display_GetHeight,0x140C93BC+1
         defadr Display_GetWidth,0x140C93AC+1
+        defadr GetFileLocation,0x1444000C+1
+        defadr Volume_Set,0x1432EA7C+1
+        defadr Volume_Get,0x1432FD48+1
+        defadr FSX_MakeFullPath,0x141779BC+1
+        defadr FSX_FreeFullPath,0x14336024+1
+        defadr MakeFullPath,0x14298BE0+1
+        defadr MessageBox_Animation,0x1585B1EC+1
+        defadr CreateMessageBox,0x14CE140C+1
+        defadr PlaySystemSound_SendEvent,0x14FA9150+1
+        defadr GetMemoryStickStatus,0x142CE30C+1
+        defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
+        defadr FSX_IsFileExists,0x14411678+1
         defadr page_Sound_Run__PAGE_EXIT_EVENT, 0x14365430+1
 
         EXTERN CreateInfo
@@ -113,7 +154,7 @@ create_gui:
         ldr     r0, [r6,#4]
         ldr     r3, =FILEITEM_GetFextension
         blx     r3
-        ldr     r1, =0x15BE8EFC
+        ldr     r1, =0x15BE8EFC // "MID"
         mov     r2, #3
         ldr     r3, =wstrncmp
         blx     r3

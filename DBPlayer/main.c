@@ -995,9 +995,6 @@ GUI_DBPLAYER *CreateGUI(BOOK *book)
 
   if (!data->setting.soft)
     GUIObject_SoftKeys_Hide(gui_dbp);
-    // #ifndef U10_R7AA071
-    //   GUIObject_SoftKeys_AllowKeylock(gui_dbp, TRUE);
-    // #endif
 
 #ifdef DB3350
   GUIObject_SetAnimationApp(gui_dbp, L"FromStatusrow");

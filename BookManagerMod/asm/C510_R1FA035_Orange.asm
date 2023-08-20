@@ -4,6 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
+
         defadr memalloc,0x4BA31378
         defadr memfree,0x4BA313A0
         defadr memset,0x14BA26B8
@@ -69,51 +70,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetItemOnKey,0x14279C5C+1
         defadr GUIObject_TabTitleRemove,0x143BCED0+1
         defadr TabMenuBar_SetTabIcon,0x14126530+1
-        
-        RSEG   TAB_ICON_1
-        CODE16
-        ldr r7, =_IconInternet
-        bx r7
-        
-        RSEG   TAB_ICON_2
-        DATA
-        DCD 0x82E
-        
-        RSEG   TAB_FOCUS
-        CODE16
-        ldr r3, =_Tabfocus
-        bx r3
-        
-        RSEG   GUI_CREATE
-        CODE16
-        ldr r3, =_onCreate
-        bx r3
-        
-        RSEG   BOOK_CLOSE
-        CODE16
-        ldr r3, =_onClose
-        bx r3
-        
-        RSEG   EVENTS
-        CODE16
-        ldr r3, =EventsTitleText
-        bx r3
-        
-        RSEG   INTERNET
-        CODE16
-        ldr r3, =_Internet
-        bx r3
-        
-        RSEG   SHORTCURTS
-        CODE16
-        ldr r3, =_Shortcurts
-        bx r3
-        
-        RSEG   ACTIVETASKS
-        CODE16
-        ldr r3, =_Activetasks
-        bx r3
-        
+
         EXTERN SetFocusTab
         EXTERN CreateBookAndElfsLists
         EXTERN ActivityBook_onClose
@@ -121,60 +78,110 @@ a       EQU     b
         EXTERN CreateBMenu
         EXTERN CreateEMenu
         EXTERN CreateAMenu
-        
+
+        RSEG   TAB_ICON_1
+        CODE16
+        ldr     r7, =_IconInternet
+        bx      r7
+
+        RSEG   TAB_ICON_2
+        DATA
+        DCD 0x82E
+
+        RSEG   TAB_FOCUS
+        CODE16
+        ldr     r3, =_Tabfocus
+        bx      r3
+
+        RSEG   GUI_CREATE
+        CODE16
+        ldr     r3, =_onCreate
+        bx      r3
+
+        RSEG   BOOK_CLOSE
+        CODE16
+        ldr     r3, =_onClose
+        bx      r3
+
+        RSEG   EVENTS
+        CODE16
+        ldr     r3, =EventsTitleText
+        bx      r3
+
+        RSEG   INTERNET
+        CODE16
+        ldr     r3, =_Internet
+        bx      r3
+
+        RSEG   SHORTCURTS
+        CODE16
+        ldr     r3, =_Shortcurts
+        bx      r3
+
+        RSEG   ACTIVETASKS
+        CODE16
+        ldr     r3, =_Activetasks
+        bx      r3
+
         RSEG   CODE
         CODE16
 _IconInternet:
-        str r3, [r0,#4]
-        ldr r1, =0x834
-        strh r1, [r0,#8]
-        sub r1, r1, #1
-        strh r1, [r0,#0xA]
-        ldr r1, =0xCEE
-        str r1, [r0,#0xC]
-        pop {r4,r5,pc}
+        str     r3, [r0,#4]
+        ldr     r1, =0x834
+        strh    r1, [r0,#8]
+        sub     r1, r1, #1
+        strh    r1, [r0,#0xA]
+        ldr     r1, =0xCEE
+        str     r1, [r0,#0xC]
+        pop     {r4,r5,pc}
+
 _Tabfocus:
-        ldr r3, =0x14E7257C+1
-        blx r3
-        cmp r0, #0
-        beq set_focus
-        ldr r3, =0x14E726E4+1
-        bx r3
+        ldr     r3, =0x14E7257C+1
+        blx     r3
+        cmp     r0, #0
+        beq     set_focus
+        ldr     r3, =0x14E726E4+1
+        bx      r3
 set_focus:
-        bl SetFocusTab
-        mov r5, r0
-        ldr r3, =0x14E72702+1
-        bx r3
+        bl      SetFocusTab
+        mov     r5, r0
+        ldr     r3, =0x14E72702+1
+        bx      r3
+
 _onCreate:
-        ldr r1, [r4,#0x24]
-        mov r0, r4
-        bl CreateBookAndElfsLists
-        ldr r1, =0x14024CF4+1
-        ldr r0, [r4,#0x24]
-        ldr r3, =TabMenuBar_SetOnTabSwitch
-        blx r3
-        ldr r3, =0x14E7250C+1
-        bx r3
+        ldr     r1, [r4,#0x24]
+        mov     r0, r4
+        bl      CreateBookAndElfsLists
+        ldr     r1, =0x14024CF4+1
+        ldr     r0, [r4,#0x24]
+        ldr     r3, =TabMenuBar_SetOnTabSwitch
+        blx     r3
+        ldr     r3, =0x14E7250C+1
+        bx      r3
+
 _onClose:
         bl ActivityBook_onClose
         mov r0, r4
         ldr r3, =0x14DCCE50+1
         blx r3
         pop {r4,r5,pc}
+
 _Internet:
-        mov r1, r5
-        mov r0, r4
-        bl CreateAMenu
-        pop {r4-r6,pc}
+        mov     r1, r5
+        mov     r0, r4
+        bl      CreateAMenu
+        pop     {r4-r6,pc}
+
 _Shortcurts:
-        mov r1, r5
-        mov r0, r4
-        bl CreateEMenu
-        pop {r4-r6,pc}
+        mov     r1, r5
+        mov     r0, r4
+        bl      CreateEMenu
+        pop     {r4-r6,pc}
+
 _Activetasks:
-        mov r1, r5
-        mov r0, r4
-        bl CreateBMenu
-        pop {r4-r6,pc}
+        mov     r1, r5
+        mov     r0, r4
+        bl      CreateBMenu
+        pop     {r4-r6,pc}
 
         END

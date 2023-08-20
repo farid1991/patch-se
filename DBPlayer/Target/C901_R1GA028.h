@@ -7,8 +7,8 @@
 #define POPUP_WARNING_ICN 0xF831
 
 #define TEXT_STOP             0xCC0   // L"Стоп"
-#define TEXT_TURN             0x728   // L"Свернуть"
-#define TEXT_SETTING          0x268A  // L"Настройки"
+#define TEXT_MINIMISE         0x728   // L"Свернуть"
+#define TEXT_SETTINGS         0x268A  // L"Настройки"
 #define TEXT_ON               0x869   // L"Включено"
 #define TEXT_OFF              0x1EC6  // L"Выключено"
 #define TEXT_CHANGE           0x218   // L"Внесены изменения"

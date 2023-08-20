@@ -629,11 +629,9 @@ a       EQU     b
         defadr YesNoQuestion_SetIcon,0x45375AA8+1
         defadr GUIObject_SetBacklightTimeout,0x4536500C+1
         defadr ListMenu_SetHotkeyMode,0x4531E5C8+1
-
         defadr CreateYesNoQuestion,0x453756CC+1
 	defadr YesNoQuestion_SetDescriptionText,0x45375A88+1
 	defadr YesNoQuestion_SetQuestionText,0x45375A78+1
-
         defadr CreateStringInput,0x452F6454+1
         defadr StringInput_SetText,0x452F6F48+1
         defadr StringInput_SetMinLen,0x452F6D9C+1
@@ -643,33 +641,21 @@ a       EQU     b
         defadr StringInput_SetFixedText,0x452F6E6C+1
         defadr StringInput_SetActionOK,0x452F6D90+1
         defadr StringInput_SetActionBack,0x452F6D94+1
-
         defadr DispObject_SetThemeImage,0x4535CA9C+1
-
         defadr GC_DrawImage,0x4535DBF4+1
-
         defadr Free_RightNowBook,0x4538B200+1
-
         defadr Find_RightNowBook,0x4538B1B4+1
         defadr Find_ScreenSaverBook,0x45394098+1
-
         defadr List_GetCount,0x451B5ABC+1
         defadr List_RemoveFirst,0x451B5A1C+1
-
         defadr FSX_MakeFullPath,0x44E8AC64+1
         defadr FSX_IsFileExists,0x44ECB654+1
-
         defadr CreateMessageBox,0x452B98C8+1
-
         defadr GUIObject_TabTitleRemove,0x4531EBD4+1
-
         defadr GUIObject_SoftKeys_SetItemOnKey,0x453818C4+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x44DEC378+1
-
         defadr NewEvent_GetCount,0x4538C6A4+1
-
         defadr CreateEventMenu,0x4538C284+1
-
         defadr ActivityMenu_SetTab,0x4538AA9C+1
         defadr ActivityMenu_SendEvent,0x4538AB60+1
         defadr ActivityMenu_GotoPage,0x4538AAB8+1

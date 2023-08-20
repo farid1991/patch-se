@@ -1,5 +1,6 @@
 #include "temp\target.h"
 
+#include "..\\include\ASCII.h"
 #include "..\\include\Types.h"
 #include "..\\include\book\AudioPlayerBook.h"
 
@@ -97,13 +98,13 @@ void sort_timer(SLEEPMODE_DATA *data)
   }
 }
 
-int songname_to_lrc(wchar_t *lrc, wchar_t *songname, int len)
+BOOL songname_to_lrc(wchar_t *lrc, wchar_t *songname, int len)
 {
   if (!len)
-    return 0;
+    return FALSE;
 
   int i = 0;
-  wchar_t *wstr = wstrrchr(songname, '.');
+  wchar_t *wstr = wstrrchr(songname, DOT);
   int extlen = (wstrlen(wstr) - 1);
   while (i < (len - extlen))
   {
@@ -111,7 +112,7 @@ int songname_to_lrc(wchar_t *lrc, wchar_t *songname, int len)
     i++;
   }
   wstrcat(lrc, L"lrc");
-  return 1;
+  return TRUE;
 }
 
 int LoadLrc(wchar_t *fullname)
@@ -130,63 +131,46 @@ int LoadLrc(wchar_t *fullname)
   if (file < NULL)
     return READ_FAIL;
 
-  char *f_buffer = NULL;
   char *utf8_buffer = NULL;
-  // wchar_t *utf16_buffer = NULL;
+  wchar_t *utf16_buffer = NULL;
 
-  f_buffer = (char *)malloc(fsize + 1);
-  memset(f_buffer, NULL, fsize + 1);
-  w_fread(file, f_buffer, fsize);
+  utf8_buffer = StringAlloc(fsize);
+  w_fread(file, utf8_buffer, fsize);
   w_fclose(file);
 
-  int buff_size;
   bool is_supported;
-  switch (get_encoding_type(f_buffer))
+  int encoding = get_encoding_type(utf8_buffer);
+  StringFree(data->lrcbuf);
+
+  switch (encoding)
   {
   case UTF8:
-    FREE(data->lrcbuf);
-    buff_size = strlen(f_buffer) + 1;
-    data->lrcbuf = (char *)malloc(buff_size);
-    memset(data->lrcbuf, NULL, sizeof(buff_size));
-    strcpy(data->lrcbuf, f_buffer);
+    data->lrcbuf = StringAlloc(strlen(utf8_buffer));
+    strcpy(data->lrcbuf, utf8_buffer);
     is_supported = true;
     break;
   case UTF8_BOM:
-    FREE(data->lrcbuf);
-    buff_size = strlen(f_buffer) + 1;
-    utf8_buffer = (char *)malloc(buff_size);
-    memset(utf8_buffer, NULL, sizeof(buff_size));
-    memcpy(utf8_buffer, f_buffer + 3, fsize - 2);
-
-    data->lrcbuf = (char *)malloc(buff_size);
-    memset(data->lrcbuf, NULL, sizeof(buff_size));
-    strcpy(data->lrcbuf, utf8_buffer);
-
-    FREE(utf8_buffer);
+    data->lrcbuf = StringAlloc(strlen(utf8_buffer));
+    utf16_buffer = WStringAlloc(strlen(utf8_buffer) * 2);
+    UTF82unicode(utf16_buffer, utf8_buffer, strlen(utf8_buffer));
+    wstr2strn(data->lrcbuf, utf16_buffer, strlen(utf8_buffer));
+    WStringFree(utf16_buffer);
     is_supported = true;
     break;
-  // case UTF16_LE:
-  //   FREE(data->lrcbuf);
-  //   utf16_buffer = (wchar_t *)malloc(fsize - 2);
-  //   memset(utf16_buffer, NULL, sizeof(wchar_t) * (fsize - 2));
-  //   wstrcpy(utf16_buffer, (wchar_t *)(f_buffer + 2));
-
-  //   data->lrcbuf = (char *)malloc(fsize / 2 + 1);
-  //   memset(data->lrcbuf, NULL, fsize / 2 + 1);
-  //   unicode2win1251(data->lrcbuf, utf16_buffer, fsize / 2 + 1);
-
-  //   debug_printf("\n utf16_buffer: %ls", utf16_buffer);
-  //   debug_printf("\n lrcbuf: %s", data->lrcbuf);
-
-  //   FREE(utf16_buffer);
-  //   is_supported = true;
-  //   break;
+  case UTF16_LE:
+    utf16_buffer = WStringAlloc(fsize / 2);
+    memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
+    data->lrcbuf = StringAlloc(fsize);
+    wstr2strn(data->lrcbuf, utf16_buffer, fsize + 1);
+    WStringFree(utf16_buffer);
+    is_supported = true;
+    break;
   default:
     is_supported = false;
     break;
   }
 
-  FREE(f_buffer);
+  StringFree(utf8_buffer);
 
   if (!is_supported)
     return READ_FAIL;
@@ -206,7 +190,7 @@ int LoadLrc(wchar_t *fullname)
       if (is_digit(data->lrcbuf[i + 1]))
       {
         int j = 1;
-        char tmp[MAX_EXT + 1] = "";
+        char *tmp = StringAlloc(MAX_EXT);
         while (data->lrcbuf[i + j] != ']')
         {
           if (j <= MAX_EXT)
@@ -230,8 +214,8 @@ int LoadLrc(wchar_t *fullname)
 
         int m = i;
         int k = i;
-        char ttmp[MAX_STR * 2 + 1] = "";
-        while (data->lrcbuf[m] != '\r' && data->lrcbuf[m] != '\n')
+        char *ttmp = StringAlloc(MAX_STR * 2);
+        while (data->lrcbuf[m] != CR && data->lrcbuf[m] != LF)
         {
           if (!data->lrcbuf[m])
             break;
@@ -239,11 +223,11 @@ int LoadLrc(wchar_t *fullname)
           k++;
           m++;
         }
-        wchar_t wstr[MAX_STR * 2 + 1] = L"";
+        wchar_t *wstr = WStringAlloc(MAX_STR * 2);
         str2wstr(wstr, ttmp);
-        data->lrclist[data->total_offset].lrcinfo = (wchar_t *)malloc(MAX_EXT + 1);
-        memset(data->lrclist[data->total_offset].lrcinfo, 0, MAX_EXT + 1);
-        wstrcpy(data->lrclist[data->total_offset].lrcinfo, wstrrchr(wstr, ']') + 1);
+        data->lrclist[data->total_offset].lrcinfo = WStringAlloc(MAX_EXT);
+
+        wstrcpy(data->lrclist[data->total_offset].lrcinfo, wstrrchr(wstr, BRACKET_CLOSE) + 1);
         i += (strlen(tmp) + 1);
         data->total_offset++;
       }
@@ -257,12 +241,8 @@ void GetLyric(wchar_t *path, wchar_t *name)
 {
   SLEEPMODE_DATA *data = GetData();
 
-  int len_name = wstrlen(name);
-  int len_path = wstrlen(path);
-
-  wchar_t *lrc = (wchar_t *)malloc(sizeof(wchar_t) * (len_name + 2));
-  memset(lrc, NULL, sizeof(wchar_t) * (len_name + 2));
-  songname_to_lrc(lrc, name, len_name);
+  wchar_t *lrc = WStringAlloc(wstrlen(name));
+  songname_to_lrc(lrc, name, wstrlen(name));
 
   wchar_t *fullname = FSX_MakeFullPath(path, lrc);
 

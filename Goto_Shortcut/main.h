@@ -1,6 +1,8 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#define CONFIG_NAME L"sc.bin"
+
 static const char* BOOKNAME = "GotoShortcut_Book";
 #define BASE_PAGE_NAME "Goto_Shortcut_Base_Page"
 #define MAIN_PAGE_NAME "Goto_Shortcut_Main_Page"
@@ -19,12 +21,6 @@ enum Modes
   EDITING_MODE,
   ADDING_MODE
 };
-
-#define F_NAME L"sc.bin"
-
-//#define F_READ 0x001
-//#define F_RIGHTS 0x180
-//#define F_WRITE 0x204
 
 enum SHORTCUT_TYPE
 {

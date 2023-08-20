@@ -16,6 +16,7 @@ DBP_DATA *CreateData()
   data->mute = FALSE;
   data->path = NULL;
   data->name = NULL;
+  data->fullpath = NULL;
   set_envp(NULL, EMP_NAME, (OSADDRESS)data);
   return data;
 }

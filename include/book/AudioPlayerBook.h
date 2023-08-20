@@ -307,6 +307,19 @@ typedef struct AudioPlayerBook : BOOK
 } AudioPlayerBook;
 
 #elif defined(DB2020)
+typedef struct MM_BrowserToplevelBook : BOOK
+{
+  GUI *MM_TopLevel; // 0x18
+  int unk_1C;       // 0x1C
+  u16 index;        // 0x20
+  u16 unk_22;       // 0x22
+  int unk_24;       // 0x24
+  int unk_28;       // 0x28
+  int unk_2C;       // 0x2c
+  int unk_30;       // 0x30
+  int unk_34;       // 0x34
+} MM_BrowserToplevelBook;
+
 typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
 {
   IMAGEID MP_BACKGROUND;     // 0xB4

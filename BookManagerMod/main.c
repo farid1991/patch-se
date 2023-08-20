@@ -11,9 +11,9 @@
 #include "Lib.h"
 #include "main.h"
 
-__arm void _elfload(const wchar_t *filepath, const wchar_t *filename)
+__arm void openWithBcfgEdit(wchar_t *bcfgedit_path, const wchar_t *filepath, const wchar_t *filename)
 {
-  elfload(BCFGEDIT_PATH, (void *)filepath, (void *)filename, NULL);
+  elfload(bcfgedit_path, (void *)filepath, (void *)filename, NULL);
 }
 
 void *malloc(int size)
@@ -516,21 +516,19 @@ void RefreshElfSoftkeys(BOOK_MANAGER *data)
 
 int Elf_OpenFile(const wchar_t *filepath, const wchar_t *filename)
 {
-  FSTAT _fstat;
-  wchar_t *bcfg_path = L"/usb/other/ZBin";
-  wchar_t *bcfg_name = L"BcfgEdit.elf";
-
-  if (!fstat(bcfg_path, bcfg_name, &_fstat))
+  W_FSTAT _wstat;
+  if (!w_fstat(BCFGEDIT_PATH, &_wstat))
   {
   }
   else
   {
-    return BCFG_NOTFOUND;
+    return BCFG_NOTFOUND; // BcfgEdit not found
   }
-  if (!filepath || !filename)
-    return BCFG_SUCCESS;
 
-  _elfload(filepath, filename);
+  if (!filepath || !filename)
+    return BCFG_SUCCESS; // success
+
+  openWithBcfgEdit(BCFGEDIT_PATH, filepath, filename);
   return BCFG_UNK;
 }
 

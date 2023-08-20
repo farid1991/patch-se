@@ -34,10 +34,8 @@ a       equ b
         defadr strcmp,0x44E252EC+1
         defadr wstrcpy,0x44E25C34+1
         defadr wstrcat,0x44E25BD4+1
-
         defadr Format_Time,0x454396B0+1
         defadr TextIteratorSetTextId,0x452FE434+1
-
         defadr TextID_Create,0x452FE69C+1
         defadr TextID_CreateIntegerID,0x452FE300+1
         defadr TextID_CreateFromChar,0x452FE2F8+1
@@ -52,15 +50,12 @@ a       equ b
         defadr DispObject_GetGUI,0x453024AC+1
         defadr GUIObject_GetBook,0x45193C54+1
         defadr DispObject_SoftKeys_GetList,0x45199EB4+1
-
         defadr GUIObject_SetAnimation,0x451533E0+1
-
         defadr CreateBook,0x4529F750+1
         defadr FreeBook,0x4529FC78+1
         defadr BookObj_GotoPage,0x4529F4CC+1
         defadr BookObj_CallPage,0x4529F5DC+1
         defadr BookObj_GetBookID,0x4529FD0C+1
-
         defadr DISP_DESC_SetName,0x45301D0C+1
         defadr DISP_DESC_SetSize,0x45301D1C+1
         defadr DISP_DESC_SetOnCreate,0x45301D20+1
@@ -69,7 +64,6 @@ a       equ b
         defadr DISP_DESC_SetOnKey,0x45301D30+1
         defadr GUIObject_Create,0x45193B18+1
         defadr BookObj_AddGUIObject,0x4529FA5C+1
-
         defadr GetImageHeight,0x45307FC0+1
         defadr GetImageWidth,0x45307FD8+1
         defadr get_DisplayGC,0x45191A98+1
@@ -97,20 +91,16 @@ a       equ b
         defadr DispObject_ListMenu_GetItemCount,0x452DC0FC+1
         defadr DispObject_SetThemeImage,0x45305BE4+1
         defadr DispObject_SetBackgroundImage,0x452E669C+1
-
         defadr List_GetCount,0x4527F228+1
         defadr List_Get,0x4527F250+1
-
         defadr Display_GetWidth,0x45547984+1
         defadr Display_GetHeight,0x45547974+1
         defadr GetThemeColor,0x45532A30+1
-
         defadr ImageID_Get,0x45426B54+1
         defadr ImageID_Free,0x45426B44+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x455ADDD0+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x455ADE50+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x455ADEE4+1
-
         defadr GUIObject_SetStyle,0x45193EC4+1
         defadr GUIObject_SetListTextColor,0x45171F28+1
         defadr GUIObject_SetCursorImage,0x45171EF8+1
@@ -122,14 +112,12 @@ a       equ b
         defadr GUIObject_SetSecondRowTitleText,0x45193F98+1
         defadr GUIObject_Show,0x45193E64+1
         defadr GUIObject_Destroy,0x45193BE4+1
-
         defadr GUIonMessage_GetMsg,0x45171378+1
         defadr GUIonMessage_GetCreatedItemIndex,0x451713A4+1
         defadr GUIonMessage_SetMenuItemText,0x451713B4+1
         defadr GUIonMessage_SetMenuItemIcon,0x451713F4+1
         defadr GUIonMessage_SetItemDisabled,0x4517144C+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x451713E4+1
-
         defadr CreateListMenu,0x45170674+1
         defadr ListMenu_SetItemStyle,0x451708E8+1
         defadr ListMenu_SetItemCount,0x4517089C+1
@@ -139,19 +127,16 @@ a       equ b
         defadr ListMenu_SetHotKeyMode,0x45170A04+1
         defadr ListMenu_SetItemSecondLineText,0x45170C98+1
         defadr ListMenu_GetSelectedItem,0x45170884+1
-
         defadr GUIObject_SoftKeys_SetActionAndText,0x45219CDC+1
         defadr GUIObject_SoftKeys_SetAction,0x4519B824+1
         defadr GUIObject_SoftKeys_SetText,0x4519B90C+1
         defadr GUIObject_SoftKeys_SetVisible,0x4519B9A4+1
         defadr MediaPlayer_SoftKeys_Validate,0x45074F90+1
-
         defadr CreateOneOfMany,0x4517250C+1
         defadr OneOfMany_SetItemCount,0x451726A0+1
         defadr OneOfMany_SetChecked,0x451726C4+1
         defadr OneOfMany_SetTexts,0x451726F8+1
         defadr OneOfMany_GetSelected,0x451726D4+1
-
         defadr CreateYesNoQuestion,0x45196AF4+1
         defadr YesNoQuestion_SetDescriptionText,0x45196E7C+1
         defadr YesNoQuestion_SetQuestionText,0x45196E8C+1

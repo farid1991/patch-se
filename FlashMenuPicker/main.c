@@ -18,14 +18,12 @@ void *malloc(int size)
 
 void mfree(void *mem)
 {
+    if (mem)
 #if defined(DB2020)
-  if (mem)
     memfree(NULL, mem, MEM_NAME, NULL);
 #elif defined(A2)
-  if (mem)
     memfree(NULL, mem, MEM_NAME, NULL);
 #else
-  if (mem)
     memfree(mem, MEM_NAME, NULL);
 #endif
 }
@@ -537,9 +535,8 @@ extern "C" void FlashmenuPicker(BOOK *book, GUI *gui)
   {
     BookObj_SetFocus(fmbk, UIDisplay_Main);
   }
-  else
+  else if (fmbk = Create_FlashMenuPickerBook())
   {
-    if (fmbk = Create_FlashMenuPickerBook())
       BookObj_GotoPage(fmbk, &FlashMenuPicker_Main_Page);
   }
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)

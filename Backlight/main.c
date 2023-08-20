@@ -49,11 +49,7 @@ __thumb void mfree(void *mem)
 
 extern "C" int New_pg_Screensaver_Sleep(void *data, BOOK *book)
 {
-  if (IsBook_onTop(book))
-  {
-    pg_Screensaver_Sleep(data, book);
-  }
-  else if (IsBook_onTop(Find_StandbyBook()))
+  if (IsBook_onTop(book) || IsBook_onTop(Find_StandbyBook()))
   {
     pg_Screensaver_Sleep(data, book);
   }

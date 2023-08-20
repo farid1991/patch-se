@@ -9,51 +9,49 @@
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return memalloc(0, size, 1, 5, "", 0);
+  return memalloc(NULL, size, 1, 5, "", NULL);
 #elif defined(A2)
-  return memalloc(0xFFFFFFFF, size, 1, 5, "", 0);
+  return memalloc(0xFFFFFFFF, size, 1, 5, "", NULL);
 #else
-  return memalloc(size, 1, 5, "", 0);
+  return memalloc(size, 1, 5, "", NULL);
 #endif
 }
 
 __thumb void mfree(void *mem)
 {
+  if (mem)
 #if defined(DB2020)
-  if (mem)
-    memfree(0, mem, "", 0);
+    memfree(NULL, mem, "", NULL);
 #elif defined(A2)
-  if (mem)
-    memfree(0, mem, "", 0);
+    memfree(NULL, mem, "", NULL);
 #else
-  if (mem)
-    memfree(mem, "", 0);
+    memfree(mem, "", NULL);
 #endif
 }
 
-u16 *getTimerID()
+uint16_t *getTimerID()
 {
-  return (u16 *)get_envp(NULL, VARNAME);
+  return (uint16_t *)get_envp(NULL, EMP_NAME);
 }
 
-u16 *createTimerID()
+uint16_t *createTimerID()
 {
-  u16 *pTimerID = (u16 *)malloc(sizeof(u16));
-  memset(pTimerID, NULL, sizeof(u16));
-  set_envp(NULL, VARNAME, (OSADDRESS)pTimerID);
+  uint16_t *pTimerID = (uint16_t *)malloc(sizeof(uint16_t));
+  memset(pTimerID, NULL, sizeof(uint16_t));
+  set_envp(NULL, EMP_NAME, (OSADDRESS)pTimerID);
   return pTimerID;
 }
 
-void onTimer(u16 timerID, LPARAM disp_obj)
+void onTimer(uint16_t timerID, LPARAM disp_obj)
 {
-  u16 *pTimerID = getTimerID();
+  uint16_t *pTimerID = getTimerID();
   DispObject_InvalidateRect((DISP_OBJ *)disp_obj, NULL);
   Timer_ReSet(pTimerID, 1000, onTimer, disp_obj);
 }
 
 extern "C" void SetRefreshTimer(DISP_OBJ *disp_obj)
 {
-  u16 *pTimerID = getTimerID();
+  uint16_t *pTimerID = getTimerID();
   if (!pTimerID)
     pTimerID = createTimerID();
   *pTimerID = Timer_Set(1000, onTimer, (LPARAM *)disp_obj);
@@ -61,7 +59,7 @@ extern "C" void SetRefreshTimer(DISP_OBJ *disp_obj)
 
 extern "C" void KillRefreshTimer()
 {
-  u16 *pTimerID = getTimerID();
+  uint16_t *pTimerID = getTimerID();
   if (pTimerID)
   {
     Timer_Kill(pTimerID);
@@ -71,10 +69,10 @@ extern "C" void KillRefreshTimer()
 
 extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
-  u16 disp_width = Display_GetWidth(UIDisplay_Main);
+  uint16_t disp_width = Display_GetWidth(UIDisplay_Main);
   TEXTID text_id;
 
-  int _SYNC = 0;
+  int _SYNC = NULL;
   int *SYNC = &_SYNC;
 
   char weekday;

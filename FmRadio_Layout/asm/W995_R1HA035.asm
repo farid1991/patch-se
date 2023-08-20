@@ -13,31 +13,26 @@ a       equ	b
         defadr set_envp,0x101EC750+1
         defadr current_process,0x101E5C80
         defadr get_bid,0x101E5CB8
-
         defadr _fopen,0x1403EB5C+1
         defadr fclose,0x140FD63C+1
         defadr fread,0x144C2D80+1
         defadr fwrite,0x141C1358+1
         defadr FSX_IsFileExists,0x14FBB65C+1
-
         defadr CreateBook,0x144ABFCC+1
         defadr BookObj_GotoPage,0x14045980+1
         defadr BookObj_ReturnPage,0x142CAF34+1
         defadr FreeBook,0x14133830+1
-
         defadr GUIObject_GetBook,0x14105460+1
         defadr GUIObject_GetDispObject,0x1416DDB4+1
         defadr GUIObject_SetTitleText,0x141105C8+1
         defadr GUIObject_SetTitleType,0x143A26B0+1
         defadr GUIObject_Show,0x144ACC2C+1
         defadr GUIObject_Destroy,0x14512BE0+1
-
         defadr GUIonMessage_GetMsg,0x142F1378+1
         defadr GUIonMessage_GetCreatedItemIndex,0x142F1284+1
         defadr GUIonMessage_SetMenuItemText,0x142F0CFC+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x141FF338+1
         defadr GUIonMessage_SetItemDisabled,0x142593D8+1
-
         defadr CreateListMenu,0x14132F38+1
         defadr ListMenu_SetCursorToItem,0x141328FC+1
         defadr ListMenu_SetItemCount,0x142DA734+1
@@ -46,29 +41,24 @@ a       equ	b
         defadr ListMenu_SetOnMessage,0x142DA720+1
         defadr ListMenu_SetItemSecondLineText,0x142DA5A4+1
         defadr ListMenu_DestroyItems,0x143C3870+1
-
         defadr CreateOneOfMany,0x140F6A6C+1
         defadr OneOfMany_SetItemCount,0x150CE954+1
         defadr OneOfMany_SetChecked,0x141117A0+1
         defadr OneOfMany_SetTexts,0x141AE38C+1
         defadr OneOfMany_GetSelected,0x1509EAB8+1
-
         defadr GUIObject_SoftKeys_SetAction,0x14105420+1
         defadr GUIObject_SoftKeys_SetText,0x14105150+1
         defadr GUIObject_SoftKeys_SetVisible,0x141053FC+1
         defadr GUIObject_SoftKeys_SetInfoText,0x140A7538+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x15371AE4+1
-
         defadr TextID_Create,0x142D8380+1
         defadr TextID_Destroy,0x1416FB98+1
         defadr TextID_CreateIntegerID,0x143D6484+1
         defadr snwprintf,0x144A2EF0+1
         defadr CreateMessageBox,0x14EC3AAC+1
-
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14EB3BFC+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x1515F1C8+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x1515F250+1
-
         defadr get_DisplayGC,0x1416CA0C+1
         defadr GC_GetRect,0x14117B70+1
         defadr GC_GetXX,0x142337A4+1
@@ -76,7 +66,6 @@ a       equ	b
         defadr GC_GetPenColor,0x144E2224+1
         defadr GC_SetPenColor,0x14107FF4+1
         defadr GC_DrawLine,0x144E1F44+1
-
         defadr BookObj_AddGUIObject,0x14132F2C+1
         defadr DrawRect,0x14107C80+1
         defadr DispObject_InvalidateRect,0x1416BA88+1
@@ -88,15 +77,12 @@ a       equ	b
         defadr DISP_DESC_SetOnClose,0x14509ECC+1
         defadr DISP_DESC_SetOnRedraw,0x14509F20+1
         defadr DISP_DESC_SetOnKey,0x1450A328+1
-
         defadr Display_GetHeight,0x1411B1D0+1
         defadr Display_GetWidth,0x141AA5B8+1
-
         defadr CreateYesNoQuestion,0x1423638C+1
         defadr YesNoQuestion_SetDescriptionText,0x14082FCC+1
         defadr YesNoQuestion_SetQuestionText,0x14082FBC+1
         defadr YesNoQuestion_SetIcon,0x150C67E4+1
-
         defadr CoCreateInstance,0x14461E40+1
         defadr DisplayGC_AddRef,0x143D02EC+1
         defadr TextObject_SetText,0x14170568+1
@@ -171,7 +157,7 @@ cont_:
         RSEG  CODE
         CODE16
 new_softkeys:
-        LDR     R2, =0x95B
+        LDR     R2, =0x95C
         LDR     R0, [R4,#0x18]
         MOV     R1, #5
         LDR	R3, =GUIObject_SoftKeys_SetInfoText

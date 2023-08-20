@@ -754,7 +754,7 @@ a       EQU     b
         defadr PlaySystemSound_SendEvent,0x14FA9150+1
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
-        defadr isFileExists,0x14411678+1
+        defadr FSX_IsFileExists,0x14411678+1
         
         defadr List_GetCount,0x140CC074+1
         defadr List_RemoveFirst,0x1430DCFC+1
