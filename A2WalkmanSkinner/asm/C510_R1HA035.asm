@@ -121,7 +121,6 @@ a       equ b
         defadr kill_proc,0x101CFF14
         defadr receive_w_tmo,0x101CFD5C
         defadr stop,0x101CFD50
-        defadr get_mem,0xEDA51BD1
         defadr get_envp,0x101D68A8+1
         defadr set_envp,0x101D68BC+1
         defadr get_bid,0x101CFE24

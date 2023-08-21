@@ -3,6 +3,8 @@
 
 #include "..\\include\book\FmRadio_Book.h"
 
+#define EMP_NAME "FmRadio"
+
 typedef enum
 {
   BACKGROUND_ICN = 0,       //0

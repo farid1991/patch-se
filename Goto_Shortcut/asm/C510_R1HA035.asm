@@ -764,15 +764,6 @@ a       EQU     b
 
         EXTERN GotoShortcut
 
-	RSEG PATCH_RIGHT_SOFTKEY_FIX1
-        CODE16
-	LDR  R0, =fix_softkeys
-        
-        RSEG PATCH_RIGHT_SOFTKEY_FIX2
-        DATA
-fix_softkeys:
-	DCD 0xC48
-
         RSEG STANDBY_LINK_RIGHT
         DATA
         DCD GotoShortcut

@@ -10,8 +10,6 @@
 #include "lang.h"
 #include "editor.h"
 
-#define EMP_NAME "FmRadio"
-
 FmRadio_Data *CreateData()
 {
   FmRadio_Data *Data = (FmRadio_Data *)malloc(sizeof(FmRadio_Data));

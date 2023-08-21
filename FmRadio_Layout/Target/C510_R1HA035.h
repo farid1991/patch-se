@@ -53,20 +53,31 @@
 
 #define FMRADIO_ACTION_LAYOUT 0x11
 
+#define KEY_DIGITAL_0 0x18
+#define KEY_DIGITAL_1 0x19
+#define KEY_DIGITAL_2 0x1A
+#define KEY_DIGITAL_3 0x1B
+#define KEY_DIGITAL_4 0x1C
+#define KEY_DIGITAL_5 0x1D
+#define KEY_DIGITAL_6 0x1E
+#define KEY_DIGITAL_7 0x1F
+#define KEY_DIGITAL_8 0x20
+#define KEY_DIGITAL_9 0x21
+
 // interface id ----------------------------------------------------
-#define CID_IUIFontManager (PUUID)0x15AC227C
+#define CID_CUIFontManager (PUUID)0x15AC227C
 #define IID_IUIFontManager (PUUID)0x15AFB108
 #define CID_CUIImageManager (PUUID)0x15AC4F1C
 #define IID_IUIImageManager (PUUID)0x15AFD4C4
-#define CID_ITextRenderingManager (PUUID)0x15AC99C4
+#define CID_CTextRenderingManager (PUUID)0x15AC99C4
 #define IID_ITextRenderingManager (PUUID)0x15AFFFA4
 #define CID_CRegistryManager (PUUID)0x15AB0808
 #define IID_IRegistryManager (PUUID)0x15AF0B20
 #define CID_CMetaData (PUUID)0x15A9EEE0
 #define IID_IMetaData (PUUID)0x15AE2FFC
-#define CID_CAudioFile (PUUID)0x15A83AE8
-#define IID_IAudioFile (PUUID)0x15A84F90
-#define CID_IAudioControlManager (PUUID)0x15A915C4
+#define CID_CPlayerManager (PUUID)0x15A83AE8
+#define IID_IPlayerManager (PUUID)0x15A84F90
+#define CID_CAudioControlManager (PUUID)0x15A915C4
 #define IID_IAudioControlManager (PUUID)0x15ACC7A0
 #define CID_CCopsManager (PUUID)0x15A839A8
 #define IID_ICopsManager (PUUID)0x15A84A20
@@ -318,7 +329,6 @@
 #define KEY_CAMERA_SHOT 0x31
 #define KEY_DEL 0x5
 #define KEY_DIEZ 0x23
-#define KEY_DIGITAL_0 0x18
 #define KEY_DOWN 0xD
 #define KEY_ENTER 0x8
 #define KEY_ESC 0x4

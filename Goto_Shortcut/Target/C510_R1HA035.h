@@ -10,7 +10,7 @@
 
 // Menu
 #define TITLE_TXT           0xAA2   // L"Goto"
-#define MENU_ADD_TXT        0x193A  // L"New shortcut"
+#define MENU_ADD_TXT        0x1930  // L"New shortcut"
 #define MENU_MODIFY_TXT     0x1754  // L"Edit shortcut"
 #define EMPTY_LIST_TXT      0x89A   // L"No shortcuts"
 #define MENU_ABOUT_TXT      0x251C  // L"About"
@@ -22,7 +22,7 @@
 #define TYPES_TITLE_TXT     0x103F  // L"Type"
 
 #define SHC_SET_MM          0x1C5C
-#define SHC_SET_SHORTCUT_SK 0xB5C
+#define SHC_SET_SHORTCUT_SK 0x1930
 #define DELETEQ_TXT         0x198C
 
 #define OPEN_TXT            0x531

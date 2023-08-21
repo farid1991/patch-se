@@ -9,6 +9,21 @@ a       EQU     b
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
+        defadr alloc,0x101CFCE4
+        defadr receive,0x101CFD00
+        defadr send,0x101CFCF0
+        defadr sender,0x101CFD40
+        defadr free_buf,0x101CFD10
+        defadr create_process,0x101CFDDC
+        defadr start,0x101CFFE8
+        defadr get_ptype,0x101CFE9C
+        defadr current_process,0x101CFDEC
+        defadr delay,0x101CFD30
+        defadr hunt,0x101CFEE8
+        defadr kill_proc,0x101CFF14
+        defadr receive_w_tmo,0x101CFD5C
+        defadr stop,0x101CFD50
+        defadr get_bid,0x101CFE24
         defadr snwprintf,0x143EEBC4+1
         defadr _fopen,0x141FA214+1
         defadr fclose,0x143CD0A0+1
@@ -138,7 +153,7 @@ a       EQU     b
         EXTERN FmRadio_NewSoftKeys
         EXTERN FmRadio_UpdateSoftKeys
         EXTERN DeleteData
-        EXTERN New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
+        EXTERN New_FmRadio_Main__PAGE_ENTER_EVENT
 
         RSEG PATCH_FmRadio_OnCreate
         DATA
@@ -156,9 +171,9 @@ a       EQU     b
         DATA
         DCD New_FmRadio_Gui_OnKey
 
-        RSEG PATCH_FmRadio_Created
+        RSEG PATCH_FmRadio_MainPage_Enter
         DATA
-        DCD New_FmRadio_Base__UI_FMRADIO_CREATED_EVENT
+        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 
