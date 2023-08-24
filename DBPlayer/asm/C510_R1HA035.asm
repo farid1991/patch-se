@@ -9,7 +9,6 @@ a       EQU     b
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
         defadr memcpy,0x1428AD94
-
         defadr snwprintf,0x143EEBC4+1
         defadr _fopen,0x141FA214+1
         defadr fclose,0x143CD0A0+1
