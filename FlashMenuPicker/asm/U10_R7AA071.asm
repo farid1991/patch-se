@@ -141,6 +141,8 @@ a       EQU     b
         defadr ListMenu_SetHotkeyMode,0x14676678+1
         defadr ListMenu_SetOnMessage,0x146C7760+1
         defadr ListMenu_SetItemStyle,0x146765A4+1
+        defadr ListMenu_SetItemTextScroll,0x14313144+1
+        defadr ListMenu_SetNoItemText,0x1535CE50+1
         defadr CreateYesNoQuestion,0x140E2BCC+1
         defadr YesNoQuestion_SetDescriptionText,0x144A23F8+1
         defadr YesNoQuestion_SetQuestionText,0x145ED8A4+1

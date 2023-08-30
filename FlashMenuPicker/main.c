@@ -329,7 +329,7 @@ void FlashMenuPicker_Pick_Select(BOOK *book, GUI *gui)
 
     Set_SWF_AsFlashMenu(DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-    MainMenu_SetFromUserTheme(1);
+    MainMenu_SetFromUserTheme(TRUE);
 #endif
 
     wchar_t buf[256];
@@ -406,6 +406,8 @@ int pg_FlashMenuPicker_Pick_EnterEvent(void *data, BOOK *book)
     ListMenu_SetOnMessage(fmbk->SubMenu, FlashMenuPicker_Pick_OnMessage);
     ListMenu_SetHotkeyMode(fmbk->SubMenu, LKHM_SHORTCUT);
     GUIObject_SetTitleText(fmbk->SubMenu, SUBMENU_TXT);
+    ListMenu_SetItemTextScroll(fmbk->SubMenu, 0);
+    ListMenu_SetNoItemText(fmbk->SubMenu, EMPTY_LIST_TXT);
     if (count)
     {
       GUIObject_SoftKeys_SetText(fmbk->SubMenu, 0, PREVIEW_SK_TXT);

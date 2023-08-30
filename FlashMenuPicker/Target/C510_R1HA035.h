@@ -1,5 +1,5 @@
-#ifndef W995_R1HA035
-#define W995_R1HA035
+#ifndef C510_R1HA035
+#define C510_R1HA035
 
 #define A2
 #define DB3210
@@ -7,15 +7,14 @@
 #define INT_FLASH_PATH L"/usb/picture/flash"
 #define EXT_FLASH_PATH L"/card/picture/flash"
 
-#define FD_IMAGE (wchar_t *)0x15B3A0EC
-#define SETTINGS_PATH (wchar_t *)0x15BA72B8
-#define DEFAULT_FLASH_PATH (wchar_t *)0x15B39E6C
+#define FD_IMAGE (wchar_t *)0x15A1B708
+#define SETTINGS_PATH (wchar_t *)0x15A86E38
+#define DEFAULT_FLASH_PATH (wchar_t *)0x15A1B488
 
 #define MAINMENU_TXT 0x790
 #define SUBMENU_TXT 0x1C5C
 #define PREVIEW_SK_TXT 0x8FD
 #define EMPTY_LIST_TXT 0x612
-
 #define ITEM_SYS_TXT 0x1863
 #define ITEM_INT_TXT 0x2D0
 #define ITEM_EXT_TXT 0x2CF
