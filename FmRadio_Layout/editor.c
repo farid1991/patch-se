@@ -423,7 +423,7 @@ void Color_CallBack(DISP_OBJ *, void *msg, GUI *)
 {
 }
 
-void SetColor(BOOK *book, int type)
+void Create_ColorPicker(BOOK *book, int type)
 {
   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)book;
   GUI *gui_color = (GUI *)malloc(sizeof(GUI));
@@ -505,7 +505,7 @@ int GetIdByFontId(int id)
 }
 #endif
 
-void SetVisual(BOOK *book)
+void Create_GUIEditor(BOOK *book)
 {
   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)book;
 

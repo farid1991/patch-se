@@ -99,6 +99,4 @@ typedef struct _SETTING_BOOK : BOOK
   bool changed;
 } SETTING_BOOK;
 
-void FmRadio_Setting(BOOK *book, GUI *gui);
-
 #endif

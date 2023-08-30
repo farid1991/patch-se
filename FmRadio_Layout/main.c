@@ -29,14 +29,12 @@ void *malloc(int size)
 
 void mfree(void *mem)
 {
-#if defined(DB2020)
   if (mem)
+#if defined(DB2020)
     memfree(0, mem, "fm", 0);
 #elif defined(A2)
-  if (mem)
     memfree(0, mem, "fm", 0);
 #else
-  if (mem)
     memfree(mem, "fm", 0);
 #endif
 }
@@ -137,23 +135,6 @@ extern "C" void New_FmRadio_Gui_OnClose(DISP_OBJ *disp_obj)
 
   UnRegisterImage(Data);
   FmRadio_Gui_OnClose(disp_obj);
-}
-
-void DrawImage(int x, int y, IMAGEID imageID)
-{
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
-  if (imageID != NOIMAGE)
-    dll_GC_PutChar(x, y, 0, 0, imageID);
-#elif defined(DB2010)
-  if (imageID != NOIMAGE)
-  {
-    GC *pGC = get_DisplayGC();
-    GC_PutChar(pGC, x, y, 0, 0, imageID);
-  }
-#else
-  if (imageID != NOIMAGE)
-    GC_DrawImage(x, y, imageID);
-#endif
 }
 
 extern "C" void New_FmRadio_Gui_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect, int r3)

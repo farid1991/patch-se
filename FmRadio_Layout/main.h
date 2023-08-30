@@ -19,7 +19,6 @@
 #define FILE_NAME L"FMRadio.cfg"
 #define CONFIG_PATH L"/usb/other/ZBin/Config/FmRadio"
 
-void DrawImage(int x, int y, IMAGEID img);
 void *malloc(int size);
 void mfree(void *mem);
 

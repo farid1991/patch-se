@@ -13,30 +13,33 @@ void Get_Channel(FmRadio_Data *Data)
   char CurrentChannel = fmbook->CurrentChannel;
   if (!CurrentChannel)
     Data->Channel = EMPTY_TEXTID;
-  Data->Channel = TextID_CreateIntegerID(CurrentChannel);
+  else
+    Data->Channel = TextID_CreateIntegerID(CurrentChannel);
 }
 
 void Get_ChannelName(FmRadio_Data *Data)
 {
   FmRadio_Book *fmbook = (FmRadio_Book *)Data->FmRadioBook;
-  char CurrentChannel = fmbook->CurrentChannel;
-  wchar_t *ChannelName = fmbook->Channel[CurrentChannel - 1].Name;
+  wchar_t *ChannelName = fmbook->Channel[fmbook->CurrentChannel - 1].Name;
   Data->ChannelName = TextID_Create(ChannelName, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 void Get_CurrentFrequency(FmRadio_Data *Data)
 {
   FmRadio_Book *fmbook = (FmRadio_Book *)Data->FmRadioBook;
-  uint16_t CurrentFrequency = fmbook->CurrentFrequency;
-  snwprintf(Data->buf, MAXELEMS(Data->buf), L"%.1f", CurrentFrequency / 10.0);
+  int frequency = fmbook->CurrentFrequency;
+
+  int whole_part = frequency / 10;   // Integer division to get the whole part
+  int decimal_part = frequency % 10; // Remainder for the decimal part
+  snwprintf(Data->buf, MAXELEMS(Data->buf), L"%d.%d", whole_part, decimal_part);
+
   Data->Frequency = TextID_Create(Data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 void Get_GetPSName(FmRadio_Data *Data)
 {
   FmRadio_Book *fmbook = (FmRadio_Book *)Data->FmRadioBook;
-  wchar_t *PSName = fmbook->ProgramServiceName;
-  Data->PSName = TextID_Create(PSName, ENC_UCS2, TEXTID_ANY_LEN);
+  Data->PSName = TextID_Create(fmbook->ProgramServiceName, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 IMAGEID Get_RDS_State(FmRadio_Data *Data)

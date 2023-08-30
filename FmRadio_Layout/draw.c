@@ -10,6 +10,23 @@
 #include "data.h"
 #include "main.h"
 
+void DrawImage(int x, int y, IMAGEID imageID)
+{
+#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
+  if (imageID != NOIMAGE)
+    dll_GC_PutChar(x, y, 0, 0, imageID);
+#elif defined(DB2010)
+  if (imageID != NOIMAGE)
+  {
+    GC *pGC = get_DisplayGC();
+    GC_PutChar(pGC, x, y, 0, 0, imageID);
+  }
+#else
+  if (imageID != NOIMAGE)
+    GC_DrawImage(x, y, imageID);
+#endif
+}
+
 void DrawProgressBar(FmRadio_Data *data, int cur_value, int total_value, RECT rect, int Bcolor, int Ecolor)
 {
   int bar = rect.x1 + (cur_value * (rect.x2 - rect.x1) / total_value);

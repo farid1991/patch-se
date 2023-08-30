@@ -21,16 +21,16 @@ void Text_OnSelect(BOOK *book, GUI *gui)
     OneOfMany_SetMode(FMSettings_Book, OOM_STATE);
     break;
   case SUBITEM_TXT_COLOR:
-    SetColor(FMSettings_Book, 1);
+    Create_ColorPicker(FMSettings_Book, 1);
     break;
   case SUBITEM_TXT_OVERLAY:
-    SetColor(FMSettings_Book, 2);
+    Create_ColorPicker(FMSettings_Book, 2);
     break;
   case SUBITEM_TXT_ALIGN:
     OneOfMany_SetMode(FMSettings_Book, OOM_ALIGN);
     break;
   case SUBITEM_TXT_VISUAL:
-    SetVisual(FMSettings_Book);
+    Create_GUIEditor(FMSettings_Book);
     break;
   }
 }
@@ -51,13 +51,13 @@ void Progress_OnSelect(BOOK *book, GUI *gui)
     SetActivate(FMSettings_Book, SUBITEM_PB_LAST);
     break;
   case SUBITEM_PB_BCOLOR:
-    SetColor(FMSettings_Book, 1);
+    Create_ColorPicker(FMSettings_Book, 1);
     break;
   case SUBITEM_PB_FCOLOR:
-    SetColor(FMSettings_Book, 2);
+    Create_ColorPicker(FMSettings_Book, 2);
     break;
   case SUBITEM_PB_VISUAL:
-    SetVisual(FMSettings_Book);
+    Create_GUIEditor(FMSettings_Book);
     break;
   }
 }
@@ -72,7 +72,7 @@ void Image_OnSelect(BOOK *book, GUI *gui)
     SetActivate(FMSettings_Book, SUBITEM_IMG_LAST);
     break;
   case SUBITEM_IMG_VISUAL:
-    SetVisual(FMSettings_Book);
+    Create_GUIEditor(FMSettings_Book);
     break;
   }
 }
@@ -564,21 +564,22 @@ void Question_OnBack(BOOK *book, GUI *gui)
 void Settings_OnBack(BOOK *book, GUI *gui)
 {
   SETTING_BOOK *FMSettings_Book = (SETTING_BOOK *)book;
-  if (FMSettings_Book->changed)
+  if (!FMSettings_Book->changed)
   {
-    if (FMSettings_Book->gui_question = CreateYesNoQuestion(book, UIDisplay_Main))
-    {
-      YesNoQuestion_SetDescriptionText(FMSettings_Book->gui_question, TEXT_CHANGE);
-      YesNoQuestion_SetQuestionText(FMSettings_Book->gui_question, TEXT_QUESTION);
-      YesNoQuestion_SetIcon(FMSettings_Book->gui_question, POPUP_WARNING_ICN);
-      GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_YES, Question_OnYes);
-      GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_NO, Question_OnNo);
-      GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_BACK, Question_OnBack);
-      GUIObject_Show(FMSettings_Book->gui_question);
-    }
-  }
-  else
     FreeBook(FMSettings_Book);
+    return;
+  }
+
+  if (FMSettings_Book->gui_question = CreateYesNoQuestion(book, UIDisplay_Main))
+  {
+    YesNoQuestion_SetDescriptionText(FMSettings_Book->gui_question, TEXT_CHANGE);
+    YesNoQuestion_SetQuestionText(FMSettings_Book->gui_question, TEXT_QUESTION);
+    YesNoQuestion_SetIcon(FMSettings_Book->gui_question, POPUP_WARNING_ICN);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_YES, Question_OnYes);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_NO, Question_OnNo);
+    GUIObject_SoftKeys_SetAction(FMSettings_Book->gui_question, ACTION_BACK, Question_OnBack);
+    GUIObject_Show(FMSettings_Book->gui_question);
+  }
 }
 
 int pg_FmRadio_Settings_EnterAction(void *data, BOOK *book)
