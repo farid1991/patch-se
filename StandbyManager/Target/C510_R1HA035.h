@@ -4,6 +4,8 @@
 #define A2
 #define DB3210
 
+#define FILE_PATH (wchar_t *)0x15A86E38
+
 #define ACTION_LONG_BACK        0xFAF
 #define ACTION_SELECT1          0xFC2
 #define ACTION_DELETE           0xFB4
@@ -14,6 +16,7 @@
 #define RETURN_TO_STANDBY_EVENT 0x840
 #define CANCEL_EVENT            0x4
 #define PAGE_ENTER_EVENT        0xF
+#define NIL_EVENT               0
 
 #define TEXTID_TITLE            0x766  // Отображение:
 #define SOFTKEY_TEXTID          0x5B4  // Инфо

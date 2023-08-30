@@ -77,7 +77,6 @@ a       EQU b
         defadr wstrlen,0x10FCD28C+1
         defadr str2wstr,0x10FCE554+1
         defadr strcmp,0x105542A0+1
-        defadr _strcmp,0x105542A0+1
         defadr strlen,0x105542FC+1
         defadr wstr2strn,0x10FCD3AC+1
         defadr TextID_CreateIntegerID,0x1168426C+1

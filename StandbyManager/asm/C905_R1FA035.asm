@@ -25,10 +25,10 @@ a       equ b
         defadr GUIonMessage_SetMenuItemText,0x14482F64+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x1411BABC+1
         defadr ListMenu_GetSelectedItem,0x14177470+1
-        defadr SetMenuItemStyle,0x14127A54+1
+        defadr ListMenu_SetItemStyle,0x14127A54+1
         defadr GUIObject_Softkey_SetAction,0x140FF438+1
         defadr GUIObject_Softkey_SetText,0x14397D0C+1
-        defadr Str2ID,0x14100290+1
+        defadr TextID_Create,0x14100290+1
         defadr ListMenu_SetOnMessage,0x141DEA40+1
         defadr UI_Event,0x142BB514+1
         defadr CreateListMenu,0x14460344+1
@@ -51,14 +51,14 @@ a       equ b
         defadr GUIObject_SoftKeys_SetVisible,0x140FF408+1
         defadr REQUEST_DATEANDTIME_GET,0x1410BCC8+1
         defadr DATE_GetWeekDay,0x1409A818+1
-        defadr TextFree,0x142BD18C+1
+        defadr TextID_Destroy,0x142BD18C+1
 
 //////////////////
         defadr DynamicMenu_SetElement_SecondLineText,0x14400F40+1
         defadr DynamicMenu_GetElementMsg,0x141D2B44+1
 
         defadr GetOperatorName,0x141C4A20+1
-        defadr DISP_OBJ_StatusIndication_SetItemText,0x140E22DC+1
+        defadr DispObject_StatusIndication_SetItemText,0x140E22DC+1
 
         EXTERN  OnSetText
 

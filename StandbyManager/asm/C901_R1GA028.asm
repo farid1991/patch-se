@@ -50,7 +50,7 @@ a       equ b
         defadr GUIonMessage_SetMenuItemIcon,0x14044EB0+1
         defadr DispObject_SetTitleText,0x1410FAB0+1
         defadr ListMenu_GetSelectedItem,0x1411B32C+1
-        defadr SetMenuItemStyle,0x140F5D1C+1
+        defadr ListMenu_SetItemStyle,0x140F5D1C+1
         defadr isScreenSaverBook,0x143C32E5
         defadr StatusIndication_SetItemText,0x1434DD20+1
         defadr StatusIndication_ShowNotes,0x153E7F90+1
@@ -78,12 +78,12 @@ a       equ b
         defadr strcmp,0x14C80394+1
         defadr strlen,0x14C803F0+1
         defadr wstr2strn,0x1409DB7C+1
-        defadr int2strID,0x143D4FA4+1
-        defadr Str2ID,0x142D6F24+1
-        defadr StrID2Str,0x1416E5BC+1
-        defadr TextID2wstr,0x1416E898+1
-        defadr TextGetLength,0x1416F444+1
-        defadr TextFree,0x1416EC2C+1
+        defadr TextID_CreateIntegerID,0x143D4FA4+1
+        defadr TextID_Create,0x142D6F24+1
+        defadr TextID_GetString,0x1416E5BC+1
+        defadr TextID_GetWString,0x1416E898+1
+        defadr TextID_GetLength,0x1416F444+1
+        defadr TextID_Destroy,0x1416EC2C+1
         defadr AB_DEFAULTNBR_GET,0x14490024+1
         defadr AB_READSTRING,0x14F2684C+1
         defadr AB_READPHONENBR,0x15278BE8+1

@@ -48,7 +48,7 @@ a       equ b
         defadr GUIonMessage_SetMenuItemIcon,0x144CC8B4+1
         defadr DispObject_SetTitleText,0x1443F9FC+1
         defadr ListMenu_GetSelectedItem,0x142800F8+1
-        defadr SetMenuItemStyle,0x140B9BF0+1
+        defadr ListMenu_SetItemStyle,0x140B9BF0+1
         defadr isScreenSaverBook,0x144822D9
         defadr StatusIndication_SetItemText,0x14309EF0+1
         defadr StatusIndication_ShowNotes,0x15400B40+1
@@ -59,13 +59,13 @@ a       equ b
         defadr OneOfMany_SetTexts,0x1419F5AC+1
         defadr OneOfMany_GetSelected,0x14457AA8+1
         defadr StatusIndication_Item8_SetText,0x15400B20+1
-        defadr GUIObject_Softkey_SetAction,0x1417BACC+1
-        defadr GUIObject_Softkey_SetText,0x141C50C8+1
-        defadr GUIObject_SoftKey_SetEnable,0x141C5108+1
-        defadr GUIObject_SoftKey_AddErrorStr,0x144309F4+1
-        defadr GUIObject_SoftKey_RemoveItem,0x1417F180+1
+        defadr GUIObject_SoftKeys_SetAction,0x1417BACC+1
+        defadr GUIObject_SoftKeys_SetText,0x141C50C8+1
+        defadr GUIObject_SoftKeys_SetEnable,0x141C5108+1
+        defadr GUIObject_SoftKeys_AddErrorStr,0x144309F4+1
+        defadr GUIObject_SoftKeys_RemoveItem,0x1417F180+1
         defadr GUIObject_SoftKeys_SetVisible,0x141C4E24+1
-        defadr GUIObject_SoftKey_SuppressDefaultAction,0x142CD5B4+1
+        defadr GUIObject_SoftKeys_SuppressDefaultAction,0x142CD5B4+1
         defadr wstrcpy,0x144D851C+1
         defadr wstrncpy,0x143EEBF8+1
         defadr wstrcat,0x144D8474+1
@@ -76,12 +76,12 @@ a       equ b
         defadr strcmp,0x14C0BA78+1
         defadr strlen,0x14C0BAD4+1
         defadr wstr2strn,0x140C1BF4+1
-        defadr int2strID,0x1401F5BC+1
-        defadr Str2ID,0x141818E4+1
-        defadr StrID2Str,0x14182108+1
-        defadr TextID2wstr,0x1418243C+1
-        defadr TextGetLength,0x14183014+1
-        defadr TextFree,0x14182788+1
+        defadr TextID_CreateIntegerID,0x1401F5BC+1
+        defadr TextID_Create,0x141818E4+1
+        defadr TextID_GetString,0x14182108+1
+        defadr TextID_GetWString,0x1418243C+1
+        defadr TextID_GetLength,0x14183014+1
+        defadr TextID_Destroy,0x14182788+1
         defadr AB_DEFAULTNBR_GET,0x1416AEC8+1
         defadr AB_READSTRING,0x14F28F28+1
         defadr AB_READPHONENBR,0x1527FBF0+1
@@ -157,11 +157,11 @@ a       equ b
         defadr CreateListMenu,0x14285AF8+1
         defadr ListMenu_SetItemCount,0x14280610+1
         defadr ROOT_APP,0x4BA26730
-        defadr GUIObject_Softkey_SetInfoText,0x141283F0+1
-        defadr GUIObject_Softkey_SetItemAsSubItem,0x1419D6B4+1
+        defadr GUIObject_SoftKeys_SetInfoText,0x141283F0+1
+        defadr GUIObject_SoftKeys_SetItemAsSubItem,0x1419D6B4+1
         defadr REQUEST_SYSTEM_SHUTDOWN,0x1585CAA4+1
         defadr REQUEST_SYSTEM_RESTART,0x14C15F28+1
-        defadr GUIObject_Softkey_SetTexts,0x140760A8+1
+        defadr GUIObject_SoftKeys_SetTexts,0x140760A8+1
         defadr isRightNowBook,0x14004888+1
         defadr isVolumeControllerBook,0x14199E64+1
         defadr CreateTabMenuBar,0x142E53B4+1
@@ -496,7 +496,7 @@ a       equ b
         defadr DataBrowserDesc_SetViewModeAndSortOrder,0x1428873C+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_GET,0x141ACB58+1
         defadr DispObject_Show,0x140CA870+1
-        defadr GUIObject_Softkey_ExecuteAction,0x150FDF64+1
+        defadr GUIObject_SoftKeys_ExecuteAction,0x150FDF64+1
         defadr REQUEST_PROFILE_GETPROFILENAME,0x14235D1C+1
         defadr DataBrowserDesc_SetFocusToFILEITEM,0x1574FA1C+1
         defadr GUIonMessage_GetMsg,0x142C5CA4+1
@@ -519,13 +519,15 @@ a       equ b
         defadr GUIObject_GetBook,0x140CAEC8+1
         defadr Softkeys_GetSelectedAction,0x14278DEC+1
         defadr ListMenu_DestroyItems,0x14280984+1
+        defadr GUIObject_SoftKeys_SetActionAndText,0x143AA4E8+1
+        defadr CreateMessageBox,0x14CE140C+1
         
 //////////////////
         defadr DynamicMenu_SetElement_SecondLineText,0x141ADFFC+1
         defadr DynamicMenu_GetElementMsg,0x1431E418+1
         
         defadr GetOperatorName,0x143FBAF0+1
-        defadr DISP_OBJ_StatusIndication_SetItemText,0x14309F18+1
+        defadr DispObject_StatusIndication_SetItemText,0x14309F18+1
 
         EXTERN  OnSetText
         
