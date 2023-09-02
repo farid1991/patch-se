@@ -1,27 +1,8 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-//#define IMEI_CHECK_ON
-
-const int IMEI = 93;
-
-/*
-   - -    --  - -
-35638503-386525-9; 108 - E1kolyan C510_R1FA035_Orange
-35638503-573139-2; 87 - Vov4ik C510_R1FA035_Orange
-35402203-491105-3; 60 - D3mon W995_R1GA026
-35467703-224195-9; 99 - Velikii C901_R1GA028
-35204503-446262-1; 54 - MrGraL C510_R1HA035
-35681303-142773-1; 63 - G@S J105_R1HA035
-01224900-415550-2; 57 - .:DOC:. J105_R1HA035
-35681303-277705-0; 90 - gordan33-92 J105_R1HA035
-35467703-238133-4; 93 - Hypnotic C901_R1GA028
-   - -    --  - -
-*/
-
 #define FREE(b) \
-  if (b)        \
-    mfree(b);
+  mfree(b)
 
 #define TEXTFREE(a)      \
   if (a != EMPTY_TEXTID) \

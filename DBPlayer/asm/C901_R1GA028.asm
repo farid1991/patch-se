@@ -8,12 +8,14 @@ a       EQU     b
         defadr memalloc,0x4BA322A0
         defadr memfree,0x4BA322C8
         defadr memset,0x14B963E8
+        defadr memcpy,0x15020818
         defadr snwprintf,0x144A1298+1
         defadr _fopen,0x1403EC8C+1
         defadr fclose,0x140FC858+1
         defadr fread,0x144C11BC+1
         defadr fwrite,0x141BFE70+1
         defadr fstat,0x14290474+1
+	defadr lseek,0x144C3468+1
         defadr CreateBook,0x144AA4FC+1
         defadr BookObj_GotoPage,0x1404559C+1
         defadr BookObj_ReturnPage,0x142C9B50+1
@@ -22,6 +24,7 @@ a       EQU     b
         defadr GUIObject_Show,0x144AB150+1
         defadr ListMenu_SetCursorToItem,0x14131CB8+1
         defadr GUIObject_SetStyle,0x141320D8+1
+	defadr GUIonMessage_GetBook,0x142EFB8C+1
         defadr GUIonMessage_GetCreatedItemIndex,0x142EFB80+1
         defadr GUIonMessage_SetMenuItemText,0x142EF65C+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x141FDDAC+1
@@ -34,9 +37,20 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetAction,0x141047B0+1
         defadr GUIObject_SoftKeys_SetText,0x141044E8+1
         defadr GUIObject_SoftKeys_SetVisible,0x1410478C+1
+        defadr strlen,0x14C803F0+1
+	defadr strncpy,0x14442270+1
+	defadr wstrncmp,0x14120ACC+1
+	defadr wstrcat,0x1428FDC8+1
+	defadr wstr2strn,0x1409DB7C+1
+	defadr str2wstr,0x1428E948+1
+	defadr wstrcpy,0x1428FE70+1
+	defadr wstrrchr,0x1409EB58+1
         defadr wstrlen,0x144C1510+1
         defadr TextID_Create,0x142D6F24+1
         defadr TextID_Destroy,0x1416EC2C+1
+        defadr TextID_Copy,0x1416E374+1
+        defadr TextID_GetWString,0x1416E898+1
+	defadr TextID_GetLength,0x1416F444+1
         defadr GUIObject_GetDispObject,0x1416CEAC+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14DF8334+1
         defadr BookObj_Hide,0x142009DC+1
@@ -86,15 +100,16 @@ a       EQU     b
         defadr DisplayGC_AddRef,0x143CEE40+1
         defadr TextObject_SetText,0x1416F57C+1
         defadr TextObject_SetFont,0x14172478+1
+	defadr RichTextLayout_GetTextWidth,0x14421A98+1
         defadr Timer_ReSet,0x14169C08+1
         defadr Timer_Set,0x1423CE6C+1
         defadr Timer_Kill,0x14169EF8+1
-        defadr Audio_GetTags,0x14DD9954+1
+        defadr MetaData_GetTags,0x14DD9954+1
         defadr CreateYesNoQuestion,0x14234CB8+1
         defadr YesNoQuestion_SetDescriptionText,0x14082B70+1
         defadr YesNoQuestion_SetQuestionText,0x14082B60+1
         defadr YesNoQuestion_SetIcon,0x15009C94+1
-        defadr MessageBox_NoIMAGE,0x14E082FC+1
+        defadr CreateMessageBox,0x14E082FC+1
 	defadr w_fopen,0x100A6A24+1
         defadr w_lseek,0x10586FD8+1
         defadr w_fclose,0x10139508+1
@@ -103,9 +118,16 @@ a       EQU     b
         defadr GetIMEI,0x1442CB74+1
         defadr GUIObject_SoftKeys_Show,0x1439FF34+1
 	defadr FILEITEM_GetFextension,0x142DA668+1
-	defadr wstrncmp,0x14120ACC+1
 	defadr Display_GetHeight,0x1411A5F8+1
 	defadr Display_GetWidth,0x141A9130+1
+	defadr FSX_IsFileExists,0x14EFF400+1
+	defadr FSX_MakeFullPath,0x144C033C+1
+	defadr FSX_FreeFullPath,0x14043000+1
+	defadr Volume_Get,0x14273244+1
+	defadr Volume_Set,0x14273440+1
+	defadr DispObject_SetBacklightMode,0x14236290+1
+	defadr DispObject_SetThemeImage,0x144ADF60+1
+	defadr GUIObject_SoftKeys_SetActionAndText,0x143F32EC+1
 
         EXTERN CreateInfo
 
