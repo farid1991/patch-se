@@ -7,6 +7,8 @@
 #define YEAR 3
 #define GENRE 4
 
+#define HEADER_SIZE 4
+
 #define INDEX(x) x / 8
 #define SHIFT(x) x % 8
 #define GETBIT(v, x) ((v[INDEX(x)] << SHIFT(x)) & 0x80) >> 7

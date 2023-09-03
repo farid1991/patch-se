@@ -34,6 +34,7 @@ typedef struct
   unsigned int timer;
   wchar_t *lrcinfo;
 } TimerList;
+
 typedef struct _DISP_OBJ_DBP : DISP_OBJ
 {
   TEXTID artist;

@@ -137,29 +137,28 @@ TEXTID GetElapsedTime(DBP_DATA *data)
 
 TEXTID GetRemainingTime(DBP_DATA *data)
 {
-  int min = (data->track_time.Hours * 60 + data->track_time.Minutes) - data->elapsed_time.Minutes;
-  int sec;
-  int temp = data->track_time.Seconds - data->elapsed_time.Seconds;
-  if (temp >= 0)
-    sec = temp;
-  else
+  int totalMinutes = data->track_time.Hours * 60 + data->track_time.Minutes;
+  int remainingMinutes = totalMinutes - data->elapsed_time.Minutes;
+  int remainingSeconds = data->track_time.Seconds - data->elapsed_time.Seconds;
+
+  if (remainingSeconds < 0)
   {
-    min -= 1;
-    sec = 60 + temp;
+    remainingMinutes--;
+    remainingSeconds += 60;
   }
 
-  snwprintf(data->buf, MAXELEMS(data->buf), L"-%02d:%02d", min, sec);
+  snwprintf(data->buf, MAXELEMS(data->buf), L"-%02d:%02d", remainingMinutes, remainingSeconds);
   return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-int synchsafeToNormal(char tagSize[4])
+int synchsafeToNormal(uint8_t header[HEADER_SIZE])
 {
   int synchsafe, sizeloc, size, power, x;
 
   size = sizeloc = 0;
   for (synchsafe = 31; synchsafe >= 0; synchsafe--)
   {
-    if (GETBIT(tagSize, synchsafe))
+    if (GETBIT(header, synchsafe))
     {
       power = 1;
       for (x = 0; x < sizeloc; x++)
@@ -174,20 +173,20 @@ int synchsafeToNormal(char tagSize[4])
 
 int get_tag_size(wchar_t *path, wchar_t *name)
 {
-  int ret = NULL;
+  int ret = 0;
   int file = _fopen(path, name, FSX_O_RDONLY, (FSX_S_IWRITE | FSX_S_IREAD), NULL);
   if (file >= 0)
   {
-    char buf[10 + 1];
+    uint8_t buf[10];
     fread(file, buf, 10);
     if (buf[0] == 'I' && buf[1] == 'D' && buf[2] == '3')
     {
-      char tagSize[4];
-      tagSize[0] = buf[6];
-      tagSize[1] = buf[7];
-      tagSize[2] = buf[8];
-      tagSize[3] = buf[9];
-      ret = synchsafeToNormal(tagSize);
+      uint8_t header[HEADER_SIZE];
+      header[0] = buf[6];
+      header[1] = buf[7];
+      header[2] = buf[8];
+      header[3] = buf[9];
+      ret = synchsafeToNormal(header);
     }
     fclose(file);
   }
@@ -196,10 +195,10 @@ int get_tag_size(wchar_t *path, wchar_t *name)
 
 TEXTID GetBitrate(DBP_DATA *data)
 {
-  int tag_size = get_tag_size(data->path, data->path);
+  int id3size = get_tag_size(data->path, data->name);
   FSTAT stat;
   fstat(data->path, data->name, &stat);
-  int size_in_kb = (stat.fsize - tag_size - data->CoverSize) / 1000;
+  int size_in_kb = (stat.fsize - id3size - data->CoverSize) / 1000;
   int bitrate = (size_in_kb * 8) / data->full_track_time;
 
   snwprintf(data->buf, MAXELEMS(data->buf), L"%d Kbps", bitrate);
