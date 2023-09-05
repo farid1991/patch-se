@@ -145,6 +145,7 @@ int onCreate(VOLUME_DISPOBJ *disp_obj)
   disp_obj->Media = media - 18;
 
   disp_obj->data = (FILE_DATA *)malloc(sizeof(FILE_DATA));
+  memset(disp_obj->data, NULL, sizeof(FILE_DATA));
   if (disp_obj->isData = ReadConfig(disp_obj->data))
   {
     disp_obj->cursor = disp_obj->data->Cursor_Position;

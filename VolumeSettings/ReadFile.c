@@ -30,11 +30,11 @@ int ReadConfig(FILE_DATA *data)
 
   int res = FALSE;
   FSTAT fs;
-  
+
   if (!fstat(CONFIG_PATH, CONFIG_NAME, &fs) && fs.fsize)
   {
     int fsize = fs.fsize;
-    char *buf = (char *)malloc(fsize+1);
+    char *buf = (char *)malloc(fsize + 1);
     memset(buf, NULL, fsize);
     int f = _fopen(CONFIG_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
     fread(f, buf, fsize);
