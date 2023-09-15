@@ -14,6 +14,7 @@
 #endif
 
 #include "..\\CurrentTrack.h"
+#include "..\\Draw.h"
 #include "..\\Function.h"
 #include "..\\main.h"
 #include "..\\String.h"
@@ -59,6 +60,7 @@ int Str2Timer(char *str)
   int len = strlen(str);
   int i = 0;
   int ret = 0;
+
   while (i < len)
   {
     int j = len - i;
@@ -72,6 +74,7 @@ int Str2Timer(char *str)
     ret += e * (str[i] - '0');
     i++;
   }
+
   return ret;
 }
 
@@ -112,7 +115,7 @@ int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
   fclose(file);
 
   int encoding = Encoding_GetType(lrca);
-  StringFree(Lrc->LrcBuf);
+  mfree(Lrc->LrcBuf);
   switch (encoding)
   {
   case ANSI:
@@ -124,19 +127,23 @@ int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
     memcpy(wlrca, lrca + 2, fsize - 1);
     Lrc->LrcBuf = StringAlloc(fsize);
     wstr2strn(Lrc->LrcBuf, wlrca, fsize + 1);
-    WStringFree(wlrca);
+    mfree(wlrca);
     break;
   case UTF8:
     Lrc->LrcBuf = StringAlloc(StringLength(lrca));
     wlrca = WStringAlloc(StringLength(lrca) * 2);
     UTF82unicode(wlrca, lrca, StringLength(lrca));
     wstr2strn(Lrc->LrcBuf, wlrca, StringLength(lrca));
-    WStringFree(wlrca);
+    mfree(wlrca);
     break;
   default:
+    encoding = ERROR;
     break;
   }
-  StringFree(lrca);
+  mfree(lrca);
+
+  if (encoding == ERROR)
+    return 0;
 
   if (Lrc->LrcList)
     TimerList_Free(Lrc->LrcList);
@@ -218,31 +225,31 @@ int songname_to_lrc(wchar_t *lyricname, wchar_t *songname, int len)
 
 int find_current_timer_list(time_t Time, AdvLyricBook *Lrc)
 {
-  int i = 0;
+  int current = 0;
   DISP_OBJ_ADVLYRIC *disp_obj = (DISP_OBJ_ADVLYRIC *)GUIObject_GetDispObject(Lrc->LyricGUI);
-  while (i <= Lrc->list_num)
+  while (current <= Lrc->list_num)
   {
-    if ((Time - Lrc->LrcList[i].Timer) <= 100 || (Lrc->LrcList[i].Timer - Time <= 100))
+    if ((Time - Lrc->LrcList[current].Timer) <= 100 || (Lrc->LrcList[current].Timer - Time <= 100))
     {
-      if ((Time - Lrc->LrcList[i + 1].Timer) <= 100 || (Lrc->LrcList[i + 1].Timer - Time <= 100))
+      if ((Time - Lrc->LrcList[current + 1].Timer) <= 100 || (Lrc->LrcList[current + 1].Timer - Time <= 100))
       {
-        return i + 1;
+        return current + 1;
       }
-      else if ((Time - Lrc->LrcList[i + 2].Timer) <= 100 || (Lrc->LrcList[i + 2].Timer - Time <= 100))
+      else if ((Time - Lrc->LrcList[current + 2].Timer) <= 100 || (Lrc->LrcList[current + 2].Timer - Time <= 100))
       {
-        return i + 2;
+        return current + 2;
       }
       else
       {
-        return i;
+        return current;
       }
     }
-    else if (Time >= Lrc->LrcList[i].Timer && Time <= Lrc->LrcList[i + 1].Timer && disp_obj->fastchanged == 1)
+    else if (Time >= Lrc->LrcList[current].Timer && Time <= Lrc->LrcList[current + 1].Timer && disp_obj->fastchanged == TRUE)
     {
-      disp_obj->fastchanged = 0;
-      return i;
+      disp_obj->fastchanged = FALSE;
+      return current;
     }
-    i++;
+    current++;
   }
   return MAX_TIMER;
 }
@@ -278,17 +285,13 @@ void onLrcShowTimer(u16 timerID, LPARAM lparam)
   InvalidateRect(disp_obj);
 
   int textid = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210)
-  int width = dll_Disp_GetTextIDWidth(FONT_E_16B, textid, TextID_GetLength(textid));
-#else
-  int width = Disp_GetTextIDWidth(textid, TextID_GetLength(textid));
-#endif
+  int width = GetTextIDWidth(FONT_E_16B, textid, TextID_GetLength(textid));
   DESTROY_TEXTID(textid);
 
   int BetweenTimer = Lrc->LrcList[Lrc->CurrentIndex + 1].Timer - Lrc->LrcList[Lrc->CurrentIndex].Timer;
   if (width <= Lrc->scr_w)
   {
-    Timer_ReSet(&Lrc->LyricShowTimer, division(BetweenTimer, 20), onLrcShowTimer, (LPARAM *)Lrc);
+    Timer_ReSet(&Lrc->LyricShowTimer, division(BetweenTimer, (20 * 1)), onLrcShowTimer, (LPARAM *)Lrc);
   }
   if (width > Lrc->scr_w && width <= Lrc->scr_w * 2)
   {
@@ -326,16 +329,16 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book)
 
     Kill_LyricShowTimer(Lrc);
     Lrc->Display = LoadLrc(Lrc, Lrc->CurrentTrack->Filepath, Lyricname);
-    WStringFree(Lyricname);
+    mfree(Lyricname);
 
     if (Lrc->Display == 1)
     {
-      Lrc->CurrentIndex = -1;
+      Lrc->CurrentIndex = LRC_PREPARING;
       SortTimer(Lrc);
     }
     else
     {
-      Lrc->CurrentIndex = -2;
+      Lrc->CurrentIndex = LRC_NOTFOUND;
     }
 
     AdvLyric_RefreshScreen(Lrc);
@@ -351,7 +354,7 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book)
     int ElapsedTime = (TimeData->Minutes * 60 * 1000) + (TimeData->Seconds * 1000) + TimeData->MilliSeconds;
 
     int CurrentIndex = find_current_timer_list(ElapsedTime, Lrc);
-    if (CurrentIndex <= Lrc->list_num && CurrentIndex >= 0)
+    if (CurrentIndex <= Lrc->list_num && CurrentIndex >= LRC_READY)
     {
       Lrc->CurrentIndex = CurrentIndex;
       Kill_LyricShowTimer(Lrc);
@@ -371,11 +374,13 @@ int pg_AdvLyric_EnterEvent(void *r1, BOOK *book)
   AdvLyricBook *Lrc = (AdvLyricBook *)book;
   DESTROY_GUI(Lrc->LyricGUI);
 
-  Lrc->LyricGUI = CreateAdvLyric(Lrc);
-  GUIObject_SoftKeys_SetAction(Lrc->LyricGUI, ACTION_BACK, AdvLyric_CloseAction);
-  GUIObject_SoftKeys_SetAction(Lrc->LyricGUI, ACTION_LONG_BACK, AdvLyric_CloseAction);
-  GUIObject_SetAnimation(Lrc->LyricGUI, LYRIC_GUI_ANIMATION);
-  GUIObject_Show(Lrc->LyricGUI);
+  if (Lrc->LyricGUI = CreateAdvLyric(Lrc))
+  {
+    GUIObject_SoftKeys_SetAction(Lrc->LyricGUI, ACTION_BACK, AdvLyric_CloseAction);
+    GUIObject_SoftKeys_SetAction(Lrc->LyricGUI, ACTION_LONG_BACK, AdvLyric_CloseAction);
+    GUIObject_SetAnimation(Lrc->LyricGUI, LYRIC_GUI_ANIMATION);
+    GUIObject_Show(Lrc->LyricGUI);
+  }
 
   return 1;
 }
@@ -404,7 +409,8 @@ void AdvLyricBook_Destroy(BOOK *book)
 
   if (Lrc->LrcList)
     TimerList_Free(Lrc->LrcList);
-  StringFree(Lrc->LrcBuf);
+
+  mfree(Lrc->LrcBuf);
 }
 
 AdvLyricBook *Create_AdvLyricBook()
@@ -436,15 +442,17 @@ void Enter_Lyric(BOOK *book, GUI *gui)
   MusicBook->Callpage = TRUE;
 
   AdvLyricBook *Lrc = Find_AdvLyricBook();
-  if (!Lrc)
+  if (Lrc)
   {
-    Lrc = Create_AdvLyricBook();
+    BookObj_SetFocus(Lrc, UIDisplay_Main);
+    return;
+  }
+
+  Lrc = Create_AdvLyricBook();
+  if (Lrc)
+  {
     Lrc->scr_w = Display_GetWidth(UIDisplay_Main);
     Lrc->scr_h = Display_GetHeight(UIDisplay_Main);
     BookObj_GotoPage(Lrc, &AdvLyric_Main_Page);
-  }
-  else
-  {
-    BookObj_SetFocus(Lrc, UIDisplay_Main);
   }
 }

@@ -9,6 +9,8 @@ typedef struct _DISP_OBJ_DIALOG : DISP_OBJ
 {
   TEXTID title_text;
   TEXTID dialog_text;
+  uint16_t disp_width;
+  uint16_t disp_height;
 } DISP_OBJ_DIALOG;
 
 GUI_Dialog *CreateDialog(BOOK *book);

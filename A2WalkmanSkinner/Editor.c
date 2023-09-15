@@ -69,7 +69,7 @@ void EditColor(BOOK *book)
   {
     color = mbk->Str_Color_2;
   }
-  
+
   if (mbk->color = Create_EditColor(mbk, color))
   {
     GUIObject_SoftKeys_SetAction(mbk->color, ACTION_SELECT1, EditColor_AcceptAction);
@@ -84,7 +84,10 @@ void EditColor(BOOK *book)
 
 void EditCoordinates_ChangeOrientation(BOOK *book, GUI *gui)
 {
-  BookObj_SetDisplayOrientation(book, BookObj_GetDisplayOrientation(book) ? UIDisplayOrientationMode_Vertical : UIDisplayOrientationMode_Horizontal);
+  SkinEditor_Book *mbk = (SkinEditor_Book *)book;
+  DISP_OBJ_COORD *disp_obj = (DISP_OBJ_COORD *)GUIObject_GetDispObject(mbk->coord);
+  BookObj_SetDisplayOrientation(book, BookObj_GetDisplayOrientation(mbk) ? UIDisplayOrientationMode_Vertical : UIDisplayOrientationMode_Horizontal);
+  DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void EditCoordinates_CancelAction(BOOK *book, GUI *)
@@ -198,8 +201,9 @@ void EditCoordinates(BOOK *book, int type)
     GUIObject_SoftKeys_SetAction(mbk->coord, ACTION_LONG_BACK, EditCoordinates_CancelAction);
     GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_SELECT1, KEY_ENTER, KBD_SHORT_RELEASE);
     GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_SELECT1, KEY_LEFT_SOFT, KBD_SHORT_RELEASE);
-    GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_SELECT1, KEY_DIGITAL_0 + 5, KBD_SHORT_RELEASE);
-    GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_BACK, KEY_ESC, KBD_SHORT_RELEASE);
+    GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_SELECT1, KEY_DIGITAL_5, KBD_SHORT_RELEASE);
+    GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_BACK, KEY_RIGHT_SOFT, KBD_SHORT_RELEASE);
+    GUIObject_SoftKeys_SetItemOnKey(mbk->coord, ACTION_LONG_BACK, KEY_ESC, KBD_SHORT_RELEASE);
     GUIObject_Show(mbk->coord);
   }
 }

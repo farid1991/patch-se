@@ -32,7 +32,7 @@ typedef struct _DISP_OBJ_COLOR : DISP_OBJ
   int text_color;
 
   uint16_t disp_width;
-  uint16_t disp_height;
+  uint16_t rect_height;
 
 } DISP_OBJ_COLOR;
 
@@ -42,7 +42,7 @@ typedef union
   char *char_color;
 } COLOR_TYPE;
 
-GUI_COLOR *Create_EditColor(BOOK *book, int color);
+GUI_COLOR *Create_EditColor(BOOK *book, unsigned int color);
 unsigned int GUIObject_EditColor_GetColor(GUI_COLOR *gui_color);
 int GUIObject_EditColor_GetRed(GUI_COLOR *gui_color);
 int GUIObject_EditColor_GetGreen(GUI_COLOR *gui_color);

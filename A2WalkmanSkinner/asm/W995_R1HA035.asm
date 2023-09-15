@@ -43,6 +43,7 @@ a       equ b
         defadr wstrcat,0x144C22B8+1
         defadr wstrncat,0x144C3320+1
         defadr wstrcmp,0x144C3140+1
+        defadr wstrcmpi,0x144C3E28+1
         defadr wstrlen,0x144C353C+1
         defadr wstrnupr,0x141B1570+1
         defadr wstrnlwr,0x1400CBB0+1
@@ -93,6 +94,7 @@ a       equ b
         defadr BookObj_GetBookID,0x1416EEE8+1
         defadr BookObj_GetDisplayOrientation,0x14046ADC+1
         defadr BookObj_SetDisplayOrientation,0x143A14FC+1
+        defadr BookObj_SetFocus,0x145125E8+1
         defadr FreeBook,0x14133830+1
         defadr FindBook,0x1416E970+1
         defadr UI_Event,0x143A0D70+1

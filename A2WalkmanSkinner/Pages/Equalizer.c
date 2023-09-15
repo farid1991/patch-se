@@ -19,7 +19,7 @@
 #include "Equalizer.h"
 
 #ifndef CLEARAUDIO
-
+#ifndef STANDART_EQ
 void SetEqualizerGain(BOOK *book, int band, int level)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
@@ -260,4 +260,5 @@ extern "C" int New_MusicApplication_Equalizer_CancelEvent(void *data, BOOK *book
   BookObj_ReturnPage(MusicBook, CANCEL_EVENT);
   return 1;
 }
+#endif
 #endif

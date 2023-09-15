@@ -134,6 +134,7 @@
 #define KBD_SHORT_RELEASE 0x3
 
 #define KEY_LEFT_SOFT 0x2
+#define KEY_RIGHT_SOFT 0x3
 #define KEY_ESC 0x4
 #define KEY_DEL 0x5
 #define KEY_ENTER 0x8

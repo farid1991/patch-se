@@ -4,6 +4,7 @@
 #include "..\\..\\include\Function.h"
 #include "..\\..\\include\Color.h"
 
+#include "..\\Colors.h"
 #include "..\\dll.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
@@ -18,37 +19,37 @@ void DisplayText(DISP_OBJ_COLOR *disp_obj)
 {
   wchar_t ustr[32];
 
-  snwprintf(ustr, MAXELEMS(ustr), L"RED: %d (%02X)", disp_obj->r, disp_obj->r);
+  snwprintf(ustr, 32, L"RED: %d (%02X)", disp_obj->r, disp_obj->r);
   disp_obj->r_textid = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 
-  snwprintf(ustr, MAXELEMS(ustr), L"GREEN: %d (%02X)", disp_obj->g, disp_obj->g);
+  snwprintf(ustr, 32, L"GREEN: %d (%02X)", disp_obj->g, disp_obj->g);
   disp_obj->g_textid = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 
-  snwprintf(ustr, MAXELEMS(ustr), L"BLUE: %d (%02X)", disp_obj->b, disp_obj->b);
+  snwprintf(ustr, 32, L"BLUE: %d (%02X)", disp_obj->b, disp_obj->b);
   disp_obj->b_textid = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 
-  snwprintf(ustr, MAXELEMS(ustr), L"ALPHA: %d (%02X)", disp_obj->a, disp_obj->a);
+  snwprintf(ustr, 32, L"ALPHA: %d (%02X)", disp_obj->a, disp_obj->a);
   disp_obj->a_textid = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 int EditColor_OnCreate(DISP_OBJ_COLOR *disp_obj)
 {
-  disp_obj->t_textid = STR("Sample Text");
+  disp_obj->t_textid = STR("String 123");
   disp_obj->r_textid = EMPTY_TEXTID;
   disp_obj->g_textid = EMPTY_TEXTID;
   disp_obj->b_textid = EMPTY_TEXTID;
   disp_obj->a_textid = EMPTY_TEXTID;
 
-  disp_obj->r = clEmpty;
-  disp_obj->g = clEmpty;
-  disp_obj->b = clEmpty;
-  disp_obj->a = clEmpty;
-  disp_obj->text_color = clEmpty;
+  disp_obj->r = TRANSPARENT_COLOR;
+  disp_obj->g = TRANSPARENT_COLOR;
+  disp_obj->b = TRANSPARENT_COLOR;
+  disp_obj->a = TRANSPARENT_COLOR;
+  disp_obj->text_color = TRANSPARENT_COLOR;
 
-  disp_obj->current_row = 0;
+  disp_obj->current_row = ROW_1;
 
   disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
-  disp_obj->disp_height = Display_GetHeight(UIDisplay_Main);
+  disp_obj->rect_height = ((Display_GetHeight(UIDisplay_Main) - softkeys_h) >> 3) + 5;
 
   return 1;
 }
@@ -62,52 +63,63 @@ void EditColor_OnClose(DISP_OBJ_COLOR *disp_obj)
   DESTROY_TEXTID(disp_obj->a_textid);
 }
 
-void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
+void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int r1, int r2, int r3)
 {
   DisplayText(disp_obj);
 
-  Draw_SliderItem(disp_obj->r, MAX_COLOR,
-                  42, 42,
-                  disp_obj->r_textid,
-                  (disp_obj->current_row == ROW_1) ? clAlpha : clBlueMidDark,
-                  (disp_obj->current_row == ROW_1) ? clBlueMidDark : clAlpha,
-                  clCyan,
-                  clTheta);
+  DrawSlider(disp_obj->r, MAX_COLOR,
+             (disp_obj->rect_height * 1), disp_obj->rect_height,
+             disp_obj->r_textid,
+             FONT_E_16R,
+             (disp_obj->current_row == ROW_1) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+             (disp_obj->current_row == ROW_1) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR,
+             BORDER_COLOR,
+             SELECTED_SLIDER_COLOR,
+             SELECTED_THUMB_COLOR);
 
-  Draw_SliderItem(disp_obj->g, MAX_COLOR,
-                  84, 42,
-                  disp_obj->g_textid,
-                  (disp_obj->current_row == ROW_2) ? clAlpha : clBlueMidDark,
-                  (disp_obj->current_row == ROW_2) ? clBlueMidDark : clAlpha,
-                  clCyan,
-                  clTheta);
+  DrawSlider(disp_obj->g, MAX_COLOR,
+             (disp_obj->rect_height * 2), disp_obj->rect_height,
+             disp_obj->g_textid,
+             FONT_E_16R,
+             (disp_obj->current_row == ROW_2) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+             (disp_obj->current_row == ROW_2) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR,
+             BORDER_COLOR,
+             SELECTED_SLIDER_COLOR,
+             SELECTED_THUMB_COLOR);
 
-  Draw_SliderItem(disp_obj->b, MAX_COLOR,
-                  126, 42,
-                  disp_obj->b_textid,
-                  (disp_obj->current_row == ROW_3) ? clAlpha : clBlueMidDark,
-                  (disp_obj->current_row == ROW_3) ? clBlueMidDark : clAlpha,
-                  clCyan,
-                  clTheta);
+  DrawSlider(disp_obj->b, MAX_COLOR,
+             (disp_obj->rect_height * 3), disp_obj->rect_height,
+             disp_obj->b_textid,
+             FONT_E_16R,
+             (disp_obj->current_row == ROW_3) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+             (disp_obj->current_row == ROW_3) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR,
+             BORDER_COLOR,
+             SELECTED_SLIDER_COLOR,
+             SELECTED_THUMB_COLOR);
 
-  Draw_SliderItem(disp_obj->a, MAX_COLOR,
-                  168, 42,
-                  disp_obj->a_textid,
-                  (disp_obj->current_row == ROW_4) ? clAlpha : clBlueMidDark,
-                  (disp_obj->current_row == ROW_4) ? clBlueMidDark : clAlpha,
-                  clCyan,
-                  clTheta);
+  DrawSlider(disp_obj->a, MAX_COLOR,
+             (disp_obj->rect_height * 4), disp_obj->rect_height,
+             disp_obj->a_textid,
+             FONT_E_16R,
+             (disp_obj->current_row == ROW_4) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+             (disp_obj->current_row == ROW_4) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR,
+             BORDER_COLOR,
+             SELECTED_SLIDER_COLOR,
+             SELECTED_THUMB_COLOR);
 
   disp_obj->text_color = COLOR_RGBA(disp_obj->r, disp_obj->g, disp_obj->b, disp_obj->a);
 
-  DrawString_onRect(FONT_E_24R,
-                    disp_obj->t_textid,
-                    disp_obj->text_color,
-                    0, 210, disp_obj->disp_width, 66,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_18R,
+                 disp_obj->t_textid,
+                 0,
+                 (disp_obj->rect_height * 5),
+                 disp_obj->disp_width,
+                 disp_obj->rect_height,
+                 disp_obj->text_color,
+                 clAlpha);
 }
 
-void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mode)
+void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int count, int repeat, int mode)
 {
   if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
   {
@@ -127,19 +139,19 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mod
       {
       case ROW_1:
         if ((--disp_obj->r) < 0)
-          disp_obj->r = 255;
+          disp_obj->r = MAX_COLOR;
         break;
       case ROW_2:
         if ((--disp_obj->g) < 0)
-          disp_obj->g = 255;
+          disp_obj->g = MAX_COLOR;
         break;
       case ROW_3:
         if ((--disp_obj->b) < 0)
-          disp_obj->b = 255;
+          disp_obj->b = MAX_COLOR;
         break;
       case ROW_4:
         if ((--disp_obj->a) < 0)
-          disp_obj->a = 255;
+          disp_obj->a = MAX_COLOR;
         break;
       }
     }
@@ -148,19 +160,19 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mod
       switch (disp_obj->current_row)
       {
       case ROW_1:
-        if (++disp_obj->r > 255)
+        if (++disp_obj->r > MAX_COLOR)
           disp_obj->r = 0;
         break;
       case ROW_2:
-        if (++disp_obj->g > 255)
+        if (++disp_obj->g > MAX_COLOR)
           disp_obj->g = 0;
         break;
       case ROW_3:
-        if (++disp_obj->b > 255)
+        if (++disp_obj->b > MAX_COLOR)
           disp_obj->b = 0;
         break;
       case ROW_4:
-        if (++disp_obj->a > 255)
+        if (++disp_obj->a > MAX_COLOR)
           disp_obj->a = 0;
         break;
       }
@@ -187,11 +199,6 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mod
   }
 }
 
-void EditColor_OnLayout(DISP_OBJ_COLOR *disp_obj, void *layoutstruct)
-{
-  DispObject_SetLayerColor(disp_obj, clWhite);
-}
-
 void EditColor_construct(DISP_DESC *desc)
 {
   DISP_DESC_SetName(desc, Gui_EditColor);
@@ -200,20 +207,19 @@ void EditColor_construct(DISP_DESC *desc)
   DISP_DESC_SetOnClose(desc, (DISP_OBJ_ONCLOSE_METHOD)EditColor_OnClose);
   DISP_DESC_SetOnRedraw(desc, (DISP_OBJ_ONREDRAW_METHOD)EditColor_OnRedraw);
   DISP_DESC_SetOnKey(desc, (DISP_OBJ_ONKEY_METHOD)EditColor_OnKey);
-  DISP_DESC_SetOnLayout(desc, (DISP_OBJ_ONLAYOUT_METHOD)EditColor_OnLayout);
 }
 
-void EditColor_destruct(GUI *gui_color)
+void EditColor_destruct(GUI_COLOR *gui)
 {
 }
 
-void EditColor_callback(DISP_OBJ* disp, void* msg, GUI* gui)
+void EditColor_callback(DISP_OBJ *disp, void *msg, GUI *gui)
 {
 }
 
-void GUIObject_EditColor_SetColor(GUI *gui_color, int color)
+void GUIObject_EditColor_SetColor(GUI_COLOR *gui, unsigned int color)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   disp_obj->r = COLOR_GET_R(color);
   disp_obj->g = COLOR_GET_G(color);
   disp_obj->b = COLOR_GET_B(color);
@@ -221,37 +227,37 @@ void GUIObject_EditColor_SetColor(GUI *gui_color, int color)
   disp_obj->text_color = color;
 }
 
-unsigned int GUIObject_EditColor_GetColor(GUI *gui_color)
+unsigned int GUIObject_EditColor_GetColor(GUI_COLOR *gui)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   return disp_obj->text_color;
 }
 
-int GUIObject_EditColor_GetRed(GUI *gui_color)
+int GUIObject_EditColor_GetRed(GUI_COLOR *gui)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   return disp_obj->r;
 }
 
-int GUIObject_EditColor_GetGreen(GUI *gui_color)
+int GUIObject_EditColor_GetGreen(GUI_COLOR *gui)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   return disp_obj->g;
 }
 
-int GUIObject_EditColor_GetBlue(GUI *gui_color)
+int GUIObject_EditColor_GetBlue(GUI_COLOR *gui)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   return disp_obj->b;
 }
 
-int GUIObject_EditColor_GetAlpha(GUI *gui_color)
+int GUIObject_EditColor_GetAlpha(GUI_COLOR *gui)
 {
-  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui_color);
+  DISP_OBJ_COLOR *disp_obj = (DISP_OBJ_COLOR *)GUIObject_GetDispObject(gui);
   return disp_obj->a;
 }
 
-GUI *Create_EditColor(BOOK *book, int color)
+GUI_COLOR *Create_EditColor(BOOK *book, unsigned int color)
 {
   GUI_COLOR *gui_color = (GUI_COLOR *)malloc(sizeof(GUI_COLOR));
   if (!GUIObject_Create(gui_color, EditColor_destruct, EditColor_construct, book, EditColor_callback, UIDisplay_Main, sizeof(GUI_COLOR)))

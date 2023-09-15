@@ -19,8 +19,10 @@ a       EQU     b
         defadr wstr2strn,0x10E012A0+1
         defadr wstrnupr,0x10E01250+1
         defadr wstrcpy,0x10E011C4+1
+        defadr wstrncpy,0x10E011DC+1
         defadr wstrrchr,0x10E02504+1
         defadr wstrcmp,0x10E01194+1
+        defadr wstrcmpi,0x10E025E4+1
         defadr str2wstr,0x10E02448+1
         defadr wstrcat,0x107991F4+1
 
@@ -51,7 +53,7 @@ a       EQU     b
         defadr TextID_Destroy,0x10FFC27C+1
         defadr TextID_GetLength,0x10FFC384+1
         defadr Disp_GetTextIDWidth,0x10A6AF58+1
-        
+
         defadr CreateBook,0x10E89BAC+1
         defadr FindBook,0x10E87DE4+1
         defadr IsAudioPlayerBook,0x10D21FC0+1
@@ -66,7 +68,7 @@ a       EQU     b
         defadr CreateMessageBox,0x11AE85E0+1
         defadr BookObj_SetDisplayOrientation,0x10E8A350+1
         defadr BookObj_GetDisplayOrientation,0x10E8A3B4+1
-        
+
         defadr GUIObject_SoftKeys_SetAction,0x108AE74C+1
         defadr GUIObject_SoftKeys_SetText,0x108AE7C4+1
         defadr GUIObject_SoftKeys_SetInfoText,0x108AE7B0+1
@@ -83,7 +85,7 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetAction,0x10B90C04+1
         defadr MediaPlayer_SoftKeys_SetText,0x10B90C4C+1
         defadr MediaPlayer_SoftKeys_SetInfoText,0x10B90CDC+1
-        
+
         defadr DISP_DESC_SetName,0x10A6301C+1
         defadr DISP_DESC_SetSize,0x10A63020+1
         defadr DISP_DESC_SetOnCreate,0x10A63024+1
@@ -158,11 +160,11 @@ a       EQU     b
         defadr GC_SetXX,0x10A6E4A4+1
         defadr GC_ValidateRect,0x10A6E164+1
         defadr GC_GetPenColor,0x10A6E3BC+1
-        
+
         defadr Timer_Kill,0x10E86218+1
         defadr Timer_ReSet,0x10E861C0+1
         defadr Timer_Set,0x10E8618C+1
-        
+
         defadr CreateTabMenuBar,0x1180E898+1
         defadr TabMenuBar_SetTabGui,0x1180E968+1
         defadr TabMenuBar_SetTabTitle,0x1180EA30+1
@@ -193,7 +195,7 @@ a       EQU     b
         defadr Sound_SetMessageAlert,0x10CEB740+1
         defadr Sound_SetAlarmsignal,0x109D3318+1
         defadr Sound_AddToContact,0x10BF13F8+1
-        
+
         defadr OSE_GetShell,0x10EA6F4C+1
         defadr CoCreateInstance,0x107BC050+1
         defadr DisplayGC_AddRef,0x10A6DFAC+1
@@ -207,7 +209,7 @@ a       EQU     b
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x10843910+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x10843988+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x10843A10+1
-        
+
         defadr MusicApplication_PrevAction,0x10D22AAC+1
         defadr MusicApplication_CancelAction,0x10D23E10+1
         defadr MusicApplication_ShowMyMusic,0x10D23E30+1
@@ -408,17 +410,17 @@ _loop_fix:
 
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
-        
+
         EXTERN New_SetEqualizerGain
 
         RSEG PATCH_Equalizer_EnterEvent
         DATA
         DCD New_MusicApplication_Equalizer_EnterEvent
-        
+
         RSEG PATCH_Equalizer_CancelEvent
         DATA
         DCD New_MusicApplication_Equalizer_CancelEvent
-        
+
         RSEG PATCH_SetEqualizerGain
         CODE16
         PUSH    {LR}
@@ -426,5 +428,5 @@ _loop_fix:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
-        
+
         END

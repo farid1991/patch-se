@@ -1,28 +1,15 @@
 #ifndef _DRAW_H_
   #define _DRAW_H_
 
-#include "main.h"
+int GetTextIDWidth(int font, TEXTID text, int len);
+void DrawText(int font, TEXTID text, int align, int XPos, int YPos, int width ,int text_color);
+void DrawTextEx(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color);
+void DrawTextOnRect(int font, TEXTID textid, int rect_x, int rect_y, int rect_w, int rect_h, int text_color, int bg_color);
 
-#define str_pos(x) x+3
+void DrawImage(IMAGEID img, int x, int y);
+void DrawImageEx( GC* gc, int x, int y, int w, int h, IMAGEID img );
 
-#define bar_x 10
-#define end_bar 230
-#define bar_y 8
-#define bar_height 2
-
-#define font_h(font) (font&0xFF)
-
-void Draw_String(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int NormalColor);
-void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int width ,int NormalColor);
-void DrawString_onRect(int font, TEXTID text, int text_color, int rect_x, int rect_y, int rect_w, int rect_h, int fill_color);
-
-void DrawIcon(IMAGEID img, int x, int y);
-void DrawImage( GC* gc, int x, int y, int w, int h, IMAGEID img );
-
-void DrawSlider( int value, int max_value, RECT rect, int Color_ProgressBarOutline, int Color_ProgressBar, IMAGEID thumb );
-void DrawProgressBar( Internal_Function* Data, int value, int max_value, RECT rect, int Bcolor, int Ecolor );
-
-void DrawRectangle(int x, int y, int w, int h, int border_color, int fill_color);
-void Draw_SliderItem( int value, int max_value, int y_pos, int height, TEXTID textid, unsigned int text_color, unsigned int cursor_color, unsigned int outline_color, unsigned int slider_color );
+void DrawProgressBar( int value, int max_value, RECT rect, int bg_color, int fill_color );
+void DrawSlider(int value, int max_value, int main_y1, int main_height, TEXTID slider_text, int text_size, int text_color, int bg_color, int slider_bcolor, int slider_fcolor, int thumb_color);
 
 #endif

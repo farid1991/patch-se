@@ -2,8 +2,8 @@
 
 #include "..\\..\\include\Types.h"
 #include "..\\..\\include\Function.h"
-#include "..\\..\\include\Color.h"
 
+#include "..\\Colors.h"
 #include "..\\dll.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
@@ -13,10 +13,23 @@
 
 //==============================================================================
 
+int Get_Font_Height(int font)
+{
+#if defined(DB3200) || defined(DB3210)
+  return (font & 0xFF);
+#else
+  SetFont(font);
+  return GetImageHeight(' ');
+#endif
+}
+
 int Dialog_OnCreate(DISP_OBJ_DIALOG *disp_obj)
 {
   disp_obj->title_text = EMPTY_TEXTID;
   disp_obj->dialog_text = EMPTY_TEXTID;
+
+  disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
+  disp_obj->disp_height = Display_GetHeight(UIDisplay_Main) - softkeys_h - status_h;
   return 1;
 }
 
@@ -30,22 +43,23 @@ void Dialog_OnRedraw(DISP_OBJ_DIALOG *disp_obj, int r1, int r2, int r3)
 {
   /*--------------------------------------------------------------------------*/
 
-  int dialog_h = FONT_HEIGHT(FONT_E_18R) + 16 + 16;
-  int dialog_y = 298 - dialog_h;
-  DrawString_onRect(FONT_E_18R,
-                    disp_obj->dialog_text,
-                    clBlue2,
-                    0, dialog_y, 240, dialog_h,
-                    clBackgroundPlus);
+  u16 dialog_h = (Get_Font_Height(FONT_E_18R) << 1) + (Get_Font_Height(FONT_E_18R) >> 1);
+  u16 dialog_y = disp_obj->disp_height - dialog_h;
+  DrawTextOnRect(FONT_E_18R,
+                 disp_obj->dialog_text,
+                 0, dialog_y, disp_obj->disp_width, dialog_h,
+                 TITLE_TEXT_COLOR,
+                 TITLE_BACKGROUND_COLOR);
 
   /*--------------------------------------------------------------------------*/
-  int title_h = 40;
-  int title_y = dialog_y - title_h;
-  DrawString_onRect(FONT_E_20R,
-                    disp_obj->title_text,
-                    clAlpha,
-                    0, title_y, 240, title_h,
-                    clBlue2Dark);
+
+  u16 title_h = Get_Font_Height(FONT_E_20B) + (Get_Font_Height(FONT_E_20B) >> 1);
+  u16 title_y = dialog_y - title_h;
+  DrawTextOnRect(FONT_E_20B,
+                 disp_obj->title_text,
+                 0, title_y, disp_obj->disp_width, title_h,
+                 DARK_TEXT_COLOR,
+                 DARK_BACKGROUND_COLOR);
 
   /*--------------------------------------------------------------------------*/
 }
@@ -56,7 +70,7 @@ void Dialog_OnKey(DISP_OBJ_DIALOG *disp_obj, int key, int count, int repeat, int
 
 void Dialog_OnLayout(DISP_OBJ_DIALOG *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, clEmpty);
+  DispObject_SetLayerColor(disp_obj, TRANSPARENT_COLOR);
 }
 
 void Dialog_construct(DISP_DESC *desc)
@@ -74,7 +88,7 @@ void Dialog_destruct(GUI *gui)
 {
 }
 
-void Dialog_callback(DISP_OBJ* disp, void* msg, GUI* gui)
+void Dialog_callback(DISP_OBJ *disp, void *msg, GUI *gui)
 {
 }
 
@@ -102,8 +116,8 @@ GUI *CreateDialog(BOOK *book)
   if (book)
     BookObj_AddGUIObject(book, dialog);
 
-  GUIObject_SetStyle(dialog, UI_OverlayStyle_TrueFullScreen);
+  GUIObject_SetStyle(dialog, UI_OverlayStyle_Default);
   GUIObject_SetTitleType(dialog, UI_TitleMode_None);
-  
+
   return dialog;
 }

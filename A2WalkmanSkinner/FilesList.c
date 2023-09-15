@@ -27,13 +27,13 @@ void FreeList(LIST *&List, void (*FreeProc)(void *Item))
 void FilesFree(void *item)
 {
   FILELIST *files = (FILELIST *)item;
-  if (files)
-  {
-    WStringFree(files->fpath);
-    WStringFree(files->fname);
-    WStringFree(files->name);
-    mfree(files);
-  }
+  if (!files)
+    return;
+
+  mfree(files->fpath);
+  mfree(files->fname);
+  mfree(files->name);
+  mfree(files);
 }
 
 FILELIST *Files_AddElement(wchar_t *FPath, wchar_t *FName)
@@ -53,7 +53,7 @@ FILELIST *Files_AddElement(wchar_t *FPath, wchar_t *FName)
 
   files->name = WStringAlloc(wstrlen(temp_fname));
   wstrcpy(files->name, temp_fname);
-  WStringFree(temp_fname);
+  mfree(temp_fname);
 
   return files;
 }
@@ -72,25 +72,29 @@ LIST *LoadFiles(wchar_t *Folder)
   LIST *Lst = List_Create();
 
   void *dir = w_diropen(Folder);
-  if (dir)
+  if (!dir)
   {
-    wchar_t *next;
-    w_chdir(Folder);
-    while (next = w_dirread(dir))
-    {
-      if (!IsDir(next))
-      {
-        wchar_t *ext = getFileExtention(next);
-        wstrnupr(ext, wstrlen(ext));
+    return Lst; // Return an empty list if the directory can't be opened.
+  }
 
-        if (!wstrcmp(ext, L"WSK"))
+  w_chdir(Folder);
+  wchar_t *next;
+  while ((next = w_dirread(dir)))
+  {
+    if (!IsDir(next))
+    {
+      wchar_t *ext = getFileExtention(next);
+      if (wstrcmpi(ext, L"WSK") == 0)
+      {
+        FILELIST *skinList = Files_AddElement(Folder, next);
+        if (skinList)
         {
-          FILELIST *skinList = Files_AddElement(Folder, next);
           List_InsertLast(Lst, skinList);
         }
       }
     }
-    w_dirclose(dir);
   }
+  w_dirclose(dir);
+
   return Lst;
 }

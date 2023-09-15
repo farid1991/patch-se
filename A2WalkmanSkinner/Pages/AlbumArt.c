@@ -26,30 +26,30 @@ int GetChecked()
 {
   int ret = 0;
 
-  int Lf;
-  if ((Lf = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= 0)
+  int settings_file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (settings_file >= 0)
   {
-    SKIN *LData = (SKIN *)malloc(sizeof(SKIN));
-    memset(LData, NULL, sizeof(SKIN));
-    fread(Lf, LData, sizeof(SKIN));
+    SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
+    memset(current_skin, NULL, sizeof(SKIN));
+    fread(settings_file, current_skin, sizeof(SKIN));
 
-    int f = _fopen(LData->Path, LData->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-    if (f >= 0)
+    int skin_file = _fopen(current_skin->Path, current_skin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    if (skin_file >= 0)
     {
-      SkinData *PData = (SkinData *)malloc(sizeof(SkinData));
-      memset(PData, NULL, sizeof(SkinData));
-      fread(f, PData, sizeof(SkinData));
+      WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+      memset(skin_data, NULL, sizeof(WALKMAN_Skin));
+      fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
 
-      if ((PData->Land_AlbumArtEnable) && (PData->AlbumArtEnable))
+      if ((skin_data->Land_AlbumArtEnable) && (skin_data->AlbumArtEnable))
         ret = 0;
-      else if ((!PData->Land_AlbumArtEnable) && (!PData->AlbumArtEnable))
+      else if ((!skin_data->Land_AlbumArtEnable) && (!skin_data->AlbumArtEnable))
         ret = 1;
 
-      fclose(f);
-      mfree(PData);
+      fclose(skin_file);
+      mfree(skin_data);
     }
-    fclose(Lf);
-    mfree(LData);
+    fclose(settings_file);
+    mfree(current_skin);
   }
   return ret;
 }
@@ -58,54 +58,52 @@ void SetChecked(int item)
 {
   Internal_Function *Data = Get_Internal_Function();
 
-  int settings_file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  int settings_file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDWR, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (settings_file >= 0)
   {
-    SKIN *CurrentSkin = (SKIN *)malloc(sizeof(SKIN));
-    memset(CurrentSkin, NULL, sizeof(SKIN));
-    fread(settings_file, CurrentSkin, sizeof(SKIN));
+    SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
+    memset(current_skin, NULL, sizeof(SKIN));
+    fread(settings_file, current_skin, sizeof(SKIN));
 
-    int skin_file;
-
-    skin_file = _fopen(CurrentSkin->Path, CurrentSkin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    int skin_file = _fopen(current_skin->Path, current_skin->Name, FSX_O_RDWR, FSX_S_IREAD | FSX_S_IWRITE, NULL);
     if (skin_file >= 0)
     {
-      SkinData *SData = (SkinData *)malloc(sizeof(SkinData));
-      memset(SData, NULL, sizeof(SkinData));
-      fread(skin_file, SData, sizeof(SkinData));
-      Data->SData = *SData;
+      WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+      memset(skin_data, NULL, sizeof(WALKMAN_Skin));
+      fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
+      Data->skin_data = *skin_data;
       fclose(skin_file);
-      mfree(SData);
+      mfree(skin_data);
     }
 
     switch (item)
     {
     case ITEM_ALBUMART:
-      Data->SData.Land_AlbumArtEnable = TRUE;
-      Data->SData.AlbumArtEnable = TRUE;
+      Data->skin_data.Land_AlbumArtEnable = TRUE;
+      Data->skin_data.AlbumArtEnable = TRUE;
       break;
     case ITEM_OFF:
-      Data->SData.Land_AlbumArtEnable = FALSE;
-      Data->SData.AlbumArtEnable = FALSE;
+      Data->skin_data.Land_AlbumArtEnable = FALSE;
+      Data->skin_data.AlbumArtEnable = FALSE;
       break;
     }
 
     // Disabled
-    Data->SData.Land_VisualisationEnable = FALSE;
-    Data->SData.VisualisationEnable = FALSE;
-    
-    skin_file = _fopen(CurrentSkin->Path, CurrentSkin->Name, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    Data->skin_data.Land_VisualisationEnable = FALSE;
+    Data->skin_data.VisualisationEnable = FALSE;
+
+    skin_file = _fopen(current_skin->Path, current_skin->Name, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
     if (skin_file >= 0)
     {
-      SkinData *SData = (SkinData *)malloc(sizeof(SkinData));
-      memset(SData, NULL, sizeof(SkinData));
-      *SData = Data->SData;
-      fwrite(skin_file, SData, sizeof(SkinData));
+      WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+      memset(skin_data, NULL, sizeof(WALKMAN_Skin));
+      *skin_data = Data->skin_data;
+      fwrite(skin_file, skin_data, sizeof(WALKMAN_Skin));
       fclose(skin_file);
-      mfree(SData);
+      mfree(skin_data);
     }
     fclose(settings_file);
-    mfree(CurrentSkin);
+    mfree(current_skin);
   }
 
   if (Data->Portrait)
@@ -127,6 +125,16 @@ void Select_AlbumArt_onSelect(BOOK *book, GUI *gui)
 
   SetChecked(item);
   DESTROY_GUI(MusicBook->Gui_submenu);
+}
+
+void Select_AlbumArt_onBack(BOOK *book, GUI *gui)
+{
+#ifdef C901_R1GA028
+  MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
+  DESTROY_GUI(MusicBook->Gui_submenu);
+#else
+  MusicApplication_PrevAction(book, gui);
+#endif
 }
 
 int Select_AlbumArt_onMessage(GUI_MESSAGE *msg)
@@ -160,7 +168,7 @@ int pg_MusicApplication_Select_AlbumArt__EnterEvent(void *data, BOOK *book)
     OneOfMany_SetOnMessage(MusicBook->Gui_submenu, Select_AlbumArt_onMessage);
     OneOfMany_SetChecked(MusicBook->Gui_submenu, GetChecked());
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, Select_AlbumArt_onSelect);
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, MusicApplication_PrevAction);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, Select_AlbumArt_onBack);
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_LONG_BACK, MusicApplication_CancelAction);
     GUIObject_Show(MusicBook->Gui_submenu);
   }

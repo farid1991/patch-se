@@ -37,6 +37,16 @@ void SetTime_OnSelect(BOOK *book, GUI *gui)
   DESTROY_GUI(MusicBook->Gui_submenu);
 }
 
+void SetTime_onBack(BOOK *book, GUI *gui)
+{
+#ifdef C901_R1GA028
+  MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
+  DESTROY_GUI(MusicBook->Gui_submenu);
+#else
+  MusicApplication_PrevAction(book, gui);
+#endif
+}
+
 int pg_MusicApplication_SetTime_EnterEvent(void *r1, BOOK *book)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
@@ -52,10 +62,10 @@ int pg_MusicApplication_SetTime_EnterEvent(void *r1, BOOK *book)
     XTimeInput_SetTitleText(MusicBook->Gui_submenu, TEXT_GO_TO);
 
     GUIObject_SetStyle(MusicBook->Gui_submenu, GUIObject_GetStyle(MusicBook->Gui_NowPlaying));
-
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, MusicApplication_PrevAction);
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_LONG_BACK, MusicApplication_CancelAction);
+    
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, SetTime_OnSelect);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, SetTime_onBack);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_LONG_BACK, MusicApplication_CancelAction);
     GUIObject_SoftKeys_RestoreBackground(MusicBook->Gui_submenu);
 
     GUIObject_Show(MusicBook->Gui_submenu);

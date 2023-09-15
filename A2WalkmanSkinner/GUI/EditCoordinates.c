@@ -4,6 +4,7 @@
 #include "..\\..\\include\Function.h"
 #include "..\\..\\include\Color.h"
 
+#include "..\\Colors.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
 #include "..\\Function.h"
@@ -41,7 +42,13 @@ void DrawArrow(int x, int y, int color)
   DrawOwnRect(x + 9, y + 6, x + 15, y + 7, clBlack, clBlack);
   DrawOwnRect(x + 10, y + 7, x + 14, y + 8, clBlack, clBlack);
   DrawOwnRect(x + 11, y + 8, x + 13, y + 9, clBlack, clBlack);
-};
+}
+
+void GetScreenSize(DISP_OBJ_COORD *disp_obj)
+{
+  disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
+  disp_obj->disp_height = Display_GetHeight(UIDisplay_Main);
+}
 
 int EditCoordinates_OnCreate(DISP_OBJ_COORD *disp_obj)
 {
@@ -49,8 +56,6 @@ int EditCoordinates_OnCreate(DISP_OBJ_COORD *disp_obj)
   disp_obj->need_str = TRUE;
   disp_obj->is_first_set = FALSE;
   disp_obj->cstep = 1;
-  disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
-  disp_obj->disp_height = Display_GetHeight(UIDisplay_Main);
   return 1;
 }
 
@@ -67,11 +72,11 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
   int font = FONT_E_20R;
   int fsize = 20;
 
-  int colors[4] = {clRed, clGreen, clBlue, clEta};
-
   GC *pGC = get_DisplayGC();
   wchar_t ustr[32];
   int old_pen;
+
+  GetScreenSize(disp_obj);
 
   GC_GetRect(pGC, &rc_old);
   gc_xx = GC_GetXX(pGC);
@@ -88,7 +93,7 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
   DrawRect(0, 0, disp_obj->disp_width, disp_obj->disp_height, clWhite, clWhite);
 
   old_pen = GC_GetPenColor(pGC);
-  GC_SetPenColor(pGC, colors[3]);
+  GC_SetPenColor(pGC, clEta);
 
   for (int y_0 = 0; y_0 < disp_obj->disp_height; y_0 += 10)
   {
@@ -138,14 +143,14 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
     }
   }
 #if defined(DB3200) || defined(DB3210)
-  Draw_String(font,
-              disp_obj->str_id,
-              AlignLeft,
-              3,
-              disp_obj->disp_height - fsize - 2,
-              disp_obj->disp_width - 4,
-              disp_obj->disp_height - 1,
-              clBlack);
+  DrawTextEx(font,
+             disp_obj->str_id,
+             AlignLeft,
+             3,
+             disp_obj->disp_height - fsize - 2,
+             disp_obj->disp_width - 4,
+             disp_obj->disp_height - 1,
+             clBlack);
 #else
   SetFont(font);
   DrawString(disp_obj->str_id,
@@ -164,8 +169,8 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
 
   GUI *gui = DispObject_GetGUI(disp_obj);
   BOOK *book = GUIObject_GetBook(gui);
-  char orientation = BookObj_GetDisplayOrientation(book);
-  if (orientation == UIDisplayOrientationMode_Vertical)
+
+  if (BookObj_GetDisplayOrientation(book) == UIDisplayOrientationMode_Vertical)
   {
     DrawArrow(disp_obj->disp_width - 19, disp_obj->disp_height - 13, clBlack);
   }
@@ -181,7 +186,7 @@ void EditCoordinates_OnRedraw(DISP_OBJ_COORD *disp_obj, int a, int b, int c)
   GC_SetXX(pGC, gc_xx);
 }
 
-void EditCoordinates_OnKey(DISP_OBJ_COORD *disp_obj, int key, int unk, int repeat, int mode)
+void EditCoordinates_OnKey(DISP_OBJ_COORD *disp_obj, int key, int count, int repeat, int mode)
 {
   if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
   {
@@ -190,54 +195,54 @@ void EditCoordinates_OnKey(DISP_OBJ_COORD *disp_obj, int key, int unk, int repea
     else if (mode == KBD_REPEAT && repeat > 10)
       disp_obj->cstep = 8;
 
-    if (key == KEY_DIGITAL_1)
+    switch (key)
     {
+    case KEY_DIGITAL_1:
       if ((disp_obj->x -= disp_obj->cstep) < 0)
         disp_obj->x = 0;
       if ((disp_obj->y -= disp_obj->cstep) < 0)
         disp_obj->y = 0;
-    }
-    else if (key == KEY_DIGITAL_2 || key == KEY_UP)
-    {
+      break;
+    case KEY_DIGITAL_2:
+    case KEY_UP:
       if ((disp_obj->y -= disp_obj->cstep) < 0)
         disp_obj->y = 0;
-    }
-    else if (key == KEY_DIGITAL_3)
-    {
+      break;
+    case KEY_DIGITAL_3:
       if ((disp_obj->x += disp_obj->cstep) > disp_obj->disp_width)
         disp_obj->x = disp_obj->disp_width;
       if ((disp_obj->y -= disp_obj->cstep) < 0)
         disp_obj->y = 0;
-    }
-    else if (key == KEY_DIGITAL_4 || key == KEY_LEFT)
-    {
+      break;
+    case KEY_DIGITAL_4:
+    case KEY_LEFT:
       if ((disp_obj->x -= disp_obj->cstep) < 0)
         disp_obj->x = 0;
-    }
-    else if (key == KEY_DIGITAL_6 || key == KEY_RIGHT)
-    {
+      break;
+    case KEY_DIGITAL_6:
+    case KEY_RIGHT:
       if ((disp_obj->x += disp_obj->cstep) > disp_obj->disp_width)
         disp_obj->x = disp_obj->disp_width;
-    }
-    else if (key == KEY_DIGITAL_7)
-    {
+      break;
+    case KEY_DIGITAL_7:
       if ((disp_obj->x -= disp_obj->cstep) < 0)
         disp_obj->x = 0;
       if ((disp_obj->y += disp_obj->cstep) > disp_obj->disp_height)
         disp_obj->y = disp_obj->disp_height;
-    }
-    else if (key == KEY_DIGITAL_8 || key == KEY_DOWN)
-    {
+      break;
+    case KEY_DIGITAL_8:
+    case KEY_DOWN:
       if ((disp_obj->y += disp_obj->cstep) > disp_obj->disp_height)
         disp_obj->y = disp_obj->disp_height;
-    }
-    else if (key == KEY_DIGITAL_9)
-    {
+      break;
+    case KEY_DIGITAL_9:
       if ((disp_obj->x += disp_obj->cstep) > disp_obj->disp_width)
         disp_obj->x = disp_obj->disp_width;
       if ((disp_obj->y += disp_obj->cstep) > disp_obj->disp_height)
         disp_obj->y = disp_obj->disp_height;
+      break;
     }
+
     disp_obj->need_str = TRUE;
   }
 

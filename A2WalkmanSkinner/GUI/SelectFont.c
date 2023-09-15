@@ -2,9 +2,9 @@
 
 #include "..\\..\\include\Types.h"
 #include "..\\..\\include\Function.h"
-#include "..\\..\\include\Color.h"
 #include "..\\..\\include\classes\classes.h"
 
+#include "..\\Colors.h"
 #include "..\\dll.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
@@ -15,15 +15,39 @@
 
 //==============================================================================
 
-#if defined(DB3150v1) || defined(DB3150v2)
-wchar_t *GetFontNameByFontId(int id)
+wchar_t *GetFontNameByFontId(int font_size)
 {
+#if defined(DB3200) || defined(DB3210)
+  wchar_t *font_name = (wchar_t *)malloc(16 * sizeof(wchar_t)); // Allocate memory
+
+  // Handle memory allocation error
+  if (font_name == NULL)
+    return NULL;
+
+  switch (font_size >> 8)
+  {
+  case UIFontStylePlain:
+    snwprintf(font_name, 16, L"Font_E_%dR", font_size);
+    break;
+  case UIFontStyleBold:
+    snwprintf(font_name, 16, L"Font_E_%dB", font_size & 0xFF);
+    break;
+  case UIFontStyleItalic:
+    snwprintf(font_name, 16, L"Font_E_%dI", font_size & 0xFF);
+    break;
+  case UIFontStyleBoldItalic:
+    snwprintf(font_name, 16, L"Font_E_%dBI", font_size & 0xFF);
+    break;
+  }
+  return font_name;
+}
+#else
   wchar_t *txt = L"Undefined";
   FONT_DESC *font_desc = GetFontDesc;
   int count = *GetFontCount;
   for (int i = 0, max = count; i < max; i++)
   {
-    if (id == font_desc[i].id)
+    if (font_size == font_desc[i].id)
     {
       txt = font_desc[i].name;
       break;
@@ -52,13 +76,16 @@ int GetIdByFontId(int font_id)
 int SelectFont_OnCreate(DISP_OBJ_FONT_SEL *disp_obj)
 {
   disp_obj->item_textid = EMPTY_TEXTID;
-  disp_obj->t_textid = STR("Sample Text");
+  disp_obj->t_textid = STR("String 123");
 
 #if defined(DB3200) || defined(DB3210)
-  disp_obj->total_fonts = max_size / font_step;
+  disp_obj->total_fonts = max_size;
 #else
   disp_obj->total_fonts = *GetFontCount;
 #endif
+
+  disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
+  disp_obj->rect_height = ((Display_GetHeight(UIDisplay_Main) - softkeys_h) >> 3) + 5;
 
   return 1;
 }
@@ -73,62 +100,57 @@ void SelectFont_OnRedraw(DISP_OBJ_FONT_SEL *disp_obj, int a, int b, int c)
 {
   wchar_t ustr[32];
 #if defined(DB3200) || defined(DB3210)
-  switch (disp_obj->font_style)
-  {
-  case UIFontStylePlain:
-    snwprintf(ustr, MAXELEMS(ustr), L"FONT_E_%dR", disp_obj->font_size);
-    break;
-  case UIFontStyleBold:
-    snwprintf(ustr, MAXELEMS(ustr), L"FONT_E_%dB", disp_obj->font_size & 0xFF);
-    break;
-  case UIFontStyleItalic:
-    snwprintf(ustr, MAXELEMS(ustr), L"FONT_E_%dI", disp_obj->font_size & 0xFF);
-    break;
-  case UIFontStyleBoldItalic:
-    snwprintf(ustr, MAXELEMS(ustr), L"FONT_E_%dBI", disp_obj->font_size & 0xFF);
-    break;
-  }
+  wchar_t *font_name = GetFontNameByFontId(disp_obj->font_size);
 #else
   FONT_DESC *font_desc = GetFontDesc;
-  snwprintf(ustr, MAXELEMS(ustr), L"%ls", GetFontNameByFontId(font_desc[disp_obj->cur_pos].id));
+  wchar_t *font_name = GetFontNameByFontId(font_desc[disp_obj->cur_pos].id);
 #endif
+  snwprintf(ustr, MAXELEMS(ustr), L"%ls", font_name);
   disp_obj->item_textid = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 
-  Draw_SliderItem(disp_obj->cur_pos, disp_obj->total_fonts,
-                  40, 40,
-                  disp_obj->item_textid,
-                  clAlpha,
-                  clBlueMidDark,
-                  clGamma,
-                  clCyan);
+  DrawSlider(disp_obj->cur_pos,
+             disp_obj->total_fonts,
+             disp_obj->rect_height * 1,
+             disp_obj->rect_height,
+             disp_obj->item_textid,
+             FONT_E_16R,
+             SELECTED_TEXT_COLOR,
+             SELECTED_CURSOR_COLOR,
+             BORDER_COLOR,
+             SELECTED_SLIDER_COLOR,
+             SELECTED_THUMB_COLOR);
 
-  DrawString_onRect(disp_obj->font_size,
-                    disp_obj->t_textid,
-                    clZeta,
-                    0, 85, 240, 20 + disp_obj->font_height,
-                    clAlpha);
+  DrawTextOnRect(disp_obj->font_size,
+                 disp_obj->t_textid,
+                 0,
+                 (disp_obj->rect_height * 2),
+                 disp_obj->disp_width,
+                 disp_obj->rect_height,
+                 TITLE_TEXT_COLOR,
+                 TITLE_BACKGROUND_COLOR);
 }
 
-void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int, int repeat, int mode)
+void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int count, int repeat, int mode)
 {
   if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
   {
-    if (key == KEY_LEFT || key == KEY_DIGITAL_4)
+    switch (key)
     {
+    case KEY_LEFT:
+    case KEY_DIGITAL_4:
       if ((--disp_obj->cur_pos) < 0)
         disp_obj->cur_pos = disp_obj->total_fonts - 1;
-    }
-    else if (key == KEY_RIGHT || key == KEY_DIGITAL_6)
-    {
+      break;
+    case KEY_RIGHT:
+    case KEY_DIGITAL_6:
       if (++disp_obj->cur_pos >= disp_obj->total_fonts)
         disp_obj->cur_pos = 0;
-    }
+      break;
 #if defined(DB3200) || defined(DB3210)
-    else if (key == KEY_DEL)
-    {
-      if (++disp_obj->style > UIFontStyleBoldItalic)
-        disp_obj->style = 0;
-      switch (disp_obj->style)
+    case KEY_DEL:
+      if (++disp_obj->current_style > UIFontStyleBoldItalic)
+        disp_obj->current_style = 0;
+      switch (disp_obj->current_style)
       {
       case UIFontStylePlain:
         disp_obj->style_bold = FALSE;
@@ -147,14 +169,18 @@ void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int, int repeat, int
         disp_obj->style_italic = TRUE;
         break;
       }
+      break;
+#endif
     }
-    disp_obj->font_height = (disp_obj->cur_pos + 1) * font_step;
+
+#if defined(DB3200) || defined(DB3210)
+    disp_obj->font_height = disp_obj->cur_pos + 1;
     disp_obj->font_size = disp_obj->font_height + (disp_obj->style_bold << 8) + (disp_obj->style_italic << 9);
     disp_obj->font_style = disp_obj->font_size >> 8;
 #else
     FONT_DESC *font_desc = GetFontDesc;
     disp_obj->font_size = font_desc[disp_obj->cur_pos].id;
-    disp_obj->font_height = FONT_HEIGHT(disp_obj->font_size);
+    disp_obj->font_height = GetImageHeight(' ');
 #endif
     InvalidateRect(disp_obj);
   }
@@ -162,7 +188,7 @@ void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int, int repeat, int
 
 void SelectFont_OnLayout(DISP_OBJ_FONT_SEL *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, clWhite);
+  DispObject_SetLayerColor(disp_obj, DARK_BACKGROUND_COLOR);
 }
 
 void SelectFont_construct(DISP_DESC *desc)
@@ -188,11 +214,11 @@ void GUIObject_Font_SetDefault(GUI *gui_fontsel, int font_size)
 {
   DISP_OBJ_FONT_SEL *disp_obj = (DISP_OBJ_FONT_SEL *)GUIObject_GetDispObject(gui_fontsel);
 #if defined(DB3200) || defined(DB3210)
-  disp_obj->cur_pos = FONT_HEIGHT(font_size) / font_step - 1;
+  disp_obj->cur_pos = FONT_HEIGHT(font_size) - 1;
   int style_flags = font_size >> 8;
   disp_obj->style_bold = style_flags & bold;
   disp_obj->style_italic = (style_flags & italic) >> 1;
-  disp_obj->font_height = (disp_obj->cur_pos + 1) * font_step;
+  disp_obj->font_height = (disp_obj->cur_pos + 1);
   disp_obj->font_size = disp_obj->font_height + (disp_obj->style_bold << 8) + (disp_obj->style_italic << 9);
   disp_obj->font_style = disp_obj->font_size >> 8;
 #else

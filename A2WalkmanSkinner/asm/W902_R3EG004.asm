@@ -56,6 +56,8 @@ a       EQU     b
         defadr wstrcpy,0x10D6E634+1
         defadr wstrrchr,0x10D6F974+1
         defadr wstrcmp,0x10D6E604+1
+        defadr wstrcmpi,0x10D6FA54+1
+        defadr wstrncpy,0x10D6E64C+1
 
         defadr Timer_Kill,0x10DF4D0C+1
         defadr Timer_ReSet,0x10DF4CB4+1

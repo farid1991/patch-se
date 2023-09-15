@@ -33,7 +33,7 @@ SOFTKEY_LIST_ELEM *CreateElem(SOFTKEY_DESC_A2 *SoftkeyDesc)
   SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)malloc(sizeof(SOFTKEY_LIST_ELEM));
   elem->action = SoftkeyDesc->action;
   elem->textid = SoftkeyDesc->ButtonText;
-  return (elem);
+  return elem;
 }
 
 LIST *Create_SoftkeyList(LIST *slist)

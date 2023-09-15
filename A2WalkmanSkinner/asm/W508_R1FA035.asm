@@ -149,6 +149,7 @@ a       EQU     b
         defadr BookObj_CallPage,0x14247168+1
         defadr wstrnupr,0x14217614+1
         defadr wstrcmp,0x14310E1C+1
+        defadr wstrcmpi,0x14311DE4+1
         defadr getFileExtention,0x14359988+1
         defadr GC_SetBrushColor,0x14049DF8+1
         defadr GC_ValidateRect,0x14115AE0+1

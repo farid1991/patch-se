@@ -75,6 +75,16 @@ void TimerOff_OnSelect(BOOK *book, GUI *gui)
   DESTROY_GUI(MusicBook->Gui_submenu);
 }
 
+void TimerOff_onBack(BOOK *book, GUI *gui)
+{
+#ifdef C901_R1GA028
+  MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
+  DESTROY_GUI(MusicBook->Gui_submenu);
+#else
+  MusicApplication_PrevAction(book, gui);
+#endif
+}
+
 void DisableTimer(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
@@ -97,8 +107,9 @@ int pg_MusicApplication_TimerOff_EnterEvent(void *data, BOOK *book)
     XTimeInput_SetTimeLimit(MusicBook->Gui_submenu, time_limit);
     XTimeInput_SetTitleText(MusicBook->Gui_submenu, TEXT_TIMER);
     GUIObject_SetStyle(MusicBook->Gui_submenu, GUIObject_GetStyle(MusicBook->Gui_NowPlaying));
+    
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, TimerOff_OnSelect);
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, MusicApplication_PrevAction);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, TimerOff_onBack);
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_LONG_BACK, MusicApplication_CancelAction);
 
     Internal_Function *Data = Get_Internal_Function();

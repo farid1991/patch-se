@@ -33,6 +33,8 @@ typedef struct _DISP_OBJ_XTIMEINPUT : DISP_OBJ
 
   uint16_t disp_width;
   uint16_t disp_height;
+  uint16_t rect_ypos;
+  uint16_t rect_height;
 
 } DISP_OBJ_XTIMEINPUT;
 

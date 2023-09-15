@@ -1286,16 +1286,16 @@ int SetSkin(BOOK *book)
   int File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_WRONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
   if (File >= 0)
   {
-    SKIN *SkinData = (SKIN *)malloc(sizeof(SKIN));
-    memset(SkinData, NULL, sizeof(SKIN));
+    SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
+    memset(current_skin, NULL, sizeof(SKIN));
 
-    wstrcpy(SkinData->SkinDataPath, sname_fullpath);
-    wstrcpy(SkinData->Path, mbk->fpath);
-    wstrcpy(SkinData->Name, mbk->fname);
+    wstrcpy(current_skin->SkinDataPath, sname_fullpath);
+    wstrcpy(current_skin->Path, mbk->fpath);
+    wstrcpy(current_skin->Name, mbk->fname);
 
-    fwrite(File, SkinData, sizeof(SKIN));
+    fwrite(File, current_skin, sizeof(SKIN));
     fclose(File);
-    mfree(SkinData);
+    mfree(current_skin);
   }
   FSX_FreeFullPath(sname_fullpath);
 
@@ -1425,9 +1425,9 @@ void SelectSkin_OnAuthor(BOOK *book, GUI *gui)
   int file = _fopen(files->fpath, files->fname, FSX_O_RDONLY, (FSX_S_IREAD | FSX_S_IWRITE), 0);
   if (file >= 0)
   {
-    SkinData *SData = (SkinData *)malloc(sizeof(SkinData));
-    memset(SData, NULL, sizeof(SkinData));
-    fread(file, SData, sizeof(SkinData));
+    WALKMAN_Skin *SData = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+    memset(SData, NULL, sizeof(WALKMAN_Skin));
+    fread(file, SData, sizeof(WALKMAN_Skin));
 
     wstrcpy(AuthorName, SData->Author);
     fclose(file);
@@ -1436,7 +1436,7 @@ void SelectSkin_OnAuthor(BOOK *book, GUI *gui)
   wchar_t ustr[64];
   snwprintf(ustr, MAXELEMS(ustr), L"Skin created by: %ls", AuthorName);
   CreateMessageBox(EMPTY_TEXTID, TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN), 0, 0, mbk);
-  WStringFree(AuthorName);
+  mfree(AuthorName);
 }
 
 void SelectSkin_onEnterPressed(BOOK *book, GUI *gui)
@@ -1573,28 +1573,6 @@ SkinEditor_Book *Create_SkinEditor_Book()
   mbk->StringEdit = NULL;
   mbk->SkinList = NULL;
   return mbk;
-}
-
-void debug_skins(wchar_t *Folder)
-{
-  void *dir = w_diropen(Folder);
-  if (dir)
-  {
-    wchar_t *next;
-    w_chdir(Folder);
-    while (next = w_dirread(dir))
-    {
-      if (!IsDir(next))
-      {
-        debug_printf("\nFiles: %ls", next);
-      }
-      else
-      {
-        debug_printf("\nFolder: %ls", next);
-      }
-    }
-    w_dirclose(dir);
-  }
 }
 
 void Enter_SkinEditor(BOOK *book, GUI *gui)

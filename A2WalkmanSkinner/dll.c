@@ -170,8 +170,8 @@ int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
@@ -189,8 +189,8 @@ int dll_GetImageHeight(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)

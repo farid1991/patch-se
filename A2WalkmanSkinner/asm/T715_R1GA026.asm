@@ -28,7 +28,7 @@ a       equ b
         defadr Timer_ReSet,0x14168C8C+1
         defadr Timer_Set,0x1423BDD8+1
         defadr Timer_Kill,0x14168F7C+1
-        
+
         defadr Display_GetWidth,0x141A831C+1
         defadr Display_GetHeight,0x1411A138+1
         defadr DispObject_GetGUI,0x14382E70+1
@@ -43,7 +43,7 @@ a       equ b
         defadr TextID_Copy,0x1416D3EC+1
         defadr TextID_GetWString,0x1416D910+1
         defadr RichTextLayout_GetTextWidth,0x1441DC80+1
-        
+
         defadr DispObject_SetLayerColor,0x144A64E4+1
         defadr DispObject_InvalidateRect,0x14169C04+1
         defadr DISP_DESC_SetName,0x14501B90+1
@@ -75,7 +75,9 @@ a       equ b
         defadr OneOfMany_SetOnMessage,0x14CF4DA4+1
         defadr OneOfMany_GetSelected,0x14FD5874+1
         defadr OneOfMany_SetChecked,0x14110634+1
-        
+
+        defadr wstrncpy,0x1449BCA0+1
+        defadr wstrcmpi,0x144BC8B8+1
         defadr wstrlen,0x144BBB64+1
         defadr wstr2strn,0x1409D77C+1
         defadr wstrnupr,0x141AF2C8+1
@@ -95,7 +97,7 @@ a       equ b
         defadr FSX_MakeFullPath,0x144BA990+1
         defadr FSX_FreeFullPath,0x14042CCC+1
         defadr FSX_IsFileExists,0x14EF3628+1
-        
+
         defadr get_DisplayGC,0x1416AB88+1
         defadr DrawRect,0x14106BBC+1
         defadr snwprintf,0x1449BB54+1
@@ -148,7 +150,7 @@ a       equ b
         defadr IsAudioPlayerBook,0x1426F6B0+1
         defadr UI_Event,0x1439C2F8+1
         defadr BookObj_GetBookID,0x1416D04C+1
-        
+
         defadr CreateMessageBox,0x14DFE5F4+1
         defadr DispObject_SoftKeys_GetList,0x1416D1F0+1
         defadr GUIObject_SoftKeys_Hide,0x1450A65C+1
@@ -186,12 +188,12 @@ a       equ b
         defadr Sound_SetMessageAlert,0x14D6FD30+1
         defadr Sound_SetAlarmsignal,0x1515FB38+1
         defadr Sound_AddToContact,0x1525BBCC+1
-        
+
         defadr CoCreateInstance,0x1445AE3C+1
         defadr TextObject_SetText,0x1416E5E4+1
         defadr TextObject_SetFont,0x141714E8+1
         defadr DisplayGC_AddRef,0x143CB918+1
-        
+
         defadr Volume_Get,0x14271F70+1
         defadr Volume_Set,0x1427216C+1
         defadr ImageID_GetIndirect,0x15091C64+1
@@ -199,7 +201,7 @@ a       equ b
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14DEE674+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x15093898+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x14098A7C+1
-        
+
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x140B3B04+1
         defadr MediaPlayer_SoftKeys_SetAction,0x140B3904+1
         defadr MediaPlayer_SoftKeys_SetText,0x140B38D4+1
@@ -242,7 +244,6 @@ a       equ b
 	EXTERN PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT
 	EXTERN PATCH_UI_MEDIAPLAYER_CREATED_EVENT
 	EXTERN PATCH_UI_MEDIAPLAYER_ON_ENTER_EVENT
-	EXTERN PATCH_UI_MEDIAPLAYER_ON_EXIT_EVENT
 
 	EXTERN New_Action
         EXTERN New_SoftKeys
@@ -293,10 +294,6 @@ a       equ b
 	RSEG PATCH_UI_MEDIAPLAYER_ON_ENTER_PAGE_HOOK
 	DATA
 	DCD PATCH_UI_MEDIAPLAYER_ON_ENTER_EVENT
-
-	RSEG PATCH_UI_MEDIAPLAYER_ON_EXIT_PAGE_HOOK
-	DATA
-	DCD PATCH_UI_MEDIAPLAYER_ON_EXIT_EVENT
 
 //------------------------------------------------------------------------------
 

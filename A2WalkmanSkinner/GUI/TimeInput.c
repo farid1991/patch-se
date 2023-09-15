@@ -2,17 +2,16 @@
 
 #include "..\\..\\include\Types.h"
 #include "..\\..\\include\Function.h"
-#include "..\\..\\include\Color.h"
 
+#include "..\\Colors.h"
 #include "..\\dll.h"
-
 #include "..\\Draw.h"
 #include "..\\main.h"
 
 #include "SelectFont.h"
 #include "TimeInput.h"
 
-void Adjust_TimeInput(DISP_OBJ_XTIMEINPUT *disp_obj)
+void Update_TimeInput(DISP_OBJ_XTIMEINPUT *disp_obj)
 {
   if (disp_obj->time.min == disp_obj->max_time.min)
   {
@@ -49,6 +48,8 @@ int XTimeInput_OnCreate(DISP_OBJ_XTIMEINPUT *disp_obj)
 
   disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
   disp_obj->disp_height = Display_GetHeight(UIDisplay_Main);
+  disp_obj->rect_ypos = disp_obj->disp_height >> 2;
+  disp_obj->rect_height = disp_obj->disp_height >> 3;
 
   return 1;
 }
@@ -65,113 +66,142 @@ void XTimeInput_OnClose(DISP_OBJ_XTIMEINPUT *disp_obj)
   DESTROY_TEXTID(disp_obj->temp4);
 }
 
-void XTimeInput_OnRedraw(DISP_OBJ_XTIMEINPUT *disp_obj, int, int, int)
+void XTimeInput_OnRedraw(DISP_OBJ_XTIMEINPUT *disp_obj, int r1, int r2, int r3)
 {
-  Adjust_TimeInput(disp_obj);
-  /*--------------------------------------------------------------------------*/
-  DrawString_onRect(FONT_E_24R,
-                    disp_obj->title_text,
-                    clAlpha,
-                    0, 70, disp_obj->disp_width, 36,
-                    clBlue2Dark);
-  /*--------------------------------------------------------------------------*/
+  Update_TimeInput(disp_obj);
+  /*--------------------------------------------------------------------------1*/
+  DrawTextOnRect(FONT_E_20R,
+                 disp_obj->title_text,
+                 0, 
+                 disp_obj->rect_ypos, 
+                 disp_obj->disp_width, 
+                 disp_obj->rect_height,
+                 TITLE_TEXT_COLOR,
+                 TITLE_BACKGROUND_COLOR);
+  /*--------------------------------------------------------------------------2*/
 
   if (disp_obj->time.min < disp_obj->max_time.min)
     disp_obj->temp1 = TextID_CreateIntegerID(disp_obj->time.min + 1);
   else
     disp_obj->temp1 = TextID_CreateIntegerID(0);
 
-  DrawString_onRect(FONT_E_20R,
-                    disp_obj->temp1,
-                    clZeta,
-                    0, 106, 120, 40,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_16R,
+                 disp_obj->temp1,
+                 0,
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 1),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 UNSELECTED_TEXT_COLOR,
+                 UNSELECTED_CURSOR_COLOR);
 
   if (disp_obj->time.sec < disp_obj->max_time.sec)
     disp_obj->temp2 = TextID_CreateIntegerID(disp_obj->time.sec + 1);
   else
     disp_obj->temp2 = TextID_CreateIntegerID(0);
 
-  DrawString_onRect(FONT_E_20R,
-                    disp_obj->temp2,
-                    clZeta,
-                    120, 106, 120, 40,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_16R,
+                 disp_obj->temp2,
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 1),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 UNSELECTED_TEXT_COLOR,
+                 UNSELECTED_CURSOR_COLOR);
 
-  /*--------------------------------------------------------------------------*/
+  /*--------------------------------------------------------------------------3*/
 
   disp_obj->mins_text = TextID_CreateIntegerID(disp_obj->time.min);
-  DrawString_onRect(FONT_E_30R,
-                    disp_obj->mins_text,
-                    (disp_obj->cursor == TIME_MIN) ? clAlpha : clBlueMidDark,
-                    0, 146, 120, 50,
-                    (disp_obj->cursor == TIME_MIN) ? clBlueMidDark : clAlpha);
+  DrawTextOnRect(FONT_E_16B,
+                 disp_obj->mins_text,
+                 0,
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 2),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 (disp_obj->cursor == TIME_MIN) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+                 (disp_obj->cursor == TIME_MIN) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR);
 
   disp_obj->secs_text = TextID_CreateIntegerID(disp_obj->time.sec);
 
-  DrawString_onRect(FONT_E_30R,
-                    disp_obj->secs_text,
-                    (disp_obj->cursor == TIME_SEC) ? clAlpha : clBlueMidDark,
-                    120, 146, 120, 50,
-                    (disp_obj->cursor == TIME_SEC) ? clBlueMidDark : clAlpha);
-  /*--------------------------------------------------------------------------*/
+  DrawTextOnRect(FONT_E_16B,
+                 disp_obj->secs_text,
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 2),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 (disp_obj->cursor == TIME_SEC) ? SELECTED_TEXT_COLOR : UNSELECTED_TEXT_COLOR,
+                 (disp_obj->cursor == TIME_SEC) ? SELECTED_CURSOR_COLOR : UNSELECTED_CURSOR_COLOR);
+  /*--------------------------------------------------------------------------4*/
 
   if (disp_obj->time.min > 0)
     disp_obj->temp3 = TextID_CreateIntegerID(disp_obj->time.min - 1);
   else
     disp_obj->temp3 = TextID_CreateIntegerID(disp_obj->max_time.min);
 
-  DrawString_onRect(FONT_E_20R,
-                    disp_obj->temp3,
-                    clZeta,
-                    0, 196, 120, 40,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_16R,
+                 disp_obj->temp3,
+                 0,
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 3),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 UNSELECTED_TEXT_COLOR,
+                 UNSELECTED_CURSOR_COLOR);
 
   if (disp_obj->time.sec == 0)
     disp_obj->temp4 = TextID_CreateIntegerID(disp_obj->max_time.sec);
   else
     disp_obj->temp4 = TextID_CreateIntegerID(disp_obj->time.sec - 1);
 
-  DrawString_onRect(FONT_E_20R,
-                    disp_obj->temp4,
-                    clZeta,
-                    120, 196, 120, 40,
-                    clAlpha);
-  /*--------------------------------------------------------------------------*/
-  DrawString_onRect(FONT_E_18R,
-                    TEXT_MINUTES,
-                    clZeta,
-                    0, 236, 120, 30,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_16R,
+                 disp_obj->temp4,
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 3),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 UNSELECTED_TEXT_COLOR,
+                 UNSELECTED_CURSOR_COLOR);
+  /*--------------------------------------------------------------------------5*/
+  DrawTextOnRect(FONT_E_16R,
+                 TEXT_MINUTES,
+                 0,
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 4),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 LINK_COLOR,
+                 TITLE_BACKGROUND_COLOR);
 
-  DrawString_onRect(FONT_E_18R,
-                    TEXT_SECONDS,
-                    clZeta,
-                    120, 236, 120, 30,
-                    clAlpha);
+  DrawTextOnRect(FONT_E_16R,
+                 TEXT_SECONDS,
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_ypos + (disp_obj->rect_height * 4),
+                 (disp_obj->disp_width >> 1),
+                 disp_obj->rect_height,
+                 LINK_COLOR,
+                 TITLE_BACKGROUND_COLOR);
 }
 
 void XTimeInput_OnLayout(DISP_OBJ_XTIMEINPUT *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, clEmpty);
+  DispObject_SetLayerColor(disp_obj, TRANSPARENT_COLOR);
 }
 
-void XTimeInput_OnKey(DISP_OBJ_XTIMEINPUT *disp_obj, int key, int, int repeat, int mode)
+void XTimeInput_OnKey(DISP_OBJ_XTIMEINPUT *disp_obj, int key, int count, int repeat, int mode)
 {
   if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
   {
-    if (key == KEY_LEFT || key == KEY_DIGITAL_4)
+    switch (key)
     {
-      if ((--disp_obj->cursor) < 0)
-        disp_obj->cursor = 1;
-    }
-    else if (key == KEY_RIGHT || key == KEY_DIGITAL_6)
-    {
-      if (++disp_obj->cursor > 1)
-        disp_obj->cursor = 0;
-    }
-    else if (key == KEY_UP || key == KEY_DIGITAL_2)
-    {
+    case KEY_LEFT:
+    case KEY_DIGITAL_4:
+      if ((--disp_obj->cursor) < TIME_MIN)
+        disp_obj->cursor = TIME_SEC;
+      break;
+    case KEY_RIGHT:
+    case KEY_DIGITAL_6:
+      if (++disp_obj->cursor > TIME_SEC)
+        disp_obj->cursor = TIME_MIN;
+      break;
+    case KEY_UP:
+    case KEY_DIGITAL_2:
       switch (disp_obj->cursor)
       {
       case TIME_MIN:
@@ -183,9 +213,9 @@ void XTimeInput_OnKey(DISP_OBJ_XTIMEINPUT *disp_obj, int key, int, int repeat, i
           disp_obj->time.sec = 0;
         break;
       }
-    }
-    else if (key == KEY_DOWN || key == KEY_DIGITAL_8)
-    {
+      break;
+    case KEY_DOWN:
+    case KEY_DIGITAL_8:
       switch (disp_obj->cursor)
       {
       case TIME_MIN:
@@ -201,6 +231,7 @@ void XTimeInput_OnKey(DISP_OBJ_XTIMEINPUT *disp_obj, int key, int, int repeat, i
           disp_obj->time.sec = disp_obj->max_time.sec;
         break;
       }
+      break;
     }
     InvalidateRect(disp_obj);
   }
@@ -221,7 +252,7 @@ void XTimeInput_destruct(GUI *gui_time)
 {
 }
 
-void XTimeInput_callback(DISP_OBJ* disp, void* msg, GUI* gui)
+void XTimeInput_callback(DISP_OBJ *disp, void *msg, GUI *gui)
 {
 }
 
@@ -285,5 +316,5 @@ GUI_XTime *CreateXTimeInput(BOOK *book)
   GUIObject_SetTitleType(gui_time, UI_TitleMode_None);
   GUIObject_SoftKeys_RemoveBackground(gui_time);
 
-  return (gui_time);
+  return gui_time;
 }

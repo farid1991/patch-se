@@ -2,7 +2,6 @@
 #define _SELECTFONT_H_
 
 #if defined(DB3200) || defined(DB3210)
-#define font_step 1
 #define max_size 100
 #define bold 1
 #define italic 2
@@ -26,8 +25,10 @@ typedef struct _DISP_OBJ_FONT_SEL : DISP_OBJ
   bool style_bold;
   bool style_italic;
   uint8_t font_style;
-  uint8_t style;
+  uint8_t current_style;
 #endif
+  uint16_t disp_width;
+  uint16_t rect_height;
 } DISP_OBJ_FONT_SEL;
 
 #if defined(DB3150v1) || defined(DB3150v2)

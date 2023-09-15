@@ -2,8 +2,8 @@
 
 #include "..\\..\\include\Types.h"
 #include "..\\..\\include\Function.h"
-#include "..\\..\\include\Color.h"
 
+#include "..\\Colors.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
 #include "..\\Function.h"
@@ -12,6 +12,7 @@
 #include "Clearbass.h"
 
 #ifndef CLEARAUDIO
+#ifndef STANDART_EQ
 
 void UnRegisterEQImage(DISP_OBJ_CLEARBASS *disp_obj)
 {
@@ -278,106 +279,63 @@ void ClearbassGUI_OnClose(DISP_OBJ_CLEARBASS *disp_obj)
 
 void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS *disp_obj, int r1, int r2, int r3)
 {
-  GC *pGC = get_DisplayGC();
+  GC *pGCanvas = get_DisplayGC();
   if (disp_obj->manual) // Manual
   {
-    DrawImage(pGC,
-              0,
-              22,
-              0,
-              0,
-              disp_obj->Background.ImageID);
+    DrawImageEx(pGCanvas, 0, 22, 0, 0, disp_obj->Background.ImageID);
 
-    DrawImage(pGC,
-              14,
-              96,
-              0,
-              0,
-              disp_obj->Boost_Image[disp_obj->boost_level].ImageID);
+    DrawImageEx(pGCanvas, 14, 96, 0, 0, disp_obj->Boost_Image[disp_obj->boost_level].ImageID);
 
-    DrawImage(pGC,
-              75,
-              96,
-              0,
-              0,
-              disp_obj->Bar_Image[disp_obj->bar1_level].ImageID);
+    DrawImageEx(pGCanvas, 75, 96, 0, 0, disp_obj->Bar_Image[disp_obj->bar1_level].ImageID);
 
-    DrawImage(pGC,
-              106,
-              96,
-              0,
-              0,
-              disp_obj->Bar_Image[disp_obj->bar2_level].ImageID);
+    DrawImageEx(pGCanvas, 106, 96, 0, 0, disp_obj->Bar_Image[disp_obj->bar2_level].ImageID);
 
-    DrawImage(pGC,
-              137,
-              96,
-              0,
-              0,
-              disp_obj->Bar_Image[disp_obj->bar3_level].ImageID);
+    DrawImageEx(pGCanvas, 137, 96, 0, 0, disp_obj->Bar_Image[disp_obj->bar3_level].ImageID);
 
-    DrawImage(pGC,
-              168,
-              96,
-              0,
-              0,
-              disp_obj->Bar_Image[disp_obj->bar4_level].ImageID);
+    DrawImageEx(pGCanvas, 168, 96, 0, 0, disp_obj->Bar_Image[disp_obj->bar4_level].ImageID);
 
-    DrawImage(pGC,
-              199,
-              96,
-              0,
-              0,
-              disp_obj->Bar_Image[disp_obj->bar5_level].ImageID);
+    DrawImageEx(pGCanvas, 199, 96, 0, 0, disp_obj->Bar_Image[disp_obj->bar5_level].ImageID);
 
     DrawRect(redrect_positions[disp_obj->manual_cursor][0],
              redrect_positions[disp_obj->manual_cursor][1],
              redrect_positions[disp_obj->manual_cursor][0] + redrect_positions[disp_obj->manual_cursor][2],
              redrect_positions[disp_obj->manual_cursor][1] + redrect_positions[disp_obj->manual_cursor][3],
-             clEmpty, 0xFFF23F22);
+             TRANSPARENT_COLOR, 0xFFF23F22);
 
-    DrawString_Params(FONT_E_18R,
-                      TEXT_MANUAL,
-                      AlignCenter,
-                      0,
-                      division(disp_obj->height, 8),
-                      disp_obj->width,
-                      clWhite);
+    DrawText(FONT_E_18R,
+             TEXT_MANUAL,
+             AlignCenter,
+             0,
+             (disp_obj->height >> 3),
+             disp_obj->width,
+             DARK_TEXT_COLOR);
   }
   else // Preset
   {
-    DrawImage(pGC,
-              0,
-              12,
-              0,
-              0,
-              disp_obj->Preset_Image[disp_obj->preset_cursor].ImageID);
+    DrawImageEx(pGCanvas, 0, 12, 0, 0, disp_obj->Preset_Image[disp_obj->preset_cursor].ImageID);
 
-    DrawString_Params(FONT_E_18R,
-                      DispObj_Clearbass_GetPresetName(disp_obj),
-                      AlignCenter,
-                      0,
-                      division(disp_obj->height, 8),
-                      disp_obj->width,
-                      clWhite);
+    DrawText(FONT_E_18R,
+             DispObj_Clearbass_GetPresetName(disp_obj),
+             AlignCenter,
+             0,
+             (disp_obj->height >> 3),
+             disp_obj->width,
+             DARK_TEXT_COLOR);
 
     DESTROY_TEXTID(disp_obj->PresetName);
   }
 
-  DrawString_Params(FONT_E_20R,
-                    TEXT_EQUALIZER,
-                    AlignCenter,
-                    0,
-                    division(disp_obj->height, 20),
-                    disp_obj->width,
-                    clWhite);
+  DrawText(FONT_E_20R,
+           TEXT_EQUALIZER,
+           AlignCenter,
+           0,
+           (disp_obj->height >> 4),
+           disp_obj->width,
+           DARK_TEXT_COLOR);
 }
 
 void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int repeat, int mode)
 {
-  GUI *ClearbassGUI = DispObject_GetGUI(disp_obj);
-  BOOK *MusicBook = GUIObject_GetBook(ClearbassGUI);
-
   if (mode == KBD_SHORT_PRESS || mode == KBD_REPEAT)
   {
     if (disp_obj->manual)
@@ -390,98 +348,105 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int re
         else
           disp_obj->manual_cursor = Eq_Band5;
         break;
+
       case KEY_LEFT:
         if (disp_obj->manual_cursor > Eq_Band0)
           disp_obj->manual_cursor--;
         else
           disp_obj->manual_cursor = Eq_Band0;
         break;
+
       case KEY_UP:
-        if (disp_obj->manual_cursor == Eq_Band0)
+        switch (disp_obj->manual_cursor)
         {
+        case Eq_Band0:
           if (disp_obj->boost_level < Boost_3)
             disp_obj->boost_level++;
           else
             disp_obj->boost_level = Boost_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band1)
-        {
+          break;
+
+        case Eq_Band1:
           if (disp_obj->bar1_level < Bar_Plus_3)
             disp_obj->bar1_level++;
           else
             disp_obj->bar1_level = Bar_Plus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band2)
-        {
+          break;
+
+        case Eq_Band2:
           if (disp_obj->bar2_level < Bar_Plus_3)
             disp_obj->bar2_level++;
           else
             disp_obj->bar2_level = Bar_Plus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band3)
-        {
+          break;
+
+        case Eq_Band3:
           if (disp_obj->bar3_level < Bar_Plus_3)
             disp_obj->bar3_level++;
           else
             disp_obj->bar3_level = Bar_Plus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band4)
-        {
+          break;
+
+        case Eq_Band4:
           if (disp_obj->bar4_level < Bar_Plus_3)
             disp_obj->bar4_level++;
           else
             disp_obj->bar4_level = Bar_Plus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band5)
-        {
+          break;
+
+        case Eq_Band5:
           if (disp_obj->bar5_level < Bar_Plus_3)
             disp_obj->bar5_level++;
           else
             disp_obj->bar5_level = Bar_Plus_3;
+          break;
         }
         break;
+
       case KEY_DOWN:
-        if (disp_obj->manual_cursor == Eq_Band0)
+        switch (disp_obj->manual_cursor)
         {
+        case Eq_Band0:
           if (disp_obj->boost_level > Boost_0)
             disp_obj->boost_level--;
           else
             disp_obj->boost_level = Boost_0;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band1)
-        {
+          break;
+
+        case Eq_Band1:
           if (disp_obj->bar1_level > Bar_Minus_3)
             disp_obj->bar1_level--;
           else
             disp_obj->bar1_level = Bar_Minus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band2)
-        {
+          break;
+
+        case Eq_Band2:
           if (disp_obj->bar2_level > Bar_Minus_3)
             disp_obj->bar2_level--;
           else
             disp_obj->bar2_level = Bar_Minus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band3)
-        {
+          break;
+
+        case Eq_Band3:
           if (disp_obj->bar3_level > Bar_Minus_3)
             disp_obj->bar3_level--;
           else
             disp_obj->bar3_level = Bar_Minus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band4)
-        {
+          break;
+
+        case Eq_Band4:
           if (disp_obj->bar4_level > Bar_Minus_3)
             disp_obj->bar4_level--;
           else
             disp_obj->bar4_level = Bar_Minus_3;
-        }
-        else if (disp_obj->manual_cursor == Eq_Band5)
-        {
+          break;
+
+        case Eq_Band5:
           if (disp_obj->bar5_level > Bar_Minus_3)
             disp_obj->bar5_level--;
           else
             disp_obj->bar5_level = Bar_Minus_3;
+          break;
         }
         break;
       }
@@ -496,6 +461,7 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int re
         else
           disp_obj->preset_cursor = Eq_Treble;
         break;
+
       case KEY_LEFT:
         if (disp_obj->preset_cursor > Eq_Treble)
           disp_obj->preset_cursor--;
@@ -505,13 +471,14 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int re
       }
     }
   }
+
   SetEqualizer(disp_obj);
   InvalidateRect(disp_obj);
 }
 
 void ClearbassGUI_OnLayout(DISP_OBJ_CLEARBASS *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, clBlack);
+  DispObject_SetLayerColor(disp_obj, DARK_BACKGROUND_COLOR);
 }
 
 void ClearbassGUI_constr(DISP_DESC *desc)
@@ -550,4 +517,6 @@ GUI *Create_ClearbassGUI(BOOK *book)
 
   return gui_cb;
 }
+
+#endif
 #endif

@@ -54,7 +54,7 @@ void SetSMSAlert(BOOK *book, wchar_t *path, wchar_t *name)
   CreateFeedBack(book, TEXT_MESSAGE_CHANGED);
 }
 
-void onSelectGui(BOOK *book, GUI *gui)
+void UseAsFile_onSelect(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
 
@@ -78,6 +78,15 @@ void onSelectGui(BOOK *book, GUI *gui)
     break;
   }
 }
+void UseAsFile_onBack(BOOK *book, GUI *gui)
+{
+#ifdef C901_R1GA028
+  MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
+  DESTROY_GUI(MusicBook->Gui_submenu);
+#else
+  MusicApplication_PrevAction(book, gui);
+#endif
+}
 
 int pg_MusicApplication_UseAsFile__EnterEvent(void *Data, BOOK *book)
 {
@@ -92,8 +101,8 @@ int pg_MusicApplication_UseAsFile__EnterEvent(void *Data, BOOK *book)
     ListMenu_SetTexts(MusicBook->Gui_submenu, (int *)items_text, 4);
     GUIObject_SetTitleText(MusicBook->Gui_submenu, TEXT_USE_AS);
     GUIObject_SetStyle(MusicBook->Gui_submenu, UI_OverlayStyle_PopupNoFrame);
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, onSelectGui);
-    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, MusicApplication_PrevAction);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, UseAsFile_onSelect);
+    GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_BACK, UseAsFile_onBack);
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_LONG_BACK, MusicApplication_CancelAction);
     GUIObject_Show(MusicBook->Gui_submenu);
   }

@@ -12,6 +12,9 @@
 #define MEM_NAME "WSK_MEM"
 #define EMP_NAME "WSK_EMP"
 
+#define softkeys_h 24
+#define status_h 24
+
 #define DESTROY_GUI(gui)             \
   if (gui)                           \
   {                                  \
@@ -143,7 +146,7 @@ typedef struct _SkinDrawData
   RECT VIZRect;
 } SkinDrawData;
 
-typedef struct _SkinData
+typedef struct _WALKMAN_Skin
 {
   wchar_t Author[100];
   // Title
@@ -559,7 +562,7 @@ typedef struct _SkinData
 
   bool FullScreen;
   bool SoftKeys;
-} SkinData;
+} WALKMAN_Skin;
 
 #include "CurrentTrack.h"
 #include "GUI\AdvLyric.h"
@@ -599,7 +602,7 @@ typedef struct _Internal_Function
   uint16_t blob_w;
   uint16_t blob_h;
 
-  SkinData SData;
+  WALKMAN_Skin skin_data;
   SkinDrawData Main;
 } Internal_Function;
 

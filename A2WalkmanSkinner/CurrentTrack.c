@@ -21,32 +21,41 @@
 
 //==============================================================================
 
-wchar_t *GetFileFormat(wchar_t *fullpath)
+wchar_t *GetFileFormat(const wchar_t *fullpath)
 {
-  wchar_t *extension = WStringAlloc(3);
-  char *tmpext = StringAlloc(wstrlen(fullpath));
-  wchar_t *wtmpext = WStringAlloc(wstrlen(fullpath));
-  wstr2strn(tmpext, fullpath, wstrlen(fullpath));
+  int len = wstrlen(fullpath);
+  if (len < EXT_LENGTH)
+    return NULL;
 
-  extension[0] = tmpext[strlen(tmpext) - 3];
-  extension[1] = tmpext[strlen(tmpext) - 2];
-  extension[2] = tmpext[strlen(tmpext) - 1];
-  StringFree(tmpext);
-  WStringFree(wtmpext);
+  wchar_t *extension = WStringAlloc(EXT_LENGTH);
+  if (!extension)
+    return NULL;
 
-  wstrnupr(extension, wstrlen(extension));
+  wstrncpy(extension, fullpath + len - EXT_LENGTH, EXT_LENGTH);
+  wstrnupr(extension, EXT_LENGTH);
+
   return extension;
 }
 
-wchar_t *MetaData_GetGenre(wchar_t *fullpath)
+wchar_t *MetaData_GetGenre(const wchar_t *fullpath)
 {
-  wchar_t *genre = WStringAlloc(MAX_GENRE_LENGTH);
-  wchar_t *path = WStringAlloc(wstrlen(fullpath));
-  wstrcpy(path, fullpath);
-  wchar_t *fname = wstrrchr(path, '/');
-  *fname = NULL;
-  genre = MetaData_GetTags(path, fname + 1, TMetadataTagId_Genre);
-  WStringFree(path);
+  wchar_t *genre = NULL;
+
+  wchar_t *fname = wstrrchr(fullpath, '/');
+
+  if (fname)
+  {
+    int pathLength = fname - fullpath;
+    wchar_t *path = WStringAlloc(pathLength);
+
+    if (path)
+    {
+      wstrncpy(path, fullpath, pathLength);
+      path[pathLength] = L'\0';
+      genre = MetaData_GetTags(path, fname + 1, TMetadataTagId_Genre);
+      mfree(path);
+    }
+  }
   return genre;
 }
 
@@ -67,7 +76,7 @@ wchar_t *Get_CoverType(int cover_type)
   }
 }
 
-IMAGEID GetCoverArt(wchar_t *fullpath, int size, int offset, char type)
+IMAGEID GetCoverArt(const wchar_t *fullpath, int size, int offset, char type)
 {
   IMAGEID ImageID = NOIMAGE;
   int file = w_fopen(fullpath, WA_Read, (FSX_S_IWRITE | FSX_S_IREAD), NULL);
@@ -81,42 +90,55 @@ IMAGEID GetCoverArt(wchar_t *fullpath, int size, int offset, char type)
   return ImageID;
 }
 
-BOOL MetaData_GetCoverInfo(wchar_t *fullpath, char *cover_type, int *size, int *cover_offset)
+BOOL MetaData_GetCoverInfo(const wchar_t *fullpath, char *cover_type, int *size, int *cover_offset)
 {
-  int ret;
+  if (!fullpath || !cover_type || !size || !cover_offset)
+    return FALSE;
+
+  int ret = FALSE;
+
   METADATA_DESC *MetaData_Desc = (METADATA_DESC *)malloc(sizeof(METADATA_DESC));
+  if (!MetaData_Desc)
+  {
+    return FALSE;
+  }
+
   MetaData_Desc->pIMetaData = NULL;
   IShell *pIShell = NULL;
   OSE_GetShell(PPINTERFACE(&pIShell));
-  pIShell->CreateInstance(CID_CMetaData, IID_IMetaData, PPINTERFACE(&MetaData_Desc->pIMetaData));
 
-  wchar_t *fpath = WStringAlloc(wstrlen(fullpath));
-  wstrcpy(fpath, fullpath);
-  wchar_t *fname = wstrrchr(fpath, '/');
-  *fname = NULL;
-  MetaData_Desc->pIMetaData->SetFile(fpath, fname + 1);
-  WStringFree(fpath);
-
-  COVER_INFO_DESC cover_info;
-  if (MetaData_Desc->pIMetaData->GetCoverInfo(&cover_info) < 0)
-  {
-    ret = FALSE;
-  }
-  else
-  {
-    *cover_type = cover_info.cover_type;
-    *size = cover_info.size;
-    *cover_offset = cover_info.cover_offset;
-    ret = TRUE;
-  }
-
-  if (MetaData_Desc->pIMetaData)
-    MetaData_Desc->pIMetaData->Release();
-  if (MetaData_Desc)
-    mfree(MetaData_Desc);
   if (pIShell)
-    pIShell->Release();
+  {
+    pIShell->CreateInstance(CID_CMetaData, IID_IMetaData, PPINTERFACE(&MetaData_Desc->pIMetaData));
 
+    if (MetaData_Desc->pIMetaData)
+    {
+      wchar_t *fpath = WStringAlloc(wstrlen(fullpath));
+      if (fpath)
+      {
+        wstrcpy(fpath, fullpath);
+        wchar_t *fname = wstrrchr(fpath, '/');
+        if (fname)
+        {
+          *fname = L'\0';
+          MetaData_Desc->pIMetaData->SetFile(fpath, fname + 1);
+
+          COVER_INFO_DESC cover_info;
+          if (MetaData_Desc->pIMetaData->GetCoverInfo(&cover_info) >= 0)
+          {
+            *cover_type = cover_info.cover_type;
+            *size = cover_info.size;
+            *cover_offset = cover_info.cover_offset;
+            ret = TRUE;
+          }
+        }
+        mfree(fpath);
+      }
+      MetaData_Desc->pIMetaData->Release();
+    }
+    pIShell->Release();
+  }
+  mfree(MetaData_Desc);
   return ret;
 }
 
@@ -140,7 +162,7 @@ int synchsafeToNormal(char tagSize[4])
   return size;
 }
 
-int get_tag_size(wchar_t *fullpath)
+int get_tag_size(const wchar_t *fullpath)
 {
   int tag_size = NULL;
   char buf[10 + 1];
@@ -159,7 +181,7 @@ int get_tag_size(wchar_t *fullpath)
   return tag_size;
 }
 
-int GetTrackBitrate(wchar_t *fullpath, int fulltime)
+int GetTrackBitrate(const wchar_t *fullpath, int fulltime)
 {
   W_FSTAT wstat;
   w_fstat(fullpath, &wstat);
@@ -271,17 +293,16 @@ void GetNextTrackData(NEW_TRACK_DATA *TrackData, BOOK *book)
   Data->Bitrate = GetTrackBitrate(Fullpath, Data->FullTimeInSeconds);
   Data->Genre = MetaData_GetGenre(Fullpath);
 
-  WStringFree(Artist);
-  WStringFree(Album);
-  WStringFree(Title);
+  mfree(Artist);
+  mfree(Album);
+  mfree(Title);
 #endif
-  WStringFree(Fullpath);
+  mfree(Fullpath);
 }
 
 TRACK_DESC *TrackDesc_Init()
 {
   TRACK_DESC *TrackDesc = (TRACK_DESC *)malloc(sizeof(TRACK_DESC));
-  memset(TrackDesc, NULL, sizeof(TRACK_DESC));
   TrackDesc->Filename = NULL;
   TrackDesc->Filepath = NULL;
   return TrackDesc;
@@ -289,44 +310,38 @@ TRACK_DESC *TrackDesc_Init()
 
 void TrackDesc_Free(TRACK_DESC *TrackDesc)
 {
-  if (TrackDesc)
-  {
-    WStringFree(TrackDesc->Filepath);
-    WStringFree(TrackDesc->Filename);
-    mfree(TrackDesc);
-  }
+  if (!TrackDesc)
+    return;
+
+  mfree(TrackDesc->Filepath);
+  mfree(TrackDesc->Filename);
+  mfree(TrackDesc);
 }
 
 BOOL TrackDesc_Compare(TRACK_DESC *track1, TRACK_DESC *track2)
 {
-  if (track1 && track2)
-  {
-    if ((!wstrcmp(track1->Filename, track2->Filename)) && (!wstrcmp(track1->Filepath, track2->Filepath)))
-      return TRUE;
-    else
-      return FALSE;
-  }
-  else
-    return NULL;
+  if (!track1 || !track2)
+    return FALSE;
+
+  return wstrcmp(track1->Filename, track2->Filename) == 0 && wstrcmp(track1->Filepath, track2->Filepath) == 0;
 }
 
 TRACK_DESC *TrackDesc_Get(BOOK *book)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
-  if (MusicBook)
-  {
-    TRACK_DESC *TrackDesc = TrackDesc_Init();
+  if (!MusicBook)
+    return NULL;
 
-    wchar_t *Filename = FILEITEM_GetFname(MusicBook->CurrentTrack->file_item);
-    wchar_t *Filepath = FILEITEM_GetPath(MusicBook->CurrentTrack->file_item);
+  TRACK_DESC *TrackDesc = TrackDesc_Init();
 
-    TrackDesc->Filename = WStringAlloc(wstrlen(Filename));
-    TrackDesc->Filepath = WStringAlloc(wstrlen(Filepath));
+  wchar_t *Filename = FILEITEM_GetFname(MusicBook->CurrentTrack->file_item);
+  wchar_t *Filepath = FILEITEM_GetPath(MusicBook->CurrentTrack->file_item);
 
-    wstrcpy(TrackDesc->Filename, Filename);
-    wstrcpy(TrackDesc->Filepath, Filepath);
+  TrackDesc->Filename = WStringAlloc(wstrlen(Filename));
+  TrackDesc->Filepath = WStringAlloc(wstrlen(Filepath));
 
-    return TrackDesc;
-  }
-  return NULL;
+  wstrcpy(TrackDesc->Filename, Filename);
+  wstrcpy(TrackDesc->Filepath, Filepath);
+
+  return TrackDesc;
 }

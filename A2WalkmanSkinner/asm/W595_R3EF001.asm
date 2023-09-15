@@ -43,6 +43,7 @@ a       EQU     b
         defadr wstrcat,0x106F8D54+1
         defadr wstrncat,0x10D6624C+1
         defadr wstrcmp,0x10D661BC+1
+        defadr wstrcmpi,0x10D6760C+1
         defadr wstrlen,0x10D661A8+1
         defadr wstrrchr,0x10D6752C+1
         defadr wstrnupr,0x10D66278+1

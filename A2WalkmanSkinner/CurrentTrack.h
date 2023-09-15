@@ -1,7 +1,7 @@
 #ifndef __CURRENTTRACK_H__
 #define __CURRENTTRACK_H__
 
-#define MAX_EXT_LENGTH 3
+#define EXT_LENGTH 3
 #define MAX_GENRE_LENGTH 30
 
 #define INDEX(x) x >> 3

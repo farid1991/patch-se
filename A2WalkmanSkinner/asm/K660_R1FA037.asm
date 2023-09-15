@@ -43,6 +43,8 @@ a       EQU     b
         defadr wstrcpy,0x10FCE7E0+1+1
         defadr wstrrchr,0x10FCFB20+1
         defadr wstrcmp,0x10FCE7B0+1
+        defadr wstrcmpi,0x10FCFC00+1
+        defadr wstrncpy,0x10FCE7F8+1
 
         defadr FSX_MakeFullPath,0x10FE0794+1
         defadr FSX_FreeFullPath,0x10FE0800+1
@@ -69,7 +71,7 @@ a       EQU     b
         defadr Volume_Get,0x111BA908+1
         defadr MetaData_GetTags,0x11028DB4+1
         defadr MetaData_GetCover,0x115BD7CC+1
-        
+
         defadr DISP_DESC_SetName,0x116993F0+1
         defadr DISP_DESC_SetSize,0x116993F4+1
         defadr DISP_DESC_SetOnCreate,0x116993F8+1
@@ -129,7 +131,7 @@ a       EQU     b
         defadr DispObject_SoftKeys_Show,0x116BEDBC+1
         defadr DispObject_SoftKeys_Hide,0x116BED90+1
         defadr DispObject_SoftKeys_GetList,0x116BFCA8+1
-        
+
         defadr CreateListMenu,0x1165A538+1
         defadr ListMenu_SetItemCount,0x1165A768+1
         defadr ListMenu_SetHotkeyMode,0x1165A8A4+1
@@ -171,7 +173,7 @@ a       EQU     b
         defadr StringInput_SetMaxLen,0x11638D3C+1
         defadr StringInput_SetEnableEmptyText,0x11638DB0+1
         defadr StringInput_SetActionOK,0x11638C80+1
-        
+
         defadr TextFeedbackWindow,0x116B725C+1
         defadr Feedback_SetTextExtended,0x116B76C8+1
         defadr Feedback_CloseAction,0x116B762C+1
@@ -182,7 +184,7 @@ a       EQU     b
         defadr List_InsertLast,0x1142C690+1
         defadr List_Get,0x1142C734+1
         defadr List_GetCount,0x1142C708+1
-        
+
         defadr Timer_ReSet,0x116027FC+1
         defadr Timer_Set,0x116027C8+1
         defadr Timer_Kill,0x11602854+1
@@ -201,12 +203,12 @@ a       EQU     b
         defadr BookObj_GetDisplayOrientation,0x11606360+1
         defadr IsAudioPlayerBook,0x115BA47C+1
         defadr CreateMessageBox,0x1160B950+1
-        
+
         defadr SETTING_RINGTYPESOUNDFILE_SET,0x117A0ED4+1
         defadr Sound_SetMessageAlert,0x1127BC6C+1
         defadr Sound_SetAlarmsignal,0x10F356D4+1
         defadr Sound_AddToContact,0x10F5518C+1
-        
+
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x115C0460+1
         defadr MediaPlayer_SoftKeys_SetAction,0x115C03B8+1
         defadr MediaPlayer_SoftKeys_SetText,0x115C0400+1
@@ -377,7 +379,7 @@ _walkman_gui:
         RSEG PATCH_StereoWidening
 	CODE16
 	NOP
-        
+
         RSEG PATCH_UPDATE_SHUFFLE_HOOK
 	CODE16
 	LDR	R3, =fix_shuffle

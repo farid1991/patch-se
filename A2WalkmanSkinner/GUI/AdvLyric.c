@@ -2,11 +2,10 @@
 
 #include "..\\..\\include\Types.h"
 #include "..\\..\\include\Function.h"
-#include "..\\..\\include\Color.h"
 #include "..\\..\\include\classes\IMusicServer.h"
 
+#include "..\\Colors.h"
 #include "..\\dll.h"
-
 #include "..\\Draw.h"
 #include "..\\main.h"
 #include "..\\String.h"
@@ -21,7 +20,11 @@ int AdvLyric_OnCreate(DISP_OBJ_ADVLYRIC *disp_obj)
 {
   disp_obj->disp_width = Display_GetWidth(UIDisplay_Main);
   disp_obj->disp_height = Display_GetHeight(UIDisplay_Main);
-  disp_obj->fastchanged = 0;
+  disp_obj->line_space = disp_obj->disp_height >> 3;
+
+  disp_obj->fastchanged = FALSE;
+  disp_obj->show_inactive = FALSE;
+  disp_obj->is_centered = TRUE;
 
   disp_obj->TitleText = EMPTY_TEXTID;
   for (int i = 0; i < 100; i++)
@@ -52,29 +55,29 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
   if (Lrc->CurrentIndex == LRC_NOTFOUND)
   {
     disp_obj->TitleText = STR("No Lyric Found");
-    Draw_String(FONT_E_18R,
-                disp_obj->TitleText,
-                AlignCenter,
-                0,
-                division(disp_obj->disp_height, 2),
-                disp_obj->disp_width,
-                disp_obj->disp_height,
-                clYellow);
+    DrawTextEx(FONT_E_16B,
+               disp_obj->TitleText,
+               AlignCenter,
+               0,
+               (disp_obj->disp_height >> 1),
+               disp_obj->disp_width,
+               disp_obj->disp_height,
+               SELECTION_COLOR);
   }
 
   if (Lrc->LrcList)
   {
     if (Lrc->CurrentIndex == LRC_PREPARING)
     {
-      disp_obj->TitleText = STR("Prepare lyrics....");
-      Draw_String(FONT_E_18R,
-                  disp_obj->TitleText,
-                  AlignCenter,
-                  0,
-                  division(disp_obj->disp_height, 2),
-                  disp_obj->disp_width,
-                  disp_obj->disp_height,
-                  clYellow);
+      disp_obj->TitleText = STR("Prepare lyrics...");
+      DrawTextEx(FONT_E_16B,
+                 disp_obj->TitleText,
+                 AlignCenter,
+                 0,
+                 (disp_obj->disp_height >> 1),
+                 disp_obj->disp_width,
+                 disp_obj->disp_height,
+                 SELECTION_COLOR);
     }
     else if (Lrc->CurrentIndex >= LRC_READY)
     {
@@ -84,93 +87,81 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
       for (int i = Lrc->CurrentIndex - 1; i >= 0; i--)
       {
         disp_obj->LrcText[i] = TextID_Create(Lrc->LrcList[i].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210)
-        int width1 = dll_Disp_GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
-#else
-        int width1 = Disp_GetTextIDWidth(disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
-#endif
-        if (width1 <= disp_obj->disp_width)
-          pos1 -= 20;
-        if (width1 > disp_obj->disp_width && width1 <= disp_obj->disp_width * 2)
-          pos1 -= 40;
-        if (width1 > disp_obj->disp_width * 2 && width1 <= disp_obj->disp_width * 3)
-          pos1 -= 60;
-        if (width1 > disp_obj->disp_width * 3 && width1 <= disp_obj->disp_width * 4)
-          pos1 -= 80;
 
-#if defined(DB3200) || defined(DB3210)
-        Draw_String(FONT_E_16R,
-                    disp_obj->LrcText[i],
-                    AlignLeft,
-                    0,
-                    100 + pos1 - Lrc->Length,
-                    disp_obj->disp_width,
-                    disp_obj->disp_height,
-                    clWhite);
-#else
-        SetFont(FONT_E_16R);
-        DrawString(disp_obj->LrcText[i], AlignLeft, 0, 100 + pos1 - Lrc->Length, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clWhite, clWhite);
-#endif
-        if (100 + pos1 - Lrc->Length < (-60))
+        int width1 = GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
+
+        if (width1 <= disp_obj->disp_width)
+          pos1 -= disp_obj->line_space * 1;
+        if ((width1 > disp_obj->disp_width) && (width1 <= (disp_obj->disp_width * 2)))
+          pos1 -= disp_obj->line_space * 2;
+        if (width1 > (disp_obj->disp_width * 2) && width1 <= (disp_obj->disp_width * 3))
+          pos1 -= disp_obj->line_space * 3;
+        if (width1 > (disp_obj->disp_width * 3) && width1 <= (disp_obj->disp_width * 4))
+          pos1 -= disp_obj->line_space * 4;
+
+        if (disp_obj->show_inactive)
+          DrawTextEx(FONT_E_16R,
+                     disp_obj->LrcText[i],
+                     disp_obj->is_centered ? AlignCenter : AlignLeft,
+                     0,
+                     disp_obj->line_space * 5 + pos1 - Lrc->Length,
+                     disp_obj->disp_width,
+                     disp_obj->disp_height,
+                     UNSELECTED_TEXT_COLOR);
+
+        if (disp_obj->line_space * 4 + pos1 - Lrc->Length < (0 - (disp_obj->line_space * 2)))
           break;
       }
 
       if (Lrc->CurrentIndex >= 0)
       {
-        disp_obj->LrcText[Lrc->CurrentIndex] = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, 0, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210)
-        int width2 = dll_Disp_GetTextIDWidth(FONT_E_16B, disp_obj->LrcText[Lrc->CurrentIndex], TextID_GetLength(disp_obj->LrcText[Lrc->CurrentIndex]));
-        Draw_String(FONT_E_16B,
-                    disp_obj->LrcText[Lrc->CurrentIndex],
-                    AlignLeft,
-                    0,
-                    100 - Lrc->Length,
-                    disp_obj->disp_width,
-                    disp_obj->disp_height,
-                    clYellow);
-#else
-        int width2 = Disp_GetTextIDWidth(disp_obj->LrcText[Lrc->CurrentIndex], TextID_GetLength(disp_obj->LrcText[Lrc->CurrentIndex]));
-        SetFont(FONT_E_16B);
-        DrawString(disp_obj->LrcText[Lrc->CurrentIndex], AlignLeft, 0, 100 - Lrc->Length, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clYellow, clYellow);
-#endif
+        disp_obj->LrcText[Lrc->CurrentIndex] = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
+
+        int width2 = GetTextIDWidth(FONT_E_16B, disp_obj->LrcText[Lrc->CurrentIndex], TextID_GetLength(disp_obj->LrcText[Lrc->CurrentIndex]));
+
+        DrawTextEx(FONT_E_16B,
+                   disp_obj->LrcText[Lrc->CurrentIndex],
+                   disp_obj->is_centered ? AlignCenter : AlignLeft,
+                   0,
+                   disp_obj->line_space * 5 - Lrc->Length,
+                   disp_obj->disp_width,
+                   disp_obj->disp_height,
+                   SELECTION_COLOR);
 
         if (width2 <= disp_obj->disp_width)
-          pos += 20;
+          pos += disp_obj->line_space * 1;
         if (width2 > disp_obj->disp_width && width2 <= disp_obj->disp_width * 2)
-          pos += 40;
+          pos += disp_obj->line_space * 2;
         if (width2 > disp_obj->disp_width * 2 && width2 <= disp_obj->disp_width * 3)
-          pos += 60;
+          pos += disp_obj->line_space * 3;
         if (width2 > disp_obj->disp_width * 3 && width2 <= disp_obj->disp_width * 4)
-          pos += 80;
+          pos += disp_obj->line_space * 4;
       }
       for (int i = (Lrc->CurrentIndex + 1); i < 100 && i >= 0; i++)
       {
         disp_obj->LrcText[i] = TextID_Create(Lrc->LrcList[i].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210)
-        int width3 = dll_Disp_GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
-        Draw_String(FONT_E_16R,
-                    disp_obj->LrcText[i],
-                    AlignLeft,
-                    0,
-                    100 + pos - Lrc->Length,
-                    disp_obj->disp_width,
-                    disp_obj->disp_height,
-                    clWhite);
-#else
-        int width3 = Disp_GetTextIDWidth(disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
-        SetFont(FONT_E_16R);
-        DrawString(disp_obj->LrcText[i], AlignLeft, 0, 100 + pos - Lrc->Length, disp_obj->disp_width, disp_obj->disp_height, 20, 5, clWhite, clWhite);
-#endif
-        if (100 + pos - Lrc->Length > 280)
+
+        int width3 = GetTextIDWidth(FONT_E_16R, disp_obj->LrcText[i], TextID_GetLength(disp_obj->LrcText[i]));
+        if (disp_obj->show_inactive)
+          DrawTextEx(FONT_E_16R,
+                     disp_obj->LrcText[i],
+                     disp_obj->is_centered ? AlignCenter : AlignLeft,
+                     0,
+                     disp_obj->line_space * 5 + pos - Lrc->Length,
+                     disp_obj->disp_width,
+                     disp_obj->disp_height,
+                     UNSELECTED_TEXT_COLOR);
+
+        if (disp_obj->line_space * 5 + pos - Lrc->Length > (disp_obj->line_space * 6))
           break;
         if (width3 <= disp_obj->disp_width)
-          pos += 20;
+          pos += disp_obj->line_space * 1;
         if (width3 > disp_obj->disp_width && width3 <= disp_obj->disp_width * 2)
-          pos += 40;
+          pos += disp_obj->line_space * 2;
         if (width3 > disp_obj->disp_width * 2 && width3 <= disp_obj->disp_width * 3)
-          pos += 60;
+          pos += disp_obj->line_space * 3;
         if (width3 > disp_obj->disp_width * 3 && width3 <= disp_obj->disp_width * 4)
-          pos += 80;
+          pos += disp_obj->line_space * 4;
       }
     }
   }
@@ -178,18 +169,19 @@ void AdvLyric_OnRedraw(DISP_OBJ_ADVLYRIC *disp_obj, int r1, int r2, int r3)
 
 void AdvLyric_OnLayout(DISP_OBJ_ADVLYRIC *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, LYRIC_GUI_LAYERCOLOR);
+  DispObject_SetLayerColor(disp_obj, BG_TRANSPARENT_COLOR);
 }
 
-void AdvLyric_OnKey(DISP_OBJ_ADVLYRIC *disp_obj, int key, int, int repeat, int mode)
+void AdvLyric_OnKey(DISP_OBJ_ADVLYRIC *disp_obj, int key, int count, int repeat, int mode)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)FindBook(IsAudioPlayerBook);
 
   GUI *gui = DispObject_GetGUI(disp_obj);
   AdvLyricBook *Lrc = (AdvLyricBook *)GUIObject_GetBook(gui);
 
-  if (mode == KBD_LONG_PRESS)
+  switch (mode)
   {
+  case KBD_LONG_PRESS:
     switch (key)
     {
     case KEY_LEFT:
@@ -203,27 +195,28 @@ void AdvLyric_OnKey(DISP_OBJ_ADVLYRIC *disp_obj, int key, int, int repeat, int m
       Kill_LyricShowTimer(Lrc);
       break;
     }
-  }
-  else if (mode == KBD_LONG_RELEASE)
-  {
+    break;
+  case KBD_LONG_RELEASE:
     switch (key)
     {
     case KEY_LEFT:
     case KEY_DIGITAL_4:
-      MusicBook->pMusicServer->Play(MusicBook->current_track_id);
-      disp_obj->fastchanged = 1;
-      break;
     case KEY_RIGHT:
     case KEY_DIGITAL_6:
       MusicBook->pMusicServer->Play(MusicBook->current_track_id);
-      disp_obj->fastchanged = 1;
+      disp_obj->fastchanged = TRUE;
       break;
     }
-  }
-  else if (mode == KBD_SHORT_RELEASE)
-  {
+    break;
+  case KBD_SHORT_RELEASE:
     switch (key)
     {
+    case KEY_DIGITAL_0:
+      disp_obj->show_inactive ? disp_obj->show_inactive = FALSE : disp_obj->show_inactive = TRUE;
+      break;
+    case KEY_DIGITAL_5:
+      disp_obj->is_centered ? disp_obj->is_centered = FALSE : disp_obj->is_centered = TRUE;
+      break;
     case KEY_UP:
       if (disp_obj->media_volume < MAX_MEDIAVOLUME)
         Volume_Set(AUDIOCONTROL_VOLUMETYPE_MEDIAVOLUME, ++disp_obj->media_volume + 18);
@@ -242,12 +235,17 @@ void AdvLyric_OnKey(DISP_OBJ_ADVLYRIC *disp_obj, int key, int, int repeat, int m
       break;
     case KEY_ENTER:
       if (MusicBook->PlayerState == TMusicServerState_Playing)
+      {
         MusicBook->pMusicServer->Pause();
+      }
       else if (MusicBook->PlayerState == TMusicServerState_Initiated || MusicBook->PlayerState == TMusicServerState_Paused)
+      {
         MusicBook->pMusicServer->Play(MusicBook->current_track_id);
+      }
       Kill_LyricShowTimer(Lrc);
       break;
     }
+    break;
   }
   InvalidateRect(disp_obj);
 }
@@ -263,7 +261,7 @@ void AdvLyric_construct(DISP_DESC *desc)
   DISP_DESC_SetOnLayout(desc, (DISP_OBJ_ONLAYOUT_METHOD)AdvLyric_OnLayout);
 }
 
-void AdvLyric_destruct(GUI *gui)
+void AdvLyric_destruct(GUI_Lyric *gui)
 {
 }
 

@@ -182,6 +182,8 @@ a       EQU     b
         defadr wstrcat,0x106F78A4+1
         defadr wstr2strn,0x10D65150+1
         defadr wstrnupr,0x10D65100+1
+        defadr wstrncpy,0x10D6508C+1
+        defadr wstrcmpi,0x10D66494+1
         defadr Timer_Set,0x10DEBF78+1
         defadr Timer_ReSet,0x10DEBFAC+1
         defadr Timer_Kill,0x10DEC004+1

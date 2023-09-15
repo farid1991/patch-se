@@ -635,6 +635,7 @@ a       EQU b
         defadr GetTopBook,0x11603564+1
         defadr CreateMessageBox,0x1160973C+1
 
+        defadr DispObject_GetStyle,0x1169E7B8+1
         defadr DispObject_SetStyle,0x1169E628+1
         defadr DispObject_SoftKeys_Show,0x116BCBD8+1
         defadr DispObject_SoftKeys_Hide,0x116BCBAC+1

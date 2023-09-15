@@ -43,7 +43,7 @@ __thumb void mfree(void *mem)
     memfree(NULL, mem, MEM_NAME, NULL);
 }
 
-Internal_Function *Init_Internal_Function()
+Internal_Function *Create_Internal_Function()
 {
   Internal_Function *Data = (Internal_Function *)malloc(sizeof(Internal_Function));
   memset(Data, NULL, sizeof(Internal_Function));
@@ -56,7 +56,7 @@ Internal_Function *Get_Internal_Function()
   Internal_Function *Data = (Internal_Function *)get_envp(NULL, EMP_NAME);
   if (Data)
     return Data;
-  return Init_Internal_Function();
+  return Create_Internal_Function();
 }
 
 void Delete_Internal_Function(Internal_Function *Data)
@@ -72,23 +72,35 @@ void Delete_Internal_Function(Internal_Function *Data)
 
 int division(int num1, int num2)
 {
-  int temp = 1, quotient = 0;
-  while (num2 <= num1)
+  if (num2 == 0)
   {
-    num2 <<= 1;
-    temp <<= 1;
+    // Handle division by zero here, if necessary.
+    return 0; // Or some appropriate value or error handling.
   }
-  while (temp > 1)
+
+  int quotient = 0;
+  int sign = 1; // Store the sign of the result.
+
+  // Handle negative numbers.
+  if (num1 < 0)
   {
-    num2 >>= 1;
-    temp >>= 1;
-    if (num1 >= num2)
-    {
-      num1 -= num2;
-      quotient += temp;
-    }
+    num1 = -num1;
+    sign = -sign;
   }
-  return quotient;
+  if (num2 < 0)
+  {
+    num2 = -num2;
+    sign = -sign;
+  }
+
+  while (num1 >= num2)
+  {
+    num1 -= num2;
+    quotient++;
+  }
+
+  // Apply the sign.
+  return sign * quotient;
 }
 
 int GetMediaVolume()
@@ -107,7 +119,8 @@ void InvalidateRect(DISP_OBJ *disp_obj)
 extern "C" void RefreshScreen()
 {
   Internal_Function *Data = Get_Internal_Function();
-  InvalidateRect(Data->Music_Gui_NowPlaying);
+  if (Data->Music_Gui_NowPlaying)
+    DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
 }
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
@@ -230,28 +243,28 @@ void SetGUIData(GUI *gui)
 
 extern "C" void Set_WALKMAN_GUI_STYLE(GUI *gui)
 {
-  int File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-  if (File >= 0)
+  int settings_file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (settings_file >= 0)
   {
-    SKIN *CurrentSkin = (SKIN *)malloc(sizeof(SKIN));
-    memset(CurrentSkin, NULL, sizeof(SKIN));
-    fread(File, CurrentSkin, sizeof(SKIN));
+    SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
+    memset(current_skin, NULL, sizeof(SKIN));
+    fread(settings_file, current_skin, sizeof(SKIN));
 
-    int FSkin = _fopen(CurrentSkin->Path, CurrentSkin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-    if (FSkin >= 0)
+    int skin_file = _fopen(current_skin->Path, current_skin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    if (skin_file >= 0)
     {
-      SkinData *FSkinData = (SkinData *)malloc(sizeof(SkinData));
-      memset(FSkinData, NULL, sizeof(SkinData));
-      fread(FSkin, FSkinData, sizeof(SkinData));
-      fclose(FSkin);
+      WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+      memset(skin_data, NULL, sizeof(WALKMAN_Skin));
+      fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
+      fclose(skin_file);
 
       Internal_Function *Data = Get_Internal_Function();
-      Data->Fullscreen = FSkinData->FullScreen;
-      Data->SoftKeys = FSkinData->SoftKeys;
-      mfree(FSkinData);
+      Data->Fullscreen = skin_data->FullScreen;
+      Data->SoftKeys = skin_data->SoftKeys;
+      mfree(skin_data);
     }
-    fclose(File);
-    mfree(CurrentSkin);
+    fclose(settings_file);
+    mfree(current_skin);
   }
   SetGUIData(gui);
   RefreshScreen();
@@ -327,14 +340,14 @@ extern "C" void Feedback_DrawCoverArt(DISP_OBJ *disp_obj, int a, int b, int c)
   FeedbackTicker_OnRedraw(disp_obj, a, b, c);
 
   Internal_Function *Data = Get_Internal_Function();
-  GC *pGC = get_DisplayGC();
+  GC *pGCanvas = get_DisplayGC();
 
   if (Data->CoverArtID != NOIMAGE)
   {
-    DrawImage(pGC, 0, 0, 40, 40, Data->CoverArtID);
+    DrawImageEx(pGCanvas, 0, 0, 40, 40, Data->CoverArtID);
   }
   else
   {
-    DrawImage(pGC, 0, 0, 40, 40, Data->MusicPlayer[NO_COVER_ICN].ImageID);
+    DrawImageEx(pGCanvas, 0, 0, 40, 40, Data->MusicPlayer[NO_COVER_ICN].ImageID);
   }
 }

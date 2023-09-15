@@ -26,7 +26,7 @@
 
 TEXTID MusicServerTime2ID(TMusicServer_Time Time)
 {
-  wchar_t Buffer[128];
+  wchar_t Buffer[32];
   int minutes = Time.hours * 60 + Time.minutes;
   snwprintf(Buffer,
             MAXELEMS(Buffer),
@@ -38,17 +38,27 @@ TEXTID MusicServerTime2ID(TMusicServer_Time Time)
 
 TEXTID GetRemainingTime(Internal_Function *Data)
 {
-  int min = (Data->FullTime.hours * 60 + Data->FullTime.minutes) - Data->ElapsedTime.minutes;
-  int sec;
-  int temp = Data->FullTime.seconds - Data->ElapsedTime.seconds;
-  if (temp >= 0)
-    sec = temp;
-  else
+  int total_minutes = (Data->FullTime.hours * 60 + Data->FullTime.minutes);
+  int elapsed_minutes = Data->ElapsedTime.minutes;
+  int elapsed_seconds = Data->ElapsedTime.seconds;
+
+  int remaining_minutes = total_minutes - elapsed_minutes;
+  int remaining_seconds = Data->FullTime.seconds - elapsed_seconds;
+
+  if (remaining_seconds < 0)
   {
-    min -= 1;
-    sec = 60 + temp;
+    remaining_seconds += 60;
+    remaining_minutes--;
   }
-  snwprintf(Data->Buffer, MAXELEMS(Data->Buffer), L"-%02d:%02d", min, sec);
+
+  if (remaining_minutes < 0)
+  {
+    remaining_minutes = 0;
+    remaining_seconds = 0;
+  }
+
+  snwprintf(Data->Buffer, MAXELEMS(Data->Buffer), L"-%02d:%02d", remaining_minutes, remaining_seconds);
+
   return TextID_Create(Data->Buffer, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
@@ -110,11 +120,11 @@ void LoadImage(Internal_Function *Data)
       }
     }
 #if defined(DB3200) || defined(DB3210)
-    Data->blob_w = division(dll_GetImageWidth(Data->MusicPlayer[4].ImageID), 2);
-    Data->blob_h = division(dll_GetImageHeight(Data->MusicPlayer[4].ImageID), 2);
+    Data->blob_w = dll_GetImageWidth(Data->MusicPlayer[4].ImageID) >> 1;
+    Data->blob_h = dll_GetImageHeight(Data->MusicPlayer[4].ImageID) >> 1;
 #else
-    Data->blob_w = division(GetImageWidth(Data->MusicPlayer[4].ImageID), 2);
-    Data->blob_h = division(GetImageHeight(Data->MusicPlayer[4].ImageID), 2);
+    Data->blob_w = GetImageWidth(Data->MusicPlayer[4].ImageID) >> 1;
+    Data->blob_h = GetImageHeight(Data->MusicPlayer[4].ImageID) >> 1;
 #endif
     fclose(File);
     mfree(SkinData);
@@ -165,11 +175,11 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   {
     if (Data->Portrait)
     {
-      DrawIcon(Data->MusicPlayer[MP_BG_PT].ImageID, Data->Main.Background_Image.x, Data->Main.Background_Image.y);
+      DrawImage(Data->MusicPlayer[MP_BG_PT].ImageID, Data->Main.Background_Image.x, Data->Main.Background_Image.y);
     }
     else
     {
-      DrawIcon(Data->MusicPlayer[MP_BG_LD].ImageID, Data->Main.Background_Image.x, Data->Main.Background_Image.y);
+      DrawImage(Data->MusicPlayer[MP_BG_LD].ImageID, Data->Main.Background_Image.x, Data->Main.Background_Image.y);
     }
   }
 
@@ -177,19 +187,19 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   {
     if (Data->CoverArtID == NOIMAGE)
       Data->CoverArtID = Data->MusicPlayer[NO_COVER_ICN].ImageID;
-    DrawImage(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->CoverArtID);
-    DrawImage(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->MusicPlayer[REFLECT].ImageID);
+    DrawImageEx(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->CoverArtID);
+    DrawImageEx(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->MusicPlayer[REFLECT].ImageID);
   }
 
   if (Data->Main.Overlay_Image.Enable)
   {
     if (Data->Portrait)
     {
-      DrawIcon(Data->MusicPlayer[OVERLAY_IMAGE_P].ImageID, Data->Main.Overlay_Image.x, Data->Main.Overlay_Image.y);
+      DrawImage(Data->MusicPlayer[OVERLAY_IMAGE_P].ImageID, Data->Main.Overlay_Image.x, Data->Main.Overlay_Image.y);
     }
     else
     {
-      DrawIcon(Data->MusicPlayer[OVERLAY_IMAGE_L].ImageID, Data->Main.Overlay_Image.x, Data->Main.Overlay_Image.y);
+      DrawImage(Data->MusicPlayer[OVERLAY_IMAGE_L].ImageID, Data->Main.Overlay_Image.x, Data->Main.Overlay_Image.y);
     }
   }
 
@@ -199,53 +209,53 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
     {
 #ifdef CLEARAUDIO
     case TMMEEqPreset_Normal:
-      DrawIcon(Data->MusicPlayer[MP_EQ_NORMAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_NORMAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Heavy:
-      DrawIcon(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Pops:
-      DrawIcon(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Jazz:
-      DrawIcon(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Unique:
-      DrawIcon(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Soul:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_EasyListening:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_BassBoost:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_TrebleBoost:
-      DrawIcon(Data->MusicPlayer[MP_EQ_TREBLEBOOST_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_TREBLEBOOST_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMMEEqPreset_Last:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MANUAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MANUAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
 #else
     case TMusicServerEqPreset_Normal:
-      DrawIcon(Data->MusicPlayer[MP_EQ_NORMAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_NORMAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMusicServerEqPreset_Bass:
-      DrawIcon(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_BASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMusicServerEqPreset_Megabass:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MEGABASS_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMusicServerEqPreset_Voice:
-      DrawIcon(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_VOICE_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMusicServerEqPreset_TrebleBoost:
-      DrawIcon(Data->MusicPlayer[MP_EQ_TREBLEBOOST_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_TREBLEBOOST_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
     case TMusicServerEqPreset_Manual:
-      DrawIcon(Data->MusicPlayer[MP_EQ_MANUAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
+      DrawImage(Data->MusicPlayer[MP_EQ_MANUAL_ICON].ImageID, Data->Main.EQ_Image.x, Data->Main.EQ_Image.y);
       break;
 #endif
     }
@@ -255,12 +265,12 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   {
     if (Data->MusicBook->Loop)
     {
-      DrawIcon(Data->MusicPlayer[MP_MODE_LOOP_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
+      DrawImage(Data->MusicPlayer[MP_MODE_LOOP_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
     }
 #ifdef REPEATONE
     else if (get_envp(NULL, "RepeatOne"))
     {
-      DrawIcon(Data->MusicPlayer[MP_MODE_REPEAT_ONE_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
+      DrawImage(Data->MusicPlayer[MP_MODE_REPEAT_ONE_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
     }
 #endif
   }
@@ -268,41 +278,41 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   {
     if (Data->MusicBook->Random)
     {
-      DrawIcon(Data->MusicPlayer[MP_MODE_RANDOM_ICN].ImageID, Data->Main.Shuffle_Image.x, Data->Main.Shuffle_Image.y);
+      DrawImage(Data->MusicPlayer[MP_MODE_RANDOM_ICN].ImageID, Data->Main.Shuffle_Image.x, Data->Main.Shuffle_Image.y);
     }
   }
 
   if (Data->Main.Title_Image.Enable)
   {
     if (Data->MusicPlayer[MP_TRACK_ICN].ImageID != NOIMAGE)
-      DrawIcon(Data->MusicPlayer[MP_TRACK_ICN].ImageID, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
+      DrawImage(Data->MusicPlayer[MP_TRACK_ICN].ImageID, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
     else
 #ifdef DB3150v1
-      DrawIcon(disp_obj->Track1, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
+      DrawImage(disp_obj->Track1, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
 #else
-      DrawIcon(disp_obj->Track->ImageID, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
+      DrawImage(disp_obj->Track->ImageID, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
 #endif
   }
   if (Data->Main.Artist_Image.Enable)
   {
     if (Data->MusicPlayer[MP_ARTIST_ICN].ImageID != NOIMAGE)
-      DrawIcon(Data->MusicPlayer[MP_ARTIST_ICN].ImageID, Data->Main.Artist_Image.x, Data->Main.Artist_Image.y);
+      DrawImage(Data->MusicPlayer[MP_ARTIST_ICN].ImageID, Data->Main.Artist_Image.x, Data->Main.Artist_Image.y);
     else
 #ifdef DB3150v1
-      DrawIcon(disp_obj->Artist, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
+      DrawImage(disp_obj->Artist, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
 #else
-      DrawIcon(disp_obj->Artist->ImageID, Data->Main.Artist_Image.x, Data->Main.Artist_Image.y);
+      DrawImage(disp_obj->Artist->ImageID, Data->Main.Artist_Image.x, Data->Main.Artist_Image.y);
 #endif
   }
   if (Data->Main.Album_Image.Enable)
   {
     if (Data->MusicPlayer[MP_ALBUM_ICN].ImageID != NOIMAGE)
-      DrawIcon(Data->MusicPlayer[MP_ALBUM_ICN].ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
+      DrawImage(Data->MusicPlayer[MP_ALBUM_ICN].ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
     else
 #ifdef DB3150v1
-      DrawIcon(disp_obj->Album, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
+      DrawImage(disp_obj->Album, Data->Main.Title_Image.x, Data->Main.Title_Image.y);
 #else
-      DrawIcon(disp_obj->Album->ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
+      DrawImage(disp_obj->Album->ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
 #endif
   }
 
@@ -311,56 +321,56 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
     switch (Data->MusicBook->PlayerState)
     {
     case TMusicServerState_Playing:
-      DrawIcon(Data->MusicPlayer[MP_PLAY_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
+      DrawImage(Data->MusicPlayer[MP_PLAY_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
       break;
     case TMusicServerState_Initiated:
     case TMusicServerState_Paused:
-      DrawIcon(Data->MusicPlayer[MP_PAUSE_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
+      DrawImage(Data->MusicPlayer[MP_PAUSE_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
       break;
     case TMusicServerState_FastForwarding:
-      DrawIcon(Data->MusicPlayer[MP_FAST_FORWARD_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
+      DrawImage(Data->MusicPlayer[MP_FAST_FORWARD_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
       break;
     case TMusicServerState_Rewinding:
-      DrawIcon(Data->MusicPlayer[MP_REWIND_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
+      DrawImage(Data->MusicPlayer[MP_REWIND_ICN].ImageID, Data->Main.PlayerState_Image.x, Data->Main.PlayerState_Image.y);
       break;
     }
   }
 
   if (Data->Main.WhellBG_Image.Enable)
   {
-    DrawIcon(Data->MusicPlayer[MC_WHEEL_BACKGROUND_ICN].ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
+    DrawImage(Data->MusicPlayer[MC_WHEEL_BACKGROUND_ICN].ImageID, Data->Main.Album_Image.x, Data->Main.Album_Image.y);
   }
 
   if (Data->Main.WhellUP_Image.Enable)
   {
-    DrawIcon(Data->MusicPlayer[MC_WHEEL_UP_ICN].ImageID, Data->Main.WhellUP_Image.x, Data->Main.WhellUP_Image.y);
+    DrawImage(Data->MusicPlayer[MC_WHEEL_UP_ICN].ImageID, Data->Main.WhellUP_Image.x, Data->Main.WhellUP_Image.y);
   }
 
   if (Data->Main.WhellDOWN_Image.Enable)
   {
-    DrawIcon(Data->MusicPlayer[MC_WHEEL_DOWN_ICN].ImageID, Data->Main.WhellDOWN_Image.x, Data->Main.WhellDOWN_Image.y);
+    DrawImage(Data->MusicPlayer[MC_WHEEL_DOWN_ICN].ImageID, Data->Main.WhellDOWN_Image.x, Data->Main.WhellDOWN_Image.y);
   }
 
   if (Data->Main.WhellLEFT_Image.Enable)
   {
     if (Data->MusicBook->PlayerState == TMusicServerState_Rewinding)
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_REW_ICN].ImageID, Data->Main.WhellLEFT_Image.x, Data->Main.WhellLEFT_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_REW_ICN].ImageID, Data->Main.WhellLEFT_Image.x, Data->Main.WhellLEFT_Image.y);
     }
     else
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_PREV_ICN].ImageID, Data->Main.WhellLEFT_Image.x, Data->Main.WhellLEFT_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_PREV_ICN].ImageID, Data->Main.WhellLEFT_Image.x, Data->Main.WhellLEFT_Image.y);
     }
   }
   if (Data->Main.WhellRIGHT_Image.Enable)
   {
     if (Data->MusicBook->PlayerState == TMusicServerState_FastForwarding)
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_FF_ICN].ImageID, Data->Main.WhellRIGHT_Image.x, Data->Main.WhellRIGHT_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_FF_ICN].ImageID, Data->Main.WhellRIGHT_Image.x, Data->Main.WhellRIGHT_Image.y);
     }
     else
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_NEXT_ICN].ImageID, Data->Main.WhellRIGHT_Image.x, Data->Main.WhellRIGHT_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_NEXT_ICN].ImageID, Data->Main.WhellRIGHT_Image.x, Data->Main.WhellRIGHT_Image.y);
     }
   }
 
@@ -368,151 +378,151 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   {
     if (Data->MusicBook->PlayerState == TMusicServerState_Playing)
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_PAUSE_ICN].ImageID, Data->Main.WhellCENTER_Image.x, Data->Main.WhellCENTER_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_PAUSE_ICN].ImageID, Data->Main.WhellCENTER_Image.x, Data->Main.WhellCENTER_Image.y);
     }
     else
     {
-      DrawIcon(Data->MusicPlayer[MC_WHEEL_PLAY_ICN].ImageID, Data->Main.WhellCENTER_Image.x, Data->Main.WhellCENTER_Image.y);
+      DrawImage(Data->MusicPlayer[MC_WHEEL_PLAY_ICN].ImageID, Data->Main.WhellCENTER_Image.x, Data->Main.WhellCENTER_Image.y);
     }
   }
 
   if (Data->Main.Title.Enable)
   {
-    DrawString_Params(Data->Main.Title.Font,
-                      disp_obj->TextID.Title,
-                      Data->Main.Title.Align,
-                      Data->Main.Title.x1,
-                      Data->Main.Title.y1,
-                      Data->Main.Title.x2 - Data->Main.Title.x1,
-                      Data->Main.Title.Color);
+    DrawText(Data->Main.Title.Font,
+             disp_obj->TextID.Title,
+             Data->Main.Title.Align,
+             Data->Main.Title.x1,
+             Data->Main.Title.y1,
+             Data->Main.Title.x2 - Data->Main.Title.x1,
+             Data->Main.Title.Color);
   }
 
   if (Data->Main.Artist.Enable)
   {
-    DrawString_Params(Data->Main.Artist.Font,
-                      disp_obj->TextID.Artist,
-                      Data->Main.Artist.Align,
-                      Data->Main.Artist.x1,
-                      Data->Main.Artist.y1,
-                      Data->Main.Artist.x2 - Data->Main.Artist.x1,
-                      Data->Main.Artist.Color);
+    DrawText(Data->Main.Artist.Font,
+             disp_obj->TextID.Artist,
+             Data->Main.Artist.Align,
+             Data->Main.Artist.x1,
+             Data->Main.Artist.y1,
+             Data->Main.Artist.x2 - Data->Main.Artist.x1,
+             Data->Main.Artist.Color);
   }
 
   if (Data->Main.Album.Enable)
   {
-    DrawString_Params(Data->Main.Album.Font,
-                      disp_obj->TextID.Album,
-                      Data->Main.Album.Align,
-                      Data->Main.Album.x1,
-                      Data->Main.Album.y1,
-                      Data->Main.Album.x2 - Data->Main.Album.x1,
-                      Data->Main.Album.Color);
+    DrawText(Data->Main.Album.Font,
+             disp_obj->TextID.Album,
+             Data->Main.Album.Align,
+             Data->Main.Album.x1,
+             Data->Main.Album.y1,
+             Data->Main.Album.x2 - Data->Main.Album.x1,
+             Data->Main.Album.Color);
   }
 
   if (Data->Main.Extension.Enable)
   {
     Data->TextID = TextID_Create(Data->Extension, ENC_UCS2, TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Extension.Font,
-                      Data->TextID,
-                      Data->Main.Extension.Align,
-                      Data->Main.Extension.x1,
-                      Data->Main.Extension.y1,
-                      Data->Main.Extension.x2 - Data->Main.Extension.x1,
-                      Data->Main.Extension.Color);
+    DrawText(Data->Main.Extension.Font,
+             Data->TextID,
+             Data->Main.Extension.Align,
+             Data->Main.Extension.x1,
+             Data->Main.Extension.y1,
+             Data->Main.Extension.x2 - Data->Main.Extension.x1,
+             Data->Main.Extension.Color);
   }
 
   if (Data->Main.C_TrackID.Enable)
   {
     Data->TextID = TextID_CreateIntegerID(Data->MusicBook->current_track_id + 1);
-    DrawString_Params(Data->Main.C_TrackID.Font,
-                      Data->TextID,
-                      Data->Main.C_TrackID.Align,
-                      Data->Main.C_TrackID.x1,
-                      Data->Main.C_TrackID.y1,
-                      Data->Main.C_TrackID.x2 - Data->Main.C_TrackID.x1,
-                      Data->Main.C_TrackID.Color);
+    DrawText(Data->Main.C_TrackID.Font,
+             Data->TextID,
+             Data->Main.C_TrackID.Align,
+             Data->Main.C_TrackID.x1,
+             Data->Main.C_TrackID.y1,
+             Data->Main.C_TrackID.x2 - Data->Main.C_TrackID.x1,
+             Data->Main.C_TrackID.Color);
   }
 
   if (Data->Main.TotalTrackID.Enable)
   {
     Data->TextID = TextID_CreateIntegerID(Data->MusicBook->tracks_count);
-    DrawString_Params(Data->Main.TotalTrackID.Font,
-                      Data->TextID,
-                      Data->Main.TotalTrackID.Align,
-                      Data->Main.TotalTrackID.x1,
-                      Data->Main.TotalTrackID.y1,
-                      Data->Main.TotalTrackID.x2 - Data->Main.TotalTrackID.x1,
-                      Data->Main.TotalTrackID.Color);
+    DrawText(Data->Main.TotalTrackID.Font,
+             Data->TextID,
+             Data->Main.TotalTrackID.Align,
+             Data->Main.TotalTrackID.x1,
+             Data->Main.TotalTrackID.y1,
+             Data->Main.TotalTrackID.x2 - Data->Main.TotalTrackID.x1,
+             Data->Main.TotalTrackID.Color);
   }
 
   if (Data->Main.Genre.Enable)
   {
     Data->TextID = TextID_Create(Data->Genre, ENC_UCS2, TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.Genre.Font,
-                      Data->TextID,
-                      Data->Main.Genre.Align,
-                      Data->Main.Genre.x1,
-                      Data->Main.Genre.y1,
-                      Data->Main.Genre.x2 - Data->Main.Genre.x1,
-                      Data->Main.Genre.Color);
+    DrawText(Data->Main.Genre.Font,
+             Data->TextID,
+             Data->Main.Genre.Align,
+             Data->Main.Genre.x1,
+             Data->Main.Genre.y1,
+             Data->Main.Genre.x2 - Data->Main.Genre.x1,
+             Data->Main.Genre.Color);
   }
 
   if (Data->Main.TotalTime.Enable)
   {
     Data->TextID = MusicServerTime2ID(Data->FullTime);
-    DrawString_Params(Data->Main.TotalTime.Font,
-                      Data->TextID,
-                      Data->Main.TotalTime.Align,
-                      Data->Main.TotalTime.x1,
-                      Data->Main.TotalTime.y1,
-                      Data->Main.TotalTime.x2 - Data->Main.TotalTime.x1,
-                      Data->Main.TotalTime.Color);
+    DrawText(Data->Main.TotalTime.Font,
+             Data->TextID,
+             Data->Main.TotalTime.Align,
+             Data->Main.TotalTime.x1,
+             Data->Main.TotalTime.y1,
+             Data->Main.TotalTime.x2 - Data->Main.TotalTime.x1,
+             Data->Main.TotalTime.Color);
   }
 
   if (Data->Main.ElapsedTime.Enable)
   {
     Data->TextID = MusicServerTime2ID(Data->ElapsedTime);
-    DrawString_Params(Data->Main.ElapsedTime.Font,
-                      Data->TextID,
-                      Data->Main.ElapsedTime.Align,
-                      Data->Main.ElapsedTime.x1,
-                      Data->Main.ElapsedTime.y1,
-                      Data->Main.ElapsedTime.x2 - Data->Main.ElapsedTime.x1,
-                      Data->Main.ElapsedTime.Color);
+    DrawText(Data->Main.ElapsedTime.Font,
+             Data->TextID,
+             Data->Main.ElapsedTime.Align,
+             Data->Main.ElapsedTime.x1,
+             Data->Main.ElapsedTime.y1,
+             Data->Main.ElapsedTime.x2 - Data->Main.ElapsedTime.x1,
+             Data->Main.ElapsedTime.Color);
   }
 
   if (Data->Main.RemainingTime.Enable)
   {
     Data->TextID = GetRemainingTime(Data);
-    DrawString_Params(Data->Main.RemainingTime.Font,
-                      Data->TextID,
-                      Data->Main.RemainingTime.Align,
-                      Data->Main.RemainingTime.x1,
-                      Data->Main.RemainingTime.y1,
-                      Data->Main.RemainingTime.x2 - Data->Main.RemainingTime.x1,
-                      Data->Main.RemainingTime.Color);
+    DrawText(Data->Main.RemainingTime.Font,
+             Data->TextID,
+             Data->Main.RemainingTime.Align,
+             Data->Main.RemainingTime.x1,
+             Data->Main.RemainingTime.y1,
+             Data->Main.RemainingTime.x2 - Data->Main.RemainingTime.x1,
+             Data->Main.RemainingTime.Color);
   }
 
   if (Data->Main.BitRate.Enable)
   {
     snwprintf(Data->Buffer, MAXELEMS(Data->Buffer), L"%d Kbps", Data->Bitrate);
     Data->TextID = TextID_Create(Data->Buffer, ENC_UCS2, TEXTID_ANY_LEN);
-    DrawString_Params(Data->Main.BitRate.Font,
-                      Data->TextID,
-                      Data->Main.BitRate.Align,
-                      Data->Main.BitRate.x1,
-                      Data->Main.BitRate.y1,
-                      Data->Main.BitRate.x2 - Data->Main.BitRate.x1,
-                      Data->Main.BitRate.Color);
+    DrawText(Data->Main.BitRate.Font,
+             Data->TextID,
+             Data->Main.BitRate.Align,
+             Data->Main.BitRate.x1,
+             Data->Main.BitRate.y1,
+             Data->Main.BitRate.x2 - Data->Main.BitRate.x1,
+             Data->Main.BitRate.Color);
   }
 
   if (Data->Main.ProgressBar.Enable)
   {
-    DrawProgressBar(Data, Data->ElapsedTimeInSeconds, Data->FullTimeInSeconds, Data->Main.ProgressBar.Rect, Data->Main.ProgressBar.BColor, Data->Main.ProgressBar.FColor);
+    DrawProgressBar(Data->ElapsedTimeInSeconds, Data->FullTimeInSeconds, Data->Main.ProgressBar.Rect, Data->Main.ProgressBar.BColor, Data->Main.ProgressBar.FColor);
   }
 
   if (Data->Main.VolumeBar.Enable)
   {
-    DrawProgressBar(Data, Data->VolumeLevel, MAX_MEDIAVOLUME, Data->Main.VolumeBar.Rect, Data->Main.VolumeBar.BColor, Data->Main.VolumeBar.FColor);
+    DrawProgressBar(Data->VolumeLevel, MAX_MEDIAVOLUME, Data->Main.VolumeBar.Rect, Data->Main.VolumeBar.BColor, Data->Main.VolumeBar.FColor);
   }
 }
