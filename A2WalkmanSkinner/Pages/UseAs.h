@@ -1,7 +1,17 @@
 #ifndef _USEAS_H_
 #define _USEAS_H_
 
-static const int items_text[4] =
+
+enum use_as_items
+{
+    USEAS_ITEM1,
+    USEAS_ITEM2,
+    USEAS_ITEM3,
+    USEAS_ITEM4,
+    USEAS_LAST
+};
+
+static const int items_text[USEAS_LAST] =
     {
         TEXT_RINGTONE,
         TEXT_MESSAGEALERT,

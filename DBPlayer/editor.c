@@ -11,6 +11,7 @@
 #include "Lib.h"
 #include "setting.h"
 #include "data.h"
+#include "draw.h"
 #include "lang.h"
 #include "editor.h"
 #include "main.h"
@@ -205,7 +206,7 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
 {
   RECT rc_old;
   int gc_xx;
-  int fsize = 20;
+  int f_size = 20;
   GC *gc = get_DisplayGC();
   int column_height, column_width;
   int start_column, y_line;
@@ -222,8 +223,8 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
   scr_w = rc_old.x2 - x1;
   scr_h = rc_old.y2 - y1;
 
-  column_height = scr_h - fsize - fsize;
-  column_width = scr_w / 9;
+  column_height = scr_h - (f_size << 1);
+  column_width = scr_w >> 3;
   DrawRect(x1, y1, x1 + scr_w, y1 + scr_h, clWhite, clWhite);
 
   if (disp_obj->need_str)
@@ -233,51 +234,39 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
     disp_obj->buf_text = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
     disp_obj->need_str = 0;
   }
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  dll_DrawString(FONT_E_20R,
-                 disp_obj->buf_text,
-                 AlignCenter,
-                 x1 + 1,
-                 y1 + 1,
-                 x1 + scr_w - 1,
-                 y1 + 1 + fsize + 1,
-                 clBlack);
-#else
-  SetFont(FONT_E_20R);
-  DrawString(disp_obj->buf_text,
+  DrawTextEx(FONT_E_20R,
+             disp_obj->buf_text,
              AlignCenter,
              x1 + 1,
              y1 + 1,
              x1 + scr_w - 1,
-             y1 + 1 + fsize + 1,
-             0, 0,
-             clBlack,
-             clEmpty);
-#endif
-  fsize += 3;
+             y1 + 1 + f_size + 1,
+             clBlack);
+
+  f_size += 3;
 
   for (int i = 0; i != 4; i++)
   {
     start_column = column_width + 2 * i * column_width + 4;
     column_height++; // Какая то фигня с DrawRect, координаты не совпадают с DrawLine. Оно и понятно, DrawRect не GC_.
     if (disp_obj->current_column == i)
-      DrawRect(x1 + start_column - 2, y1 + fsize - 2 + 50, x1 + start_column + column_width + 2, y1 + fsize + column_height + 2, clBlack, clWhite); // Столбик
-    DrawRect(x1 + start_column, y1 + fsize + 50, x1 + start_column + column_width, y1 + fsize + column_height, clBlack, colors[i]);                 // Рамка
+      DrawRect(x1 + start_column - 2, y1 + f_size - 2 + 50, x1 + start_column + column_width + 2, y1 + f_size + column_height + 2, clBlack, clWhite); // Столбик
+    DrawRect(x1 + start_column, y1 + f_size + 50, x1 + start_column + column_width, y1 + f_size + column_height, clBlack, colors[i]);                 // Рамка
     column_height--;
 
     switch (i)
     {
     case 0:
-      y_line = fsize + column_height - (disp_obj->r * (column_height - 50)) / 0xFF;
+      y_line = f_size + column_height - (disp_obj->r * (column_height - 50)) / 0xFF;
       break;
     case 1:
-      y_line = fsize + column_height - (disp_obj->g * (column_height - 50)) / 0xFF;
+      y_line = f_size + column_height - (disp_obj->g * (column_height - 50)) / 0xFF;
       break;
     case 2:
-      y_line = fsize + column_height - (disp_obj->b * (column_height - 50)) / 0xFF;
+      y_line = f_size + column_height - (disp_obj->b * (column_height - 50)) / 0xFF;
       break;
     case 3:
-      y_line = fsize + column_height - (disp_obj->a * (column_height - 50)) / 0xFF;
+      y_line = f_size + column_height - (disp_obj->a * (column_height - 50)) / 0xFF;
       break;
     }
 
@@ -288,98 +277,95 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
   }
 
   int testcolor = COLOR_RGBA(disp_obj->r, disp_obj->g, disp_obj->b, disp_obj->a);
-  DrawRect(x1 + 20, y1 + 1 + 30, x1 + scr_w - 20, y1 + fsize + 30, clBlack, testcolor);
+  DrawRect(x1 + 20, y1 + 1 + 30, x1 + scr_w - 20, y1 + f_size + 30, clBlack, testcolor);
   GC_SetXX(gc, gc_xx);
 }
 
 void Color_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int, int repeat, int mode)
 {
-  if (mode == KBD_SHORT_RELEASE || mode == KBD_REPEAT)
+  if (mode != KBD_SHORT_RELEASE && mode != KBD_REPEAT)
   {
-    if (mode == KBD_SHORT_RELEASE)
+    if (mode == KBD_LONG_RELEASE)
       disp_obj->cstep = 1;
-    else if (mode == KBD_REPEAT && repeat > 10)
-      disp_obj->cstep = 8;
-
-    if (key == KEY_UP || key == KEY_DIGITAL_2)
-    {
-      switch (disp_obj->current_column)
-      {
-      case 0:
-        if ((disp_obj->r += disp_obj->cstep) > 0xFF)
-          disp_obj->r = 0;
-        break;
-      case 1:
-        if ((disp_obj->g += disp_obj->cstep) > 0xFF)
-          disp_obj->g = 0;
-        break;
-      case 2:
-        if ((disp_obj->b += disp_obj->cstep) > 0xFF)
-          disp_obj->b = 0;
-        break;
-      case 3:
-        if ((disp_obj->a += disp_obj->cstep) > 0xFF)
-          disp_obj->a = 0;
-        break;
-      }
-      disp_obj->need_str = 1;
-    }
-    else if (key == KEY_DOWN || key == KEY_DIGITAL_8)
-    {
-      switch (disp_obj->current_column)
-      {
-      case 0:
-        if ((disp_obj->r -= disp_obj->cstep) < 0)
-          disp_obj->r = 0xFF;
-        break;
-      case 1:
-        if ((disp_obj->g -= disp_obj->cstep) < 0)
-          disp_obj->g = 0xFF;
-        break;
-      case 2:
-        if ((disp_obj->b -= disp_obj->cstep) < 0)
-          disp_obj->b = 0xFF;
-        break;
-      case 3:
-        if ((disp_obj->a -= disp_obj->cstep) < 0)
-          disp_obj->a = 0xFF;
-        break;
-      }
-      disp_obj->need_str = 1;
-    }
-    else if (key == KEY_LEFT || key == KEY_DIGITAL_4)
-    {
-      if (--disp_obj->current_column < 0)
-        disp_obj->current_column = 3;
-    }
-    else if (key == KEY_RIGHT || key == KEY_DIGITAL_6)
-    {
-      if (++disp_obj->current_column > 3)
-        disp_obj->current_column = 0;
-    }
-    else if (key == KEY_DEL)
-    {
-      switch (disp_obj->current_column)
-      {
-      case 0:
-        disp_obj->r = 0;
-        break;
-      case 1:
-        disp_obj->g = 0;
-        break;
-      case 2:
-        disp_obj->b = 0;
-        break;
-      case 3:
-        disp_obj->a = 0;
-        break;
-      }
-      disp_obj->need_str = 1;
-    }
+    return;
   }
 
-  if (mode == KBD_LONG_RELEASE)
+  if (mode == KBD_SHORT_RELEASE)
     disp_obj->cstep = 1;
+  else if (repeat > 10)
+    disp_obj->cstep = 8;
+
+  switch (key)
+  {
+  case KEY_UP:
+  case KEY_DIGITAL_2:
+    switch (disp_obj->current_column)
+    {
+    case 0:
+      disp_obj->r = (disp_obj->r + disp_obj->cstep) & 0xFF;
+      break;
+    case 1:
+      disp_obj->g = (disp_obj->g + disp_obj->cstep) & 0xFF;
+      break;
+    case 2:
+      disp_obj->b = (disp_obj->b + disp_obj->cstep) & 0xFF;
+      break;
+    case 3:
+      disp_obj->a = (disp_obj->a + disp_obj->cstep) & 0xFF;
+      break;
+    }
+    break;
+
+  case KEY_DOWN:
+  case KEY_DIGITAL_8:
+    switch (disp_obj->current_column)
+    {
+    case 0:
+      disp_obj->r = (disp_obj->r - disp_obj->cstep) & 0xFF;
+      break;
+    case 1:
+      disp_obj->g = (disp_obj->g - disp_obj->cstep) & 0xFF;
+      break;
+    case 2:
+      disp_obj->b = (disp_obj->b - disp_obj->cstep) & 0xFF;
+      break;
+    case 3:
+      disp_obj->a = (disp_obj->a - disp_obj->cstep) & 0xFF;
+      break;
+    }
+    break;
+
+  case KEY_LEFT:
+  case KEY_DIGITAL_4:
+    disp_obj->current_column = (disp_obj->current_column - 1 + 4) % 4;
+    break;
+
+  case KEY_RIGHT:
+  case KEY_DIGITAL_6:
+    disp_obj->current_column = (disp_obj->current_column + 1) % 4;
+    break;
+
+  case KEY_DEL:
+    switch (disp_obj->current_column)
+    {
+    case 0:
+      disp_obj->r = 0;
+      break;
+    case 1:
+      disp_obj->g = 0;
+      break;
+    case 2:
+      disp_obj->b = 0;
+      break;
+    case 3:
+      disp_obj->a = 0;
+      break;
+    }
+    break;
+  }
+
+  disp_obj->need_str = 1;
+
   DispObject_InvalidateRect(disp_obj, NULL);
 }
 
@@ -482,15 +468,17 @@ void SetColor(BOOK *book, int type)
   GUIObject_SetTitleText(setbook->color_picker, TEXT_COLOR);
   GUIObject_SetTitleType(setbook->color_picker, UI_TitleMode_Small);
   GUIObject_SoftKeys_SetAction(setbook->color_picker, ACTION_SELECT1, Color_OnSelect);
-  GUIObject_SoftKeys_SetText(setbook->color_picker, ACTION_SELECT1, STR("OK"));
+  GUIObject_SoftKeys_SetText(setbook->color_picker, ACTION_SELECT1, TextID_Create("OK", ENC_LAT1, 2));
   GUIObject_SoftKeys_SetAction(setbook->color_picker, ACTION_BACK, Color_OnBack);
   GUIObject_Show(setbook->color_picker);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SetActiveSoft(DBP_DATA *data, BOOL mode)
+void SetActiveSoftkeys(BOOL mode)
 {
+  DBP_DATA *data = GetData();
+
   if (!data->paused)
     GUIObject_SoftKeys_SetVisible(data->gui, ACTION_PAUSE, mode);
   else
@@ -504,7 +492,12 @@ void SetActiveSoft(DBP_DATA *data, BOOL mode)
   GUIObject_SoftKeys_SetVisible(data->gui, ACTION_TIME, mode);
   GUIObject_SoftKeys_SetVisible(data->gui, ACTION_MINIMISE, mode);
   GUIObject_SoftKeys_SetVisible(data->gui, ACTION_LONG_BACK, mode);
-
+#ifndef DB3350
+  if (data->setting.screen)
+    GUIObject_SoftKeys_RemoveBackground(data->gui);
+  else
+    GUIObject_SoftKeys_RestoreBackground(data->gui);
+#endif
   if (data->setting.soft)
   {
     if (mode)
@@ -514,27 +507,50 @@ void SetActiveSoft(DBP_DATA *data, BOOL mode)
   }
 }
 
-#if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
-wchar_t *Font_GetNameByFontId(int id)
+wchar_t *Font_GetNameByFontId(int font_size)
 {
-  wchar_t *txt = L"Undefined";
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  wchar_t *font_name = (wchar_t *)malloc(16 * sizeof(wchar_t)); // Allocate memory
+
+  // Handle memory allocation error
+  if (font_name == NULL)
+    return NULL;
+
+  switch (font_size >> 8)
+  {
+  case UIFontStylePlain:
+    snwprintf(font_name, 16, L"%d_R", font_size);
+    break;
+  case UIFontStyleBold:
+    snwprintf(font_name, 16, L"%d_B", FONTHEIGHT(font_size));
+    break;
+  case UIFontStyleItalic:
+    snwprintf(font_name, 16, L"%d_I", FONTHEIGHT(font_size));
+    break;
+  case UIFontStyleBoldItalic:
+    snwprintf(font_name, 16, L"%d_B_I", FONTHEIGHT(font_size));
+    break;
+  }
+  return font_name;
+}
+#else
+  wchar_t *font_name = L"Undefined";
   FONT_DESC *font_desc = PGetFontDesc;
   int total_font = *PGetFontCount;
 
   for (int i = 0; i < total_font; i++)
   {
-    if (id == font_desc[i].id)
+    if (font_size == font_desc[i].id)
     {
-      txt = font_desc[i].name;
+      font_name = font_desc[i].name;
       break;
     }
   }
-  return txt;
+  return font_name;
 }
-
 int GetIdByFontId(int id)
 {
-  int ret = NULL;
+  int ret = 0;
   FONT_DESC *font_desc = PGetFontDesc;
   int total_font = *PGetFontCount;
 
@@ -557,15 +573,15 @@ void SetVisual(BOOK *book)
   data->edit_visual = TRUE;
   data->element = setbook->element;
 
-  // data->pIMMEPlayer->Pause();
-  // data->paused = TRUE;
+  data->pIMMEPlayer->Pause();
+  data->paused = TRUE;
   int type = setbook->elem_type;
 
   if (type == ELEM_TEXT)
   {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    data->total_fonts = max_size / font_step;
-    data->cur_pos = FONTHEIGHT(data->temp.font) / font_step - 1;
+    data->total_fonts = max_size;
+    data->cur_pos = FONTHEIGHT(data->temp.font) - 1;
     int style_flags = data->temp.font >> 8;
     data->style_bold = style_flags & bold;
     data->style_italic = (style_flags & italic) >> 1;
@@ -573,23 +589,23 @@ void SetVisual(BOOK *book)
     data->total_fonts = *PGetFontCount;
     data->cur_pos = GetIdByFontId(data->temp.font);
 #endif
-    data->text = TRUE;
-    data->rect = FALSE;
-    data->icon = FALSE;
+    data->edit_text_mode = TRUE;
+    data->edit_rect_mode = FALSE;
+    data->edit_image_mode = FALSE;
   }
   else if (type == ELEM_RECT)
   {
-    data->text = FALSE;
-    data->rect = TRUE;
-    data->icon = FALSE;
+    data->edit_text_mode = FALSE;
+    data->edit_rect_mode = TRUE;
+    data->edit_image_mode = FALSE;
   }
   else if (type == ELEM_ICON)
   {
-    data->text = FALSE;
-    data->rect = FALSE;
-    data->icon = TRUE;
+    data->edit_text_mode = FALSE;
+    data->edit_rect_mode = FALSE;
+    data->edit_image_mode = TRUE;
   }
 
   FreeBook(setbook);
-  SetActiveSoft(data, FALSE);
+  SetActiveSoftkeys(FALSE);
 }

@@ -94,56 +94,60 @@ void TimerList_Free(TimerList *LrcList)
 int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
 {
   AdvLyricBook *Lrc = (AdvLyricBook *)book;
+  mfree(Lrc->LrcBuf);
 
   FSTAT _fstat;
   if (fstat(fpath, fname, &_fstat) < 0)
-    return 0;
+    return LRC_FAIL;
 
   int fsize = _fstat.fsize;
   if (!fsize)
-    return 0;
+    return LRC_FAIL;
 
   int file = _fopen(fpath, fname, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file < 0)
-    return 0;
+    return LRC_FAIL;
 
-  char *lrca;
-  wchar_t *wlrca;
+  char *utf8_buffer;
+  wchar_t *utf16_buffer;
 
-  lrca = StringAlloc(fsize);
-  fread(file, lrca, fsize);
+  utf8_buffer = StringAlloc(fsize);
+  fread(file, utf8_buffer, fsize);
   fclose(file);
 
-  int encoding = Encoding_GetType(lrca);
-  mfree(Lrc->LrcBuf);
+  int encoding = GetEncodingType(utf8_buffer);
   switch (encoding)
   {
   case ANSI:
-    Lrc->LrcBuf = StringAlloc(StringLength(lrca));
-    strcpy(Lrc->LrcBuf, lrca);
+    Lrc->LrcBuf = StringAlloc(strlen(utf8_buffer));
+    strcpy(Lrc->LrcBuf, utf8_buffer);
     break;
-  case UNICODE:
-    wlrca = WStringAlloc(division(fsize, 2));
-    memcpy(wlrca, lrca + 2, fsize - 1);
+  case UTF8_BOM:
+    Lrc->LrcBuf = StringAlloc(strlen(utf8_buffer));
+    UTF8_to_ANSI(Lrc->LrcBuf, utf8_buffer, strlen(utf8_buffer));
+    break;
+  case UTF16_LE:
+    utf16_buffer = WStringAlloc(fsize / 2);
+    memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
     Lrc->LrcBuf = StringAlloc(fsize);
-    wstr2strn(Lrc->LrcBuf, wlrca, fsize + 1);
-    mfree(wlrca);
+    UTF16LE_to_ANSI(utf16_buffer, Lrc->LrcBuf, fsize + 1);
+    mfree(utf16_buffer);
     break;
-  case UTF8:
-    Lrc->LrcBuf = StringAlloc(StringLength(lrca));
-    wlrca = WStringAlloc(StringLength(lrca) * 2);
-    UTF82unicode(wlrca, lrca, StringLength(lrca));
-    wstr2strn(Lrc->LrcBuf, wlrca, StringLength(lrca));
-    mfree(wlrca);
+  case UTF16_BE:
+    utf16_buffer = WStringAlloc(fsize / 2);
+    memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
+    Lrc->LrcBuf = StringAlloc(fsize);
+    UTF16BE_to_ANSI(utf16_buffer, Lrc->LrcBuf, fsize + 1);
+    mfree(utf16_buffer);
     break;
   default:
     encoding = ERROR;
     break;
   }
-  mfree(lrca);
+  mfree(utf8_buffer);
 
   if (encoding == ERROR)
-    return 0;
+    return LRC_FAIL;
 
   if (Lrc->LrcList)
     TimerList_Free(Lrc->LrcList);
@@ -152,11 +156,11 @@ int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
   memset(Lrc->LrcList, NULL, sizeof(TimerList) * (MAX_TIMER));
   Lrc->list_num = 0;
   int i = 0;
-  while (i < StringLength(Lrc->LrcBuf))
+  while (i < strlen(Lrc->LrcBuf))
   {
     if (Lrc->LrcBuf[i] == '[')
     {
-      if (IsDigit(Lrc->LrcBuf[i + 1]))
+      if (is_digit(Lrc->LrcBuf[i + 1]))
       {
         int j = 1;
         char *tmp = StringAlloc(MAX_EXT);
@@ -171,14 +175,14 @@ int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
         char Min[4] = "";
         char Sec[4] = "";
         char MSec[4] = "";
-        strncpy(Min, tmp, StringLength(tmp) - StringLength(strstr(tmp, ":")));
+        strncpy(Min, tmp, strlen(tmp) - strlen(strstr(tmp, ":")));
         if (strstr(tmp, "."))
         {
-          strncpy(Sec, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - StringLength(strstr(tmp, ".")) - 1);
-          strncpy(MSec, strstr(tmp, ".") + 1, StringLength(strstr(tmp, ".")) - 1);
+          strncpy(Sec, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - strlen(strstr(tmp, ".")) - 1);
+          strncpy(MSec, strstr(tmp, ".") + 1, strlen(strstr(tmp, ".")) - 1);
         }
         else
-          strncpy(Sec, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - 1);
+          strncpy(Sec, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - 1);
         Lrc->LrcList[Lrc->list_num].Timer = Str2Timer(MSec) + (Str2Timer(Sec) * 1000) + (Str2Timer(Min) * 60 * 1000);
 
         int m = i;
@@ -197,19 +201,22 @@ int LoadLrc(BOOK *book, wchar_t *fpath, wchar_t *fname)
         Lrc->LrcList[Lrc->list_num].LrcInfo = WStringAlloc(MAX_EXT);
 
         wstrcpy(Lrc->LrcList[Lrc->list_num].LrcInfo, wstrrchr(wstr, ']') + 1);
-        i += (StringLength(tmp) + 1);
+        i += (strlen(tmp) + 1);
         Lrc->list_num++;
+        mfree(wstr);
+        mfree(ttmp);
+        mfree(tmp);
       }
     }
     i++;
   }
-  return 1;
+  return LRC_OK;
 }
 
 int songname_to_lrc(wchar_t *lyricname, wchar_t *songname, int len)
 {
   if (!len)
-    return FALSE;
+    return LRC_FAIL;
 
   int i = 0;
   wchar_t *wstr = wstrrchr(songname, '.');
@@ -220,7 +227,7 @@ int songname_to_lrc(wchar_t *lyricname, wchar_t *songname, int len)
     i++;
   }
   wstrcat(lyricname, L"lrc");
-  return TRUE;
+  return LRC_OK;
 }
 
 int find_current_timer_list(time_t Time, AdvLyricBook *Lrc)
@@ -310,7 +317,7 @@ void onLrcShowTimer(u16 timerID, LPARAM lparam)
 void AdvLyric_RefreshScreen(BOOK *book)
 {
   AdvLyricBook *Lrc = (AdvLyricBook *)book;
-  DispObject_InvalidateRect(GUIObject_GetDispObject(Lrc->LyricGUI), NULL);
+  InvalidateRect(GUIObject_GetDispObject(Lrc->LyricGUI));
 }
 
 void AdvLyric_GetLyric(void *timedata, BOOK *book)
@@ -331,7 +338,7 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book)
     Lrc->Display = LoadLrc(Lrc, Lrc->CurrentTrack->Filepath, Lyricname);
     mfree(Lyricname);
 
-    if (Lrc->Display == 1)
+    if (Lrc->Display == LRC_OK)
     {
       Lrc->CurrentIndex = LRC_PREPARING;
       SortTimer(Lrc);
@@ -348,7 +355,7 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book)
     TrackDesc_Free(NewTrack);
   }
 
-  if (Lrc->Display == 1)
+  if (Lrc->Display == LRC_OK)
   {
     PLAYING_TIME_DATA *TimeData = (PLAYING_TIME_DATA *)timedata;
     int ElapsedTime = (TimeData->Minutes * 60 * 1000) + (TimeData->Seconds * 1000) + TimeData->MilliSeconds;

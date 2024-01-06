@@ -63,24 +63,28 @@ void UseAsFile_onSelect(BOOK *book, GUI *gui)
 
   switch (ListMenu_GetSelectedItem(MusicBook->Gui_submenu))
   {
-  case 0:
+  case USEAS_ITEM1:
     SetRingtone(MusicBook, path, name);
     break;
-  case 1:
+  case USEAS_ITEM2:
     SetSMSAlert(MusicBook, path, name);
     break;
-  case 2:
+  case USEAS_ITEM3:
     Sound_SetAlarmsignal(MusicBook, 1, path, name);
     break;
-  case 3:
+  case USEAS_ITEM4:
     Sound_AddToContact(BookObj_GetBookID(MusicBook), path, wstrlen(path), name, wstrlen(name), NULL);
     DESTROY_GUI(MusicBook->Gui_submenu);
     break;
   }
+#if defined(C901_R1GA028) || defined(C903_R1GA028) || defined(T715_R1GA026)
+  DESTROY_GUI(MusicBook->Gui_submenu);
+#endif
 }
+
 void UseAsFile_onBack(BOOK *book, GUI *gui)
 {
-#ifdef C901_R1GA028
+#if defined(C901_R1GA028) || defined(C903_R1GA028) || defined(T715_R1GA026)
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   DESTROY_GUI(MusicBook->Gui_submenu);
 #else
@@ -95,10 +99,10 @@ int pg_MusicApplication_UseAsFile__EnterEvent(void *Data, BOOK *book)
 
   if (MusicBook->Gui_submenu = CreateListMenu(MusicBook, UIDisplay_Main))
   {
-    ListMenu_SetItemCount(MusicBook->Gui_submenu, 4);
+    ListMenu_SetItemCount(MusicBook->Gui_submenu, USEAS_LAST);
     ListMenu_SetCursorToItem(MusicBook->Gui_submenu, 0);
     ListMenu_SetHotkeyMode(MusicBook->Gui_submenu, LKHM_SHORTCUT);
-    ListMenu_SetTexts(MusicBook->Gui_submenu, (int *)items_text, 4);
+    ListMenu_SetTexts(MusicBook->Gui_submenu, (int *)items_text, USEAS_LAST);
     GUIObject_SetTitleText(MusicBook->Gui_submenu, TEXT_USE_AS);
     GUIObject_SetStyle(MusicBook->Gui_submenu, UI_OverlayStyle_PopupNoFrame);
     GUIObject_SoftKeys_SetAction(MusicBook->Gui_submenu, ACTION_SELECT1, UseAsFile_onSelect);

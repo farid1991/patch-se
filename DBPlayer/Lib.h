@@ -21,6 +21,7 @@ extern "C"
 #endif
 
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
+  void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
   int GetImageHeight(IMAGEID);
   int GetImageWidth(IMAGEID);
   int SetFont(int FontSize);
@@ -28,9 +29,7 @@ extern "C"
 #endif
 
 #if defined(A1) || defined(DB3150v1)
-  void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
   void GC_DrawImage(int x, int y, IMAGEID);
-
   int Disp_GetTextIDHeight(TEXTID);
   int Disp_GetTextIDWidth(TEXTID, int len);
 #endif
@@ -125,6 +124,8 @@ extern "C"
   void DispObject_SetAnimationApp(DISP_OBJ *, const wchar_t *anim);
   void DispObject_SetAnimation(DISP_OBJ *, int style);
 
+  void GUIObject_SetBacklightMode_On(GUI *);
+  void GUIObject_SetBacklightMode_Off(GUI *);
   void DispObject_SetBacklightMode(DISP_OBJ *, int mode);
   void DispObject_SetThemeImage(DISP_OBJ *, int theme_image);
   void DispObject_SetRefreshTimer(DISP_OBJ *, int time_in_ms);
@@ -195,7 +196,7 @@ extern "C"
 
   wchar_t *FILEITEM_GetFname(FILEITEM *);
   wchar_t *FILEITEM_GetPath(FILEITEM *);
-  BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname);
+  BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname);
   wchar_t *FSX_MakeFullPath(wchar_t *fpath, wchar_t *fname);
   void FSX_FreeFullPath(wchar_t *fullpath);
   wchar_t *getFileExtention(wchar_t *fname);

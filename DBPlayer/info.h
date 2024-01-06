@@ -1,12 +1,6 @@
 #ifndef _INFO_H_
 #define _INFO_H_
 
-#define ARTIST 0
-#define TITLE 1
-#define ALBUM 2
-#define YEAR 3
-#define GENRE 4
-
 #define HEADER_SIZE 4
 
 #define INDEX(x) x / 8

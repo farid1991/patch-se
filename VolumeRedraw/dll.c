@@ -8,7 +8,7 @@
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
+void dll_SetFont(int font_size, int font_style, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
@@ -19,24 +19,7 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
   pFontManager->GetFontFactory(&pFontFactory);
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
   pFontData.size = (float)font_size;
-
-  TUIEmphasisStyle fontstyle;
-  switch (font_style)
-  {
-  case 1:
-    fontstyle = UI_Emphasis_Bold;
-    break;
-  case 2:
-    fontstyle = UI_Emphasis_Italic;
-    break;
-  case 3:
-    fontstyle = UI_Emphasis_BoldItalic;
-    break;
-  default:
-    fontstyle = UI_Emphasis_Normal;
-    break;
-  }
-  pFontData.emphasis = fontstyle;
+  pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
   if (pFontManager)
@@ -48,9 +31,6 @@ void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
 // DrawString ----------------------------------------------------
 void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
 {
-  TUIRectangle rect;
-  int lineWidth = x2 - x1;
-
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
@@ -73,8 +53,10 @@ void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x
   pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pTextObject->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 
+  int lineWidth = x2 - x1;
   pRichTextLayout->Compose(lineWidth);
 
+  TUIRectangle rect;
   rect.Point.X = x1;
   rect.Point.Y = y1;
   rect.Size.Width = lineWidth;
@@ -136,8 +118,8 @@ int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
@@ -155,8 +137,8 @@ int dll_GetImageHeight(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)

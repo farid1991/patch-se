@@ -4,6 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
+
         defadr memalloc,0x4BA31FA4
         defadr memfree,0x4BA31FCC
         defadr memset,0x14B7F1AC

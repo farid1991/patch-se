@@ -44,7 +44,7 @@ MM_DATA *GetData()
   return CreateData();
 }
 
-#ifdef W550_R4CB020
+#if defined(W550_R4CB020)
 BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname)
 {
   FSTAT fs;
@@ -61,22 +61,6 @@ BOOL isDirectory(wchar_t *name)
     return fs.attr & FSX_O_CHKPATH;
   else
     return FALSE;
-}
-
-int WStringLength(wchar_t *wstr)
-{
-  if (wstr)
-    return wstrlen(wstr);
-  return NULL;
-}
-
-void WStringFree(wchar_t *wstr)
-{
-  if (wstr)
-  {
-    mfree(wstr);
-    wstr = NULL;
-  }
 }
 
 wchar_t *WStringAlloc(int lenght)
@@ -104,8 +88,8 @@ void Free_FLIST(void)
   while (flist)
   {
     FILELIST *fl_prev = flist;
-    WStringFree(fl_prev->fullname);
-    WStringFree(fl_prev->name);
+    mfree(fl_prev->fullname);
+    mfree(fl_prev->name);
     flist = (FILELIST *)flist->next;
     mfree(fl_prev);
   }
@@ -209,8 +193,8 @@ int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 Selec
     }
     w_dirclose(dir);
   }
-  WStringFree(path);
-  WStringFree(name);
+  mfree(path);
+  mfree(name);
   return n;
 }
 
@@ -251,7 +235,7 @@ FILELIST *FindFLISTtByN(int index)
 
 int Generate_Flist(wchar_t *path)
 {
-  wchar_t *ustr = WStringAlloc(WStringLength(path));
+  wchar_t *ustr = WStringAlloc(wstrlen(path));
   wchar_t *wchar;
 
   wstrcpy(ustr, path);
@@ -278,7 +262,7 @@ int Generate_Flist(wchar_t *path)
     path = L"/";
 
   int count = FindFiles(path, SEL_FILE);
-  WStringFree(ustr);
+  mfree(ustr);
 
   return count;
 }
@@ -406,7 +390,7 @@ int pg_FlashMenuPicker_Pick_EnterEvent(void *data, BOOK *book)
     ListMenu_SetOnMessage(fmbk->SubMenu, FlashMenuPicker_Pick_OnMessage);
     ListMenu_SetHotkeyMode(fmbk->SubMenu, LKHM_SHORTCUT);
     GUIObject_SetTitleText(fmbk->SubMenu, SUBMENU_TXT);
-    ListMenu_SetItemTextScroll(fmbk->SubMenu, 0);
+    ListMenu_SetItemTextScroll(fmbk->SubMenu, 1);
     ListMenu_SetNoItemText(fmbk->SubMenu, EMPTY_LIST_TXT);
     if (count)
     {

@@ -28,6 +28,14 @@
 #define TEXT_OFF_OOM 0x2DE  // L"?????????"
 #define TEXT_UNKNOWN 0x134
 
+#define TEXT_ID_ARTIST 0x16D7
+#define TEXT_ID_ALBUM 0x16D5
+#define TEXT_ID_TITLE 0x16E7
+#define TEXT_ID_GENRE 0x1657
+#define TEXT_ID_YEAR 0x16E9
+#define TEXT_ID_ALBUMART 0x16D2
+#define TEXT_ID_FILETYPE 0x73F
+
 #define CID_CMetaData (PUUID)0x159FD648
 #define IID_IMetaData (PUUID)0x15A3E9CC
 #define CID_CUIImageManager (PUUID)0x15A1F9F4

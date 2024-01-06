@@ -729,7 +729,7 @@ a       equ b
         defadr ListMenu_SetMaxCount,0x143D414C+1
         defadr ListMenu_ErroreAddCount,0x1404ADEC+1
         defadr MediaPlayer_SoftKeys_SetVisible,0x144304E8+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x144302A8+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x144302A8+1
         defadr MediaPlayer_SoftKeys_SetEnable,0x144304B0+1
         defadr MediaPlayer_SoftKeys_AddErrorStr,0x144305B0+1
         defadr IsStandbyTickerBook,0x14482288+1
@@ -928,7 +928,7 @@ AddNew_SoftKeys:
         LDR     R0, [R4,#0x20]
         ADD     R2, R7, #0
         MOV     R1, #7
-	LDR	R3, =MediaPlayer_SoftKeys_SetInfoText
+	LDR	R3, =MediaPlayer_SoftKeys_AddHelpStr
 	BLX	R3
 	ADD     R0, R4, #0
         BL      New_SoftKeys

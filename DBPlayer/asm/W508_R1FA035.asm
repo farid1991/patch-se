@@ -110,6 +110,7 @@ a       EQU     b
         defadr FILEITEM_GetFname,0x144DD63C+1
         defadr FSX_MakeFullPath,0x1435A8D4+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x14241EC0+1
+        defadr GUIObject_SoftKeys_RestoreBackground,0x14139C90+1
         defadr GUIonMessage_GetMsg,0x1412CC2C+1
         defadr GUIonMessage_GetCreatedItemIndex,0x1412CD24+1
         defadr GUIonMessage_SetItemDisabled,0x14246CC4+1

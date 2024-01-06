@@ -31,6 +31,7 @@ a       EQU     b
         defadr DrawRect,0x109C9FB4+1
         defadr SetFont,0x109CAEC0+1
         defadr DrawString,0x109CA300+1
+        defadr GC_PutChar,0x109CECCC+1
         defadr GetImageHeight,0x109CB5D4+1
         defadr GetImageWidth,0x109CB5C0+1
         defadr ListMenu_GetSelectedItem,0x11A8D010+1
@@ -112,6 +113,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetVisible,0x1080D510+1
         defadr GUIObject_SoftKeys_AllowKeylock,0x1080D730+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x1080D7E4+1
+        defadr GUIObject_SoftKeys_RestoreBackground,0x1080D7F0+1
         defadr GUIObject_SoftKeys_Show,0x1080D7D8+1
         defadr GUIObject_SoftKeys_Hide,0x1080D7CC+1
         defadr FILEITEM_GetPath,0x11808D90+1
@@ -138,9 +140,8 @@ a       EQU     b
         defadr Timer_Kill,0x10DEC004+1
         defadr Volume_Set,0x119EEA3C+1
         defadr Volume_Get,0x119EEB0C+1
-        
         defadr KeygrabberWindow,0x109D0A1C+1
-        
+
         EXTERN CreateInfo
 
         RSEG   CODE

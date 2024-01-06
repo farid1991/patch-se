@@ -93,6 +93,7 @@ a       EQU     b
         defadr ImageID_GetIndirect,0x150A0228+1
         defadr DispObject_SetLayerColor,0x144ABD2C+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x143A0014+1
+        defadr GUIObject_SoftKeys_RestoreBackground,0x1439FE74+1
         defadr GUIonMessage_GetMsg,0x142EFC74+1
         defadr ListMenu_DestroyItems,0x143C2398+1
         defadr CoCreateInstance,0x14460170+1

@@ -9,6 +9,7 @@ a       EQU     b
         defadr memfree,0x4BB005AC
         defadr memset,0x4BB010AC
         defadr memcpy,0x10147898
+        defadr debug_printf,0x4BB39F21
         defadr sprintf,0x106F81E0+1
         defadr snwprintf,0x106F8694+1
         defadr _fopen,0x10957B7C+1
@@ -99,6 +100,7 @@ a       EQU     b
         defadr FindBook,0x10DF01F4+1
         defadr Display_GetHeight,0x1177DBF4+1
         defadr Display_GetWidth,0x1177DC00+1
+        defadr GC_PutChar,0x109D0A1C+1
         defadr GetImageWidth,0x109CD310+1
         defadr GetImageHeight,0x109CD324+1
         defadr CreateOneOfMany,0x11A80220+1
@@ -138,8 +140,8 @@ a       EQU     b
         defadr DispObject_SetThemeImage,0x109CA6BC+1
         defadr FILEITEM_GetFname,0x117FC5B4+1
         defadr FILEITEM_GetPath,0x117FC648+1
-        defadr FILEITEM_GetFextension,0x117FC5B8+1     
-        defadr MetaData_GetTags,0x117F79E8+1     
+        defadr FILEITEM_GetFextension,0x117FC5B8+1
+        defadr MetaData_GetTags,0x117F79E8+1
         defadr CreateKeygrabberWindow,0x109D2738+1
         defadr Volume_Get,0x119DF98C+1
         defadr Volume_Set,0x119DF8C0+1
@@ -148,7 +150,7 @@ a       EQU     b
         defadr FSX_FreeFullPath,0x1095B38C+1
         defadr FSX_IsFileExists,0x117F73D0+1
         defadr CreateMessageBox,0x11A559E8+1
-        
+
         EXTERN CreateInfo
 
         RSEG   CODE

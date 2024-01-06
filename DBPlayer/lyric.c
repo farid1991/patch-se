@@ -3,20 +3,12 @@
 #include "..\\include\Types.h"
 #include "..\\include\classes\classes.h"
 
-#ifndef DB3150v1
 #include "dll.h"
-#endif
-
 #include "Lib.h"
 #include "data.h"
 #include "lyric.h"
 #include "main.h"
 #include "String.h"
-
-int is_digit(char c)
-{
-  return (c >= '0' && c <= '9');
-}
 
 void TimerList_Free(TimerList *lrclist)
 {
@@ -36,7 +28,7 @@ void Lyric_FreeData(DISP_OBJ_DBP *disp_obj)
 {
   if (disp_obj->lrclist)
     TimerList_Free(disp_obj->lrclist);
-  FREE(disp_obj->lrcbuf);
+  mfree(disp_obj->lrcbuf);
 }
 
 int find_current_timer_list(DISP_OBJ_DBP *disp_obj, time_t tm)
@@ -106,9 +98,9 @@ void sort_timer(DISP_OBJ_DBP *disp_obj)
   }
 }
 
-int songname_to_lrc(wchar_t *lrc, wchar_t *songname, int len)
+int songname_to_lrc(const wchar_t *songname, wchar_t *lrc, int len)
 {
-  if (!len)
+  if (!songname || !len)
     return 0;
 
   int i = 0;
@@ -123,8 +115,10 @@ int songname_to_lrc(wchar_t *lrc, wchar_t *songname, int len)
   return 1;
 }
 
-int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
+int LoadLrc(DISP_OBJ_DBP *disp_obj, const wchar_t *path, const wchar_t *name)
 {
+  mfree(disp_obj->lrcbuf);
+
   FSTAT _fstat;
   if (fstat(path, name, &_fstat) < 0)
     return READ_FAIL;
@@ -145,42 +139,39 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   fread(file, utf8_buffer, fsize);
   fclose(file);
 
-  BOOL is_supported;
-  StringFree(disp_obj->lrcbuf);
-
   int encoding = Encoding_GetType(utf8_buffer);
-
   switch (encoding)
   {
   case ANSI:
-    disp_obj->lrcbuf = StringAlloc(StringLength(utf8_buffer));
+    disp_obj->lrcbuf = StringAlloc(strlen(utf8_buffer));
     strcpy(disp_obj->lrcbuf, utf8_buffer);
-    is_supported = TRUE;
-    break;
-  case UTF8:
-    disp_obj->lrcbuf = StringAlloc(StringLength(utf8_buffer));
-    utf16_buffer = WStringAlloc(StringLength(utf8_buffer) * 2);
-    UTF82unicode(utf16_buffer, utf8_buffer, StringLength(utf8_buffer));
-    wstr2strn(disp_obj->lrcbuf, utf16_buffer, StringLength(utf8_buffer));
-    WStringFree(utf16_buffer);
-    is_supported = TRUE;
     break;
   case UTF16_LE:
     utf16_buffer = WStringAlloc(fsize / 2);
     memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
     disp_obj->lrcbuf = StringAlloc(fsize);
-    wstr2strn(disp_obj->lrcbuf, utf16_buffer, fsize + 1);
-    WStringFree(utf16_buffer);
-    is_supported = TRUE;
+    UTF16LE_to_ANSI(utf16_buffer, disp_obj->lrcbuf, fsize + 1);
+    mfree(utf16_buffer);
+    break;
+  case UTF16_BE:
+    utf16_buffer = WStringAlloc(fsize / 2);
+    memcpy(utf16_buffer, utf8_buffer + 2, fsize - 1);
+    disp_obj->lrcbuf = StringAlloc(fsize);
+    UTF16BE_to_ANSI(utf16_buffer, disp_obj->lrcbuf, fsize + 1);
+    mfree(utf16_buffer);
+    break;
+  case UTF8:
+    disp_obj->lrcbuf = StringAlloc(strlen(utf8_buffer));
+    UTF8_to_ANSI(disp_obj->lrcbuf, utf8_buffer, strlen(utf8_buffer));
     break;
   default:
-    is_supported = FALSE;
+    encoding = ERROR;
     break;
   }
 
-  StringFree(utf8_buffer);
+  mfree(utf8_buffer);
 
-  if (!is_supported)
+  if (encoding == ERROR)
     return READ_FAIL;
 
   if (disp_obj->lrclist)
@@ -191,7 +182,7 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   disp_obj->total_offset = 0;
 
   int i = 0;
-  while (i < StringLength(disp_obj->lrcbuf))
+  while (i < strlen(disp_obj->lrcbuf))
   {
     if (disp_obj->lrcbuf[i] == '[')
     {
@@ -210,14 +201,14 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
         char mm[4] = "";
         char ss[4] = "";
         char ms[4] = "";
-        strncpy(mm, tmp, StringLength(tmp) - StringLength(strstr(tmp, ":")));
+        strncpy(mm, tmp, strlen(tmp) - strlen(strstr(tmp, ":")));
         if (strstr(tmp, "."))
         {
-          strncpy(ss, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - StringLength(strstr(tmp, ".")) - 1);
-          strncpy(ms, strstr(tmp, ".") + 1, StringLength(strstr(tmp, ".")) - 1);
+          strncpy(ss, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - strlen(strstr(tmp, ".")) - 1);
+          strncpy(ms, strstr(tmp, ".") + 1, strlen(strstr(tmp, ".")) - 1);
         }
         else
-          strncpy(ss, strstr(tmp, ":") + 1, StringLength(strstr(tmp, ":")) - 1);
+          strncpy(ss, strstr(tmp, ":") + 1, strlen(strstr(tmp, ":")) - 1);
         disp_obj->lrclist[disp_obj->total_offset].timer = str_to_timer(ms) + str_to_timer(ss) * 1000 + str_to_timer(mm) * 1000 * 60;
 
         int m = i;
@@ -235,8 +226,11 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
         str2wstr(wstr, ttmp);
         disp_obj->lrclist[disp_obj->total_offset].lrcinfo = WStringAlloc(MAX_EXT);
         wstrcpy(disp_obj->lrclist[disp_obj->total_offset].lrcinfo, wstrrchr(wstr, ']') + 1);
-        i += (StringLength(tmp) + 1);
+        i += (strlen(tmp) + 1);
         disp_obj->total_offset++;
+        mfree(wstr);
+        mfree(ttmp);
+        mfree(tmp);
       }
     }
     i++;
@@ -244,10 +238,10 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   return READ_OK;
 }
 
-void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
+void GetLyric(DISP_OBJ_DBP *disp_obj, const wchar_t *path, const wchar_t *name)
 {
   wchar_t *lrc = WStringAlloc(wstrlen(name));
-  songname_to_lrc(lrc, name, wstrlen(name));
+  songname_to_lrc(name, lrc, wstrlen(name));
 
   disp_obj->offset_len = 0;
   disp_obj->lrc_state = LoadLrc(disp_obj, path, lrc);
@@ -263,7 +257,7 @@ void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name)
   }
 
   DispObject_InvalidateRect(disp_obj, NULL);
-  WStringFree(lrc);
+  mfree(lrc);
 }
 
 void lyricOnTimer(u16 timerID, LPARAM lparam)
@@ -273,11 +267,7 @@ void lyricOnTimer(u16 timerID, LPARAM lparam)
   DispObject_InvalidateRect(disp_obj, NULL);
 
   TEXTID textid = TextID_Create(disp_obj->lrclist[disp_obj->current_offset].lrcinfo, ENC_UCS2, TEXTID_ANY_LEN);
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  int width = dll_Disp_GetTextIDWidth(textid, TextID_GetLength(textid));
-#else
-  int width = Disp_GetTextIDWidth(textid, TextID_GetLength(textid));
-#endif
+  int width = GetTextIDWidth(FONT_E_16B, textid, TextID_GetLength(textid));
   TextID_Destroy(textid);
 
   int betweentimer = disp_obj->lrclist[disp_obj->current_offset + 1].timer - disp_obj->lrclist[disp_obj->current_offset].timer;

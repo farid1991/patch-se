@@ -20,8 +20,8 @@ typedef enum
   READ_OK = 1
 } LRC_STATE;
 
-void GetLyric(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name);
-int LoadLrc(DISP_OBJ_DBP *disp_obj, wchar_t *path, wchar_t *name);
+void GetLyric(DISP_OBJ_DBP *disp_obj, const wchar_t *path, const wchar_t *name);
+int LoadLrc(DISP_OBJ_DBP *disp_obj, const wchar_t *path, const wchar_t *name);
 int find_current_timer_list(DISP_OBJ_DBP *data, time_t tm);
 void TimerList_Free(TimerList *lrclist);
 void lyricOnTimer(u16 timerID, LPARAM lparam);

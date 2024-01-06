@@ -19,6 +19,7 @@
 #define clYellow 0xFFFFFF00
 #define clHint 0xFFFFFF80
 #define clHint2 0x80FFFF80
+#define clTransGray 0x773F3F3F // Transparent Dark Gray
 
 /** Grey Colors ----------------------------------------------*/
 

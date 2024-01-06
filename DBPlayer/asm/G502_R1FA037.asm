@@ -623,6 +623,7 @@ a       EQU b
         defadr DispObject_SoftKeys_ExecuteAction,0x116BC9F4+1
         defadr DataBrowserBook_GetCurrentFoldersList,0x1101F1DC+1
         defadr DispObject_SetAnimation,0x1169E280+1
+        defadr DispObject_SetBacklightMode,0x1169EE40+1
 
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
         defadr DynamicMenu_GetElementMsg,0x116C4FCC+1

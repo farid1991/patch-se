@@ -7,8 +7,8 @@ a       equ b
 
         defadr memalloc,0x4BA313F0
         defadr memfree,0x4BA31418
-        defadr memset,0x141BB54C+1
-        defadr memcpy,0x1405752C+1
+        defadr memset,0x14B8F484
+        defadr memcpy,0x15013C44
         defadr get_envp,0x101D53E0+1
         defadr set_envp,0x101D53F4+1
         defadr _fopen,0x1403E950+1
@@ -22,7 +22,7 @@ a       equ b
         defadr w_dirread,0x1409CF54+1
         defadr w_dirclose,0x4BA80A44
         defadr w_fopen,0x100A696C+1
-        defadr w_lseek,0x1429C640+1
+        defadr w_lseek,0x100F2B68
         defadr w_fread,0x100F2A68+1
         defadr w_fclose,0x10139628+1
         defadr Timer_ReSet,0x14168C8C+1
@@ -87,6 +87,9 @@ a       equ b
         defadr str2wstr,0x1428D570+1
         defadr wstrcat,0x1428E9F0+1
         defadr strlen,0x141BBB38+1
+        defadr strcmp,0x14C788DC+1
+        defadr strncmp,0x141A9314+1
+        defadr strcpy,0x14C78904+1
         defadr strncpy,0x1443E2F0+1
         defadr strstr,0x142C25FC+1
 
@@ -205,13 +208,13 @@ a       equ b
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x140B3B04+1
         defadr MediaPlayer_SoftKeys_SetAction,0x140B3904+1
         defadr MediaPlayer_SoftKeys_SetText,0x140B38D4+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x140B3B34+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x140B3B34+1
 
 //------------------------------------------------------------------------------
 
         defadr FreeAllBook,0x15422AD0+1
 
-        defadr MusicApplication_PrevAction,0x14C9D210+1
+        defadr MusicApplication_PrevAction,0x14C9D220+1
         defadr MusicApplication_CancelAction,0x14F2C464+1
         defadr MusicApplication_ShowMyMusic,0x14E53588+1
         defadr MusicApplication_Minimize,0x14EECBB0+1
@@ -219,7 +222,7 @@ a       equ b
 
         defadr pg_MusicApplication_PreviousEvent,0x15325F0C+1
         defadr pg_MusicApplication_CancelEvent,0x14FE7878+1
-        defadr pg_MusicApplication_ExitEvent,0x14EA218C+1
+        defadr pg_MusicApplication_ExitEvent,0x14E8BC6C+1
 
         defadr Music_Gui_NowPlaying_OnCreate,0x14DFBB60+1
         defadr Music_Gui_NowPlaying_OnClose,0x14FE2628+1
@@ -357,7 +360,7 @@ EndFunc:
         CODE16
 AddNew_SoftKeys:
         MOV     R1, #7
-	LDR	R3, =MediaPlayer_SoftKeys_SetInfoText
+	LDR	R3, =MediaPlayer_SoftKeys_AddHelpStr
 	BLX	R3
 	ADD     R0, R4, #0
         BL      New_SoftKeys
@@ -403,6 +406,22 @@ _shuffle_fix:
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E3F640+1
+	BX      R3
+
+        RSEG PATCH_UPDATE_LOOP_HOOK
+	CODE16
+	LDR     R3, =_loop_fix
+	BX      R3
+
+        RSEG  CODE
+        CODE16
+_loop_fix:
+        LDR     R3, =ListMenu_SetItemSecondLineText
+	BLX     R3
+        BL      RefreshScreen
+	LDRB    R1, [R6,#0]
+	LDR     R0, [R5,#0]
+	LDR     R3, =0x14E3F674+1
 	BX      R3
 
 //------------------------------------------------------------------------------

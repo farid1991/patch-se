@@ -92,7 +92,7 @@ IMAGEID GetCoverArt(const wchar_t *fullpath, int size, int offset, char type)
 
 BOOL MetaData_GetCoverInfo(const wchar_t *fullpath, char *cover_type, int *size, int *cover_offset)
 {
-  if (!fullpath || !cover_type || !size || !cover_offset)
+  if (!fullpath || !size || !cover_offset)
     return FALSE;
 
   int ret = FALSE;
@@ -203,14 +203,7 @@ void GetNextTrackData(NEW_TRACK_DATA *TrackData, BOOK *book)
 
   Data->Bitrate = GetTrackBitrate(Fullpath, Data->FullTimeInSeconds);
   Data->Extension = GetFileFormat(Fullpath);
-#ifdef K660_R1FA037
-  MusicBook->pMusicServer->GetFilename(TrackData->Track_ID,
-                                       256,
-                                       Fullpath);
-  Data->CoverArtID = MetaData_GetCover(Fullpath);
-#endif
 
-#ifndef K660_R1FA037
   Data->Genre = MetaData_GetGenre(Fullpath);
 
   int pFileOffset;
@@ -225,7 +218,6 @@ void GetNextTrackData(NEW_TRACK_DATA *TrackData, BOOK *book)
   {
     Data->CoverArtID = NOIMAGE;
   }
-#endif
 
 #else
   wchar_t *Fullpath = WStringAlloc(MUSIC_SERVER_MAX_URI_LENGTH);

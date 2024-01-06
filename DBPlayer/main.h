@@ -1,9 +1,6 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define FREE(b) \
-  mfree(b)
-
 #define TEXTFREE(a)      \
   if (a != EMPTY_TEXTID) \
     TextID_Destroy(a);
@@ -15,12 +12,13 @@
     g = NULL;             \
   }
 
-#define FONTHEIGHT(f) (f & 0xFF)
+#define FONTHEIGHT(font) (font & 0xFF)
 
-#define ELF_PATH L"/usb/other/ZBin"
-#define ELF_PATH_ZBIN L"/usb/other/ZBin/MusicTagger.elf"
+static const wchar_t ZBIN_PATH[] = L"/usb/other/ZBin";
+static const wchar_t MTAGGER_PATH[] = L"/usb/other/ZBin/MusicTagger.elf";
 
 static const char GuiName_DBPlayer[] = "GUI_DBPlayer";
+
 typedef struct GUI GUI_DBPLAYER;
 
 enum DBPLAYER_TAB
@@ -31,7 +29,7 @@ enum DBPLAYER_TAB
 
 typedef struct
 {
-  unsigned int timer;
+  uint32_t timer;
   wchar_t *lrcinfo;
 } TimerList;
 
@@ -50,18 +48,23 @@ typedef struct _DISP_OBJ_DBP : DISP_OBJ
   TEXTID samplerate;
   TEXTID audiooutput;
   TEXTID buf_text;
-  int media_volume;
-  int cstep;
-  int disp_width;
-  int disp_height;
+  uint8_t media_volume;
+  uint8_t cstep;
+  uint16_t disp_width;
+  uint16_t disp_height;
+  uint16_t softkeys_height;
+  uint16_t status_height;
+  bool lrc_show_tags;
+  bool lrc_show_inactive;
+  bool lrc_is_centered;
   char *lrcbuf;
   TimerList *lrclist;
-  u16 TimerLyric;
+  uint16_t TimerLyric;
   int lrc_state;
   int current_offset;
   int total_offset;
   int offset_len;
-  int tab;
+  uint8_t tab;
 } DISP_OBJ_DBP;
 
 enum DBP_ACTION_ID
@@ -81,8 +84,6 @@ enum DBP_ACTION_ID
 void *malloc(int size);
 void mfree(void *mem);
 
-extern "C"
-{
-  int pg_Sound_Run__0x17FC(void *pMMEData, BOOK *book);
-}
+extern "C" int pg_Sound_Run__0x17FC(void *pMMEData, BOOK *book);
+
 #endif

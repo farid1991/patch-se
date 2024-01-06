@@ -15,6 +15,7 @@
 #define SUBMENU_TXT 0x1C5C
 #define PREVIEW_SK_TXT 0x8FD
 #define EMPTY_LIST_TXT 0x612
+
 #define ITEM_SYS_TXT 0x1863
 #define ITEM_INT_TXT 0x2D0
 #define ITEM_EXT_TXT 0x2CF

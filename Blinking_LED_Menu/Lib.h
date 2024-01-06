@@ -5,17 +5,10 @@
 
 extern "C"
 {
-#if defined(DB2010)
-    void *memalloc(int size, int f1, int f2, const char *fname, int fline);
-    void memfree(void *mem, const char *fname, int fline);
-#elif defined(DB2020)
-    void *memalloc(int zero, int size, int f1, int f2, const char *fname, int fline);
-    void memfree(int zero, void *mem, const char *fname, int fline);
-#elif defined(A2)
     void *memalloc(int minus_one, int size, int f1, int f2, const char *fname, int fline);
     void memfree(int zero, void *mem, const char *fname, int fline);
-#endif
     void *memset(void *mem, char chr, int size);
+
     int _fopen(const wchar_t *filpath, const wchar_t *filname, unsigned int mode, unsigned int rights, unsigned int __0);
     int fclose(int file);
     int fread(int file, void *ptr, int size);

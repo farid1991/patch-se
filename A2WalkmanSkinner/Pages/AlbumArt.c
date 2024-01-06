@@ -122,14 +122,14 @@ void Select_AlbumArt_onSelect(BOOK *book, GUI *gui)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   int item = ListMenu_GetSelectedItem(MusicBook->Gui_submenu);
-
   SetChecked(item);
+
   DESTROY_GUI(MusicBook->Gui_submenu);
 }
 
 void Select_AlbumArt_onBack(BOOK *book, GUI *gui)
 {
-#ifdef C901_R1GA028
+#if defined(C901_R1GA028) || defined(C903_R1GA028) || defined(T715_R1GA026)
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   DESTROY_GUI(MusicBook->Gui_submenu);
 #else

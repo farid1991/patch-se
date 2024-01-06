@@ -4,7 +4,7 @@
 #include "..\\include\classes\classes.h"
 
 #if defined(DB3200) || defined(DB3210)
-void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont);
+void dll_SetFont(int font_size, int font_style, IFont **ppFont);
 void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color);
 #endif
 

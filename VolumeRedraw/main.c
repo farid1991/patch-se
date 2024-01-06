@@ -53,11 +53,11 @@ Volume_Function *Get_Volume_Function()
 
 void Delete_Volume_Function(Volume_Function *Data)
 {
-  if (Data)
-  {
-    mfree(Data);
-    set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
-  }
+  if (!Data)
+    return;
+
+  mfree(Data);
+  set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
 }
 
 #if defined(DB2000)

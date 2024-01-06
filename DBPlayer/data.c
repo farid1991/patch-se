@@ -34,6 +34,7 @@ void DeleteData(DBP_DATA *data)
   if (data)
   {
     FSX_FreeFullPath(data->fullpath);
+    FREE_GUI(data->time_input);
     mfree(data);
     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }
@@ -103,7 +104,7 @@ void SaveData(bool save, int item)
     data->setting.genre.coord.y1 = data->temp.y1;
     data->setting.genre.coord.x2 = data->temp.x2;
   }
-  else if (item == ITEM_FILEFORMAT)
+  else if (item == ITEM_FILETYPE)
   {
     data->setting.ext.state = data->temp.activate1;
     data->setting.ext.align = data->temp.align;

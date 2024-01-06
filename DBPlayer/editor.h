@@ -1,8 +1,6 @@
 #ifndef _EDITOR_H_
 #define _EDITOR_H_
 
-// #include "setting.h"
-
 static const char GuiName_Color[] = "GUI_Color";
 
 #define font_step 1
@@ -23,7 +21,7 @@ typedef struct _DISP_OBJ_COLOR : DISP_OBJ
 void SetActivate(BOOK *m_bk, int count);
 void OneOfMany_SetMode(BOOK *m_bk, int type);
 void SetColor(BOOK *m_bk, int type);
-void SetActiveSoft(DBP_DATA *data, BOOL mode);
+void SetActiveSoftkeys(BOOL mode);
 wchar_t *Font_GetNameByFontId(int id);
 int GetIdByFontId(int id);
 void SetVisual(BOOK *m_bk);

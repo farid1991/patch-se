@@ -1257,7 +1257,7 @@ void Create_InputAuthorName(BOOK *book)
 
 void Refresh_MusicApp(BOOK *book)
 {
-  SkinEditor_Book *mbk = (SkinEditor_Book *)book;
+  // SkinEditor_Book *mbk = (SkinEditor_Book *)book;
 
   Internal_Function *Data = Get_Internal_Function();
   if (Data->Portrait)
@@ -1269,10 +1269,28 @@ void Refresh_MusicApp(BOOK *book)
     LoadLandscapeData();
   }
 
-  if (mbk->GuiChanged)
-    BookObj_GotoPage(Data->MusicBook, page_MusicApplication_Main);
+  if (Data->Fullscreen)
+  {
+    GUIObject_SetStyle(Data->MusicBook->Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
+  }
+  else
+  {
+    GUIObject_SetStyle(Data->MusicBook->Gui_NowPlaying, UI_OverlayStyle_Default);
+  }
+
+  if (Data->SoftKeys)
+  {
+    GUIObject_SoftKeys_Show(Data->MusicBook->Gui_NowPlaying);
+  }
+  else
+  {
+    GUIObject_SoftKeys_Hide(Data->MusicBook->Gui_NowPlaying);
+  }
 
   InvalidateRect(Data->Music_Gui_NowPlaying);
+
+  // if (mbk->GuiChanged)
+  //   BookObj_GotoPage(Data->MusicBook, page_MusicApplication_Main);
 }
 
 int SetSkin(BOOK *book)
@@ -1280,6 +1298,9 @@ int SetSkin(BOOK *book)
   SkinEditor_Book *mbk = (SkinEditor_Book *)book;
   Internal_Function *Data = Get_Internal_Function();
   FreeImage(Data);
+
+  if (!mbk->fpath || !mbk->sname)
+    return 0;
 
   wchar_t *sname_fullpath = FSX_MakeFullPath(mbk->fpath, mbk->sname);
 
@@ -1300,10 +1321,10 @@ int SetSkin(BOOK *book)
   FSX_FreeFullPath(sname_fullpath);
 
   LoadImage(Data);
+  Load_skin_GUI(mbk->fpath, mbk->sname);
 
   Refresh_MusicApp(mbk);
-  SetGUIData(Data->MusicBook->Gui_NowPlaying);
-  InvalidateRect(Data->Music_Gui_NowPlaying);
+  RefreshScreen();
   return 1;
 }
 
@@ -1422,7 +1443,7 @@ void SelectSkin_OnAuthor(BOOK *book, GUI *gui)
   FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, index);
 
   wchar_t *AuthorName = WStringAlloc(100);
-  int file = _fopen(files->fpath, files->fname, FSX_O_RDONLY, (FSX_S_IREAD | FSX_S_IWRITE), 0);
+  int file = _fopen(files->fpath, files->fname, FSX_O_RDONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
   if (file >= 0)
   {
     WALKMAN_Skin *SData = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));

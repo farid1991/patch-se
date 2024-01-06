@@ -3,7 +3,7 @@
 
 #include "..\\main.h"
 
-#define SKIN_PATH_EXTERNAL   L"/card/other/ZBin/Config/WALKMAN"
+#define SKIN_PATH_EXTERNAL L"/card/other/ZBin/Config/WALKMAN"
 #define SKIN_PATH_INTERNAL L"/usb/other/ZBin/Config/WALKMAN"
 
 static const char SkinEditorBook_Name[] = "SkinEditor_Book";

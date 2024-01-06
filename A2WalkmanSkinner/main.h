@@ -15,20 +15,24 @@
 #define softkeys_h 24
 #define status_h 24
 
-#define DESTROY_GUI(gui)             \
-  if (gui)                           \
-  {                                  \
-    GUI *g = GUIObject_Destroy(gui); \
-    gui = g;                         \
+#define DESTROY_GUI(gui)    \
+  if (gui)                  \
+  {                         \
+    GUIObject_Destroy(gui); \
+    gui = NULL;             \
   };
 
 #define DESTROY_TEXTID(text) \
   if (text != EMPTY_TEXTID)  \
-    TextID_Destroy(text);
+  {                          \
+    TextID_Destroy(text);    \
+  }
 
 #define FREE_IMAGE(img) \
   if (img != NOIMAGE)   \
-    ImageID_Free(img);
+  {                     \
+    ImageID_Free(img);  \
+  }
 
 enum MusicPlayer_Image
 {
@@ -617,5 +621,6 @@ int GetMediaVolume();
 int division(int num1, int num2);
 
 extern "C" void RefreshScreen();
+void Load_skin_GUI(const wchar_t *fpath, const wchar_t *fname);
 
 #endif

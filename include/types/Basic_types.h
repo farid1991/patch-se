@@ -5,13 +5,13 @@
   * Signed integer number. The size of this type is platform-
   * and compiler-specific but is at least 32 bits.
   */
-typedef long TSigned;
+typedef int TSigned;
 
 /**
   * Unsigned integer number. The size of this type is platform-
   * and compiler-specific but is at least 32 bits.
   */
-typedef unsigned long TUnsigned;
+typedef unsigned int TUnsigned;
 
 /**
   * The smallest floating point type. The size of this type
@@ -66,7 +66,7 @@ const TAscii TASCII_MAX = 0xFF;
 /**
   * Reference representing an indirection to a physical address.
   */
-typedef unsigned long THnd;
+typedef unsigned int THnd;
 
 /**
   * When used as a method return type, TVoid specifies that the method does not 
@@ -79,7 +79,7 @@ typedef void TVoid;
 /**
   * Signed integer (32 bit representation). FSINT32_MIN <= FSint32 <= FSINT32_MAX.
   */
-typedef long FSint32;
+typedef int FSint32;
 
 /**
   * A constant holding the maximum value an FSint32 can have.
@@ -124,7 +124,7 @@ const FSint8 FSINT8_MAX = 0x7F;
 /**
   * Unsigned integer (32 bit representation). 0 <= FUint32 <= FUINT32_MAX.
   */
-typedef unsigned long FUint32;
+typedef unsigned int FUint32;
 
 /**
   * A constant holding the maximum value an FUint32 can have.

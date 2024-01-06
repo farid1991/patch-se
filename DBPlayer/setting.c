@@ -351,14 +351,20 @@ int Background_OnMessage(GUI_MESSAGE *msg)
 
     if (item == SUBITEM_BG_TYPE)
     {
-      // case 0: // Режим отображения
       first_text = TEXT_MODE;
-      if (data->temp.activate1 == TYPE_IMAGE)
+
+      switch (data->temp.activate1)
+      {
+      case BG_TYPE_IMAGE:
         second_text = TextID_Global(ID_BACKGROUND_IMAGE);
-      else if (data->temp.activate1 == TYPE_THEME)
-        second_text = TextID_Global(ID_BACKGROUND_THEME);
-      else if (data->temp.activate1 == TYPE_COLOR)
+        break;
+      case BG_TYPE_THEME:
+         second_text = TextID_Global(ID_BACKGROUND_THEME);
+        break;
+      case BG_TYPE_COLOR:
         second_text = TextID_Global(ID_BACKGROUND_COLOR);
+        break;
+      }
     }
     else if (item == SUBITEM_BG_COLOR)
     {
@@ -373,7 +379,7 @@ int Background_OnMessage(GUI_MESSAGE *msg)
                 COLOR_GET_B(color),
                 COLOR_GET_A(color));
       second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
-      if (data->temp.activate1 == TYPE_IMAGE || data->temp.activate1 == TYPE_THEME)
+      if (data->temp.activate1 == BG_TYPE_IMAGE || data->temp.activate1 == BG_TYPE_THEME)
         GUIonMessage_SetItemDisabled(msg, TRUE);
     }
     else if (item == SUBITEM_BG_VISUAL)
@@ -388,7 +394,7 @@ int Background_OnMessage(GUI_MESSAGE *msg)
                 data->temp.x2,
                 data->temp.y2);
       second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
-      if (data->temp.activate1 == TYPE_THEME || data->temp.activate1 == TYPE_COLOR)
+      if (data->temp.activate1 == BG_TYPE_THEME || data->temp.activate1 == BG_TYPE_COLOR)
         GUIonMessage_SetItemDisabled(msg, TRUE);
     }
     GUIonMessage_SetMenuItemText(msg, first_text);
@@ -591,7 +597,7 @@ void Setting_OnSelect(BOOK *book, GUI *gui)
     data->temp.x2 = data->setting.genre.coord.x2;
     CreateEditor(setbook, EDIT_TEXT, SUBITEM_TXT_LAST);
   }
-  else if (item == ITEM_FILEFORMAT)
+  else if (item == ITEM_FILETYPE)
   {
     setbook->elem_type = ELEM_TEXT;
     data->temp.activate1 = data->setting.ext.state;

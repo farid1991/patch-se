@@ -48,7 +48,7 @@ BATT_DATA *Get_BATT_DATA()
 
 void LoadData()
 {
-  int file = _fopen(FILEPATH, L"OLED.bin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
+  int file = _fopen(FILEPATH, L"OLED.bin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= 0)
   {
     FILEDATA *FData = (FILEDATA *)malloc(sizeof(FILEDATA));
@@ -69,7 +69,7 @@ void LoadData()
 void SaveData(BOOK *book)
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
-  int file = _fopen(FILEPATH, L"OLED.bin", FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
+  int file = _fopen(FILEPATH, L"OLED.bin", FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= 0)
   {
     FILEDATA *FData = (FILEDATA *)malloc(sizeof(FILEDATA));
@@ -111,7 +111,7 @@ extern "C" void Start_LED()
   LoadData();
   BATT_DATA *Data = Get_BATT_DATA();
   if (Data->state)
-    BeginTimer(Data->timerID, 0);
+    BeginTimer(Data->timerID, NULL);
 }
 
 extern "C" void Kill_LED()
@@ -202,8 +202,7 @@ void CreateTimeInput(BOOK *book)
 void OnPatchInfo(BOOK *book, GUI *gui)
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
-  TEXTID Text = STR("Blinking Orange LED v.2\n(c) blacklizard\n(p) farid");
-  CreateMessageBox(EMPTY_TEXTID, Text, 0, 0, oledBook);
+  CreateMessageBox(EMPTY_TEXTID, STR("Blinking LED v2\n(c) blacklizard\n(p) farid"), 1, 1000, oledBook);
 }
 
 void BlinkingOled_Mainpage_onClose(BOOK *book, GUI *gui)
@@ -225,7 +224,6 @@ void BlinkingOled_Mainpage_onClose(BOOK *book, GUI *gui)
 
 void SetEnabled(BOOK *book)
 {
-  BATT_DATA *Data = Get_BATT_DATA();
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
   if (oledBook->state)
   {

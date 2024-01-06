@@ -140,9 +140,9 @@ typedef struct _DBP_DATA
   bool mute;
   int element;
   bool edit_visual;
-  bool text;
-  bool rect;
-  bool icon;
+  bool edit_text_mode;
+  bool edit_rect_mode;
+  bool edit_image_mode;
 
   int total_fonts, cur_pos;
 

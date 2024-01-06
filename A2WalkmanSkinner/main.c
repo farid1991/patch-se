@@ -65,6 +65,7 @@ void Delete_Internal_Function(Internal_Function *Data)
   {
     mfree(Data->Extension);
     mfree(Data->Genre);
+    mfree(Data->Buffer);
     mfree(Data);
     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }
@@ -119,8 +120,7 @@ void InvalidateRect(DISP_OBJ *disp_obj)
 extern "C" void RefreshScreen()
 {
   Internal_Function *Data = Get_Internal_Function();
-  if (Data->Music_Gui_NowPlaying)
-    DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
+  InvalidateRect(Data->Music_Gui_NowPlaying);
 }
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
@@ -144,6 +144,8 @@ extern "C" int PATCH_UI_MEDIAPLAYER_AUDIO_ON_NEW_TRACK_EVENT(void *trackdata, BO
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   NEW_TRACK_DATA *TrackData = (NEW_TRACK_DATA *)trackdata;
 
+  int ret = pg_MusicApplication_UI_MEDIAPLAYER_NEW_TRACK_EVENT(TrackData, MusicBook);
+
   Data->FullTimeInSeconds = (TrackData->FullTime.hours * 60 * 60) + (TrackData->FullTime.minutes * 60) + TrackData->FullTime.seconds;
   Data->ElapsedTimeInSeconds = (TrackData->ElapsedTime.hours * 60 * 60) + (TrackData->ElapsedTime.minutes * 60) + TrackData->ElapsedTime.seconds;
 
@@ -157,7 +159,6 @@ extern "C" int PATCH_UI_MEDIAPLAYER_AUDIO_ON_NEW_TRACK_EVENT(void *trackdata, BO
   if (Data->MusicBook)
     GetNextTrackData(TrackData, MusicBook);
 
-  int ret = pg_MusicApplication_UI_MEDIAPLAYER_NEW_TRACK_EVENT(TrackData, MusicBook);
   RefreshScreen();
   return ret;
 }
@@ -219,14 +220,12 @@ void SetGUIData(GUI *gui)
   if (Data->Fullscreen)
   {
     GUIObject_SetStyle(gui, UI_OverlayStyle_TrueFullScreen);
-    if (DispObject_GetStyle(Data->Music_Gui_NowPlaying) != UI_OverlayStyle_TrueFullScreen)
-      DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
+    DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
   }
   else
   {
     GUIObject_SetStyle(gui, UI_OverlayStyle_Default);
-    if (DispObject_GetStyle(Data->Music_Gui_NowPlaying) != UI_OverlayStyle_Default)
-      DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_Default);
+    DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_Default);
   }
 
   if (Data->SoftKeys)
@@ -241,6 +240,23 @@ void SetGUIData(GUI *gui)
   }
 }
 
+void Load_skin_GUI(const wchar_t *fpath, const wchar_t *fname)
+{
+  int skin_file = _fopen(fpath, fname, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (skin_file >= 0)
+  {
+    WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
+    memset(skin_data, NULL, sizeof(WALKMAN_Skin));
+    fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
+    fclose(skin_file);
+
+    Internal_Function *Data = Get_Internal_Function();
+    Data->Fullscreen = skin_data->FullScreen;
+    Data->SoftKeys = skin_data->SoftKeys;
+    mfree(skin_data);
+  }
+}
+
 extern "C" void Set_WALKMAN_GUI_STYLE(GUI *gui)
 {
   int settings_file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
@@ -249,25 +265,14 @@ extern "C" void Set_WALKMAN_GUI_STYLE(GUI *gui)
     SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
     memset(current_skin, NULL, sizeof(SKIN));
     fread(settings_file, current_skin, sizeof(SKIN));
-
-    int skin_file = _fopen(current_skin->Path, current_skin->Name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-    if (skin_file >= 0)
-    {
-      WALKMAN_Skin *skin_data = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
-      memset(skin_data, NULL, sizeof(WALKMAN_Skin));
-      fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
-      fclose(skin_file);
-
-      Internal_Function *Data = Get_Internal_Function();
-      Data->Fullscreen = skin_data->FullScreen;
-      Data->SoftKeys = skin_data->SoftKeys;
-      mfree(skin_data);
-    }
     fclose(settings_file);
+
+    Load_skin_GUI(current_skin->Path, current_skin->Name);
     mfree(current_skin);
+
+    SetGUIData(gui);
+    RefreshScreen();
   }
-  SetGUIData(gui);
-  RefreshScreen();
 }
 
 extern "C" void New_SoftKeys(BOOK *book)
@@ -281,7 +286,7 @@ extern "C" void New_SoftKeys(BOOK *book)
   MediaPlayer_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_SKINEDITOR);
   MediaPlayer_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, Enter_SkinEditor);
   MediaPlayer_SoftKeys_SetText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, TEXT_SKINS);
-  MediaPlayer_SoftKeys_SetInfoText(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, STR(TXT_EDIT_THE_APPEARANCE_OF_WALKMAN_LAYOUT));
+  MediaPlayer_SoftKeys_AddHelpStr(MusicBook->Gui_NowPlaying, ACTION_MP_SKINEDITOR, STR(TXT_EDIT_THE_APPEARANCE_OF_WALKMAN_LAYOUT));
 
   GUIObject_SoftKeys_SetItemAsSubItem(MusicBook->Gui_NowPlaying, ACTION_MP_SETTINGS, ACTION_MP_ALBUM_ART);
   GUIObject_SoftKeys_SetAction(MusicBook->Gui_NowPlaying, ACTION_MP_ALBUM_ART, Enter_SelectAlbumArt);

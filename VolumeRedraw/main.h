@@ -1,8 +1,8 @@
 #ifndef _Main_H_
 #define _Main_H_
 
-static const uint8_t vol_table_call[9] = {0, 12, 25, 38, 50, 63, 75, 88, 100};
-static const uint8_t vol_table_media[16] = {0, 6, 13, 20, 26, 33, 40, 47, 54, 60, 66, 73, 80, 86, 93, 100};
+static const uint8_t vol_table_call[9] = {0, 12, 25, 37, 50, 62, 75, 87, 100};
+static const uint8_t vol_table_media[16] = {0, 6, 13, 20, 26, 33, 40, 46, 53, 60, 66, 73, 80, 86, 93, 100};
 
 extern "C"
 {

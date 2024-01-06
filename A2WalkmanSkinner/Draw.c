@@ -12,6 +12,7 @@ int GetTextIDWidth(int font, TEXTID text, int len)
 #if defined(DB3200) || defined(DB3210)
   return dll_Disp_GetTextIDWidth(font, text, TextID_GetLength(len));
 #else
+  SetFont(font);
   return Disp_GetTextIDWidth(text, TextID_GetLength(len));
 #endif
 }

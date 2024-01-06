@@ -77,7 +77,7 @@ void TimerOff_OnSelect(BOOK *book, GUI *gui)
 
 void TimerOff_onBack(BOOK *book, GUI *gui)
 {
-#ifdef C901_R1GA028
+#if defined(C901_R1GA028) || defined(C903_R1GA028) || defined(T715_R1GA026)
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   DESTROY_GUI(MusicBook->Gui_submenu);
 #else

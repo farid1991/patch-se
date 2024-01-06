@@ -577,6 +577,7 @@ extern "C"
   void MediaPlayer_SoftKeys_SetText(GUI *player_gui, int actionID, TEXTID);
   void MediaPlayer_SoftKeys_SetAction(GUI *player_gui, int actionID, SKACTIONPROC proc);
   void MediaPlayer_SoftKeys_SetItemAsSubItem(GUI *player_gui, int item, int subitem);
+  void MediaPlayer_SoftKeys_AddHelpStr(GUI *player_gui, int actionID, TEXTID);
   void DispObject_Show(DISP_OBJ *, int mode);
   int Request_EventChannel_Subscribe(const int *sync, int mode, int event);
   void GUIObject_SoftKeys_ExecuteAction(GUI *, u16 actionID);

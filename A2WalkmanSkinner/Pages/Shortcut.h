@@ -9,6 +9,8 @@ static const char MusicShortcut_Base_Page_Name[] = "MusicApplication_Shortcut_Ba
 static const char MusicShortcut_Main_Page_Name[] = "MusicApplication_Shortcut_Main_Page";
 static const char MusicShortcut_Page_Select_Name[] = "MusicApplication_Shortcut_SelectAction_Page";
 
+#define NO_ACTION 0xFF
+
 enum Modes
 {
   SHORT_PRESS = 1,

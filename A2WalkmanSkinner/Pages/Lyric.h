@@ -8,6 +8,8 @@
 #define MAX_EXT 100
 #define MAX_TIMER 400
 
+#define LRC_OK 1
+#define LRC_FAIL 0
 #define LRC_READY 0
 #define LRC_NOTFOUND (-2)
 #define LRC_PREPARING (-1)

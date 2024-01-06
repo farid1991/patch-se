@@ -2,11 +2,24 @@
 
 #include "..\\include\Types.h"
 
+#ifndef DB3150v1
+#include "dll.h"
+#endif
+
 #include "Lib.h"
 #include "main.h"
 #include "String.h"
 
 //==============================================================================
+
+int GetTextIDWidth(int font, TEXTID text, int len)
+{
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  return dll_Disp_GetTextIDWidth(font, text, TextID_GetLength(len));
+#else
+  return Disp_GetTextIDWidth(text, TextID_GetLength(len));
+#endif
+}
 
 int Encoding_GetType(char *str)
 {
@@ -50,11 +63,12 @@ char *unicode2win1251(char *s, wchar_t *ws, int len)
       c -= 0x350;
     *s++ = c;
   }
-  *s = 0;
-  return (d);
+  *s = '\0';
+
+  return d;
 };
 
-void win12512unicode(wchar_t *ws, const char *s, int len)
+void win12512unicode(wchar_t *ws, const char *s, size_t len)
 {
   int c;
   while ((c = *s++) && ((len--) > 0))
@@ -75,109 +89,115 @@ void win12512unicode(wchar_t *ws, const char *s, int len)
       c += 0x350;
     *ws++ = c;
   }
-  *ws = 0;
+  *ws = L'\0';
 }
 
-int utf8len(char *utf8)
+// Convert a UTF-8 string to an ANSI (single-byte character set) string
+void UTF8_to_ANSI(char *ansi, const char *utf8, size_t max_len)
 {
-  int len = NULL;
-  for (; *utf8; utf8++)
+  size_t i = 0;
+  size_t j = 0;
+
+  // Iterate through the UTF-8 string
+  while (utf8[i] != '\0' && j < max_len - 1)
   {
-    int c = *utf8;
-    if (c >= 0x0 && c <= 0x7F)
-      len++;
-    else if (c >= 0xC0 && c <= 0xDF)
+    // Handle ASCII characters (1-byte)
+    if ((utf8[i] & 0x80) == 0)
     {
-      utf8++;
-      len++;
+      ansi[j] = utf8[i];
+      i++;
     }
+    // Handle multi-byte UTF-8 sequences (up to 4 bytes)
+    else
+    {
+      // Determine the number of bytes in the UTF-8 sequence
+      int num_bytes = 0;
+      char mask = 0x80;
+
+      while ((utf8[i] & mask) != 0)
+      {
+        num_bytes++;
+        mask >>= 1;
+      }
+
+      // Copy the UTF-8 sequence to the ANSI string
+      if (num_bytes > 0 && j < max_len - num_bytes)
+      {
+        for (int k = 0; k < num_bytes; k++)
+        {
+          ansi[j + k] = utf8[i + k];
+        }
+        i += num_bytes;
+      }
+      else
+      {
+        // Handle insufficient space in the ANSI string
+        break;
+      }
+    }
+
+    j++;
   }
-  return (len);
+
+  // Null-terminate the ANSI string
+  ansi[j] = '\0';
 }
 
-void UTF82unicode(wchar_t *ws, char *utf8, int len)
+// Function to convert UTF-16 LE to ANSI
+void UTF16LE_to_ANSI(const wchar_t *utf16, char *ansi, size_t max_len)
 {
-  int c;
-  while ((c = *utf8++) && ((len--) > 0))
-  {
-    if (c >= 0x0 && c <= 0x7F)
-    {
-      *ws++ = c;
-    }
-    else if (c >= 0xC0 && c <= 0xDF)
-    {
-      *ws++ = ((c & 0x1F) << 6) | ((*utf8++) & 0x3F);
-    }
-  }
-  *ws = 0;
-}
+  size_t i = 0;
+  size_t j = 0;
 
-void unicode2UTF8(char *utf8, wchar_t *ws, int len)
-{
-  int c;
-  while ((c = *ws++) && ((len--) > 0))
+  while (utf16[i] != 0 && j < max_len - 1)
   {
-    if (c >= 0x0 && c <= 0x7F)
-    {
-      *utf8++ = c;
-    }
-    else if (c >= 0x80 && c <= 0x7FF)
-    {
-      *utf8++ = (0xC0 | ((c & 0x7C0) >> 6));
-      *utf8++ = (0x80 | (c & 0x3F));
-    }
-  }
-  *utf8 = 0;
-}
+    wchar_t ch = utf16[i++];
 
-void utf16_to_utf8(wchar_t *unicode16, char *utf8)
-{
-  int i;
-  for (i = 0; unicode16[i]; i++)
-  {
-    if ((unicode16[i] & 0xFF80) == 0)
+    if (ch <= 0x7F)
     {
-      *(utf8++) = unicode16[i] & 0xFF;
-    }
-    else if ((unicode16[i] & 0xF800) == 0)
-    {
-      *(utf8++) = ((unicode16[i] >> 6) & 0xFF) | 0xC0;
-      *(utf8++) = (unicode16[i] & 0x3F) | 0x80;
-    }
-    else if ((unicode16[i] & 0xFC00) == 0xD800 && (unicode16[i + 1] & 0xFC00) == 0xDC00)
-    {
-      *(utf8++) = (((unicode16[i] + 64) >> 8) & 0x3) | 0xF0;
-      *(utf8++) = (((unicode16[i] >> 2) + 16) & 0x3F) | 0x80;
-      *(utf8++) = ((unicode16[i] >> 4) & 0x30) | 0x80 | ((unicode16[i + 1] << 2) & 0xF);
-      *(utf8++) = (unicode16[i + 1] & 0x3F) | 0x80;
-      i += 1;
+      ansi[j++] = (char)ch;
     }
     else
     {
-      *(utf8++) = ((unicode16[i] >> 12) & 0xF) | 0xE0;
-      *(utf8++) = ((unicode16[i] >> 6) & 0x3F) | 0x80;
-      *(utf8++) = (unicode16[i] & 0x3F) | 0x80;
+      ansi[j++] = (char)ch;
     }
   }
 
-  *utf8 = '\0';
+  // Null-terminate the ANSI string
+  ansi[j] = '\0';
 }
 
-int StringLength(char *str)
+// Function to convert UTF-16 BE to ANSI
+void UTF16BE_to_ANSI(const wchar_t *utf16be, char *ansi, size_t max_len)
 {
-  if (str)
-    return (strlen(str));
-  else
-    return NULL;
-}
+  size_t i = 0;
+  size_t j = 0;
 
-void StringFree(char *str)
-{
-  if (str)
+  while (utf16be[i] != 0 && j < max_len - 1)
   {
-    mfree(str);
-    str = NULL;
+    wchar_t ch = utf16be[i++];
+
+    // Swap the byte order (big-endian to little-endian)
+    wchar_t swapped_ch = ((ch & 0xFF) << 8) | ((ch & 0xFF00) >> 8);
+
+    if (swapped_ch <= 0x7F)
+    {
+      // ASCII character (1 byte in ANSI)
+      ansi[j++] = (char)swapped_ch;
+    }
+    else
+    {
+      ansi[j++] = (char)swapped_ch;
+    }
   }
+
+  // Null-terminate the ANSI string
+  ansi[j] = '\0';
+}
+
+BOOL is_digit(char c)
+{
+  return (c >= '0' && c <= '9');
 }
 
 char *StringAlloc(int lenght)
@@ -188,69 +208,10 @@ char *StringAlloc(int lenght)
   return (s);
 }
 
-char *strdup(char *str)
-{
-  int len = StringLength(str);
-  char *ret = StringAlloc(len);
-  return ret;
-}
-
-int IsDigit(char c)
-{
-  return (c >= '0' && c <= '9');
-}
-
-int WStringLength(wchar_t *str)
-{
-  if (str)
-    return (wstrlen(str));
-  else
-    return NULL;
-}
-
-void WStringFree(wchar_t *str)
-{
-  if (str)
-  {
-    mfree(str);
-    str = NULL;
-  }
-}
-
 wchar_t *WStringAlloc(int lenght)
 {
   int size = (lenght + 1) * sizeof(wchar_t);
   wchar_t *ws = (wchar_t *)malloc(size);
   memset(ws, NULL, size);
   return (ws);
-}
-
-void WStringAllocEx(wchar_t **str, int size)
-{
-  WStringFree((*str));
-  (*str) = WStringAlloc(size);
-}
-
-void WStringReallocEx(wchar_t *src, wchar_t **dest, int size)
-{
-  WStringAllocEx(dest, size);
-  wstrncpy((*dest), src, size);
-}
-
-void WStringRealloc(wchar_t *src, wchar_t **dest)
-{
-  WStringReallocEx(src, dest, WStringLength(src));
-}
-
-void WStringFilenameUnion(wchar_t **Filename, wchar_t *Path, wchar_t *Name)
-{
-  WStringAllocEx(Filename, WStringLength(Path) + WStringLength(Name) + 2);
-  wstrcpy((*Filename), Path);
-  wstrcat((*Filename), L"/");
-  wstrcat((*Filename), Name);
-}
-
-void WStringExtractFileName(wchar_t *str, wchar_t **name)
-{
-  WStringRealloc(str, name);
 }

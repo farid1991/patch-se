@@ -38,7 +38,7 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
   IRichText *pTextObject = NULL;
-  IUnknown *pGC = NULL;
+  IUnknown *pICanvas = NULL;
   IFont *pFont = NULL;
 
   int font_size = font & 0xFF;
@@ -67,8 +67,8 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   rect.Size.Width = x2 - x1;
   rect.Size.Height = y2 - y1;
 
-  DisplayGC_AddRef(get_DisplayGC(), &pGC);
-  pRichTextLayout->Display(pGC, x1, y1, &rect);
+  DisplayGC_AddRef(get_DisplayGC(), &pICanvas);
+  pRichTextLayout->Display(pICanvas, x1, y1, &rect);
 
   if (pTextRenderingManager)
     pTextRenderingManager->Release();
@@ -78,11 +78,11 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
     pRichTextLayout->Release();
   if (pTextObject)
     pTextObject->Release();
-  if (pGC)
-    pGC->Release();
+  if (pICanvas)
+    pICanvas->Release();
 }
 
-int dll_Disp_GetTextIDWidth(TEXTID strid, int len)
+int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
 {
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
@@ -99,8 +99,8 @@ int dll_Disp_GetTextIDWidth(TEXTID strid, int len)
 
   IFont *pFont = NULL;
 
-  int font_size = FONT_E_20R & 0xFF;
-  int font_style = FONT_E_20R >> 8;
+  int font_size = font & 0xFF;
+  int font_style = font >> 8;
   dll_SetFont(font_size, font_style, &pFont);
 
   if (len == TEXTID_ANY_LEN)
@@ -128,10 +128,8 @@ int dll_Disp_GetTextIDWidth(TEXTID strid, int len)
 
   return (width);
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
   CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
@@ -141,7 +139,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
 {
   IUIImageManager *pIUIImageManager = NULL;
   IUIImage *pUIImage = NULL;
-  IUnknown *pGC = NULL;
+  IUnknown *pICanvas = NULL;
 
   TUIRectangle rect;
   rect.Point.X = x;
@@ -152,24 +150,24 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
   Get_IUIImageManager(&pIUIImageManager);
   pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
 
-  DisplayGC_AddRef(gc, &pGC);
+  DisplayGC_AddRef(gc, &pICanvas);
 
-  pIUIImageManager->Draw(pUIImage, pGC, rect);
+  pIUIImageManager->Draw(pUIImage, pICanvas, rect);
 
   if (pIUIImageManager)
     pIUIImageManager->Release();
   if (pUIImage)
     pUIImage->Release();
-  if (pGC)
-    pGC->Release();
+  if (pICanvas)
+    pICanvas->Release();
 }
 
 int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
@@ -187,8 +185,8 @@ int dll_GetImageHeight(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
@@ -225,44 +223,6 @@ void dll_MetaData_Desc_Destroy(METADATA_DESC *MetaData_Desc)
     MetaData_Desc->pIMetaData->Release();
   if (MetaData_Desc)
     mfree(MetaData_Desc);
-}
-
-wchar_t *dll_MetaData_Desc_GetTags(METADATA_DESC *MetaData_Desc, int tagID)
-{
-  wchar_t *buf;
-  switch (tagID)
-  {
-  case TMetadataTagId_Artist:
-    buf = MetaData_Desc->artist;
-    break;
-  case TMetadataTagId_Title:
-    buf = MetaData_Desc->title;
-    break;
-  case TMetadataTagId_Album:
-    buf = MetaData_Desc->album;
-    break;
-  case TMetadataTagId_Year:
-    buf = MetaData_Desc->year;
-    break;
-  case TMetadataTagId_Genre:
-    buf = MetaData_Desc->genre;
-    break;
-  case TMetadataTagId_x6:
-    buf = MetaData_Desc->x6;
-    break;
-  case TMetadataTagId_x7:
-    buf = MetaData_Desc->x7;
-    break;
-  }
-  MetaData_Desc->pIMetaData->GetTag(tagID, buf);
-  return (buf);
-}
-
-int dll_MetaData_Desc_GetTrackNum(METADATA_DESC *MetaData_Desc)
-{
-  int track_num;
-  MetaData_Desc->pIMetaData->GetTrackNum(NULL, &track_num);
-  return track_num;
 }
 
 BOOL dll_MetaData_Desc_HasAlbumArt(METADATA_DESC *MetaData_Desc, wchar_t *path, wchar_t *name)

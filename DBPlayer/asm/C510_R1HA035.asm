@@ -101,6 +101,7 @@ a       EQU     b
         defadr ImageID_GetIndirect,0x150D2C38+1
         defadr DispObject_SetLayerColor,0x140C6CA0+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x14129628+1
+        defadr GUIObject_SoftKeys_RestoreBackground,0x1412974C+1
         defadr GUIonMessage_GetMsg,0x142C5CA4+1
         defadr GUIonMessage_GetBook,0x142C5E94+1
         defadr ListMenu_DestroyItems,0x14280984+1
@@ -115,13 +116,13 @@ a       EQU     b
         defadr YesNoQuestion_SetDescriptionText,0x14337444+1
         defadr YesNoQuestion_SetQuestionText,0x14337434+1
         defadr YesNoQuestion_SetIcon,0x14337428+1
-        defadr MessageBox_NoIMAGE,0x14CE140C+1
         defadr w_fopen,0x100A6E5C+1
         defadr w_lseek,0x10589418+1
         defadr w_fclose,0x1013A908+1
         defadr w_fread,0x100F2E7C+1
         defadr DISP_DESC_SetOnLayout,0x14295474+1
         defadr GUIObject_SoftKeys_Show,0x1412982C+1
+        defadr GUIObject_SetBacklightMode_On,0x142EFF34+1
         defadr DispObject_SetBacklightMode,0x142F0190+1
         defadr DispObject_SoftKeys_Show,0x141297F4+1
         defadr DispObject_SoftKeys_Hide,0x144CB14C+1

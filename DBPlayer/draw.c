@@ -13,17 +13,23 @@
 #include "draw.h"
 #include "main.h"
 
-void DrawImage(int x, int y, IMAGEID img)
+void DrawImageEx(GC *gc, int x, int y, int w, int h, IMAGEID img)
 {
   if (img != NOIMAGE)
-#ifdef DB3150v1
-    GC_DrawImage(x, y, img);
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    dll_GC_PutChar(gc, x, y, w, h, img);
 #else
-    dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
+    GC_PutChar(gc, x, y, w, h, img);
 #endif
 }
 
-void DrawProgressBar(DBP_DATA *data, int cur_value, int total_value, RECT rect, int Bcolor, int Ecolor)
+void DrawImage(int x, int y, IMAGEID img)
+{
+  GC *gc = get_DisplayGC();
+  DrawImageEx(gc, x, y, 0, 0, img);
+}
+
+void DrawProgressBar(DBP_DATA *data, int cur_value, int total_value, RECT rect, uint32_t Bcolor, uint32_t Ecolor)
 {
   int bar = rect.x1 + (cur_value * (rect.x2 - rect.x1) / total_value);
 
@@ -54,62 +60,52 @@ void DrawProgressBar(DBP_DATA *data, int cur_value, int total_value, RECT rect, 
   }
 }
 
-void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2, uint32_t tcolor, uint32_t ocolor, int overlay)
+void DrawText(int font, TEXTID text, int align, int x1, int y1, int x2, uint32_t TextColor)
 {
-  if (text && text != EMPTY_TEXTID)
+  if (text != EMPTY_TEXTID)
   {
-    int font_height = y1 + (font & 0xFF);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    switch (overlay) //(Overlay type)
-    {
-    case TEXTOVERLAY_TYPE1: // (Full) v1
-      dll_DrawString(font, text, align, x1 - 1, y1 - 1, x2 - 1, font_height, ocolor);
-      dll_DrawString(font, text, align, x1 - 1, y1 + 1, x2 - 1, font_height, ocolor);
-      dll_DrawString(font, text, align, x1 + 1, y1 - 1, x2 + 1, font_height, ocolor);
-      dll_DrawString(font, text, align, x1 + 1, y1 + 1, x2 + 1, font_height, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, font_height, tcolor);
-      break;
-    case TEXTOVERLAY_TYPE2: // (Full) v2
-      dll_DrawString(font, text, align, x1 + 1, y1, x2, font_height, ocolor);
-      dll_DrawString(font, text, align, x1, y1 + 1, x2, font_height, ocolor);
-      dll_DrawString(font, text, align, x1 - 1, y1, x2, font_height, ocolor);
-      dll_DrawString(font, text, align, x1, y1 - 1, x2, font_height, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, font_height, tcolor);
-      break;
-    case TEXTOVERLAY_TYPE3: // (Shadow)
-      dll_DrawString(font, text, align, x1 + 1, y1 + 1, x2, font_height, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, font_height, tcolor);
-      break;
-    default: // (No)
-      dll_DrawString(font, text, align, x1, y1, x2, font_height, tcolor);
-      break;
-    }
+    dll_DrawString(font, text, align, x1, y1, x2, y1 + (font & 0xFF), TextColor);
 #else
     SetFont(font);
-    switch (overlay) //(Overlay type)
-    {
-    case TEXTOVERLAY_TYPE1: //(Full) v1
-      DrawString(text, align, x1 - 1, y1 - 1, x2 - 1, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1 - 1, y1 + 1, x2 - 1, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1 + 1, y1 - 1, x2 + 1, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1 + 1, y1 + 1, x2 + 1, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1, y1, x2, font_height, 0, 0, tcolor, 0);
-      break;
-    case TEXTOVERLAY_TYPE2: //(Full) v2
-      DrawString(text, align, x1 + 1, y1, x2, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1, y1 + 1, x2, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1 - 1, y1, x2, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1, y1 - 1, x2, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1, y1, x2, font_height, 0, 0, tcolor, 0);
-      break;
-    case TEXTOVERLAY_TYPE3: //(Shadow)
-      DrawString(text, align, x1 + 1, y1 + 1, x2, font_height, 0, 0, ocolor, 0);
-      DrawString(text, align, x1, y1, x2, font_height, 0, 0, tcolor, 0);
-      break;
-    default: //(No)
-      DrawString(text, align, x1, y1, x2, font_height, 0, 0, tcolor, 0);
-      break;
-    }
+    int font_h = GetImageHeight(' ');
+    DrawString(text, align, x1, y1, x2, y1 + font_h, 0, 0, TextColor, TextColor);
 #endif
   }
+}
+
+void DrawTextEx(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, uint32_t TextColor)
+{
+  if (text != EMPTY_TEXTID)
+  {
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+    dll_DrawString(font, text, align, x1, y1, x2, y2, TextColor);
+#else
+    SetFont(font);
+    DrawString(text, align, x1, y1, x2, y2, 0x14, 0x5, TextColor, TextColor);
+#endif
+  }
+}
+
+void DrawTextWithStyle(TEXTID text, int font, int align, int x1, int y1, int x2, uint32_t tcolor, uint32_t ocolor, int overlay)
+{
+  switch (overlay) //(Overlay type)
+  {
+  case TEXTOVERLAY_TYPE1: // (Full) v1
+    DrawText(font, text, align, x1 - 1, y1 - 1, x2 - 1, ocolor);
+    DrawText(font, text, align, x1 - 1, y1 + 1, x2 - 1, ocolor);
+    DrawText(font, text, align, x1 + 1, y1 - 1, x2 + 1, ocolor);
+    DrawText(font, text, align, x1 + 1, y1 + 1, x2 + 1, ocolor);
+    break;
+  case TEXTOVERLAY_TYPE2: // (Full) v2
+    DrawText(font, text, align, x1 + 1, y1, x2, ocolor);
+    DrawText(font, text, align, x1, y1 + 1, x2, ocolor);
+    DrawText(font, text, align, x1 - 1, y1, x2, ocolor);
+    DrawText(font, text, align, x1, y1 - 1, x2, ocolor);
+    break;
+  case TEXTOVERLAY_TYPE3: // (Shadow)
+    DrawText(font, text, align, x1 + 1, y1 + 1, x2, ocolor);
+    break;
+  }
+  DrawText(font, text, align, x1, y1, x2, tcolor);
 }

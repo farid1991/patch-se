@@ -178,7 +178,6 @@ void SelectShortcut_onSelect_Item(BOOK *book, GUI *gui)
 
   SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(pShortcutBook->SoftkeyList, item);
   WriteData(pShortcutBook->CurrentItem, elem->action);
-  CreateMessageBox(EMPTY_TEXTID, elem->textid, 0, 2000, pShortcutBook);
 
   BookObj_ReturnPage(pShortcutBook, ACCEPT_EVENT);
   ListMenu_DestroyItems(pShortcutBook->MainMenu);
@@ -348,7 +347,7 @@ void execute_kb(BOOK *book, char key, int mode)
   if (mode == KBD_SHORT_RELEASE)
   {
     MusicApplication_Book *pMusicBook = (MusicApplication_Book *)book;
-    u16 actionID = 0xFF;
+    u16 actionID = NO_ACTION;
     char key_id = GetKeyID(key);
 
     FSTAT _fstat;
@@ -361,7 +360,7 @@ void execute_kb(BOOK *book, char key, int mode)
       actionID = mydata->action[key_id];
       mfree(mydata);
     }
-    if (actionID != 0xFF)
+    if (actionID != NO_ACTION)
       GUIObject_SoftKeys_ExecuteAction(pMusicBook->Gui_NowPlaying, actionID);
   }
 }

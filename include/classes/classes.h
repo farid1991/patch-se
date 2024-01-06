@@ -3,6 +3,7 @@
 
 #include "IUnknown.h"
 #include "IAudioControlManager.h"
+#include "IIconSet.h"
 #include "IUIImageManager.h"
 #include "IFontManager.h"
 #include "IFontStyleManager.h"

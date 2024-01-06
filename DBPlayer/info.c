@@ -82,45 +82,45 @@ TEXTID GetTags(wchar_t *path, wchar_t *name, int tag_id)
     mfree(tag);
     return text_id;
   }
-  else if (tag_id == TMetadataTagId_Title)
+  else if (tag_id == TAG_TITLE)
   {
     return TextID_Create(name, ENC_UCS2, wstrlen(name) - 4);
   }
-  else if (tag_id == TMetadataTagId_Artist || tag_id == TMetadataTagId_Album)
+  else if (tag_id == TAG_ARTIST || tag_id == TAG_ALBUM)
   {
     return TEXT_UNKNOWN;
   }
   return EMPTY_TEXTID;
 }
 
-wchar_t *GetFormatType(DBP_DATA *data)
+char *GetFormatType(DBP_DATA *data)
 {
   switch (data->fileFormatType)
   {
   case TMMEFileFormatIdType_3GP:
-    return L"3GP";
+    return "3GP";
   case TMMEFileFormatIdType_AAC:
-    return L"AAC";
+    return "AAC";
   case TMMEFileFormatIdType_AMR:
-    return L"AMR";
+    return "AMR";
   case TMMEFileFormatIdType_M4A:
-    return L"M4A";
+    return "M4A";
   case TMMEFileFormatIdType_MP3:
-    return L"MP3";
+    return "MP3";
   case TMMEFileFormatIdType_MP4:
-    return L"MP4";
+    return "MP4";
   case TMMEFileFormatIdType_WAV:
-    return L"WAV";
+    return "WAV";
   case TMMEFileFormatIdType_WMA:
-    return L"WMA";
+    return "WMA";
   default:
-    return L"UNK";
+    return "UNK";
   }
 }
 
 TEXTID GetFileExt(DBP_DATA *data)
 {
-  return TextID_Create(GetFormatType(data), ENC_UCS2, TEXTID_ANY_LEN);
+  return TextID_Create(GetFormatType(data), ENC_LAT1, strlen(GetFormatType(data)));
 }
 
 TEXTID GetTotalTime(DBP_DATA *data)
@@ -137,15 +137,12 @@ TEXTID GetElapsedTime(DBP_DATA *data)
 
 TEXTID GetRemainingTime(DBP_DATA *data)
 {
-  int totalMinutes = data->track_time.Hours * 60 + data->track_time.Minutes;
-  int remainingMinutes = totalMinutes - data->elapsed_time.Minutes;
-  int remainingSeconds = data->track_time.Seconds - data->elapsed_time.Seconds;
+  int totalSeconds = data->track_time.Hours * 3600 + data->track_time.Minutes * 60 + data->track_time.Seconds;
+  int elapsedSeconds = data->elapsed_time.Hours * 3600 + data->elapsed_time.Minutes * 60 + data->elapsed_time.Seconds;
+  int remainingSeconds = totalSeconds - elapsedSeconds;
 
-  if (remainingSeconds < 0)
-  {
-    remainingMinutes--;
-    remainingSeconds += 60;
-  }
+  int remainingMinutes = remainingSeconds / 60;
+  remainingSeconds %= 60;
 
   snwprintf(data->buf, MAXELEMS(data->buf), L"-%02d:%02d", remainingMinutes, remainingSeconds);
   return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
@@ -205,33 +202,33 @@ TEXTID GetBitrate(DBP_DATA *data)
   return TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-wchar_t *getSampleRate(int index)
+char *getSampleRate(int index)
 {
   switch (index)
   {
   case 8000:
-    return L"8.0 KHz";
+    return "8.0 KHz";
   case 11025:
-    return L"11.02 KHz";
+    return "11.02 KHz";
   case 16000:
-    return L"16.0 KHz";
+    return "16.0 KHz";
   case 22050:
-    return L"22.05 KHz";
+    return "22.05 KHz";
   case 24000:
-    return L"24.0 KHz";
+    return "24.0 KHz";
   case 32000:
-    return L"32.0 KHz";
+    return "32.0 KHz";
   case 44100:
-    return L"44.1 KHz";
+    return "44.1 KHz";
   case 48000:
-    return L"48.0 KHz";
+    return "48.0 KHz";
   }
   return NULL;
 }
 
 TEXTID GetSampleRate(DBP_DATA *data)
 {
-  return TextID_Create(getSampleRate(data->SampleRate), ENC_UCS2, TEXTID_ANY_LEN);
+  return TextID_Create(getSampleRate(data->SampleRate), ENC_LAT1, strlen(getSampleRate(data->SampleRate)));
 }
 
 TEXTID GetAudioOutput(DBP_DATA *data)
@@ -239,9 +236,9 @@ TEXTID GetAudioOutput(DBP_DATA *data)
   switch (data->AudioOutput)
   {
   case TMMEAudioOutput_Mono:
-    return STR("Mono");
+    return TextID_Create("Mono", ENC_LAT1, 4);
   case TMMEAudioOutput_Stereo:
-    return STR("Stereo");
+    return TextID_Create("Stereo", ENC_LAT1, 6);
   default:
     return TEXT_UNKNOWN;
   }

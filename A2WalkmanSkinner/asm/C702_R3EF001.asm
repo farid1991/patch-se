@@ -178,7 +178,7 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetText,0x10B622D4+1
         defadr MediaPlayer_SoftKeys_SetAction,0x10B6228C+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x10B62334+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x10B62364+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x10B62364+1
 
         defadr GetImageWidth,0x10A3C0C0+1
         defadr GetImageHeight,0x10A3C0D4+1
