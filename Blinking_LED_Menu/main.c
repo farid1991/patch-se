@@ -202,7 +202,7 @@ void CreateTimeInput(BOOK *book)
 void OnPatchInfo(BOOK *book, GUI *gui)
 {
   BlinkingOledBook *oledBook = (BlinkingOledBook *)book;
-  CreateMessageBox(EMPTY_TEXTID, STR("Blinking LED v2\n(c) blacklizard\n(p) farid"), 1, 1000, oledBook);
+  CreateMessageBox(EMPTY_TEXTID, STR("Blinking LED v2\n(c) blacklizard\n(p) farid"), 1, 0, oledBook);
 }
 
 void BlinkingOled_Mainpage_onClose(BOOK *book, GUI *gui)
