@@ -29,11 +29,11 @@ void Enter_EditTag(BOOK *book, GUI *gui)
 
   if (FSX_IsFileExists(ZBIN_INT, L"MusicTagger.elf"))
   {
-    StartElf(L"/card/other/ZBin/MusicTagger.elf", fi->__path, fi->__fname);
+    StartElf(L"/usb/other/ZBin/MusicTagger.elf", fi->__path, fi->__fname);
   }
   else if (FSX_IsFileExists(ZBIN_INT, L"TagEditor.elf"))
   {
-    StartElf(L"/card/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
+    StartElf(L"/usb/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
   }
   else if (FSX_IsFileExists(ZBIN_EXT, L"MusicTagger.elf"))
   {
