@@ -625,11 +625,11 @@ a       EQU     b
         defadr GUIObject_SetSecondRowTitleText,0x116A7194+1
 	defadr ListMenu_GetItemCount,0x11658588+1
         defadr sscanf,0x100A7A60+1
-        
+
         defadr OSE_GetShell,0x111DFEE0+1
 	defadr CoCreateInstance,0x117065BC+1
         defadr DisplayGC_AddRef,0x116A45C8+1
-        
+
 	defadr Bluetooth_Control,0x10EF6DDC+1
         defadr FlightMode_SetState,0x1160E8CC+1
         defadr FlightMode_GetState,0x1160E2A0+1
@@ -640,9 +640,10 @@ a       EQU     b
 	defadr ListMenu_SetBackgroundImage,0x116589EC+1
 	defadr Illumination_LedID_SetLevel,0x115F0964+1
 	defadr Illumination_LedID_Off,0x115F0AF4+1
-        
+
         defadr Shutdown,0x10A35374+1
         defadr Restart,0x10A35394+1
+        defadr List_GetCount,0x1142AE90+1
 
 	defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
         defadr DynamicMenu_SetElement_SecondLineText,0x116C4F90+1
@@ -661,58 +662,58 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetItemOnKey,0x116C06A8+1
         defadr GUIObject_TabTitleRemove,0x11658CC4+1
 
-        RSEG   TAB_ICON_1
-        CODE16
-        ldr	r7, =_IconInternet
-        bx	r7
-        
-        RSEG   TAB_ICON_2
-        DATA
-        DCD	0xF394
-        
-        RSEG   TAB_FOCUS
-        CODE16
-        ldr	r3, =_Tabfocus
-        bx	r3
-        
-        RSEG   GUI_CREATE
-        CODE16
-        ldr	r3, =_onCreate
-        bx	r3
-        
-        RSEG   BOOK_CLOSE
-        CODE16
-        ldr	r3, =_onClose
-        bx	r3
-        
-        RSEG   EVENTS
-        CODE16
-        ldr	r3, =EventsTitleText
-        bx	r3
-        
-        RSEG   INTERNET
-        CODE16
-        ldr	r3, =_Internet
-        bx	r3
-        
-        RSEG   SHORTCURTS
-        CODE16
-        ldr	r3, =_Shortcurts
-        bx	r3
-        
-        RSEG   ACTIVETASKS
-        CODE16
-        ldr	r3, =_Activetasks
-        bx	r3
-        
-        EXTERN SetFocusTab
+        EXTERN GetFocusTab
         EXTERN CreateBookAndElfsLists
         EXTERN ActivityBook_onClose
         EXTERN EventsTitleText
         EXTERN CreateBookMenu
         EXTERN CreateElfMenu
-        EXTERN CreateJavaMenu
-        
+        EXTERN CreateShortcutMenu
+
+        RSEG   TAB_ICON_1
+        CODE16
+        ldr	r7, =_IconInternet
+        bx	r7
+
+        RSEG   TAB_ICON_2
+        DATA
+        DCD	0xF394
+
+        RSEG   TAB_FOCUS
+        CODE16
+        ldr	r3, =_Tabfocus
+        bx	r3
+
+        RSEG   GUI_CREATE
+        CODE16
+        ldr	r3, =_onCreate
+        bx	r3
+
+        RSEG   BOOK_CLOSE
+        CODE16
+        ldr	r3, =_onClose
+        bx	r3
+
+        RSEG   EVENTS
+        CODE16
+        ldr	r3, =EventsTitleText
+        bx	r3
+
+        RSEG   INTERNET
+        CODE16
+        ldr	r3, =_Internet
+        bx	r3
+
+        RSEG   SHORTCURTS
+        CODE16
+        ldr	r3, =_Shortcurts
+        bx	r3
+
+        RSEG   ACTIVETASKS
+        CODE16
+        ldr	r3, =_Activetasks
+        bx	r3
+
         RSEG   CODE
         CODE16
 _IconInternet:
@@ -733,7 +734,7 @@ _Tabfocus:
         ldr	r3, =0x116D0020+1
         bx	r3
 set_focus:
-        bl	SetFocusTab
+        bl	GetFocusTab
         add	r5, r0, #0
         ldr	r3, =0x116D003E+1
         bx	r3

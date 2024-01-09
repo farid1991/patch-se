@@ -19,6 +19,7 @@ a       EQU b
         defadr FSX_Close,0x109571E4+1
         defadr fread,0x10957474+1
         defadr fstat,0x109564E4+1
+        defadr w_fstat,0x112A40E4+1
         defadr Battery_GetChargingState,0x10BF2ADC+1
         defadr Illumination_LedID_SetLevel,0x10BCAD58+1
         defadr Illumination_LedID_Off,0x10BCAF58+1
@@ -27,9 +28,12 @@ a       EQU b
         defadr TextID_CreateIntegerID,0x10F683EC+1
         defadr ListMenu_SetItemSecondLineText,0x11A8D41C+1
         defadr TextID_Create,0x10F685C0+1
+        defadr TextID_Destroy,0x10F688FC+1
         defadr TextID_GetString,0x10F68CCC+1
+        defadr TextID_GetWString,0x10F68B54+1
         defadr CreateStringInputVA,0x10894B50+1
         defadr GUIObject_SoftKeys_SetAction,0x1080D414+1
+        defadr GUIObject_SoftKeys_SetEnable,0x1080D57C+1
         defadr MessageBox,0x11A64894+1
         defadr CreateMessageBox,0x11A64938+1
         defadr ListMenu_GetSelectedItem,0x11A8D010+1
@@ -47,6 +51,10 @@ a       EQU b
         defadr GUIObject_SetTitleType,0x109D0640+1
         defadr GUIObject_SetTitleText,0x109D065C+1
         defadr GUIObject_SetStyle,0x109D048C+1
+        defadr GUIObject_GetDispObject,0x109D02CC+1
+        defadr DispObject_GetDESC,0x1189550C+1
+        defadr DispObject_GetOnKey,0x109C36E0+1
+        defadr DISP_DESC_SetOnKey,0x109C3604+1
         defadr ListMenu_SetItemStyle,0x11A8D060+1
         defadr ListMenu_SetItemCount,0x11A8D024+1
         defadr ListMenu_SetOnMessage,0x11A8D178+1
@@ -96,13 +104,15 @@ a       EQU b
 
         defadr iconidname2id,0x11524088+1
         defadr GetFreeBytesOnHeap,0x4BB00700
+        defadr sprintf,0x10700200+1
         defadr snwprintf,0x106F71E4+1
         defadr str2wstr,0x10D662F8+1
         defadr wstrncmp,0x106F7978+1
         defadr strcpy,0x106F6FE0+1
         defadr strncmp,0x106F7050+1
         defadr strcmp,0x106F6FB8+1
-        defadr wstrlen,0x10D65030+1
+        defadr wstrcmp,0x106F78D8+1
+        defadr wstrlen,0x106F7938+1
         defadr strlen,0x106F7014+1
         defadr strstr,0x106F7120+1
 

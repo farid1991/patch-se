@@ -10,6 +10,7 @@ a       EQU     b
         defadr memset,0x2A1C07A0
         defadr memcpy,0x100B83F4
 
+        defadr sprintf,0x104E3900+1
         defadr snwprintf,0x104E3DB4+1
         defadr wstrlen,0x10F75F1C+1
         defadr wstrncmp,0x104E4548+1
@@ -30,6 +31,7 @@ a       EQU     b
         defadr _fopen,0x10F84AA0+1
         defadr fread,0x10F861E4+1
         defadr fclose,0x11542130+1
+        defadr w_fstat,0x1077F130+1
 
         defadr List_DestroyElements,0x113C08D8+1
         defadr List_Destroy,0x113C05EC+1

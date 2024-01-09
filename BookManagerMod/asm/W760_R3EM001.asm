@@ -21,6 +21,7 @@ a       EQU b
         defadr _fopen,0x109F5840+1
         defadr fread,0x109F71D4+1
         defadr fclose,0x117A443C+1
+        defadr w_fstat,0x11331024+1
         defadr TabMenuBar_GetFocusedTab,0x1180E95C+1
         defadr ListMenu_GetSelectedItem,0x11B107D0+1
         defadr List_Get,0x11B56EB0+1
@@ -30,10 +31,13 @@ a       EQU b
         defadr UI_Event_toBookID,0x10E889A4+1
         defadr UI_Event,0x10E8894C+1
         defadr TextID_Create,0x10FFBF40+1
+        defadr TextID_Destroy,0x10FFC27C+1
+        defadr TextID_GetWString,0x10FFC4D4+1
         defadr MessageBox,0x11AE853C+1
         defadr FreeBook,0x10E8A22C+1
         defadr manifest_GetParam,0x10BA3410+1
         defadr wstrlen,0x10E01180+1
+        defadr wstrcmp,0x10E01194+1
         defadr strlen,0x10798964+1
         defadr strstr,0x10798A70+1
         defadr GUIonMessage_GetMsg,0x11B1136C+1
@@ -62,6 +66,7 @@ a       EQU b
         defadr GUIonMessage_SetItemDisabled,0x11B11444+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x11B113BC+1
         defadr GUIonMessage_GetSelectedItem,0x11B11378+1
+        defadr sprintf,0x10798680+1
         defadr snwprintf,0x10798B34+1
         defadr GUIObject_SoftKeys_SetText,0x108AE7C4+1
         defadr REQUEST_SYSTEM_SHUTDOWN,0x11596430+1

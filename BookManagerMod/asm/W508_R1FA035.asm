@@ -27,6 +27,7 @@ a       EQU     b
         defadr wstrlen,0x14311500+1
         defadr wstrcmpi,0x14311DE4+1
         defadr wstrrchr,0x1409B4A4+1
+        defadr sprintf,0x14117A8C+1
         defadr snwprintf,0x142C75F0+1
 
         defadr _fopen,0x1421A92C+1
@@ -37,8 +38,8 @@ a       EQU     b
         defadr w_diropen,0x4BA30BB8
         defadr w_chdir,0x4BA80C30
         defadr w_dirread,0x143AD8EC+1
-        defadr w_fstat,0x10177468+1
         defadr w_dirclose,0x4BA80C10
+        defadr w_fstat,0x10177468+1
         defadr FSX_IsFileExists,0x144BFCC0+1
         defadr FSX_MakeFullPath,0x142F18E0+1
 
@@ -152,6 +153,11 @@ a       EQU     b
         defadr GUIObject_TabTitleRemove,0x15031E6C+1
         defadr GUIObject_SoftKeys_SetItemOnKey,0x140EF634+1
         defadr GUIObject_SoftKeys_SetText,0x1412B034+1
+        defadr GUIObject_SoftKeys_SetEnable,0x1412B388+1
+        defadr GUIObject_GetDispObject,0x14048B1C+1
+        defadr DispObject_GetOnKey,0x14464044+1
+        defadr DispObject_GetDESC,0x1506F2B8+1
+        defadr DISP_DESC_SetOnKey,0x1430BC7C+1
 
         defadr JavaDialog_Open,0x141C731C+1
         defadr JavaAppDesc_GetFirstApp,0x141CAEE4+1

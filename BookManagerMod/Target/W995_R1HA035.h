@@ -4,9 +4,8 @@
 #define A2
 #define DB3210
 
-#define BCFGEDIT_PATH L"/usb/other/ZBin/BcfgEdit.elf"
-
 #define LastExtDB 0x15C81490
+#define RSSTicker_Book (char *)0x15C3E8A4
 #define BRIGHTNESS_SHC (wchar_t *)0x15C4AAD8
 
 #define ELFS_ITEM_ICON 0xF874
@@ -20,14 +19,15 @@
 #define KBD_SHORT_RELEASE 0x3
 
 #define KEY_ESC 0x4
+#define KEY_DEL 0x5
+#define KEY_ENTER 0x8
 #define KEY_UP 0x9
+#define KEY_RIGHT 0xB
 #define KEY_DOWN 0xD
 #define KEY_LEFT 0xF
-#define KEY_RIGHT 0xB
-#define KEY_ENTER 0x8
 #define KEY_DIGITAL_0 0x18
-#define KEY_DIEZ 0x23
 #define KEY_STAR 0x22
+#define KEY_DIEZ 0x23
 
 #define ACTION_BACK 0xFC0
 #define ACTION_LONG_BACK 0xFAF

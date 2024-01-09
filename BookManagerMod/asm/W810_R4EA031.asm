@@ -13,6 +13,7 @@ a       EQU     b
         defadr get_envp,0x44149CF6+1
         defadr current_process,0x4418D8F0
         defadr get_bid,0x4418D928
+        defadr sprintf,0x44E24E88+1
         defadr snwprintf,0x44E25568+1
         defadr sscanf,0x44147BAC+1
         defadr _fopen,0x455B4268+1
@@ -29,6 +30,7 @@ a       EQU     b
         defadr wstrcmpi,0x44FEAFB4+1
         defadr wstrrchr,0x44E25D38+1
         defadr wstrcpy,0x44E25C34+1
+        defadr wstrcmp,0x44E25C04+1
         defadr wstrncmp,0x44E25CAC+1
         defadr str2wstr,0x44FEAE4C+1
         defadr strncmp,0x44E2538C+1
@@ -41,9 +43,12 @@ a       EQU     b
         defadr BookObj_SetFocus,0x4529F994+1
         defadr BookObj_GetBookID,0x4529FD0C+1
         defadr FreeBook,0x4529FC78+1
+        defadr Shortcut_Run,0x45643298+1
 
         defadr TextID_Create,0x452FE69C+1
+        defadr TextID_Destroy,0x452FE86C+1
         defadr TextID_GetString,0x452FF248+1
+        defadr TextID_GetWString,0x452FEA1C+1
 
         defadr List_DestroyElements,0x4527F3B4+1
         defadr List_Destroy,0x4527EFC4+1

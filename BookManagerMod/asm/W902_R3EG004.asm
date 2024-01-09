@@ -68,6 +68,7 @@ a       EQU     b
         defadr TextID_GetLength,0x10F6A000+1
         defadr TextID_Destroy,0x10F69EF8+1
         defadr TextID_GetString,0x10F6A2C8+1
+        defadr TextID_GetWString,0x10F6A150+1
         defadr TextID_CreateIntegerID,0x10F699E8+1
         defadr Disp_GetTextIDWidth,0x109D5A34+1
         defadr FreeBook,0x10DF8D20+1

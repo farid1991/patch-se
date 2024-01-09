@@ -1,18 +1,20 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define MEM_NAME "bm_mem"
-#define EMP_NAME "bm_emp"
+static char *MEM_NAME = "bm_mem";
+static char *EMP_NAME = "bm_emp";
 
 enum
 {
-  TAB_BOOKS = 1,
-  TAB_ELFS = 2
+  TAB_EVENTS,
+  TAB_BOOKS,
+  TAB_ELFS,
+  TAB_SHORTCUTS
 };
 
 enum
 {
-  SHC_ITEM_1 = 0,
+  SHC_ITEM_1,
   SHC_ITEM_2,
   SHC_ITEM_3,
   SHC_ITEM_4,
@@ -22,7 +24,7 @@ enum
 
 enum
 {
-  BCFG_UNK = 0,
+  BCFG_NULL,
   BCFG_NOTFOUND,
   BCFG_SUCCESS
 };
@@ -32,8 +34,10 @@ enum
 #define FLASH_MASK 0xF8000000
 #define MAX_BOOK_NAME_LEN 50
 
-#define BOOKMAN_PATH L"/usb/other/ini"
-#define BOOKMAN_INI L"bookman.ini"
+static wchar_t *INI_PATH = L"/usb/other/ini";
+static wchar_t *BOOKMAN_INI = L"bookman.ini";
+static wchar_t *SHORTCUT_INI = L"shortcut.ini";
+static wchar_t *BCFGEDIT_PATH = L"/usb/other/ZBin/BcfgEdit.elf";
 
 #define FREE_GUI(g)       \
   if (g)                  \
@@ -57,9 +61,11 @@ typedef struct _BOOK_MANAGER
   u16 elf_index;
   u16 books_count;
   u16 elfs_count;
-  bool elf;
-  int buffer_size;
-  char *cfg_buffer;
+  char tab_pos;
+  int books_name_size;
+  char *books_name_buf;
+  int shortcut_size;
+  char *shortcut_buf;
 } BOOK_MANAGER;
 
 typedef struct
@@ -74,11 +80,12 @@ typedef struct
 enum JAVA_APP_ID
 {
   JAVAAPP_NAME,
-  UNK_1,
-  UNK_2,
-  UNK_3,
-  UNK_4,
+  JAVAAPP_UNK,
+  JAVAAPP_VENDOR,
+  JAVAAPP_CERT,
+  JAVAAPP_HASH,
   JAVAAPP_FULLPATH,
+  JAVAAPP_SEMCLET,
   LAST_ID
 };
 
