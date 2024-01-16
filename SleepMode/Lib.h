@@ -16,14 +16,19 @@ extern "C"
   void memfree(void *mem, const char *fname, int fline);
 #endif
 
+  GC *get_DisplayGC(void);
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
+  int GetImageHeight(IMAGEID);
   int SetFont(int FontSize);
   void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
+#else
+  void DisplayGC_AddRef(GC *, void *pICanvas);
+  void TextObject_SetText(void *pIUIRichText, TEXTID);
+  void TextObject_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
+  int RichTextLayout_GetTextWidth(TEXTID, void *pIUIRichTextLayout, void *pIUIFont);
 #endif
-
-#if defined(A1) || defined(DB3150v1)
-  int GetImageHeight(IMAGEID);
-#endif
+  void CoCreateInstance(UUID *cid, UUID *iid, void **pInterface);
+  void OSE_GetShell(void **pInterface);
 
   void debug_printf(const char *fmt, ...);
   void *memset(void *mem, char chr, int size);

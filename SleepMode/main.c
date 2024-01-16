@@ -4,16 +4,17 @@
 #include "..\\include\Color.h"
 
 #include "main.h"
+#include "dll.h"
 #include "Lib.h"
 
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return memalloc(NULL, size, 1, 5, "", NULL);
+  return memalloc(NULL, size, 1, 5, MEM_NAME, NULL);
 #elif defined(A2)
-  return memalloc(0xFFFFFFFF, size, 1, 5, "", NULL);
+  return memalloc(-1, size, 1, 5, MEM_NAME, NULL);
 #else
-  return memalloc(size, 1, 5, "", NULL);
+  return memalloc(size, 1, 5, MEM_NAME, NULL);
 #endif
 }
 
@@ -21,11 +22,11 @@ __thumb void mfree(void *mem)
 {
   if (mem)
 #if defined(DB2020)
-    memfree(NULL, mem, "", NULL);
+    memfree(NULL, mem, MEM_NAME, NULL);
 #elif defined(A2)
-    memfree(NULL, mem, "", NULL);
+    memfree(NULL, mem, MEM_NAME, NULL);
 #else
-    memfree(mem, "", NULL);
+    memfree(mem, MEM_NAME, NULL);
 #endif
 }
 
@@ -67,51 +68,71 @@ extern "C" void KillRefreshTimer()
   }
 }
 
+void DrawText(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
+{
+#if defined(DB3200) || defined(DB3210)
+  dll_DrawString(font, text, align, x1, y1, x2, y2 + (font & 0xFF), pen_color);
+#else
+  SetFont(font);
+  DrawString(text, align, x1, y1, x2, y2 + GetImageHeight(30), 20, 5, pen_color, pen_color);
+#endif
+}
+
 extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
   uint16_t disp_width = Display_GetWidth(UIDisplay_Main);
   TEXTID text_id;
 
+  DATETIME dt;
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
-
-  char weekday;
-
-  DATETIME dt;
   REQUEST_DATEANDTIME_GET(SYNC, &dt);
 
   text_id = Time2ID(&dt.time, 2, FALSE);
-  SetFont(FONT_TIME);
-  DrawString(text_id, AlignCenter, 1, TIME_Y, disp_width, TIME_Y + GetImageHeight(30), 20, 5, clBlack, clBlack);
+  DrawText(FONT_TIME, text_id, AlignCenter, 0, TIME_Y, disp_width, TIME_Y, clBlack);
   TextID_Destroy(text_id);
 
   text_id = Date2ID(&dt.date, 0, 1);
-  SetFont(FONT_DATE);
-  DrawString(text_id, AlignCenter, 1, DATE_Y, disp_width, DATE_Y + GetImageHeight(30), 20, 5, clBlack, clBlack);
+  DrawText(FONT_DATE, text_id, AlignCenter, 0, DATE_Y, disp_width, DATE_Y, clBlack);
   TextID_Destroy(text_id);
 
+  char weekday;
   DATE_GetWeekDay(&dt.date, &weekday);
   text_id = days[weekday];
-  SetFont(FONT_DAY);
-  DrawString(text_id, AlignCenter, 1, DAY_Y, disp_width, DAY_Y + GetImageHeight(30), 20, 5, clBlack, clBlack);
+  DrawText(FONT_DAY, text_id, AlignCenter, 0, DAY_Y, disp_width, DAY_Y, clBlack);
   TextID_Destroy(text_id);
 
-  int missed[ICONS_COUNT + 2];
-  int *id = missed;
-  int events = *(MissedEvents);
-  int index;
-
-  for (index = 0; index < ICONS_COUNT; index++)
+  int missed[ICONS_COUNT];
+  int *p = missed;
+  int m = *(MissedEvents);
+  int i;
+  for (i = 0; i < ICONS_COUNT; i++)
   {
-    if (events & (1 << index))
+    if (m & (1 << i))
     {
-      *id++ = missed_icons[index];
-
-      if (index < 2)
-        *id++ = 0x78000020;
+      *p++ = missed_icons[i];
     }
   }
-  text_id = TextID_Create(&missed[0], ENC_TEXTID, id - missed);
-  DrawString(text_id, AlignCenter, 1, MISSED_Y, disp_width, MISSED_Y + GetImageHeight(30), 40, 1, clBlack, clBlack);
-  TextID_Destroy(text_id);
+
+  int x = 0;
+  for (i = 0; i < (p - missed); i++)
+  {
+#if defined(DB3200) || defined(DB3210)
+    x = x + dll_GetImageWidth(missed[i]);
+#else
+    x = x + GetImageWidth(missed[i]);
+#endif
+  }
+
+  x = (disp_width - (x + (i - 1) * 10)) / 2;
+  for (i = 0; i < (p - missed); i++)
+  {
+#if defined(DB3200) || defined(DB3210)
+    dll_GC_PutChar(x, MISSED_Y, 0, 0, missed[i]);
+    x = x + 10 + dll_GetImageWidth(missed[i]);
+#else
+    GC_PutChar(get_DisplayGC(), x, MISSED_Y, 0, 0, missed[i]);
+    x = x + 10 + GetImageWidth(missed[i]);
+#endif
+  }
 }
