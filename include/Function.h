@@ -680,7 +680,6 @@ extern "C"
 
 #ifdef A2
   // Library DLL function --------------------------------------------------------
-  // void DisplayGC_AddRef( GC*, void* pICanvas );
   void DisplayGC_AddRef(GC *, void *pICanvas);
   void TextObject_SetText(void *pIUIRichText, TEXTID);
   void TextObject_SetFont(void *pIUIRichText, void *pIFont, const int pStartIndex, const int pCharsLeftToCompose);
