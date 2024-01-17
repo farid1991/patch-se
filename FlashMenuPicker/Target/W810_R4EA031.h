@@ -4,6 +4,7 @@
 #define A1
 #define DB2010
 
+#define DEFAULT_FLASH_PATH (wchar_t*)0x44519AE8
 #define INT_FLASH_PATH L"/usb/image/flash"
 #define EXT_FLASH_PATH L"/card/MSSEMC/Media files/image/flash"
 
@@ -18,10 +19,7 @@
 #define ITEM_SYS_ICN 0xE859
 #define ITEM_INT_ICN 0xE648
 #define ITEM_EXT_ICN 0xE62E
-
 #define DB_FLASH_ICN 0xE65D
-
-#define DEFAULT_FLASH_PATH (wchar_t*)0x44519AE8
 
 #define ACTION_ACCEPT 0xFAC
 #define ACTION_ADD 0xFAD

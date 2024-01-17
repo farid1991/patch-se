@@ -4,6 +4,7 @@
 #define A1
 #define DB2010
 
+#define DEFAULT_FLASH_PATH (wchar_t*)0x44478B58
 #define INT_FLASH_PATH L"/usb/image/flash"
 
 #define MAINMENU_TXT 0x74F
@@ -15,10 +16,7 @@
 
 #define ITEM_SYS_ICN 0xE84E
 #define ITEM_INT_ICN 0xE647
-
 #define DB_FLASH_ICN 0xE65C
-
-#define DEFAULT_FLASH_PATH (wchar_t*)0x44478B58
 
 #define ACTION_ACCEPT 0xFAC
 #define ACTION_ADD 0xFAD

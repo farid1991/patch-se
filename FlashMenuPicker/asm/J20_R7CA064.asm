@@ -90,6 +90,8 @@ a       equ     b
         defadr ListMenu_SetTexts,0x1456B7B0+1
         defadr ListMenu_SetOnMessage,0x143D5068+1
         defadr ListMenu_GetSelectedItem,0x1437B204+1
+        defadr ListMenu_SetNoItemText,0x14811680+1
+        defadr ListMenu_SetItemTextScroll,0x1437A778+1
         defadr GUIObject_SetTitleText,0x14054A00+1
         defadr GUIObject_SetStyle,0x143FFB48+1
         defadr GUIObject_Destroy,0x145681C0+1

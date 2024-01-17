@@ -18,7 +18,7 @@ void *malloc(int size)
 
 void mfree(void *mem)
 {
-    if (mem)
+  if (mem)
 #if defined(DB2020)
     memfree(NULL, mem, MEM_NAME, NULL);
 #elif defined(A2)
@@ -385,13 +385,15 @@ int pg_FlashMenuPicker_Pick_EnterEvent(void *data, BOOK *book)
 #endif
   if (fmbk->SubMenu = CreateListMenu(fmbk, UIDisplay_Main))
   {
+    GUIObject_SetTitleText(fmbk->SubMenu, SUBMENU_TXT);
     ListMenu_SetItemCount(fmbk->SubMenu, count);
     ListMenu_SetCursorToItem(fmbk->SubMenu, 0);
     ListMenu_SetOnMessage(fmbk->SubMenu, FlashMenuPicker_Pick_OnMessage);
     ListMenu_SetHotkeyMode(fmbk->SubMenu, LKHM_SHORTCUT);
-    GUIObject_SetTitleText(fmbk->SubMenu, SUBMENU_TXT);
     ListMenu_SetItemTextScroll(fmbk->SubMenu, 1);
+#if defined(DB2020) || defined(A2)
     ListMenu_SetNoItemText(fmbk->SubMenu, EMPTY_LIST_TXT);
+#endif
     if (count)
     {
       GUIObject_SoftKeys_SetText(fmbk->SubMenu, 0, PREVIEW_SK_TXT);
@@ -521,9 +523,10 @@ extern "C" void FlashmenuPicker(BOOK *book, GUI *gui)
   {
     BookObj_SetFocus(fmbk, UIDisplay_Main);
   }
-  else if (fmbk = Create_FlashMenuPickerBook())
+  else
   {
-      BookObj_GotoPage(fmbk, &FlashMenuPicker_Main_Page);
+    fmbk = Create_FlashMenuPickerBook();
+    BookObj_GotoPage(fmbk, &FlashMenuPicker_Main_Page);
   }
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
   FreeBook(book);

@@ -40,6 +40,8 @@ a       equ b
         defadr ListMenu_SetOnMessage,0x143073E8+1
         defadr ListMenu_SetHotkeyMode,0x1441E820+1
         defadr ListMenu_GetSelectedItem,0x14283C40+1
+        defadr ListMenu_SetNoItemText,0x141A298C+1
+        defadr ListMenu_SetItemTextScroll,0x14436C88+1
         defadr GUIonMessage_GetMsg,0x142CA26C+1
         defadr GUIonMessage_GetCreatedItemIndex,0x142CA17C+1
         defadr GUIonMessage_SetMenuItemText,0x14390474+1

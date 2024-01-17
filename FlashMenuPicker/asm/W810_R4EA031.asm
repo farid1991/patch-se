@@ -108,6 +108,7 @@ a       equ b
         defadr ListMenu_SetItemCount,0x4517089C+1
         defadr ListMenu_SetCursorToItem,0x45170870+1
         defadr ListMenu_SetOnMessage,0x451709D8+1
+        defadr ListMenu_SetItemTextScroll,0x45171004+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x45219CDC+1
         defadr GUIObject_SoftKeys_SetAction,0x4519B824+1
         defadr GUIObject_SoftKeys_SetText,0x4519B90C+1

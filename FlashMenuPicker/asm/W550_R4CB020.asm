@@ -50,6 +50,7 @@ a       equ b
         defadr ListMenu_SetCursorToItem,0x4509D008+1
         defadr ListMenu_SetOnMessage,0x4509D170+1
         defadr ListMenu_SetHotkeyMode,0x4509D19C+1
+        defadr ListMenu_SetItemTextScroll,0x4509D734+1
         defadr GUIObject_SetTitleText,0x450C05BC+1
         defadr BookObj_CallPage,0x451C75F0+1
         defadr strcmp,0x44D591C4+1

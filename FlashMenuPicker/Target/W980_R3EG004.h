@@ -4,11 +4,13 @@
 #define A2
 #define DB3150v2
 
+#define DEFAULT_FLASH_PATH (wchar_t*)0x11BBE450
 #define INT_FLASH_PATH L"/usb/picture/flash"
 
 #define MAINMENU_TXT 0xDDD
 #define SUBMENU_TXT 0x22DA
 #define PREVIEW_SK_TXT 0xB48
+#define EMPTY_LIST_TXT 0x1B18
 
 #define ITEM_SYS_TXT 0x326
 #define ITEM_INT_TXT 0x32D
@@ -17,10 +19,7 @@
 #define ITEM_SYS_ICN 0xF3CB
 #define ITEM_INT_ICN 0xF844
 #define ITEM_EXT_ICN 0xF845
-
 #define DB_FLASH_ICN 0xEA51
-
-#define DEFAULT_FLASH_PATH (wchar_t*)0x11BBE450
 
 #define KBD_LONG_PRESS    0x1
 #define KBD_LONG_RELEASE  0x4

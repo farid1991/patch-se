@@ -125,6 +125,8 @@ a       EQU     b
         defadr ListMenu_SetCursorToItem,0x141564B8+1
         defadr ListMenu_SetOnMessage,0x1469E1C4+1
         defadr ListMenu_SetItemStyle,0x1464DD60+1
+        defadr ListMenu_SetNoItemText,0x1514E848+1
+        defadr ListMenu_SetItemTextScroll,0x14302F9C+1
         defadr ListMenu_SetItemSecondLineText,0x14015F5C+1
         defadr GUIonMessage_GetMsg,0x1469FA50+1
         defadr GUIonMessage_GetBook,0x1469FBF8+1
