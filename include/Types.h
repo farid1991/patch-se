@@ -1613,7 +1613,9 @@ enum METADATA_TAGS
 	TAG_TITLE,
 	TAG_ALBUM,
 	TAG_YEAR,
-	TAG_GENRE
+	TAG_GENRE,
+	TAG_X5,
+	TAG_X6
 };
 
 // obsolete --------------------------------------------------------------------
