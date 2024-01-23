@@ -4,6 +4,9 @@
 #define A1
 #define DB2010
 
+#define BOOKMAN_PATH L"/tpa/user/other/ini"
+#define BCFG_PATH L"/tpa/user/other/ZBin/BcfgEdit.elf"
+
 #define get_VBUFFER (int*)0x4C097434
 
 #define LastExtDB (DB_EXT *)0x4422CD20
@@ -11,6 +14,8 @@
 #define SYNC (int*)0x4424D260
 
 #define JAVA_STR (char *)0x44683AC1
+#define FOREIGNAPP (char *)0x4441A62C
+#define MAINMENU_ID (wchar_t *)0x4429BAB2
 
 #define SELECT_PROFILE_ID (wchar_t*)0x442A0AC2
 #define SETTINGS_BT_ID (wchar_t*)0x4420DAE4

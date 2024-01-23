@@ -1,26 +1,10 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
 #include "main.h"
-#include "Lib.h"
 #include "screenshot.h"
-
-int WStringLength(wchar_t *wstr)
-{
-  if (wstr)
-    return wstrlen(wstr);
-  return NULL;
-}
-
-void WStringFree(wchar_t *wstr)
-{
-  if (wstr)
-  {
-    mfree(wstr);
-    wstr = 0;
-  }
-}
 
 wchar_t *WStringAlloc(int lenght)
 {
@@ -88,9 +72,11 @@ void Screenshoter(int xsize, int ysize)
 
   DATETIME dt;
   REQUEST_DATEANDTIME_GET(SYNC, &dt);
+
   wchar_t *path = SNAPSHOT_PATH;
   wchar_t *fname = WStringAlloc(MAX_FILENAME_LEN);
   wchar_t *fpath = WStringAlloc(wstrlen(path) + 20);
+
   wstrcpy(fpath, path);
   snwprintf(fname, 25, L"/%02d-%02d-%02d", dt.date.day, dt.date.mon, dt.date.year);
   wstrcat(fpath, fname);
@@ -105,10 +91,10 @@ void Screenshoter(int xsize, int ysize)
   }
   else
   {
-    PlaySound(0xA);
+    PlaySound(0xF);
   }
 
   mfree(bmp);
-  WStringFree(fname);
-  WStringFree(fpath);
+  mfree(fname);
+  mfree(fpath);
 }

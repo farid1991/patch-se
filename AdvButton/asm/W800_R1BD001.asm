@@ -57,6 +57,7 @@ a       equ b
         defadr TextID_Destroy,0x44EF449C+1
         defadr TextID_Copy,0x44EF4330+1
         defadr TextID_GetString,0x44EF4E94+1
+        defadr TextID_GetWString,0x44EF4650+1
         defadr TextID_GetLength,0x44EF4530+1
         defadr Disp_GetTextIDWidth,0x44E8F0EC+1
         defadr Format_Time,0x44F6649C+1
@@ -181,6 +182,7 @@ a       equ b
         defadr JavaAppDesc_GetNextApp,0x44C25614+1
         defadr JavaDialog_Close,0x44C2ECCC+1
         defadr JavaSession_GetName,0x45032090+1
+        defadr JavaSession_Manager,0x450372A4+1
         defadr manifest_GetParam,0x4508E5E4+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x451000D0+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x4506ECD4+1
@@ -188,7 +190,7 @@ a       equ b
         defadr BookObj_SoftKeys_SetAction,0x4505BEAC+1
         defadr BookObj_SoftKeys_SetText,0x4505BEF8+1
         defadr Shortcut_Get_MenuItemName,0x44D49280+1
-        defadr Shortcut_Get_MenuItemIconID,0x4506EC50+1
+        defadr Shortcut_Get_MenuItemIconID,0x44D49E90+1
         defadr def_Keyhandler,0x44E823EC+1
 
         EXTERN  Patch_QuickAccess
@@ -209,7 +211,7 @@ keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_mp_button
-	CMP	R2, #3
+	CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
 	BL      Patch_QuickAccess
 	POP	{PC}
@@ -217,7 +219,7 @@ keyhandler:
 _mp_button:
         CMP     R0, #KEY_MEDIAPLAYER
         BNE     _cam_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_BookManager
         POP	{PC}
@@ -225,7 +227,7 @@ _mp_button:
 _cam_button:
         CMP     R0, #KEY_CAMERA_SHOT
         BNE     _def_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_Screenshoter
         POP	{PC}

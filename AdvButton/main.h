@@ -1,7 +1,5 @@
-#ifndef _Main_H_
-#define _Main_H_
-
-#define CONFIG_NAME L"OnOffButton.bin"
+#ifndef _MAIN_H_
+#define _MAIN_H_
 
 #define FREE_GUI(g)       \
   if (g)                  \
@@ -10,8 +8,9 @@
     g = NULL;             \
   }
 
+TEXTID GetFreeHeap();
+
 __thumb void *malloc(int size);
 __thumb void mfree(void *mem);
-TEXTID GetFreeHeap();
 
 #endif

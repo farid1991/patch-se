@@ -1,22 +1,17 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
 #include "bookman.h"
 #include "main.h"
-#include "Lib.h"
 #include "book_names.h"
 
 char *GetOriginalBookName(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  BOOK_LIST_ITEM *elem = GetBookListItem(bookman, bookman->ActiveTAB);
+  BOOK_LIST_ITEM *elem = GetBookListItem(bookman, bookman->active_tab);
   return (elem->book_name);
-}
-
-void onCancel_SI(BOOK *book, wchar_t *new_name, int len)
-{
-  BookObj_ReturnPage(book, ACCEPT_EVENT);
 }
 
 void onPrevious_SI(BOOK *book, wchar_t *new_name, int len)
@@ -104,7 +99,7 @@ int ChangeName_Enter_Event(void *data, BOOK *book)
                                               VAR_ARG_STRINP_MAX_LEN, MAX_BOOK_NAME_LEN,
                                               VAR_ARG_STRINP_MIN_LEN, 0,
                                               VAR_ARG_CALL_BACK_PREV_ACT, onPrevious_SI,
-                                              VAR_ARG_CALL_BACK_LONG_BACK, onCancel_SI,
+                                              VAR_ARG_CALL_BACK_LONG_BACK, onPrevious_SI,
                                               VAR_ARG_CALL_BACK_OK, onAccept_SI,
                                               NULL);
   return 1;
@@ -120,6 +115,6 @@ int ChangeName_Exit_Event(void *data, BOOK *book)
 void BookMan_RenameBook(BOOK *book, GUI *)
 {
   BookManager *bookman = (BookManager *)book;
-  bookman->ActiveTAB = GetActiveTab(bookman);
-  BookObj_CallPage(bookman, &BookManager_ChangeName_page);
+  bookman->active_tab = GetActiveTab(bookman);
+  BookObj_CallPage(bookman, &BookManager_ChangeName_Page);
 }

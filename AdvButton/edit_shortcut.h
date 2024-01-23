@@ -1,5 +1,9 @@
-#ifndef Shortcut_H
-#define Shortcut_H
+#ifndef _EDIT_SHORTCUT_H_
+#define _EDIT_SHORTCUT_H_
+
+static const char SelectJavaApps_Page[] = "BookManager_ChangeShortcuts_SelectJavaApps_Page";
+static const char SelectShortcut_Page[] = "BookManager_ChangeShortcuts_SelectShortcut_Page";
+static const char ChangeShortcuts_Page[] = "BookManager_ChangeShortcuts_Page";
 
 typedef struct
 {
@@ -33,25 +37,25 @@ int SelectJavaApps_Exit_Event(void *data, BOOK *book);
 const PAGE_MSG SetJava_PageEvents[] = {
     PAGE_ENTER_EVENT, SelectJavaApps_Enter_Event,
     PAGE_EXIT_EVENT, SelectJavaApps_Exit_Event,
-    NIL_EVENT, 0};
+    NIL_EVENT, NULL};
 
-const PAGE_DESC ChangeShortcuts_SelectJavaApps_page = {"BookManager_ChangeShortcuts_SelectJavaApps_Page", NULL, SetJava_PageEvents};
+const PAGE_DESC ChangeShortcuts_SelectJavaApps_Page = {SelectJavaApps_Page, NULL, SetJava_PageEvents};
 
 const PAGE_MSG SelectShortcut_PageEvents[] = {
     PAGE_ENTER_EVENT, SelectShortcut_Enter_Event,
     PREVIOUS_EVENT, SelectShortcut_Prev_Event,
     CANCEL_EVENT, SelectShortcut_Cancel_Event,
-    NIL_EVENT, 0};
+    NIL_EVENT, NULL};
 
-const PAGE_DESC ChangeShortcuts_SelectShortcut_page = {"BookManager_ChangeShortcuts_SelectShortcut_Page", NULL, SelectShortcut_PageEvents};
+const PAGE_DESC ChangeShortcuts_SelectShortcut_Page = {SelectShortcut_Page, NULL, SelectShortcut_PageEvents};
 
 const PAGE_MSG ChangeShortcuts_PageEvents[] = {
     PAGE_ENTER_EVENT, ButtonList_Enter_Event,
     ACCEPT_EVENT, ButtonList_Enter_Event,
     CANCEL_EVENT, ButtonList_Cancel_Event,
     PAGE_EXIT_EVENT, ButtonList_Exit_Event,
-    NIL_EVENT, 0};
+    NIL_EVENT, NULL};
 
-const PAGE_DESC ChangeShortcuts_page = {"BookManager_ChangeShortcuts_Page", NULL, ChangeShortcuts_PageEvents};
+const PAGE_DESC BookManager_ChangeShortcuts_page = {ChangeShortcuts_Page, NULL, ChangeShortcuts_PageEvents};
 
 #endif

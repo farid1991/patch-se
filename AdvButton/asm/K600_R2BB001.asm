@@ -57,6 +57,7 @@ a       equ b
         defadr Find_StandbyBook,0x202821FC+1
         defadr IsVolumeControllerBook,0x20549150+1
         defadr IsRightNowBook,0x20543CE8+1
+        defadr Display_GetTopBook,0x2025C83C+1
         defadr GUIObject_GetDispObject,0x20280EC4+1
         defadr DispObject_SetAnimation,0x20267954+1
         defadr isKeylocked,0x20760810+1
@@ -67,6 +68,7 @@ a       equ b
         defadr TextID_Copy,0x202D00A4+1
         defadr TextID_Destroy,0x202D0210+1
         defadr TextID_GetString,0x202D0C08+1
+        defadr TextID_GetWString,0x202D03C4+1
         defadr GUIObject_SetStyle,0x20751E64+1
         defadr GUIObject_SetTitleType,0x20751EF8+1
         defadr GUIObject_SetTitleText,0x20751F10+1
@@ -154,6 +156,7 @@ a       equ b
         defadr Shortcut_Run,0x20439390+1
         defadr ImageID_Free,0x20336A54+1
         defadr JavaSession_GetName,0x20546B40+1
+        defadr JavaSession_Manager,0x20546BF8+1
         defadr JavaDialog_Open,0x20649954+1
         defadr JavaAppDesc_GetFirstApp,0x20643D34+1
         defadr JavaAppDesc_GetJavaAppInfo,0x20643960+1
@@ -182,7 +185,7 @@ keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_act_button
-	CMP	R2, #3
+	CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
 	BL      Patch_QuickAccess
 	POP	{PC}
@@ -190,7 +193,7 @@ keyhandler:
 _act_button:
         CMP     R0, #KEY_TASK
         BNE     _vc_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_BookManager
         POP	{PC}
@@ -198,7 +201,7 @@ _act_button:
 _vc_button:
         CMP     R0, #KEY_VIDEOCALL
         BNE     _def_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_NextBook
         POP	{PC}

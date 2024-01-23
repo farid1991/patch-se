@@ -1,17 +1,17 @@
-#ifndef Bookman_H
-#define Bookman_H
+#ifndef _BOOKMAN_H_
+#define _BOOKMAN_H_
 
 #define FLASH_MASK 0xF8000000
 #define MAX_BOOK_NAME_LEN 50
 
-#define BOOKMAN_PATH L"/tpa/user/other/ini"
+static const wchar_t *INI_BOOK_NAMES = L"booknames.ini";
+static const wchar_t *INI_SHORTCUTS = L"shortcuts.ini";
+static const wchar_t *BOOKMAN_CFG = L"bookman.cfg";
+static const wchar_t *BOOKNAME_FMT = L"%*[^:]: %l[^\r]";
 
-#define INI_BOOK_NAMES L"booknames.ini"
-#define INI_SHORTCUTS L"shortcuts.ini"
-
-#define JAVA_BOOK_NAME "CUIDisplayableBook"
-
-static const char *BOOKMANAGER = "BookManager";
+static char *BOOKNAME = "BookManager";
+static char *KEY_MASK = "[KEY_%d]:";
+static char *JAVA_MASK = "java:";
 
 enum JAVA_APP_ID
 {
@@ -42,6 +42,12 @@ typedef enum
 
 typedef enum
 {
+  TAB_ACTIVE,
+  TAB_INACTIVE,
+} TAB_STATE;
+
+typedef enum
+{
   BOOKLIST,
   ELFLIST,
   LAST_LIST,
@@ -54,13 +60,20 @@ typedef enum
   TAB_ELFS_AUTHOR_SOFTKEY,
 } TAB_ELFS_SOFTKEYS;
 
+typedef enum
+{
+  BCFG_DEFAULT,
+  BCFG_NOTFOUND,
+  BCFG_FOUND,
+} BCFG_STATE;
+
 typedef struct
 {
   BOOK *book;
   char *book_name;
   IMAGEID book_icon;
   int gui_count;
-  BOOL isJava;
+  bool isJava;
 } BOOK_LIST_ITEM;
 
 typedef struct
@@ -82,6 +95,12 @@ typedef struct
   wchar_t *bcfg_n;
 } MSG_BCFG;
 
+typedef struct
+{
+  bool minimize_to_session;
+  char active_tab;
+} BOOKMAN_BCFG;
+
 typedef struct BookManager : BOOK
 {
   GUI_TABMENUBAR *gui;
@@ -100,19 +119,21 @@ typedef struct BookManager : BOOK
   u16 book_index;
   u16 elfs_count;
   u16 elf_index;
-  u16 ActiveTAB;
+  u16 active_tab;
   wchar_t *booknames_buf;
   int booknames_buf_size;
   char *shortcuts_buf;
   int shortcuts_buf_size;
   int MainMenuID;
-  int minimize_to_session;
+  bool minimize_to_session;
 } BookManager;
 
 void NextBook();
 void LoadShortcuts(BOOK *book);
-BOOL isBookManager(BOOK *book);
-void Create_BookManager();
+BOOL IsBookManager(BOOK *book);
+void BookManager_onClose(BOOK *book);
+BookManager *Create_BookManager();
+void Call_BookManager();
 void LoadBookNames(BOOK *book);
 wchar_t *GetUserBookName(wchar_t *ini, wchar_t *orig_name, wchar_t *cur_name);
 TEXTID GetUserBookNameTEXTID(char *name);
@@ -129,19 +150,23 @@ int BookManager_Accept_Event(void *data, BOOK *book);
 int ChangeMode_Enter_Event(void *data, BOOK *book);
 int ChangeMode_Exit_Event(void *data, BOOK *book);
 
+static const char BookManager_ChangeModePage[] = "BookManager_ChangeMode_Page";
+static const char BookManager_BasePage[] = "BookManager_Base_Page";
+static const char BookManager_MainPage[] = "BookManager_Main_Page";
+
 const PAGE_MSG ChangeMode_PageEvents[] = {
     PAGE_ENTER_EVENT, ChangeMode_Enter_Event,
     PAGE_EXIT_EVENT, ChangeMode_Exit_Event,
     NIL_EVENT, 0};
 
-const PAGE_DESC BookManager_ChangeMode_page = {"BookManager_ChangeMode_Page", NULL, ChangeMode_PageEvents};
+const PAGE_DESC BookManager_ChangeMode_Page = {BookManager_ChangeModePage, NULL, ChangeMode_PageEvents};
 
 const PAGE_MSG BM_Base_PageEvents[] = {
     CANCEL_EVENT, BookManager_Cancel_Event,
     RETURN_TO_STANDBY_EVENT, BookManager_Cancel_Event,
     NIL_EVENT, NULL};
 
-const PAGE_DESC BookManager_Base_Page = {"BookManager_Base_Page", NULL, BM_Base_PageEvents};
+const PAGE_DESC BookManager_Base_Page = {BookManager_BasePage, NULL, BM_Base_PageEvents};
 
 const PAGE_MSG BM_Main_PageEvents[] = {
     PAGE_ENTER_EVENT, BookManager_Enter_Event,
@@ -149,6 +174,6 @@ const PAGE_MSG BM_Main_PageEvents[] = {
     ACCEPT_EVENT, BookManager_Accept_Event,
     NIL_EVENT, NULL};
 
-const PAGE_DESC BookManager_Main_Page = {"BookManager_Main_Page", NULL, BM_Main_PageEvents};
+const PAGE_DESC BookManager_Main_Page = {BookManager_MainPage, NULL, BM_Main_PageEvents};
 
 #endif

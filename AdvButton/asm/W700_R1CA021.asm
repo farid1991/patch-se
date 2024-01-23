@@ -58,6 +58,7 @@ a       equ b
         defadr TextID_Copy,0x44EFA498+1
         defadr TextID_GetLength,0x44EFA698+1
         defadr TextID_GetString,0x44EFAFFC+1
+        defadr TextID_GetWString,0x44EFA7B8+1
         defadr Disp_GetTextIDWidth,0x44E95184+1
         defadr Format_Time,0x44F6D9B4+1
         defadr TextIteratorSetTextId,0x44EFA0A8+1
@@ -186,6 +187,7 @@ a       equ b
         defadr JavaAppDesc_GetJavaAppInfo,0x44C29530+1
         defadr JavaApp_LogoImageID_Get,0x44F7E42C+1
         defadr JavaSession_GetName,0x45038CA4+1
+        defadr JavaSession_Manager,0x4503DECC+1
         defadr manifest_GetParam,0x45095244+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x45106CDC+1
         defadr PlaySystemSound,0x44D41864+1
@@ -209,7 +211,7 @@ keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_mp_button
-	CMP	R2, #3
+	CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
 	BL      Patch_QuickAccess
 	POP	{PC}
@@ -217,7 +219,7 @@ keyhandler:
 _mp_button:
         CMP     R0, #KEY_MEDIAPLAYER
         BNE     _cam_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_BookManager
         POP	{PC}
@@ -225,7 +227,7 @@ _mp_button:
 _cam_button:
         CMP     R0, #KEY_CAMERA_SHOT
         BNE     _def_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_Screenshoter
         POP	{PC}

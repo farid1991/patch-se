@@ -45,6 +45,7 @@ a       equ b
         defadr TextID_Copy,0x44EEC5DC+1
         defadr TextID_Destroy,0x44EEC680+1
         defadr TextID_GetString,0x44EED078+1
+        defadr TextID_GetWString,0x44EEC834+1
         defadr GUIObject_SetTitleType,0x44D2F66C+1
         defadr GUIObject_SetTitleText,0x44D2F684+1
         defadr GUIObject_SetSecondRowTitleText,0x44D2F6A0+1
@@ -116,6 +117,7 @@ a       equ b
         defadr isKeylocked,0x44D3D9A4+1
         defadr root_list_get_session_count,0x4504D4AC+1
         defadr root_list_get_session,0x4504D4C0+1
+        defadr Display_GetTopBook,0x44E79DDC+1
         defadr GetFreeBytesOnHeap,0x44F7D9A8+1
         defadr Shortcut_Run,0x45060B24+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x450609E8+1
@@ -125,6 +127,7 @@ a       equ b
         defadr BookObj_SoftKeys_SetAction,0x4504DD34+1
         defadr BookObj_SoftKeys_SetText,0x4504DD80+1
         defadr JavaSession_GetName,0x45145410+1
+        defadr JavaSession_Manager,0x451454C8+1
         defadr JavaDialog_Open,0x44C21D6C+1
         defadr JavaDialog_Close,0x44C256D8+1
         defadr JavaAppDesc_GetFirstApp,0x44C1BFDC+1
@@ -174,7 +177,7 @@ keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_mp_button
-	CMP	R2, #3
+	CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
 	BL      Patch_QuickAccess
 	POP	{PC}
@@ -182,7 +185,7 @@ keyhandler:
 _mp_button:
         CMP     R0, #KEY_TASK
         BNE     _play_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_BookManager
         POP	{PC}
@@ -190,7 +193,7 @@ _mp_button:
 _play_button:
         CMP     R0, #KEY_PLAY
         BNE     _def_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_NextBook
         POP	{PC}

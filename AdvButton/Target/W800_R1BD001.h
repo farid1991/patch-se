@@ -4,6 +4,9 @@
 #define A1
 #define DB2010
 
+#define BOOKMAN_PATH L"/tpa/user/other/ini"
+#define BCFG_PATH L"/tpa/user/other/ZBin/BcfgEdit.elf"
+
 #define get_VBUFFER (int*)0x4C08EA4C
 
 #define LastExtDB (DB_EXT *)0x4422C7A0
@@ -11,6 +14,8 @@
 #define SYNC (int*)0x4424CAF0
 
 #define JAVA_STR (char *)0x446917F8
+#define FOREIGNAPP (char *)0x4441AF2C
+#define MAINMENU_ID (wchar_t *)0x4441A8F0
 
 #define SELECT_PROFILE_ID (wchar_t*)0x442A1116
 #define SETTINGS_BT_ID (wchar_t*)0x4420D724
@@ -20,6 +25,10 @@
 #define BOOK_DESTROYED_EVENT 4
 #define PAGE_ENTER_EVENT 5
 #define PAGE_EXIT_EVENT 6
+#define MAIN_WINDOW_GOT_FOCUS_EVENT 0x7
+#define MAIN_WINDOW_LOST_FOCUS_EVENT 0x8
+#define MAIN_WINDOW_MINIMIZED_EVENT 0xB
+#define MAIN_WINDOW_RESTORED_EVENT 0xC
 #define ACCEPT_EVENT 0xF
 #define PREVIOUS_EVENT 0x10
 #define CANCEL_EVENT 0x11

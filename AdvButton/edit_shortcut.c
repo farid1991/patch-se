@@ -1,11 +1,11 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
 #include "bookman.h"
+#include "edit_shortcut.h"
 #include "main.h"
-#include "Lib.h"
-#include "shortcut.h"
 
 IMAGEID GetDigitIcon(int index)
 {
@@ -31,7 +31,7 @@ void Shortcut_Append(wchar_t *name_buf, char *mask_buf, wchar_t *path)
 
 void ReWriteShortcut(BOOK *book, wchar_t *name_buf, char *mask_buf, wchar_t *path)
 {
-  BookManager *bookman = (BookManager *)FindBook(isBookManager);
+  BookManager *bookman = (BookManager *)FindBook(IsBookManager);
   int file;
   char *pos;
 
@@ -83,12 +83,12 @@ void ReWriteShortcut(BOOK *book, wchar_t *name_buf, char *mask_buf, wchar_t *pat
 
 void WriteShortcut(wchar_t *name_buf)
 {
-  BookManager *bookman = (BookManager *)FindBook(isBookManager);
+  BookManager *bookman = (BookManager *)FindBook(IsBookManager);
 
-  char mask_buf[10];
   int dig_num = ListMenu_GetSelectedItem(bookman->button_list_menu);
 
-  sprintf(mask_buf, "[KEY_%d]:", dig_num);
+  char mask_buf[16];
+  sprintf(mask_buf, KEY_MASK, dig_num);
   ReWriteShortcut(bookman, name_buf, mask_buf, BOOKMAN_PATH);
 
   LoadShortcuts(bookman);
@@ -97,20 +97,19 @@ void WriteShortcut(wchar_t *name_buf)
 void JAVA_LIST_ITEM_Destroy(void *item)
 {
   JAVA_LIST_ITEM *elem = (JAVA_LIST_ITEM *)item;
+  if (!elem)
+    return;
 
-  if (elem)
-  {
-    mfree(elem->name);
-    mfree(elem->vendor);
-    mfree(elem->fullpath);
-    mfree(elem->hash_name);
-    if (elem->imageID != NOIMAGE)
-      ImageID_Free(elem->imageID);
-    mfree(elem);
-  }
+  mfree(elem->name);
+  mfree(elem->vendor);
+  mfree(elem->fullpath);
+  mfree(elem->hash_name);
+  if (elem->imageID != NOIMAGE)
+    ImageID_Free(elem->imageID);
+  mfree(elem);
 }
 
-int JAVA_LIST_ITEM_Filter(void *elem)
+BOOL JAVA_LIST_ITEM_Filter(void *elem)
 {
   return (elem ? TRUE : FALSE);
 }
@@ -118,15 +117,15 @@ int JAVA_LIST_ITEM_Filter(void *elem)
 JAVA_LIST_ITEM *CreateElem(void *JavaDesc)
 {
   JAVA_LIST_ITEM *elem = (JAVA_LIST_ITEM *)malloc(sizeof(JAVA_LIST_ITEM));
-  wchar_t *sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &sp);
-  elem->name = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_VENDOR, &sp);
-  elem->vendor = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &sp);
-  elem->fullpath = sp;
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_HASH, &sp);
-  elem->hash_name = sp;
+  wchar_t *buf;
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &buf);
+  elem->name = buf;
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_VENDOR, &buf);
+  elem->vendor = buf;
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &buf);
+  elem->fullpath = buf;
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_HASH, &buf);
+  elem->hash_name = buf;
   return elem;
 }
 
@@ -145,10 +144,10 @@ void CreateJavaList(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
   bookman->java_list = List_Create();
-  char sp1;
-  wchar_t *sp;
+  char jdialog;
+  wchar_t *semclet;
   void *JavaDesc;
-  JavaDialog_Open(0, &sp1, &JavaDesc);
+  JavaDialog_Open(0, &jdialog, &JavaDesc);
 
   if (!JavaAppDesc_GetFirstApp(JavaDesc))
   {
@@ -156,17 +155,29 @@ void CreateJavaList(BOOK *book)
     while (!result)
     {
       // check if semclet
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &sp);
-      if (sp[0])
+      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &semclet);
+      if (semclet[0])
       {
         List_InsertLast(bookman->java_list, CreateElem(JavaDesc));
       }
-      mfree(sp);
+      mfree(semclet);
       result = JavaAppDesc_GetNextApp(JavaDesc);
     }
   }
 
-  JavaDialog_Close(sp1);
+  JavaDialog_Close(jdialog);
+}
+
+void JavaList_GetInfo(BOOK *book, GUI *gui)
+{
+  BookManager *bookman = (BookManager *)book;
+
+  int index = ListMenu_GetSelectedItem(bookman->java_list_menu);
+  JAVA_LIST_ITEM *elem = (JAVA_LIST_ITEM *)List_Get(bookman->java_list, index);
+
+  wchar_t buf[128];
+  snwprintf(buf, MAXELEMS(buf), L"Name: %ls\nVendor: %ls\nPath: %ls", elem->name, elem->vendor, elem->fullpath);
+  CreateMessageBox(STR("Java Info"), TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN), 2, 0, bookman);
 }
 
 void JavaList_Prev_Action(BOOK *book, GUI *gui)
@@ -203,8 +214,8 @@ int SelectJavaApps_onMessage(GUI_MESSAGE *msg)
   case LISTMSG_GetItem:
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     JAVA_LIST_ITEM *elem = (JAVA_LIST_ITEM *)List_Get(bookman->java_list, index);
-    GUIonMessage_SetMenuItemText(msg, TextID_Create(elem->name, ENC_UCS2, TEXTID_ANY_LEN));
     JavaApp_LogoImageID_Get(elem->fullpath, &elem->imageID);
+    GUIonMessage_SetMenuItemText(msg, TextID_Create(elem->name, ENC_UCS2, TEXTID_ANY_LEN));
     GUIonMessage_SetMenuItemIcon(msg, AlignLeft, elem->imageID);
   }
   return 1;
@@ -215,7 +226,6 @@ int SelectJavaApps_Enter_Event(void *data, BOOK *book)
   BookManager *bookman = (BookManager *)book;
   DestroyJavaList(bookman);
   CreateJavaList(bookman);
-
   FREE_GUI(bookman->java_list_menu);
 
   if (bookman->java_list_menu = CreateListMenu(bookman, UIDisplay_Main))
@@ -224,6 +234,8 @@ int SelectJavaApps_Enter_Event(void *data, BOOK *book)
     ListMenu_SetItemCount(bookman->java_list_menu, List_GetCount(bookman->java_list));
     ListMenu_SetOnMessage(bookman->java_list_menu, SelectJavaApps_onMessage);
     ListMenu_SetCursorToItem(bookman->java_list_menu, 0);
+    GUIObject_SoftKeys_SetText(bookman->java_list_menu, 0, STR("JavaInfo"));
+    GUIObject_SoftKeys_SetAction(bookman->java_list_menu, 0, JavaList_GetInfo);
     GUIObject_SoftKeys_SetAction(bookman->java_list_menu, ACTION_BACK, JavaList_Prev_Action);
     GUIObject_SoftKeys_SetAction(bookman->java_list_menu, ACTION_LONG_BACK, JavaList_Cancel_Action);
     GUIObject_SoftKeys_SetAction(bookman->java_list_menu, ACTION_SELECT1, JavaList_Select_Action);
@@ -257,14 +269,14 @@ void *SHORTCUT_DESC_Init(char *param)
     temp_buf[MAXELEMS(temp_buf) - 1] = NULL;
     str2wstr(w_buf->name, temp_buf);
   }
-  if (!wstrcmp(w_buf->name, L"MainMenu"))
+  if (!wstrcmp(w_buf->name, MAINMENU_ID))
     w_buf->shortcut_state = SC_State_MainMenu;
   return (w_buf);
 }
 
 void SelectShortcut_SetAction(BOOK *MainMenu, GUI *gui)
 {
-  BookManager *bookman = (BookManager *)FindBook(isBookManager);
+  BookManager *bookman = (BookManager *)FindBook(IsBookManager);
   wchar_t *name_buf = MenuBook_Desktop_GetSelectedItemID(MainMenu);
   if (name_buf)
   {
@@ -308,7 +320,7 @@ void ButtonList_SetMainMenu(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
   wchar_t name_buf[20];
-  wstrcpy(name_buf, L"MainMenu");
+  wstrcpy(name_buf, MAINMENU_ID);
   WriteShortcut(name_buf);
   ButtonList_Enter_Event(NULL, bookman);
 }
@@ -316,13 +328,13 @@ void ButtonList_SetMainMenu(BOOK *book, GUI *gui)
 void ButtonList_SetJava(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
-  BookObj_CallPage(bookman, &ChangeShortcuts_SelectJavaApps_page);
+  BookObj_CallPage(bookman, &ChangeShortcuts_SelectJavaApps_Page);
 }
 
 void ButtonList_SelectAction(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
-  BookObj_CallPage(bookman, &ChangeShortcuts_SelectShortcut_page);
+  BookObj_CallPage(bookman, &ChangeShortcuts_SelectShortcut_Page);
 }
 
 void ButtonList_CancelAction(BOOK *book, GUI *gui)
@@ -337,14 +349,13 @@ void ButtonList_PreviousAction(BOOK *book, GUI *gui)
   BookObj_ReturnPage(bookman, PREVIOUS_EVENT);
 }
 
-int GetShortcutName(BOOK *book, int item_num, SC_DATA *scdata)
+int GetShortcutNameData(BOOK *book, int item_num, SC_DATA *scdata)
 {
   BookManager *bookman = (BookManager *)book;
 
   char *param = 0;
   char mask_buf[10];
-
-  sprintf(mask_buf, "[KEY_%d]:", item_num);
+  sprintf(mask_buf, KEY_MASK, item_num);
   param = manifest_GetParam(bookman->shortcuts_buf, mask_buf, NULL);
 
   if (param)
@@ -356,26 +367,27 @@ int GetShortcutName(BOOK *book, int item_num, SC_DATA *scdata)
         mfree(param);
         return 1;
       }
-      if (strstr(param, "java:"))
+
+      if (strstr(param, JAVA_MASK))
       {
         scdata->str_id = TextID_Create(param + 5, ENC_LAT1, strstr(param, "//") - (param + 5));
         scdata->icon_id = DB_LIST_JAVA_ICN;
       }
       else
       {
-        void *w_buf;
-        w_buf = SHORTCUT_DESC_Init(param);
+        void *w_buf = SHORTCUT_DESC_Init(param);
 
         scdata->str_id = Shortcut_Get_MenuItemName(w_buf);
+
+#if defined(W700_R1CA021) || defined(W800_R1BD001)
+        scdata->icon_id = RN_VERT_MY_SHORTCUTS_ICN;
+#else
         scdata->icon_id = Shortcut_Get_MenuItemIconID(w_buf);
-
-        if (scdata->icon_id == NOIMAGE)
-          scdata->icon_id = RN_VERT_MY_SHORTCUTS_ICN;
-
-        mfree(w_buf);
-
+#endif
         if (scdata->str_id == EMPTY_TEXTID)
           scdata->str_id = TextID_Create(param, ENC_LAT1, TEXTID_ANY_LEN);
+
+        mfree(w_buf);
       }
     }
     mfree(param);
@@ -422,13 +434,13 @@ void ButtonList_DeleteAction(BOOK *book, GUI *gui)
   int file;
   int res;
   int dig_num = ListMenu_GetSelectedItem(bookman->button_list_menu);
-  if (!GetShortcutName(bookman, dig_num, NULL))
+  if (!GetShortcutNameData(bookman, dig_num, NULL))
     return;
 
   if ((file = _fopen(BOOKMAN_PATH, INI_SHORTCUTS, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
   {
-    char mask_buf[10];
-    sprintf(mask_buf, "[KEY_%d]:", dig_num);
+    char mask_buf[16];
+    sprintf(mask_buf, KEY_MASK, dig_num);
     res = DeleteShortcut(bookman, mask_buf, file);
     fclose(file);
     if (res)
@@ -451,7 +463,7 @@ int ButtonList_onMessage(GUI_MESSAGE *msg)
   {
   case LISTMSG_GetItem:
     item_num = GUIonMessage_GetCreatedItemIndex(msg);
-    GetShortcutName(bookman, item_num, &scdata);
+    GetShortcutNameData(bookman, item_num, &scdata);
 
     GUIonMessage_SetMenuItemText(msg, scdata.str_id);
     GUIonMessage_SetMenuItemIcon(msg, AlignLeft, GetDigitIcon(item_num));
@@ -469,7 +481,7 @@ int ButtonList_Enter_Event(void *data, BOOK *book)
   if (bookman->button_list_menu)
   {
     index = ListMenu_GetSelectedItem(bookman->button_list_menu);
-    GUIObject_Destroy(bookman->button_list_menu);
+    FREE_GUI(bookman->button_list_menu);
   }
 
   if (bookman->button_list_menu = CreateListMenu(bookman, UIDisplay_Main))

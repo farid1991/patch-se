@@ -50,6 +50,7 @@ a       equ b
         defadr TextID_Copy,0x44EC2358+1
         defadr TextID_Destroy,0x44EC24C4+1
         defadr TextID_GetString,0x44EC2EBC+1
+        defadr TextID_GetWString,0x44EC2678+1
         defadr REQUEST_SYSTEM_RESTART,0x449A3D84+1
         defadr REQUEST_SYSTEM_SHUTDOWN,0x449A3D60+1
         defadr REQUEST_PROFILE_GETACTIVEPROFILE,0x45120E08+1
@@ -121,6 +122,7 @@ a       equ b
         defadr IsVolumeControllerBook,0x45114A0C+1
         defadr IsRightNowBook,0x4510EF80+1
         defadr Find_StandbyBook,0x44E748E4+1
+        defadr Display_GetTopBook,0x44E4F9EC+1
         defadr CreateStringInputVA,0x44D24F98+1
         defadr ImageID_Free,0x44F21370+1
         defadr CreateOneOfMany,0x44D31FA8+1
@@ -143,6 +145,7 @@ a       equ b
         defadr JavaApp_LogoImageID_Get,0x44F44194+1
         defadr JavaDialog_Close,0x44BFB4EC+1
         defadr JavaSession_GetName,0x4511233C+1
+        defadr JavaSession_Manager,0x451123F4+1
         defadr manifest_GetParam,0x45053ADC+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x450C467C+1
         defadr Display_GetHeight,0x4502917C+1
@@ -172,7 +175,7 @@ keyhandler:
 	PUSH	{LR}
 	CMP	R0, #KEY_POWER
 	BNE	_op_button
-	CMP	R2, #3
+	CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
 	BL      Patch_QuickAccess
 	POP	{PC}
@@ -180,7 +183,7 @@ keyhandler:
 _op_button:
         CMP     R0, #KEY_OPERATOR
         BNE     _cam_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_BookManager
         POP	{PC}
@@ -188,7 +191,7 @@ _op_button:
 _cam_button:
         CMP     R0, #KEY_CAMERA
         BNE     _def_button
-        CMP	R2, #3
+        CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
         BL      Patch_NextBook
         POP	{PC}

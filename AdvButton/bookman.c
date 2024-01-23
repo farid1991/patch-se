@@ -1,43 +1,45 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
 #include "book_names.h"
 #include "bookman.h"
+#include "edit_shortcut.h"
 #include "main.h"
-#include "Lib.h"
-#include "shortcut.h"
 
 __arm void openWithBcfgEdit(wchar_t *bcfgedit_path, const wchar_t *filepath, const wchar_t *filename)
 {
   elfload(bcfgedit_path, (void *)filepath, (void *)filename, NULL);
 }
 
-int LoadMode(wchar_t *fname)
+void LoadMode(BOOK *book)
 {
-  int ret = 0;
-  int file = _fopen(BOOKMAN_PATH, fname, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  BookManager *bookman = (BookManager *)book;
+  int file = _fopen(BOOKMAN_PATH, BOOKMAN_CFG, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= NULL)
   {
-    int *fdata = (int *)malloc(sizeof(int));
-    memset(fdata, NULL, sizeof(int));
-    fread(file, fdata, sizeof(int));
-    ret = *fdata;
+    BOOKMAN_BCFG *fdata = (BOOKMAN_BCFG *)malloc(sizeof(BOOKMAN_BCFG));
+    memset(fdata, NULL, sizeof(BOOKMAN_BCFG));
+    fread(file, fdata, sizeof(BOOKMAN_BCFG));
+    bookman->active_tab = fdata->active_tab;
+    bookman->minimize_to_session = fdata->minimize_to_session;
     fclose(file);
     mfree(fdata);
   }
-  return ret;
 }
 
-void SaveMode(wchar_t *fname, int value)
+void SaveMode(BOOK *book)
 {
-  int file = _fopen(BOOKMAN_PATH, fname, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  BookManager *bookman = (BookManager *)book;
+  int file = _fopen(BOOKMAN_PATH, BOOKMAN_CFG, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= NULL)
   {
-    int *fdata = (int *)malloc(sizeof(int));
-    memset(fdata, NULL, sizeof(int));
-    *fdata = value;
-    fwrite(file, fdata, sizeof(int));
+    BOOKMAN_BCFG *fdata = (BOOKMAN_BCFG *)malloc(sizeof(BOOKMAN_BCFG));
+    memset(fdata, NULL, sizeof(BOOKMAN_BCFG));
+    fdata->active_tab = bookman->active_tab;
+    fdata->minimize_to_session = bookman->minimize_to_session;
+    fwrite(file, fdata, sizeof(BOOKMAN_BCFG));
     fclose(file);
     mfree(fdata);
   }
@@ -59,9 +61,9 @@ void onSelect_ChangeMode(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
   int item = OneOfMany_GetSelected(bookman->mode_list_menu);
-  SaveMode(L"mode.cfg", item);
-  DestroyBookAndElfsLists(bookman);
   bookman->minimize_to_session = item;
+  SaveMode(bookman);
+  DestroyBookAndElfsLists(bookman);
   CreateBookAndElfsLists(bookman);
   BookObj_ReturnPage(bookman, ACCEPT_EVENT);
 }
@@ -69,18 +71,21 @@ void onSelect_ChangeMode(BOOK *book, GUI *gui)
 int ChangeMode_Enter_Event(void *data, BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
+  FREE_GUI(bookman->mode_list_menu);
 
-  TEXTID items_text[2] = {STR("as Book"), STR("as Session")};
+  if (bookman->mode_list_menu = CreateOneOfMany(bookman))
+  {
+    TEXTID items_text[2] = {STR("As Book"), STR("As Session")};
 
-  bookman->mode_list_menu = CreateOneOfMany(bookman);
-  OneOfMany_SetItemCount(bookman->mode_list_menu, 2);
-  OneOfMany_SetChecked(bookman->mode_list_menu, bookman->minimize_to_session);
-  OneOfMany_SetTexts(bookman->mode_list_menu, items_text, 2);
-  GUIObject_SetTitleText(bookman->mode_list_menu, BOOKMAN_MODE_TXT);
-  GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_BACK, onPrevious_ChangeMode);
-  GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_LONG_BACK, onCancel_ChangeMode);
-  GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_SELECT1, onSelect_ChangeMode);
-  GUIObject_Show(bookman->mode_list_menu);
+    OneOfMany_SetItemCount(bookman->mode_list_menu, 2);
+    OneOfMany_SetChecked(bookman->mode_list_menu, bookman->minimize_to_session);
+    OneOfMany_SetTexts(bookman->mode_list_menu, items_text, 2);
+    GUIObject_SetTitleText(bookman->mode_list_menu, BOOKMAN_MODE_TXT);
+    GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_BACK, onPrevious_ChangeMode);
+    GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_LONG_BACK, onCancel_ChangeMode);
+    GUIObject_SoftKeys_SetAction(bookman->mode_list_menu, ACTION_SELECT1, onSelect_ChangeMode);
+    GUIObject_Show(bookman->mode_list_menu);
+  }
   return 1;
 }
 
@@ -94,7 +99,7 @@ int ChangeMode_Exit_Event(void *data, BOOK *book)
 void BookMan_ChangeMode(BOOK *book, GUI *)
 {
   BookManager *bookman = (BookManager *)book;
-  BookObj_CallPage(bookman, &BookManager_ChangeMode_page);
+  BookObj_CallPage(bookman, &BookManager_ChangeMode_Page);
 }
 
 int LIST_ITEM_Filter(void *elem)
@@ -109,7 +114,9 @@ void BOOK_LIST_ITEM_Destroy(void *data)
   {
     mfree(elem->book_name);
     if (elem->isJava)
+    {
       ImageID_Free(elem->book_icon);
+    }
     mfree(elem);
   }
 }
@@ -196,20 +203,20 @@ void DestroyAllGUIs(BOOK *book)
   bookman->oldOnKey = 0;
 }
 
-int read_config_file(wchar_t *name, void **cfg_buffer)
+int read_config_file(const wchar_t *name, void **cfg_buffer)
 {
   int file;
   void *buffer = NULL;
   int size = NULL;
   FSTAT _fstat;
-  if (fstat(BOOKMAN_PATH, name, &_fstat) == NULL)
+  if (!fstat(BOOKMAN_PATH, name, &_fstat))
   {
     if ((file = _fopen(BOOKMAN_PATH, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
     {
-      buffer = (char *)malloc(_fstat.fsize + 1);
-      fread(file, buffer, _fstat.fsize);
-      fclose(file);
       size = _fstat.fsize;
+      buffer = (char *)malloc(size + 1);
+      fread(file, buffer, size);
+      fclose(file);
     }
   }
   *cfg_buffer = buffer;
@@ -245,25 +252,30 @@ void LoadShortcuts(BOOK *book)
 
 TEXTID GetJavaName(BOOK *book)
 {
+#ifndef W700_R1CA021
+#ifndef W800_R1BD001
   char str[100];
   TextID_GetString(BookObj_GetSession(book)->name, str, MAXELEMS(str));
 
-  if (!strncmp(str, "Foreign app", 11))
+  if (!strncmp(str, FOREIGNAPP, 11))
   {
     return JavaSession_GetName();
   }
 
-  if (!strcmp(str, "Java"))
+  if (!strcmp(str, JAVA_STR))
   {
     return JavaSession_GetName();
   }
-
+#endif
+#endif
   return EMPTY_TEXTID;
 }
 
-BOOL isBookManager(BOOK *book)
+BOOL IsBookManager(BOOK *book)
 {
-  return FALSE == strcmp(book->xbook->name, BOOKMANAGER);
+  if (book->onClose == BookManager_onClose)
+    return TRUE;
+  return FALSE;
 }
 
 int GetActiveTab(BOOK *book)
@@ -282,78 +294,78 @@ int GetBooksFromSession(UI_APP_SESSION *session, LIST *books_list, LIST *elfs_li
   {
     BOOK *book = (BOOK *)List_Get(session->listbook, list_index);
 
-    if (!isBookManager(book))
+    if (!IsBookManager(book))
     {
       char str[MAX_BOOK_NAME_LEN + 1];
       BOOK_LIST_ITEM *elem = (BOOK_LIST_ITEM *)malloc(sizeof(BOOK_LIST_ITEM));
       elem->book = book;
       elem->gui_count = List_GetCount(book->xguilist->guilist);
-      elem->isJava = FALSE;
 
-      if (strcmp(book->xbook->name, JAVA_BOOK_NAME))
+      if (strcmp(book->xbook->name, JAVA_STR))
       {
-        int len = strlen(book->xbook->name);
-        char *bookname = (char *)malloc(len + 1);
+        char *bookname = (char *)malloc(strlen(book->xbook->name) + 1);
         strcpy(bookname, book->xbook->name);
         elem->book_name = bookname;
         elem->book_icon = DB_LIST_APPS_ICN;
+        elem->isJava = FALSE;
       }
       else
       {
         TextID_GetString(BookObj_GetSession(book)->name, str, MAXELEMS(str));
-        int len = strlen(str);
-        char *bookname = (char *)malloc(len + 1);
+        char *bookname = (char *)malloc(strlen(str) + 1);
         strcpy(bookname, str);
         elem->book_name = bookname;
+        elem->book_icon = DB_LIST_JAVA_ICN;
         elem->isJava = TRUE;
       }
 
+      TEXTID java_id = GetJavaName(book);
+#ifndef W700_R1CA021
+#ifndef W800_R1BD001
       if (elem->isJava)
       {
-        elem->book_icon = DB_LIST_JAVA_ICN;
         void *JavaDesc;
-        char sp1;
-        JavaDialog_Open(0, &sp1, &JavaDesc);
+        char jdialog;
+        wchar_t *javaname;
+        wchar_t *javapath;
+        JavaDialog_Open(0, &jdialog, &JavaDesc);
 
         if (!JavaAppDesc_GetFirstApp(JavaDesc))
         {
-          int len = strlen(elem->book_name);
-          wchar_t *book_name = (wchar_t *)malloc(sizeof(wchar_t) * (len + 1));
-          str2wstr(book_name, elem->book_name);
-          bool next = true;
-          while (next)
+          wchar_t book_name[100];
+          TextID_GetWString(java_id, book_name, MAXELEMS(book_name));
+
+          int result = 0;
+          while (!result)
           {
-            wchar_t *name;
-            JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &name);
-
-            if (!wstrncmp(book_name, name, 8))
+            JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &javaname);
+            int cmp_res = wstrcmp(book_name, javaname);
+            mfree(javaname);
+            if (cmp_res)
             {
-              wchar_t *fullpath;
-              JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &fullpath);
-              JavaApp_LogoImageID_Get(fullpath, &elem->book_icon);
-              mfree(fullpath);
-              next = false;
+              result = JavaAppDesc_GetNextApp(JavaDesc);
             }
-            mfree(name);
-
-            if (JavaAppDesc_GetNextApp(JavaDesc))
-              next = false;
+            else
+            {
+              JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &javapath);
+              JavaApp_LogoImageID_Get(javapath, &elem->book_icon);
+              mfree(javapath);
+              break;
+            }
           }
-          mfree(book_name);
         }
-        JavaDialog_Close(sp1);
+        JavaDialog_Close(jdialog);
       }
-
-      TEXTID tmp = GetJavaName(book);
-      if (tmp != EMPTY_TEXTID)
+#endif
+#endif
+      if (java_id != EMPTY_TEXTID)
       {
         mfree(elem->book_name);
-        TextID_GetString(tmp, str, MAXELEMS(str));
-        int len = strlen(str);
-        char *java_name = (char *)malloc(len + 1);
+        TextID_GetString(java_id, str, MAXELEMS(str));
+        char *java_name = (char *)malloc(strlen(str) + 1);
         strcpy(java_name, str);
         elem->book_name = java_name;
-        TextID_Destroy(tmp);
+        TextID_Destroy(java_id);
       }
 
       if ((((int)book->onClose) & FLASH_MASK) == mask)
@@ -365,13 +377,8 @@ int GetBooksFromSession(UI_APP_SESSION *session, LIST *books_list, LIST *elfs_li
       }
       else
       {
-        if (!elem->gui_count)
-          BOOK_LIST_ITEM_Destroy(elem);
-        else
-        {
-          List_InsertFirst(elfs_list, elem);
-          res = 1;
-        }
+        List_InsertFirst(elfs_list, elem);
+        res = 1;
       }
     }
   }
@@ -386,9 +393,13 @@ void CreateBookAndElfsLists(BOOK *book)
   UI_APP_SESSION *session;
 
   if (bookman->minimize_to_session)
+  {
     bookman->sessions_list = List_Create();
+  }
   else
+  {
     bookman->books_list = List_Create();
+  }
 
   bookman->elfs_list = List_Create();
 
@@ -408,18 +419,28 @@ void CreateBookAndElfsLists(BOOK *book)
       isElf = GetBooksFromSession(session, elem->books_list, bookman->elfs_list);
 
       if (!List_GetCount(elem->books_list) || isElf)
+      {
         SESSION_LIST_ITEM_Destroy(elem);
+      }
       else
+      {
         List_InsertFirst(bookman->sessions_list, elem);
+      }
     }
     else
+    {
       GetBooksFromSession(session, bookman->books_list, bookman->elfs_list);
+    }
   }
 
   if (bookman->minimize_to_session)
+  {
     bookman->books_count = List_GetCount(bookman->sessions_list);
+  }
   else
+  {
     bookman->books_count = List_GetCount(bookman->books_list);
+  }
 
   bookman->elfs_count = List_GetCount(bookman->elfs_list);
 }
@@ -487,12 +508,9 @@ BOOL CheckEv(BOOK *book, int event)
 void Minimize_AllBooks(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  BOOK *standbyBook = Find_StandbyBook();
-  if (standbyBook)
-  {
-    FreeBook(bookman);
-    BookObj_SetFocus(standbyBook, UIDisplay_Main);
-  }
+  FreeBook(bookman);
+
+  BookObj_SetFocus(Find_StandbyBook(), UIDisplay_Main);
 }
 
 void Close_AllBooks(BOOK *book)
@@ -514,8 +532,14 @@ void onDelPressed_Books(BOOK *book)
 
     if (selected_book != Find_StandbyBook())
     {
-      if (elem->isJava == TRUE)
+      if (elem->isJava)
+      {
+#if defined(W800_R1BD001) || defined(W700_R1CA021)
         UI_Event_toBookID(TERMINATE_SESSION_EVENT, BookObj_GetBookID(selected_book));
+#else
+        JavaSession_Manager(0x0E);
+#endif
+      }
       else
       {
         if (CheckEv(selected_book, TERMINATE_SESSION_EVENT))
@@ -577,21 +601,21 @@ void onDelPressed(BOOK *book)
 int JavaShortcut_GetID(wchar_t *java_shortcut)
 {
   int appID = -1;
-  wchar_t *hash_name = wstrwstr(java_shortcut, L"//") + 2;
+  wchar_t *apphash = wstrwstr(java_shortcut, L"//") + 2;
 
   // Find app
-  char sp1;
-  wchar_t *sp;
+  char jdialog;
+  wchar_t *javahash;
   void *JavaDesc;
-  JavaDialog_Open(0, &sp1, &JavaDesc);
+  JavaDialog_Open(0, &jdialog, &JavaDesc);
   if (!JavaAppDesc_GetFirstApp(JavaDesc))
   {
     int result = 0;
     while (!result)
     {
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_HASH, &sp);
-      int cmp_res = wstrcmp(hash_name, sp);
-      mfree(sp);
+      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_HASH, &javahash);
+      int cmp_res = wstrcmp(apphash, javahash);
+      mfree(javahash);
       if (cmp_res)
         result = JavaAppDesc_GetNextApp(JavaDesc);
       else
@@ -601,7 +625,7 @@ int JavaShortcut_GetID(wchar_t *java_shortcut)
       }
     }
   }
-  JavaDialog_Close(sp1);
+  JavaDialog_Close(jdialog);
   return appID;
 }
 
@@ -609,7 +633,7 @@ void StartShortcut_Internal(char *param)
 {
   wchar_t name[256];
   str2wstr(name, param);
-  if (strstr(param, "java:"))
+  if (strstr(param, JAVA_MASK))
   {
     int _ASYNC = 1;
     int *ASYNC = &_ASYNC;
@@ -623,44 +647,61 @@ void StartShortcut_Internal(char *param)
   }
 }
 
-void myOnKey_Unified(DISP_OBJ *disp_obj, int keyID, int unk_r2, int rep_count, int press_mode)
+void Parse_and_Run_Shortcut(BOOK *book, int keyID)
 {
-  GUI *MainMenu = DispObject_GetGUI(disp_obj);
-  BookManager *bookman = (BookManager *)GUIObject_GetBook(MainMenu);
+  BookManager *bookman = (BookManager *)book;
 
-  bookman->oldOnKey(disp_obj, keyID, unk_r2, rep_count, press_mode);
+  if (!bookman->shortcuts_buf)
+    return;
 
-  if (keyID == KEY_DEL && press_mode == KBD_SHORT_RELEASE)
+  char param_name[16];
+  sprintf(param_name, KEY_MASK, keyID - KEY_DIGITAL_0);
+
+  char *param = manifest_GetParam(bookman->shortcuts_buf, param_name, NULL);
+  if (param)
   {
-    onDelPressed(bookman);
+    StartShortcut_Internal(param);
+    mfree(param);
+    FreeBook(bookman);
   }
-  else if (keyID == KEY_DIEZ && press_mode == KBD_SHORT_RELEASE)
+}
+
+void myOnKey_Unified(DISP_OBJ *disp_obj, int keyID, int repeat, int count, int mode)
+{
+  GUI *gui = DispObject_GetGUI(disp_obj);
+  BookManager *bookman = (BookManager *)GUIObject_GetBook(gui);
+
+  bookman->oldOnKey(disp_obj, keyID, repeat, count, mode);
+
+  if (mode == KBD_SHORT_RELEASE)
   {
-    Minimize_AllBooks(bookman);
-  }
-  else if (keyID == KEY_STAR && press_mode == KBD_SHORT_RELEASE)
-  {
-    Close_AllBooks(bookman);
-  }
-  else if (press_mode == KBD_SHORT_RELEASE)
-  {
-    if (bookman->shortcuts_buf)
+    if (keyID == KEY_DEL)
+    {
+      onDelPressed(bookman);
+    }
+    else if (keyID == KEY_DIEZ)
+    {
+      Minimize_AllBooks(bookman);
+    }
+    else if (keyID == KEY_STAR)
+    {
+      Close_AllBooks(bookman);
+    }
+    else if ((keyID - KEY_DIGITAL_0) <= 9)
     {
       if (GetActiveTab(bookman) == BOOKLIST)
-      {
-        char key[20];
-        sprintf(key, "[KEY_%d]:", keyID - KEY_DIGITAL_0);
-
-        char *param = manifest_GetParam(bookman->shortcuts_buf, key, 0);
-        if (param)
-        {
-          StartShortcut_Internal(param);
-          mfree(param);
-          FreeBook(bookman);
-        }
-      }
+        Parse_and_Run_Shortcut(bookman, keyID);
     }
   }
+}
+
+void ElfTab_SetTitle(BOOK *book)
+{
+  BookManager *bookman = (BookManager *)book;
+
+  wchar_t buf[16];
+  snwprintf(buf, MAXELEMS(buf), L"Started ELF: %d", bookman->elfs_count);
+  TabMenuBar_SetTabTitle(bookman->gui, TAB_ELFS, TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN));
 }
 
 void RefreshElfSoftkeys(BOOK *book, int item)
@@ -680,13 +721,13 @@ void RefreshElfSoftkeys(BOOK *book, int item)
   }
   else
   {
-    // ListMenu_SetNoItemText( bookman->elf_list_menu, STR( "No elfs in memory" ) );
     GUIObject_SoftKeys_SetVisible(bookman->elf_list_menu, ACTION_SELECT1, FALSE);
     GUIObject_SoftKeys_SetVisible(bookman->elf_list_menu, TAB_ELFS_RENAME_SOFTKEY, FALSE);
     GUIObject_SoftKeys_SetVisible(bookman->elf_list_menu, TAB_ELFS_CONFIG_SOFTKEY, FALSE);
     GUIObject_SoftKeys_SetVisible(bookman->elf_list_menu, TAB_ELFS_AUTHOR_SOFTKEY, FALSE);
     bookman->elf_index = 0;
   }
+  ElfTab_SetTitle(bookman);
 }
 
 void RefreshBookSoftkeys(BOOK *book)
@@ -747,21 +788,20 @@ void onAuthor(BOOK *book, GUI *g)
 int Elf_OpenFile(const wchar_t *filepath, const wchar_t *filename)
 {
   W_FSTAT _wstat;
-  wchar_t *bcfgedit_path = L"/tpa/user/other/ZBin/BcfgEdit.elf";
 
-  if (!w_fstat(bcfgedit_path, &_wstat))
+  if (!w_fstat(BCFG_PATH, &_wstat))
   {
   }
   else
   {
-    return 1; // BcfgEdit not found
+    return BCFG_NOTFOUND; // BcfgEdit not found
   }
 
   if (!filepath || !filename)
-    return 2; // success
+    return BCFG_FOUND; // success
 
-  openWithBcfgEdit(bcfgedit_path, filepath, filename);
-  return 0;
+  openWithBcfgEdit(BCFG_PATH, filepath, filename);
+  return BCFG_DEFAULT;
 }
 
 void onBcfgConfig(BOOK *book, GUI *g)
@@ -773,8 +813,8 @@ void onBcfgConfig(BOOK *book, GUI *g)
   {
     if (CheckEv(selected_book, ELF_BCFG_CONFIG_EVENT))
     {
-      int err = Elf_OpenFile(NULL, NULL);
-      if (err == 2)
+      int res = Elf_OpenFile(NULL, NULL);
+      if (res == BCFG_FOUND)
       {
         wchar_t bcfg_path[256];
         wchar_t bcfg_name[256];
@@ -785,7 +825,7 @@ void onBcfgConfig(BOOK *book, GUI *g)
         msg->bcfg_n = bcfg_name;
         UI_Event_toBookIDwData(ELF_BCFG_CONFIG_EVENT, BookObj_GetBookID(selected_book), msg, (void (*)(void *))mfree);
       }
-      else if (err == 1)
+      else if (res == BCFG_NOTFOUND)
       {
         CreateMessageBox(EMPTY_TEXTID, STR("BcfgEdit.elf not found!"), 1, 3000, bookman);
       }
@@ -797,17 +837,10 @@ void onBcfgConfig(BOOK *book, GUI *g)
   }
 }
 
-void onEnterPressed_Books(BOOK *book, GUI *gui)
+void onEnterPressed(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
-  BookObj_SetFocus(GetBook(bookman, BOOKLIST), UIDisplay_Main);
-  FreeBook(bookman);
-}
-
-void onEnterPressed_Elfs(BOOK *book, GUI *gui)
-{
-  BookManager *bookman = (BookManager *)book;
-  BOOK *selected_book = GetBook(bookman, ELFLIST);
+  BOOK *selected_book = GetBook(bookman, GetActiveTab(bookman));
   if (selected_book)
   {
     BookObj_SetFocus(selected_book, UIDisplay_Main);
@@ -818,13 +851,13 @@ void onEnterPressed_Elfs(BOOK *book, GUI *gui)
 void BookMan_EditShortcut(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
-  BookObj_CallPage(bookman, &ChangeShortcuts_page);
+  BookObj_CallPage(bookman, &BookManager_ChangeShortcuts_page);
 }
 
 void BookMan_AboutInfo(BOOK *book, GUI *gui)
 {
   BookManager *bookman = (BookManager *)book;
-  CreateMessageBox(EMPTY_TEXTID, STR("Book Manager\n(c) Hussein\n(p) farid\n\n2022"), 1, 0, bookman);
+  CreateMessageBox(EMPTY_TEXTID, STR("Book Manager\n(c) Hussein\n(e) farid\n\n2024"), 1, 0, bookman);
 }
 
 wchar_t *GetUserBookName(wchar_t *ini, wchar_t *orig_name, wchar_t *cur_name)
@@ -842,7 +875,7 @@ wchar_t *GetUserBookName(wchar_t *ini, wchar_t *orig_name, wchar_t *cur_name)
 
     if (pos)
     {
-      swscanf(pos, L"%*[^:]: %l[^\r]", cur_name);
+      swscanf(pos, BOOKNAME_FMT, cur_name);
       return pos;
     }
   }
@@ -856,7 +889,7 @@ TEXTID GetUserBookNameTEXTID(char *name)
   wchar_t cur_name[MAX_BOOK_NAME_LEN + 1];
   wchar_t orig_name[MAX_BOOK_NAME_LEN + 1];
 
-  BookManager *bookman = (BookManager *)FindBook(isBookManager);
+  BookManager *bookman = (BookManager *)FindBook(IsBookManager);
 
   str2wstr(orig_name, name);
 
@@ -975,12 +1008,10 @@ void CreateBookManagerGUI(BOOK *book)
   {
     bookman->gui = CreateTabMenuBar(bookman);
     TabMenuBar_SetTabCount(bookman->gui, LAST_TAB);
-
-    TabMenuBar_SetTabIcon(bookman->gui, TAB_BOOKS, TAB_BOOK_ACTIVE_ICN, 0);
-    TabMenuBar_SetTabIcon(bookman->gui, TAB_BOOKS, TAB_BOOK_INACTIVE_ICN, 1);
-
-    TabMenuBar_SetTabIcon(bookman->gui, TAB_ELFS, TAB_ELF_ACTIVE_ICN, 0);
-    TabMenuBar_SetTabIcon(bookman->gui, TAB_ELFS, TAB_ELF_INACTIVE_ICN, 1);
+    TabMenuBar_SetTabIcon(bookman->gui, TAB_BOOKS, TAB_BOOK_ACTIVE_ICN, TAB_ACTIVE);
+    TabMenuBar_SetTabIcon(bookman->gui, TAB_BOOKS, TAB_BOOK_INACTIVE_ICN, TAB_INACTIVE);
+    TabMenuBar_SetTabIcon(bookman->gui, TAB_ELFS, TAB_ELF_ACTIVE_ICN, TAB_ACTIVE);
+    TabMenuBar_SetTabIcon(bookman->gui, TAB_ELFS, TAB_ELF_INACTIVE_ICN, TAB_ACTIVE);
   }
 
   if (bookman->book_index > bookman->books_count - 1)
@@ -1015,11 +1046,9 @@ void CreateBookManagerGUI(BOOK *book)
     {
       ListMenu_SetItemStyle(bookman->books_list_menu, 0);
     }
-
     GUIObject_SoftKeys_SetAction(bookman->books_list_menu, ACTION_BACK, BookMan_Close);
     GUIObject_SoftKeys_SetAction(bookman->books_list_menu, ACTION_LONG_BACK, BookMan_LClose);
-    GUIObject_SoftKeys_SetAction(bookman->books_list_menu, ACTION_SELECT1, onEnterPressed_Books);
-
+    GUIObject_SoftKeys_SetAction(bookman->books_list_menu, ACTION_SELECT1, onEnterPressed);
     GUIObject_SoftKeys_SetText(bookman->books_list_menu, TAB_BOOKS_RENAME_SOFTKEY, BOOKMAN_RENAME_TXT);
     GUIObject_SoftKeys_SetAction(bookman->books_list_menu, TAB_BOOKS_RENAME_SOFTKEY, BookMan_RenameBook);
     GUIObject_SoftKeys_SetText(bookman->books_list_menu, TAB_BOOKS_SETTINGS_SOFTKEY, MODE_SOFTKEYS_TXT);
@@ -1035,8 +1064,8 @@ void CreateBookManagerGUI(BOOK *book)
 
     RefreshBookSoftkeys(bookman);
     TabMenuBar_SetTabGui(bookman->gui, TAB_BOOKS, bookman->books_list_menu);
+    TabMenuBar_SetTabTitle(bookman->gui, TAB_BOOKS, GetFreeHeap());
   }
-  TabMenuBar_SetTabTitle(bookman->gui, TAB_BOOKS, GetFreeHeap());
 
   //---------------
 
@@ -1057,11 +1086,9 @@ void CreateBookManagerGUI(BOOK *book)
     ListMenu_SetOnMessage(bookman->elf_list_menu, Elfs_onMessage);
     ListMenu_SetItemCount(bookman->elf_list_menu, bookman->elfs_count);
     ListMenu_SetCursorToItem(bookman->elf_list_menu, bookman->elf_index);
-
     GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, ACTION_BACK, BookMan_Close);
     GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, ACTION_LONG_BACK, BookMan_LClose);
-    GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, ACTION_SELECT1, onEnterPressed_Elfs);
-
+    GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, ACTION_SELECT1, onEnterPressed);
     GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, TAB_ELFS_RENAME_SOFTKEY, BookMan_RenameBook);
     GUIObject_SoftKeys_SetText(bookman->elf_list_menu, TAB_ELFS_RENAME_SOFTKEY, BOOKMAN_RENAME_TXT);
     GUIObject_SoftKeys_SetAction(bookman->elf_list_menu, TAB_ELFS_CONFIG_SOFTKEY, onBcfgConfig);
@@ -1072,12 +1099,11 @@ void CreateBookManagerGUI(BOOK *book)
     DISP_DESC_SetOnKey(DispObject_GetDESC(GUIObject_GetDispObject(bookman->elf_list_menu)), myOnKey_Unified);
 
     RefreshElfSoftkeys(bookman, bookman->elf_index);
-
     TabMenuBar_SetTabGui(bookman->gui, TAB_ELFS, bookman->elf_list_menu);
-    TabMenuBar_SetTabTitle(bookman->gui, TAB_ELFS, STR("ELFs"));
+    ElfTab_SetTitle(bookman);
   }
 
-  TabMenuBar_SetFocusedTab(bookman->gui, bookman->ActiveTAB);
+  TabMenuBar_SetFocusedTab(bookman->gui, bookman->active_tab);
   GUIObject_Show(bookman->gui);
 }
 
@@ -1094,7 +1120,7 @@ int BookManager_BookDestroyed_Event(void *data, BOOK *book)
 
   if (!bookman->button_list_menu)
   {
-    bookman->ActiveTAB = GetActiveTab(bookman);
+    bookman->active_tab = GetActiveTab(bookman);
     CreateBookManagerGUI(bookman);
   }
   return 1;
@@ -1117,50 +1143,61 @@ int BookManager_Cancel_Event(void *data, BOOK *book)
 void BookManager_onClose(BOOK *book)
 {
   BookManager *bookman = (BookManager *)book;
-  SaveMode(L"tab.cfg", GetActiveTab(bookman));
+  bookman->active_tab = GetActiveTab(bookman);
+  SaveMode(bookman);
   DestroyIniBuffers(bookman);
   DestroyAllGUIs(bookman);
   DestroyAllList(bookman);
 }
 
-void Create_BookManager()
+BookManager *Create_BookManager()
 {
-  BookManager *bookman = (BookManager *)FindBook(isBookManager);
+  BookManager *bookman = (BookManager *)malloc(sizeof(BookManager));
+  memset(bookman, NULL, sizeof(BookManager));
+  if (!CreateBook(bookman, BookManager_onClose, &BookManager_Base_Page, BOOKNAME, NO_BOOK_ID, NULL))
+  {
+    mfree(bookman);
+    return NULL;
+  }
+
+  bookman->booknames_buf = NULL;
+  bookman->booknames_buf_size = NULL;
+  bookman->shortcuts_buf = NULL;
+  bookman->shortcuts_buf_size = NULL;
+  bookman->books_list_menu = NULL;
+  bookman->button_list_menu = NULL;
+  bookman->java_list_menu = NULL;
+  bookman->mode_list_menu = NULL;
+  bookman->string_input = NULL;
+  bookman->oldOnKey = NULL;
+  bookman->java_list = NULL;
+  bookman->sessions_list = NULL;
+  bookman->books_list = NULL;
+  bookman->books_count = NULL;
+  bookman->book_index = NULL;
+  bookman->MainMenuID = NO_BOOK_ID;
+  bookman->active_tab = NULL;
+  bookman->minimize_to_session = NULL;
+  return bookman;
+}
+
+void Call_BookManager()
+{
+  BookManager *bookman = (BookManager *)FindBook(IsBookManager);
+
   if (!bookman)
   {
-    BookManager *bookman = (BookManager *)malloc(sizeof(BookManager));
-    memset(bookman, NULL, sizeof(BookManager));
-    if (CreateBook(bookman, BookManager_onClose, &BookManager_Base_Page, BOOKMANAGER, NO_BOOK_ID, NULL))
-    {
-      bookman->booknames_buf = NULL;
-      bookman->booknames_buf_size = NULL;
-      bookman->shortcuts_buf = NULL;
-      bookman->shortcuts_buf_size = NULL;
-      bookman->books_list_menu = NULL;
-      bookman->button_list_menu = NULL;
-      bookman->java_list_menu = NULL;
-      bookman->mode_list_menu = NULL;
-      bookman->string_input = NULL;
-      bookman->oldOnKey = NULL;
-      bookman->java_list = NULL;
-      bookman->sessions_list = NULL;
-      bookman->books_list = NULL;
-      bookman->books_count = NULL;
-      bookman->book_index = NULL;
-      bookman->MainMenuID = NO_BOOK_ID;
-      bookman->ActiveTAB = LoadMode(L"tab.cfg");
-      bookman->minimize_to_session = LoadMode(L"mode.cfg");
-
-      LoadBookNames(bookman);
-      LoadShortcuts(bookman);
-      BookObj_GotoPage(bookman, &BookManager_Main_Page);
-    }
-    else
-    {
-      mfree(bookman);
-    }
+    bookman = Create_BookManager();
+    LoadMode(bookman);
+    LoadBookNames(bookman);
+    LoadShortcuts(bookman);
+    BookObj_GotoPage(bookman, &BookManager_Main_Page);
   }
-  else
+  else if (bookman != Display_GetTopBook(UIDisplay_Main))
+  {
+    BookObj_SetFocus(bookman, UIDisplay_Main);
+  }
+  else if (bookman == Display_GetTopBook(UIDisplay_Main))
   {
     FreeBook(bookman);
   }

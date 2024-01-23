@@ -1,14 +1,16 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
 #include "main.h"
-#include "Lib.h"
 #include "quickaccessmenu.h"
 
-int IsQuickAccessBook(BOOK *book)
+BOOL IsQuickAccessBook(BOOK *book)
 {
-  return FALSE == strcmp(book->xbook->name, QuickAccessBook);
+  if (book->onClose == QuickAccess_Book_onClose)
+    return TRUE;
+  return FALSE;
 }
 
 void Menu_Back(BOOK *book, GUI *gui)
@@ -52,10 +54,12 @@ void Menu_Select(BOOK *book, GUI *gui)
       MessageBox(EMPTY_TEXTID, EMPTY_TEXTID, POPUP_SILENT_ICN, 1, 2500, mbk);
     }
   }
+#ifdef SETTINGS_BT_ID
   else if (item == ITEM_BLUETOOTH)
   {
     Shortcut_Run(SETTINGS_BT_ID);
   }
+#endif
   else if (item == ITEM_IRDA)
   {
     Shortcut_Run(SETTINGS_IR_ID);
@@ -92,11 +96,13 @@ int Menu_onMessage(GUI_MESSAGE *msg)
       GUIonMessage_SetMenuItemText(msg, SILENTMODE_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, SILENTMODE_ICN);
     }
+#ifdef SETTINGS_BT_ID
     else if (item == ITEM_BLUETOOTH)
     {
       GUIonMessage_SetMenuItemText(msg, BLUETOOTH_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, BLUETOOTH_ICN);
     }
+#endif
     else if (item == ITEM_IRDA)
     {
       GUIonMessage_SetMenuItemText(msg, IRDA_TXT);
@@ -119,6 +125,7 @@ int Menu_onMessage(GUI_MESSAGE *msg)
 int pg_QuickAccess_Book_EnterEvent(void *data, BOOK *book)
 {
   QuickAccess_Book *mbk = (QuickAccess_Book *)book;
+  FREE_GUI(mbk->MainMenu);
 
   if (mbk->MainMenu = CreateListMenu(mbk, UIDisplay_Main))
   {
@@ -135,7 +142,6 @@ int pg_QuickAccess_Book_EnterEvent(void *data, BOOK *book)
     GUIObject_SoftKeys_SetAction(mbk->MainMenu, ACTION_LONG_BACK, Menu_Exit);
     GUIObject_Show(mbk->MainMenu);
   }
-
   return 1;
 }
 
@@ -159,23 +165,34 @@ void QuickAccess_Book_onClose(BOOK *book)
   FREE_GUI(mbk->MainMenu);
 }
 
-void Create_QuickAccess_Book()
+QuickAccess_Book *Create_QuickAccess_Book()
+{
+  QuickAccess_Book *mbk = (QuickAccess_Book *)malloc(sizeof(QuickAccess_Book));
+  memset(mbk, NULL, sizeof(QuickAccess_Book));
+  if (!CreateBook(mbk, QuickAccess_Book_onClose, &QuickAccess_Book_Base_Page, QuickAccessBook, NO_BOOK_ID, NULL))
+  {
+    mfree(mbk);
+    return NULL;
+  }
+  mbk->MainMenu = NULL;
+  return mbk;
+}
+
+void Call_QuickAccess_Book()
 {
   QuickAccess_Book *mbk = (QuickAccess_Book *)FindBook(IsQuickAccessBook);
   if (!mbk)
   {
-    mbk = (QuickAccess_Book *)malloc(sizeof(QuickAccess_Book));
-    memset(mbk, NULL, sizeof(QuickAccess_Book));
-    if (CreateBook(mbk, QuickAccess_Book_onClose, &QuickAccess_Book_Base_Page, QuickAccessBook, NO_BOOK_ID, NULL))
+    if (mbk = Create_QuickAccess_Book())
     {
       BookObj_GotoPage(mbk, &QuickAccess_Book_Main_Page);
     }
-    else
-    {
-      mfree(mbk);
-    }
   }
-  else
+  else if (mbk != Display_GetTopBook(UIDisplay_Main))
+  {
+    BookObj_SetFocus(mbk, UIDisplay_Main);
+  }
+  else if (mbk == Display_GetTopBook(UIDisplay_Main))
   {
     FreeBook(mbk);
   }

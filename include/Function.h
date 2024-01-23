@@ -928,9 +928,6 @@ extern "C"
   wchar_t *MakeFullPath(wchar_t *pDir, wchar_t *pFile);
 
   // other function --------------------------------------------------------------
-
-  int CallInfo_Get(const int *SYNC, int CallType, CALLINFO *, signed char *error);
-
   void CreateQuickInfo(DISP_OBJ *dispobj, TEXTID, int unk);
   void CreatePasswordInputWindow(int BookID, int mode_0, int password_2, TEXTID title); // password: 2 - phone
 
