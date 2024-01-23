@@ -1,9 +1,9 @@
-#ifndef U10_R7AA071
-#define U10_R7AA071
+#ifndef J20_R7CA064
+#define J20_R7CA064
 
 #define A2
 #define DB3350
-#define CLEARAUDIO
+#define REV2
 
 #define NIL_EVENT 0
 #define ACCEPT_EVENT 2
@@ -41,10 +41,10 @@
 #define ACTION_NO 0xFBE
 
 #define ACTION_MP_SETTINGS 0xE
-#define ACTION_MP_SHORTCUT 0x18
+#define ACTION_MP_SHORTCUT 0x13
 
-#define SHORTCUT_TXT 0x2231
+#define SHORTCUT_TXT 0x1DBA
 
-#define FILE_PATH (wchar_t *)0x15C32E78
+#define FILE_PATH (wchar_t *)0x157F4D18
 
 #endif

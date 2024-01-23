@@ -3,6 +3,7 @@
 
 #define A2
 #define DB3350
+#define CLEARAUDIO
 
 #define NIL_EVENT 0
 #define ACCEPT_EVENT 2

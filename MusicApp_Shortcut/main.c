@@ -202,7 +202,6 @@ void SelectShortcut_onSelect_Item(BOOK *book, GUI *gui)
 
   SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(pShortcutBook->SoftkeyList, item);
   WriteData(pShortcutBook->CurrentItem, elem->action);
-  CreateMessageBox(EMPTY_TEXTID, elem->textid, 0, 2000, pShortcutBook);
 
   BookObj_ReturnPage(pShortcutBook, ACCEPT_EVENT);
   ListMenu_DestroyItems(pShortcutBook->MainMenu);
@@ -388,8 +387,8 @@ void execute_kb(BOOK *book, char key, int mode)
     char key_id = GetKeyID(key);
 
     FSTAT _fstat;
-    int f = fstat(FILE_PATH, FILE_NAME, &_fstat);
-    if (f >= 0)
+    int file = fstat(FILE_PATH, FILE_NAME, &_fstat);
+    if (file >= 0)
     {
       int size = _fstat.fsize;
       FILE_DATA *mydata = (FILE_DATA *)malloc(size);

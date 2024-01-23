@@ -11,6 +11,16 @@
 #define ACTION_MP_USE_AS        0x15
 #define ACTION_MP_SHORTCUT      0x20
 
+#define KEY_DIGITAL_1 0x19
+#define KEY_DIGITAL_2 0x1A
+#define KEY_DIGITAL_3 0x1B
+#define KEY_DIGITAL_4 0x1C
+#define KEY_DIGITAL_5 0x1D
+#define KEY_DIGITAL_6 0x1E
+#define KEY_DIGITAL_7 0x1F
+#define KEY_DIGITAL_8 0x20
+#define KEY_DIGITAL_9 0x21
+
 #define SHORTCUT_TXT      0xCF4
 
 #define FILE_PATH (wchar_t*)0x15A86E38 

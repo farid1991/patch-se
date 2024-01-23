@@ -4,6 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
+
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
@@ -754,20 +755,21 @@ a       EQU     b
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
-        
+
         defadr GUIObject_SoftKeys_AllowKeylock,0x1439DA94+1
 
         defadr List_RemoveFirst,0x1430DCFC+1
         defadr List_RemoveLast,0x1430E428+1
         defadr List_GetCount,0x140CC074+1
-        
+
 //------------------------------------------------------------------------------
 
-        defadr MusicApp_PrevAction,0x14022A08+1
-        defadr MusicApp_CancelAction,0x14F3B420+1
-        defadr MusicApp_ShowMyMusic,0x15348024+1  //(BOOK*, GUI*)
-        defadr MusicApp_Minimize,0x14E39300+1     //(BOOK*, GUI*)
-        
+        defadr MusicApplication_PrevAction,0x14022A08+1
+        defadr MusicApplication_CancelAction,0x14F3B420+1
+        defadr MusicApplication_ShowMyMusic,0x15348024+1
+        defadr MusicApplication_Minimise,0x14E39300+1
+        defadr MusicApplication_Keyboard,0x14430140+1
+
         defadr pg_MusicApplication_UnplugPHF__PreviousAction,0x153474EC+1
         defadr pg_MusicApplication_UnplugPHF__CancelAction,0x1534782C+1
         defadr pg_MusicApplication_UnplugPHF__ExitAction,0x14F15900+1
@@ -776,12 +778,12 @@ a       EQU     b
 
         EXTERN Set_New_Keyboard
         EXTERN Set_New_SoftKeys
-        
-        RSEG    PATCH_NEW_ACTION
+
+        RSEG    PATCH_NEW_SOFTKEYS
         CODE16
         LDR	R3, =new_action
         BX	R3
-        
+
         RSEG  CODE
         CODE16
 new_action:
@@ -796,79 +798,13 @@ new_action:
         BX	R3
 
 //------------------------------------------------------------------------------
-        
-        RSEG    PATCH_NEW_KEY
-        CODE16
-        LDR	R1, =new_key
-        BX	R1
-        
-        RSEG  CODE
-        CODE16
-new_key:
-        LDRB    R2, [R1,#1]
-        LDR     R1, =0xFFFF
-        LSL	R3, R3,	#0x18
-        LSR	R3, R3,	#0x18
-        
-        CMP	R6, #9
-        BEQ	key_up_down
-        CMP	R6, #0xD
-        BEQ	key_up_down
-        CMP	R6, #0xF
-        BEQ	key_left
-        CMP	R6, #0xB
-        BEQ	key_right
-        
-        CMP	R6, #0x18
-        BEQ	set_new_k
-        CMP	R6, #0x19
-	BEQ	set_new_k
-        CMP	R6, #0x1A
-        BEQ	set_new_k
-        CMP	R6, #0x1B
-        BEQ	set_new_k
-        CMP	R6, #0x1C
-        BEQ	set_new_k
-        CMP	R6, #0x1D
-        BEQ	set_new_k
-        CMP	R6, #0x1E
-        BEQ	set_new_k
-        CMP	R6, #0x1F
-        BEQ	set_new_k
-        CMP	R6, #0x20
-        BEQ	set_new_k
-        CMP	R6, #0x21
-        BEQ	set_new_k
-        
-        CMP	R6, #0x23
-        BEQ	Button_Diez
-        B	nex
 
-key_left:
-	LDR	R7, =0x144301FE+1
-	BX	R7
-        
-key_right:
-	LDR	R7, =0x144301C8+1
-	BX	R7
+        RSEG    PATCH_MUSIC_KEYBOARD1
+        DATA
+        dcd     Set_New_Keyboard
 
-key_up_down:
-	LDR	R3, =0x144301A2+1
-	BX	R3
-        
-set_new_k:
-        ADD     R1, R6, #0      // Key
-        ADD     R0, R4, #0      // BOOK*
-        BL      Set_New_Keyboard
-        B       nex
-
-Button_Diez:
-        LDR     R1, [R4,#0x20]  // GUI*
-        ADD     R0, R4,#0       // BOOK*
-        LDR     R3, =MusicApp_Minimize
-        BLX     R3
-nex:
-        LDR     R0, =0x14430234+1
-        BX      R0
+        RSEG    PATCH_MUSIC_KEYBOARD2
+        DATA
+        dcd     Set_New_Keyboard
 
         END
