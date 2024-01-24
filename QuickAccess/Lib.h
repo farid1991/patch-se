@@ -64,6 +64,7 @@ extern "C"
   int GUIonMessage_GetCreatedItemIndex(void *msg);
   int TextID_Create(const void *wstr, int flag, int len);
   char GUIonMessage_SetMenuItemText(GUI_MESSAGE *, int StrID);
+  char GUIonMessage_SetMenuItemInfoText(GUI_MESSAGE *, int StrID);
   char GUIonMessage_SetMenuItemSecondLineText(GUI_MESSAGE *, int StrID);
   void UI_Event(int event);
   void MessageBox(int HeaderStrID, int MessageStrID, wchar_t IconID, int style /*1 or 2*/, int time, BOOK *unk);
@@ -108,6 +109,8 @@ extern "C"
   BOOL Bluetooth_isBusy(void);
   BOOL FlightMode_GetState(void);
   int FlightMode_SetState(int set);
+  int IrDa_GetState( char* state );
+  void debug_printf(const char *fmt, ...);
 
   GUI *CreateYesNoQuestion(BOOK *book, int display);
   void YesNoQuestion_SetQuestionText(GUI *, TEXTID);

@@ -3,6 +3,7 @@
 
 #define A1
 #define PNX5230
+#define HAVE_BT
 
 #define SYNC (int*)0x217073E0
 #define CONFIG_PATH (wchar_t*)0x213F8278

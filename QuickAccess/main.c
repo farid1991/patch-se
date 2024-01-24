@@ -6,6 +6,7 @@
 #include "Lib.h"
 #include "main.h"
 
+#ifdef HAVE_BT
 bool BT_isBusy()
 {
   bool busy = false;
@@ -37,26 +38,25 @@ bool BT_isBusy()
   busy = *(char *)((int)m + 4);
   return busy;
 }
+#endif
 
 int QuickAccess_onMessage(GUI_MESSAGE *msg)
 {
   if (GUIonMessage_GetMsg(msg))
   {
-    int item = GUIonMessage_GetCreatedItemIndex(msg);
-    if (item == ITEM_RESTART)
+    switch (GUIonMessage_GetCreatedItemIndex(msg))
     {
+    case ITEM_RESTART:
       GUIonMessage_SetMenuItemText(msg, RESTART_TXT);
-      GUIonMessage_SetMenuItemSecondLineText(msg, RESTART_INFO_TXT);
+      GUIonMessage_SetMenuItemInfoText(msg, RESTART_INFO_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, RESTART_ICN);
-    }
-    else if (item == ITEM_SHUTDOWN)
-    {
+      break;
+    case ITEM_SHUTDOWN:
       GUIonMessage_SetMenuItemText(msg, SHUTDOWN_TXT);
-      GUIonMessage_SetMenuItemSecondLineText(msg, SHUTDOWN_INFO_TXT);
+      GUIonMessage_SetMenuItemInfoText(msg, SHUTDOWN_INFO_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, SHUTDOWN_ICN);
-    }
-    else if (item == ITEM_FLIGHTMODE)
-    {
+      break;
+    case ITEM_FLIGHTMODE:
       GUIonMessage_SetMenuItemText(msg, FLIGHTMODE_TXT);
       if (FlightMode_GetState())
       {
@@ -67,40 +67,43 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
         }
         else
         {
-          GUIonMessage_SetMenuItemSecondLineText(msg, FLIGHTMODE_OFF_TXT);
+          GUIonMessage_SetMenuItemInfoText(msg, FLIGHTMODE_OFF_TXT);
         }
       }
       else
       {
-        GUIonMessage_SetMenuItemSecondLineText(msg, FLIGHTMODE_ON_TXT);
+        GUIonMessage_SetMenuItemInfoText(msg, FLIGHTMODE_ON_TXT);
       }
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, FLIGHTMODE_ICN);
-    }
-    else if (item == ITEM_SILENT)
-    {
+      break;
+    case ITEM_SEPARATOR1:
+    case ITEM_SEPARATOR2:
+    case ITEM_SEPARATOR3:
+      GUIonMessage_SetLineSeparator(msg, 1);
+      break;
+    case ITEM_SILENT:
       GUIonMessage_SetMenuItemText(msg, SILENTMODE_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, SILENTMODE_ICN);
       if (GetSilent())
       {
-        GUIonMessage_SetMenuItemSecondLineText(msg, TURNOFF_SILENTMODE_TXT);
+        GUIonMessage_SetMenuItemInfoText(msg, TURNOFF_SILENTMODE_TXT);
       }
       else
       {
-        GUIonMessage_SetMenuItemSecondLineText(msg, TURNON_SILENTMODE_TXT);
+        GUIonMessage_SetMenuItemInfoText(msg, TURNON_SILENTMODE_TXT);
       }
-    }
-    else if (item == ITEM_KEYLOCK)
-    {
+      break;
+    case ITEM_KEYLOCK:
       GUIonMessage_SetMenuItemText(msg, KEYLOCK_TXT);
-      GUIonMessage_SetMenuItemSecondLineText(msg, LOCKKEYS_TXT);
+      GUIonMessage_SetMenuItemInfoText(msg, LOCKKEYS_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, KEYLOCK_ICN);
-    }
-    else if (item == ITEM_BLUETOOTH)
-    {
+      break;
+#ifdef HAVE_BT
+    case ITEM_BLUETOOTH:
       GUIonMessage_SetMenuItemText(msg, BLUETOOTH_TXT);
       if (BT_isBusy())
       {
-        GUIonMessage_SetMenuItemSecondLineText(msg, BT_BUSY_TXT);
+        GUIonMessage_SetMenuItemInfoText(msg, BT_BUSY_TXT);
         GUIonMessage_SetMenuItemIcon(msg, AlignLeft, BT_ACTIVE_ICN);
         GUIonMessage_SetItemDisabled(msg, TRUE);
         GUIonMessage_SetMenuItemUnavailableText(msg, BTINFO_BUSY_TXT);
@@ -109,17 +112,24 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
       {
         if (Bluetooth_GetState())
         {
-          GUIonMessage_SetMenuItemSecondLineText(msg, TURNOFF_TXT);
+          GUIonMessage_SetMenuItemInfoText(msg, TURNOFF_TXT);
         }
         else
         {
-          GUIonMessage_SetMenuItemSecondLineText(msg, TURNON_TXT);
+          GUIonMessage_SetMenuItemInfoText(msg, TURNON_TXT);
         }
         GUIonMessage_SetMenuItemIcon(msg, AlignLeft, BLUETOOTH_ICN);
       }
-    }
-    else if (item == ITEM_PROFILES)
-    {
+      break;
+#endif
+#ifdef HAVE_IRDA
+    case ITEM_IRDA:
+      GUIonMessage_SetMenuItemText(msg, IRDA_TXT);
+      GUIonMessage_SetMenuItemIcon(msg, AlignLeft, IRDA_ICN);
+      GUIonMessage_SetMenuItemInfoText(msg, VIA_IRDA_TXT);
+      break;
+#endif
+    case ITEM_PROFILES:
       TEXTID_DATA GetProfile;
       wchar_t SetName[0x10];
       char error;
@@ -127,26 +137,18 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
       REQUEST_PROFILE_GETPROFILENAME(SYNC, -2, &GetProfile, &error);
 
       GUIonMessage_SetMenuItemText(msg, PROFILES_TXT);
-      GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Create(GetProfile.ptr, ENC_UCS2, GetProfile.lenght));
+      GUIonMessage_SetMenuItemInfoText(msg, TextID_Create(GetProfile.ptr, ENC_UCS2, GetProfile.lenght));
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, PROFILE_ICN);
-    }
-    else if (item == ITEM_STANDBY)
-    {
+      break;
+    case ITEM_STANDBY:
       GUIonMessage_SetMenuItemText(msg, STANDBY_TXT);
-      GUIonMessage_SetMenuItemSecondLineText(msg, SETSTANDBY_TXT);
+      GUIonMessage_SetMenuItemInfoText(msg, SETSTANDBY_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, DESKTOP_ICN);
-    }
-    if (item == ITEM_SEPARATOR1 || item == ITEM_SEPARATOR2 || item == ITEM_SEPARATOR3)
-    {
-      GUIonMessage_SetLineSeparator(msg, 1);
-    }
-    else
-    {
-      GUIonMessage_SetMenuItemIcon(msg, AlignRight, ARROW_ICN);
+      break;
     }
   }
   return 1;
-};
+}
 
 void FlightMode(BOOK *book, GUI *gui)
 {
@@ -174,38 +176,30 @@ void YesNoQuestion_onNo(BOOK *book, GUI *gui)
   FREE_GUI(gui);
 }
 
-void Create_YesNoQuestion(BOOK *book, int type)
+void Create_YesNoQuestion(QuickAccessBook *qabook, int type)
 {
-  QuickAccessBook *qabook = (QuickAccessBook *)book;
-
   TEXTID text_id;
-
-  switch (type)
-  {
-  case 0:
-    text_id = STR("Restart Phone?");
-    break;
-  case 1:
-    text_id = STR("Shutdown Phone?");
-    break;
-  case 2:
-    text_id = STR("Turn on FlightMode?");
-    break;
-  }
-
   GUI *question;
+
   if (question = CreateYesNoQuestion(qabook, UIDisplay_Main))
   {
+    if (type == ITEM_RESTART)
+    {
+      text_id = STR("Restart Phone?");
+      GUIObject_SoftKeys_SetAction(question, ACTION_YES, Restart);
+    }
+    else if (type == ITEM_SHUTDOWN)
+    {
+      text_id = STR("Shutdown Phone?");
+      GUIObject_SoftKeys_SetAction(question, ACTION_YES, ShutDown);
+    }
+    else if (type == ITEM_FLIGHTMODE)
+    {
+      text_id = STR("Turn on FlightMode?");
+      GUIObject_SoftKeys_SetAction(question, ACTION_YES, FlightMode);
+    }
     YesNoQuestion_SetQuestionText(question, text_id);
     YesNoQuestion_SetIcon(question, POPUP_WARNING_ICN);
-
-    if (type == 0)
-      GUIObject_SoftKeys_SetAction(question, ACTION_YES, Restart);
-    else if (type == 1)
-      GUIObject_SoftKeys_SetAction(question, ACTION_YES, ShutDown);
-    else if (type == 2)
-      GUIObject_SoftKeys_SetAction(question, ACTION_YES, FlightMode);
-
     GUIObject_SoftKeys_SetAction(question, ACTION_NO, YesNoQuestion_onNo);
     GUIObject_SoftKeys_SetAction(question, ACTION_BACK, YesNoQuestion_onNo);
     GUIObject_Show(question);
@@ -216,55 +210,64 @@ void QuickAccess_OnSelect(BOOK *book, GUI *gui)
 {
   QuickAccessBook *qabook = (QuickAccessBook *)book;
   int item = ListMenu_GetSelectedItem(qabook->menu);
-  if (item == ITEM_RESTART)
+  switch (item)
   {
-    Create_YesNoQuestion(book, item);
-  }
-  else if (item == ITEM_SHUTDOWN)
-  {
-    Create_YesNoQuestion(book, item);
-  }
-  else if (item == ITEM_FLIGHTMODE)
-  {
+  case ITEM_RESTART:
+    Create_YesNoQuestion(qabook, item);
+    break;
+  case ITEM_SHUTDOWN:
+    Create_YesNoQuestion(qabook, item);
+    break;
+  case ITEM_FLIGHTMODE:
     if (FlightMode_GetState())
     {
       FlightMode_SetState(OFF);
     }
     else
     {
-      Create_YesNoQuestion(book, item);
+      Create_YesNoQuestion(qabook, item);
     }
-  }
-  else if (item == ITEM_SILENT)
-  {
+    break;
+  case ITEM_SILENT:
     int num;
-
     REQUEST_PROFILE_GETACTIVEPROFILE(SYNC, &num);
-
     if (GetSilent())
+    {
       REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, OFF);
+    }
     else
+    {
       REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, ON);
-  }
-  else if (item == ITEM_KEYLOCK)
-  {
+    }
+    break;
+  case ITEM_KEYLOCK:
     Lock_Keyboard();
-  }
-  else if (item == ITEM_BLUETOOTH)
-  {
+    break;
+#ifdef HAVE_BT
+  case ITEM_BLUETOOTH:
     if (Bluetooth_GetState())
+    {
       Bluetooth_SetState(OFF);
+    }
     else
+    {
       Bluetooth_SetState(ON);
-  }
-  else if (item == ITEM_PROFILES)
-  {
+    }
+    break;
+#endif
+#ifdef HAVE_IRDA
+  case ITEM_IRDA:
+    Shortcut_Run(IRDA_LINK);
+    break;
+#endif
+  case ITEM_PROFILES:
     Shortcut_Run(PROFILE_LINK);
-  }
-  else if (item == ITEM_STANDBY)
-  {
+    break;
+  case ITEM_STANDBY:
     BookObj_SetFocus(Find_StandbyBook(), UIDisplay_Main);
+    break;
   }
+
   if (item > ITEM_FLIGHTMODE)
     FreeBook(qabook);
 }
@@ -298,7 +301,6 @@ extern "C" int New_QuickAccessMenu_EnterEvent(void *data, BOOK *book)
     ListMenu_SetCursorToItem(qabook->menu, ITEM_RESTART);
     ListMenu_SetHotkeyMode(qabook->menu, LKHM_SHORTCUT);
     ListMenu_SetOnMessage(qabook->menu, QuickAccess_onMessage);
-    ListMenu_SetItemStyle(qabook->menu, 3);
     GUIObject_SetStyle(qabook->menu, UI_OverlayStyle_TrueFullScreen);
     GUIObject_SetTitleType(qabook->menu, UI_TitleMode_Large);
     GUIObject_SetTitleText(qabook->menu, STR("Quick Access Menu"));
