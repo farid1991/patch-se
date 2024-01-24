@@ -1,16 +1,16 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define MEM_NAME "swf_mem"
-#define EMP_NAME "swf_emp"
+static char *MEM_NAME = "swf_mem";
+static char *EMP_NAME = "swf_emp";
 
-#ifdef DB2010
+#if defined(DB2000) || defined(DB2010)
 #define URI_MODE 1
 #else
 #define URI_MODE 2
 #endif
 
-static wchar_t *CUSTOM_NAME = L"Flash_Menu_Custom.swf";
+static const wchar_t *CUSTOM_NAME = L"Flash_Menu_Custom.swf";
 static const char *BOOKNAME = "FlashMenuPickerBook";
 
 static const char FlashMenuPicker_Pick_Page_Name[] = "FlashMenuPicker_Pick_Page";
@@ -59,6 +59,12 @@ typedef struct FlashMenuPickerBook : BOOK
   GUI_LIST *SubMenu;
   int type;
 } FlashMenuPickerBook;
+
+typedef struct FlashDesktopBook : BOOK
+{
+  GUI *main_menu;
+  IMAGEID img;
+} FlashDesktopBook;
 
 #define FREE_GUI(g)       \
   if (g)                  \

@@ -44,8 +44,8 @@ MM_DATA *GetData()
   return CreateData();
 }
 
-#if defined(W550_R4CB020)
-BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname)
+#if defined(W550_R4CB020) || defined(W900_R5BC004)
+BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname)
 {
   FSTAT fs;
   if (!fstat(fpath, fname, &fs))
@@ -54,7 +54,7 @@ BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname)
 }
 #endif
 
-BOOL isDirectory(wchar_t *name)
+BOOL isDirectory(const wchar_t *name)
 {
   W_FSTAT fs;
   if (w_fstat(name, &fs) != -1)
@@ -498,7 +498,9 @@ void FlashMenuPicker_onClose(BOOK *book)
 
 BOOL IsFlashMenuPickerBook(BOOK *book)
 {
-  return FALSE == strcmp(book->xbook->name, BOOKNAME);
+  if (book->onClose == FlashMenuPicker_onClose)
+    return TRUE;
+  return FALSE;
 }
 
 FlashMenuPickerBook *Create_FlashMenuPickerBook()

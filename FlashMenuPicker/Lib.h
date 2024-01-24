@@ -241,7 +241,7 @@ extern "C"
   void VCALL_SetHZ1(void *vc, int, u16);
   void VCALL_SetHZ2(void *vc, u16);
   void MakeVoiceCall(int SessioID, void *vc, int flag);
-  void FileDelete(wchar_t *path, wchar_t *filename, int *error);
+  void FileDelete(const wchar_t *path, const wchar_t *filename, int *error);
   void GUIObject_SetFocus(GUI *, int);
   int MSG_SendMessage_CreateMessage(int, void *);
   int MSG_SendMessage_DestroyMessage(void *);
@@ -466,8 +466,8 @@ extern "C"
   int ImageID_GetIndirect(void *buf_image, int size, int __NULL, wchar_t *image_type, IMAGEID *);
   void unixtime2datetime(int, DATETIME *);
   int List_Insert(LIST *lst, int i, void *item);
-  int FileCopy(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
-  int FileMove(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
+  int FileCopy(const wchar_t *src_path, const wchar_t *src_name, const wchar_t *dest_path, const wchar_t *dest_name, int);
+  int FileMove(const wchar_t *src_path, const wchar_t *src_name, const wchar_t *dest_path, const wchar_t *dest_name, int);
   void RedLED_On(int __NULL);
   void RedLED_Off(int __NULL);
   void DispObject_SetLayerColor(DISP_OBJ *, int color);
@@ -704,7 +704,7 @@ extern "C"
   void YesNoQuestion_CreateQuestion(GUI *, int);
   void YesNoQuestion_SetIcon(GUI *, wchar_t);
 
-  BOOL FSX_IsFileExists(wchar_t *fpath, wchar_t *fname);
+  BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname);
   void MainMenu_SetFromUserTheme(int);
   void ThemeImage_Apply(const wchar_t *fpath, const wchar_t *fname, const wchar_t *path, const wchar_t *name, int __null1, int __null2);
   void Set_SWF_AsFlashMenu(const wchar_t *fpath, const wchar_t *fname, int *error);
