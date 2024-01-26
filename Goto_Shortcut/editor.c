@@ -20,51 +20,48 @@ void AcceptShortcut(BOOK *book)
   BookObj_ReturnPage(book, ACCEPT_EVENT);
 }
 
-void Menu_SetMainMenu(BOOK *MainMenu, GUI *gui)
+void Menu_SetMainMenu(BOOK *MenuBook, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
 
   wchar_t *Data = L"MainMenu";
-  WStringRealloc(Data, &mbk->ShortcutItem->ShortcutLink);
-  WStringFree(Data);
+  mbk->ShortcutItem->ShortcutLink = (wchar_t *)malloc(sizeof(wchar_t) * (wstrlen(Data) + 1));
+  wstrcpy(mbk->ShortcutItem->ShortcutLink, Data);
+
   mbk->ShortcutItem->ShortcutType = TYPE_SHORTCUT;
 
-  void *ShortcutDesc;
 #ifdef A1
-  ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
-  ((SHORTCUT_DESC *)ShortcutDesc)->shortcut_state = SC_State_MainMenu;
+  void *ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
 #else
-  ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
+  void *ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
 #endif
-  mbk->ShortcutItem->ShortcutIcon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
 
+  mbk->ShortcutItem->ShortcutIcon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
   if (!mbk->ShortcutItem->ShortcutText)
   {
     wchar_t Text[20] = L"MainMenu";
-    mbk->ShortcutItem->ShortcutText = WStringAlloc(WStringLength(Text));
+    mbk->ShortcutItem->ShortcutText = WStringAlloc(wstrlen(Text));
     wstrcpy(mbk->ShortcutItem->ShortcutText, Text);
   }
   mfree(ShortcutDesc);
-  FreeBook(MainMenu);
+  FreeBook(MenuBook);
   AcceptShortcut(mbk);
 }
 
-void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
+void Menu_SetShortcut(BOOK *MenuBook, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
 
-  wchar_t *Data = MenuBook_Desktop_GetSelectedItemID(MainMenu);
+  wchar_t *Data = MenuBook_Desktop_GetSelectedItemID(MenuBook);
   WStringRealloc(Data, &mbk->ShortcutItem->ShortcutLink);
-  WStringFree(Data);
+  mfree(Data);
 
   mbk->ShortcutItem->ShortcutType = TYPE_SHORTCUT;
 
-  void *ShortcutDesc;
 #ifdef A1
-  ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
-  ((SHORTCUT_DESC *)ShortcutDesc)->shortcut_state = SC_State_Activated;
+  void *ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
 #else
-  ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
+  void *ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
 #endif
 
   mbk->ShortcutItem->ShortcutIcon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
@@ -72,34 +69,37 @@ void Menu_SetShortcut(BOOK *MainMenu, GUI *gui)
   {
     wchar_t text[64];
     TextID_GetWString(Shortcut_Get_MenuItemName(ShortcutDesc), text, MAXELEMS(text));
-    mbk->ShortcutItem->ShortcutText = WStringAlloc(WStringLength(text));
+    mbk->ShortcutItem->ShortcutText = WStringAlloc(wstrlen(text));
     wstrcpy(mbk->ShortcutItem->ShortcutText, text);
   }
   mfree(ShortcutDesc);
-  FreeBook(MainMenu);
+  FreeBook(MenuBook);
   AcceptShortcut(mbk);
 }
 
 int pg_SC_Editor_SelectShortcut_CancelAction(void *data, BOOK *book)
 {
-  Action_Back(book, 0);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+  BookObj_ReturnPage(mbk, NIL_EVENT);
   return 1;
 }
 
 int pg_SC_Editor_SelectShortcut_EnterAction(void *data, BOOK *book)
 {
-  BOOK *MainMenu = MenuBook_Desktop(1, BookObj_GetBookID(book));
-  if (MainMenu)
-  {
-    BookObj_SoftKeys_SetAction(MainMenu, 0, Menu_SetShortcut);
-    BookObj_SoftKeys_SetText(MainMenu, 0, SHC_SET_SHORTCUT_SK);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+
+  BOOK *MenuBook = MenuBook_Desktop(1, BookObj_GetBookID(mbk));
+  if (!MenuBook)
+    return FALSE;
+
+  mbk->MainMenuID = BookObj_GetBookID(MenuBook);
+  BookObj_SoftKeys_SetAction(MenuBook, 0, Menu_SetShortcut);
+  BookObj_SoftKeys_SetText(MenuBook, 0, SHC_SET_SHORTCUT_SK);
 #ifndef DB2000
-    BookObj_SoftKeys_SetAction(MainMenu, 1, Menu_SetMainMenu);
-    BookObj_SoftKeys_SetText(MainMenu, 1, SHC_SET_MM);
+  BookObj_SoftKeys_SetAction(MenuBook, 1, Menu_SetMainMenu);
+  BookObj_SoftKeys_SetText(MenuBook, 1, SHC_SET_MM);
 #endif
-    return TRUE;
-  }
-  return FALSE;
+  return TRUE;
 }
 
 const PAGE_MSG Goto_Editor_MainMenu_PageEvents[] =
@@ -111,7 +111,7 @@ const PAGE_MSG Goto_Editor_MainMenu_PageEvents[] =
 const PAGE_DESC Goto_Editor_MainMenu_PageDesc = {EDITOR_MAINMENU_BASEPAGE_NAME, NULL, Goto_Editor_MainMenu_PageEvents};
 
 //------------------------------------------------------------------------------
-#ifndef DB3350
+#ifdef USE_JAVA
 int JavaMenu_Callback(GUI_MESSAGE *msg)
 {
   switch (GUIonMessage_GetMsg(msg))
@@ -119,8 +119,8 @@ int JavaMenu_Callback(GUI_MESSAGE *msg)
   case LISTMSG_GetItem:
     GotoShortcut_Book *mbk = (GotoShortcut_Book *)GUIonMessage_GetBook(msg);
     JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)List_Get(mbk->JavaList, GUIonMessage_GetCreatedItemIndex(msg));
-    GUIonMessage_SetMenuItemText(msg, TextID_Get(elem->Name));
-    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, elem->ImageID);
+    GUIonMessage_SetMenuItemText(msg, TextID_Get(elem->name));
+    GUIonMessage_SetMenuItemIcon(msg, AlignLeft, elem->image_id);
   }
   return 1;
 }
@@ -130,12 +130,12 @@ void JavaMenu_Ok(BOOK *book, GUI *gui)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)List_Get(mbk->JavaList, ListMenu_GetSelectedItem(mbk->JavaMenu));
 
-  WStringRealloc(elem->Name, &mbk->ShortcutItem->ShortcutLink);
+  WStringRealloc(elem->name, &mbk->ShortcutItem->ShortcutLink);
   mbk->ShortcutItem->ShortcutIcon = DB_LIST_JAVA_ICN;
   mbk->ShortcutItem->ShortcutType = TYPE_JAVA;
 
   if (!mbk->ShortcutItem->ShortcutText)
-    WStringRealloc(elem->Name, &mbk->ShortcutItem->ShortcutText);
+    WStringRealloc(elem->name, &mbk->ShortcutItem->ShortcutText);
 
   AcceptShortcut(mbk);
 }
@@ -143,29 +143,30 @@ void JavaMenu_Ok(BOOK *book, GUI *gui)
 int CreateJavaList(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+  FreeList(mbk->JavaList, JavaFree);
+  mbk->JavaList = Create_JavaList();
+
   FREE_GUI(mbk->JavaMenu);
 
-  mbk->JavaList = Create_JavaList();
-  if (mbk->JavaList)
+  if (mbk->JavaMenu = CreateListMenu(mbk, UIDisplay_Main))
   {
-    if (mbk->JavaMenu = CreateListMenu(mbk, UIDisplay_Main))
-    {
-      GUIObject_SetTitleText(mbk->JavaMenu, JAVA_APP_TXT);
-      ListMenu_SetItemCount(mbk->JavaMenu, List_GetCount(mbk->JavaList));
-      ListMenu_SetOnMessage(mbk->JavaMenu, JavaMenu_Callback);
-      ListMenu_SetCursorToItem(mbk->JavaMenu, 0);
-      GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_BACK, Action_Back);
-      GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_SELECT1, JavaMenu_Ok);
-      GUIObject_Show(mbk->JavaMenu);
-    }
+    GUIObject_SetTitleText(mbk->JavaMenu, JAVA_APP_TXT);
+    ListMenu_SetItemCount(mbk->JavaMenu, List_GetCount(mbk->JavaList));
+    ListMenu_SetOnMessage(mbk->JavaMenu, JavaMenu_Callback);
+    ListMenu_SetCursorToItem(mbk->JavaMenu, 0);
+    GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_BACK, Action_Back);
+    GUIObject_SoftKeys_SetAction(mbk->JavaMenu, ACTION_SELECT1, JavaMenu_Ok);
+    GUIObject_Show(mbk->JavaMenu);
   }
+
   return 1;
 }
 
 int CloseJavaList(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  FREE_JAVAGUI(mbk->JavaMenu, mbk->JavaList, JavaFree);
+  FREE_GUI(mbk->JavaMenu);
+  FreeList(mbk->JavaList, JavaFree);
   return 1;
 }
 
@@ -174,13 +175,15 @@ const PAGE_MSG Goto_Editor_JavaList_PageEvents[] =
         PAGE_ENTER_EVENT, CreateJavaList,
         PAGE_EXIT_EVENT, CloseJavaList,
         NIL_EVENT, NULL};
-const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, NULL, Goto_Editor_JavaList_PageEvents};
 
+const PAGE_DESC Goto_Editor_JavaList_PageDesc = {EDITOR_JAVALIST_BASEPAGE_NAME, NULL, Goto_Editor_JavaList_PageEvents};
+#endif
 //------------------------------------------------------------------------------
-#ifndef PNX5230
+#ifdef HAS_ELF
 int pg_SC_Editor_SelectElf_AcceptAction(void *data, BOOK *book)
 {
-  GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
+  GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+
   FILEITEM *file_item = (FILEITEM *)data;
 
   mbk->ShortcutItem->ShortcutLink = FSX_MakeFullPath(FILEITEM_GetPath(file_item), FILEITEM_GetFname(file_item));
@@ -216,10 +219,10 @@ int pg_SC_Editor_SelectElf_EnterAction(void *data, BOOK *book)
 #else
     Folders[1] = NULL;
 #endif
-    DataBrowserDesc_SetHeaderText(DB_Desc, TextID_Get(L"ELFs"));
+    DataBrowserDesc_SetHeaderText(DB_Desc, STR("ELFs"));
     DataBrowserDesc_SetBookID(DB_Desc, BookObj_GetBookID(book));
     DataBrowserDesc_SetFolders(DB_Desc, Folders);
-    DataBrowserDesc_SetFileExtList(DB_Desc, L"*.elf");
+    DataBrowserDesc_SetFileExtList(DB_Desc, ELF_EXT);
     DataBrowserDesc_SetItemFilter(DB_Desc, DB_Filter);
     DataBrowserDesc_SetFoldersNumber(DB_Desc, ELFS_PATH_COUNT);
     DataBrowserDesc_SetSelectAction(DB_Desc, 1);
@@ -236,8 +239,8 @@ const PAGE_MSG Goto_Editor_DataBrowser_PageEvents[] =
         PREVIOUS_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         CANCEL_EVENT, pg_SC_Editor_SelectShortcut_CancelAction,
         NIL_EVENT, NULL};
+
 const PAGE_DESC Goto_Editor_DataBrowser_PageDesc = {EDITOR_DATABROWSER_BASEPAGE_NAME, NULL, Goto_Editor_DataBrowser_PageEvents};
-#endif
 #endif
 //------------------------------------------------------------------------------
 
@@ -245,11 +248,11 @@ void OnOkEventInput(BOOK *book, wchar_t *string, int len)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
 
-  if (len > 0)
+  if (len)
   {
     WStringRealloc(string, &mbk->ShortcutItem->ShortcutLink);
-    mbk->ShortcutItem->ShortcutIcon = TypesIcons[TYPE_EVENT];
-    mbk->ShortcutItem->ShortcutType = TYPE_EVENT;
+    mbk->ShortcutItem->ShortcutIcon = TypesIcons[TYPE_UIEVENT];
+    mbk->ShortcutItem->ShortcutType = TYPE_UIEVENT;
 
     int event = wstr2h(string, len);
 
@@ -273,7 +276,7 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
 
 #if defined(DB2000) || defined(DB2010)
   TEXTID input_text;
-  if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_EVENT))
+  if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_UIEVENT))
     input_text = TextID_Get(mbk->ShortcutItem->ShortcutLink);
   else
     input_text = EMPTY_TEXTID;
@@ -348,7 +351,7 @@ void SC_Editor_SelectFolder_onEnter(BOOK *book, wchar_t *string, int len)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
 
-  if (len > 0)
+  if (len)
   {
     WStringRealloc(string, &mbk->ShortcutItem->ShortcutLink);
     mbk->ShortcutItem->ShortcutIcon = TypesIcons[TYPE_FOLDER];
@@ -424,6 +427,7 @@ const PAGE_MSG Goto_Editor_SelectFolder_PageEvents[] =
         PAGE_ENTER_EVENT, pg_SC_Editor_SelectFolder_EnterAction,
         PAGE_EXIT_EVENT, pg_SC_Editor_SelectFolder_ExitAction,
         NIL_EVENT, NULL};
+
 const PAGE_DESC Goto_Editor_SelectFolder_PageDesc = {EDITOR_SELECTFOLDER_BASEPAGE_NAME, NULL, Goto_Editor_SelectFolder_PageEvents};
 
 //------------------------------------------------------------------------------
@@ -433,13 +437,13 @@ TEXTID Get_SCTypes_Text(int item)
   const wchar_t *TypesCaptions[TYPE_LAST] =
       {
           L"Menu Item",
-#ifndef DB3350
+#ifdef USE_JAVA
           L"Java",
-#ifndef PNX5230
+#endif
+#ifdef HAS_ELF
           L"Elf",
 #endif
-#endif
-          L"Event",
+          L"UI Event",
           L"Folder"};
   return TextID_Get(TypesCaptions[item]);
 }
@@ -452,17 +456,17 @@ void TypesList_onSelect(BOOK *book, GUI *gui)
   case TYPE_SHORTCUT:
     BookObj_CallPage(mbk, &Goto_Editor_MainMenu_PageDesc);
     break;
-#ifndef DB3350
+#ifdef USE_JAVA
   case TYPE_JAVA:
     BookObj_CallPage(mbk, &Goto_Editor_JavaList_PageDesc);
     break;
-#ifndef PNX5230
+#endif
+#ifdef HAS_ELF
   case TYPE_ELF:
     BookObj_CallPage(mbk, &Goto_Editor_DataBrowser_PageDesc);
     break;
 #endif
-#endif
-  case TYPE_EVENT:
+  case TYPE_UIEVENT:
     BookObj_CallPage(mbk, &Goto_Editor_EventInput_PageDesc);
     break;
   case TYPE_FOLDER:
@@ -504,6 +508,13 @@ int pg_SC_Editor_TypesList_ExitAction(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->TypesList);
+  if (mbk->MainMenuID != NO_BOOK_ID)
+  {
+    BOOK *MainMenu = FindBookByID(mbk->MainMenuID);
+    if (MainMenu)
+      FreeBook(MainMenu);
+    mbk->MainMenuID = NO_BOOK_ID;
+  }
   return 1;
 }
 
@@ -597,6 +608,7 @@ void Editor_onBack(BOOK *book, GUI *gui)
     void *Item = List_RemoveFirst(mbk->ShortcutList);
     ShortcutFree(Item);
   }
+  SaveConfig(mbk->ShortcutList);
   BookObj_ReturnPage(book, ACCEPT_EVENT);
 }
 

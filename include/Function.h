@@ -1,4 +1,4 @@
-//#include "classes.h"
+// #include "classes.h"
 #ifdef USEPNG
 #include "png.h"
 #endif
@@ -6,9 +6,6 @@
 #ifdef USEZLIB
 #include "zlib.h"
 #endif
-
-__thumb void *malloc(int size);
-__thumb void mfree(void *mem);
 
 extern "C"
 {
@@ -984,14 +981,14 @@ extern "C"
   BOOL Charging_GetState(void);
   int NewEvent_GetCount(void); // GetNewEvent(void);
 
-  int IrDa_GetState( char* state );
+  int IrDa_GetState(char *state);
   BOOL FlightMode_GetState(void);
   void FlightMode_SetState(BOOL state);
   void Bluetooth_SetState(BOOL state);
   void SetOperatorName(TEXTID, int _null);
   TEXTID GetOperatorName(wchar_t *opname);
 
-  void MSG_Marked_No(BOOK *book);                           //������ �� �������� ���������, v. 3
+  void MSG_Marked_No(BOOK *book);                           // ������ �� �������� ���������, v. 3
   void Create_BrowserMemory(int BookID, int unk, int mode); // ����������� ��������� ������ � ���������� ������� ���������� ������, v. 4
   void DataDownloadBook_onClose(BOOK *book);                // �������� ������ � ������ ����� ����� ������ ����� Bluetooth
 

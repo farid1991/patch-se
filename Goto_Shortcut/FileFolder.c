@@ -8,17 +8,26 @@
 #include "strlib.h"
 #include "FileFolder.h"
 
+BOOL isDirectory(wchar_t *name)
+{
+  W_FSTAT fs;
+  if (w_fstat(name, &fs) != -1)
+    return fs.attr & 0x4000;
+  else
+    return FALSE;
+}
+
 FILEDATA *CreateFData()
 {
   FILEDATA *fdata = (FILEDATA *)malloc(sizeof(FILEDATA));
   memset(fdata, NULL, sizeof(FILEDATA));
-  set_envp(NULL, EMP_NAME, (OSADDRESS)fdata);
+  set_envp(NULL, EMP_FLIST, (OSADDRESS)fdata);
   return fdata;
 }
 
 FILEDATA *GetFData()
 {
-  FILEDATA *fdata = (FILEDATA *)get_envp(NULL, EMP_NAME);
+  FILEDATA *fdata = (FILEDATA *)get_envp(NULL, EMP_FLIST);
   if (fdata)
     return fdata;
   return CreateFData();
@@ -26,11 +35,11 @@ FILEDATA *GetFData()
 
 void DeleteFData()
 {
-  FILEDATA *fdata = (FILEDATA *)get_envp(NULL, EMP_NAME);
+  FILEDATA *fdata = GetFData();
   if (fdata)
   {
     mfree(fdata);
-    set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
+    set_envp(NULL, EMP_FLIST, OSADDRESS(NULL));
   }
 }
 
@@ -43,8 +52,8 @@ void Free_FLIST(void)
   while (flist)
   {
     FILELIST *fl_prev = flist;
-    WStringFree(fl_prev->fullname);
-    WStringFree(fl_prev->name);
+    mfree(fl_prev->fullpath);
+    mfree(fl_prev->str_name);
     flist = (FILELIST *)flist->next;
     mfree(fl_prev);
   }
@@ -52,25 +61,23 @@ void Free_FLIST(void)
 
 FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, BOOL is_folder)
 {
-  // int l_fname;
   FILEDATA *fdata = GetFData();
-
-  FILELIST *flist;
   FILELIST *fl_next = (FILELIST *)malloc(sizeof(FILELIST));
 
-  fl_next->fullname = WStringAlloc(wstrlen(full_name));
-  fl_next->name = WStringAlloc(wstrlen(name));
+  fl_next->fullpath = WStringAlloc(wstrlen(full_name));
+  fl_next->str_name = WStringAlloc(wstrlen(name));
 
-  wstrcpy(fl_next->fullname, full_name);
-  wstrcpy(fl_next->name, name);
+  wstrcpy(fl_next->fullpath, full_name);
+  wstrcpy(fl_next->str_name, name);
   fl_next->is_folder = is_folder;
-  fl_next->next = 0;
-  flist = (FILELIST *)fdata->fltop;
+  fl_next->next = NULL;
+
+  FILELIST *flist = (FILELIST *)fdata->fltop;
   if (flist)
   {
     FILELIST *fl_prev;
     fl_prev = (FILELIST *)&fdata->fltop;
-    while (wstrcmpi(flist->name, fl_next->name) < 0)
+    while (wstrcmpi(flist->str_name, fl_next->str_name) < 0)
     {
       fl_prev = flist;
       flist = (FILELIST *)flist->next;
@@ -88,15 +95,15 @@ FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, BOOL is_fold
   return fl_next;
 }
 
-int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 SelectFile
+int FindFiles(wchar_t *fpath, int type) // type == 0 SelectFolder, type == 1 SelectFile
 {
-  int i, c, n = 0;
+  int i, c, count = 0;
   Free_FLIST();
 
-  wchar_t *path = WStringAlloc(0xFF);
-  wchar_t *name = WStringAlloc(0xFF);
+  wchar_t *fullpath = WStringAlloc(255);
+  wchar_t *fname = WStringAlloc(255);
 
-  wchar_t *rev = NULL, *d = name, *s = str;
+  wchar_t *rev = NULL, *d = fname, *s = fpath;
 
   while ((c = *s++))
   {
@@ -105,51 +112,48 @@ int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 Selec
       rev = d;
     d++;
   }
+
   if (rev)
   {
-    if (rev == name) // ???? ???? ?? ??????
+    if (rev == fname)
       *(rev + 1) = 0;
     else
       *rev = 0;
-    AddToFList(name, back, ITEM_BACK);
-    n++;
+    AddToFList(fname, back, ITEM_BACK);
+    count++;
   }
-  void *dir = w_diropen(str);
+
+  void *dir = w_diropen(fpath);
   if (dir)
   {
     wchar_t *next;
-    w_chdir(str);
+    w_chdir(fpath);
     while ((next = w_dirread(dir)))
     {
-      W_FSTAT fs;
-      w_fstat(next, &fs);
-      i = wstrlen(str);
-      wstrcpy(path, str);
+      i = wstrlen(fpath);
+      wstrcpy(fullpath, fpath);
       if (rev)
       {
-        path[i++] = '/';
+        fullpath[i++] = '/';
       }
-      wstrcpy(path + i, next);
-      if (fs.attr & 0x4000)
+      wstrcpy(fullpath + i, next);
+      if (isDirectory(next))
       {
-        snwprintf(name, 63, L"/%ls", next);
-        AddToFList(path, name, ITEM_FOLDER);
-        n++;
-      }
-      else
-      {
-        if (type == SEL_FILE)
+        if (!wstrncmp(next, IFS, 3))
         {
-          AddToFList(path, next, ITEM_FILE);
-          n++;
+          wstrnupr(fullpath, 4);
+          wstrnupr(next, 4);
         }
+        snwprintf(fname, 63, L"/%ls", next);
+        AddToFList(fullpath, fname, ITEM_FOLDER);
+        count++;
       }
     }
     w_dirclose(dir);
   }
-  WStringFree(name);
-  WStringFree(path);
-  return n;
+  mfree(fname);
+  mfree(fullpath);
+  return count;
 }
 
 FILELIST *FindFLISTtByNS(int *i, int si)
@@ -200,10 +204,10 @@ int OnMessage(GUI_MESSAGE *msg)
   case LISTMSG_GetItem:
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     flist = FindFLISTtByN(index);
-    str = TextID_Get(flist->name);
+    str = TextID_Get(flist->str_name);
     GUIonMessage_SetMenuItemText(msg, str);
 
-    if (wstrcmp(flist->name, back))
+    if (wstrcmp(flist->str_name, back))
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, TypesIcons[TYPE_FOLDER]);
 
     break;
@@ -223,28 +227,28 @@ void Self_onEnterPressed(BOOK *book, GUI *)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   int item = ListMenu_GetSelectedItem(mbk->SelectFolder);
   FILELIST *flist = FindFLISTtByN(item);
-  if (flist)
+  if (!flist)
+    return;
+
+  wchar_t *path = WStringAlloc(255);
+  if (flist->is_folder == ITEM_FOLDER || flist->is_folder == ITEM_BACK)
   {
-    wchar_t *path = WStringAlloc(255);
-    if (flist->is_folder == ITEM_FOLDER || flist->is_folder == ITEM_BACK)
-    {
-      wstrncpy(path, flist->fullname, 255);
-      FREE_FLGUI(mbk->SelectFolder);
-      mbk->SelectFolder = CreateFileFolderSelect(mbk, path);
-    }
-    else
-    {
-      TEXTID str = TextID_Get(flist->fullname);
-#if defined(DB2000) || defined(DB2010)
-      StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
-#else
-      StringInput_SetText(mbk->FolderInput, str);
-#endif
-      FREE_FLGUI(mbk->SelectFolder);
-      DeleteFData();
-    }
-    WStringFree(path);
+    wstrncpy(path, flist->fullpath, 255);
+    FREE_FLGUI(mbk->SelectFolder);
+    mbk->SelectFolder = CreateFileFolderSelect(mbk, path);
   }
+  else
+  {
+    TEXTID str = TextID_Get(flist->fullpath);
+#if defined(DB2000) || defined(DB2010)
+    StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
+#else
+    StringInput_SetText(mbk->FolderInput, str);
+#endif
+    FREE_FLGUI(mbk->SelectFolder);
+    DeleteFData();
+  }
+  mfree(path);
 }
 
 void Self_onSelectPressed(BOOK *book, GUI *gui)
@@ -253,29 +257,20 @@ void Self_onSelectPressed(BOOK *book, GUI *gui)
   int item = ListMenu_GetSelectedItem(mbk->SelectFolder);
 
   FILELIST *flist = FindFLISTtByN(item);
-  if (flist)
-  {
-    if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SEL_FOLDER) || flist->is_folder == ITEM_FILE)
-    {
-      TEXTID str = TextID_Get(flist->fullname);
-#if defined(DB2000) || defined(DB2010)
-      StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
-#else
-      StringInput_SetText(mbk->FolderInput, str);
-#endif
-      FREE_FLGUI(mbk->SelectFolder);
-      DeleteFData();
-    }
-  }
-}
+  if (!flist)
+    return;
 
-int isDirectory(wchar_t *name)
-{
-  W_FSTAT fs;
-  if (w_fstat(name, &fs) != -1)
-    return fs.attr & 0x4000;
-  else
-    return 0;
+  if ((flist->is_folder == ITEM_FOLDER && mbk->FType == SEL_FOLDER) || flist->is_folder == ITEM_FILE)
+  {
+    TEXTID str = TextID_Get(flist->fullpath);
+#if defined(DB2000) || defined(DB2010)
+    StringInput_DispObject_SetText(GUIObject_GetDispObject(mbk->FolderInput), str);
+#else
+    StringInput_SetText(mbk->FolderInput, str);
+#endif
+    FREE_FLGUI(mbk->SelectFolder);
+    DeleteFData();
+  }
 }
 
 GUI_LIST *CreateFileFolderSelect(BOOK *book, wchar_t *str)
@@ -322,6 +317,6 @@ GUI_LIST *CreateFileFolderSelect(BOOK *book, wchar_t *str)
   GUIObject_SoftKeys_SetAction(f_list_gui, ACTION_BACK, Self_OnBack);
   GUIObject_Show(f_list_gui);
 
-  WStringFree(ustr);
+  mfree(ustr);
   return f_list_gui;
 }

@@ -1,40 +1,43 @@
 #ifndef _EDITOR_H_
 #define _EDITOR_H
 
-int CreateCaptionInput(void *data, BOOK *book);
-int CloseCaptionInput(void *data, BOOK *book);
-int CreateTypesList(void *data, BOOK *book);
-int CloseTypesList(void *data, BOOK *book);
+static const wchar_t *ELF_EXT = L"*.elf";
 
-const IMAGEID TypesIcons[TYPE_LAST] =
+#ifdef ELFS_EXT_PATH
+#define ELFS_PATH_COUNT 2
+#else
+#define ELFS_PATH_COUNT 1
+#endif
+
+static const IMAGEID TypesIcons[TYPE_LAST] =
     {
         SHORTCUT_LIST_ICN,
-#ifndef DB3350
+#ifdef USE_JAVA
         DB_LIST_JAVA_ICN,
-#ifndef PNX5230
-        ENTERTAINMENT_ICN,
 #endif
+#ifdef HAS_ELF
+        ENTERTAINMENT_ICN,
 #endif
         GUI_UNAVAILABLE_ICN,
         DB_LIST_FOLDER_ICN};
 
 const IMAGEID EditorIcons[2] = {HPB_OTHER_ICN, MENU_SETTINGS_ICN};
 
-#define EDITOR_MAIN_BASEPAGE_NAME "SC_Editor_Main_Page"
-#define EDITOR_CAPTIONINPUT_BASEPAGE_NAME "SC_Editor_LabelInput_Page"
-#define EDITOR_TYPESLIST_BASEPAGE_NAME "SC_Editor_TypesList_Page"
+static const char EDITOR_MAIN_BASEPAGE_NAME[] = "SCEdit_Main_Page";
+static const char EDITOR_CAPTIONINPUT_BASEPAGE_NAME[] = "SCEdit_LabelInput_Page";
+static const char EDITOR_TYPESLIST_BASEPAGE_NAME[] = "SCEdit_TypesList_Page";
 
-#define EDITOR_MAINMENU_BASEPAGE_NAME "SC_Editor_SelectShortcut_Page"
-#define EDITOR_JAVALIST_BASEPAGE_NAME "SC_Editor_SetJava_Page"
-#define EDITOR_DATABROWSER_BASEPAGE_NAME "SC_Editor_SelectElf_Page"
-#define EDITOR_EVENTINPUT_BASEPAGE_NAME "SC_Editor_EventInput_Page"
-#define EDITOR_SELECTFOLDER_BASEPAGE_NAME "SC_Editor_SelectFolder_Page"
+static const char EDITOR_MAINMENU_BASEPAGE_NAME[] = "SCEdit_SelectShortcut_Page";
+static const char EDITOR_JAVALIST_BASEPAGE_NAME[] = "SCEdit_SetJava_Page";
+static const char EDITOR_DATABROWSER_BASEPAGE_NAME[] = "SCEdit_SelectElf_Page";
+static const char EDITOR_EVENTINPUT_BASEPAGE_NAME[] = "SCEdit_EventInput_Page";
+static const char EDITOR_SELECTFOLDER_BASEPAGE_NAME[] = "SCEdit_SelectFolder_Page";
 
+int CreateCaptionInput(void *data, BOOK *book);
+int CloseCaptionInput(void *data, BOOK *book);
+int CreateTypesList(void *data, BOOK *book);
+int CloseTypesList(void *data, BOOK *book);
 void EditorRun(BOOK *book, int mode);
 int pg_SC_Editor_Main_AcceptAction(void *data, BOOK *book);
-
-#define FREE_JAVAGUI(gui, list, free) \
-        FreeList(list, free);         \
-        FREE_GUI(gui);
 
 #endif

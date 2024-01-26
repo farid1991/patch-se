@@ -160,6 +160,7 @@ a       EQU b
         defadr MainDisplay_GetTopBook,0x115D26E0+1
         defadr FreeBook,0x115D317C+1
         defadr FindBook,0x115D26C8+1
+        defadr FindBookByID,0x115D0C14+1
         defadr UI_Event,0x115D19B8+1
         defadr FreeAllBook,0x1145A330+1
         defadr Find_StandbyBook,0x115DE66C+1
@@ -276,7 +277,7 @@ a       EQU b
         defadr Shortcut_Get_MenuItemIconID,0x11695EC4+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x11695328+1
         defadr Shortcut_Get_MenuItemName,0x116A1154+1
-        
+
         defadr BookObj_SoftKeys_SetAction,0x1168A0C4+1
         defadr BookObj_SoftKeys_SetText,0x1168A0FC+1
 
@@ -316,7 +317,7 @@ a       EQU b
         RSEG STANDBY_SOFTKEY_RIGHT
         DATA
 	DCD 0x2CB0
-        
+
         RSEG STANDBY_LINK_RIGHT
         DATA
         DCD GotoShortcut

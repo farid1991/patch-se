@@ -1,4 +1,5 @@
 //G502_R1FA037
+#include "target.h"
 
 defadr  MACRO a,b
         PUBLIC a
@@ -624,19 +625,15 @@ a       EQU b
         defadr Theme_DestroyMenuIcons,0x116C515C+1
         defadr GUIObject_SetSecondRowTitleText,0x116A7194+1
 	defadr ListMenu_GetItemCount,0x11658588+1
-        
         defadr OSE_GetShell,0x111DFEE0+1
 	defadr CoCreateInstance,0x117065BC+1
-        
 	defadr Bluetooth_Control,0x10EF6DDC+1
         defadr FlightModeControl,0x1160E8CC+1
         defadr isFlightMode,0x1160E2A0+1
         defadr SetOperatorName,0x10F4C388+1
-        
         defadr CreateYesNoQuestion,0x116B5AE4+1
 	defadr YesNoQuestion_SetDescriptionText,0x116B5E78+1
 	defadr YesNoQuestion_SetQuestionText,0x116B5E68+1
-        
         defadr CreateStringInput,0x1163619C+1
         defadr StringInput_SetText,0x11636C4C+1
         defadr StringInput_SetMinLen,0x11636A98+1
@@ -646,33 +643,28 @@ a       EQU b
         defadr StringInput_SetFixedText,0x11636B74+1
         defadr StringInput_SetActionOK,0x11636A8C+1
         defadr StringInput_SetActionBack,0x11636A90+1
-        
         defadr CreatePalette,0x116B3A24+1
-
 	defadr ListMenu_SetBackgroundImage,0x116589EC+1
 	defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
-	
 	defadr List_GetCount,0x1142AE90+1
         defadr List_RemoveFirst,0x1142AE68+1
         defadr List_RemoveLast,0x1142AE6C+1
-        
         defadr CreateMessageBox,0x1160973C+1
 	defadr GUIObject_SoftKeys_SetActionAndText,0x10F6853C+1
-        
         defadr FSX_MakeFullPath,0x10FDF284+1
         defadr FSX_FreeFullPath,0x10FDF2F0+1
         defadr FSX_IsFileExists,0x110272DC+1
-        
+
         EXTERN GotoShortcut
 
 	//RSEG STANDBY_SOFTKEY_LEFT
         //DATA
-	//DCD 0x2CB0
+	//DCD TITLE_TXT
 
         RSEG STANDBY_SOFTKEY_RIGHT
         DATA
-	DCD 0x2CB0
-        
+	DCD TITLE_TXT
+
         RSEG STANDBY_LINK_RIGHT
         DATA
         DCD GotoShortcut

@@ -12,11 +12,11 @@
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(NULL, size, 1, 5, BOOKNAME, NULL));
+  return (memalloc(NULL, size, 1, 5, GT_MEM, NULL));
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, BOOKNAME, NULL));
+  return (memalloc(-1, size, 1, 5, GT_MEM, NULL));
 #else
-  return (memalloc(size, 1, 5, BOOKNAME, NULL));
+  return (memalloc(size, 1, 5, GT_MEM, NULL));
 #endif
 }
 
@@ -24,17 +24,27 @@ __thumb void mfree(void *mem)
 {
   if (mem)
 #if defined(DB2020)
-    memfree(NULL, mem, BOOKNAME, NULL);
+    memfree(NULL, mem, GT_MEM, NULL);
 #elif defined(A2)
-    memfree(NULL, mem, BOOKNAME, NULL);
+    memfree(NULL, mem, GT_MEM, NULL);
 #else
-    memfree(mem, BOOKNAME, NULL);
+    memfree(mem, GT_MEM, NULL);
 #endif
 }
 
-void ShortcutFree(void *Item)
+#if defined(DB2000)
+BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname)
 {
-  SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)Item;
+  FSTAT fs;
+  if (!fstat(fpath, fname, &fs))
+    return TRUE;
+  return FALSE;
+}
+#endif
+
+void ShortcutFree(void *item)
+{
+  SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)item;
   if (Shortcut)
   {
     mfree(Shortcut->ShortcutLink);
@@ -48,8 +58,10 @@ void Menu_Delete_Yes(BOOK *book, GUI *gui)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   mbk->CurrentItem = ListMenu_GetSelectedItem(mbk->MainMenu);
 
-  void *Item = List_RemoveAt(mbk->ShortcutList, mbk->CurrentItem);
-  ShortcutFree(Item);
+  void *item = List_RemoveAt(mbk->ShortcutList, mbk->CurrentItem);
+  ShortcutFree(item);
+
+  SaveConfig(mbk->ShortcutList);
   pg_Goto_Shortcut_AcceptEvent(NULL, mbk);
 }
 
@@ -101,7 +113,7 @@ void Menu_ModifyItem(BOOK *book, GUI *gui)
 
 void Menu_About(BOOK *book, GUI *gui)
 {
-  TEXTID Text = TextID_Get(L"GotoShortcut\nv3.0\n(c) farid");
+  TEXTID Text = TextID_Get(L"GotoShortcut\nv3.5\n(c) farid");
   CreateMessageBox(EMPTY_TEXTID, Text, 1, 0, book);
 }
 
@@ -110,7 +122,9 @@ void Menu_Select(BOOK *book, GUI *gui)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
   if (Shortcut)
+  {
     RunShortcut(Shortcut);
+  }
 
   FreeBook(mbk);
 }
@@ -157,6 +171,8 @@ int pg_Goto_Shortcut_EnterEvent(void *data, BOOK *book)
     ListMenu_SetHotkeyMode(mbk->MainMenu, LKHM_SHORTCUT);
 #ifndef DB2000
     ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
+#endif
+#if defined(DB2020) || defined(A2)
     ListMenu_SetNoItemText(mbk->MainMenu, EMPTY_LIST_TXT);
 #endif
     GUIObject_SoftKeys_SetText(mbk->MainMenu, 0, MENU_ADD_TXT);
@@ -194,22 +210,24 @@ int pg_Goto_Shortcut_AcceptEvent(void *data, BOOK *book)
 void Goto_Shortcut_onClose(BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
+  SaveConfig(mbk->ShortcutList);
   FREE_GUI(mbk->MainMenu);
   FREE_GUI(mbk->Editor);
-#ifndef DB3350
+#ifdef USE_JAVA
   FREE_GUI(mbk->JavaMenu);
 #endif
   FREE_GUI(mbk->TypesList);
   FREE_GUI(mbk->CaptionInput);
   FREE_GUI(mbk->YesNoQuestion);
   FREE_GUI(mbk->EventInput);
-  SaveConfig(mbk->ShortcutList);
   FreeList(mbk->ShortcutList, ShortcutFree);
 }
 
-int IsGotoShortcutBook(BOOK *book)
+BOOL IsGotoShortcutBook(BOOK *book)
 {
-  return FALSE == strcmp(book->xbook->name, BOOKNAME);
+  if (book->onClose == Goto_Shortcut_onClose)
+    return TRUE;
+  return FALSE;
 }
 
 GotoShortcut_Book *Create_GotoShortcutBook()
@@ -224,7 +242,7 @@ GotoShortcut_Book *Create_GotoShortcutBook()
   }
   mbk->MainMenu = NULL;
   mbk->Editor = NULL;
-#ifndef DB3350
+#ifdef USE_JAVA
   mbk->JavaMenu = NULL;
   mbk->JavaList = NULL;
 #endif
@@ -241,15 +259,14 @@ GotoShortcut_Book *Create_GotoShortcutBook()
 extern "C" void GotoShortcut(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)FindBook(IsGotoShortcutBook);
-  if (mbk)
+  if (!mbk)
   {
-    BookObj_SetFocus(mbk, UIDisplay_Main);
-    return;
-  }
-
-  if (mbk = Create_GotoShortcutBook())
-  {
+    mbk = Create_GotoShortcutBook();
     mbk->ShortcutList = LoadConfig();
     BookObj_GotoPage(mbk, &Goto_Shortcut_Main_Page);
+  }
+  else
+  {
+    BookObj_SetFocus(mbk, UIDisplay_Main);
   }
 }

@@ -3,12 +3,12 @@
 
 #define A1
 #define DB2000
+#define USE_JAVA
+#define HAS_ELF
+#define ELFS_INT_PATH L"/tpa/user/other/ZBin"
 
 #define SYNC (int *)0x20F3F914
 #define F_PATH (wchar_t *)0x21161C44
-
-#define ELFS_INT_PATH L"/tpa/user/other/ZBin"
-#define ELFS_PATH_COUNT 1
 
 #define NIL_EVENT 0
 #define PAGE_ENTER_EVENT 5

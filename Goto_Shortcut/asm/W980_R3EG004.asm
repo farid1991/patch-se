@@ -30,9 +30,12 @@ a       EQU b
         defadr wstrcmp,0x10D65044+1
         defadr GUIonMessage_SetMenuItemIcon,0x11A8DC60+1
         defadr wstrncpy,0x10D6508C+1
+        defadr wstrncmp,0x106F7978+1
+        defadr wstrnupr,0x10D65100+1
         defadr StringInput_SetText,0x10895584+1
         defadr wstrrchr,0x10D663B4+1
         defadr FindBook,0x10DEDC1C+1
+        defadr FindBookByID,0x10DEDBE8+1
         defadr Shortcut_Get_MenuItemIconID,0x10DDB8E0+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x10DDA9F0+1
         defadr Shortcut_Get_MenuItemName,0x10B3255C+1

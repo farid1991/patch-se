@@ -7,73 +7,79 @@
 #include "strlib.h"
 #include "utils.h"
 
-#ifndef DB3350
-#ifndef PNX5320
+#ifdef HAS_ELF
 __arm void StartElf(wchar_t *Name)
 {
   elfload(Name, NULL, NULL, NULL);
 }
 #endif
-#endif
 
 #if defined(A1)
 void *SHORTCUT_DESC_Init(wchar_t *param)
 {
-  SHORTCUT_DESC *w_buf = (SHORTCUT_DESC *)malloc(sizeof(SHORTCUT_DESC));
-  memset(w_buf, NULL, sizeof(w_buf));
-  wstrcpy(w_buf->name, param);
-  return (w_buf);
+  SHORTCUT_DESC *desc = (SHORTCUT_DESC *)malloc(sizeof(SHORTCUT_DESC));
+  memset(desc, NULL, sizeof(SHORTCUT_DESC));
+  wstrcpy(desc->name, param);
+  if (!wstrcmp(desc->name, L"MainMenu"))
+  {
+    desc->shortcut_state = SC_State_MainMenu;
+  }
+  else
+  {
+    desc->shortcut_state = SC_State_Activated;
+  }
+  return (desc);
 }
 #elif defined(A2)
 void *SHORTCUT_DESC_A2_Init(wchar_t *param)
 {
-  SHORTCUT_DESC_A2 *w_buf = (SHORTCUT_DESC_A2 *)malloc(sizeof(SHORTCUT_DESC_A2));
-  memset(w_buf, NULL, sizeof(w_buf));
-  wstrcpy(w_buf->name, param);
-  if (!wstrcmp(w_buf->name, L"MainMenu"))
+  SHORTCUT_DESC_A2 *desc = (SHORTCUT_DESC_A2 *)malloc(sizeof(SHORTCUT_DESC_A2));
+  memset(desc, NULL, sizeof(SHORTCUT_DESC_A2));
+  wstrcpy(desc->name, param);
+  if (!wstrcmp(desc->name, L"MainMenu"))
   {
-    w_buf->item_type = SC_Type_MainMenu;
+    desc->item_type = SC_Type_MainMenu;
   }
   else
   {
-    w_buf->item_type = SC_Type_Standard;
+    desc->item_type = SC_Type_Standard;
   }
-  return (w_buf);
+  return (desc);
 }
 #endif
 
-#ifndef DB3350
+#ifdef USE_JAVA
 void StartJava_ByName(wchar_t *name)
 {
-  int _ASYNC = 1;
-  int *ASYNC = &_ASYNC;
-
-  wchar_t *sp;
-  char sp1;
+  wchar_t *buff;
+  char jDialog;
   void *Javadesc;
 
-  JavaDialog_Open(0, &sp1, &Javadesc);
+  JavaDialog_Open(0, &jDialog, &Javadesc);
   if (!JavaAppDesc_GetFirstApp(Javadesc))
   {
     int result = 0;
     while (!result)
     {
-      JavaAppDesc_GetJavaAppInfo(Javadesc, JAVA_APP_NAME, &sp);
-      if (!wstrcmp(sp, name))
+      JavaAppDesc_GetJavaAppInfo(Javadesc, JAVA_APP_NAME, &buff);
+      if (!wstrcmp(buff, name))
       {
-        int ID = JavaAppDesc_GetJavaAppID(Javadesc);
+        int AppID = JavaAppDesc_GetJavaAppID(Javadesc);
         char flag;
-        REQUEST_UI_OAF_START_APPLICATION(ASYNC, ID + 0x10000, &flag);
+
+        int _ASYNC = 1;
+        int *ASYNC = &_ASYNC;
+        REQUEST_UI_OAF_START_APPLICATION(ASYNC, AppID + 0x10000, &flag);
         break;
       }
       else
       {
         result = JavaAppDesc_GetNextApp(Javadesc);
       }
-      mfree(sp);
+      mfree(buff);
     }
   }
-  JavaDialog_Close(sp1);
+  JavaDialog_Close(jDialog);
 }
 #endif
 
@@ -83,32 +89,33 @@ void ExecuteEvent(wchar_t *name)
   UI_Event(event);
 }
 
-void OpenFolder(wchar_t *folders)
+void OpenFolder(const wchar_t *folders)
 {
   BOOK *book = FindBook(IsGotoShortcutBook);
-  if (book)
+  if (!book)
+    return;
+
+  int bookID = BookObj_GetBookID(book);
+
+  if (void *DBDesc = DataBrowserDesc_Create())
   {
-    int BookID = BookObj_GetBookID(book);
-    void *DBDesc = DataBrowserDesc_Create();
-    if (DBDesc)
-    {
-      const wchar_t *Folders[2];
-      Folders[0] = folders;
-      Folders[1] = 0;
-      DataBrowserDesc_SetHeaderText(DBDesc, TextID_Get(folders));
-      DataBrowserDesc_SetFolders(DBDesc, Folders);
-      DataBrowserDesc_SetFoldersNumber(DBDesc, 1);
-      DataBrowserDesc_SetSelectAction(DBDesc, 0);
-      DataBrowserDesc_Menu_AddFSFunctions(DBDesc, 0);
-      DataBrowserDesc_Menu_AddNewFolder(DBDesc, TRUE);
-      DataBrowserDesc_Menu_AddMarkFiles(DBDesc, TRUE);
-      DataBrowser_Create(DBDesc);
-      DataBrowserDesc_Destroy(DBDesc);
-    }
-    else
-    {
-      UI_Event_toBookID(PREVIOUS_EVENT, BookID);
-    }
+    const wchar_t *Folders[2];
+    Folders[0] = folders;
+    Folders[1] = NULL;
+    DataBrowserDesc_SetHeaderText(DBDesc, TextID_Get(folders));
+    DataBrowserDesc_SetBookID(DBDesc, bookID);
+    DataBrowserDesc_SetFolders(DBDesc, Folders);
+    DataBrowserDesc_SetFoldersNumber(DBDesc, 1);
+    DataBrowserDesc_SetSelectAction(DBDesc, 0);
+    DataBrowserDesc_Menu_AddFSFunctions(DBDesc, TRUE);
+    DataBrowserDesc_Menu_AddNewFolder(DBDesc, TRUE);
+    DataBrowserDesc_Menu_AddMarkFiles(DBDesc, TRUE);
+    DataBrowser_Create(DBDesc);
+    DataBrowserDesc_Destroy(DBDesc);
+  }
+  else
+  {
+    UI_Event_toBookID(PREVIOUS_EVENT, bookID);
   }
 }
 
@@ -119,17 +126,17 @@ void RunShortcut(SC_LIST_ELEM *ShortcutItem)
   case TYPE_SHORTCUT:
     Shortcut_Run(ShortcutItem->ShortcutLink);
     break;
-#ifndef DB3350
+#ifdef USE_JAVA
   case TYPE_JAVA:
     StartJava_ByName(ShortcutItem->ShortcutLink);
     break;
-#ifndef PNX5230
+#endif
+#ifdef HAS_ELF
   case TYPE_ELF:
     StartElf(ShortcutItem->ShortcutLink);
     break;
 #endif
-#endif
-  case TYPE_EVENT:
+  case TYPE_UIEVENT:
     ExecuteEvent(ShortcutItem->ShortcutLink);
     break;
   case TYPE_FOLDER:
@@ -149,18 +156,20 @@ void FreeList(LIST *&List, void (*FreeProc)(void *Item))
   {
     List_DestroyElements(List, ItemFilter, FreeProc);
     List_Destroy(List);
+    List = NULL;
   }
 }
-#ifndef DB3350
+
+#ifdef USE_JAVA
 void JavaFree(void *item)
 {
   JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)item;
   if (elem)
   {
-    mfree(elem->Name);
-    mfree(elem->Fullpath);
-    if (elem->ImageID)
-      ImageID_Free(elem->ImageID);
+    mfree(elem->name);
+    mfree(elem->fullpath);
+    if (elem->image_id)
+      ImageID_Free(elem->image_id);
     mfree(elem);
   }
 }
@@ -168,36 +177,36 @@ void JavaFree(void *item)
 JAVA_LIST_ELEM *CreateElem(void *JavaDesc)
 {
   JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)malloc(sizeof(JAVA_LIST_ELEM));
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &elem->Name);
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &elem->Fullpath);
-  JavaApp_LogoImageID_Get(elem->Fullpath, &elem->ImageID);
-  return (elem);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &elem->name);
+  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &elem->fullpath);
+  JavaApp_LogoImageID_Get(elem->fullpath, &elem->image_id);
+  return elem;
 }
 
 LIST *Create_JavaList()
 {
   LIST *java_list = List_Create();
 
-  char sp1;
-  wchar_t *sp;
+  char jDialog;
+  wchar_t *semclet;
   void *JavaDesc;
-  JavaDialog_Open(0, &sp1, &JavaDesc);
+  JavaDialog_Open(0, &jDialog, &JavaDesc);
 
   if (!JavaAppDesc_GetFirstApp(JavaDesc))
   {
     int result = 0;
     while (!result)
     {
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &sp);
-      if (sp[0])
+      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &semclet);
+      if (semclet[0])
       {
         List_InsertLast(java_list, CreateElem(JavaDesc));
       }
-      WStringFree(sp);
+      WStringFree(semclet);
       result = JavaAppDesc_GetNextApp(JavaDesc);
     }
   }
-  JavaDialog_Close(sp1);
+  JavaDialog_Close(jDialog);
   return java_list;
 }
 #endif
@@ -218,10 +227,10 @@ void SaveConfig(LIST *List)
     {
       SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(List, i);
       fwrite(File, &Shortcut->ShortcutType, sizeof(char));
-      sDataLen = WStringLength(Shortcut->ShortcutLink);
+      sDataLen = wstrlen(Shortcut->ShortcutLink);
       fwrite(File, &sDataLen, sizeof(int));
       fwrite(File, Shortcut->ShortcutLink, sDataLen * sizeof(wchar_t));
-      CaptionLen = WStringLength(Shortcut->ShortcutText);
+      CaptionLen = wstrlen(Shortcut->ShortcutText);
       fwrite(File, &CaptionLen, sizeof(int));
       fwrite(File, Shortcut->ShortcutText, CaptionLen * sizeof(wchar_t));
       fwrite(File, &Shortcut->ShortcutIcon, sizeof(IMAGEID));

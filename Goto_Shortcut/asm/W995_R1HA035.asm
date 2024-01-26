@@ -100,6 +100,7 @@ a       equ b
         defadr BookObj_SetDisplayOrientation,0x143A14FC+1
         defadr FreeBook,0x14133830+1
         defadr FindBook,0x1416E970+1
+        defadr FindBookByID,0x1416ED98+1
         defadr UI_Event,0x143A0D70+1
         defadr UI_Event_toBookID,0x1439E4B0+1
         defadr UI_Event_toBookIDwData,0x142A9784+1

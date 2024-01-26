@@ -3,52 +3,64 @@
 
 #define A2
 #define DB3200
-
+#define USE_JAVA
+#define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/other/ZBin"
-#define ELFS_PATH_COUNT 2
+
+#define F_PATH (wchar_t *)0x15998AF0
+
+// Menu
+#define TITLE_TXT 0xAA2        // L"Goto"
+#define MENU_ADD_TXT 0x193A    // L"New shortcut"
+#define MENU_MODIFY_TXT 0x1754 // L"Edit shortcut"
+#define EMPTY_LIST_TXT 0x89A   // L"No shortcuts"
+#define MENU_ABOUT_TXT 0x251C  // L"About"
+
+// Editing
+#define EDITOR_TITLE_TXT 0x2755    // L"Editor"
+#define EDITOR_LABEL_TXT 0xEA1     // L"Name"
+#define EDITOR_SHORTCUT_TXT 0x198F // L"Shortcut"
+#define TYPES_TITLE_TXT 0x103F     // L"Type"
+
+#define SHC_SET_MM 0x1C5C
+#define SHC_SET_SHORTCUT_SK 0x1930
+#define DELETEQ_TXT 0x1932
+
+#define OPEN_TXT 0x531
+#define SELECT_TXT 0xB5C
+
+#define JAVA_APP_TXT 0x5D8
+#define EVENT_TXT 0x103D
+#define FOLDER_TXT 0x820
+#define SELECT_FOLDER_TXT 0x820
+
+#define HPB_OTHER_ICN 0xF761
+#define MENU_SETTINGS_ICN 0x0519
+#define ANIMALS_MOUSE_ICN 0x00BA
+
+#define SHORTCUT_LIST_ICN 0x0808
+#define ENTERTAINMENT_ICN 0x0807
+#define DB_LIST_JAVA_ICN 0xF875
+#define GUI_UNAVAILABLE_ICN 0xF8A6
+#define DB_LIST_FOLDER_ICN 0x016A
+
+#define SHC_DESKTOP_WATERMARK_ICN 0x0861
+
+#define ACTION_LONG_BACK 0xFAF
+#define ACTION_SELECT1 0xFC2
+#define ACTION_DELETE 0xFB4
+#define ACTION_ACCEPT 0xFAC
+#define ACTION_BACK 0xFC0
+#define ACTION_YES 0xFC5
+#define ACTION_NO 0xFBE
 
 #define NIL_EVENT 0
-#define CANCEL_EVENT 0x4
+#define ACCEPT_EVENT 2
+#define PREVIOUS_EVENT 3
+#define CANCEL_EVENT 4
 #define PAGE_ENTER_EVENT 0xF
+#define PAGE_EXIT_EVENT 0x10
 #define RETURN_TO_STANDBY_EVENT 0x840
-
-#define _TITLE_TXT_ 0x00000C48 // L"Goto"
-
-#define _EVENT_NUM_ 0x0000005D // MEDIAPLAYERKEY_PRESSED_EVENT_TAG
-
-#define _SYNC_ 0x158C4FF8
-
-#define _SHORTCUT1_ 0x15A3AE44 // L"Msg_Inbox"
-#define _SHORTCUT2_ 0x15A3BC34 // L"MenuItem_Bt_Activation"
-#define _SHORTCUT3_ 0x15A3AC98 // L"MenuItem_SetTemporaryAlarm"
-#define _SHORTCUT4_ 0x15A3ABB8 // L"Menu_CalendarMain"
-#define _SHORTCUT5_ 0x15933D70 // L"SelectProfile_Id"
-
-#define _ITEM_TXT1_ 0x11BC //Inbox
-#define _ITEM_TXT2_ 0x11B1 //Music Player
-#define _ITEM_TXT3_ 0x1238 //ALarm
-#define _ITEM_TXT4_ 0x113C //Calendar
-#define _ITEM_TXT5_ 0x11F2 //Profiles
-#define _ITEM_TXT6_ 0x1136 //Bluetooth
-
-//GFX ID for item
-#define _ITEM_ICN1_ 0x02C6
-#define _ITEM_ICN2a 0x02D9
-#define _ITEM_ICN2b 0x03B9
-#define _ITEM_ICN3_ 0x0921
-#define _ITEM_ICN4_ 0xF886
-#define _ITEM_ICN5_ 0x07DD
-#define _ITEM_ICN6a 0x002B
-#define _ITEM_ICN6b 0x000C
-
-//LNG ID Weekday
-#define TEXTID_1 0x225D // Mon
-#define TEXTID_2 0x2562 // Tue
-#define TEXTID_3 0x2564 // Wed
-#define TEXTID_4 0x2560 // Thu
-#define TEXTID_5 0x255C // Fri
-#define TEXTID_6 0x255E // Sat
-#define TEXTID_7 0x255F // SUn
 
 #endif

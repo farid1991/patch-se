@@ -1,11 +1,12 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define CONFIG_NAME L"sc.bin"
+static const wchar_t *CONFIG_NAME = L"sc.bin";
 
-static const char* BOOKNAME = "GotoShortcut_Book";
-#define BASE_PAGE_NAME "Goto_Shortcut_Base_Page"
-#define MAIN_PAGE_NAME "Goto_Shortcut_Main_Page"
+static const char *GT_MEM = "GT";
+static const char *BOOKNAME = "GotoShortcutBook";
+static const char BASE_PAGE_NAME[] = "Goto_Base_Page";
+static const char MAIN_PAGE_NAME[] = "Goto_Main_Page";
 
 #define FREE_GUI(g)       \
   if (g)                  \
@@ -13,7 +14,7 @@ static const char* BOOKNAME = "GotoShortcut_Book";
     GUIObject_Destroy(g); \
     g = NULL;             \
   }
-  
+
 #define TextID_Get(str) TextID_Create(str, ENC_UCS2, TEXTID_ANY_LEN)
 
 enum Modes
@@ -25,13 +26,13 @@ enum Modes
 enum SHORTCUT_TYPE
 {
   TYPE_SHORTCUT,
-#ifndef DB3350
+#ifdef USE_JAVA
   TYPE_JAVA,
-#ifndef PNX5230
+#endif
+#ifdef HAS_ELF
   TYPE_ELF,
 #endif
-#endif
-  TYPE_EVENT,
+  TYPE_UIEVENT,
   TYPE_FOLDER,
   TYPE_LAST
 };
@@ -51,9 +52,9 @@ enum SELF
 
 typedef struct
 {
-  wchar_t *Name;
-  wchar_t *Fullpath;
-  IMAGEID ImageID;
+  wchar_t *name;
+  wchar_t *fullpath;
+  IMAGEID image_id;
 } JAVA_LIST_ELEM;
 
 #define SHORTCUT_TYPES_MAX_LEN 0x1D
@@ -79,7 +80,7 @@ typedef struct GotoShortcut_Book : BOOK
 {
   GUI_LIST *MainMenu;
   GUI_LIST *Editor;
-#ifndef DB3350
+#ifdef USE_JAVA
   GUI_LIST *JavaMenu;
 #endif
   GUI_LIST *TypesList;
@@ -89,12 +90,13 @@ typedef struct GotoShortcut_Book : BOOK
   GUI *FolderInput;
   GUI_LIST *SelectFolder;
   LIST *ShortcutList;
-#ifndef DB3350
+#ifdef USE_JAVA
   LIST *JavaList;
 #endif
   SC_LIST_ELEM *ShortcutItem;
   uint8_t CurrentItem;
   uint8_t FType;
+  int MainMenuID;
 } GotoShortcut_Book;
 
 int IsGotoShortcutBook(BOOK *bk);
@@ -112,6 +114,7 @@ const PAGE_MSG bk_msglst_base[] =
         CANCEL_EVENT, pg_Goto_Shortcut_CancelEvent,
         RETURN_TO_STANDBY_EVENT, pg_Goto_Shortcut_CancelEvent,
         NIL_EVENT, NULL};
+
 const PAGE_DESC Goto_Shortcut_Base_Page = {BASE_PAGE_NAME, NULL, bk_msglst_base};
 
 const PAGE_MSG bk_msglst_main[] =
@@ -120,6 +123,7 @@ const PAGE_MSG bk_msglst_main[] =
         PAGE_EXIT_EVENT, pg_Goto_Shortcut_EnterEvent,
         ACCEPT_EVENT, pg_Goto_Shortcut_AcceptEvent,
         NIL_EVENT, NULL};
+
 const PAGE_DESC Goto_Shortcut_Main_Page = {MAIN_PAGE_NAME, NULL, bk_msglst_main};
 
 #endif

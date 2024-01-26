@@ -60,6 +60,7 @@ a       EQU     b
         defadr wstrcpy,0x10D6E634+1
         defadr wstrrchr,0x10D6F974+1
         defadr wstrcmp,0x10D6E604+1
+        defadr wstrncmp,0x10700E50+1
         defadr wstrncpy,0x10D6E64C+1
         defadr Timer_Kill,0x10DF4D0C+1
         defadr Timer_ReSet,0x10DF4CB4+1
@@ -72,6 +73,7 @@ a       EQU     b
         defadr Disp_GetTextIDWidth,0x109D5A34+1
         defadr FreeBook,0x10DF8D20+1
         defadr FindBook,0x10DF68D8+1
+        defadr FindBookByID,0x10DF68A4+1
         defadr FreeAllBook,0x10E2F450+1
         defadr CreateBook,0x10DF86A0+1
         defadr UI_Event,0x10DF7440+1

@@ -1,16 +1,17 @@
 #ifndef _FILEFOLDER_H_
 #define _FILEFOLDER_H_
 
-#define EMP_NAME "FList"
+static char *EMP_FLIST ="FL";
 
-const wchar_t back[] = L"...";
+static const wchar_t *IFS = L"ifs";
+static const wchar_t *back = L"...";
 
 typedef struct FILELIST
 {
   void *next;
   int is_folder;
-  wchar_t *fullname;
-  wchar_t *name;
+  wchar_t *fullpath;
+  wchar_t *str_name;
 } FILELIST;
 
 typedef struct FILEDATA

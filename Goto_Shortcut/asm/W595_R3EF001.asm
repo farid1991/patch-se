@@ -127,6 +127,7 @@ a       EQU     b
         defadr BookObj_SetDisplayOrientation,0x10DF0ED0+1
         defadr FreeBook,0x10DF0DAC+1
         defadr FindBook,0x10DF01F4+1
+        defadr FindBookByID,0x10DEE930+1
         defadr FreeAllBook,0x10E27514+1
         defadr UI_Event,0x10DEF4CC+1
         defadr UI_Event_toBookID,0x10DEF524+1
@@ -193,8 +194,8 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetInfoText,0x10AF3188+1
         defadr FILEITEM_GetFname,0x117FC5B4+1
         defadr FILEITEM_GetPath,0x117FC648+1
-        defadr FILEITEM_GetFextension,0x117FC5B8+1     
-        defadr MetaData_GetTags,0x117F79E8+1     
+        defadr FILEITEM_GetFextension,0x117FC5B8+1
+        defadr MetaData_GetTags,0x117F79E8+1
         defadr CreateKeygrabberWindow,0x109D2738+1
         defadr Volume_Get,0x119DF98C+1
         defadr Volume_Set,0x119DF8C0+1

@@ -3,10 +3,10 @@
 
 #define A1
 #define DB2010
-
+#define USE_JAVA
+#define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/MSSEMC/Media files/other/ZBin"
-#define ELFS_PATH_COUNT 2
 
 #define F_PATH (wchar_t *)0x4464B72C
 

@@ -646,6 +646,7 @@ a       EQU     b
         defadr List_GetCount,0x451B5ABC+1
         defadr List_RemoveFirst,0x451B5A1C+1
         defadr FSX_MakeFullPath,0x44E8AC64+1
+        defadr FSX_IsFileExists,0x44ECB654+1
         defadr CreateMessageBox,0x452B98C8+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x44DEC378+1
 

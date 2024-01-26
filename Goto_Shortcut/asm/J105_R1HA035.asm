@@ -609,7 +609,7 @@ a       EQU b
         defadr Theme_DestroyMenuIcons,0x14EB29CC+1
         defadr CoCreateInstance,0x1415188C+1
 	defadr OSE_GetShell,0x142DBCA0+1
-        
+
 	defadr Str2ID,0x14227418+1
 	defadr Bluetooth_Control,0x14CEFAB8+1
 	defadr DynamicMenu_GetElementMsg,0x141545BC+1
@@ -636,7 +636,7 @@ CreateStandbySoftkey:
         CODE16
 	LDR	R3, =right_softkey
 	BX	R3
-        
+
 	//RSEG STANDBY_SOFTKEY_LEFT
         //DATA
 	//DCD 0xC48

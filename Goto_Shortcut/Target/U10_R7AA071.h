@@ -3,6 +3,7 @@
 
 #define A2
 #define DB3350
+#define CLEARAUDIO
 
 #define F_PATH (wchar_t *)0x15C32E78
 

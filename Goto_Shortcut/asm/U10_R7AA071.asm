@@ -20,6 +20,9 @@ a       EQU b
         defadr w_dirread,0x10283CC4
         defadr w_fstat,0x10147204+1
         defadr w_dirclose,0x4FC001A4
+        defadr FSX_MakeFullPath,0x141F184C+1
+        defadr FSX_FreeFullPath,0x14152CFC+1
+        defadr FSX_IsFileExists,0x14729F3C+1
         defadr GUIonMessage_GetMsg,0x146C8FE8+1
         defadr GUIonMessage_GetCreatedItemIndex,0x146C8C18+1
         defadr TextID_Create,0x14530A4C+1
@@ -29,6 +32,8 @@ a       EQU b
         defadr GUIObject_Destroy,0x1459AF78+1
         defadr ListMenu_GetSelectedItem,0x14623F80+1
         defadr wstrncpy,0x1481DAEA+1
+        defadr wstrncmp,0x1481DB70+1
+        defadr wstrnupr,0x14277684+1
         defadr GUIObject_GetDispObject,0x145F106C+1
         defadr StringInput_DispObject_SetText,0x14575C0C+1
         defadr wstrrchr,0x141B2BC8+1
@@ -37,11 +42,13 @@ a       EQU b
         defadr ListMenu_SetItemCount,0x1415CAB0+1
 	defadr ListMenu_SetCursorToItem,0x1415C5E0+1
         defadr ListMenu_SetOnMessage,0x146C7760+1
+        defadr GUIObject_SoftKeys_SetText,0x14688408+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x156B3298+1
         defadr GUIObject_SoftKeys_SetAction,0x143A8288+1
         defadr GUIObject_Show,0x146C5748+1
         defadr BookObj_ReturnPage,0x14101C54+1
         defadr FindBook,0x143D2CB0+1
+        defadr FindBookByID,0x143D2C24+1
         defadr BookObj_SetFocus,0x146613E0+1
         defadr Shortcut_Get_MenuItemIconID,0x1407B614+1
         defadr FreeBook,0x141016DC+1

@@ -27,7 +27,6 @@ a       EQU b
         defadr w_dirread,0x4510AA68+1
         defadr w_fstat,0x44B24B64+1
         defadr w_dirclose,0x455E603C+1
-
         defadr wstrlen,0x44FE9B2C+1
         defadr wstrcmpi,0x44FEAFB4+1
         defadr wstrrchr,0x44E25D38+1
@@ -35,9 +34,10 @@ a       EQU b
         defadr wstrcat,0x44E25BD4+1
         defadr wstrcmp,0x44E25C04+1
         defadr wstrncpy,0x44E25CE8+1
+        defadr wstrncmp,0x44E25CAC+1
+        defadr wstrnupr,0x44FE9BF4+1
         defadr strncmp,0x44E2538C+1
         defadr strcmp,0x44E252EC+1
-
         defadr BookObj_GetSession,0x4529FCB0+1
         defadr BookObj_SetFocus,0x4529F994+1
         defadr BookObj_GotoPage,0x4529F4CC+1
@@ -47,15 +47,13 @@ a       EQU b
         defadr CreateBook,0x4529F750+1
         defadr FreeBook,0x4529FC78+1
         defadr FindBook,0x45531160+1
-
+        defadr FindBookByID,0x45531124+1
         defadr UI_Event_toBookID,0x455312AC+1
         defadr UI_Event,0x4553127C+1
         defadr UI_Event_toBookIDwData,0x455312BC+1
-
         defadr TextID_Create,0x452FE69C+1
         defadr TextID_GetString,0x452FF248+1
         defadr TextID_GetWString,0x452FEA1C+1
-
         defadr List_DestroyElements,0x4527F3B4+1
         defadr List_Destroy,0x4527EFC4+1
         defadr List_Create,0x4527EFAC+1
@@ -65,7 +63,6 @@ a       EQU b
         defadr List_RemoveFirst,0x4527F148+1
         defadr List_RemoveAt,0x4527F048+1
         defadr List_InsertLast,0x4527F0D0+1
-
         defadr CreateListMenu,0x45170674+1
         defadr ListMenu_SetItemStyle,0x451708E8+1
         defadr ListMenu_SetItemCount,0x4517089C+1
@@ -81,7 +78,6 @@ a       EQU b
         defadr GUIObject_Show,0x45193E64+1
         defadr GUIObject_Destroy,0x45193BE4+1
         defadr GUIObject_GetDispObject,0x45193C40+1
-
         defadr GUIonMessage_GetMsg,0x45171378+1
         defadr GUIonMessage_GetBook,0x45171380+1
         defadr GUIonMessage_GetCreatedItemIndex,0x451713A4+1
@@ -91,20 +87,16 @@ a       EQU b
         defadr GUIonMessage_SetMenuItemUnavailableText,0x451713D4+1
         defadr GUIonMessage_SetMenuItemSecondLineText,0x451713E4+1
         defadr GUIonMessage_GetSelectedItem,0x45171384+1
-
         defadr GUIObject_SoftKeys_SetActionAndText,0x45219CDC+1
         defadr GUIObject_SoftKeys_SetAction,0x4519B824+1
         defadr GUIObject_SoftKeys_SetText,0x4519B90C+1
         defadr GUIObject_SoftKeys_SetVisible,0x4519B9A4+1
-
         defadr CreateYesNoQuestion,0x45196AF4+1
         defadr YesNoQuestion_SetDescriptionText,0x45196E8C+1
         defadr YesNoQuestion_SetQuestionText,0x45196E7C+1
         defadr YesNoQuestion_SetIcon,0x45196EA8+1
-
         defadr ImageID_Get,0x45426B54+1
         defadr ImageID_Free,0x45426B44+1
-
         defadr JavaDialog_Open,0x45020BF0+1
         defadr JavaDialog_Close,0x45023F98+1
         defadr JavaAppDesc_GetFirstApp,0x4501BE90+1
@@ -115,7 +107,6 @@ a       EQU b
         defadr JavaAppDesc_GetJavaAppID,0x450240C8+1
         defadr manifest_GetParam,0x45565E94+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x455CBD7C+1
-
         defadr Shortcut_Get_MenuItemIconID,0x4553B53C+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x4553B490+1
         defadr Shortcut_Get_MenuItemName,0x45641074+1
@@ -123,11 +114,10 @@ a       EQU b
         defadr MenuBook_Desktop,0x4553A4F0+1
         defadr BookObj_SoftKeys_SetAction,0x4554A6B0+1
         defadr BookObj_SoftKeys_SetText,0x4554A6FC+1
-
         defadr FILEITEM_GetFname,0x455C6A08+1
         defadr FILEITEM_GetPath,0x455C6A6C+1
         defadr FSX_MakeFullPath,0x455B6EE0+1
-
+        defadr FSX_IsFileExists,0x452510D8+1
         defadr DataBrowser_isFileInListExt,0x455B2970+1
         defadr DataBrowserDesc_Create,0x4524A5E4+1
         defadr DataBrowserDesc_SetHeaderText,0x4524A55C+1
@@ -142,12 +132,10 @@ a       EQU b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x4524A4F4+1
         defadr DataBrowser_Create,0x45249B38+1
         defadr DataBrowserDesc_Destroy,0x4524A66C+1
-
         defadr CreateStringInputVA,0x45165BDC+1
         defadr StringInput_GetStringAndLen,0x45166484+1
         defadr StringInput_MenuItem_SetPriority,0x451665CC+1
         defadr StringInput_DispObject_SetText,0x452C42D0+1
-
         defadr CreateMessageBox,0x45533CE0+1
 
         EXTERN GotoShortcut

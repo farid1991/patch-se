@@ -37,6 +37,8 @@ a       EQU     b
         defadr wstrncpy,0x44F549C0+1
         defadr wstrcat,0x44F549EC+1
         defadr wstrncat,0x44F54A08+1
+        defadr wstrncmp,0x4467AFE0+1
+        defadr wstrnupr,0x44F54A34+1
         defadr wstrcmp,0x44F54978+1
         defadr wstrlen,0x44F54964+1
         defadr str2wstr,0x44F55C2C+1
@@ -149,6 +151,7 @@ a       EQU     b
         defadr BookObj_SetFocus,0x453AEA80+1
         defadr BookObj_ReturnPage,0x453AE6B8+1
         defadr FindBook,0x453ACE94+1
+        defadr FindBookByID,0x453ACE60+1
         defadr UI_Event,0x453AD25C+1
         defadr UI_Event_toBookID,0x453AD2B4+1
         defadr JavaDialog_Open,0x44FAA690+1

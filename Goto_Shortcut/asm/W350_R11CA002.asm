@@ -39,6 +39,7 @@ a       equ b
         defadr TextID_Destroy,0x210EBF00+1
         defadr DispObject_GetGUI,0x210F9E84+1
         defadr FindBook,0x21053808+1
+        defadr FindBookByID,0x210537D4+1
         defadr TextID_CreateIntegerID,0x210EBAD0+1
         defadr TextID_Copy,0x210EBE10+1
         defadr Display_GetWidth,0x211170B4+1
@@ -56,11 +57,9 @@ a       equ b
         defadr GUIObject_SoftKeys_SetText,0x2112097C+1
         defadr GUIObject_SoftKeys_SetEnable,0x21120A38+1
         defadr GUIObject_GetBook,0x21103F4C+1
-
         defadr ConnectionManager_Connection_GetState,0x20F85F38+1
         defadr iconidname2id,0x20A453CC+1
         defadr ImageID_Free,0x20C3E70C+1
-
         defadr Find_StandbyBook,0x21068628+1
         defadr BookObj_SetFocus,0x210552FC+1
         defadr BookObj_GetBookID,0x21055714+1
@@ -79,12 +78,12 @@ a       equ b
         defadr MenuBook_Desktop,0x211257B8+1
         defadr BookObj_SoftKeys_SetAction,0x2111B9A0+1
         defadr BookObj_SoftKeys_SetText,0x2111B9D8+1
-
         defadr wstrlen,0x20C48D0C+1
         defadr wstrncmp,0x20381210+1
         defadr wstrcmpi,0x20C4A130+1
         defadr wstrcmp,0x20C48D20+1
         defadr wstrncpy,0x20C48D68+1
+        defadr wstrnupr,0x20C48DDC+1
         defadr wstrrchr,0x20381298+1
         defadr str2wstr,0x20C49FD4+1
         defadr strlen,0x20380A04+1
@@ -92,7 +91,6 @@ a       equ b
         defadr strcpy,0x203809D0+1
         defadr strcmp,0x203809A8+1
         defadr strncmp,0x20380A40+1
-
         defadr GUIonMessage_GetMsg,0x210C3CA0+1
         defadr GUIonMessage_GetBook,0x210C3CA8+1
         defadr GUIonMessage_GetCreatedItemIndex,0x210C3CC4+1
@@ -112,7 +110,6 @@ a       equ b
         defadr ListMenu_SetItemStyle,0x210C31CC+1
         defadr ListMenu_SetHotkeyMode,0x210C32E8+1
         defadr GUIObject_TabTitleRemove,0x210C3900+1
-
         defadr DispObject_GetOnKey,0x210F63A0+1
         defadr DispObject_GetDESC,0x20EEC090+1
         defadr DISP_DESC_SetOnKey,0x210F62D0+1
@@ -120,7 +117,6 @@ a       equ b
         defadr GUIObject_SetTitleText,0x21104674+1
         defadr GUIObject_SoftKeys_SetActionAndText,0x20BF1B54+1
         defadr GUIObject_Show,0x21104138+1
-
         defadr REQUEST_SYSTEM_SHUTDOWN,0x2106B318+1
         defadr REQUEST_SYSTEM_RESTART,0x2106B328+1
         defadr Shortcut_Run,0x2112DDE8+1
@@ -128,7 +124,6 @@ a       equ b
         defadr FlightControl,0x1160E8CC+1
         defadr Request_ICA_ShutdownAllConnections,0x20663B58+1
         defadr Display_GetBrightness,0x211054A4+1
-
         defadr List_DestroyElements,0x20F739D0+1
         defadr List_Destroy,0x20F73630+1
         defadr List_Create,0x20F7360C+1
@@ -140,14 +135,11 @@ a       equ b
         defadr List_InsertLast,0x20F73770+1
         defadr List_RemoveAt,0x20F736F8+1
         defadr List_RemoveFirst,0x20F737C0+1
-
         defadr FILEITEM_GetFname,0x20CCB90C+1
         defadr FILEITEM_GetPath,0x20CCB998+1
         defadr FSX_MakeFullPath,0x20C89BC0+1
-
         defadr IsVolumeControllerBook,0x21067CE8+1
         defadr IsRightNowBook,0x21129E8C+1
-
         defadr JavaDialog_Open,0x20C9B9E8+1
         defadr JavaAppDesc_GetFirstApp,0x20C95748+1
         defadr JavaAppDesc_GetJavaAppInfo,0x20C9537C+1
@@ -158,16 +150,13 @@ a       equ b
         defadr JavaAppDesc_GetJavaAppID,0x20C9F388+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x20D61064+1
         defadr manifest_GetParam,0x21024398+1
-
         defadr GUIObject_Destroy,0x21103ECC+1
         defadr NewEvents_GetCount,0x2112B414+1
-
         defadr GUIObject_SetStyle,0x21104188+1
         defadr TabMenuBar_GetFocusedTab,0x21105034+1
         defadr TabMenuBar_SetTabGui,0x211050F4+1
         defadr TabMenuBar_SetTabTitle,0x2110515C+1
         defadr TabMenuBar_SetOnTabSwitch,0x21105188+1
-
         defadr StringInput_SetText,0x2109C6E8+1
         defadr CreateStringInput,0x2109BC48+1
         defadr StringInput_SetMode,0x2109C4F0+1
@@ -178,12 +167,10 @@ a       equ b
         defadr StringInput_SetActionBack,0x2109C540+1
         defadr StringInput_GetStringAndLen,0x2109C568+1
         defadr StringInput_MenuItem_SetPriority,0x2109C6C4+1
-        
         defadr CreateYesNoQuestion,0x21114964+1
         defadr YesNoQuestion_SetQuestionText,0x21114CCC+1
         defadr YesNoQuestion_SetDescriptionText,0x21114CDC+1
         defadr YesNoQuestion_SetIcon,0x21114CFC+1
-
         defadr DataBrowser_isFileInListExt,0x20C85380+1
         defadr DataBrowserDesc_Create,0x20CC1AF8+1
         defadr DataBrowserDesc_SetHeaderText,0x20CC1DA4+1

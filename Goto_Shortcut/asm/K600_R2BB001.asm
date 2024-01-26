@@ -1,4 +1,5 @@
 //K600_R2BB001
+#include "target.h"
 
 defadr MACRO a,b
         PUBLIC  a
@@ -9,19 +10,18 @@ a       equ b
         defadr memfree,0x20364D24+1
         defadr memset,0x20D66768+1
         defadr debug_printf,0x20D28E84+1
-
         defadr current_process,0x200A405C
         defadr get_bid,0x200A4094
         defadr set_envp,0x2006CF5E+1
         defadr get_envp,0x2006CF4A+1
-
         defadr wstrlen,0x2060F0E4+1
         defadr wstrcpy,0x2060F160+1
         defadr wstrcmpi,0x20610854+1
         defadr wstrcmp,0x2060F110+1
         defadr wstrncpy,0x2060F1A8+1
+        defadr wstrncmp,0x20610640+1
+        defadr wstrnupr,0x2060F2B0+1
         defadr wstrrchr,0x20D68068+1
-
         defadr _fopen,0x204DBDF4+1
         defadr fread,0x204DD2F0+1
         defadr fclose,0x204DCFD4+1
@@ -32,7 +32,6 @@ a       equ b
         defadr w_dirread,0x20716280+1
         defadr w_fstat,0x208ED1D4+1
         defadr w_dirclose,0x2050A7F4+1
-
         defadr isKeylocked,0x20760810+1
         defadr MessageBox,0x20431AA4+1
         defadr strcmp,0x20D67710+1
@@ -61,6 +60,7 @@ a       equ b
         defadr GUIObject_Show,0x20751E14+1
         defadr GUIObject_Destroy,0x20280C7C+1
         defadr FindBook,0x20425C9C+1
+        defadr FindBookByID,0x20425C60+1
         defadr CreateBook,0x2025CF38+1
         defadr BookObj_GotoPage,0x2025CC90+1
         defadr BookObj_SetFocus,0x2025D1C8+1
@@ -75,9 +75,7 @@ a       equ b
         defadr REQUEST_SETTING_SILENCE_SET,0x20554A20+1
         defadr GetSilent,0x20467A68+1
         defadr Shortcut_Run,0x20439390+1
-
         defadr GUIObject_GetDispObject,0x20280EC4+1
-        
         defadr GUIObject_SoftKeys_SetActionAndText,0x201D2588+1
         defadr BookObj_ReturnPage,0x2025CE18+1
         defadr Shortcut_Get_MenuItemIconID,0x20439310+1
@@ -88,11 +86,9 @@ a       equ b
         defadr MenuBook_Desktop,0x204384D0+1
         defadr BookObj_SoftKeys_SetAction,0x20426610+1
         defadr BookObj_SoftKeys_SetText,0x2042665C+1
-        
         defadr FILEITEM_GetFname,0x204F0DBC+1
         defadr FILEITEM_GetPath,0x204F0EA4+1
         defadr FSX_MakeFullPath,0x204DE790+1
-
         defadr DataBrowser_isFileInListExt,0x204DA7AC+1
         defadr DataBrowserDesc_Create,0x201FF800+1
         defadr DataBrowserDesc_SetHeaderText,0x201FF6A8+1
@@ -107,19 +103,16 @@ a       equ b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x201FF560+1
         defadr DataBrowser_Create,0x201FE868+1
         defadr DataBrowserDesc_Destroy,0x201FF888+1
-
         defadr CreateStringInputVA,0x20771048+1
         defadr StringInput_GetStringAndLen,0x20771D08+1
         defadr StringInput_DispObject_SetText,0x2029C140+1
         defadr BookObj_CallPage,0x2025CDA8+1
-        
         defadr CreateYesNoQuestion,0x207572A0+1
         defadr YesNoQuestion_SetQuestionText,0x2075762C+1
         defadr YesNoQuestion_SetDescriptionText,0x2075763C+1
         defadr YesNoQuestion_SetIcon,0x20757658+1
-
         defadr CreateMessageBox,0x20431AF0+1
-        
+        defadr GUIObject_SoftKeys_SetText,0x207537EC+1
         defadr GUIObject_SoftKeys_SetVisible,0x20753884+1
         defadr JavaDialog_Open,0x20649954+1
         defadr JavaAppDesc_GetFirstApp,0x20643D34+1
@@ -128,11 +121,9 @@ a       equ b
         defadr REQUEST_UI_OAF_START_APPLICATION,0x204F5CFC+1
         defadr JavaAppDesc_GetNextApp,0x20643D58+1
         defadr JavaDialog_Close,0x2064D23C+1
-        
         defadr UI_Event_toBookID,0x20425DE8+1
         defadr ImageID_Free,0x20336A54+1
         defadr JavaApp_LogoImageID_Get,0x20359D2C+1
-
         defadr List_Get,0x202320C4+1
         defadr List_GetCount,0x2023209C+1
         defadr List_Create,0x20231DF0+1
@@ -147,7 +138,7 @@ a       equ b
 
         RSEG STANDBY_SOFTKEY_LEFT
         DATA
-	DCD 0x63E
+	DCD TITLE_TXT
 
         RSEG STANDBY_LINK_LEFT
         DATA

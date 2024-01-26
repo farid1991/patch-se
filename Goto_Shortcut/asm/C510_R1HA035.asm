@@ -4,7 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       EQU     b
         ENDM
-        
+
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
@@ -755,7 +755,7 @@ a       EQU     b
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
-        
+
         defadr List_GetCount,0x140CC074+1
         defadr List_RemoveFirst,0x1430DCFC+1
         defadr List_RemoveLast,0x1430E428+1

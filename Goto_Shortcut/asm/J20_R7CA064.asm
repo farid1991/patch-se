@@ -61,8 +61,10 @@ a       equ     b
         defadr wstrcpy,0x145D9EEC+1
         defadr wstrncpy,0x145D9EFE+1
         defadr wstrcmp,0x14296A60+1
+        defadr wstrncmp,0x145D9F84+1
         defadr wstrcmpi,0x145CD8AC+1
         defadr wstrrchr,0x14296C08+1
+        defadr wstrnupr,0x1452D610+1
         defadr FSX_IsFileExists,0x149CD5A8+1
         defadr FileDelete,0x140DEAB0+1
         defadr FileCopy,0x144DDB7C+1
@@ -76,6 +78,7 @@ a       equ     b
         defadr strcmp,0x101A34E8+1
         defadr CreateBook,0x1417FFAC+1
         defadr FindBook,0x1446C6A8+1
+        defadr FindBookByID,0x1446C608+1
         defadr UI_Event,0x14023B9C+1
         defadr FreeBook,0x141800F0+1
         defadr BookObj_SetFocus,0x1417E4B8+1
@@ -126,6 +129,7 @@ a       equ     b
         defadr YesNoQuestion_SetIcon,0x149B3C28+1
         defadr DataBrowserDesc_Create,0x14CE407C+1
         defadr DataBrowserDesc_SetHeaderText,0x14CE3DE4+1
+        defadr DataBrowserDesc_SetBookID,0x14CE3FEC+1
         defadr DataBrowserDesc_SetFolders,0x14CE3FF4+1
         defadr DataBrowserDesc_SetFoldersNumber,0x14CE3FE4+1
         defadr DataBrowserDesc_SetSelectAction,0x14CE3DEC+1

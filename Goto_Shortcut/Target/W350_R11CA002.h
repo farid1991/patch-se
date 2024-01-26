@@ -3,6 +3,7 @@
 
 #define A1
 #define PNX5230
+#define USE_JAVA
 
 #define F_PATH (wchar_t *)0x213F8278
 

@@ -3,6 +3,9 @@
 
 #define A2
 #define DB3350
+#define HAS_ELF
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
 
 #define F_PATH (wchar_t *)0x159E0804
 
