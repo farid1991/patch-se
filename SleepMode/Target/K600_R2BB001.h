@@ -4,16 +4,16 @@
 #define A1
 #define DB2000
 
-#define KEYLOCK_SLEEPMODE_ICN               NOIMAGE
-#define SILENT_SLEEPMODE_ICN                NOIMAGE
-#define CALLS_MISSED_SLEEPMODE_ICN          0xE869
-#define SMS_SLEEPMODE_ICN                   0xE64C
-#define MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN  0xE64D
-#define MMS_NEW_MESSAGE_SLEEPMODE_ICN       0xE64E
-#define APPOINTMENT_REMINDER_SLEEPMODE_ICN  NOIMAGE
-#define TASK_REMINDER_SLEEPMODE_ICN         NOIMAGE
+#define KEYLOCK_SLEEPMODE_ICN NOIMAGE
+#define SILENT_SLEEPMODE_ICN NOIMAGE
+#define CALLS_MISSED_SLEEPMODE_ICN 0xE869
+#define SMS_SLEEPMODE_ICN 0xE64C
+#define MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN 0xE64D
+#define MMS_NEW_MESSAGE_SLEEPMODE_ICN 0xE64E
+#define APPOINTMENT_REMINDER_SLEEPMODE_ICN NOIMAGE
+#define TASK_REMINDER_SLEEPMODE_ICN NOIMAGE
 
-#define MissedEvents            (char *)0x28244364
+#define MissedEvents (char *)0x28244364
 
 #define TEXTID_1 0x15A // Monday
 #define TEXTID_2 0x198 // Thursday
@@ -41,13 +41,13 @@
 #define FONT_ICON_16BIT_V2 0x38
 #define FONT_ICON_2BIT_V2_2NDLCD 0x37
 
-#define FONT_TIME               FONT_D_29B
-#define FONT_DATE               FONT_E_20R
-#define FONT_DAY                FONT_E_20R
+#define FONT_TIME FONT_D_29B
+#define FONT_DATE FONT_E_20R
+#define FONT_DAY FONT_E_20R
 
-#define TIME_Y                  85
-#define DATE_Y                  50
-#define DAY_Y                   150
-#define MISSED_Y                3
+#define TIME_Y 85
+#define DATE_Y 50
+#define DAY_Y 150
+#define MISSED_Y 3
 
 #endif

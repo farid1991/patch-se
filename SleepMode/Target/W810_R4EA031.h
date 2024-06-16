@@ -4,26 +4,24 @@
 #define A1
 #define DB2010
 
-#define KEYLOCK_SLEEPMODE_ICN               0xE7C1
-#define SILENT_SLEEPMODE_ICN                0xE834
-#define CALLS_MISSED_SLEEPMODE_ICN          0xE5D2
-#define SMS_SLEEPMODE_ICN                   0xE9A0
-#define MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN  0xE892
-#define MMS_NEW_MESSAGE_SLEEPMODE_ICN       0xE8F3
-#define APPOINTMENT_REMINDER_SLEEPMODE_ICN  0xE5A8
-#define TASK_REMINDER_SLEEPMODE_ICN         0xE9C7
+#define KEYLOCK_SLEEPMODE_ICN 0xE7C1
+#define SILENT_SLEEPMODE_ICN 0xE834
+#define CALLS_MISSED_SLEEPMODE_ICN 0xE5D2
+#define SMS_SLEEPMODE_ICN 0xE9A0
+#define MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN 0xE892
+#define MMS_NEW_MESSAGE_SLEEPMODE_ICN 0xE8F3
+#define APPOINTMENT_REMINDER_SLEEPMODE_ICN 0xE5A8
+#define TASK_REMINDER_SLEEPMODE_ICN 0xE9C7
 
-#define MissedEvents            (char *)0x4C2E666F
+#define MissedEvents (char *)0x4C2E666F
 
-//ƒни недели
-
-#define TEXTID_1                0x167  // пн
-#define TEXTID_2                0x1B5  // вт
-#define TEXTID_3                0x1CC  // ср
-#define TEXTID_4                0x1A7  // чт
-#define TEXTID_5                0x139  // пт
-#define TEXTID_6                0x183  // сб
-#define TEXTID_7                0x1A5  // вс
+#define TEXTID_1 0x167 // Monday
+#define TEXTID_2 0x1B5 // Thursday
+#define TEXTID_3 0x1CC // Wednesday
+#define TEXTID_4 0x1A7 // Tuesday
+#define TEXTID_5 0x139 // Friday
+#define TEXTID_6 0x183 // Saturday
+#define TEXTID_7 0x1A5 // Sunday
 
 #define FONT_D_18B 0x2D
 #define FONT_D_24B 0x2F
@@ -42,13 +40,13 @@
 #define FONT_E_20R 0x24
 #define FONT_ICON_16BIT_V2 0x38
 
-#define FONT_TIME               FONT_D_29B
-#define FONT_DATE               FONT_E_20R
-#define FONT_DAY                FONT_E_20R
+#define FONT_TIME FONT_D_29B
+#define FONT_DATE FONT_E_20R
+#define FONT_DAY FONT_E_20R
 
-#define TIME_Y                  85
-#define DATE_Y                  50
-#define DAY_Y                   150
-#define MISSED_Y                3
+#define TIME_Y 85
+#define DATE_Y 50
+#define DAY_Y 150
+#define MISSED_Y 3
 
 #endif

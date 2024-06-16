@@ -22,13 +22,13 @@
 #define TASK_REMINDER_SLEEPMODE_ICN 0x918
 #define MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN 0x636
 
-#define TEXTID_1 0x1D6 // пн
-#define TEXTID_2 0x253 // вт
-#define TEXTID_3 0x26B // ср
-#define TEXTID_4 0x246 // чт
-#define TEXTID_5 0x1A6 // пт
-#define TEXTID_6 0x217 // сб
-#define TEXTID_7 0x243 // вс
+#define TEXTID_1 0x1D6 // Monday
+#define TEXTID_2 0x253 // Thursday
+#define TEXTID_3 0x26B // Wednesday
+#define TEXTID_4 0x246 // Tuesday
+#define TEXTID_5 0x1A6 // Friday
+#define TEXTID_6 0x217 // Saturday
+#define TEXTID_7 0x243 // Sunday
 
 #define FONT_D_18B 0x112
 #define FONT_D_24B 0x118

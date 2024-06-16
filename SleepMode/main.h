@@ -1,12 +1,12 @@
 #ifndef _Main_H_
 #define _Main_H_
 
-static char *EMP_NAME = "SM_EMP";
-static char *MEM_NAME = "SM_MEM";
+static char *MEM_NAME = "SM";
 
 #define ICONS_COUNT 8
 
 static const int days[7] = {TEXTID_1, TEXTID_2, TEXTID_3, TEXTID_4, TEXTID_5, TEXTID_6, TEXTID_7};
+
 static const int missed_icons[ICONS_COUNT] = {
     KEYLOCK_SLEEPMODE_ICN,
     SILENT_SLEEPMODE_ICN,

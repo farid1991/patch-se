@@ -9,7 +9,7 @@
 #define PAGE_ENTER_EVENT 0x7
 #define RETURN_TO_STANDBY_EVENT 0x848
 
-#define MissedEvents (char*)0x480D1100
+#define MissedEvents (char *)0x480D1100
 
 #define KEYLOCK_SLEEPMODE_ICN 0xEC29
 #define SILENT_SLEEPMODE_ICN 0xEEB0

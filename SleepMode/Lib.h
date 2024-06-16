@@ -18,7 +18,9 @@ extern "C"
 
   GC *get_DisplayGC(void);
 #if defined(A1) || defined(DB3150v1) || defined(DB3150v2)
+  int GetImageWidth(IMAGEID);
   int GetImageHeight(IMAGEID);
+  void GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID img);
   int SetFont(int FontSize);
   void DrawString(TEXTID, int align, int x1, int y1, int x2, int y2, int unk, int unk1, int pen_color, int brush_color);
 #else

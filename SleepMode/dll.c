@@ -80,10 +80,8 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   if (pGC)
     pGC->Release();
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
   CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
@@ -116,7 +114,6 @@ void dll_GC_PutChar(int x, int y, int width, int height, IMAGEID imageID)
     pGC->Release();
 }
 // GetImageWidthHeight ----------------------------------------------------
-#if defined(DB3200) || defined(DB3210)
 int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
@@ -154,5 +151,4 @@ int dll_GetImageHeight(IMAGEID imageID)
 
   return image_height;
 }
-#endif
 #endif

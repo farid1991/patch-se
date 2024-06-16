@@ -3,9 +3,9 @@
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
 
-#include "main.h"
 #include "dll.h"
 #include "Lib.h"
+#include "main.h"
 
 __thumb void *malloc(int size)
 {
@@ -32,14 +32,14 @@ __thumb void mfree(void *mem)
 
 uint16_t *getTimerID()
 {
-  return (uint16_t *)get_envp(NULL, EMP_NAME);
+  return (uint16_t *)get_envp(NULL, MEM_NAME);
 }
 
 uint16_t *createTimerID()
 {
   uint16_t *pTimerID = (uint16_t *)malloc(sizeof(uint16_t));
   memset(pTimerID, NULL, sizeof(uint16_t));
-  set_envp(NULL, EMP_NAME, (OSADDRESS)pTimerID);
+  set_envp(NULL, MEM_NAME, (OSADDRESS)pTimerID);
   return pTimerID;
 }
 
@@ -55,7 +55,7 @@ extern "C" void SetRefreshTimer(DISP_OBJ *disp_obj)
   uint16_t *pTimerID = getTimerID();
   if (!pTimerID)
     pTimerID = createTimerID();
-  *pTimerID = Timer_Set(1000, onTimer, (LPARAM *)disp_obj);
+  *pTimerID = Timer_Set(0, onTimer, (LPARAM *)disp_obj);
 }
 
 extern "C" void KillRefreshTimer()

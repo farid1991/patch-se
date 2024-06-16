@@ -10,12 +10,10 @@ a       equ b
         defadr memfree,0x20DABCF0+1
         defadr memset,0x20105B58
         defadr debug_printf,0x2086B1D0+1
-
         defadr current_process,0x20186DDC
         defadr get_bid,0x20186E14
         defadr set_envp,0x20144BD4+1
         defadr get_envp,0x20144BC0+1
-
         defadr snwprintf,0x20380BC4+1
         defadr _fopen,0x20C86CB4+1
         defadr fread,0x20C88340+1
@@ -27,25 +25,24 @@ a       equ b
         defadr CreateMessageBox,0x21060634+1
         defadr GUIObject_SoftKeys_SetVisible,0x211209CC+1
         defadr GUIObject_GetBook,0x21103F4C+1
-
         defadr FindBook,0x21053808+1
         defadr IsScreenSaverBook,0x21132970+1
         defadr GUIObject_GetDispObject,0x21103F38+1
         defadr DispObject_InvalidateRect,0x210FA4F0+1
-
         defadr Timer_Set,0x21052104+1
         defadr Timer_ReSet,0x21052138+1
         defadr Timer_Kill,0x21052190+1
-
         defadr Display_GetWidth,0x211170B4+1
         defadr GetImageHeight,0x210FE238+1
+        defadr GetImageWidth,0x210FE224+1
         defadr REQUEST_DATEANDTIME_GET,0x20B54AE0+1
         defadr Time2ID,0x21051220+1
         defadr Date2ID,0x21051314+1
         defadr DATE_GetWeekDay,0x20DD61F4+1
-
         defadr SetFont,0x210FDBA0+1
         defadr DrawString,0x210FD128+1
+        defadr get_DisplayGC,0x21101BF4+1
+        defadr GC_PutChar,0x21102714+1
 
         EXTERN  SetRefreshTimer
         EXTERN  KillRefreshTimer
