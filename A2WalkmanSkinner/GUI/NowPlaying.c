@@ -154,12 +154,12 @@ extern "C" int New_Music_Gui_NowPlaying_OnCreate(DISP_OBJ *disp_obj)
 
 extern "C" void New_Music_Gui_NowPlaying_OnClose(DISP_OBJ *disp_obj)
 {
+  Music_Gui_NowPlaying_OnClose(disp_obj);
+
   Internal_Function *Data = Get_Internal_Function();
   DESTROY_TEXTID(Data->TextID);
   FreeImage(Data);
   Delete_Internal_Function(Data);
-
-  Music_Gui_NowPlaying_OnClose(disp_obj);
 }
 
 extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, int c)

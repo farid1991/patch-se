@@ -77,6 +77,7 @@ a       EQU     b
         defadr GUIObject_GetDispObject,0x109D201C+1
         defadr GUIObject_Create,0x109D1DCC+1
         defadr get_DisplayGC,0x109CFFE0+1
+        defadr GC_PutChar,0x109D0A1C+1
         defadr DisplayGC_AddRef,0x109D0418+1
         defadr DISP_DESC_SetName,0x109C5418+1
         defadr DISP_DESC_SetSize,0x109C541C+1

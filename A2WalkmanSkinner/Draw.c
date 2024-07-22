@@ -10,10 +10,10 @@
 int GetTextIDWidth(int font, TEXTID text, int len)
 {
 #if defined(DB3200) || defined(DB3210)
-  return dll_Disp_GetTextIDWidth(font, text, TextID_GetLength(len));
+  return dll_Disp_GetTextIDWidth(font, text, len);
 #else
   SetFont(font);
-  return Disp_GetTextIDWidth(text, TextID_GetLength(len));
+  return Disp_GetTextIDWidth(text, len);
 #endif
 }
 
@@ -39,7 +39,7 @@ void DrawTextEx(int font, TEXTID text, int align, int x1, int y1, int x2, int y2
     dll_DrawString(font, text, align, x1, y1, x2, y2, text_color);
 #else
     SetFont(font);
-    DrawString(text, align, x1, y1, x2, y2, 0x14, 0x5, text_color, text_color);
+    DrawString(text, align, x1, y1, x2, y2, 0, 0, text_color, text_color);
 #endif
   }
 }
@@ -58,7 +58,7 @@ void DrawTextOnRect(int font, TEXTID textid, int rect_x, int rect_y, int rect_w,
 void DrawImageEx(GC *gc, int x, int y, int w, int h, IMAGEID img)
 {
   if (img != NOIMAGE)
-#ifdef DB3150v1
+#if defined(DB3150v1) || defined(DB3150v2)
     GC_PutChar(gc, x, y, w, h, img);
 #else
     dll_GC_PutChar(gc, x, y, w, h, img);

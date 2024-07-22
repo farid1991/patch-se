@@ -40,6 +40,7 @@ a       EQU     b
         defadr CoCreateInstance,0x1071C028+1
         defadr get_DisplayGC,0x109CE290+1
         defadr DisplayGC_AddRef,0x109CE6C8+1
+        defadr GC_PutChar,0x109CECCC+1
         defadr DrawRect,0x109C9FB4+1
         defadr SetFont,0x109CAEC0+1
         defadr DrawString,0x109CA300+1
@@ -161,6 +162,7 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetAction,0x10AF2324+1
         defadr MediaPlayer_SoftKeys_SetText,0x10AF236C+1
         defadr MediaPlayer_SoftKeys_SetInfoText,0x10AF23FC+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x10AF23FC+1
         defadr FILEITEM_GetPath,0x11808D90+1
         defadr FILEITEM_GetFname,0x11808CFC+1
         defadr FILEITEM_GetFextension,0x11808D00+1

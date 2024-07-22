@@ -39,23 +39,20 @@ SOFTKEY_LIST_ELEM *CreateElem(SOFTKEY_DESC_A2 *SoftkeyDesc)
 LIST *Create_SoftkeyList(LIST *slist)
 {
   LIST *SoftkeyList = List_Create();
+  int count = List_GetCount(slist);
 
-  int index = 0;
-  while (index < List_GetCount(slist))
+  for (int index = 0; index < count; index++)
   {
     SOFTKEY_DESC_A2 *SoftkeyDesc = (SOFTKEY_DESC_A2 *)List_Get(slist, index);
-    if (SoftkeyDesc->visible && SoftkeyDesc->enable)
+
+    if (SoftkeyDesc->visible && SoftkeyDesc->enable &&
+        SoftkeyDesc->ButtonText != EMPTY_TEXTID &&
+        SoftkeyDesc->ButtonText != TEXTID_SPACE)
     {
-      if (SoftkeyDesc->ButtonText != EMPTY_TEXTID)
-      {
-        if (SoftkeyDesc->ButtonText != TEXTID_SPACE)
-        {
-          List_InsertLast(SoftkeyList, CreateElem(SoftkeyDesc));
-        }
-      }
+      List_InsertLast(SoftkeyList, CreateElem(SoftkeyDesc));
     }
-    index++;
   }
+
   return SoftkeyList;
 }
 
@@ -338,8 +335,12 @@ void Call_ShortcutPage(BOOK *book, GUI *gui)
   pMusicBook->Callpage = TRUE;
   DISP_OBJ *disp_obj = GUIObject_GetDispObject(pMusicBook->Gui_NowPlaying);
   MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
-  pShortcutBook->SoftkeyList = Create_SoftkeyList(DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL));
-  BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
+  if (pShortcutBook)
+  {
+    LIST* SoftkeyList = DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL);
+    pShortcutBook->SoftkeyList = Create_SoftkeyList(SoftkeyList);
+    BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
+  }
 }
 
 void execute_kb(BOOK *book, char key, int mode)

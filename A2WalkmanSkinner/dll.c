@@ -128,10 +128,8 @@ int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
 
   return (width);
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
   CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));

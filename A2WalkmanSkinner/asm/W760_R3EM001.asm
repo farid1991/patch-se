@@ -10,7 +10,6 @@ a       EQU     b
         defadr memset,0x11927744+1
         defadr memcpy,0x11927644+1
         defadr debug_printf,0x4BB3A365
-
         defadr snwprintf,0x10798B34+1
         defadr strstr,0x10798A70+1
         defadr strlen,0x10798964+1
@@ -25,7 +24,6 @@ a       EQU     b
         defadr wstrcmpi,0x10E025E4+1
         defadr str2wstr,0x10E02448+1
         defadr wstrcat,0x107991F4+1
-
         defadr _fopen,0x109F5840+1
         defadr fread,0x109F71D4+1
         defadr fclose,0x117A443C+1
@@ -40,20 +38,17 @@ a       EQU     b
         defadr w_chdir,0x4BB003AC
         defadr w_dirread,0x11AE39C4+1
         defadr w_dirclose,0x4BB0038C
-
         defadr List_DestroyElements,0x11B56FA4+1
         defadr List_Destroy,0x11B56CB8+1
         defadr List_Create,0x11B56C90+1
         defadr List_Get,0x11B56EB0+1
         defadr List_InsertLast,0x11B56E0C+1
         defadr List_GetCount,0x11B56E84+1
-
         defadr TextID_Create,0x10FFBF40+1
         defadr TextID_CreateIntegerID,0x10FFBD6C+1
         defadr TextID_Destroy,0x10FFC27C+1
         defadr TextID_GetLength,0x10FFC384+1
         defadr Disp_GetTextIDWidth,0x10A6AF58+1
-
         defadr CreateBook,0x10E89BAC+1
         defadr FindBook,0x10E87DE4+1
         defadr IsAudioPlayerBook,0x10D21FC0+1
@@ -68,7 +63,6 @@ a       EQU     b
         defadr CreateMessageBox,0x11AE85E0+1
         defadr BookObj_SetDisplayOrientation,0x10E8A350+1
         defadr BookObj_GetDisplayOrientation,0x10E8A3B4+1
-
         defadr GUIObject_SoftKeys_SetAction,0x108AE74C+1
         defadr GUIObject_SoftKeys_SetText,0x108AE7C4+1
         defadr GUIObject_SoftKeys_SetInfoText,0x108AE7B0+1
@@ -85,7 +79,6 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetAction,0x10B90C04+1
         defadr MediaPlayer_SoftKeys_SetText,0x10B90C4C+1
         defadr MediaPlayer_SoftKeys_SetInfoText,0x10B90CDC+1
-
         defadr DISP_DESC_SetName,0x10A6301C+1
         defadr DISP_DESC_SetSize,0x10A63020+1
         defadr DISP_DESC_SetOnCreate,0x10A63024+1
@@ -94,7 +87,6 @@ a       EQU     b
         defadr DISP_DESC_SetOnRefresh,0x10A63030+1
         defadr DISP_DESC_SetOnKey,0x10A63034+1
         defadr DISP_DESC_SetOnLayout,0x10A63040+1
-
         defadr GUIObject_Create,0x10A6F95C+1
         defadr BookObj_AddGUIObject,0x10E89F3C+1
         defadr GUIObject_SetTitleType,0x10A6FF0C+1
@@ -119,13 +111,11 @@ a       EQU     b
         defadr DispObject_SetRefreshTimer,0x10A65FA4+1
         defadr DispObject_KillRefreshTimer,0x10A66020+1
         defadr GUIObject_GetBook,0x10A6FBC0+1
-
         defadr CreateOneOfMany,0x11B12B94+1
         defadr OneOfMany_SetChecked,0x11B12D3C+1
         defadr OneOfMany_SetItemCount,0x11B12D20+1
         defadr OneOfMany_SetOnMessage,0x11B12D68+1
         defadr OneOfMany_GetSelected,0x11B12D4C+1
-
         defadr CreateListMenu,0x11B105D0+1
         defadr ListMenu_SetItemCount,0x11B107E4+1
         defadr ListMenu_SetItemStyle,0x11B10820+1
@@ -145,13 +135,13 @@ a       EQU     b
         defadr GUIonMessage_SetMenuItemSecondLineText,0x11B113CC+1
         defadr GUIonMessage_SetItemDisabled,0x11B11444+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x11B113BC+1
-
         defadr SetFont,0x10A6A7CC+1
         defadr DrawString,0x10A69C0C+1
         defadr DrawRect,0x10A698C0+1
         defadr get_DisplayGC,0x10A6DB74+1
         defadr GetImageWidth,0x10A6AEA4+1
         defadr GetImageHeight,0x10A6AEB8+1
+        defadr GC_PutChar,0x10A6E5AC+1
         defadr GC_SetPenColor,0x10A6E380+1
         defadr GC_SetBrushColor,0x10A6E458+1
         defadr GC_DrawLine,0x10A6EB00+1
@@ -160,18 +150,15 @@ a       EQU     b
         defadr GC_SetXX,0x10A6E4A4+1
         defadr GC_ValidateRect,0x10A6E164+1
         defadr GC_GetPenColor,0x10A6E3BC+1
-
         defadr Timer_Kill,0x10E86218+1
         defadr Timer_ReSet,0x10E861C0+1
         defadr Timer_Set,0x10E8618C+1
-
         defadr CreateTabMenuBar,0x1180E898+1
         defadr TabMenuBar_SetTabGui,0x1180E968+1
         defadr TabMenuBar_SetTabTitle,0x1180EA30+1
         defadr TabMenuBar_SetTabIcon,0x1180E9E8+1
         defadr TabMenuBar_SetTabCount,0x1180EAF0+1
         defadr TabMenuBar_SetFocusedTab,0x1180E94C+1
-
         defadr CreateStringInput,0x109342CC+1
         defadr StringInput_SetMode,0x10934B84+1
         defadr StringInput_SetFixedText,0x10934CC8+1
@@ -179,23 +166,19 @@ a       EQU     b
         defadr StringInput_SetMaxLen,0x10934C9C+1
         defadr StringInput_SetEnableEmptyText,0x10934D10+1
         defadr StringInput_SetActionOK,0x10934BE0+1
-
         defadr TextFeedbackWindow,0x1180FBF8+1
         defadr Feedback_SetTextExtended,0x11810068+1
         defadr Feedback_CloseAction,0x1180FFC8+1
-
         defadr FSX_MakeFullPath,0x109F8FE4+1
         defadr FSX_FreeFullPath,0x109F9050+1
         defadr FSX_IsFileExists,0x1188A9F4+1
         defadr FILEITEM_GetFname,0x1188FBBC+1
         defadr FILEITEM_GetPath,0x1188FC50+1
         defadr getFileExtention,0x109F8EB0+1
-
         defadr SETTING_RINGTYPESOUNDFILE_SET,0x11B2D364+1
         defadr Sound_SetMessageAlert,0x10CEB740+1
         defadr Sound_SetAlarmsignal,0x109D3318+1
         defadr Sound_AddToContact,0x10BF13F8+1
-
         defadr OSE_GetShell,0x10EA6F4C+1
         defadr CoCreateInstance,0x107BC050+1
         defadr DisplayGC_AddRef,0x10A6DFAC+1

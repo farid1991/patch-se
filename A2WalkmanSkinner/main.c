@@ -65,7 +65,6 @@ void Delete_Internal_Function(Internal_Function *Data)
   {
     mfree(Data->Extension);
     mfree(Data->Genre);
-    mfree(Data->Buffer);
     mfree(Data);
     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }

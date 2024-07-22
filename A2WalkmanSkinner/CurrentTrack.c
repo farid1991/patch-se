@@ -39,27 +39,27 @@ wchar_t *GetFileFormat(const wchar_t *fullpath)
 
 wchar_t *MetaData_GetGenre(const wchar_t *fullpath)
 {
-  wchar_t *genre = NULL;
-
   wchar_t *fname = wstrrchr(fullpath, '/');
 
-  if (fname)
-  {
-    int pathLength = fname - fullpath;
-    wchar_t *path = WStringAlloc(pathLength);
+  if (!fname)
+    return NULL;
 
-    if (path)
-    {
-      wstrncpy(path, fullpath, pathLength);
-      path[pathLength] = L'\0';
-      genre = MetaData_GetTags(path, fname + 1, TMetadataTagId_Genre);
-      mfree(path);
-    }
-  }
+  size_t pathLength = fname - fullpath;
+  wchar_t *path = WStringAlloc(pathLength);
+
+  if (!path)
+    return NULL;
+
+  wstrncpy(path, fullpath, pathLength);
+  path[pathLength] = L'\0';
+
+  wchar_t *genre = MetaData_GetTags(path, fname + 1, TMetadataTagId_Genre);
+  mfree(path);
+
   return genre;
 }
 
-wchar_t *Get_CoverType(int cover_type)
+wchar_t *GetCoverType(int cover_type)
 {
   switch (cover_type)
   {
@@ -84,7 +84,7 @@ IMAGEID GetCoverArt(const wchar_t *fullpath, int size, int offset, char type)
   {
     char *buffer = (char *)malloc(size);
     w_fread(file, buffer, size);
-    ImageID_GetIndirect(buffer, size, NULL, Get_CoverType(type), &ImageID);
+    ImageID_GetIndirect(buffer, size, NULL, GetCoverType(type), &ImageID);
   }
   w_fclose(file);
   return ImageID;
@@ -95,13 +95,11 @@ BOOL MetaData_GetCoverInfo(const wchar_t *fullpath, char *cover_type, int *size,
   if (!fullpath || !size || !cover_offset)
     return FALSE;
 
-  int ret = FALSE;
-
   METADATA_DESC *MetaData_Desc = (METADATA_DESC *)malloc(sizeof(METADATA_DESC));
   if (!MetaData_Desc)
-  {
     return FALSE;
-  }
+
+  int ret = FALSE;
 
   MetaData_Desc->pIMetaData = NULL;
   IShell *pIShell = NULL;
@@ -315,7 +313,7 @@ BOOL TrackDesc_Compare(TRACK_DESC *track1, TRACK_DESC *track2)
   if (!track1 || !track2)
     return FALSE;
 
-  return wstrcmp(track1->Filename, track2->Filename) == 0 && wstrcmp(track1->Filepath, track2->Filepath) == 0;
+  return !wstrcmp(track1->Filename, track2->Filename) && !wstrcmp(track1->Filepath, track2->Filepath);
 }
 
 TRACK_DESC *TrackDesc_Get(BOOK *book)

@@ -35,6 +35,7 @@ void Enter_EditTag(BOOK *book, GUI *gui)
   {
     StartElf(L"/usb/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
   }
+#ifndef W980_R3EG004
   else if (FSX_IsFileExists(ZBIN_EXT, L"MusicTagger.elf"))
   {
     StartElf(L"/card/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
@@ -43,4 +44,5 @@ void Enter_EditTag(BOOK *book, GUI *gui)
   {
     StartElf(L"/card/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
   }
+#endif
 }

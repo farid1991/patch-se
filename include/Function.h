@@ -7,6 +7,9 @@
 #include "zlib.h"
 #endif
 
+__thumb void *malloc(int size);
+__thumb void mfree(void *mem);
+
 extern "C"
 {
 #pragma swi_number = 0x10D
