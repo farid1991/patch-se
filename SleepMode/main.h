@@ -1,12 +1,20 @@
 #ifndef _Main_H_
 #define _Main_H_
 
-static char *MEM_NAME = "SM";
-
-#define ICONS_COUNT 8
+static char *MEM_NAME = "SM_MEM";
+static char *EMP_NAME = "SM_EMP";
 
 static const int days[7] = {TEXTID_1, TEXTID_2, TEXTID_3, TEXTID_4, TEXTID_5, TEXTID_6, TEXTID_7};
 
+#ifdef DB2010
+#define ICONS_COUNT 4
+static const int missed_icons[ICONS_COUNT] = {
+    CALLS_MISSED_SLEEPMODE_ICN,
+    MMS_NEW_MESSAGE_SLEEPMODE_ICN,
+    MSG_UI_EMAIL_MESSAGE_SLEEPMODE_ICN,
+    SMS_SLEEPMODE_ICN};
+#else
+#define ICONS_COUNT 8
 static const int missed_icons[ICONS_COUNT] = {
     KEYLOCK_SLEEPMODE_ICN,
     SILENT_SLEEPMODE_ICN,
@@ -16,5 +24,6 @@ static const int missed_icons[ICONS_COUNT] = {
     MMS_NEW_MESSAGE_SLEEPMODE_ICN,
     APPOINTMENT_REMINDER_SLEEPMODE_ICN,
     TASK_REMINDER_SLEEPMODE_ICN};
+#endif
 
 #endif

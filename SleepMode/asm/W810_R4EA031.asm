@@ -601,6 +601,7 @@ a       equ b
         defadr DispObject_SetCursorImage,0x452E6680+1
         defadr DispObject_SetBackgroundImage,0x452E669C+1
         defadr DispObject_SetTitleImage,0x452E66C4+1
+        defadr DispObject_SetBacklightMode,0x453066AC+1
 
         defadr defpage, 0x452AB594+1
 
@@ -613,7 +614,7 @@ a       equ b
 
 SetTimer:
         ADD     R0, R4, #0
-        LDR     R3, =0x453066AC+1
+        LDR     R3, =DispObject_SetBacklightMode
         BLX	R3
         ADD     R0, R4, #0
         BL      SetRefreshTimer

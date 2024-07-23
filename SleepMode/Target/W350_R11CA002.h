@@ -24,9 +24,9 @@
 #define WV_SLEEPMODE_YAHOO_ICN 0xF477
 
 #define TEXTID_1 0x1B6 // Monday
-#define TEXTID_2 0x22A // Thursday
+#define TEXTID_2 0x238 // Tuesday
 #define TEXTID_3 0x252 // Wednesday
-#define TEXTID_4 0x238 // Tuesday
+#define TEXTID_4 0x22A // Thursday
 #define TEXTID_5 0x188 // Friday
 #define TEXTID_6 0x1FB // Saturday
 #define TEXTID_7 0x226 // Sunday

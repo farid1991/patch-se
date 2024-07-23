@@ -16,9 +16,9 @@
 #define MissedEvents (char *)0x28244364
 
 #define TEXTID_1 0x15A // Monday
-#define TEXTID_2 0x198 // Thursday
+#define TEXTID_2 0x1A6 // Tuesday
 #define TEXTID_3 0x1B6 // Wednesday
-#define TEXTID_4 0x1A6 // Tuesday
+#define TEXTID_4 0x198 // Thursday
 #define TEXTID_5 0x12E // Friday
 #define TEXTID_6 0x176 // Saturday
 #define TEXTID_7 0x196 // Sunday

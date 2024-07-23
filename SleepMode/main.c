@@ -32,14 +32,14 @@ __thumb void mfree(void *mem)
 
 uint16_t *getTimerID()
 {
-  return (uint16_t *)get_envp(NULL, MEM_NAME);
+  return (uint16_t *)get_envp(NULL, EMP_NAME);
 }
 
 uint16_t *createTimerID()
 {
   uint16_t *pTimerID = (uint16_t *)malloc(sizeof(uint16_t));
   memset(pTimerID, NULL, sizeof(uint16_t));
-  set_envp(NULL, MEM_NAME, (OSADDRESS)pTimerID);
+  set_envp(NULL, EMP_NAME, (OSADDRESS)pTimerID);
   return pTimerID;
 }
 

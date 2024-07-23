@@ -46,6 +46,9 @@ a       equ b
 
         defadr SetFont,0x20268F18+1
         defadr DrawString,0x202683C4+1
+        defadr get_DisplayGC,0x2075B474+1
+        defadr GC_PutChar,0x2075BF54+1
+        defadr GetImageWidth,0x20269660+1
 
         EXTERN  SetRefreshTimer
         EXTERN  KillRefreshTimer
