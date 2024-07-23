@@ -6,6 +6,17 @@
 #include "Lib.h"
 #include "main.h"
 
+#if defined(A1) || defined(DB3150v1)
+#define dll_ConnectionManager_Connection_GetState() ConnectionManager_Connection_GetState()
+#else
+int dll_ConnectionManager_Connection_GetState()
+{
+  char buf = NULL;
+  ConnectionManager_Connection_GetState_int(&buf);
+  return (buf ? TRUE : FALSE);
+}
+#endif
+
 #ifdef HAVE_BT
 bool BT_isBusy()
 {
@@ -60,7 +71,7 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
       GUIonMessage_SetMenuItemText(msg, FLIGHTMODE_TXT);
       if (FlightMode_GetState())
       {
-        if (ConnectionManager_Connection_GetState())
+        if (dll_ConnectionManager_Connection_GetState())
         {
           GUIonMessage_SetItemDisabled(msg, TRUE);
           GUIonMessage_SetMenuItemUnavailableText(msg, FLIGHTMODE_UNAVAIL_TXT);
@@ -93,11 +104,13 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
         GUIonMessage_SetMenuItemInfoText(msg, TURNON_SILENTMODE_TXT);
       }
       break;
+#ifndef FLIP_PHONE
     case ITEM_KEYLOCK:
       GUIonMessage_SetMenuItemText(msg, KEYLOCK_TXT);
       GUIonMessage_SetMenuItemInfoText(msg, LOCKKEYS_TXT);
       GUIonMessage_SetMenuItemIcon(msg, AlignLeft, KEYLOCK_ICN);
       break;
+#endif
 #ifdef HAVE_BT
     case ITEM_BLUETOOTH:
       GUIonMessage_SetMenuItemText(msg, BLUETOOTH_TXT);
@@ -110,14 +123,9 @@ int QuickAccess_onMessage(GUI_MESSAGE *msg)
       }
       else
       {
-        if (Bluetooth_GetState())
-        {
-          GUIonMessage_SetMenuItemInfoText(msg, TURNOFF_TXT);
-        }
-        else
-        {
-          GUIonMessage_SetMenuItemInfoText(msg, TURNON_TXT);
-        }
+        TEXTID info_text;
+        Bluetooth_GetState() ? info_text = TURNOFF_TXT : info_text = TURNON_TXT;
+        GUIonMessage_SetMenuItemInfoText(msg, info_text);
         GUIonMessage_SetMenuItemIcon(msg, AlignLeft, BLUETOOTH_ICN);
       }
       break;
@@ -230,29 +238,21 @@ void QuickAccess_OnSelect(BOOK *book, GUI *gui)
     break;
   case ITEM_SILENT:
     int num;
+    int s_state;
     REQUEST_PROFILE_GETACTIVEPROFILE(SYNC, &num);
-    if (GetSilent())
-    {
-      REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, OFF);
-    }
-    else
-    {
-      REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, ON);
-    }
+    GetSilent() ? s_state = OFF : s_state = ON;
+    REQUEST_SETTING_SILENCE_SET(SYNC, (u16)num, s_state);
     break;
+#ifndef FLIP_PHONE
   case ITEM_KEYLOCK:
     Lock_Keyboard();
     break;
+#endif
 #ifdef HAVE_BT
   case ITEM_BLUETOOTH:
-    if (Bluetooth_GetState())
-    {
-      Bluetooth_SetState(OFF);
-    }
-    else
-    {
-      Bluetooth_SetState(ON);
-    }
+    int bt_state;
+    Bluetooth_GetState() ? bt_state = OFF : bt_state = ON;
+    Bluetooth_SetState(bt_state);
     break;
 #endif
 #ifdef HAVE_IRDA

@@ -1,0 +1,4 @@
+//W980_R3EG004
+-carm
+-Z(CODE)CODE,DATA_C=127BF800
+-Z(CODE)PATCH_QuickAccessMenu_EnterEvent=11BCDC84

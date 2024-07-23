@@ -111,6 +111,7 @@ extern "C"
   int FlightMode_SetState(int set);
   int IrDa_GetState( char* state );
   void debug_printf(const char *fmt, ...);
+  int ConnectionManager_Connection_GetState_int(char *buf);
 
   GUI *CreateYesNoQuestion(BOOK *book, int display);
   void YesNoQuestion_SetQuestionText(GUI *, TEXTID);
