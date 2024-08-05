@@ -1,7 +1,7 @@
 #ifndef _SHORTCUT_H_
 #define _SHORTCUT_H_
 
-#define CONFIG_NAME L"msc.bin"
+static wchar_t *SC_CONFIG_NAME = L"msc.bin";
 #define TEXTID_SPACE 0x78000020
 
 static const char *MusicShortcutBookName = "MusicApplicationShortcut_Book";

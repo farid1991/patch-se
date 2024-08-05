@@ -161,9 +161,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID
   if (pGC)
     pGC->Release();
 }
-#endif
 
-#if defined(DB3200) || defined(DB3210)
 int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;

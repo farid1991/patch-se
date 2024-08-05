@@ -13,6 +13,7 @@
 
 #include "..\\FilesList.h"
 #include "..\\Function.h"
+#include "..\\LNG.h"
 #include "..\\main.h"
 
 #include "..\\GUI\TimeInput.h"
@@ -33,7 +34,9 @@ void SetTime_OnSelect(BOOK *book, GUI *gui)
     MusicBook->pMusicServer->SetElapsedTime(Time);
   }
   else
-    CreateMessageBox(EMPTY_TEXTID, STR("Music is not playing"), 0, 1500, MusicBook);
+  {
+    CreateMessageBox(EMPTY_TEXTID, STR(TXT_MUSIC_NOT_PLAYING), 0, 1500, MusicBook);
+  }
   DESTROY_GUI(MusicBook->Gui_submenu);
 }
 

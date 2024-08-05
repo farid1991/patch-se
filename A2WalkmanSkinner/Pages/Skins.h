@@ -66,7 +66,7 @@ typedef struct _SkinEditor_Book : BOOK
   wchar_t AuthorName[100];
 
   bool Orientation;
-  char ItemID;
+  uint8_t ItemID;
   bool CreateNew;
   bool GuiChanged;
   bool ChangeMade;
@@ -503,6 +503,7 @@ typedef struct _SkinEditor_Book : BOOK
 
 //==============================================================================
 
+void SkinEditor_onClose(BOOK *book);
 void Enter_SkinEditor(BOOK *book, GUI *gui);
 BOOL IsSkinEditorBook(BOOK *book);
 SkinEditor_Book *Find_SkinEditor_Book();

@@ -854,7 +854,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Title_y1 = mbk->Str_y1;
     mbk->Title_y2 = mbk->Str_y2;
   }
-  if (ID == 1)
+  else if (ID == 1)
   {
     mbk->Artist_Align = mbk->Str_Align;
     mbk->Artist_Enable = mbk->Str_Enable;
@@ -865,7 +865,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Artist_y1 = mbk->Str_y1;
     mbk->Artist_y2 = mbk->Str_y2;
   }
-  if (ID == 2)
+  else if (ID == 2)
   {
     mbk->Album_Align = mbk->Str_Align;
     mbk->Album_Enable = mbk->Str_Enable;
@@ -876,7 +876,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Album_y1 = mbk->Str_y1;
     mbk->Album_y2 = mbk->Str_y2;
   }
-  if (ID == 3)
+  else if (ID == 3)
   {
     mbk->Genre_Align = mbk->Str_Align;
     mbk->Genre_Enable = mbk->Str_Enable;
@@ -887,7 +887,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Genre_y1 = mbk->Str_y1;
     mbk->Genre_y2 = mbk->Str_y2;
   }
-  if (ID == 4)
+  else if (ID == 4)
   {
     mbk->TotalTime_Align = mbk->Str_Align;
     mbk->TotalTime_Enable = mbk->Str_Enable;
@@ -898,7 +898,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->TotalTime_y1 = mbk->Str_y1;
     mbk->TotalTime_y2 = mbk->Str_y2;
   }
-  if (ID == 5)
+  else if (ID == 5)
   {
     mbk->ElapsedTime_Align = mbk->Str_Align;
     mbk->ElapsedTime_Enable = mbk->Str_Enable;
@@ -909,7 +909,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->ElapsedTime_y1 = mbk->Str_y1;
     mbk->ElapsedTime_y2 = mbk->Str_y2;
   }
-  if (ID == 6)
+  else if (ID == 6)
   {
     mbk->RemainingTime_Align = mbk->Str_Align;
     mbk->RemainingTime_Enable = mbk->Str_Enable;
@@ -920,7 +920,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->RemainingTime_y1 = mbk->Str_y1;
     mbk->RemainingTime_y2 = mbk->Str_y2;
   }
-  if (ID == 7)
+  else if (ID == 7)
   {
     mbk->Extension_Align = mbk->Str_Align;
     mbk->Extension_Enable = mbk->Str_Enable;
@@ -931,7 +931,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Extension_y1 = mbk->Str_y1;
     mbk->Extension_y2 = mbk->Str_y2;
   }
-  if (ID == 8)
+  else if (ID == 8)
   {
     mbk->BitRate_Align = mbk->Str_Align;
     mbk->BitRate_Enable = mbk->Str_Enable;
@@ -942,7 +942,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->BitRate_y1 = mbk->Str_y1;
     mbk->BitRate_y2 = mbk->Str_y2;
   }
-  if (ID == 9)
+  else if (ID == 9)
   {
     mbk->TotalTrackID_Align = mbk->Str_Align;
     mbk->TotalTrackID_Enable = mbk->Str_Enable;
@@ -953,7 +953,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->TotalTrackID_y1 = mbk->Str_y1;
     mbk->TotalTrackID_y2 = mbk->Str_y2;
   }
-  if (ID == 10)
+  else if (ID == 10)
   {
     mbk->C_TrackID_Align = mbk->Str_Align;
     mbk->C_TrackID_Enable = mbk->Str_Enable;
@@ -964,101 +964,101 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->C_TrackID_y1 = mbk->Str_y1;
     mbk->C_TrackID_y2 = mbk->Str_y2;
   }
-  if (ID == 11)
+  else if (ID == 11)
   {
     mbk->Shuffle_Image_Enable = mbk->Str_Enable;
     mbk->Shuffle_Image_x1 = mbk->Str_x1;
     mbk->Shuffle_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 12)
+  else if (ID == 12)
   {
     mbk->Loop_Image_Enable = mbk->Str_Enable;
     mbk->Loop_Image_x1 = mbk->Str_x1;
     mbk->Loop_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 13)
+  else if (ID == 13)
   {
     mbk->EQ_Image_Enable = mbk->Str_Enable;
     mbk->EQ_Image_x1 = mbk->Str_x1;
     mbk->EQ_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 14)
+  else if (ID == 14)
   {
     mbk->PlayerState_Image_Enable = mbk->Str_Enable;
     mbk->PlayerState_Image_x1 = mbk->Str_x1;
     mbk->PlayerState_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 15)
+  else if (ID == 15)
   {
     mbk->Title_Image_Enable = mbk->Str_Enable;
     mbk->Title_Image_x1 = mbk->Str_x1;
     mbk->Title_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 16)
+  else if (ID == 16)
   {
     mbk->Artist_Image_Enable = mbk->Str_Enable;
     mbk->Artist_Image_x1 = mbk->Str_x1;
     mbk->Artist_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 17)
+  else if (ID == 17)
   {
     mbk->Album_Image_Enable = mbk->Str_Enable;
     mbk->Album_Image_x1 = mbk->Str_x1;
     mbk->Album_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 18)
+  else if (ID == 18)
   {
     mbk->WhellBG_Image_Enable = mbk->Str_Enable;
     mbk->WhellBG_Image_x1 = mbk->Str_x1;
     mbk->WhellBG_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 19)
+  else if (ID == 19)
   {
     mbk->WhellUP_Image_Enable = mbk->Str_Enable;
     mbk->WhellUP_Image_x1 = mbk->Str_x1;
     mbk->WhellUP_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 20)
+  else if (ID == 20)
   {
     mbk->WhellDOWN_Image_Enable = mbk->Str_Enable;
     mbk->WhellDOWN_Image_x1 = mbk->Str_x1;
     mbk->WhellDOWN_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 21)
+  else if (ID == 21)
   {
     mbk->WhellLEFT_Image_Enable = mbk->Str_Enable;
     mbk->WhellLEFT_Image_x1 = mbk->Str_x1;
     mbk->WhellLEFT_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 22)
+  else if (ID == 22)
   {
     mbk->WhellRIGHT_Image_Enable = mbk->Str_Enable;
     mbk->WhellRIGHT_Image_x1 = mbk->Str_x1;
     mbk->WhellRIGHT_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 23)
+  else if (ID == 23)
   {
     mbk->WhellCENTER_Image_Enable = mbk->Str_Enable;
     mbk->WhellCENTER_Image_x1 = mbk->Str_x1;
     mbk->WhellCENTER_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 24)
+  else if (ID == 24)
   {
     mbk->Background_Image_Enable = mbk->Str_Enable;
     mbk->Background_Image_x1 = mbk->Str_x1;
     mbk->Background_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 25)
+  else if (ID == 25)
   {
     mbk->Overlay_Image_Enable = mbk->Str_Enable;
     mbk->Overlay_Image_x1 = mbk->Str_x1;
     mbk->Overlay_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 26)
+  else if (ID == 26)
   {
     mbk->ProgressBarEnable = mbk->Str_Enable;
     mbk->PBColor = mbk->Str_Color;
@@ -1069,7 +1069,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->PRect.y2 = mbk->Str_y2;
   }
 
-  if (ID == 27)
+  else if (ID == 27)
   {
     mbk->VolumeBarEnable = mbk->Str_Enable;
     mbk->VBColor = mbk->Str_Color;
@@ -1079,14 +1079,14 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->VRect.y1 = mbk->Str_y1;
     mbk->VRect.y2 = mbk->Str_y2;
   }
-  if (ID == 28)
+  else if (ID == 28)
   {
     mbk->ARect.x1 = mbk->Str_x1;
     mbk->ARect.x2 = mbk->Str_x2;
     mbk->ARect.y1 = mbk->Str_y1;
     mbk->ARect.y2 = mbk->Str_y2;
   }
-  if (ID == 29)
+  else if (ID == 29)
   {
     mbk->VRect.x1 = mbk->Str_x1;
     mbk->VRect.x2 = mbk->Str_x2;
@@ -1094,7 +1094,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->VRect.y2 = mbk->Str_y2;
   }
   // --------------------------------------------
-  if (ID == 30)
+  else if (ID == 30)
   {
     mbk->Land_Title_Align = mbk->Str_Align;
     mbk->Land_Title_Enable = mbk->Str_Enable;
@@ -1105,7 +1105,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_Title_y1 = mbk->Str_y1;
     mbk->Land_Title_y2 = mbk->Str_y2;
   }
-  if (ID == 31)
+  else if (ID == 31)
   {
     mbk->Land_Artist_Align = mbk->Str_Align;
     mbk->Land_Artist_Enable = mbk->Str_Enable;
@@ -1116,7 +1116,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_Artist_y1 = mbk->Str_y1;
     mbk->Land_Artist_y2 = mbk->Str_y2;
   }
-  if (ID == 32)
+  else if (ID == 32)
   {
     mbk->Land_Album_Align = mbk->Str_Align;
     mbk->Land_Album_Enable = mbk->Str_Enable;
@@ -1127,7 +1127,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_Album_y1 = mbk->Str_y1;
     mbk->Land_Album_y2 = mbk->Str_y2;
   }
-  if (ID == 33)
+  else if (ID == 33)
   {
     mbk->Land_Genre_Align = mbk->Str_Align;
     mbk->Land_Genre_Enable = mbk->Str_Enable;
@@ -1138,7 +1138,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_Genre_y1 = mbk->Str_y1;
     mbk->Land_Genre_y2 = mbk->Str_y2;
   }
-  if (ID == 34)
+  else if (ID == 34)
   {
     mbk->Land_TotalTime_Align = mbk->Str_Align;
     mbk->Land_TotalTime_Enable = mbk->Str_Enable;
@@ -1149,7 +1149,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_TotalTime_y1 = mbk->Str_y1;
     mbk->Land_TotalTime_y2 = mbk->Str_y2;
   }
-  if (ID == 35)
+  else if (ID == 35)
   {
     mbk->Land_ElapsedTime_Align = mbk->Str_Align;
     mbk->Land_ElapsedTime_Enable = mbk->Str_Enable;
@@ -1160,7 +1160,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_ElapsedTime_y1 = mbk->Str_y1;
     mbk->Land_ElapsedTime_y2 = mbk->Str_y2;
   }
-  if (ID == 36)
+  else if (ID == 36)
   {
     mbk->Land_RemainingTime_Align = mbk->Str_Align;
     mbk->Land_RemainingTime_Enable = mbk->Str_Enable;
@@ -1171,7 +1171,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_RemainingTime_y1 = mbk->Str_y1;
     mbk->Land_RemainingTime_y2 = mbk->Str_y2;
   }
-  if (ID == 37)
+  else if (ID == 37)
   {
     mbk->Land_Extension_Align = mbk->Str_Align;
     mbk->Land_Extension_Enable = mbk->Str_Enable;
@@ -1182,7 +1182,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_Extension_y1 = mbk->Str_y1;
     mbk->Land_Extension_y2 = mbk->Str_y2;
   }
-  if (ID == 38)
+  else if (ID == 38)
   {
     mbk->Land_BitRate_Align = mbk->Str_Align;
     mbk->Land_BitRate_Enable = mbk->Str_Enable;
@@ -1193,7 +1193,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_BitRate_y1 = mbk->Str_y1;
     mbk->Land_BitRate_y2 = mbk->Str_y2;
   }
-  if (ID == 39)
+  else if (ID == 39)
   {
     mbk->Land_TotalTrackID_Align = mbk->Str_Align;
     mbk->Land_TotalTrackID_Enable = mbk->Str_Enable;
@@ -1204,7 +1204,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_TotalTrackID_y1 = mbk->Str_y1;
     mbk->Land_TotalTrackID_y2 = mbk->Str_y2;
   }
-  if (ID == 40)
+  else if (ID == 40)
   {
     mbk->Land_C_TrackID_Align = mbk->Str_Align;
     mbk->Land_C_TrackID_Enable = mbk->Str_Enable;
@@ -1215,100 +1215,100 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_C_TrackID_y1 = mbk->Str_y1;
     mbk->Land_C_TrackID_y2 = mbk->Str_y2;
   }
-  if (ID == 41)
+  else if (ID == 41)
   {
     mbk->Land_Shuffle_Image_Enable = mbk->Str_Enable;
     mbk->Land_Shuffle_Image_x1 = mbk->Str_x1;
     mbk->Land_Shuffle_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 42)
+  else if (ID == 42)
   {
     mbk->Land_Loop_Image_Enable = mbk->Str_Enable;
     mbk->Land_Loop_Image_x1 = mbk->Str_x1;
     mbk->Land_Loop_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 43)
+  else if (ID == 43)
   {
     mbk->Land_EQ_Image_Enable = mbk->Str_Enable;
     mbk->Land_EQ_Image_x1 = mbk->Str_x1;
     mbk->Land_EQ_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 44)
+  else if (ID == 44)
   {
     mbk->Land_PlayerState_Image_Enable = mbk->Str_Enable;
     mbk->Land_PlayerState_Image_x1 = mbk->Str_x1;
     mbk->Land_PlayerState_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 45)
+  else if (ID == 45)
   {
     mbk->Land_Title_Image_Enable = mbk->Str_Enable;
     mbk->Land_Title_Image_x1 = mbk->Str_x1;
     mbk->Land_Title_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 46)
+  else if (ID == 46)
   {
     mbk->Land_Artist_Image_Enable = mbk->Str_Enable;
     mbk->Land_Artist_Image_x1 = mbk->Str_x1;
     mbk->Land_Artist_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 47)
+  else if (ID == 47)
   {
     mbk->Land_Album_Image_Enable = mbk->Str_Enable;
     mbk->Land_Album_Image_x1 = mbk->Str_x1;
     mbk->Land_Album_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 48)
+  else if (ID == 48)
   {
     mbk->Land_WhellBG_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellBG_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellBG_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 49)
+  else if (ID == 49)
   {
     mbk->Land_WhellUP_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellUP_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellUP_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 50)
+  else if (ID == 50)
   {
     mbk->Land_WhellDOWN_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellDOWN_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellDOWN_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 51)
+  else if (ID == 51)
   {
     mbk->Land_WhellLEFT_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellLEFT_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellLEFT_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 52)
+  else if (ID == 52)
   {
     mbk->Land_WhellRIGHT_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellRIGHT_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellRIGHT_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 53)
+  else if (ID == 53)
   {
     mbk->Land_WhellCENTER_Image_Enable = mbk->Str_Enable;
     mbk->Land_WhellCENTER_Image_x1 = mbk->Str_x1;
     mbk->Land_WhellCENTER_Image_y1 = mbk->Str_y1;
   }
 
-  if (ID == 54)
+  else if (ID == 54)
   {
     mbk->Land_Background_Image_Enable = mbk->Str_Enable;
     mbk->Land_Background_Image_x1 = mbk->Str_x1;
     mbk->Land_Background_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 55)
+  else if (ID == 55)
   {
     mbk->Land_Overlay_Image_Enable = mbk->Str_Enable;
     mbk->Land_Overlay_Image_x1 = mbk->Str_x1;
     mbk->Land_Overlay_Image_y1 = mbk->Str_y1;
   }
-  if (ID == 56)
+  else if (ID == 56)
   {
     mbk->Land_ProgressBarEnable = mbk->Str_Enable;
     mbk->Land_PBColor = mbk->Str_Color;
@@ -1318,7 +1318,7 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_PRect.y1 = mbk->Str_y1;
     mbk->Land_PRect.y2 = mbk->Str_y2;
   }
-  if (ID == 57)
+  else if (ID == 57)
   {
     mbk->Land_VolumeBarEnable = mbk->Str_Enable;
     mbk->Land_VBColor = mbk->Str_Color;
@@ -1328,14 +1328,14 @@ void LoadTempDataToBookHeader(BOOK *book, int ID)
     mbk->Land_VRect.y1 = mbk->Str_y1;
     mbk->Land_VRect.y2 = mbk->Str_y2;
   }
-  if (ID == 58)
+  else if (ID == 58)
   {
     mbk->Land_ARect.x1 = mbk->Str_x1;
     mbk->Land_ARect.x2 = mbk->Str_x2;
     mbk->Land_ARect.y1 = mbk->Str_y1;
     mbk->Land_ARect.y2 = mbk->Str_y2;
   }
-  if (ID == 59)
+  else if (ID == 59)
   {
     mbk->Land_VRect.x1 = mbk->Str_x1;
     mbk->Land_VRect.x2 = mbk->Str_x2;

@@ -480,7 +480,7 @@ a       equ b
         defadr SetTrayIcon,0x1417DAA0+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x159860B4+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x159861B0+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x15986174+1
+        defadr SETTING_RINGTYPESOUNDFILE_SET,0x15986174+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x15986284+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x15986114+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x1403A604+1
@@ -508,7 +508,6 @@ a       equ b
         defadr MediaPlayer_SoftKeys_SetAction,0x1443777C+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x1443753C+1
         defadr MediaPlayer_SoftKeys_AddHelpStr,0x144374FC+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x144374FC+1
         defadr DispObject_Show,0x140CBACC+1
         defadr Request_EventChannel_Subscribe,0x108862E0+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x151CD1DC+1
@@ -598,7 +597,6 @@ a       equ b
         defadr DataBrowserBook_GetCurrentFoldersList,0x14447578+1
         defadr DispObject_SetAnimation,0x14EDFB38+1
         defadr GUIObject_SetZOrder,0x14095578+1
-
         defadr DisplayGC_AddRef,0x144D5BE4+1
         defadr TextObject_SetText,0x141864EC+1
         defadr TextObject_SetFont,0x144A4C94+1
@@ -609,21 +607,17 @@ a       equ b
         defadr TextID_Copy,0x141852DC+1
         defadr TextID_GetLength,0x14186394+1
         defadr TextID_GetWString,0x14185858+1
-
         defadr GUIObject_SoftKeys_SetItemOnKey,0x14281180+1
         defadr GUIObject_SoftKeys_AllowKeylock,0x143A3B70+1
         defadr GUIObject_GetStyle,0x140CBF40+1
-
         defadr DispObject_GetStyle,0x140CC00C+1
         defadr DispObject_SetStyle,0x143107C4+1
         defadr DispObject_SoftKeys_Show,0x1412AE04+1
         defadr DispObject_SoftKeys_Hide,0x144D32C0+1
         defadr DispObject_SetBacklightMode,0x142F4D38+1
-
         defadr FSX_MakeFullPath,0x1417AEF4+1
         defadr FSX_FreeFullPath,0x1433ADD4+1
         defadr FSX_IsFileExists,0x144180A0+1
-
         defadr Volume_Set,0x14333858+1
         defadr Volume_Get,0x14334BDC+1
         defadr MetaData_GetTags,0x15860700+1
@@ -631,7 +625,6 @@ a       equ b
         defadr List_GetCount,0x140CD2E0+1
         defadr Feedback_CloseAction,0x1414C8FC+1
         defadr ListMenu_SetTexts,0x1428470C+1
-
         defadr CreateStringInput,0x1406326C+1
         defadr StringInput_SetMode,0x142D1B28+1
         defadr StringInput_SetFixedText,0x42DFDD8+1
@@ -639,8 +632,6 @@ a       equ b
         defadr StringInput_SetMaxLen,0x14063348+1
         defadr StringInput_SetEnableEmptyText,0x142D307C+1
         defadr StringInput_SetActionOK,0x142D19C0+1
-
-        defadr SETTING_RINGTYPESOUNDFILE_SET,0x15986174+1
         defadr Sound_SetMessageAlert,0x14D4CAE0+1
         defadr Sound_SetAlarmsignal,0x15254328+1
         defadr Sound_AddToContact,0x1536F9E4+1
@@ -683,7 +674,7 @@ a       equ b
         EXTERN New_Action
         EXTERN New_SoftKeys
         EXTERN Set_WALKMAN_GUI_STYLE
-        EXTERN RefreshScreen
+        EXTERN refresh_gui
 
         EXTERN LoadLandscapeData
         EXTERN LoadPortraitData
@@ -835,7 +826,7 @@ _walkman:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
         BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
         LDRB    R1, [R6,#1]
         LDR     R0, [R5,#0]
         LDR     R3, =0x14EE444C+1
@@ -851,7 +842,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
         BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
         LDRB    R1, [R6,#0]
         LDR     R0, [R5,#0]
         LDR     R3, =0x14EE4480+1

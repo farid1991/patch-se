@@ -161,7 +161,6 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x10AF23CC+1
         defadr MediaPlayer_SoftKeys_SetAction,0x10AF2324+1
         defadr MediaPlayer_SoftKeys_SetText,0x10AF236C+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x10AF23FC+1
         defadr MediaPlayer_SoftKeys_AddHelpStr,0x10AF23FC+1
         defadr FILEITEM_GetPath,0x11808D90+1
         defadr FILEITEM_GetFname,0x11808CFC+1
@@ -196,14 +195,12 @@ a       EQU     b
         defadr Sound_SetMessageAlert,0x10C4E930+1
         defadr Sound_SetAlarmsignal,0x1093366C+1
         defadr Sound_AddToContact,0x10B51EAC+1
-
         defadr CreateTabMenuBar,0x1178A97C+1
         defadr TabMenuBar_SetTabGui,0x1178AA4C+1
         defadr TabMenuBar_SetTabTitle,0x1178AB14+1
         defadr TabMenuBar_SetTabIcon,0x1178AACC+1
         defadr TabMenuBar_SetTabCount,0x1178ABD4+1
         defadr TabMenuBar_SetFocusedTab,0x1178AA30+1
-
         defadr CreateStringInput,0x10894AB0+1
         defadr StringInput_SetMode,0x10895368+1
         defadr StringInput_SetFixedText,0x108954AC+1
@@ -211,7 +208,6 @@ a       EQU     b
         defadr StringInput_SetMaxLen,0x10895480+1
         defadr StringInput_SetEnableEmptyText,0x108954F4+1
         defadr StringInput_SetActionOK,0x108953C4+1
-
         defadr TextFeedbackWindow,0x1178BCC8+1
         defadr Feedback_SetTextExtended,0x1178C138+1
         defadr Feedback_CloseAction,0x1178C098+1
@@ -252,7 +248,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -386,7 +382,7 @@ _walkman_gui:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x10C861D4+1
@@ -402,7 +398,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x10C86208+1

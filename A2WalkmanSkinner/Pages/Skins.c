@@ -29,9 +29,7 @@
 
 BOOL IsSkinEditorBook(BOOK *book)
 {
-  if (strcmp(book->xbook->name, SkinEditorBook_Name) == 0)
-    return 1;
-  return 0;
+  return book->onClose == SkinEditor_onClose ? TRUE : FALSE;
 }
 
 SkinEditor_Book *Find_SkinEditor_Book()
@@ -109,64 +107,64 @@ int onLinksLBMessage(GUI_MESSAGE *msg)
     int item = GUIonMessage_GetCreatedItemIndex(msg);
     if (item == 0)
       GUIonMessage_SetMenuItemText(msg, TEXT_TITLE);
-    if (item == 1)
+    else if (item == 1)
       GUIonMessage_SetMenuItemText(msg, TEXT_ARTIST);
-    if (item == 2)
+    else if (item == 2)
       GUIonMessage_SetMenuItemText(msg, TEXT_ALBUM);
-    if (item == 3)
+    else if (item == 3)
       GUIonMessage_SetMenuItemText(msg, TEXT_GENRE);
-    if (item == 4)
+    else if (item == 4)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_TOTAL_TIME));
-    if (item == 5)
+    else if (item == 5)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_ELAPSED_TIME));
-    if (item == 6)
+    else if (item == 6)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_REMAINING_TIME));
-    if (item == 7)
+    else if (item == 7)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_EXTENSION));
-    if (item == 8)
+    else if (item == 8)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_BITRATE));
-    if (item == 9)
+    else if (item == 9)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_TOTAL_TRACK_NUMBER));
-    if (item == 10)
+    else if (item == 10)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_CURRENT_TRACK_NUMBER));
-    if (item == 11)
+    else if (item == 11)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_SHUFFLE_ICON));
-    if (item == 12)
+    else if (item == 12)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_LOOP_ICON));
-    if (item == 13)
+    else if (item == 13)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_EQ_ICON));
-    if (item == 14)
+    else if (item == 14)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_PLAYER_STATE_ICON));
-    if (item == 15)
+    else if (item == 15)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_TITLE_ICON));
-    if (item == 16)
+    else if (item == 16)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_ARTIST_ICON));
-    if (item == 17)
+    else if (item == 17)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_ALBUM_ICON));
-    if (item == 18)
+    else if (item == 18)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_BG_ICON));
-    if (item == 19)
+    else if (item == 19)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_UP_ICON));
-    if (item == 20)
+    else if (item == 20)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_DOWN_ICON));
-    if (item == 21)
+    else if (item == 21)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_LEFT_ICON));
-    if (item == 22)
+    else if (item == 22)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_RIGHT_ICON));
-    if (item == 23)
+    else if (item == 23)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_WHEEL_CENTER_ICON));
-    if (item == 24)
+    else if (item == 24)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_BACKGROUND_IMAGE));
-    if (item == 25)
+    else if (item == 25)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_OVERLAY_IMAGE));
-    if (item == 26)
+    else if (item == 26)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_PROGRESS_BAR));
-    if (item == 27)
+    else if (item == 27)
       GUIonMessage_SetMenuItemText(msg, STR(TXT_VOLUME_BAR));
-    if (item == 28)
+    else if (item == 28)
       GUIonMessage_SetMenuItemText(msg, TEXT_ALBUM_ART);
 
-    if (item == 29)
+    else if (item == 29)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_VIZ);
       GUIonMessage_SetItemDisabled(msg, 1);
@@ -193,7 +191,7 @@ int onLinksGUI(GUI_MESSAGE *msg)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_NO);
       }
     }
-    if (item == 1)
+    else if (item == 1)
     {
       GUIonMessage_SetMenuItemText(msg, STR(TXT_SHOW_SOFTKEY));
       if (book->SoftKeys)
@@ -228,7 +226,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Title_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 1)
+  else if (item == 1)
   {
     // book->ItemID=1;
     wstrcpy(mbk->Title_Str, L"Artist");
@@ -242,7 +240,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Artist_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 2)
+  else if (item == 2)
   {
     // book->ItemID=2;
     wstrcpy(mbk->Title_Str, L"Album");
@@ -256,7 +254,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Album_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 3)
+  else if (item == 3)
   {
     // book->ItemID=3;
     wstrcpy(mbk->Title_Str, L"Genre");
@@ -270,7 +268,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Genre_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 4)
+  else if (item == 4)
   {
     // book->ItemID=4;
     wstrcpy(mbk->Title_Str, L"Total Time");
@@ -284,7 +282,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->TotalTime_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 5)
+  else if (item == 5)
   {
     // book->ItemID=5;
     wstrcpy(mbk->Title_Str, L"Elapsed Time");
@@ -298,7 +296,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->ElapsedTime_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 6)
+  else if (item == 6)
   {
     // book->ItemID=6;
     wstrcpy(mbk->Title_Str, L"Remaining Time");
@@ -312,7 +310,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->RemainingTime_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 7)
+  else if (item == 7)
   {
     // book->ItemID=7;
     wstrcpy(mbk->Title_Str, L"Extension");
@@ -326,7 +324,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Extension_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 8)
+  else if (item == 8)
   {
     // book->ItemID=8;
     wstrcpy(mbk->Title_Str, L"Bitrate");
@@ -340,7 +338,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->BitRate_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 9)
+  else if (item == 9)
   {
     // book->ItemID=9;
     wstrcpy(mbk->Title_Str, L"Total Track");
@@ -354,7 +352,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->TotalTrackID_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 10)
+  else if (item == 10)
   {
     // book->ItemID=10;
     wstrcpy(mbk->Title_Str, L"Current Track ID");
@@ -368,7 +366,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->C_TrackID_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 11)
+  else if (item == 11)
   {
     // book->ItemID=11;
     wstrcpy(mbk->Title_Str, L"Shuffle Icon");
@@ -382,7 +380,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(book);
   }
-  if (item == 12)
+  else if (item == 12)
   {
     // book->ItemID=12;
     wstrcpy(mbk->Title_Str, L"Loop Icon");
@@ -396,7 +394,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 13)
+  else if (item == 13)
   {
     // book->ItemID=13;
     wstrcpy(mbk->Title_Str, L"EQ Icon");
@@ -410,7 +408,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 14)
+  else if (item == 14)
   {
     // book->ItemID=14;
     wstrcpy(mbk->Title_Str, L"Player State Icon");
@@ -425,7 +423,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 15)
+  else if (item == 15)
   {
     // book->ItemID=15;
     wstrcpy(mbk->Title_Str, L"Title Icon");
@@ -439,7 +437,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 16)
+  else if (item == 16)
   {
     // book->ItemID=16;
     wstrcpy(mbk->Title_Str, L"Artist Icon");
@@ -453,7 +451,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 17)
+  else if (item == 17)
   {
     // book->ItemID=17;
     wstrcpy(mbk->Title_Str, L"Album Icon");
@@ -468,7 +466,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 18)
+  else if (item == 18)
   {
     // book->ItemID=18;
     wstrcpy(mbk->Title_Str, L"Wheel BG Icon");
@@ -483,7 +481,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 19)
+  else if (item == 19)
   {
     // book->ItemID=19;
     wstrcpy(mbk->Title_Str, L"Wheel Up Icon");
@@ -497,7 +495,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 20)
+  else if (item == 20)
   {
     // book->ItemID=20;
     wstrcpy(mbk->Title_Str, L"Wheel Down Icon");
@@ -511,7 +509,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 21)
+  else if (item == 21)
   {
     // book->ItemID=21;
     wstrcpy(mbk->Title_Str, L"Wheel Left Icon");
@@ -525,7 +523,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 22)
+  else if (item == 22)
   {
     // book->ItemID=22;
     wstrcpy(mbk->Title_Str, L"Wheel Right Icon");
@@ -540,7 +538,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 23)
+  else if (item == 23)
   {
     // book->ItemID=23;
     wstrcpy(mbk->Title_Str, L"Wheel Center Icon");
@@ -555,7 +553,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 24)
+  else if (item == 24)
   {
     // book->ItemID=24;
     wstrcpy(mbk->Title_Str, L"Background Image");
@@ -569,7 +567,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 25)
+  else if (item == 25)
   {
     // book->ItemID=25;
     wstrcpy(mbk->Title_Str, L"Overlay Image");
@@ -584,7 +582,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 26)
+  else if (item == 26)
   {
     // book->ItemID=26;
     wstrcpy(mbk->Title_Str, L"Progress Bar");
@@ -599,7 +597,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->PRect.y2;
     Editor_Slider(mbk);
   }
-  if (item == 27)
+  else if (item == 27)
   {
     // book->ItemID=27;
     wstrcpy(mbk->Title_Str, L"Volume Bar");
@@ -614,7 +612,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->VRect.y2;
     Editor_Slider(mbk);
   }
-  if (item == 28)
+  else if (item == 28)
   {
     // book->ItemID=28;
     mbk->IsCover = TRUE;
@@ -624,7 +622,7 @@ void OnLinksEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->ARect.y2;
     EditCoordinates(mbk, 1);
   }
-  if (item == 29)
+  else if (item == 29)
   {
     // book->ItemID=29;
     mbk->IsCover = TRUE;
@@ -657,7 +655,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_Title_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 1)
+  else if (item == 1)
   {
     // book->ItemID=31;
     wstrcpy(mbk->Title_Str, L"Artist");
@@ -671,7 +669,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_Artist_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 2)
+  else if (item == 2)
   {
     // book->ItemID=32;
     wstrcpy(mbk->Title_Str, L"Album");
@@ -685,7 +683,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_Album_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 3)
+  else if (item == 3)
   {
     // book->ItemID=33;
     wstrcpy(mbk->Title_Str, L"Genre");
@@ -699,7 +697,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_Genre_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 4)
+  else if (item == 4)
   {
     // book->ItemID=34;
     wstrcpy(mbk->Title_Str, L"Total Time");
@@ -713,7 +711,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_TotalTime_y2;
     Editor_ItemText(book);
   }
-  if (item == 5)
+  else if (item == 5)
   {
     // book->ItemID=35;
     wstrcpy(mbk->Title_Str, L"Elapsed Time");
@@ -727,7 +725,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_ElapsedTime_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 6)
+  else if (item == 6)
   {
     // book->ItemID=36;
     wstrcpy(mbk->Title_Str, L"Remaining Time");
@@ -741,7 +739,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_RemainingTime_y2;
     Editor_ItemText(book);
   }
-  if (item == 7)
+  else if (item == 7)
   {
     // book->ItemID=37;
     wstrcpy(mbk->Title_Str, L"Extension");
@@ -755,7 +753,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_Extension_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 8)
+  else if (item == 8)
   {
     // book->ItemID=38;
     wstrcpy(mbk->Title_Str, L"Bitrate");
@@ -769,7 +767,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_BitRate_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 9)
+  else if (item == 9)
   {
     // book->ItemID=39;
     wstrcpy(mbk->Title_Str, L"Total Track");
@@ -783,7 +781,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_TotalTrackID_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 10)
+  else if (item == 10)
   {
     // book->ItemID=40;
     wstrcpy(mbk->Title_Str, L"Current Track ID");
@@ -797,7 +795,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_C_TrackID_y2;
     Editor_ItemText(mbk);
   }
-  if (item == 11)
+  else if (item == 11)
   {
     // book->ItemID=41;
     wstrcpy(mbk->Title_Str, L"Shuffle Icon");
@@ -811,7 +809,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 12)
+  else if (item == 12)
   {
     // book->ItemID=42;
     wstrcpy(mbk->Title_Str, L"Loop Icon");
@@ -825,7 +823,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 13)
+  else if (item == 13)
   {
     // book->ItemID=43;
     wstrcpy(mbk->Title_Str, L"EQ Icon");
@@ -839,7 +837,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 14)
+  else if (item == 14)
   {
     // book->ItemID=44;
     wstrcpy(mbk->Title_Str, L"Player State Icon");
@@ -853,7 +851,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 15)
+  else if (item == 15)
   {
     // book->ItemID=45;
     wstrcpy(mbk->Title_Str, L"Title Icon");
@@ -867,7 +865,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 16)
+  else if (item == 16)
   {
     // book->ItemID=46;
     wstrcpy(mbk->Title_Str, L"Artist Icon");
@@ -881,7 +879,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 17)
+  else if (item == 17)
   {
     // book->ItemID=47;
     wstrcpy(mbk->Title_Str, L"Album Icon");
@@ -895,7 +893,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 18)
+  else if (item == 18)
   {
     // book->ItemID=48;
     wstrcpy(mbk->Title_Str, L"Wheel BG Icon");
@@ -910,7 +908,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 19)
+  else if (item == 19)
   {
     // book->ItemID=49;
     wstrcpy(mbk->Title_Str, L"Wheel Up Icon");
@@ -924,7 +922,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 20)
+  else if (item == 20)
   {
     // book->ItemID=50;
     wstrcpy(mbk->Title_Str, L"Wheel Down Icon");
@@ -938,7 +936,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 21)
+  else if (item == 21)
   {
     // book->ItemID=51;
     wstrcpy(mbk->Title_Str, L"Wheel Left Icon");
@@ -952,7 +950,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 22)
+  else if (item == 22)
   {
     // book->ItemID=52;
     wstrcpy(mbk->Title_Str, L"Wheel Right Icon");
@@ -967,7 +965,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 23)
+  else if (item == 23)
   {
     // book->ItemID=53;
     wstrcpy(mbk->Title_Str, L"Wheel Center Icon");
@@ -982,7 +980,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 24)
+  else if (item == 24)
   {
     // book->ItemID=54;
     wstrcpy(mbk->Title_Str, L"Background Image");
@@ -996,7 +994,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = 0;
     Editor_ItemIcon(mbk);
   }
-  if (item == 25)
+  else if (item == 25)
   {
     // book->ItemID=55;
     wstrcpy(mbk->Title_Str, L"Overlay Image");
@@ -1011,7 +1009,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     Editor_ItemIcon(mbk);
   }
 
-  if (item == 26)
+  else if (item == 26)
   {
     // book->ItemID=56;
     wstrcpy(mbk->Title_Str, L"Progress Bar");
@@ -1026,7 +1024,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_PRect.y2;
     Editor_Slider(mbk);
   }
-  if (item == 27)
+  else if (item == 27)
   {
     // book->ItemID=57;
     wstrcpy(mbk->Title_Str, L"Volume Bar");
@@ -1041,7 +1039,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_VRect.y2;
     Editor_Slider(mbk);
   }
-  if (item == 28)
+  else if (item == 28)
   {
     // book->ItemID=58;
     mbk->IsCover = TRUE;
@@ -1051,7 +1049,7 @@ void OnLinksLandEditorSelectGui(BOOK *book, GUI *gui)
     mbk->Str_y2 = mbk->Land_ARect.y2;
     EditCoordinates(mbk, 1);
   }
-  if (item == 29)
+  else if (item == 29)
   {
     // book->ItemID=59;
     mbk->IsCover = TRUE;
@@ -1255,10 +1253,8 @@ void Create_InputAuthorName(BOOK *book)
 
 //==============================================================================
 
-void Refresh_MusicApp(BOOK *book)
+void Refresh_MusicApp()
 {
-  // SkinEditor_Book *mbk = (SkinEditor_Book *)book;
-
   Internal_Function *Data = Get_Internal_Function();
   if (Data->Portrait)
   {
@@ -1272,25 +1268,28 @@ void Refresh_MusicApp(BOOK *book)
   if (Data->Fullscreen)
   {
     GUIObject_SetStyle(Data->MusicBook->Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
+    DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_TrueFullScreen);
+
   }
   else
   {
     GUIObject_SetStyle(Data->MusicBook->Gui_NowPlaying, UI_OverlayStyle_Default);
+    DispObject_SetStyle(Data->Music_Gui_NowPlaying, UI_OverlayStyle_Default);
+
   }
 
   if (Data->SoftKeys)
   {
     GUIObject_SoftKeys_Show(Data->MusicBook->Gui_NowPlaying);
+    DispObject_SoftKeys_Show(Data->Music_Gui_NowPlaying);
   }
   else
   {
     GUIObject_SoftKeys_Hide(Data->MusicBook->Gui_NowPlaying);
+    DispObject_SoftKeys_Hide(Data->Music_Gui_NowPlaying);
   }
 
-  InvalidateRect(Data->Music_Gui_NowPlaying);
-
-  // if (mbk->GuiChanged)
-  //   BookObj_GotoPage(Data->MusicBook, page_MusicApplication_Main);
+  refresh_gui();
 }
 
 int SetSkin(BOOK *book)
@@ -1300,12 +1299,14 @@ int SetSkin(BOOK *book)
   FreeImage(Data);
 
   if (!mbk->fpath || !mbk->sname)
+  {
     return 0;
+  }
 
   wchar_t *sname_fullpath = FSX_MakeFullPath(mbk->fpath, mbk->sname);
 
-  int File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_WRONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
-  if (File >= 0)
+  int file = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_WRONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
+  if (file >= 0)
   {
     SKIN *current_skin = (SKIN *)malloc(sizeof(SKIN));
     memset(current_skin, NULL, sizeof(SKIN));
@@ -1314,8 +1315,8 @@ int SetSkin(BOOK *book)
     wstrcpy(current_skin->Path, mbk->fpath);
     wstrcpy(current_skin->Name, mbk->fname);
 
-    fwrite(File, current_skin, sizeof(SKIN));
-    fclose(File);
+    fwrite(file, current_skin, sizeof(SKIN));
+    fclose(file);
     mfree(current_skin);
   }
   FSX_FreeFullPath(sname_fullpath);
@@ -1323,8 +1324,8 @@ int SetSkin(BOOK *book)
   LoadImage(Data);
   Load_skin_GUI(mbk->fpath, mbk->sname);
 
-  Refresh_MusicApp(mbk);
-  RefreshScreen();
+  Refresh_MusicApp();
+
   return 1;
 }
 
@@ -1389,7 +1390,7 @@ void Create_DialogApplySkin(BOOK *book)
   FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, ListMenu_GetSelectedItem(mbk->SkinsList));
 
   mbk->DialogApplySkin = CreateDialog(mbk);
-  Dialog_SetTitleText(mbk->DialogApplySkin, TextID_Create(files->name, ENC_UCS2, TEXTID_ANY_LEN));
+  Dialog_SetTitleText(mbk->DialogApplySkin, TextID_Create(files->skinname, ENC_UCS2, TEXTID_ANY_LEN));
   Dialog_SetDialogText(mbk->DialogApplySkin, TEXT_USE_NOW);
 
   GUIObject_SoftKeys_SetAction(mbk->DialogApplySkin, ACTION_YES, DialogApplySkin_OnYes);
@@ -1409,7 +1410,7 @@ int SelectSkin_OnMessage(GUI_MESSAGE *msg)
     int index = GUIonMessage_GetCreatedItemIndex(msg);
     FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, index);
 
-    GUIonMessage_SetMenuItemText(msg, TextID_Create(files->name, ENC_UCS2, TEXTID_ANY_LEN));
+    GUIonMessage_SetMenuItemText(msg, TextID_Create(files->skinname, ENC_UCS2, TEXTID_ANY_LEN));
     break;
   }
   return 1;
@@ -1428,9 +1429,9 @@ void SelectSkin_OnEdit(BOOK *book, GUI *gui)
 
   FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, index);
 
-  wstrcpy(mbk->fpath, files->fpath);
-  wstrcpy(mbk->fname, files->fname);
-  wstrcpy(mbk->sname, files->name);
+  wstrcpy(mbk->fpath, files->filepath);
+  wstrcpy(mbk->fname, files->filename);
+  wstrcpy(mbk->sname, files->skinname);
   LoadSkinData(mbk, mbk->fpath, mbk->fname);
   CreateTabGui(mbk);
 }
@@ -1443,7 +1444,7 @@ void SelectSkin_OnAuthor(BOOK *book, GUI *gui)
   FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, index);
 
   wchar_t *AuthorName = WStringAlloc(100);
-  int file = _fopen(files->fpath, files->fname, FSX_O_RDONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
+  int file = _fopen(files->filepath, files->filename, FSX_O_RDONLY, (FSX_S_IREAD | FSX_S_IWRITE), NULL);
   if (file >= 0)
   {
     WALKMAN_Skin *SData = (WALKMAN_Skin *)malloc(sizeof(WALKMAN_Skin));
@@ -1467,9 +1468,9 @@ void SelectSkin_onEnterPressed(BOOK *book, GUI *gui)
 
   FILELIST *files = (FILELIST *)List_Get(mbk->SkinList, index);
 
-  wstrcpy(mbk->fpath, files->fpath);
-  wstrcpy(mbk->fname, files->fname);
-  wstrcpy(mbk->sname, files->name);
+  wstrcpy(mbk->fpath, files->filepath);
+  wstrcpy(mbk->fname, files->filename);
+  wstrcpy(mbk->sname, files->skinname);
 
   FSTAT STAT;
   fstat(mbk->fpath, mbk->fname, &STAT);
@@ -1534,7 +1535,7 @@ int SelectSkin_MainPage_ExitEvent(void *data, BOOK *book)
 {
   SkinEditor_Book *mbk = (SkinEditor_Book *)book;
   DESTROY_GUI(mbk->SkinsList);
-  Refresh_MusicApp(mbk);
+  Refresh_MusicApp();
   return 1;
 }
 
@@ -1546,7 +1547,7 @@ int SelectSkin_BasePage_CancelEvent(void *data, BOOK *book)
   return 1;
 }
 
-void SkinEditor_Destroy(BOOK *book)
+void SkinEditor_onClose(BOOK *book)
 {
   SkinEditor_Book *mbk = (SkinEditor_Book *)book;
 
@@ -1563,7 +1564,7 @@ void SkinEditor_Destroy(BOOK *book)
   DESTROY_GUI(mbk->StringEdit);
   Destroy_TabGUI(mbk);
 
-  Refresh_MusicApp(mbk);
+  Refresh_MusicApp();
   FreeList(mbk->SkinList, FilesFree);
 }
 
@@ -1571,7 +1572,7 @@ SkinEditor_Book *Create_SkinEditor_Book()
 {
   SkinEditor_Book *mbk = (SkinEditor_Book *)malloc(sizeof(SkinEditor_Book));
   memset(mbk, NULL, sizeof(SkinEditor_Book));
-  if (!CreateBook(mbk, SkinEditor_Destroy, &SkinEditor_Base_Page, SkinEditorBook_Name, NO_BOOK_ID, NULL))
+  if (!CreateBook(mbk, SkinEditor_onClose, &SkinEditor_Base_Page, SkinEditorBook_Name, NO_BOOK_ID, NULL))
   {
     mfree(mbk);
     return NULL;

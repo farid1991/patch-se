@@ -202,8 +202,7 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x145B4FBC+1
         defadr MediaPlayer_SoftKeys_SetAction,0x145B4F44+1
         defadr MediaPlayer_SoftKeys_SetText,0x145B4EEC+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x145B48A8+1
-
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x145B48A8+1
         defadr List_Create,0x142DB0F8+1
         defadr List_Get,0x140480B0+1
         defadr List_GetCount,0x143114FC+1
@@ -213,7 +212,6 @@ a       EQU     b
         defadr List_RemoveFirst,0x14026BB8+1
         defadr List_DestroyElements,0x1424F7D0+1
         defadr List_Destroy,0x140265EC+1
-
         defadr wstrncmp,0x14310E1C+1
         defadr CreateKeyGrabber,0x14FEAF44+1
         defadr FILEITEM_GetFextension,0x144DD0E0+1
@@ -257,7 +255,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -409,7 +407,7 @@ _walkman_gui:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x1532D284+1
@@ -425,7 +423,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x1532D2B8+1

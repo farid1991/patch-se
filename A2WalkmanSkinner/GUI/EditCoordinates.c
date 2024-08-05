@@ -249,7 +249,7 @@ void EditCoordinates_OnKey(DISP_OBJ_COORD *disp_obj, int key, int count, int rep
   if (mode == KBD_LONG_RELEASE)
     disp_obj->cstep = 1;
 
-  InvalidateRect(disp_obj);
+  DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void EditCoordinates_construct(DISP_DESC *desc)

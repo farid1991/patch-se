@@ -9,7 +9,7 @@
 
 #define FONT_HEIGHT(font) (font & 0xFF)
 
-static const char Gui_FontSelect[] = "GUI_SelectFont";
+static const char Gui_FontSelect[] = "GUI_XFont";
 
 typedef struct GUI GUI_FONT_SEL;
 

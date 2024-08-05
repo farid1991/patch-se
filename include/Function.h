@@ -921,11 +921,11 @@ extern "C"
   int GetMemoryStickStatus(void);
   int DataBrowser_ItemDesc_CheckFileToCopyMove(FILEITEM *);
 
-  BOOL FSX_IsFileExists(wchar_t *pDir, wchar_t *pFile);
-  wchar_t *FSX_MakeFullPath(wchar_t *pDir, wchar_t *pFile);
-  void FSX_FreeFullPath(wchar_t *fullpath);
+  BOOL FSX_IsFileExists(const wchar_t *pDir, const wchar_t *pFile);
+  wchar_t *FSX_MakeFullPath(const wchar_t *pDir, const wchar_t *pFile);
+  void FSX_FreeFullPath(const wchar_t *fullpath);
   int FSX_Attribute(const wchar_t *pDir, const wchar_t *pFile, unsigned long *pAttr, int action);
-  wchar_t *MakeFullPath(wchar_t *pDir, wchar_t *pFile);
+  wchar_t *MakeFullPath(const wchar_t *pDir, const wchar_t *pFile);
 
   // other function --------------------------------------------------------------
   void CreateQuickInfo(DISP_OBJ *dispobj, TEXTID, int unk);

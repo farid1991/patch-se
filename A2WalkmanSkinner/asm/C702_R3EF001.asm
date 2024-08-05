@@ -162,7 +162,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetItemOnKey,0x10882F4C+1
         defadr GUIObject_SoftKeys_Hide,0x108830C8+1
         defadr GUIObject_SoftKeys_Show,0x108830D4+1
-        defadr GUIObject_SoftKeys_ExecuteAction,0x108830A8+1  
+        defadr GUIObject_SoftKeys_ExecuteAction,0x108830A8+1
         defadr GUIObject_SoftKeys_AllowKeylock,0x1088302C+1
         defadr DispObject_SoftKeys_GetList,0x10880194+1
         defadr MediaPlayer_SoftKeys_SetText,0x10B622D4+1
@@ -222,7 +222,6 @@ a       EQU     b
         defadr DispObject_GetStyle,0x10A3A044+1
         defadr DispObject_SoftKeys_Show,0x1087F270+1
         defadr DispObject_SoftKeys_Hide,0x1087F238+1
-        
         defadr MusicApplication_PrevAction,0x10CF6A24+1
         defadr MusicApplication_CancelAction,0x10CF7CCC+1
         defadr MusicApplication_ShowMyMusic,0x10CF7CEC+1
@@ -259,7 +258,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -397,7 +396,7 @@ _walkman_gui:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x10CF69D8+1

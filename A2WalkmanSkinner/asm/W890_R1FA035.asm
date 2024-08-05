@@ -513,7 +513,7 @@ a       EQU b
         defadr SetTrayIcon,0x116D8CB0+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x117E4C00+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x117E4DDC+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x117E4D58+1
+        defadr SETTING_RINGTYPESOUNDFILE_SET,0x117E4D58+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x117E51C0+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x117E4CBC+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x117E4FE8+1
@@ -541,7 +541,6 @@ a       EQU b
         defadr MediaPlayer_SoftKeys_SetAction,0x115FEE70+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x115FEF18+1
         defadr MediaPlayer_SoftKeys_AddHelpStr,0x115FEF48+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x115FEF48+1
         defadr DispObject_Show,0x116DE118+1
         defadr Request_EventChannel_Subscribe,0x1003F2FC+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x117028C8+1
@@ -640,12 +639,10 @@ a       EQU b
         defadr GUIObject_SoftKeys_SubActionPressedNotification,0x11702700+1
 	defadr DisplayGC_AddRef,0x116E6678+1
 	defadr GetChipID,0x10002960+1
-
 	defadr MetaData_GetTags,0x11060F1C+1
 	defadr Volume_Set,0x111F36AC+1
 	defadr Volume_Get,0x111F3778+1
 	defadr GC_DrawImage,0x116E14A4+1
-
         defadr CreateStringInput,0x1167826C+1
         defadr StringInput_SetMode,0x11678B0C+1
         defadr StringInput_SetFixedText,0x11678C44+1
@@ -653,12 +650,9 @@ a       EQU b
         defadr StringInput_SetMaxLen,0x11678C18+1
         defadr StringInput_SetEnableEmptyText,0x11678C8C+1
         defadr StringInput_SetActionOK,0x11678B5C+1
-
-        defadr SETTING_RINGTYPESOUNDFILE_SET,0x117E4D44+1
         defadr Sound_SetMessageAlert,0x112B4B68+1
         defadr Sound_SetAlarmsignal,0x10F6F334+1
         defadr Sound_AddToContact,0x10F8EDAC+1
-
         defadr DispObject_SetBacklightMode,0x116E0F00+1
         defadr FreeAllBook,0x114CDD1C+1
         defadr FSX_IsFileExists,0x11060954+1
@@ -708,7 +702,7 @@ a       EQU b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -858,7 +852,7 @@ next_:
         ADD     R0, R4, #0
         LDR	R3, =MusicApplication_SetSettings
 	BLX	R3
-        BL      RefreshScreen
+        BL      refresh_gui
         POP     {R4,R5,PC}
 
 //------------------------------------------------------------------------------

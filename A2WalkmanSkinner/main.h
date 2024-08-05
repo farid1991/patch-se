@@ -9,6 +9,10 @@
 #include "..\\include\book\DB3210\MusicApplication_Book.h"
 #endif
 
+#include "CurrentTrack.h"
+#include "GUI\AdvLyric.h"
+#include "Pages\Lyric.h"
+
 #define MEM_NAME "WSK_MEM"
 #define EMP_NAME "WSK_EMP"
 
@@ -70,7 +74,9 @@ enum MusicPlayer_Image
   MP_EQ_VOICE_ICON,
   PROGRESSBAR_OVERLAY,
   PROGRESSBAR_OVERLAY_LANDSCAPE,
+#ifdef REPEATONE
   MP_MODE_REPEAT_ONE_ICN,
+#endif
   LastImage
 };
 
@@ -568,10 +574,6 @@ typedef struct _WALKMAN_Skin
   bool SoftKeys;
 } WALKMAN_Skin;
 
-#include "CurrentTrack.h"
-#include "GUI\AdvLyric.h"
-#include "Pages\Lyric.h"
-
 typedef struct _Internal_Function
 {
   MusicApplication_Book *MusicBook;
@@ -615,12 +617,10 @@ Internal_Function *Get_Internal_Function();
 void Delete_Internal_Function(Internal_Function *Data);
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname);
-void SetGUIData(GUI *gui);
-void InvalidateRect(DISP_OBJ *disp_obj);
 int GetMediaVolume();
 int division(int num1, int num2);
-
-extern "C" void RefreshScreen();
 void Load_skin_GUI(const wchar_t *fpath, const wchar_t *fname);
+
+extern "C" void refresh_gui();
 
 #endif

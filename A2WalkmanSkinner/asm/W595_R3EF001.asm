@@ -189,6 +189,7 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetAction,0x10AF30B0+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x10AF3158+1
         defadr MediaPlayer_SoftKeys_SetInfoText,0x10AF3188+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x10AF3188+1
         defadr FILEITEM_GetFname,0x117FC5B4+1
         defadr FILEITEM_GetPath,0x117FC648+1
         defadr FILEITEM_GetFextension,0x117FC5B8+1     
@@ -271,7 +272,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -409,7 +410,7 @@ _walkman_gui:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x10C87574+1
@@ -425,7 +426,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x10C875A8+1

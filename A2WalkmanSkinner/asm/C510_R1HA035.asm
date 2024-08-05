@@ -478,7 +478,6 @@ a       equ b
         defadr SetTrayIcon,0x1417A598+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x158766E4+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x158767E0+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x158767A4+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x158768B4+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x15876744+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x1403A184+1
@@ -756,17 +755,13 @@ a       equ b
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
-
         defadr GUIObject_SoftKeys_AllowKeylock,0x1439DA94+1
-
         defadr List_RemoveFirst,0x1430DCFC+1
         defadr List_RemoveLast,0x1430E428+1
         defadr List_GetCount,0x140CC074+1
-
         defadr DispObject_SetBacklightMode,0x142F0190+1
         defadr DispObject_SoftKeys_Show,0x141297F4+1
         defadr DispObject_SoftKeys_Hide,0x144CB14C+1
-
         defadr MetaData_GetTags,0x157523B8+1
 
         defadr Sound_Check,0x1541B2BC+1
@@ -817,7 +812,7 @@ a       equ b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -969,7 +964,7 @@ _walkman:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E1FA00+1
@@ -985,7 +980,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E1FA34+1

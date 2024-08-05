@@ -30,9 +30,9 @@ void FilesFree(void *item)
   if (!files)
     return;
 
-  mfree(files->fpath);
-  mfree(files->fname);
-  mfree(files->name);
+  mfree(files->filepath);
+  mfree(files->filename);
+  mfree(files->skinname);
   mfree(files);
 }
 
@@ -40,20 +40,20 @@ FILELIST *Files_AddElement(wchar_t *FPath, wchar_t *FName)
 {
   FILELIST *files = (FILELIST *)malloc(sizeof(FILELIST));
 
-  files->fpath = WStringAlloc(wstrlen(FPath));
-  files->fname = WStringAlloc(wstrlen(FName));
-  wchar_t *temp_fname = WStringAlloc(wstrlen(FName));
-  
-  wstrcpy(files->fpath, FPath);
-  wstrcpy(files->fname, FName);
-  wstrcpy(temp_fname, FName);
+  files->filepath = WStringAlloc(wstrlen(FPath));
+  files->filename = WStringAlloc(wstrlen(FName));
+  wchar_t *tmp = WStringAlloc(wstrlen(FName));
 
-  wchar_t *ext = wstrrchr(temp_fname, '.');
+  wstrcpy(files->filepath, FPath);
+  wstrcpy(files->filename, FName);
+  wstrcpy(tmp, FName);
+
+  wchar_t *ext = wstrrchr(tmp, '.');
   *ext = 0;
 
-  files->name = WStringAlloc(wstrlen(temp_fname));
-  wstrcpy(files->name, temp_fname);
-  mfree(temp_fname);
+  files->skinname = WStringAlloc(wstrlen(tmp));
+  wstrcpy(files->skinname, tmp);
+  mfree(tmp);
 
   return files;
 }
@@ -62,9 +62,11 @@ BOOL IsDir(wchar_t *name)
 {
   W_FSTAT fs;
   if (w_fstat(name, &fs) != -1)
+  {
     return fs.attr & FSX_O_CHKPATH;
-  else
-    return FALSE;
+  }
+
+  return FALSE;
 }
 
 LIST *LoadFiles(wchar_t *Folder)

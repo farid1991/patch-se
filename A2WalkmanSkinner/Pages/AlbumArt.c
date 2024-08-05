@@ -41,9 +41,13 @@ int GetChecked()
       fread(skin_file, skin_data, sizeof(WALKMAN_Skin));
 
       if ((skin_data->Land_AlbumArtEnable) && (skin_data->AlbumArtEnable))
+      {
         ret = 0;
-      else if ((!skin_data->Land_AlbumArtEnable) && (!skin_data->AlbumArtEnable))
+      }
+      else
+      {
         ret = 1;
+      }
 
       fclose(skin_file);
       mfree(skin_data);
@@ -115,7 +119,7 @@ void SetChecked(int item)
     LoadLandscapeData();
   }
 
-  RefreshScreen();
+  refresh_gui();
 }
 
 void Select_AlbumArt_onSelect(BOOK *book, GUI *gui)

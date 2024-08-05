@@ -27,22 +27,22 @@ void Enter_EditTag(BOOK *book, GUI *gui)
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   FILEITEM *fi = MusicBook->CurrentTrack->file_item;
 
-  if (FSX_IsFileExists(ZBIN_INT, L"MusicTagger.elf"))
+  if (FSX_IsFileExists(ZBIN_INT, MTAGGER))
   {
-    StartElf(L"/usb/other/ZBin/MusicTagger.elf", fi->__path, fi->__fname);
+    StartElf(USB_MTAGGER, fi->__path, fi->__fname);
   }
-  else if (FSX_IsFileExists(ZBIN_INT, L"TagEditor.elf"))
+  else if (FSX_IsFileExists(ZBIN_INT, TAGEDITOR))
   {
-    StartElf(L"/usb/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
+    StartElf(USB_TAGEDITOR, fi->__path, fi->__fname);
   }
 #ifndef W980_R3EG004
-  else if (FSX_IsFileExists(ZBIN_EXT, L"MusicTagger.elf"))
+  else if (FSX_IsFileExists(ZBIN_EXT, MTAGGER))
   {
-    StartElf(L"/card/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
+    StartElf(CARD_MTAGGER, fi->__path, fi->__fname);
   }
-  else if (FSX_IsFileExists(ZBIN_EXT, L"TagEditor.elf"))
+  else if (FSX_IsFileExists(ZBIN_EXT, TAGEDITOR))
   {
-    StartElf(L"/card/other/ZBin/TagEditor.elf", fi->__path, fi->__fname);
+    StartElf(CARD_TAGEDITOR, fi->__path, fi->__fname);
   }
 #endif
 }

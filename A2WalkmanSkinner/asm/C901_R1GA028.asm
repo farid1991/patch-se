@@ -490,7 +490,6 @@ a       EQU     b
         defadr SetTrayIcon,0x14169980+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x15861A10+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x15861B0C+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x15861AD0+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x15861BE0+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x15861A70+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x14EF2114+1
@@ -638,7 +637,7 @@ a       EQU     b
 	defadr DispObject_SetBacklightMode,0x14236290+1
 	defadr DispObject_SetThemeImage,0x144ADF60+1
 	defadr GUIObject_SoftKeys_SetActionAndText,0x143F32EC+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x140B3F50+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x140B3F50+1
 	defadr TextID_Create,0x142D6F24+1
 	defadr TextID_CreateIntegerID,0x143D4FA4+1
 	defadr TextID_Copy,0x1416E374+1
@@ -699,7 +698,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -810,7 +809,7 @@ AddNew_SoftKeys:
         LDR     R0, [R4,#0x20]
         ADD     R2, R7, #0
         MOV     R1, #7
-	LDR	R3, =MediaPlayer_SoftKeys_SetInfoText
+	LDR	R3, =MediaPlayer_SoftKeys_AddHelpStr
 	BLX	R3
 	ADD     R0, R4, #0
         BL      New_SoftKeys
@@ -851,7 +850,7 @@ _walkman:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E495F8+1
@@ -867,7 +866,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E4962C+1

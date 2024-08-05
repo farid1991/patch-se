@@ -13,6 +13,7 @@
 
 #include "..\\FilesList.h"
 #include "..\\Function.h"
+#include "..\\LNG.h"
 #include "..\\main.h"
 
 #include "Shortcut.h"
@@ -39,9 +40,8 @@ SOFTKEY_LIST_ELEM *CreateElem(SOFTKEY_DESC_A2 *SoftkeyDesc)
 LIST *Create_SoftkeyList(LIST *slist)
 {
   LIST *SoftkeyList = List_Create();
-  int count = List_GetCount(slist);
 
-  for (int index = 0; index < count; index++)
+  for (int index = 0; index < List_GetCount(slist); index++)
   {
     SOFTKEY_DESC_A2 *SoftkeyDesc = (SOFTKEY_DESC_A2 *)List_Get(slist, index);
 
@@ -58,7 +58,7 @@ LIST *Create_SoftkeyList(LIST *slist)
 
 void GetData(void *mydata, int size)
 {
-  int file = _fopen(FILE_PATH, CONFIG_NAME, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int file = _fopen(FILE_PATH, SC_CONFIG_NAME, FSX_O_CREAT | FSX_O_APPEND, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
   if (file >= 0)
   {
     fread(file, mydata, size);
@@ -74,7 +74,7 @@ void WriteData(u16 key_id, u16 action_id)
 
   fdata->action[key_id] = action_id;
 
-  int file = _fopen(FILE_PATH, CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int file = _fopen(FILE_PATH, SC_CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
   if (file >= 0)
   {
     fwrite(file, fdata, sizeof(FILE_DATA));
@@ -88,7 +88,7 @@ int GetChecked(LIST *list, int item_pos)
   int ret = 0;
 
   FSTAT _fstat;
-  int file = fstat(FILE_PATH, CONFIG_NAME, &_fstat);
+  int file = fstat(FILE_PATH, SC_CONFIG_NAME, &_fstat);
   if (file >= 0)
   {
     int size = _fstat.fsize;
@@ -111,57 +111,22 @@ int GetChecked(LIST *list, int item_pos)
 
 TEXTID GetSecondLine(LIST *list, int item_num)
 {
-  TEXTID ret = EMPTY_TEXTID;
   int index = GetChecked(list, item_num);
   SOFTKEY_LIST_ELEM *elem = (SOFTKEY_LIST_ELEM *)List_Get(list, index);
   if (elem)
-    ret = elem->textid;
-  return ret;
+    return elem->textid;
+  return EMPTY_TEXTID;
 }
 
-char GetKeyID(int key)
+int GetKeyID(int key)
 {
-  char key_id;
-  switch (key)
-  {
-  case KEY_DIGITAL_0:
-    key_id = Item_Key_0;
-    break;
-  case KEY_DIGITAL_1:
-    key_id = Item_Key_1;
-    break;
-  case KEY_DIGITAL_2:
-    key_id = Item_Key_2;
-    break;
-  case KEY_DIGITAL_3:
-    key_id = Item_Key_3;
-    break;
-  case KEY_DIGITAL_4:
-    key_id = Item_Key_4;
-    break;
-  case KEY_DIGITAL_5:
-    key_id = Item_Key_5;
-    break;
-  case KEY_DIGITAL_6:
-    key_id = Item_Key_6;
-    break;
-  case KEY_DIGITAL_7:
-    key_id = Item_Key_7;
-    break;
-  case KEY_DIGITAL_8:
-    key_id = Item_Key_8;
-    break;
-  case KEY_DIGITAL_9:
-    key_id = Item_Key_9;
-    break;
-  }
-  return key_id;
+  return key - KEY_DIGITAL_0;
 }
 
 TEXTID Get_Menu_Text(int item)
 {
   TEXTID txt[3];
-  txt[0] = STR("Button");
+  txt[0] = STR(TXT_BUTTON);
   txt[1] = TEXTID_SPACE;
   txt[2] = TextID_CreateIntegerID(item);
 
@@ -305,10 +270,12 @@ int pg_MusicApplication_Shortcut_CancelAction(void *data, BOOK *book)
 void MusicApplication_Shortcut_Destroy(BOOK *book)
 {
   MusicApplication_Shortcut_Book *pShortcutBook = (MusicApplication_Shortcut_Book *)book;
-  DESTROY_GUI(pShortcutBook->MainMenu);
-  DESTROY_GUI(pShortcutBook->SubMenu);
+
   FreeList(pShortcutBook->SoftkeyList, SoftkeyFree);
   pShortcutBook->CurrentItem = NULL;
+
+  DESTROY_GUI(pShortcutBook->MainMenu);
+  DESTROY_GUI(pShortcutBook->SubMenu);
 }
 
 MusicApplication_Shortcut_Book *Create_MusicApplication_Shortcut_Book()
@@ -337,13 +304,13 @@ void Call_ShortcutPage(BOOK *book, GUI *gui)
   MusicApplication_Shortcut_Book *pShortcutBook = Create_MusicApplication_Shortcut_Book();
   if (pShortcutBook)
   {
-    LIST* SoftkeyList = DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL);
+    LIST *SoftkeyList = DispObject_SoftKeys_GetList(disp_obj, pMusicBook, NULL);
     pShortcutBook->SoftkeyList = Create_SoftkeyList(SoftkeyList);
     BookObj_GotoPage(pShortcutBook, &MusicApplication_Shortcut_Main_Page);
   }
 }
 
-void execute_kb(BOOK *book, char key, int mode)
+void execute_shortcut(BOOK *book, char key, int mode)
 {
   if (mode == KBD_SHORT_RELEASE)
   {
@@ -352,7 +319,7 @@ void execute_kb(BOOK *book, char key, int mode)
     char key_id = GetKeyID(key);
 
     FSTAT _fstat;
-    int file = fstat(FILE_PATH, CONFIG_NAME, &_fstat);
+    int file = fstat(FILE_PATH, SC_CONFIG_NAME, &_fstat);
     if (file >= 0)
     {
       int size = _fstat.fsize;
@@ -362,7 +329,9 @@ void execute_kb(BOOK *book, char key, int mode)
       mfree(mydata);
     }
     if (actionID != NO_ACTION)
+    {
       GUIObject_SoftKeys_ExecuteAction(pMusicBook->Gui_NowPlaying, actionID);
+    }
   }
 }
 
@@ -381,13 +350,17 @@ extern "C" void New_Music_Gui_NowPlaying_OnKey(BOOK *book, int key, int repeat, 
   case KEY_DIGITAL_7:
   case KEY_DIGITAL_8:
   case KEY_DIGITAL_9:
-    execute_kb(pMusicBook, key, mode);
+    execute_shortcut(pMusicBook, key, mode);
     break;
   case KEY_DIEZ:
     if (mode == KBD_SHORT_RELEASE)
+    {
       MusicApplication_Minimize(pMusicBook, NULL);
+    }
     else if (mode == KBD_LONG_PRESS)
+    {
       MusicApplication_CancelAction(pMusicBook, NULL);
+    }
     break;
   default:
     MusicApplication_Keyboard(pMusicBook, key, repeat, mode, unk);

@@ -247,7 +247,7 @@ void AdvLyric_OnKey(DISP_OBJ_ADVLYRIC *disp_obj, int key, int count, int repeat,
     }
     break;
   }
-  InvalidateRect(disp_obj);
+  DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void AdvLyric_construct(DISP_DESC *desc)

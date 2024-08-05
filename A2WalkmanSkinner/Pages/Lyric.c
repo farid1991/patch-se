@@ -27,9 +27,7 @@
 
 BOOL IsAdvLyricBook(BOOK *book)
 {
-  if (!strcmp(book->xbook->name, AdvLyric_BookName))
-    return TRUE;
-  return FALSE;
+  return book->onClose == AdvLyricBook_onClose ? TRUE : FALSE;
 }
 
 AdvLyricBook *Find_AdvLyricBook()
@@ -39,7 +37,7 @@ AdvLyricBook *Find_AdvLyricBook()
 
 void Free_AdvLyricBook()
 {
-  AdvLyricBook *Lrc = Find_AdvLyricBook();
+  AdvLyricBook *Lrc =(AdvLyricBook *)FindBook(IsAdvLyricBook);
   if (Lrc)
     FreeBook(Lrc);
 }
@@ -289,7 +287,7 @@ void onLrcShowTimer(u16 timerID, LPARAM lparam)
 
   DISP_OBJ_ADVLYRIC *disp_obj = (DISP_OBJ_ADVLYRIC *)GUIObject_GetDispObject(Lrc->LyricGUI);
 
-  InvalidateRect(disp_obj);
+  DispObject_InvalidateRect(disp_obj, NULL);
 
   int textid = TextID_Create(Lrc->LrcList[Lrc->CurrentIndex].LrcInfo, ENC_UCS2, TEXTID_ANY_LEN);
   int width = GetTextIDWidth(FONT_E_16B, textid, TextID_GetLength(textid));
@@ -314,16 +312,16 @@ void onLrcShowTimer(u16 timerID, LPARAM lparam)
   }
 }
 
-void AdvLyric_RefreshScreen(BOOK *book)
+void AdvLyric_Refresh_GUI(BOOK *book)
 {
   AdvLyricBook *Lrc = (AdvLyricBook *)book;
-  InvalidateRect(GUIObject_GetDispObject(Lrc->LyricGUI));
+  DispObject_InvalidateRect(GUIObject_GetDispObject(Lrc->LyricGUI), NULL);
 }
 
 void AdvLyric_GetLyric(void *timedata, BOOK *book)
 {
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
-  AdvLyricBook *Lrc = Find_AdvLyricBook();
+  AdvLyricBook *Lrc = (AdvLyricBook *)FindBook(IsAdvLyricBook);
 
   TRACK_DESC *NewTrack = TrackDesc_Get(MusicBook);
   if (!TrackDesc_Compare(Lrc->CurrentTrack, NewTrack))
@@ -348,7 +346,7 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book)
       Lrc->CurrentIndex = LRC_NOTFOUND;
     }
 
-    AdvLyric_RefreshScreen(Lrc);
+    AdvLyric_Refresh_GUI(Lrc);
   }
   else
   {
@@ -406,7 +404,7 @@ int pg_AdvLyric_CancelEvent(void *data, BOOK *book)
   return 1;
 }
 
-void AdvLyricBook_Destroy(BOOK *book)
+void AdvLyricBook_onClose(BOOK *book)
 {
   AdvLyricBook *Lrc = (AdvLyricBook *)book;
 
@@ -424,7 +422,7 @@ AdvLyricBook *Create_AdvLyricBook()
 {
   AdvLyricBook *Lrc = (AdvLyricBook *)malloc(sizeof(AdvLyricBook));
   memset(Lrc, NULL, sizeof(AdvLyricBook));
-  if (!CreateBook(Lrc, AdvLyricBook_Destroy, &AdvLyric_Base_Page, AdvLyric_BookName, NO_BOOK_ID, NULL))
+  if (!CreateBook(Lrc, AdvLyricBook_onClose, &AdvLyric_Base_Page, AdvLyric_BookName, NO_BOOK_ID, NULL))
   {
     mfree(Lrc);
     return NULL;
@@ -448,7 +446,7 @@ void Enter_Lyric(BOOK *book, GUI *gui)
   MusicApplication_Book *MusicBook = (MusicApplication_Book *)book;
   MusicBook->Callpage = TRUE;
 
-  AdvLyricBook *Lrc = Find_AdvLyricBook();
+  AdvLyricBook *Lrc = (AdvLyricBook *)FindBook(IsAdvLyricBook);
   if (Lrc)
   {
     BookObj_SetFocus(Lrc, UIDisplay_Main);

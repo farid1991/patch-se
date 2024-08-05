@@ -40,6 +40,7 @@ typedef struct _AdvLyricBook : BOOK
 } AdvLyricBook;
 
 void Enter_Lyric(BOOK *book, GUI *gui);
+void AdvLyricBook_onClose(BOOK *book);
 BOOL IsAdvLyricBook(BOOK *book);
 AdvLyricBook *Find_AdvLyricBook();
 void Free_AdvLyricBook();
@@ -47,7 +48,7 @@ void AdvLyric_GetLyric(void *timedata, BOOK *book);
 void Kill_LyricShowTimer(BOOK *book);
 AdvLyricBook *Find_AdvLyricBook();
 
-int pg_AdvLyric_EnterEvent(void *r1, BOOK *book);
+int pg_AdvLyric_EnterEvent(void *data, BOOK *book);
 int pg_AdvLyric_ExitEvent(void *data, BOOK *book);
 int pg_AdvLyric_CancelEvent(void *data, BOOK *book);
 

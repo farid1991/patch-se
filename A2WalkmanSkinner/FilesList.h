@@ -3,9 +3,9 @@
 
 typedef struct
 {
-  wchar_t* fpath;
-  wchar_t* fname;
-  wchar_t* name;
+  wchar_t* filepath;
+  wchar_t* filename;
+  wchar_t* skinname;
 }FILELIST;
 
 GUI* Create_SelectSkin(BOOK* book);

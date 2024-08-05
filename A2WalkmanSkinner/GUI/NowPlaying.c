@@ -100,7 +100,10 @@ void LoadImage(Internal_Function *Data)
           L"MP_EQ_VOICE_ICN.png",
           L"PROGRESSBAR_OVERLAY.png",
           L"PROGRESSBAR_OVERLAY_LANDSCAPE.png",
-          L"MP_MODE_REPEAT_ONE_ICN.png"};
+#ifdef REPEATONE
+          L"MP_MODE_REPEAT_ONE_ICN.png",
+#endif
+      };
 
   int File = _fopen(SKIN_PATH_INTERNAL, L"CurrentSkin", FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
   if (File >= 0)
@@ -144,12 +147,14 @@ void FreeImage(Internal_Function *Data)
 
 extern "C" int New_Music_Gui_NowPlaying_OnCreate(DISP_OBJ *disp_obj)
 {
+  Music_Gui_NowPlaying_OnCreate(disp_obj);
+
   Internal_Function *Data = Get_Internal_Function();
   Data->Music_Gui_NowPlaying = disp_obj;
   Data->TextID = EMPTY_TEXTID;
   LoadImage(Data);
 
-  return Music_Gui_NowPlaying_OnCreate(disp_obj);
+  return 1;
 }
 
 extern "C" void New_Music_Gui_NowPlaying_OnClose(DISP_OBJ *disp_obj)
@@ -186,7 +191,9 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
   if (Data->Main.AlbumArtEnable && !Data->Main.VisualisationEnable)
   {
     if (Data->CoverArtID == NOIMAGE)
+    {
       Data->CoverArtID = Data->MusicPlayer[NO_COVER_ICN].ImageID;
+    }
     DrawImageEx(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->CoverArtID);
     DrawImageEx(pGC, Data->Main.ARect.x1, Data->Main.ARect.y1, Data->Main.ARect.x2 - Data->Main.ARect.x1, Data->Main.ARect.y2 - Data->Main.ARect.y1, Data->MusicPlayer[REFLECT].ImageID);
   }
@@ -263,17 +270,18 @@ extern "C" void New_Music_Gui_NowPlaying_OnRedraw(DISP_OBJ *disp, int a, int b, 
 
   if (Data->Main.Loop_Image.Enable)
   {
-    if (Data->MusicBook->Loop)
-    {
-      DrawImage(Data->MusicPlayer[MP_MODE_LOOP_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
-    }
 #ifdef REPEATONE
-    else if (get_envp(NULL, "RepeatOne"))
+    if (get_envp(NULL, "RepeatOne"))
     {
       DrawImage(Data->MusicPlayer[MP_MODE_REPEAT_ONE_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
     }
 #endif
+    if (Data->MusicBook->Loop)
+    {
+      DrawImage(Data->MusicPlayer[MP_MODE_LOOP_ICN].ImageID, Data->Main.Loop_Image.x, Data->Main.Loop_Image.y);
+    }
   }
+
   if (Data->Main.Shuffle_Image.Enable)
   {
     if (Data->MusicBook->Random)

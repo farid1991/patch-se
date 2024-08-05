@@ -67,5 +67,7 @@
 #define TXT_CONFIGURE_NOW "Configure now?"
 #define TXT_EDIT_TAG "Edit Tag"
 #define TXT_LYRIC "Lyric"
+#define TXT_BUTTON "Button"
+#define TXT_MUSIC_NOT_PLAYING "Music is not playing"
 
 #endif

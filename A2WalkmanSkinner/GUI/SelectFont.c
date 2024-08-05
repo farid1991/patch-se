@@ -182,7 +182,7 @@ void SelectFont_OnKey(DISP_OBJ_FONT_SEL *disp_obj, int key, int count, int repea
     disp_obj->font_size = font_desc[disp_obj->cur_pos].id;
     disp_obj->font_height = GetImageHeight(' ');
 #endif
-    InvalidateRect(disp_obj);
+    DispObject_InvalidateRect(disp_obj, NULL);
   }
 }
 

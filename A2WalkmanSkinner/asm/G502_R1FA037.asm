@@ -515,7 +515,6 @@ a       EQU b
         defadr SetTrayIcon,0x11696BF0+1
         defadr REQUEST_SETTING_RINGVOLUME_SET,0x1179EB9C+1
         defadr REQUEST_SETTING_VIBRATOR_SET,0x1179ED78+1
-        defadr REQUEST_SETTING_RINGTYPESOUNDFILE_SET,0x1179ECF4+1
         defadr REQUEST_SETTING_ANSWERINGMODE_SET,0x1179F15C+1
         defadr REQUEST_SETTING_INCREASINGRING_SET,0x1179EC58+1
         defadr REQUEST_SETTING_ALLOWEDCALLERS_SET,0x1179EF84+1
@@ -542,7 +541,7 @@ a       EQU b
         defadr MediaPlayer_SoftKeys_SetText,0x115BE1F4+1
         defadr MediaPlayer_SoftKeys_SetAction,0x115BE1AC+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x115BE254+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x115BE284+1
+        defadr MediaPlayer_SoftKeys_AddHelpStr,0x115BE284+1
         defadr DispObject_Show,0x1169C058+1
         defadr Request_EventChannel_Subscribe,0x1003F198+1
         defadr GUIObject_SoftKeys_ExecuteAction,0x116C0818+1
@@ -713,7 +712,7 @@ a       EQU b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -855,7 +854,7 @@ next_:
         ADD     R0, R4, #0
         LDR	R3, =MusicApplication_SetSettings
 	BLX	R3
-        BL      RefreshScreen
+        BL      refresh_gui
         POP     {R4,R5,PC}
 
 //------------------------------------------------------------------------------

@@ -41,8 +41,6 @@ void Dialog_OnClose(DISP_OBJ_DIALOG *disp_obj)
 
 void Dialog_OnRedraw(DISP_OBJ_DIALOG *disp_obj, int r1, int r2, int r3)
 {
-  /*--------------------------------------------------------------------------*/
-
   u16 dialog_h = (Get_Font_Height(FONT_E_18R) << 1) + (Get_Font_Height(FONT_E_18R) >> 1);
   u16 dialog_y = disp_obj->disp_height - dialog_h;
   DrawTextOnRect(FONT_E_18R,
@@ -51,8 +49,6 @@ void Dialog_OnRedraw(DISP_OBJ_DIALOG *disp_obj, int r1, int r2, int r3)
                  TITLE_TEXT_COLOR,
                  TITLE_BACKGROUND_COLOR);
 
-  /*--------------------------------------------------------------------------*/
-
   u16 title_h = Get_Font_Height(FONT_E_20B) + (Get_Font_Height(FONT_E_20B) >> 1);
   u16 title_y = dialog_y - title_h;
   DrawTextOnRect(FONT_E_20B,
@@ -60,12 +56,6 @@ void Dialog_OnRedraw(DISP_OBJ_DIALOG *disp_obj, int r1, int r2, int r3)
                  0, title_y, disp_obj->disp_width, title_h,
                  DARK_TEXT_COLOR,
                  DARK_BACKGROUND_COLOR);
-
-  /*--------------------------------------------------------------------------*/
-}
-
-void Dialog_OnKey(DISP_OBJ_DIALOG *disp_obj, int key, int count, int repeat, int mode)
-{
 }
 
 void Dialog_OnLayout(DISP_OBJ_DIALOG *disp_obj, void *layoutstruct)
@@ -80,7 +70,6 @@ void Dialog_construct(DISP_DESC *desc)
   DISP_DESC_SetOnCreate(desc, (DISP_OBJ_ONCREATE_METHOD)Dialog_OnCreate);
   DISP_DESC_SetOnClose(desc, (DISP_OBJ_ONCLOSE_METHOD)Dialog_OnClose);
   DISP_DESC_SetOnRedraw(desc, (DISP_OBJ_ONREDRAW_METHOD)Dialog_OnRedraw);
-  DISP_DESC_SetOnKey(desc, (DISP_OBJ_ONKEY_METHOD)Dialog_OnKey);
   DISP_DESC_SetOnLayout(desc, (DISP_OBJ_ONLAYOUT_METHOD)Dialog_OnLayout);
 }
 

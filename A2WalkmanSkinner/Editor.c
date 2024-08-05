@@ -299,7 +299,7 @@ int EditorSlider_OnMessage(GUI_MESSAGE *msg)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_NO);
       }
     }
-    if (item == 1)
+    else if (item == 1)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_POSITION);
       TEXTID SID[7];
@@ -314,13 +314,13 @@ int EditorSlider_OnMessage(GUI_MESSAGE *msg)
       TEXTID IDSID = TextID_Create(SID, ENC_TEXTID, 7);
       GUIonMessage_SetMenuItemSecondLineText(msg, IDSID);
     }
-    if (item == 2)
+    else if (item == 2)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_BACKGROUND_COLOR);
       snwprintf(mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color), COLOR_GET_G(mbk->Str_Color), COLOR_GET_B(mbk->Str_Color), COLOR_GET_A(mbk->Str_Color));
       GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Create(mbk->buffer, ENC_UCS2, TEXTID_ANY_LEN));
     }
-    if (item == 3)
+    else if (item == 3)
     {
       GUIonMessage_SetMenuItemText(msg, STR(TXT_ELAPSED_BAR_COLOR));
       snwprintf(mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color_2), COLOR_GET_G(mbk->Str_Color_2), COLOR_GET_B(mbk->Str_Color_2), COLOR_GET_A(mbk->Str_Color_2));
@@ -405,7 +405,7 @@ int EditorItemIcon_OnMessage(GUI_MESSAGE *msg)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_NO);
       }
     }
-    if (item == 1)
+    else if (item == 1)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_POSITION);
       TEXTID SID[7];
@@ -544,13 +544,13 @@ int EditorItemText_OnMessage(GUI_MESSAGE *msg)
         GUIonMessage_SetMenuItemSecondLineText(msg, TEXT_NO);
       }
     }
-    if (item == 1)
+    else if (item == 1)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_POSITION);
       snwprintf(mbk->buffer, MAXELEMS(mbk->buffer), L"X: %d, Y: %d, Width: %d", mbk->Str_x1, mbk->Str_y1, mbk->Str_x2 - mbk->Str_x1);
       GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Create(mbk->buffer, ENC_UCS2, TEXTID_ANY_LEN));
     }
-    if (item == 2)
+    else if (item == 2)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_ALIGN);
       int align = mbk->Str_Align;
@@ -567,7 +567,7 @@ int EditorItemText_OnMessage(GUI_MESSAGE *msg)
         break;
       }
     }
-    if (item == 3)
+    else if (item == 3)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_FONT_SIZE);
 #if defined(DB3200) || defined(DB3210)
@@ -592,7 +592,7 @@ int EditorItemText_OnMessage(GUI_MESSAGE *msg)
       GUIonMessage_SetMenuItemSecondLineText(msg, TextID_Create(GetFontNameByFontId(mbk->Str_Font_Size), ENC_UCS2, TEXTID_ANY_LEN));
 #endif
     }
-    if (item == 4)
+    else if (item == 4)
     {
       GUIonMessage_SetMenuItemText(msg, TEXT_TEXT_COLOR);
       snwprintf(mbk->buffer, MAXELEMS(mbk->buffer), L"%X, %X, %X, %X", COLOR_GET_R(mbk->Str_Color), COLOR_GET_G(mbk->Str_Color), COLOR_GET_B(mbk->Str_Color), COLOR_GET_A(mbk->Str_Color));

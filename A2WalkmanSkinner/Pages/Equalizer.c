@@ -55,7 +55,7 @@ void SetEqualizerBands(BOOK *book, int8_t bar0, int8_t bar1, int8_t bar2, int8_t
 
 void Save_EqualiserData(int Preset, BOOL Manual, int b0, int b1, int b2, int b3, int b4, int b5)
 {
-  int file = _fopen(CONFIG_PATH, CONFIG_NAME, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  int file = _fopen(EQ_CONFIG_PATH, EQ_CONFIG_NAME, FSX_O_WRONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= 0)
   {
     EQ_SETTINGS *FileData = (EQ_SETTINGS *)malloc(sizeof(EQ_SETTINGS));
@@ -78,7 +78,7 @@ void Save_EqualiserData(int Preset, BOOL Manual, int b0, int b1, int b2, int b3,
 
 void Get_EqualizerData(int *preset, int *manual, int *bar0, int *bar1, int *bar2, int *bar3, int *bar4, int *bar5)
 {
-  int file = _fopen(CONFIG_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
+  int file = _fopen(EQ_CONFIG_PATH, EQ_CONFIG_NAME, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, 0);
   if (file >= 0)
   {
     EQ_SETTINGS *FileData = (EQ_SETTINGS *)malloc(sizeof(EQ_SETTINGS));
@@ -141,7 +141,7 @@ void SaveDatatoBook(BOOK *book, int manual, int preset)
     }
   }
 
-  RefreshScreen();
+  refresh_gui();
 }
 
 //==============================================================================

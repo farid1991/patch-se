@@ -52,12 +52,14 @@ void LoadBackgroundImage(DISP_OBJ_CLEARBASS *disp_obj)
 {
   wchar_t *BackgroundImage = L"MP_EQ_BACKGROUND_V_ICN.png";
 
-  if (FSX_IsFileExists(CONFIG_PATH, BackgroundImage))
+  if (FSX_IsFileExists(EQ_CONFIG_PATH, BackgroundImage))
   {
-    RegisterImage(&disp_obj->Background, CONFIG_PATH, BackgroundImage);
+    RegisterImage(&disp_obj->Background, EQ_CONFIG_PATH, BackgroundImage);
   }
   else
+  {
     disp_obj->Background.ImageID = NOIMAGE;
+  }
 }
 
 void LoadPresetImage(DISP_OBJ_CLEARBASS *disp_obj)
@@ -78,12 +80,14 @@ void LoadPresetImage(DISP_OBJ_CLEARBASS *disp_obj)
   int i;
   for (i = 0; i < LastPreset; i++)
   {
-    if (FSX_IsFileExists(CONFIG_PATH, (wchar_t *)ImagePreset[i]))
+    if (FSX_IsFileExists(EQ_CONFIG_PATH, (wchar_t *)ImagePreset[i]))
     {
-      RegisterImage(&disp_obj->Preset_Image[i], CONFIG_PATH, (wchar_t *)ImagePreset[i]);
+      RegisterImage(&disp_obj->Preset_Image[i], EQ_CONFIG_PATH, (wchar_t *)ImagePreset[i]);
     }
     else
+    {
       disp_obj->Preset_Image[i].ImageID = NOIMAGE;
+    }
   }
 }
 
@@ -100,12 +104,14 @@ void LoadBoostImage(DISP_OBJ_CLEARBASS *disp_obj)
   int i;
   for (i = 0; i < LastBoostLevel; i++)
   {
-    if (FSX_IsFileExists(CONFIG_PATH, (wchar_t *)BoostImage[i]))
+    if (FSX_IsFileExists(EQ_CONFIG_PATH, (wchar_t *)BoostImage[i]))
     {
-      RegisterImage(&disp_obj->Boost_Image[i], CONFIG_PATH, (wchar_t *)BoostImage[i]);
+      RegisterImage(&disp_obj->Boost_Image[i], EQ_CONFIG_PATH, (wchar_t *)BoostImage[i]);
     }
     else
+    {
       disp_obj->Boost_Image[i].ImageID = NOIMAGE;
+    }
   }
 }
 
@@ -125,12 +131,14 @@ void LoadBarImage(DISP_OBJ_CLEARBASS *disp_obj)
   int i;
   for (i = 0; i < LastBarLevel; i++)
   {
-    if (FSX_IsFileExists(CONFIG_PATH, (wchar_t *)BarImage[i]))
+    if (FSX_IsFileExists(EQ_CONFIG_PATH, (wchar_t *)BarImage[i]))
     {
-      RegisterImage(&disp_obj->Bar_Image[i], CONFIG_PATH, (wchar_t *)BarImage[i]);
+      RegisterImage(&disp_obj->Bar_Image[i], EQ_CONFIG_PATH, (wchar_t *)BarImage[i]);
     }
     else
+    {
       disp_obj->Bar_Image[i].ImageID = NOIMAGE;
+    }
   }
 }
 
@@ -222,7 +230,7 @@ void GUIObject_Clearbass_Switch(GUI *gui, bool state)
   DISP_OBJ_CLEARBASS *disp_obj = (DISP_OBJ_CLEARBASS *)GUIObject_GetDispObject(gui);
   disp_obj->manual = state;
   SetEqualizer(disp_obj);
-  InvalidateRect(disp_obj);
+  DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void GUIObject_Clearbass_SetCursorToItem(GUI *gui, int item)
@@ -473,7 +481,7 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int re
   }
 
   SetEqualizer(disp_obj);
-  InvalidateRect(disp_obj);
+  DispObject_InvalidateRect(disp_obj, NULL);
 }
 
 void ClearbassGUI_OnLayout(DISP_OBJ_CLEARBASS *disp_obj, void *layoutstruct)

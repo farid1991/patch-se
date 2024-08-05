@@ -234,7 +234,6 @@ a       EQU     b
         defadr MediaPlayer_SoftKeys_SetAction,0x1158AC74+1
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x1158AD1C+1
         defadr MediaPlayer_SoftKeys_AddHelpStr,0x1158AD4C+1
-        defadr MediaPlayer_SoftKeys_SetInfoText,0x1158AD4C+1
 
         defadr SETTING_RINGTYPESOUNDFILE_SET,0x1177231C+1
         defadr Sound_SetMessageAlert,0x11253A98+1
@@ -280,7 +279,7 @@ a       EQU     b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -430,7 +429,7 @@ next_:
         ADD     R0, R4, #0
         LDR	R3, =MusicApplication_SetSettings
 	BLX	R3
-        BL      RefreshScreen
+        BL      refresh_gui
         POP     {R4,R5,PC}
 
 //------------------------------------------------------------------------------

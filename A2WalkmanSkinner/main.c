@@ -110,16 +110,13 @@ int GetMediaVolume()
   return (media - 18);
 }
 
-void InvalidateRect(DISP_OBJ *disp_obj)
-{
-  if (disp_obj)
-    DispObject_InvalidateRect(disp_obj, NULL);
-}
-
-extern "C" void RefreshScreen()
+extern "C" void refresh_gui()
 {
   Internal_Function *Data = Get_Internal_Function();
-  InvalidateRect(Data->Music_Gui_NowPlaying);
+  if (Data->Music_Gui_NowPlaying)
+  {
+    DispObject_InvalidateRect(Data->Music_Gui_NowPlaying, NULL);
+  }
 }
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)
@@ -156,9 +153,11 @@ extern "C" int PATCH_UI_MEDIAPLAYER_AUDIO_ON_NEW_TRACK_EVENT(void *trackdata, BO
   Data->ElapsedTime.seconds = TrackData->ElapsedTime.seconds;
 
   if (Data->MusicBook)
+  {
     GetNextTrackData(TrackData, MusicBook);
+  }
 
-  RefreshScreen();
+  refresh_gui();
   return ret;
 }
 
@@ -175,9 +174,11 @@ extern "C" int PATCH_UI_MEDIAPLAYER_AUDIO_PLAYING_TIME_EVENT(void *timedata, BOO
   Data->ElapsedTime.seconds = TimeData->Seconds;
 
   if (Find_AdvLyricBook())
+  {
     AdvLyric_GetLyric(TimeData, MusicBook);
+  }
 
-  RefreshScreen();
+  refresh_gui();
   return ret;
 }
 
@@ -198,7 +199,8 @@ extern "C" int PATCH_UI_MEDIAPLAYER_CREATED_EVENT(void *data, BOOK *book)
   {
     LoadLandscapeData();
   }
-  RefreshScreen();
+
+  refresh_gui();
   return ret;
 }
 
@@ -212,7 +214,7 @@ extern "C" int PATCH_UI_MEDIAPLAYER_ON_ENTER_EVENT(void *data, BOOK *book)
   return ret;
 }
 
-void SetGUIData(GUI *gui)
+void set_gui_state(GUI *gui)
 {
   Internal_Function *Data = Get_Internal_Function();
 
@@ -237,6 +239,8 @@ void SetGUIData(GUI *gui)
     GUIObject_SoftKeys_Hide(gui);
     DispObject_SoftKeys_Hide(Data->Music_Gui_NowPlaying);
   }
+
+  refresh_gui();
 }
 
 void Load_skin_GUI(const wchar_t *fpath, const wchar_t *fname)
@@ -269,8 +273,8 @@ extern "C" void Set_WALKMAN_GUI_STYLE(GUI *gui)
     Load_skin_GUI(current_skin->Path, current_skin->Name);
     mfree(current_skin);
 
-    SetGUIData(gui);
-    RefreshScreen();
+    set_gui_state(gui);
+    refresh_gui();
   }
 }
 

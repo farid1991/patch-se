@@ -28,14 +28,12 @@ a       equ b
         defadr Timer_ReSet,0x14168C8C+1
         defadr Timer_Set,0x1423BDD8+1
         defadr Timer_Kill,0x14168F7C+1
-
         defadr Display_GetWidth,0x141A831C+1
         defadr Display_GetHeight,0x1411A138+1
         defadr DispObject_GetGUI,0x14382E70+1
         defadr GUIObject_GetBook,0x141043A8+1
         defadr Display_GetFocusedDispObject,0x1416B7FC+1
         defadr DispObject_GetName,0x1416BA34+1
-
         defadr TextID_Create,0x142D5A2C+1
         defadr TextID_GetLength,0x1416E4AC+1
         defadr TextID_Destroy,0x1416DCA4+1
@@ -43,7 +41,6 @@ a       equ b
         defadr TextID_Copy,0x1416D3EC+1
         defadr TextID_GetWString,0x1416D910+1
         defadr RichTextLayout_GetTextWidth,0x1441DC80+1
-
         defadr DispObject_SetLayerColor,0x144A64E4+1
         defadr DispObject_InvalidateRect,0x14169C04+1
         defadr DISP_DESC_SetName,0x14501B90+1
@@ -69,13 +66,11 @@ a       equ b
         defadr DispObject_SetBacklightMode,0x142351EC+1
         defadr DispObject_SoftKeys_Show,0x1439CB48+1
         defadr DispObject_SoftKeys_Hide,0x1450A670+1
-
         defadr CreateOneOfMany,0x140F5828+1
         defadr OneOfMany_SetItemCount,0x1500532C+1
         defadr OneOfMany_SetOnMessage,0x14CF4DA4+1
         defadr OneOfMany_GetSelected,0x14FD5874+1
         defadr OneOfMany_SetChecked,0x14110634+1
-
         defadr wstrncpy,0x1449BCA0+1
         defadr wstrcmpi,0x144BC8B8+1
         defadr wstrlen,0x144BBB64+1
@@ -92,7 +87,6 @@ a       equ b
         defadr strcpy,0x14C78904+1
         defadr strncpy,0x1443E2F0+1
         defadr strstr,0x142C25FC+1
-
         defadr MetaData_GetTags,0x14DD04F0+1
         defadr FILEITEM_GetFname,0x142D970C+1
         defadr FILEITEM_GetPath,0x142D9710+1
@@ -100,7 +94,6 @@ a       equ b
         defadr FSX_MakeFullPath,0x144BA990+1
         defadr FSX_FreeFullPath,0x14042CCC+1
         defadr FSX_IsFileExists,0x14EF3628+1
-
         defadr get_DisplayGC,0x1416AB88+1
         defadr DrawRect,0x14106BBC+1
         defadr snwprintf,0x1449BB54+1
@@ -114,7 +107,6 @@ a       equ b
         defadr GC_GetPenColor,0x144DABFC+1
         defadr BookObj_GetDisplayOrientation,0x140463A4+1
         defadr BookObj_SetDisplayOrientation,0x1439CA88+1
-
         defadr CreateListMenu,0x14131DEC+1
         defadr ListMenu_SetTexts,0x141AC1A8+1
         defadr ListMenu_SetItemCount,0x142D7D28+1
@@ -134,14 +126,12 @@ a       equ b
         defadr GUIonMessage_SetMenuItemSecondLineText,0x141FCEC8+1
         defadr GUIonMessage_SetItemDisabled,0x14256E00+1
         defadr GUIonMessage_SetMenuItemUnavailableText,0x14EDE07C+1
-
         defadr List_DestroyElements,0x144D6D40+1
         defadr List_Destroy,0x141035F4+1
         defadr List_Create,0x141034FC+1
         defadr List_InsertLast,0x14168E88+1
         defadr List_Get,0x1416CAC4+1
         defadr List_GetCount,0x1416CAD8+1
-
         defadr FreeBook,0x141326E4+1
         defadr CreateBook,0x144A4D98+1
         defadr BookObj_KillBook,0x140454DC+1
@@ -153,7 +143,6 @@ a       equ b
         defadr IsAudioPlayerBook,0x1426F6B0+1
         defadr UI_Event,0x1439C2F8+1
         defadr BookObj_GetBookID,0x1416D04C+1
-
         defadr CreateMessageBox,0x14DFE5F4+1
         defadr DispObject_SoftKeys_GetList,0x1416D1F0+1
         defadr GUIObject_SoftKeys_Hide,0x1450A65C+1
@@ -167,14 +156,12 @@ a       equ b
         defadr GUIObject_SoftKeys_SetItemAsSubItem,0x141043B4+1
         defadr GUIObject_SoftKeys_SetInfoText,0x140A6348+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x1439CC1C+1
-
         defadr CreateTabMenuBar,0x1433A668+1
         defadr TabMenuBar_SetTabGui,0x1450B7F4+1
         defadr TabMenuBar_SetTabTitle,0x1402BD68+1
         defadr TabMenuBar_SetTabIcon,0x142F0F58+1
         defadr TabMenuBar_SetTabCount,0x1426CF04+1
         defadr TabMenuBar_SetFocusedTab,0x1450B504+1
-
         defadr CreateStringInput,0x14FA9774+1
         defadr StringInput_SetMode,0x14001148+1
         defadr StringInput_SetFixedText,0x140157B8+1
@@ -182,21 +169,17 @@ a       equ b
         defadr StringInput_SetMaxLen,0x14316978+1
         defadr StringInput_SetEnableEmptyText,0x14E55AE8+1
         defadr StringInput_SetActionOK,0x142878D8+1
-
         defadr TextFeedbackWindow,0x14233A24+1
         defadr Feedback_SetTextExtended,0x142338B0+1
         defadr Feedback_CloseAction,0x1414BCB4+1
-
         defadr SETTING_RINGTYPESOUNDFILE_SET,0x1584E37C+1
         defadr Sound_SetMessageAlert,0x14D6FD30+1
         defadr Sound_SetAlarmsignal,0x1515FB38+1
         defadr Sound_AddToContact,0x1525BBCC+1
-
         defadr CoCreateInstance,0x1445AE3C+1
         defadr TextObject_SetText,0x1416E5E4+1
         defadr TextObject_SetFont,0x141714E8+1
         defadr DisplayGC_AddRef,0x143CB918+1
-
         defadr Volume_Get,0x14271F70+1
         defadr Volume_Set,0x1427216C+1
         defadr ImageID_GetIndirect,0x15091C64+1
@@ -204,7 +187,6 @@ a       equ b
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x14DEE674+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x15093898+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x14098A7C+1
-
         defadr MediaPlayer_SoftKeys_SetItemAsSubItem,0x140B3B04+1
         defadr MediaPlayer_SoftKeys_SetAction,0x140B3904+1
         defadr MediaPlayer_SoftKeys_SetText,0x140B38D4+1
@@ -251,7 +233,7 @@ a       equ b
 	EXTERN New_Action
         EXTERN New_SoftKeys
 	EXTERN Set_WALKMAN_GUI_STYLE
-	EXTERN RefreshScreen
+	EXTERN refresh_gui
 
 	EXTERN LoadLandscapeData
 	EXTERN LoadPortraitData
@@ -402,7 +384,7 @@ _walkman_gui:
 _shuffle_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#1]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E3F640+1
@@ -418,7 +400,7 @@ _shuffle_fix:
 _loop_fix:
         LDR     R3, =ListMenu_SetItemSecondLineText
 	BLX     R3
-        BL      RefreshScreen
+        BL      refresh_gui
 	LDRB    R1, [R6,#0]
 	LDR     R0, [R5,#0]
 	LDR     R3, =0x14E3F674+1

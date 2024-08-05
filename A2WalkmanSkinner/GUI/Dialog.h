@@ -1,7 +1,7 @@
 #ifndef _DIALOG_H_
 #define _DIALOG_H_
 
-static const char Gui_Dialog[] = "Gui_Dialog";
+static const char Gui_Dialog[] = "Gui_XDialog";
 
 typedef struct GUI GUI_Dialog;
 

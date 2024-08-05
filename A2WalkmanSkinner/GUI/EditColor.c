@@ -195,7 +195,7 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int count, int repeat, i
         break;
       }
     }
-    InvalidateRect(disp_obj);
+    DispObject_InvalidateRect(disp_obj, NULL);
   }
 }
 

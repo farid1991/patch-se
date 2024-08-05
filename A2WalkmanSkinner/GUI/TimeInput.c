@@ -72,9 +72,9 @@ void XTimeInput_OnRedraw(DISP_OBJ_XTIMEINPUT *disp_obj, int r1, int r2, int r3)
   /*--------------------------------------------------------------------------1*/
   DrawTextOnRect(FONT_E_20R,
                  disp_obj->title_text,
-                 0, 
-                 disp_obj->rect_ypos, 
-                 disp_obj->disp_width, 
+                 0,
+                 disp_obj->rect_ypos,
+                 disp_obj->disp_width,
                  disp_obj->rect_height,
                  TITLE_TEXT_COLOR,
                  TITLE_BACKGROUND_COLOR);
@@ -233,7 +233,7 @@ void XTimeInput_OnKey(DISP_OBJ_XTIMEINPUT *disp_obj, int key, int count, int rep
       }
       break;
     }
-    InvalidateRect(disp_obj);
+    DispObject_InvalidateRect(disp_obj, NULL);
   }
 }
 
