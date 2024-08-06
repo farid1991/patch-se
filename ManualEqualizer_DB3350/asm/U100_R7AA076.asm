@@ -208,22 +208,21 @@ New_SetEqualizerGain:
         push    {R4,lr}
         add     R4, R0, #0
         cmp     R0, #0
-        beq     empty_book
+        beq     exit
         add     R0, R4, #0
-        bl      _EnableEqualizer
+        bl      def_EnableEqualizer
         bl      GetEqualizerState
         cmp     R0, #0
         beq     eq_preset
         add     R0, R4, #0
         bl      SetManualEQ
-        pop     {R4,pc}
-
+        B       exit
 eq_preset:
         add     R1, R4, #0
         add     R1, #0x70
         add     R0, R4, #0
-        bl      _SetEqualizerGain
-empty_book:
+        bl      def_SetEqualizerGain
+exit:
         pop     {R4,pc}
 
 add_softkeys:
@@ -232,17 +231,17 @@ add_softkeys:
         ldr     R0, [R4,#0x20]
         mov     R2, #0x7
         mov     R1, #0xE
-        bl      _SetItemAsSubItem
+        bl      SK_SetItemAsSubItem
         ldr     R3, =0x1462A93E+1
         bx      R3
 
-_EnableEqualizer:
+def_EnableEqualizer:
         ldr     r3, =MusicApplication_EnableEqualizer
         bx      r3
-_SetEqualizerGain:
+def_SetEqualizerGain:
         ldr     r3, =MusicApplication_SetEqualizerGain
         bx      r3
-_SetItemAsSubItem:
+SK_SetItemAsSubItem:
         ldr     r3, =GUIObject_SoftKeys_SetItemAsSubItem
         bx      r3
 

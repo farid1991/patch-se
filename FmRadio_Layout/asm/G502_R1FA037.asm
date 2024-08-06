@@ -772,5 +772,4 @@ update_softkeys:
         LDR	R3, =0x1132AE2E+1
         BX	R3
 
-          END
-
+        END

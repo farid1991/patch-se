@@ -32,7 +32,4 @@ const PAGE_MSG bk_MusicApplication_ManualEQ[] =
         NIL_EVENT, NULL};
 const PAGE_DESC page_MusicApplication_ManualEQ = {MusicApplication_ManualEQ_PageName, NULL, bk_MusicApplication_ManualEQ};
 
-__thumb void *malloc(int size);
-__thumb void mfree(void *mem);
-
 #endif

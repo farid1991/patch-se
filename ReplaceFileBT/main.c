@@ -56,7 +56,7 @@ int Question_Enter(void *data, BOOK *book)
   DataDownloadBook *pDDBook = (DataDownloadBook *)book;
   FREE_GUI(pDDBook->gui);
 
-  if (pDDBook->gui = CreateYesNoQuestion(book, UIDisplay_Main))
+  if (pDDBook->gui = CreateYesNoQuestion(pDDBook, UIDisplay_Main))
   {
     YesNoQuestion_SetDescriptionText(pDDBook->gui, DescriptionText);
     YesNoQuestion_SetQuestionText(pDDBook->gui, QuestionText);
@@ -86,9 +86,7 @@ extern "C" void Question(BOOK *book)
 {
   DataDownloadBook *pDDBook = (DataDownloadBook *)book;
 
-  bool file_exist = FSX_IsFileExists(FILEITEM_GetPath(pDDBook->fi), FILEITEM_GetFname(pDDBook->fi));
-
-  if (file_exist)
+  if (FSX_IsFileExists(FILEITEM_GetPath(pDDBook->fi), FILEITEM_GetFname(pDDBook->fi)))
     BookObj_GotoPage(pDDBook, &DataDownload_ReplaceFile_Page);
   else
     BookObj_GotoPage(pDDBook, DataDownload_Main_Page);

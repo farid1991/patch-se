@@ -259,7 +259,7 @@ void DB_Action_CopyDirectory(BOOK *bk, GUI *gui)
   {
     CopyDir_book *mbk = (CopyDir_book *)malloc(sizeof(CopyDir_book));
     memset(mbk, NULL, sizeof(CopyDir_book));
-    if (!CreateBook(mbk, CopyDir_onClose, &mbk_Base_Page, "CopyDirBook", -1, 0))
+    if (!CreateBook(mbk, CopyDir_onClose, &mbk_Base_Page, "CopyDirBook", NO_BOOK_ID, NULL))
     {
       FSX_FreeFullPath(fullpath);
       mfree(mbk);

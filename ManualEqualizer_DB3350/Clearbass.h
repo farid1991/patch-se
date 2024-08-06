@@ -15,12 +15,12 @@ typedef struct IMG
 typedef struct
 {
   bool manual;
-  signed char boost_level;
-  signed char bar1_level;
-  signed char bar2_level;
-  signed char bar3_level;
-  signed char bar4_level;
-  signed char bar5_level;
+  int8_t boost_level;
+  int8_t bar1_level;
+  int8_t bar2_level;
+  int8_t bar3_level;
+  int8_t bar4_level;
+  int8_t bar5_level;
 } EQ_SETTINGS;
 
 const int redrect_positions[6][4] =
@@ -86,7 +86,7 @@ typedef struct _DISP_OBJ_CLEARBASS : DISP_OBJ
 } DISP_OBJ_CLEARBASS;
 
 GUI *Create_ClearbassGUI(BOOK *book);
-void GUIObject_Clearbass_SetBarLevel(GUI *gui, int32_t b0, int32_t b1, int32_t b2, int32_t b3, int32_t b4, int32_t b5);
-void GUIObject_Clearbass_GetBarLevel(GUI *gui, int32_t *b0, int32_t *b1, int32_t *b2, int32_t *b3, int32_t *b4, int32_t *b5);
+void GUIObject_Clearbass_SetBarLevel(GUI *gui, int32_t boost_level, int32_t b1, int32_t b2, int32_t b3, int32_t b4, int32_t b5);
+void GUIObject_Clearbass_GetBarLevel(GUI *gui, int32_t *boost_level, int32_t *b1, int32_t *b2, int32_t *b3, int32_t *b4, int32_t *b5);
 
 #endif

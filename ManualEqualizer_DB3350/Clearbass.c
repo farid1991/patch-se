@@ -17,7 +17,6 @@
 
 #include "dll.h"
 #include "Clearbass.h"
-#include "Lib.h"
 #include "main.h"
 
 void RegisterImage(IMG *img, wchar_t *path, wchar_t *fname)

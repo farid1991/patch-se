@@ -21,7 +21,7 @@ void *malloc(int size)
 #if defined(DB2020)
   return (memalloc(0, size, 1, 5, "fm", 0));
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, "fm", 0));
+  return (memalloc(-1, size, 1, 5, "fm", 0));
 #else
   return (memalloc(size, 1, 5, "fm", 0));
 #endif
@@ -482,7 +482,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
             data->temp.x2 = data->scr_w;
         }
         break;
-      case KEY_DIGITAL_0 + 2:
+      case KEY_DIGITAL_2:
         if ((data->temp.y1 -= data->cstep) < 0)
         {
           data->temp.y1 = 0;
@@ -491,7 +491,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
         else
           data->temp.y2 -= data->cstep;
         break;
-      case KEY_DIGITAL_0 + 8:
+      case KEY_DIGITAL_8:
         if (data->text)
         {
           int h_max = data->scr_h - (data->temp.font & 0xFF);
@@ -509,7 +509,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
             data->temp.y2 += data->cstep;
         }
         break;
-      case KEY_DIGITAL_0 + 4:
+      case KEY_DIGITAL_4:
         if ((data->temp.x1 -= data->cstep) < 0)
         {
           data->temp.x1 = 0;
@@ -518,7 +518,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
         else
           data->temp.x2 -= data->cstep;
         break;
-      case KEY_DIGITAL_0 + 6:
+      case KEY_DIGITAL_6:
         if ((data->temp.x2 += data->cstep) > data->scr_w)
         {
           data->temp.x1 = data->scr_w - rect_w;
@@ -559,7 +559,7 @@ extern "C" void New_FmRadio_Gui_OnKey(DISP_OBJ *disp_obj, int key, int unk, int 
             data->temp.overlay = 0;
         }
         break;
-      case KEY_DIGITAL_0 + 5:
+      case KEY_DIGITAL_5:
         data->edit_visual = FALSE;
         data->text = FALSE;
         data->rect = FALSE;

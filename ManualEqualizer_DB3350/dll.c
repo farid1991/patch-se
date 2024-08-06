@@ -1,12 +1,11 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 #include "..\\include\classes\classes.h"
 
-#include "Lib.h"
 #include "dll.h"
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
 void dll_SetFont(int font_size, int font_style, IFont **ppFont)
 {
@@ -81,10 +80,8 @@ void dll_DrawString(int font_size, TEXTID text_id, int align, int x1, int y1, in
   if (pGC)
     pGC->Release();
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 void dll_GC_PutChar(GC *gc, int x, int y, int w, int h, IMAGEID imageID)
 {
   IUIImageManager *pIUIImageManager = NULL;
@@ -111,4 +108,3 @@ void dll_GC_PutChar(GC *gc, int x, int y, int w, int h, IMAGEID imageID)
   if (pGC)
     pGC->Release();
 }
-#endif

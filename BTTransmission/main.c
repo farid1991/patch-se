@@ -25,14 +25,12 @@ __thumb void *malloc(int size)
 
 __thumb void mfree(void *mem)
 {
-#if defined(DB2020)
   if (mem)
+#if defined(DB2020)
     memfree(0, mem, "ObEx", 0);
 #elif defined(A2)
-  if (mem)
     memfree(0, mem, "ObEx", 0);
 #else
-  if (mem)
     memfree(mem, "ObEx", 0);
 #endif
 }
@@ -96,10 +94,7 @@ extern "C" int New_ObEx_FileSent(void *data, BOOK *book)
 
 int cmp_proc(BOOK *book, int *bookname)
 {
-  if (strcmp(book->xbook->name, (char *)bookname) == 0)
-    return TRUE;
-  else
-    return FALSE;
+  return strcmp(book->xbook->name, (char *)bookname) == NULL;
 }
 
 extern "C" void New_StatusRow_OnRedraw(DISP_OBJ *disp_obj, int r1, RECT *rect, int r3)
