@@ -5,7 +5,6 @@
 
 #include "..\\include\book\SetBook.h"
 
-#include "Lib.h"
 #include "main.h"
 
 TEXTID GetTitleText()
@@ -24,24 +23,18 @@ void ShutdownMenu_onClose(BOOK *book, GUI *gui)
 void ShutdownMenu_onSelect(BOOK *book, GUI *gui)
 {
   SetBook *setbook = (SetBook *)book;
-  int item = KnobOption_GetSelectedItem(setbook->gui);
-
-  switch (item)
+  switch (KnobOption_GetSelectedItem(setbook->gui))
   {
-  case SHUTDOWN_ITEM:
+  case ITEM_1:
     REQUEST_SYSTEM_SHUTDOWN();
     break;
-  case RESTART_ITEM:
+  case ITEM_2:
     REQUEST_SYSTEM_RESTART();
     break;
-  case FLIGHTMODE_ITEM:
-    if (FlightMode_GetState())
-      FlightMode_SetState(OFF);
-    else
-      FlightMode_SetState(ON);
+  case ITEM_3:
+    FlightMode_GetState() ? FlightMode_SetState(OFF) : FlightMode_SetState(ON);
     break;
   }
-
   FreeBook(setbook);
 }
 
@@ -51,13 +44,11 @@ extern "C" void CreateShutdownMenu()
 
   setbook->gui = Create_KnobOption(setbook, UIDisplay_Main);
   KnobOption_SetItemCount(setbook->gui, LAST_ITEM);
-  KnobOption_SetCursor(setbook->gui, SHUTDOWN_ITEM);
+  KnobOption_SetCursor(setbook->gui, ITEM_1);
   KnobOption_SetTitleText(setbook->gui, GetTitleText());
-
-  KnobOption_SetItems(setbook->gui, ITEM1_TEXT, SHUTDOWN_ITEM);
-  KnobOption_SetItems(setbook->gui, ITEM2_TEXT, RESTART_ITEM);
-  KnobOption_SetItems(setbook->gui, ITEM3_TEXT, FLIGHTMODE_ITEM);
-
+  KnobOption_SetItems(setbook->gui, ITEM1_TEXT, ITEM_1);
+  KnobOption_SetItems(setbook->gui, ITEM2_TEXT, ITEM_2);
+  KnobOption_SetItems(setbook->gui, ITEM3_TEXT, ITEM_3);
   GUIObject_SoftKeys_SetAction(setbook->gui, ACTION_SELECT1, ShutdownMenu_onSelect);
   GUIObject_SoftKeys_SetAction(setbook->gui, ACTION_BACK, ShutdownMenu_onClose);
   GUIObject_SoftKeys_SetAction(setbook->gui, ACTION_LONG_BACK, ShutdownMenu_onClose);

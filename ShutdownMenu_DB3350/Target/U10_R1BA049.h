@@ -15,5 +15,4 @@
 #define ACTION_BACK       0xFC0
 #define ACTION_LONG_BACK  0xFAF
 
-
 #endif
