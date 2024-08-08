@@ -7,7 +7,7 @@
 #define VOLUME_TXT 0x1B0D
 #define RING_VOLUME_TXT 0x11FB
 
-#define ProfileBook 0x15C3BECC
+#define ProfileBook 0x15C3BECC // "ProfileBook"
 
 #define NIL_EVENT 0x0
 #define RETURN_TO_STANDBY_EVENT 0x840

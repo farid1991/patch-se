@@ -8,7 +8,7 @@
 #define CID_CUIImageManager (PUUID)0x11E9D7D0
 #define IID_IUIImageManager (PUUID)0x11EC76C0
 
-#define ProfileBook 0x11F2D6B8
+#define ProfileBook 0x11F2D6B8 // "ProfileBook"
 
 #define VOLUME_TXT 0x1E34
 #define RING_VOLUME_TXT 0x13C9

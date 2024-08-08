@@ -59,6 +59,7 @@ a       EQU     b
         defadr TextID_Destroy,0x10F62178+1
         defadr get_envp,0x10005C38+1
         defadr set_envp,0x10005C4C+1
+        defadr GC_PutChar,0x109D0A1C+1
         defadr GC_GetRect,0x109D0624+1
         defadr GC_GetXX,0x109D0920+1
         defadr GC_SetXX,0x109D0914+1
@@ -241,7 +242,7 @@ a       EQU     b
         defadr onBackPressed,0x10DC0478+1
         defadr onLongBackPressed,0x10E27514+1
         defadr onCloseBook,0x11ACB210+1
-        defadr onStandyEvent,0x10DC1A5C+1
+        defadr onReturntoStandbyEvent,0x10DC1A5C+1
         defadr StandartRingMenu,0x10DC0FF4+1
         defadr DynamicMenu_GetElementMsg,0x10DDA6AC+1
         defadr DynamicMenu_SetElement_FirstLineText,0x10DDA5B8+1

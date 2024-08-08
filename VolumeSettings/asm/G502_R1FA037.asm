@@ -75,7 +75,7 @@ a       EQU b
         defadr onBackPressed,0x10EF1694+1
         defadr onLongBackPressed,0x1149362C+1
         defadr onCloseBook,0x117A1574+1
-        defadr onStandyEvent,0x116259D8+1
+        defadr onReturntoStandbyEvent,0x116259D8+1
         defadr StandartRingMenu,0x11624F90+1
         defadr DynamicMenu_GetElementMsg,0x116C4FCC+1
         defadr DynamicMenu_SetElement_FirstLineText, 0x116C4EBC+1

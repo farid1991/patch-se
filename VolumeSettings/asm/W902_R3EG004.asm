@@ -113,6 +113,7 @@ a       EQU     b
         defadr DrawString,0x109D46E8+1
         defadr DrawRect,0x109D439C+1
         defadr get_DisplayGC,0x109D8650+1
+        defadr GC_PutChar,0x109D908C+1
         defadr GC_SetPenColor,0x109D8E60+1
         defadr GC_SetBrushColor,0x109D8F38+1
         defadr GC_DrawLine,0x109D95E0+1
@@ -203,7 +204,7 @@ a       EQU     b
         defadr onBackPressed,0x10DC83E0+1
         defadr onLongBackPressed,0x10E2F450+1
         defadr onCloseBook,0x11AF0CA8+1
-        defadr onStandyEvent,0x10DC99C4+1
+        defadr onReturntoStandbyEvent,0x10DC99C4+1
         defadr StandartRingMenu,0x10DC8F5C+1
         defadr DynamicMenu_GetElementMsg,0x10DE2620+1
         defadr DynamicMenu_SetElement_FirstLineText,0x10DE252C+1

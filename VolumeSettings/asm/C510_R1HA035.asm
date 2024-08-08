@@ -756,12 +756,10 @@ a       equ b
         defadr GetMemoryStickStatus,0x142CE30C+1
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
-
         defadr onBackPressed,0x1541E980+1
         defadr onLongBackPressed,0x154528E4+1
-
         defadr onCloseBook,0x1432AFE0+1
-        defadr onStandyEvent,0x1541F5C8+1
+        defadr onReturntoStandbyEvent,0x1541F5C8+1
         defadr StandartRingMenu,0x141AD388+1
 
         END

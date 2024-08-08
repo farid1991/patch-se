@@ -2,12 +2,11 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
-#include "..\\include\classes\classes.h"
 
 #include "dll.h"
 #include "main.h"
 
-#if defined(DB3200) || defined(DB3210)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
 void dll_SetFont(int font_size, int font_style, IFont **ppFont)
 {
@@ -127,10 +126,8 @@ int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
 
   return (width);
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 void Get_IUIImageManager(IUIImageManager **ppIUIImageManager)
 {
   CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(ppIUIImageManager));
@@ -167,8 +164,8 @@ int dll_GetImageWidth(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
@@ -186,8 +183,8 @@ int dll_GetImageHeight(IMAGEID imageID)
 {
   IUIImage *pUIImage = NULL;
   IUIImageManager *pIUIImageManager = NULL;
-  long image_width = NULL;
-  long image_height = NULL;
+  int image_width = NULL;
+  int image_height = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)

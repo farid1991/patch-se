@@ -4,10 +4,10 @@
 #define A2
 #define DB3150v1
 
-#define KBD_LONG_PRESS    0x1
-#define KBD_LONG_RELEASE  0x4
-#define KBD_REPEAT        0x2
-#define KBD_SHORT_PRESS   0x0
+#define KBD_LONG_PRESS 0x1
+#define KBD_LONG_RELEASE 0x4
+#define KBD_REPEAT 0x2
+#define KBD_SHORT_PRESS 0x0
 #define KBD_SHORT_RELEASE 0x3
 
 #define KEY_DIEZ 0x1E
@@ -22,16 +22,16 @@
 #define KEY_DOWN 0xD
 #define KEY_LEFT 0xF
 
-#define ACTION_BACK       0xFC0
-#define ACTION_LONG_BACK  0xFAF
-#define ACTION_SELECT1    0xFC2
+#define ACTION_BACK 0xFC0
+#define ACTION_LONG_BACK 0xFAF
+#define ACTION_SELECT1 0xFC2
 
-#define NIL_EVENT               0
+#define NIL_EVENT 0
 #define ACCEPT_EVENT 0x2
 #define CANCEL_EVENT 0x4
 #define PAGE_ENTER_EVENT 0xE
 #define RETURN_TO_STANDBY_EVENT 0x841
 
-#define ProfileBook                   0x11B9E7E8
+#define ProfileBook 0x11B9E7E8 // "ProfileBook"
 
 #endif

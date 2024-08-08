@@ -45,7 +45,7 @@
 #define PAGE_ENTER_EVENT 0xF
 #define RETURN_TO_STANDBY_EVENT 0x840
 
-#define ProfileBook 0x11F2D6B8
+#define ProfileBook 0x11F2D6B8 // "ProfileBook"
 
 #define VOLUME_TXT 0x1E34
 #define RING_VOLUME_TXT 0x13C9
