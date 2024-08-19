@@ -4,7 +4,4 @@
   <project>
     <path>$WS_DIR$\A2WalkmanSkinner.ewp</path>
   </project>
-  <batchBuild/>
 </workspace>
-
-

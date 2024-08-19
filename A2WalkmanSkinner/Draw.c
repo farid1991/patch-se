@@ -7,39 +7,39 @@
 #include "Draw.h"
 #include "main.h"
 
-int GetTextIDWidth(int font, TEXTID text, int len)
+int GetTextIDWidth(int font, TEXTID text_id, int len)
 {
 #if defined(DB3200) || defined(DB3210)
-  return dll_Disp_GetTextIDWidth(font, text, len);
+  return dll_Disp_GetTextIDWidth(font, text_id, len);
 #else
   SetFont(font);
-  return Disp_GetTextIDWidth(text, len);
+  return Disp_GetTextIDWidth(text_id, len);
 #endif
 }
 
-void DrawText(int font, TEXTID text, int align, int XPos, int YPos, int width, int text_color)
+void DrawText(int font, TEXTID text_id, int align, int XPos, int YPos, int width, int text_color)
 {
-  if (text != EMPTY_TEXTID)
+  if (text_id != EMPTY_TEXTID)
   {
 #if defined(DB3200) || defined(DB3210)
-    dll_DrawString(font, text, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), text_color);
+    dll_DrawString(font, text_id, align, XPos, YPos, XPos + width, YPos + (font & 0xFF), text_color);
 #else
     SetFont(font);
     int font_h = GetImageHeight(' ');
-    DrawString(text, align, XPos, YPos, XPos + width, YPos + font_h, 0, 0, text_color, text_color);
+    DrawString(text_id, align, XPos, YPos, XPos + width, YPos + font_h, 0, 0, text_color, text_color);
 #endif
   }
 }
 
-void DrawTextEx(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
+void DrawTextEx(int font, TEXTID text_id, int align, int x1, int y1, int x2, int y2, int text_color)
 {
-  if (text != EMPTY_TEXTID)
+  if (text_id != EMPTY_TEXTID)
   {
 #if defined(DB3200) || defined(DB3210)
-    dll_DrawString(font, text, align, x1, y1, x2, y2, text_color);
+    dll_DrawString(font, text_id, align, x1, y1, x2, y2, text_color);
 #else
     SetFont(font);
-    DrawString(text, align, x1, y1, x2, y2, 0, 0, text_color, text_color);
+    DrawString(text_id, align, x1, y1, x2, y2, 0, 0, text_color, text_color);
 #endif
   }
 }
@@ -55,20 +55,22 @@ void DrawTextOnRect(int font, TEXTID textid, int rect_x, int rect_y, int rect_w,
   DrawText(font, textid, AlignCenter, rect_x, text_y, rect_w, text_color);
 }
 
-void DrawImageEx(GC *gc, int x, int y, int w, int h, IMAGEID img)
+void DrawImageEx(GC *gc, int x, int y, int w, int h, IMAGEID image_id)
 {
-  if (img != NOIMAGE)
+  if (image_id != NOIMAGE)
+  {
 #if defined(DB3150v1) || defined(DB3150v2)
-    GC_PutChar(gc, x, y, w, h, img);
+    GC_PutChar(gc, x, y, w, h, image_id);
 #else
-    dll_GC_PutChar(gc, x, y, w, h, img);
+    dll_GC_PutChar(gc, x, y, w, h, image_id);
 #endif
+  }
 }
 
-void DrawImage(IMAGEID img, int x, int y)
+void DrawImage(IMAGEID image_id, int x, int y)
 {
   GC *gc = get_DisplayGC();
-  DrawImageEx(gc, x, y, 0, 0, img);
+  DrawImageEx(gc, x, y, 0, 0, image_id);
 }
 
 void DrawProgressBar(int value, int max_value, RECT rect, int bg_color, int fill_color)

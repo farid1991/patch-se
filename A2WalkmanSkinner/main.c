@@ -348,14 +348,16 @@ extern "C" void Feedback_DrawCoverArt(DISP_OBJ *disp_obj, int a, int b, int c)
   FeedbackTicker_OnRedraw(disp_obj, a, b, c);
 
   Internal_Function *Data = Get_Internal_Function();
-  GC *pGCanvas = get_DisplayGC();
+  GC *gc = get_DisplayGC();
+  IMAGEID image_id;
 
   if (Data->CoverArtID != NOIMAGE)
   {
-    DrawImageEx(pGCanvas, 0, 0, 40, 40, Data->CoverArtID);
+    image_id = Data->CoverArtID;
   }
   else
   {
-    DrawImageEx(pGCanvas, 0, 0, 40, 40, Data->MusicPlayer[NO_COVER_ICN].ImageID);
+    image_id = Data->MusicPlayer[NO_COVER_ICN].ImageID;
   }
+  DrawImageEx(gc, 2, 2, 36, 36, image_id);
 }

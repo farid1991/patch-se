@@ -33,22 +33,22 @@
 #define TITLE_BACKGROUND_COLOR 0xFF2E2E2E // Dark Gray
 
 // Text Color for Title Area
-#define TITLE_TEXT_COLOR       0xFFFFFFFF // White or Light Gray
+#define TITLE_TEXT_COLOR 0xFFFFFFFF // White or Light Gray
 
 // Selected (Active) Slider and Thumb Colors
-#define SELECTED_TEXT_COLOR   0xFF000000 // Black (or another contrasting color)
-#define SELECTED_CURSOR_COLOR  0xFF808080 // Light Gray (adjust as needed) 
-#define SELECTED_SLIDER_COLOR  0xFF007ACC // Dark Blue (adjust as needed)
-#define SELECTED_THUMB_COLOR   0xFF1A1A1A // Charcoal or Dark Gray
+#define SELECTED_TEXT_COLOR 0xFF000000   // Black (or another contrasting color)
+#define SELECTED_CURSOR_COLOR 0xFF808080 // Light Gray (adjust as needed)
+#define SELECTED_SLIDER_COLOR 0xFF007ACC // Dark Blue (adjust as needed)
+#define SELECTED_THUMB_COLOR 0xFF1A1A1A  // Charcoal or Dark Gray
 
 // Unselected (Inactive) Slider and Thumb Colors
-#define UNSELECTED_TEXT_COLOR 0xFF808080  //  Light Gray (adjust as needed) 
-#define UNSELECTED_CURSOR_COLOR  0xFF000000 // Black (or another contrasting color)
-#define UNSELECTED_SLIDER_COLOR  0xFF808080 // Gray (adjust as needed)
-#define UNSELECTED_THUMB_COLOR   0xFFA0A0A0 // Light Gray (adjust as needed)
+#define UNSELECTED_TEXT_COLOR 0xFF808080   // Light Gray (adjust as needed)
+#define UNSELECTED_CURSOR_COLOR 0xFF000000 // Black (or another contrasting color)
+#define UNSELECTED_SLIDER_COLOR 0xFF808080 // Gray (adjust as needed)
+#define UNSELECTED_THUMB_COLOR 0xFFA0A0A0  // Light Gray (adjust as needed)
 
 // Transparency
-#define TRANSPARENT_COLOR 0x00000000 // Fully Transparent
+#define TRANSPARENT_COLOR 0x00000000    // Fully Transparent
 #define BG_TRANSPARENT_COLOR 0x773F3F3F // Transparent Dark Gray
 
 #endif

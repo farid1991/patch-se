@@ -637,7 +637,6 @@ a       EQU     b
 	defadr DispObject_SetBacklightMode,0x14236290+1
 	defadr DispObject_SetThemeImage,0x144ADF60+1
 	defadr GUIObject_SoftKeys_SetActionAndText,0x143F32EC+1
-        defadr MediaPlayer_SoftKeys_AddHelpStr,0x140B3F50+1
 	defadr TextID_Create,0x142D6F24+1
 	defadr TextID_CreateIntegerID,0x143D4FA4+1
 	defadr TextID_Copy,0x1416E374+1

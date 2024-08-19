@@ -58,14 +58,11 @@ FILELIST *Files_AddElement(wchar_t *FPath, wchar_t *FName)
   return files;
 }
 
-BOOL IsDir(wchar_t *name)
+BOOL IsDir(wchar_t *fullpath)
 {
   W_FSTAT fs;
-  if (w_fstat(name, &fs) != -1)
-  {
+  if (w_fstat(fullpath, &fs) != -1)
     return fs.attr & FSX_O_CHKPATH;
-  }
-
   return FALSE;
 }
 
