@@ -5,21 +5,7 @@
 //LIST_ACTIVETASKS (LIST*)0x4BA24264
 //LIST_ACTIVITYMENU (LIST*)0x4BA0334C
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-typedef struct ActivityMenuBook : BOOK
-{
-  LIST *list1;              // 0x18
-  LIST *EventsList;         // 0x1C
-  LIST *InternetList;       // 0x20
-  GUI_TABMENUBAR *main_tab; // 0x24 ActivityMenu
-  GUI_LIST *first_tab;      // 0x28 1st tab Events
-  char unk_0x2C[0x4];       // 0x2C
-  char unk_0x30[0x4];       // 0x30
-  GUI_LIST *fourth_tab;     // 0x34 4th tab Internet
-  GUI_LIST *third_tab;      // 0x38 3rd tab Shortcuts
-  GUI_LIST *second_tab;     // 0x3C 2nd tab ActiveTasks
-} ActivityMenuBook;         // size 0x64(100)
-#elif defined(DB3150v1)
+#if defined(DB3150v1)
 typedef struct ActivityMenuBook : BOOK
 {
   void *unk_0x18;           // 0x18
@@ -33,6 +19,20 @@ typedef struct ActivityMenuBook : BOOK
   GUI_LIST *fourth_tab;     // 0x38 4th tab Internet
   GUI_LIST *third_tab;      // 0x3C 3rd tab Shortcuts
   GUI_LIST *second_tab;     // 0x40 2nd tab ActiveTasks
+} ActivityMenuBook;         // size 0x64(100)
+#elif defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
+typedef struct ActivityMenuBook : BOOK
+{
+  LIST *list1;              // 0x18
+  LIST *EventsList;         // 0x1C
+  LIST *InternetList;       // 0x20
+  GUI_TABMENUBAR *main_tab; // 0x24 ActivityMenu
+  GUI_LIST *first_tab;      // 0x28 1st tab Events
+  char unk_0x2C[0x4];       // 0x2C
+  char unk_0x30[0x4];       // 0x30
+  GUI_LIST *fourth_tab;     // 0x34 4th tab Internet
+  GUI_LIST *third_tab;      // 0x38 3rd tab Shortcuts
+  GUI_LIST *second_tab;     // 0x3C 2nd tab ActiveTasks
 } ActivityMenuBook;         // size 0x64(100)
 #endif
 

@@ -15,7 +15,7 @@ typedef FUint32 TIconId;
  */
 typedef struct
 {
-    TBool hasExtraData; /// True if the length of the extra data for the icon is grater then 0
+  TBool hasExtraData; /// True if the length of the extra data for the icon is grater then 0
 } TIconHeader;
 
 /**
@@ -24,13 +24,13 @@ typedef struct
  */
 typedef enum
 {
-    ICONID_MASK_ROTATION_ROTATIONBITS = 0xC0000000,       /// 2 top bits reserved for orientation
-    ICONID_MASK_DISPLAY_DISPLAYBITS = 0x38000000,         /// 3 bits reserved for display
-    ICONID_MASK_ROTATION_VERTICAL = 0x00000000,           /// Vertical 0
-    ICONID_MASK_ROTATION_HORIZONTAL = 0x40000000,         /// Horesontal 1
-    ICONID_MASK_ROTATION_HORIZONTALREVERSED = 0x80000000, /// Horesontal reversed 2
-    ICONID_MASK_DISPLAY_MAIN = 0x00000000,                /// Main front display 0
-    ICONID_MASK_DISPLAY_SECOND = 0x08000000               /// Second display 1
+  ICONID_MASK_ROTATION_ROTATIONBITS = 0xC0000000,       /// 2 top bits reserved for orientation
+  ICONID_MASK_DISPLAY_DISPLAYBITS = 0x38000000,         /// 3 bits reserved for display
+  ICONID_MASK_ROTATION_VERTICAL = 0x00000000,           /// Vertical 0
+  ICONID_MASK_ROTATION_HORIZONTAL = 0x40000000,         /// Horesontal 1
+  ICONID_MASK_ROTATION_HORIZONTALREVERSED = 0x80000000, /// Horesontal reversed 2
+  ICONID_MASK_DISPLAY_MAIN = 0x00000000,                /// Main front display 0
+  ICONID_MASK_DISPLAY_SECOND = 0x08000000               /// Second display 1
 } TIconID_Mask;
 
 // OBSOLETE
@@ -43,11 +43,12 @@ const TIconSet TIconSet_Undefined = 0;
 
 class IIconSet : public IUnknown
 {
-    virtual int GetIconData(TIconId iconId, IUnknown **ppISimpleLockableBuffer, FUint32 *pSize, char **ppMimeType);
-    virtual int GetIconHeaderData(TIconId iconId, TIconHeader *pTIconHeader, IUnknown **ppISimpleLockableBufferExtraData);
-    virtual int LoadIconFile(wchar_t *pIconFilePath);
-    virtual int UnloadIconFile(wchar_t *pIconFilePath);
-    virtual int GetIconVersion(TIconId iconId, FUint32 *pVersion);
+public:
+  virtual int GetIconData(TIconId iconId, IUnknown **ppISimpleLockableBuffer, FUint32 *pSize, char **ppMimeType);
+  virtual int GetIconHeaderData(TIconId iconId, TIconHeader *pTIconHeader, IUnknown **ppISimpleLockableBufferExtraData);
+  virtual int LoadIconFile(wchar_t *pIconFilePath);
+  virtual int UnloadIconFile(wchar_t *pIconFilePath);
+  virtual int GetIconVersion(TIconId iconId, FUint32 *pVersion);
 };
 
 #endif

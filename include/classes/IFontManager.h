@@ -2,7 +2,7 @@
 #define _IFONTMANAGER_H_
 
 #include "..\types\Basic_types.h"
-#include "IUIRichTextLayout.h"
+#include "IRichTextLayout.h"
 
 typedef FUint16 TUIRenderStyle;
 /**
@@ -29,6 +29,7 @@ typedef enum
   UI_Baseline_Superscript, ///< superscript
   UI_Baseline_Subscript    ///< subscript
 } TUIBaselineStyle;
+
 /**
  *
  *  Typedef for text edge style.
@@ -48,44 +49,41 @@ typedef enum
 
 typedef struct
 {
-  float size;        ///< height in ppem (20.0 ppem)
-  float width;       ///< width in ppem; (0 - treated as equal to size)
-  float skew;        ///< skew angle (0)
-  float orientation; ///< glyph rotation, degrees clockwise (0.0)
-
-  float bold_pct;       ///< boldness value (0)
-  float stroke_pct;     ///< stroke width (0)
-  float edgeThickness;  ///< edge thickness in pixels (0)
-  float shadowLength_x; ///< x-direction length of shadow in pixels (0)
-  float shadowLength_y; ///< y-direction length of shadow in pixels (0)
-
+  float size;                ///< height in ppem (20.0 ppem)
+  float width;               ///< width in ppem; (0 - treated as equal to size)
+  float skew;                ///< skew angle (0)
+  float orientation;         ///< glyph rotation, degrees clockwise (0.0)
+  float bold_pct;            ///< boldness value (0)
+  float stroke_pct;          ///< stroke width (0)
+  float edgeThickness;       ///< edge thickness in pixels (0)
+  float shadowLength_x;      ///< x-direction length of shadow in pixels (0)
+  float shadowLength_y;      ///< y-direction length of shadow in pixels (0)
   TUIEmphasisStyle emphasis; ///< emphasis such as bold/italics (UI_Emphasis_Normal)
   TUIBaselineStyle baseline; ///< text baseline style (UI_Baseline_Normal)
   TUIEdgeStyle edge;         ///< text edge style (UI_Edge_Normal)
   TUIRenderStyle render;     ///< rendering style (UI_Render_Default)
-
 } TUIFontData;
 
-typedef unsigned char TUIFontStyle;
+typedef FUint8 TUIFontStyle;
 
-const TUIFontStyle UIFontStylePlain = 0;      ///<The plain style enum
-const TUIFontStyle UIFontStyleBold = 1;       ///<The bold style enum.
-const TUIFontStyle UIFontStyleItalic = 2;     ///<The italic style enum
-const TUIFontStyle UIFontStyleBoldItalic = 3; ///<The bold italic style enum
-const TUIFontStyle UIFontStyleUnderlined = 4; ///<The underlined style enum
+const TUIFontStyle UIFontStylePlain = 0;      ///< The plain style enum
+const TUIFontStyle UIFontStyleBold = 1;       ///< The bold style enum.
+const TUIFontStyle UIFontStyleItalic = 2;     ///< The italic style enum
+const TUIFontStyle UIFontStyleBoldItalic = 3; ///< The bold italic style enum
+const TUIFontStyle UIFontStyleUnderlined = 4; ///< The underlined style enum
 
 typedef enum
 {
-  UIFontSizeMedium = 0, ///<The "medium" system-dependent font size
-  UIFontSizeSmall = 8,  ///<The "small" system-dependent font size
-  UIFontSizeLarge = 16  ///<The "large" system-dependent font size
+  UIFontSizeMedium = 0, ///< The "medium" system-dependent font size
+  UIFontSizeSmall = 8,  ///< The "small" system-dependent font size
+  UIFontSizeLarge = 16  ///< The "large" system-dependent font size
 } TUIFontSize;
 
 typedef enum
 {
-  UIFontFaceSystem = 0,       ///<The "system" font face
-  UIFontFaceMonoSpace = 32,   ///<The "monospace" font face.
-  UIFontFaceProportional = 64 ///<The "proportional" font face.
+  UIFontFaceSystem = 0,       ///< The "system" font face
+  UIFontFaceMonoSpace = 32,   ///< The "monospace" font face.
+  UIFontFaceProportional = 64 ///< The "proportional" font face.
 } TUIFontFace;
 
 class IFont : public IUnknown
@@ -94,8 +92,8 @@ public:
   virtual int GetFace(TUIFontFace *buf);
   virtual int GetSize(TUIFontSize *buf);
   virtual int GetStyle(TUIFontStyle *buf);
-  virtual int GetFontAscent(long *pAscent);
-  virtual int GetFontHeight(long *font_size);
+  virtual int GetFontAscent(FSint32 *pAscent);
+  virtual int GetFontHeight(FSint32 *font_size);
   virtual int IsBold();
   virtual int IsItalic();
   virtual int IsPlain();

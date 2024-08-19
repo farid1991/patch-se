@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\StandbyMode.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>all</name>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>C510_R1HA035</configuration>
+      </member>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>C901_R1GA028</configuration>
+      </member>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>C905_R1FA035</configuration>
+      </member>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>W715_R1GA030</configuration>
+      </member>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>W995_R1GA026</configuration>
+      </member>
+      <member>
+        <project>StandbyMode</project>
+        <configuration>W705_R1GA031</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>
+
+

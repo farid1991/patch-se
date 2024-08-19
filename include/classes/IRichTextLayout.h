@@ -3,6 +3,7 @@
 
 #include "..\types\Basic_types.h"
 #include "..\types\OPA_types.h"
+#include "..\types\UIRect_types.h"
 
 class IRichText;
 

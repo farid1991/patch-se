@@ -12,6 +12,7 @@ const TMillisecond IUIIMAGERENDERER_TIME_INFINITY = FUINT32_MAX;
 
 class IUIImageRenderer : public IUnknown
 {
+public:
   virtual int GetWidth(TUnsigned *pWidth, void *pUnit);
   virtual int GetHeight(TUnsigned *pHeight, void *pUnit);
   virtual int GetAnimationLength(TMillisecond *pLength);
@@ -33,14 +34,22 @@ public:
   virtual int IsScalable(TBool *IsScalable);
 };
 
-class IUIImageIcon : IUIImage
+class IUIImageCanvas : IUIImage
 {
-  virtual int GetIcon(TIconId* pIconID);
+public:
+  virtual int GetCanvas(IUnknown **ppICanvas);
 };
 
 class IUIImageFile : IUIImage
 {
+public:
   virtual int GetFilenameAndDir(wchar_t **ppDir, wchar_t **ppFilename);
+};
+
+class IUIImageIcon : IUIImage
+{
+public:
+  virtual int GetIcon(TIconId *pIconID);
 };
 
 class IUIImageManager : public IUnknown
