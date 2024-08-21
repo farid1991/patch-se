@@ -1,8 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "editor.h"
 #include "utils.h"
@@ -36,9 +36,7 @@ __thumb void mfree(void *mem)
 BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname)
 {
   FSTAT fs;
-  if (!fstat(fpath, fname, &fs))
-    return TRUE;
-  return FALSE;
+  return !fstat(fpath, fname, &fs);
 }
 #endif
 
@@ -138,8 +136,8 @@ void Menu_Exit(BOOK *book, GUI *gui)
 int Menu_onMessage(GUI_MESSAGE *msg)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)GUIonMessage_GetBook(msg);
-  int count = List_GetCount(mbk->ShortcutList);
-  if (!count)
+
+  if (!List_GetCount(mbk->ShortcutList))
     return 0;
 
   switch (GUIonMessage_GetMsg(msg))
@@ -172,7 +170,7 @@ int pg_Goto_Shortcut_EnterEvent(void *data, BOOK *book)
 #ifndef DB2000
     ListMenu_SetItemTextScroll(mbk->MainMenu, 0);
 #endif
-#if defined(DB2020) || defined(A2)
+#if defined(DB2020) || defined(PNX5230) || defined(A2)
     ListMenu_SetNoItemText(mbk->MainMenu, EMPTY_LIST_TXT);
 #endif
     GUIObject_SoftKeys_SetText(mbk->MainMenu, 0, MENU_ADD_TXT);
@@ -220,14 +218,12 @@ void Goto_Shortcut_onClose(BOOK *book)
   FREE_GUI(mbk->CaptionInput);
   FREE_GUI(mbk->YesNoQuestion);
   FREE_GUI(mbk->EventInput);
-  FreeList(mbk->ShortcutList, ShortcutFree);
+  list_destroy(mbk->ShortcutList, ShortcutFree);
 }
 
 BOOL IsGotoShortcutBook(BOOK *book)
 {
-  if (book->onClose == Goto_Shortcut_onClose)
-    return TRUE;
-  return FALSE;
+  return book->onClose == Goto_Shortcut_onClose ? TRUE : FALSE;
 }
 
 GotoShortcut_Book *Create_GotoShortcutBook()

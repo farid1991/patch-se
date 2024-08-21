@@ -1,8 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "editor.h"
 #include "utils.h"
@@ -30,11 +30,7 @@ void Menu_SetMainMenu(BOOK *MenuBook, GUI *gui)
 
   mbk->ShortcutItem->ShortcutType = TYPE_SHORTCUT;
 
-#ifdef A1
   void *ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
-#else
-  void *ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
-#endif
 
   mbk->ShortcutItem->ShortcutIcon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
   if (!mbk->ShortcutItem->ShortcutText)
@@ -58,11 +54,7 @@ void Menu_SetShortcut(BOOK *MenuBook, GUI *gui)
 
   mbk->ShortcutItem->ShortcutType = TYPE_SHORTCUT;
 
-#ifdef A1
   void *ShortcutDesc = SHORTCUT_DESC_Init(mbk->ShortcutItem->ShortcutLink);
-#else
-  void *ShortcutDesc = SHORTCUT_DESC_A2_Init(mbk->ShortcutItem->ShortcutLink);
-#endif
 
   mbk->ShortcutItem->ShortcutIcon = Shortcut_Get_MenuItemIconID(ShortcutDesc);
   if (!mbk->ShortcutItem->ShortcutText)
@@ -143,8 +135,8 @@ void JavaMenu_Ok(BOOK *book, GUI *gui)
 int CreateJavaList(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
-  FreeList(mbk->JavaList, JavaFree);
-  mbk->JavaList = Create_JavaList();
+  list_destroy(mbk->JavaList, java_list_free_item);
+  mbk->JavaList = java_list_create();
 
   FREE_GUI(mbk->JavaMenu);
 
@@ -166,7 +158,7 @@ int CloseJavaList(void *data, BOOK *book)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   FREE_GUI(mbk->JavaMenu);
-  FreeList(mbk->JavaList, JavaFree);
+  list_destroy(mbk->JavaList, java_list_free_item);
   return 1;
 }
 
@@ -299,7 +291,7 @@ int pg_SC_Editor_EventInput_EnterAction(void *data, BOOK *book)
     StringInput_SetMode(mbk->EventInput, IT_ABC_AND_DIGIT);
     StringInput_SetEnableEmptyText(mbk->EventInput, TRUE);
 
-    if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_EVENT))
+    if (mbk->ShortcutItem->ShortcutLink && (mbk->ShortcutItem->ShortcutType == TYPE_UIEVENT))
       StringInput_SetText(mbk->EventInput, TextID_Get(mbk->ShortcutItem->ShortcutLink));
 
     StringInput_SetMinLen(mbk->EventInput, 1);

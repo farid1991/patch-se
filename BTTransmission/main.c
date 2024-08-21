@@ -2,14 +2,12 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\ObExReceiveBook.h"
 #include "..\\include\book\ObExSendBook.h"
 
-#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 #include "dll.h"
-#endif
-
-#include "Lib.h"
 #include "main.h"
 
 __thumb void *malloc(int size)

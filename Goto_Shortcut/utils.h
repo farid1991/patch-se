@@ -15,10 +15,9 @@ enum JAVA_APP_ID
 
 void RunShortcut(SC_LIST_ELEM *Shortcut);
 void *SHORTCUT_DESC_Init(wchar_t *param);
-void *SHORTCUT_DESC_A2_Init(wchar_t *param);
-void FreeList(LIST *&List, void (*FreeProc)(void *Item));
-void JavaFree(void *item);
-LIST *Create_JavaList();
+void list_destroy(LIST *&List, void (*FreeProc)(void *Item));
+void java_list_free_item(void *item);
+LIST *java_list_create();
 void SaveConfig(LIST *List);
 LIST *LoadConfig();
 

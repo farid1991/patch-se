@@ -1,14 +1,13 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "dll.h"
 
 #if defined(DB3200) || defined(DB3210)
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, int font_style, IFont **ppFont)
+void dll_SetFont(int font, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
@@ -19,14 +18,17 @@ void dll_SetFont(int font_size, int font_style, IFont **ppFont)
   pFontManager->GetFontFactory(&pFontFactory);
 
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
+
+  int font_size = font & 0xFF;
+  int font_style = font >> 8;
   pFontData.size = (float)font_size;
   pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
-  if (pFontManager)
-    pFontManager->Release();
   if (pFontFactory)
     pFontFactory->Release();
+  if (pFontManager)
+    pFontManager->Release();
 }
 
 // DrawString ----------------------------------------------------
@@ -37,21 +39,19 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
 
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
-  IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
+  IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
   IRichText *pTextObject = NULL;
-  IUnknown *pGC = NULL;
+  IUnknown *pCanvas = NULL;
   IFont *pFont = NULL;
-
-  int font_size = font & 0xFF;
-  int font_style = font >> 8;
-  dll_SetFont(font_size, font_style, &pFont);
 
   CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pTextObject);
   pTextRenderingFactory->CreateRichTextLayoutOptions(&pIUIRichTextLayoutOptions);
   pTextRenderingFactory->CreateRichTextLayout(pTextObject, 0, 0, &pRichTextLayout);
+
+  dll_SetFont(font, &pFont);
 
   TextObject_SetText(pTextObject, text);
   TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
@@ -66,8 +66,8 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
   rect.Size.Width = lineWidth;
   rect.Size.Height = y2 - y1;
 
-  DisplayGC_AddRef(get_DisplayGC(), &pGC);
-  pRichTextLayout->Display(pGC, x1, y1, &rect);
+  DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
+  pRichTextLayout->Display(pCanvas, x1, y1, &rect);
 
   if (pTextRenderingManager)
     pTextRenderingManager->Release();
@@ -77,8 +77,8 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
     pRichTextLayout->Release();
   if (pTextObject)
     pTextObject->Release();
-  if (pGC)
-    pGC->Release();
+  if (pCanvas)
+    pCanvas->Release();
 }
 
 // GC_PutChar ----------------------------------------------------
@@ -91,7 +91,7 @@ void dll_GC_PutChar(int x, int y, int width, int height, IMAGEID imageID)
 {
   IUIImageManager *pIUIImageManager = NULL;
   IUIImage *pUIImage = NULL;
-  IUnknown *pGC = NULL;
+  IUnknown *pCanvas = NULL;
 
   TUIRectangle rect;
   rect.Point.X = x;
@@ -102,16 +102,16 @@ void dll_GC_PutChar(int x, int y, int width, int height, IMAGEID imageID)
   Get_IUIImageManager(&pIUIImageManager);
   pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
 
-  DisplayGC_AddRef(get_DisplayGC(), &pGC);
+  DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
 
-  pIUIImageManager->Draw(pUIImage, pGC, rect);
+  pIUIImageManager->Draw(pUIImage, pCanvas, rect);
 
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
+  if (pCanvas)
+    pCanvas->Release();
   if (pUIImage)
     pUIImage->Release();
-  if (pGC)
-    pGC->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 }
 // GetImageWidthHeight ----------------------------------------------------
 int dll_GetImageWidth(IMAGEID imageID)
@@ -125,10 +125,10 @@ int dll_GetImageWidth(IMAGEID imageID)
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
     pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
 
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
   if (pUIImage)
     pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_width;
 }
@@ -144,10 +144,10 @@ int dll_GetImageHeight(IMAGEID imageID)
   if (pIUIImageManager->CreateFromIcon(imageID, &pUIImage) >= 0)
     pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
 
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
   if (pUIImage)
     pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_height;
 }

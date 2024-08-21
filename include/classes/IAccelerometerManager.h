@@ -36,14 +36,14 @@ public:
   virtual int ResetMaxMinValues(void);
   virtual int GetAxisValues(FSint32 *pX, FSint32 *pY, FSint32 *pZ);
   virtual int SubscribeToEvents(ICBAccelerometerData *pICBAccelerometerData,
-                                  TMsgBase msgBase,
-                                  TClientData clientData,
-                                  Acc_PollFrequency_t freq,
-                                  Acc_Channels_t channels,
-                                  FUint32 samples,
-                                  Acc_Filter_Type_t filterType,
-                                  Acc_Filter_Param_t filterParam,
-                                  THnd *pSession);
+                                TMsgBase msgBase,
+                                TClientData clientData,
+                                Acc_PollFrequency_t freq,
+                                Acc_Channels_t channels,
+                                FUint32 samples,
+                                Acc_Filter_Type_t filterType,
+                                Acc_Filter_Param_t filterParam,
+                                THnd *pSession);
   virtual int Unsubscribe(THnd hSession);
   virtual int GetNeededBufferSize(THnd hSession, Acc_BufferSize_t *pSize);
   virtual int GetBuffer(THnd hSession, FSint16 *pBuffer, Acc_BufferSize_t length, FUint32 *pNbrOfMissedBuffers);

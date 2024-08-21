@@ -2,9 +2,8 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "setting.h"
@@ -130,7 +129,7 @@ int Text_OnMessage(GUI_MESSAGE *msg)
     TEXTID first_text = EMPTY_TEXTID;
     TEXTID second_text = EMPTY_TEXTID;
 
-    if (item == SUBITEM_TXT_STATE) // Отображение
+    if (item == SUBITEM_TXT_STATE) // ???????????
     {
       first_text = TextID_Global(ID_STATE);
       if (data->temp.activate1)
@@ -143,12 +142,12 @@ int Text_OnMessage(GUI_MESSAGE *msg)
       if (item == SUBITEM_TXT_COLOR || item == SUBITEM_TXT_OVERLAY)
       {
         uint32_t color;
-        if (item == 1) // Цвет текста
+        if (item == 1) // ???? ??????
         {
           first_text = TextID_Global(ID_TEXT_COLOR);
           color = data->temp.color1;
         }
-        else // Цвет обводки
+        else // ???? ???????
         {
           first_text = TextID_Global(ID_COLOR_OVERLAY);
           color = data->temp.color2;
@@ -162,7 +161,7 @@ int Text_OnMessage(GUI_MESSAGE *msg)
                   COLOR_GET_A(color));
         second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
       }
-      else if (item == SUBITEM_TXT_ALIGN) // Выравнивание
+      else if (item == SUBITEM_TXT_ALIGN) // ????????????
       {
         first_text = TextID_Global(ID_ALIGN);
         if (data->temp.align == AlignLeft)
@@ -172,7 +171,7 @@ int Text_OnMessage(GUI_MESSAGE *msg)
         else if (data->temp.align == AlignCenter)
           second_text = TextID_Global(ID_ALIGN_CENTER);
       }
-      else if (item == SUBITEM_TXT_VISUAL) // Визуальные
+      else if (item == SUBITEM_TXT_VISUAL)
       {
         first_text = TextID_Global(ID_VISUAL_CONFIG);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
@@ -180,19 +179,19 @@ int Text_OnMessage(GUI_MESSAGE *msg)
         int font_style = data->temp.font >> 8;
         if (font_style == UIFontStylePlain)
         {
-          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_R", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
+          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%dR", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size, font_size);
         }
         else if (font_style == UIFontStyleBold)
         {
-          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
+          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%dB", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
         else if (font_style == UIFontStyleItalic)
         {
-          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
+          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%dI", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
         else if (font_style == UIFontStyleBoldItalic)
         {
-          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%d_B_I", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
+          snwprintf(data->buf, MAXELEMS(data->buf), L"%d,%d,%d,%d font:%dBI", data->temp.x1, data->temp.y1, data->temp.x2, data->temp.y1 + font_size & 0xFF, font_size & 0xFF);
         }
         second_text = TextID_Create(data->buf, ENC_UCS2, TEXTID_ANY_LEN);
 #else
@@ -220,7 +219,7 @@ int Progress_OnMessage(GUI_MESSAGE *msg)
     TEXTID first_text = EMPTY_TEXTID;
     TEXTID second_text = EMPTY_TEXTID;
 
-    if (item == SUBITEM_PB_BCOLOR || item == SUBITEM_PB_FCOLOR) // Цвет фона // Цвет заполнения
+    if (item == SUBITEM_PB_BCOLOR || item == SUBITEM_PB_FCOLOR)
     {
       uint32_t color;
       if (item == SUBITEM_PB_BCOLOR)
@@ -246,28 +245,28 @@ int Progress_OnMessage(GUI_MESSAGE *msg)
     {
       switch (item)
       {
-      case SUBITEM_PB_STATE: // Отображение
+      case SUBITEM_PB_STATE:
         first_text = TextID_Global(ID_STATE);
         if (data->temp.activate1)
           second_text = TEXT_ON;
         else
           second_text = TEXT_OFF;
         break;
-      case SUBITEM_PB_SLIDER: // Ползунок
+      case SUBITEM_PB_SLIDER:
         first_text = TextID_Global(ID_SLIDER);
         if (data->temp.activate2)
           second_text = TEXT_ON;
         else
           second_text = TEXT_OFF;
         break;
-      case SUBITEM_PB_ROUND: // Закругление
+      case SUBITEM_PB_ROUND:
         first_text = TextID_Global(ID_PTYPE);
         if (data->temp.activate3)
           second_text = TextID_Global(ID_PTYPE_2);
         else
           second_text = TextID_Global(ID_PTYPE_1);
         break;
-      case SUBITEM_PB_VISUAL: // Визуальные
+      case SUBITEM_PB_VISUAL:
         first_text = TextID_Global(ID_VISUAL_CONFIG);
         snwprintf(data->buf,
                   MAXELEMS(data->buf),
@@ -299,14 +298,14 @@ int Image_OnMessage(GUI_MESSAGE *msg)
 
     switch (GUIonMessage_GetCreatedItemIndex(msg))
     {
-    case SUBITEM_IMG_STATE: // Отображение
+    case SUBITEM_IMG_STATE:
       first_text = TextID_Global(ID_STATE);
       if (data->temp.activate1)
         second_text = TEXT_ON;
       else
         second_text = TEXT_OFF;
       break;
-    case SUBITEM_IMG_VISUAL: // Визуальные
+    case SUBITEM_IMG_VISUAL:
       first_text = TextID_Global(ID_VISUAL_CONFIG);
       if (setbook->is_cover_art)
       {
@@ -359,7 +358,7 @@ int Background_OnMessage(GUI_MESSAGE *msg)
         second_text = TextID_Global(ID_BACKGROUND_IMAGE);
         break;
       case BG_TYPE_THEME:
-         second_text = TextID_Global(ID_BACKGROUND_THEME);
+        second_text = TextID_Global(ID_BACKGROUND_THEME);
         break;
       case BG_TYPE_COLOR:
         second_text = TextID_Global(ID_BACKGROUND_COLOR);
@@ -368,7 +367,6 @@ int Background_OnMessage(GUI_MESSAGE *msg)
     }
     else if (item == SUBITEM_BG_COLOR)
     {
-      // case 1: // Цвет
       first_text = TEXT_COLOR;
       uint32_t color = data->temp.color1;
       snwprintf(data->buf,
@@ -384,7 +382,6 @@ int Background_OnMessage(GUI_MESSAGE *msg)
     }
     else if (item == SUBITEM_BG_VISUAL)
     {
-      // case 2: // Визуальные
       first_text = TextID_Global(ID_VISUAL_CONFIG);
       snwprintf(data->buf,
                 MAXELEMS(data->buf),
@@ -415,14 +412,14 @@ int Additional_OnMessage(GUI_MESSAGE *msg)
 
     switch (GUIonMessage_GetCreatedItemIndex(msg))
     {
-    case SUBITEM_ADDITIONAL_1: // На весь экран
+    case SUBITEM_ADDITIONAL_1:
       first_text = TextID_Global(ID_FULLSCREEN);
       if (data->temp.activate1)
         second_text = TEXT_ON;
       else
         second_text = TEXT_OFF;
       break;
-    case SUBITEM_ADDITIONAL_2: // Софты
+    case SUBITEM_ADDITIONAL_2:
       first_text = TextID_Global(ID_SOFTKEYS);
       if (data->temp.activate2)
         second_text = TEXT_ON;
@@ -430,7 +427,7 @@ int Additional_OnMessage(GUI_MESSAGE *msg)
         second_text = TEXT_OFF;
       break;
 #ifndef DB3350
-    case SUBITEM_ADDITIONAL_3: // Анимация
+    case SUBITEM_ADDITIONAL_3:
       first_text = TEXT_ANIMATION;
       if (data->temp.activate3)
         second_text = TEXT_ON;
@@ -457,27 +454,27 @@ void CreateEditor(SETTING_BOOK *setbook, int type, int count)
 {
   if (setbook->sub_menu = CreateListMenu(setbook, UIDisplay_Main))
   {
-    if (type == EDIT_TEXT) // Текст
+    if (type == EDIT_TEXT)
     {
       ListMenu_SetOnMessage(setbook->sub_menu, Text_OnMessage);
       GUIObject_SoftKeys_SetAction(setbook->sub_menu, ACTION_SELECT1, Text_OnSelect);
     }
-    else if (type == EDIT_SLIDER) // Прогрессбар
+    else if (type == EDIT_SLIDER)
     {
       ListMenu_SetOnMessage(setbook->sub_menu, Progress_OnMessage);
       GUIObject_SoftKeys_SetAction(setbook->sub_menu, ACTION_SELECT1, Progress_OnSelect);
     }
-    else if (type == EDIT_ICON) // Обложка и рамка
+    else if (type == EDIT_ICON)
     {
       ListMenu_SetOnMessage(setbook->sub_menu, Image_OnMessage);
       GUIObject_SoftKeys_SetAction(setbook->sub_menu, ACTION_SELECT1, Image_OnSelect);
     }
-    else if (type == EDIT_BACKGROUND) // Фон
+    else if (type == EDIT_BACKGROUND)
     {
       ListMenu_SetOnMessage(setbook->sub_menu, Background_OnMessage);
       GUIObject_SoftKeys_SetAction(setbook->sub_menu, ACTION_SELECT1, Background_OnSelect);
     }
-    else if (type == EDIT_EXTENDED) // Дополнительно
+    else if (type == EDIT_EXTENDED)
     {
       ListMenu_SetOnMessage(setbook->sub_menu, Additional_OnMessage);
       GUIObject_SoftKeys_SetAction(setbook->sub_menu, ACTION_SELECT1, Additional_OnSelect);
@@ -493,7 +490,6 @@ void CreateEditor(SETTING_BOOK *setbook, int type, int count)
 }
 
 //******************************************************************************
-//Настройки
 
 int Setting_OnMessage(GUI_MESSAGE *msg)
 {
@@ -942,5 +938,7 @@ void DBPlayer_Setting(BOOK *book, GUI *gui)
 {
   SETTING_BOOK *setbook = Create_DBPlayer_SettingBook();
   if (setbook)
+  {
     BookObj_GotoPage(setbook, &DBPlayer_Settings_Main_Page);
+  }
 }

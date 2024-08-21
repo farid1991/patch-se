@@ -13,7 +13,6 @@
 
 #include "..\\dll.h"
 #include "..\\Draw.h"
-#include "..\\Function.h"
 #include "..\\main.h"
 #include "..\\LNG.h"
 

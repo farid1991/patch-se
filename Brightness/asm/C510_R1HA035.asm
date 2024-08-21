@@ -746,6 +746,7 @@ a       equ     b
         defadr Volume_Get,0x1432FD48+1
         defadr FSX_MakeFullPath,0x141779BC+1
         defadr FSX_FreeFullPath,0x14336024+1
+        defadr FSX_IsFileExists,0x14411678+1
         defadr MakeFullPath,0x14298BE0+1
         defadr MessageBox_Animation,0x1585B1EC+1
         defadr MessageBox_NoIMAGE,0x14CE140C+1

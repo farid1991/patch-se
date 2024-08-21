@@ -3,6 +3,7 @@
 
 #define A2
 #define DB3350
+#define REV1
 #define CLEARAUDIO
 
 #define F_PATH (wchar_t *)0x15C32E78
@@ -18,7 +19,7 @@
 #define TYPES_TITLE_TXT 0x12C6     // L"Type"
 #define SHC_SET_MM 0x2238          // Set to main menu
 #define SHC_SET_SHORTCUT_SK 0x1D39 // add shortcut
-#define DELETEQ_TXT 0x222F         //delete shortcut
+#define DELETEQ_TXT 0x222F         // delete shortcut
 
 #define OPEN_TXT 0x6D1
 #define SELECT_TXT 0xD9D

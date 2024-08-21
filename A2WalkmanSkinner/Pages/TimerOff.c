@@ -13,7 +13,6 @@
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
 #endif
 
-#include "..\\Function.h"
 #include "..\\main.h"
 
 #include "..\\GUI\TimeInput.h"

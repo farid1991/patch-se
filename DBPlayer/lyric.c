@@ -1,10 +1,9 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
 #include "dll.h"
-#include "Lib.h"
 #include "data.h"
 #include "lyric.h"
 #include "main.h"
@@ -27,7 +26,9 @@ void TimerList_Free(TimerList *lrclist)
 void Lyric_FreeData(DISP_OBJ_DBP *disp_obj)
 {
   if (disp_obj->lrclist)
+  {
     TimerList_Free(disp_obj->lrclist);
+  }
   mfree(disp_obj->lrcbuf);
 }
 
@@ -175,7 +176,9 @@ int LoadLrc(DISP_OBJ_DBP *disp_obj, const wchar_t *path, const wchar_t *name)
     return READ_FAIL;
 
   if (disp_obj->lrclist)
+  {
     TimerList_Free(disp_obj->lrclist);
+  }
 
   disp_obj->lrclist = (TimerList *)malloc(sizeof(TimerList) * MAX_TIMER);
   memset(disp_obj->lrclist, NULL, sizeof(TimerList) * MAX_TIMER);
@@ -273,32 +276,32 @@ void lyricOnTimer(u16 timerID, LPARAM lparam)
   int betweentimer = disp_obj->lrclist[disp_obj->current_offset + 1].timer - disp_obj->lrclist[disp_obj->current_offset].timer;
   if (width <= disp_obj->disp_width)
   {
-    Timer_ReSet(&disp_obj->TimerLyric, betweentimer / 20, lyricOnTimer, (LPARAM *)disp_obj);
+    Timer_ReSet(&disp_obj->lrc_timer_id, betweentimer / 20, lyricOnTimer, (LPARAM *)disp_obj);
   }
   if (width > disp_obj->disp_width && width <= disp_obj->disp_width * 2)
   {
-    Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 2), lyricOnTimer, (LPARAM *)disp_obj);
+    Timer_ReSet(&disp_obj->lrc_timer_id, betweentimer / (20 * 2), lyricOnTimer, (LPARAM *)disp_obj);
   }
   if (width > disp_obj->disp_width * 2 && width <= disp_obj->disp_width * 3)
   {
-    Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 3), lyricOnTimer, (LPARAM *)disp_obj);
+    Timer_ReSet(&disp_obj->lrc_timer_id, betweentimer / (20 * 3), lyricOnTimer, (LPARAM *)disp_obj);
   }
   if (width > disp_obj->disp_width * 3 && width <= disp_obj->disp_width * 4)
   {
-    Timer_ReSet(&disp_obj->TimerLyric, betweentimer / (20 * 4), lyricOnTimer, (LPARAM *)disp_obj);
+    Timer_ReSet(&disp_obj->lrc_timer_id, betweentimer / (20 * 4), lyricOnTimer, (LPARAM *)disp_obj);
   }
 }
 
 void Start_LyricTimer(DISP_OBJ_DBP *disp_obj)
 {
-  disp_obj->TimerLyric = Timer_Set(0, lyricOnTimer, (LPARAM *)disp_obj);
+  disp_obj->lrc_timer_id = Timer_Set(0, lyricOnTimer, (LPARAM *)disp_obj);
 }
 
 void Kill_LyricTimer(DISP_OBJ_DBP *disp_obj)
 {
-  if (disp_obj->TimerLyric)
+  if (disp_obj->lrc_timer_id)
   {
-    Timer_Kill(&disp_obj->TimerLyric);
-    disp_obj->TimerLyric = NULL;
+    Timer_Kill(&disp_obj->lrc_timer_id);
+    disp_obj->lrc_timer_id = NULL;
   }
 }

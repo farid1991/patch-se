@@ -2,19 +2,17 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\FmRadio_Book.h"
 
-#include "Lib.h"
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 #include "dll.h"
-#endif
 #include "data.h"
 #include "draw.h"
 #include "editor.h"
 #include "info.h"
 #include "main.h"
 #include "setting.h"
-#include "Function.h"
 
 void *malloc(int size)
 {

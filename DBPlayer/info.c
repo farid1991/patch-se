@@ -1,38 +1,33 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
 #include "dll.h"
-
-#include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "info.h"
 
 wchar_t *GetCoverType(char cover_type)
 {
-  if (cover_type <= 3)
+  switch (cover_type)
   {
-    switch (cover_type)
-    {
-    case 0:
-      return L"jpg";
-    case 1:
-      return L"gif";
-    case 2:
-      return L"png";
-    case 3:
-      return L"bmp";
-    }
-    return 0;
+  case 0:
+    return L"jpg";
+  case 1:
+    return L"gif";
+  case 2:
+    return L"png";
+  case 3:
+    return L"bmp";
+  default:
+    return NULL;
   }
-  return 0;
 }
 
 IMAGEID MetaData_GetCover(DBP_DATA *Data)
 {
-  IMAGEID imageID = NOIMAGE;
+  IMAGEID image_id = NOIMAGE;
   METADATA_DESC *MetaData_Desc = dll_MetaData_Desc_Create(Data->path, Data->name);
 
   char cover_type;
@@ -47,14 +42,14 @@ IMAGEID MetaData_GetCover(DBP_DATA *Data)
       {
         char *buf = (char *)malloc(size);
         fread(file, buf, size);
-        ImageID_GetIndirect(buf, size, NULL, GetCoverType(cover_type), &imageID);
-        Data->CoverSize = size;
+        ImageID_GetIndirect(buf, size, NULL, GetCoverType(cover_type), &image_id);
+        Data->cover_size = size;
       }
       fclose(file);
     }
   }
   dll_MetaData_Desc_Destroy(MetaData_Desc);
-  return imageID;
+  return image_id;
 }
 
 IMAGEID GetCoverArt(DBP_DATA *Data)
@@ -62,12 +57,12 @@ IMAGEID GetCoverArt(DBP_DATA *Data)
   IMAGEID image_id = MetaData_GetCover(Data);
   if (image_id == NOIMAGE)
   {
-    Data->HasCoverArt = FALSE;
+    Data->has_cover_art = FALSE;
     image_id = Data->Image[IMG_NO_COVER].ID;
   }
   else
   {
-    Data->HasCoverArt = TRUE;
+    Data->has_cover_art = TRUE;
   }
   return image_id;
 }
@@ -95,7 +90,7 @@ TEXTID GetTags(wchar_t *path, wchar_t *name, int tag_id)
 
 char *GetFormatType(DBP_DATA *data)
 {
-  switch (data->fileFormatType)
+  switch (data->file_format_type)
   {
   case TMMEFileFormatIdType_3GP:
     return "3GP";
@@ -195,7 +190,7 @@ TEXTID GetBitrate(DBP_DATA *data)
   int id3size = get_tag_size(data->path, data->name);
   FSTAT stat;
   fstat(data->path, data->name, &stat);
-  int size_in_kb = (stat.fsize - id3size - data->CoverSize) / 1000;
+  int size_in_kb = (stat.fsize - id3size - data->cover_size) / 1000;
   int bitrate = (size_in_kb * 8) / data->full_track_time;
 
   snwprintf(data->buf, MAXELEMS(data->buf), L"%d Kbps", bitrate);
@@ -228,12 +223,12 @@ char *getSampleRate(int index)
 
 TEXTID GetSampleRate(DBP_DATA *data)
 {
-  return TextID_Create(getSampleRate(data->SampleRate), ENC_LAT1, strlen(getSampleRate(data->SampleRate)));
+  return TextID_Create(getSampleRate(data->samplerate), ENC_LAT1, strlen(getSampleRate(data->samplerate)));
 }
 
 TEXTID GetAudioOutput(DBP_DATA *data)
 {
-  switch (data->AudioOutput)
+  switch (data->audio_output)
   {
   case TMMEAudioOutput_Mono:
     return TextID_Create("Mono", ENC_LAT1, 4);

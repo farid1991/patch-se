@@ -59,7 +59,7 @@ typedef struct _DISP_OBJ_DBP : DISP_OBJ
   bool lrc_is_centered;
   char *lrcbuf;
   TimerList *lrclist;
-  uint16_t TimerLyric;
+  uint16_t lrc_timer_id;
   int lrc_state;
   int current_offset;
   int total_offset;

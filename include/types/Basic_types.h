@@ -84,12 +84,12 @@ typedef int FSint32;
 /**
   * A constant holding the maximum value an FSint32 can have.
   */
-// const FSint32 FSINT32_MAX = 0x7FFFFFFF;
+const FSint32 FSINT32_MAX = 0x7FFFFFFF;
 
 /**
   * A constant holding the minimum value an FSint32 can have.
   */
-// const FSint32 FSINT32_MIN = -FSINT32_MAX - 1;
+const FSint32 FSINT32_MIN = -FSINT32_MAX - 1;
 
 /**
   * Signed integer (16 bit representation). FSINT16_MIN <= FSint16 <= FSINT16_MAX.
@@ -119,7 +119,7 @@ const FSint8 FSINT8_MAX = 0x7F;
 /**
   * A constant holding the minimum value an FSint8 can have.
   */
-//const FSint8 FSINT8_MIN = -FSINT8_MAX - 1;
+const FSint8 FSINT8_MIN = -FSINT8_MAX - 1;
 
 /**
   * Unsigned integer (32 bit representation). 0 <= FUint32 <= FUINT32_MAX.

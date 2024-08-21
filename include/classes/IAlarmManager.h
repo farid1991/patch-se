@@ -2,51 +2,10 @@
 #define _IALARMMANAGER_H_
 
 #include "..\types\Basic_types.h"
+#include "..\types\Alarm_types.h"
 
 // UUID CID_CAlarmManager = {0xB0, 0x68, 0xDA, 0xA4, 0x3C, 0x8B, 0x4C, 0x26, 0x81, 0xF5, 0x7E, 0x01, 0x2C, 0x2B, 0xF9, 0xCC};
 // UUID IID_IAlarmManager = {0x45, 0x4B, 0xC2, 0x06, 0x9A, 0x26, 0x4B, 0x7B, 0xA0, 0x55, 0x3D, 0xEA, 0x78, 0xCE, 0x60, 0x5C};
-
-typedef enum
-{
-  AlarmSignalMode_Signal = 0,
-  AlarmSignalMode_Radio
-} AlarmSignalMode;
-
-typedef enum
-{
-  AlarmVolume_Loud = 0,
-  AlarmVolume_Normal,
-  AlarmVolume_Modest,
-  AlarmVolume_Discreet
-} AlarmVolume;
-
-typedef enum
-{
-  AlarmSilentMode_AlarmSound = 0,
-  AlarmSilentMode_NoAlarmSound
-} AlarmSilentMode;
-
-typedef enum
-{
-  AlarmType_Recurrent = 0,
-  AlarmType_Regular
-} AlarmType;
-
-typedef enum
-{
-  AlarmSnoozeDuration_10min = 0,
-  AlarmSnoozeDuration_3min,
-  AlarmSnoozeDuration_5min,
-  AlarmSnoozeDuration_7min,
-  AlarmSnoozeDuration_15min,
-  AlarmSnoozeDuration_30min
-} AlarmSnoozeDuration;
-
-typedef struct
-{
-  char state;
-  char days[7];
-} AlarmWeek;
 
 class IAlarmItem : public IUnknown
 {

@@ -11,7 +11,6 @@
 #include "..\\..\\include\book\DB3210\MusicApplication_Book.h"
 #endif
 
-#include "..\\Function.h"
 #include "..\\LNG.h"
 #include "..\\main.h"
 #include "..\\String.h"

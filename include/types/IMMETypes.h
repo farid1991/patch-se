@@ -1,8 +1,5 @@
-#ifndef _IMMETYPES_H_
-#define _IMMETYPES_H_
-
-#include "Basic_types.h"
-#include "UIRect_types.h"
+#ifndef _IMME_TYPES_H_
+#define _IMME_TYPES_H_
 
 /**
  * The maximum length of a file path or a streaming URL

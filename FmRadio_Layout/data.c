@@ -1,9 +1,10 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\FmRadio_Book.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "setting.h"

@@ -2,13 +2,11 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\VolumeControlBook.h"
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 #include "dll.h"
-#endif
-#include "Lib.h"
 #include "main.h"
 
 __thumb void *malloc(int size)
@@ -53,13 +51,18 @@ Volume_Function *Get_Volume_Function()
 
 void Delete_Volume_Function(Volume_Function *Data)
 {
-  if (!Data)
-    return;
-
-  mfree(Data);
-  set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
+  if (Data)
+  {
+    mfree(Data);
+    set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
+  }
 }
 
+#if defined(DB2000) || defined(DB2010)
+BOOK *MainDisplay_GetTopBook()
+{
+  return Display_GetTopBook(UIDisplay_Main);
+}
 #if defined(DB2000)
 int FSX_IsFileExists(wchar_t *path, wchar_t *name)
 {
@@ -69,12 +72,6 @@ int FSX_IsFileExists(wchar_t *path, wchar_t *name)
   return FALSE;
 }
 #endif
-
-#if defined(DB2000) || defined(DB2010)
-BOOK *MainDisplay_GetTopBook()
-{
-  return Display_GetTopBook(UIDisplay_Main);
-}
 #endif
 
 BOOL IsOngoingCallBook(BOOK *book)
@@ -187,13 +184,16 @@ void InitImage(Volume_Function *Data)
 
 void DrawImage(int x, int y, IMAGEID img)
 {
+  if (img != NOIMAGE)
+  {
+    GC *gc = get_DisplayGC();
 #if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
-  if (img != NOIMAGE)
-    dll_GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
+    dll_GC_PutChar(gc, x, y, 0, 0, img);
 #else
-  if (img != NOIMAGE)
-    GC_PutChar(get_DisplayGC(), x, y, 0, 0, img);
+
+    GC_PutChar(gc, x, y, 0, 0, img);
 #endif
+  }
 }
 
 void DrawProgressBar(IMAGEID blob_id, int value, int max_value, RECT rect, int Bcolor, int Ecolor, bool enable)

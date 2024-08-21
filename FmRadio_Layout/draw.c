@@ -2,29 +2,23 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 #include "dll.h"
-#endif
 #include "data.h"
 #include "main.h"
 
-void DrawImage(int x, int y, IMAGEID imageID)
+void DrawImage(int x, int y, IMAGEID image_id)
 {
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
-  if (imageID != NOIMAGE)
-    dll_GC_PutChar(x, y, 0, 0, imageID);
-#elif defined(DB2010)
-  if (imageID != NOIMAGE)
+  if (image_id != NOIMAGE)
   {
-    GC *pGC = get_DisplayGC();
-    GC_PutChar(pGC, x, y, 0, 0, imageID);
-  }
+    GC *gc = get_DisplayGC();
+#if defined(DB3150v2) || defined(DB3200) || defined(DB3210)
+    dll_GC_PutChar(gc, x, y, 0, 0, image_id);
 #else
-  if (imageID != NOIMAGE)
-    GC_DrawImage(x, y, imageID);
+    GC_PutChar(pGC, x, y, 0, 0, image_id);
 #endif
+  }
 }
 
 void DrawProgressBar(FmRadio_Data *data, int cur_value, int total_value, RECT rect, int Bcolor, int Ecolor)
@@ -59,62 +53,61 @@ void DrawProgressBar(FmRadio_Data *data, int cur_value, int total_value, RECT re
   }
 }
 
-void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2, unsigned int tcolor, unsigned int ocolor, int overlay)
+void DrawString_Params(TEXTID text_id, int font, int align, int x1, int y1, int x2, unsigned int t_color, unsigned int h_color, int overlay)
 {
-  if (text && text != EMPTY_TEXTID)
-  {
-    int y2 = y1 + (font & 0xFF);
+  if (text_id == EMPTY_TEXTID)
+    return;
+  int y2 = y1 + (font & 0xFF);
 #if defined(DB3200) || defined(DB3210)
-    switch (overlay) // (Overlay type)
-    {
-    case 1: // (Full) v1
-      dll_DrawString(font, text, align, x1 - 1, y1 - 1, x2 - 1, y2, ocolor);
-      dll_DrawString(font, text, align, x1 - 1, y1 + 1, x2 - 1, y2, ocolor);
-      dll_DrawString(font, text, align, x1 + 1, y1 - 1, x2 + 1, y2, ocolor);
-      dll_DrawString(font, text, align, x1 + 1, y1 + 1, x2 + 1, y2, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
-      break;
-    case 2: // (Full) v2
-      dll_DrawString(font, text, align, x1 + 1, y1, x2, y2, ocolor);
-      dll_DrawString(font, text, align, x1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(font, text, align, x1 - 1, y1, x2, y2, ocolor);
-      dll_DrawString(font, text, align, x1, y1 - 1, x2, y2, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
-      break;
-    case 3: // (Shadow)
-      dll_DrawString(font, text, align, x1 + 1, y1 + 1, x2, y2, ocolor);
-      dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
-      break;
-    default: // (No)
-      dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
-      break;
-    }
-#else
-    SetFont(font);
-    switch (overlay) //(Overlay type)
-    {
-    case 1: //(Full) v1
-      DrawString(text, align, x1 - 1, y1 - 1, x2 - 1, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1 - 1, y1 + 1, x2 - 1, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1 + 1, y1 - 1, x2 + 1, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1 + 1, y1 + 1, x2 + 1, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
-      break;
-    case 2: //(Full) v2
-      DrawString(text, align, x1 + 1, y1, x2, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1, y1 + 1, x2, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1 - 1, y1, x2, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1, y1 - 1, x2, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
-      break;
-    case 3: //(Shadow)
-      DrawString(text, align, x1 + 1, y1 + 1, x2, y2, 0, 0, ocolor, clEmpty);
-      DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
-      break;
-    default: //(No)
-      DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
-      break;
-    }
-#endif
+  switch (overlay) // (Overlay type)
+  {
+  case 1: // (Full) v1
+    dll_DrawString(font, text_id, align, x1 - 1, y1 - 1, x2 - 1, y2, h_color);
+    dll_DrawString(font, text_id, align, x1 - 1, y1 + 1, x2 - 1, y2, h_color);
+    dll_DrawString(font, text_id, align, x1 + 1, y1 - 1, x2 + 1, y2, h_color);
+    dll_DrawString(font, text_id, align, x1 + 1, y1 + 1, x2 + 1, y2, h_color);
+    dll_DrawString(font, text_id, align, x1, y1, x2, y2, t_color);
+    break;
+  case 2: // (Full) v2
+    dll_DrawString(font, text_id, align, x1 + 1, y1, x2, y2, h_color);
+    dll_DrawString(font, text_id, align, x1, y1 + 1, x2, y2, h_color);
+    dll_DrawString(font, text_id, align, x1 - 1, y1, x2, y2, h_color);
+    dll_DrawString(font, text_id, align, x1, y1 - 1, x2, y2, h_color);
+    dll_DrawString(font, text_id, align, x1, y1, x2, y2, t_color);
+    break;
+  case 3: // (Shadow)
+    dll_DrawString(font, text_id, align, x1 + 1, y1 + 1, x2, y2, h_color);
+    dll_DrawString(font, text_id, align, x1, y1, x2, y2, t_color);
+    break;
+  default: // (No)
+    dll_DrawString(font, text_id, align, x1, y1, x2, y2, t_color);
+    break;
   }
+#else
+  SetFont(font);
+  switch (overlay) //(Overlay type)
+  {
+  case 1: //(Full) v1
+    DrawString(text_id, align, x1 - 1, y1 - 1, x2 - 1, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1 - 1, y1 + 1, x2 - 1, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1 + 1, y1 - 1, x2 + 1, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1 + 1, y1 + 1, x2 + 1, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
+    break;
+  case 2: //(Full) v2
+    DrawString(text_id, align, x1 + 1, y1, x2, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1, y1 + 1, x2, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1 - 1, y1, x2, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1, y1 - 1, x2, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
+    break;
+  case 3: //(Shadow)
+    DrawString(text_id, align, x1 + 1, y1 + 1, x2, y2, 0, 0, h_color, clEmpty);
+    DrawString(text_id, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
+    break;
+  default: //(No)
+    DrawString(text_id, align, x1, y1, x2, y2, 0, 0, tcolor, clEmpty);
+    break;
+  }
+#endif
 }

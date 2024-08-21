@@ -12,7 +12,6 @@
 #endif
 
 #include "..\\FilesList.h"
-#include "..\\Function.h"
 #include "..\\LNG.h"
 #include "..\\main.h"
 

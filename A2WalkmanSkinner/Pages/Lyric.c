@@ -15,7 +15,6 @@
 
 #include "..\\CurrentTrack.h"
 #include "..\\Draw.h"
-#include "..\\Function.h"
 #include "..\\main.h"
 #include "..\\String.h"
 

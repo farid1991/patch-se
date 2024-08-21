@@ -274,7 +274,7 @@ extern "C"
   void VCALL_SetHZ1(void *vc, int, u16);
   void VCALL_SetHZ2(void *vc, u16);
   void MakeVoiceCall(int SessioID, void *vc, int flag);
-  void FileDelete(wchar_t *path, wchar_t *filename, int *error);
+  void FileDelete(const wchar_t *path, const wchar_t *filename, int *error);
   void GUIObject_SetFocus(GUI *, int);
   int MSG_SendMessage_CreateMessage(int, void *);
   int MSG_SendMessage_DestroyMessage(void *);
@@ -487,8 +487,8 @@ extern "C"
   int ImageID_GetIndirect(void *buf_image, int size, int __NULL, wchar_t *image_type, IMAGEID *);
   void unixtime2datetime(int, DATETIME *);
   int List_Insert(LIST *lst, int i, void *item);
-  int FileCopy(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
-  int FileMove(wchar_t *src_path, wchar_t *src_name, wchar_t *dest_path, wchar_t *dest_name, int);
+  int FileCopy(const wchar_t *src_path, const wchar_t *src_name, const wchar_t *dest_path, const wchar_t *dest_name, int);
+  int FileMove(const wchar_t *src_path, const wchar_t *src_name, const wchar_t *dest_path, const wchar_t *dest_name, int);
   void DispObject_SetLayerColor(DISP_OBJ *, int color);
   int JavaAppDesc_GetJavaAppID(void *JavaDesc);
   void REQUEST_UI_OAF_START_APPLICATION(const int *sync, int appID, char *flag);
@@ -505,6 +505,7 @@ extern "C"
   int BookObj_GetDisplayOrientation(BOOK *book);
   void BookObj_SetDisplayOrientation(BOOK *book, int orientation);
   BOOK *Display_GetTopBook(int display);
+  BOOK *MainDisplay_GetTopBook(void);
   int Display_GetBrightness(int display);
   void DataBrowserDesc_Menu_AddFSFunctions(void *DataBrowserDesc, int);
   void DataBrowserDesc_Menu_AddNewFolder(void *DataBrowserDesc, int);
@@ -567,6 +568,7 @@ extern "C"
   int Browser_OpenURI(BOOK *book, char *URI, int mode);
   char *GetURIScheme(int schemeID);
   char *CreateURI(wchar_t *fpath, wchar_t *fname, char *URIScheme);
+  void FreeURI(char *URI);
   void DataBrowserDesc_SetViewModeAndSortOrder(void *DataBrowserDesc, int view_sort_ID);
   int Alarm_GetCurrentTypeAndAlarmID(char *type, wchar_t *AlarmID);
   int Alarm_GetState(char *state, int AlarmID);
@@ -994,6 +996,10 @@ extern "C"
   void MSG_Marked_No(BOOK *book);                           // ������ �� �������� ���������, v. 3
   void Create_BrowserMemory(int BookID, int unk, int mode); // ����������� ��������� ������ � ���������� ������� ���������� ������, v. 4
   void DataDownloadBook_onClose(BOOK *book);                // �������� ������ � ������ ����� ����� ������ ����� Bluetooth
+
+  void MainMenu_SetFromUserTheme(int);
+  void ThemeImage_Apply(const wchar_t *fpath, const wchar_t *fname, const wchar_t *path, const wchar_t *name, int __null1, int __null2);
+  void Set_SWF_AsFlashMenu(const wchar_t *fpath, const wchar_t *fname, int *error);
 
   // LIST function ---------------------------------------------------------------
   void List_Init(LIST *list);

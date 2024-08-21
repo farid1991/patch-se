@@ -1,126 +1,110 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "dll.h"
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
-void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont)
+void dll_SetFont(int font, IFont **ppFont)
 {
   IFontManager *pFontManager = NULL;
   IFontFactory *pFontFactory = NULL;
   TUIFontData pFontData;
   memset(&pFontData, NULL, sizeof(TUIFontData));
 
-  CoCreateInstance(CID_IUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
+  CoCreateInstance(CID_CUIFontManager, IID_IUIFontManager, PPINTERFACE(&pFontManager));
   pFontManager->GetFontFactory(&pFontFactory);
-
   pFontFactory->GetDefaultFontSettings(UIFontSizeLarge, &pFontData);
-  pFontData.size = font_size;
-  TUIEmphasisStyle fontstyle;
-  switch (font_style)
-  {
-  case 1:
-    fontstyle = UI_Emphasis_Bold;
-    break;
-  case 2:
-    fontstyle = UI_Emphasis_Italic;
-    break;
-  case 3:
-    fontstyle = UI_Emphasis_BoldItalic;
-    break;
-  default:
-    fontstyle = UI_Emphasis_Normal;
-    break;
-  }
-  pFontData.emphasis = fontstyle;
 
+  int font_size = (font & 0xFF);
+  int font_style = font >> 8;
+  pFontData.size = (float)font_size;
+  pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
-  if (pFontManager)
-    pFontManager->Release();
   if (pFontFactory)
     pFontFactory->Release();
+  if (pFontManager)
+    pFontManager->Release();
 }
 
 // DrawString ----------------------------------------------------
-void dll_DrawString(int font_size, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
+void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, unsigned int pen_color)
 {
-  TUIRectangle rect;
-  int lineWidth = x2 - x1;
-
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
+  IUIRichTextLayoutOptions *pRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
-  IRichText *pTextObject = NULL;
-  IUnknown *pGC = NULL;
+  IRichText *pRichText = NULL;
+  IUnknown *pCanvas = NULL;
   IFont *pFont = NULL;
 
-  int fontsize_wo_style = (font_size & 0xFF);
-  int font_style = font_size >> 8;
-  dll_SetFont(fontsize_wo_style, font_style, &pFont);
-
-  CoCreateInstance(CID_ITextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
+  CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
-  pTextRenderingFactory->CreateRichText(&pTextObject);
-  pTextRenderingFactory->CreateRichTextLayout(pTextObject, 0, 0, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichText(&pRichText);
+  pTextRenderingFactory->CreateRichTextLayoutOptions(&pRichTextLayoutOptions);
+  pTextRenderingFactory->CreateRichTextLayout(pRichText, 0, pRichTextLayoutOptions, &pRichTextLayout);
 
-  TextObject_SetText(pTextObject, text);
-  TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pTextObject->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pTextObject->SetAlignment(align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pRichTextLayout->Compose(lineWidth);
+  dll_SetFont(font, &pFont);
 
+  TextObject_SetText(pRichText, text);
+  TextObject_SetFont(pRichText, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetTextColor(pen_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+
+  pRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
+
+  DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
+
+  TUIRectangle rect;
   rect.Point.X = x1;
   rect.Point.Y = y1;
   rect.Size.Width = x2 - x1;
   rect.Size.Height = y2 - y1;
-
-  DisplayGC_AddRef(get_DisplayGC(), &pGC);
-  pRichTextLayout->Display(pGC, x1, y1, &rect);
+  pRichTextLayout->Compose(rect.Size.Width);
+  pRichTextLayout->Display(pCanvas, x1, y1, &rect);
 
   if (pTextRenderingManager)
     pTextRenderingManager->Release();
   if (pTextRenderingFactory)
     pTextRenderingFactory->Release();
+  if (pRichTextLayoutOptions)
+    pRichTextLayoutOptions->Release();
   if (pRichTextLayout)
     pRichTextLayout->Release();
-  if (pTextObject)
-    pTextObject->Release();
-  if (pGC)
-    pGC->Release();
+  if (pRichText)
+    pRichText->Release();
+  if (pCanvas)
+    pCanvas->Release();
+  if (pFont)
+    pFont->Release();
 }
-#endif
 
 // GC_PutChar ----------------------------------------------------
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID imageID)
 {
   IUIImageManager *pIUIImageManager = NULL;
   IUIImage *pUIImage = NULL;
-  IUnknown *pGC = NULL;
+  IUnknown *pCanvas = NULL;
 
+  CoCreateInstance(CID_CUIImageManager, IID_IUIImageManager, PPINTERFACE(&pIUIImageManager));
+  pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
+
+  DisplayGC_AddRef(gc, &pCanvas);
   TUIRectangle rect;
   rect.Point.X = x;
   rect.Point.Y = y;
   rect.Size.Width = width;
   rect.Size.Height = height;
+  pIUIImageManager->Draw(pUIImage, pCanvas, rect);
 
-  CoCreateInstance(CID_IUIImageManager, IID_IUIImageManager, PPINTERFACE(&pIUIImageManager));
-  pIUIImageManager->CreateFromIcon(imageID, &pUIImage);
-
-  DisplayGC_AddRef(gc, &pGC);
-
-  pIUIImageManager->Draw(pUIImage, pGC, rect);
-
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
+  if (pCanvas)
+    pCanvas->Release();
   if (pUIImage)
     pUIImage->Release();
-  if (pGC)
-    pGC->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 }
 #endif

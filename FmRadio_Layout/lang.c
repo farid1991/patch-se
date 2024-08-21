@@ -1,8 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "lang.h"
 
 TEXTID TextID_Global(int item_id)

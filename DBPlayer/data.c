@@ -1,9 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "lang.h"

@@ -1,7 +1,5 @@
-#ifndef _IMEDIACENTER_H_
-#define _IMEDIACENTER_H_
-
-#include "IUnknown.h"
+#ifndef _IMEDIACENTERMANAGER_H_
+#define _IMEDIACENTERMANAGER_H_
 
 #include "..\types\Basic_types.h"
 #include "..\types\OPA_types.h"
@@ -13,7 +11,7 @@ typedef enum
 {
   TUIMediaCenterOrientation_VERTICAL,  ///< Vertical orientation.
   TUIMediaCenterOrientation_HORIZONTAL ///< Horizontal orientation.
-}TUIMediaCenterOrientation;
+} TUIMediaCenterOrientation;
 
 class ICBMediaCenterSettings : public IUnknown
 {

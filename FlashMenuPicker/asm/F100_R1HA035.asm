@@ -39,6 +39,8 @@ a       EQU     b
         defadr ListMenu_SetCursorToItem,0x14368A8C+1
         defadr ListMenu_SetOnMessage,0x143EC1C8+1
         defadr ListMenu_SetHotkeyMode,0x14368AA0+1
+        defadr ListMenu_SetItemTextScroll,0x145442AC+1
+        defadr ListMenu_SetNoItemText,0x14F70B38+1
         defadr GUIonMessage_GetMsg,0x1412E49C+1
         defadr GUIonMessage_GetCreatedItemIndex,0x1412E594+1
         defadr GUIonMessage_SetMenuItemText,0x14542BEC+1
@@ -55,7 +57,7 @@ a       EQU     b
         defadr BookObj_ReturnPage,0x142499AC+1
         defadr GUIObject_SoftKeys_SetText,0x1412C884+1
         defadr GUIObject_SoftKeys_SetAction,0x141A02B0+1
-        
+
         EXTERN FlashmenuPicker
 
         RSEG   PATCH_FD_SOFTKEYS

@@ -79,6 +79,8 @@ extern "C"
   void old_StatusIndication_onRedraw(DISP_OBJ *disp_obj, int a, int b, int c);
   int old_StatusIndication_onCreate(DISP_OBJ *disp_obj);
   void old_StatusIndication_onClose(DISP_OBJ *disp_obj);
+  void old_StatusIndication_onMethod06(DISP_OBJ *disp_obj);
+  void old_StatusIndication_onMethod0A(DISP_OBJ *disp_obj);
   void old_MainInput_onKey(DISP_OBJ *disp_obj, int key, int unk, int repeat, int mode);
 
   bool New_SetTrayIcon(IMAGEID imageID, char mode);

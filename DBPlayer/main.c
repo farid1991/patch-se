@@ -2,11 +2,11 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\BrowserItemBook.h"
 
 #include "dll.h"
-#include "Lib.h"
 #include "data.h"
 #include "draw.h"
 #include "editor.h"
@@ -29,33 +29,38 @@ void mfree(void *mem)
     memfree(NULL, mem, "dbp", NULL);
 }
 
-void FreeIcon(DBP_DATA *data)
+void FreeImage(DBP_DATA *data)
 {
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
   char error_code;
 
   for (int i = IMG_BACKGROUND; i < IMG_LAST; i++)
+  {
     if (data->Image[i].ID != NOIMAGE)
       REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, data->Image[i].Handle, 0, 0, data->Image[i].ID, 1, &error_code);
+  }
 
-  if (data->HasCoverArt)
-    ImageID_Free(data->CoverArtID);
+  if (data->has_cover_art)
+    ImageID_Free(data->cover_art_id);
 }
 
 void RegisterImage(IMG *img, wchar_t *fpath, wchar_t *fname)
 {
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
-  char error_code;
   img->ID = NOIMAGE;
   img->Handle = NOIMAGE;
 
   if (FSX_IsFileExists(fpath, fname))
+  {
+    int _SYNC = NULL;
+    int *SYNC = &_SYNC;
+    char error_code;
+
     if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC, &img->Handle, &error_code))
       if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC, img->Handle, fpath, fname, 0, &img->ID, &error_code))
         if (error_code)
           img->Handle = NOIMAGE;
+  }
 }
 
 void InitIcon(DBP_DATA *Data)
@@ -81,7 +86,7 @@ void InitIcon(DBP_DATA *Data)
       Data->Image[i].ID = NOIMAGE;
   }
 
-  Data->CoverArtID = GetCoverArt(Data);
+  Data->cover_art_id = GetCoverArt(Data);
 }
 
 int GetMediaVolume()
@@ -245,7 +250,7 @@ int DBPlayer_onCreate(DISP_OBJ_DBP *disp_obj)
   disp_obj->lrc_show_tags = TRUE;
   disp_obj->lrcbuf = NULL;
   disp_obj->lrclist = NULL;
-  disp_obj->TimerLyric = NULL;
+  disp_obj->lrc_timer_id = NULL;
   disp_obj->lrc_state = NULL;
   disp_obj->current_offset = NULL;
   disp_obj->total_offset = NULL;
@@ -283,13 +288,12 @@ void DBPlayer_onClose(DISP_OBJ_DBP *disp_obj)
   }
 
   DBP_DATA *data = GetData();
-  FreeIcon(data);
+  FreeImage(data);
   DeleteData(data);
 }
 
-void DBPlayer_DrawNowPlaying(DISP_OBJ_DBP *disp_obj)
+void DBPlayer_DrawNowPlaying(DBP_DATA *data, DISP_OBJ_DBP *disp_obj)
 {
-  DBP_DATA *data = GetData();
   if (data->setting.artist_icn.state)
     DrawImage(data->setting.artist_icn.pos.x,
               data->setting.artist_icn.pos.y,
@@ -506,7 +510,7 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP *disp_obj, int r1, int r2, int r3)
                 data->setting.cover_rect.y1,
                 data->setting.cover_rect.x2 - data->setting.cover_rect.x1,
                 data->setting.cover_rect.y2 - data->setting.cover_rect.y1,
-                data->CoverArtID);
+                data->cover_art_id);
   }
 
   if (data->setting.frame.state) // Frame
@@ -532,13 +536,13 @@ void DBPlayer_onRedraw(DISP_OBJ_DBP *disp_obj, int r1, int r2, int r3)
 
   if (disp_obj->tab == PLAYER_TAB)
   {
-    DBPlayer_DrawNowPlaying(disp_obj);
+    DBPlayer_DrawNowPlaying(data, disp_obj);
   }
 
   if (disp_obj->tab == LYRIC_TAB && !data->edit_visual)
   {
     if (disp_obj->lrc_show_tags)
-      DBPlayer_DrawNowPlaying(disp_obj);
+      DBPlayer_DrawNowPlaying(data, disp_obj);
     DBPlayer_DrawLyricViewer(disp_obj);
   }
 
@@ -827,7 +831,7 @@ void DBPlayer_onKey(DISP_OBJ_DBP *disp_obj, int key, int count, int repeat, int 
         }
         break;
 #endif
-      case KEY_ENTER:
+      case KEY_DIGITAL_3:
         if (data->edit_text_mode)
         {
           if (++data->temp.overlay == TEXTOVERLAY_LAST)
@@ -984,7 +988,7 @@ GUI_DBPLAYER *CreateGUI(BOOK *book)
   GUIObject_SoftKeys_SetActionAndText(gui_dbp, ACTION_TIME, DBPlayer_Time, TEXT_TIME);
 #ifndef DB3350
   if (data->tagger)
-    GUIObject_SoftKeys_SetActionAndText(gui_dbp, ACTION_TAG, DBPlayer_TagEditor, TextID_Global(ID_TAG_EDITOR));
+    GUIObject_SoftKeys_SetActionAndText(gui_dbp, ACTION_TAG, DBPlayer_TagEditor, STR(TEXT_TAG_EDITOR));
 #endif
   GUIObject_SoftKeys_SetActionAndText(gui_dbp, ACTION_MINIMISE, DBPlayer_Minimise, TEXT_MINIMISE);
   GUIObject_SoftKeys_SetAction(gui_dbp, ACTION_LONG_BACK, DBPlayer_LongClose);
@@ -1017,9 +1021,9 @@ extern "C" int Get_MME_DATA(void *pMMEData, BOOK *book)
 
   data->track_time = data->pMMEData->mediaLength;
   data->full_track_time = TMMETime_to_Seconds(data->track_time);
-  data->SampleRate = data->pMMEData->audioSampleRate;
-  data->AudioOutput = data->pMMEData->audioOutput;
-  data->fileFormatType = data->pMMEData->fileFormatType;
+  data->samplerate = data->pMMEData->audioSampleRate;
+  data->audio_output = data->pMMEData->audioOutput;
+  data->file_format_type = data->pMMEData->fileFormatType;
 
   pg_Sound_Run__0x17FC(pMMEData, book);
   return 1;
@@ -1052,9 +1056,9 @@ extern "C" void CreateInfo(MME_DATA *pMMEData, BOOK *book)
   data->track_time = pMMEData->mediaLength;
   data->full_track_time = TMMETime_to_Seconds(data->track_time);
 
-  data->SampleRate = pMMEData->audioSampleRate;
-  data->AudioOutput = pMMEData->audioOutput;
-  data->fileFormatType = pMMEData->fileFormatType;
+  data->samplerate = pMMEData->audioSampleRate;
+  data->audio_output = pMMEData->audioOutput;
+  data->file_format_type = pMMEData->fileFormatType;
 
   data->path = FILEITEM_GetPath(itembook->sub_exec->file_item);
   data->name = FILEITEM_GetFname(itembook->sub_exec->file_item);

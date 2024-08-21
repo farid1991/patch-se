@@ -2,8 +2,8 @@
 #define _TIME_H_
 
 // Screen Padding
-#define padding 4
-#define cursor_height 8
+#define PADDING 4
+#define CHEIGHT 8
 
 static const char GuiName_Time[] = "GUI_Time";
 

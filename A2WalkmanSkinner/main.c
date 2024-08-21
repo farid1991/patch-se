@@ -14,7 +14,6 @@
 #include "dll.h"
 #include "Draw.h"
 #include "FilesList.h"
-#include "Function.h"
 #include "LNG.h"
 #include "main.h"
 #include "String.h"

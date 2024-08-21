@@ -2,9 +2,10 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\FmRadio_Book.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "data.h"
 #include "editor.h"

@@ -1,8 +1,6 @@
 #ifndef _DATA_H_
 #define _DATA_H_
 
-#include "..\\include\book\FmRadio_Book.h"
-
 #define EMP_NAME "FmRadio"
 
 typedef enum

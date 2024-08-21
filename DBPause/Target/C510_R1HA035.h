@@ -7,6 +7,4 @@
 #define ACTION_PAUSE 0x76
 #define ACTION_PLAY 0xFF
 
-#define ActionStop (SKACTIONPROC)0x144C0685
-
 #endif

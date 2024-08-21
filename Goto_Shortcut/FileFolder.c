@@ -1,8 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "editor.h"
 #include "strlib.h"

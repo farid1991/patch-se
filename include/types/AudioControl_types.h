@@ -1,13 +1,11 @@
-#ifndef __AUDIOCONTROLTYPES_H__
-#define __AUDIOCONTROLTYPES_H__
-
-#include "Basic_types.h"
+#ifndef __AUDIOCONTROL_TYPES_H__
+#define __AUDIOCONTROL_TYPES_H__
 
 #define MAX_MEDIAVOLUME 15
 #define MAX_CALLVOLUME 8
 #define MAX_RINGVOLUME 8
 
-const FUint16 AUDIOCONTROL_DEBUGMENU_STRING_MAXLENGTH = 79;
+const uint16_t AUDIOCONTROL_DEBUGMENU_STRING_MAXLENGTH = 79;
 typedef wchar_t TAudioControl_DebugMenuString[AUDIOCONTROL_DEBUGMENU_STRING_MAXLENGTH + 1];
 
 typedef enum
@@ -566,5 +564,17 @@ typedef enum
   // Last enum
   AUDIOCONTROL_ACCESSORYCLASS_LAST /**< Last accessory, only for internal Audio Control use */
 } TAudioControl_AccessoryClass;
+
+typedef enum
+{
+} TAudioEffectFrequencyBandId;
+
+typedef TAudioEffectFrequencyBandId TAudioControl_EqualizerBand;
+
+typedef enum
+{
+} TAudioEffectLevel;
+
+typedef TAudioEffectLevel TAudioControl_EqualizerGain;
 
 #endif

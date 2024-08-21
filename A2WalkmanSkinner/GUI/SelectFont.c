@@ -8,7 +8,6 @@
 #include "..\\dll.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
-#include "..\\Function.h"
 
 #include "EditColor.h"
 #include "SelectFont.h"

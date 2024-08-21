@@ -15,7 +15,6 @@
 
 #include "CurrentTrack.h"
 #include "dll.h"
-#include "Function.h"
 #include "main.h"
 #include "String.h"
 

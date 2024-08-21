@@ -3,15 +3,16 @@
 
 #define A2
 #define DB3350
+#define REV1
 
 #define TEXTID_SAVE 0x14B
 #define TEXTID_BRIGHTNESS 0x5AE
 
-#define CID_IUIImageManager (PUUID)0x15C7640C
+#define CID_CUIImageManager (PUUID)0x15C7640C
 #define IID_IUIImageManager (PUUID)0x15CAF824
-#define CID_IUIFontManager (PUUID)0x15C71560
+#define CID_CUIFontManager (PUUID)0x15C71560
 #define IID_IUIFontManager (PUUID)0x15CAC884
-#define CID_ITextRenderingManager (PUUID)0x15C78468
+#define CID_CTextRenderingManager (PUUID)0x15C78468
 #define IID_ITextRenderingManager (PUUID)0x15CB248C
 
 #define ACTION_LONG_BACK 0xFAF

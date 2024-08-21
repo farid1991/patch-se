@@ -20,6 +20,8 @@ a       equ     b
         defadr fclose,0x14644828+1
         defadr fwrite,0x146F6F9C+1
         defadr fstat,0x141F353C+1
+        defadr FSX_IsFileExists,0x14735B98+1
+        defadr ImageID_Free,+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x140CD1E0+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x15439164+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER,0x153D0F84+1

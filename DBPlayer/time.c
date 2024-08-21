@@ -2,9 +2,8 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "time.h"
 #include "data.h"
 #include "draw.h"
@@ -105,7 +104,7 @@ void Time_OnRedraw(DISP_OBJ_TIMEINPUT *disp_obj, int r1, int r2, int r3)
   font = SetFont(font);
   int font_h = GetImageHeight(' ');
 #endif
-  int rect_h = font_h + (padding << 1);
+  int rect_h = font_h + (PADDING << 1);
   int rext_y1 = disp_obj->disp_height >> 2;
   int rext_y2 = rext_y1 + rect_h;
 
@@ -119,9 +118,9 @@ void Time_OnRedraw(DISP_OBJ_TIMEINPUT *disp_obj, int r1, int r2, int r3)
              disp_obj->text_id,
              AlignCenter,
              rext_x1,
-             rext_y1 + padding,
+             rext_y1 + PADDING,
              rext_x2,
-             rext_y2 - padding,
+             rext_y2 - PADDING,
              clWhite);
 
   // Highlight the Selected Cursor
@@ -130,7 +129,7 @@ void Time_OnRedraw(DISP_OBJ_TIMEINPUT *disp_obj, int r1, int r2, int r3)
   DrawRect(highlight_x1,
            rext_y2,
            highlight_x2,
-           rext_y2 + cursor_height,
+           rext_y2 + CHEIGHT,
            clBlack,
            clWhite);
 }

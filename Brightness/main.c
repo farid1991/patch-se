@@ -1,48 +1,34 @@
-/*
-;Расширенный диапазон регулировки яркости
-;Позволяет регулировать яркость от 0 до 100%
-;Сообщение "При увеличении яркости подсветки..." не появляется
-;Имя конфига "Brightness.ini
-;Имена изображений "Background.png", "Level_Normal.png", "Level_Up_Max.png", "Level_Down_Max.png
-;Путь для конфига и изображений "/card/other/ZBin/Config/Brightness"
-;Цвет текста/обводки и размер шрифта указывать в HEX
-;v. 3
-;(c) IronMaster, E1kolyan
-*/
 #include "temp\target.h"
 
 #include "..\\include\Color.h"
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\SetBook.h"
 
-#if defined(DB3150v2) || defined(DB3200) || defined(DB3210) || defined(DB3350)
 #include "dll.h"
-#endif
-#include "Lib.h"
 #include "main.h"
 
 void *malloc(int size)
 {
 #if defined(DB2020)
-  return (memalloc(0, size, 1, 5, "br", 0));
+  return (memalloc(NULL, size, 1, 5, "br", NULL));
 #elif defined(A2)
-  return (memalloc(0xFFFFFFFF, size, 1, 5, "br", 0));
+  return (memalloc(0xFFFFFFFF, size, 1, 5, "br", NULL));
 #else
-  return (memalloc(size, 1, 5, "br", 0));
+  return (memalloc(size, 1, 5, "br", NULL));
 #endif
 }
 
 void mfree(void *mem)
 {
+  if (mem)
 #if defined(DB2020)
-  if (mem)
-    memfree(0, mem, "br", 0);
+    memfree(NULL, mem, "br", NULL);
 #elif defined(A2)
-  if (mem)
-    memfree(0, mem, "br", 0);
+    memfree(NULL, mem, "br", NULL);
 #else
-  if (mem)
-    memfree(mem, "br", 0);
+    memfree(mem, "br", NULL);
 #endif
 }
 
@@ -67,17 +53,16 @@ void ReadConfig(FILE_DATA *data)
       "Percent Bold: %x\r\n"
       "Percent Italic: %x\r\n"
 #endif
-
       "Background Coordinates: %d,%d\r\n"
       "Level Coordinates: %d,%d\r\n";
 
   FSTAT fs;
-  if (!fstat(FILE_PATH, FILE_NAME, &fs) && fs.fsize)
+  if (!fstat(CONFIG_PATH, CONFIG_NAME, &fs) && fs.fsize)
   {
     char *buf = (char *)malloc(fs.fsize);
-    int f = _fopen(FILE_PATH, FILE_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, 0);
-    fread(f, buf, fs.fsize);
-    fclose(f);
+    int file = _fopen(CONFIG_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+    fread(file, buf, fs.fsize);
+    fclose(file);
 
     sscanf(buf, format,
            &data->Title_Text_Color, &data->Title_Text_Overlay,
@@ -104,39 +89,53 @@ void ReadConfig(FILE_DATA *data)
   }
 }
 
-void RegisterImage(DISP_OBJ_BRIGHT *disp_obj)
+void RegisterImage(IMG *img, wchar_t *fpath, wchar_t *fname)
 {
-  const wchar_t *ImageName[] = {L"Background.png", L"Level_Normal.png", L"Level_Up_Max.png", L"Level_Down_Max.png"};
-  IMG *img;
-  char error_code;
   int _SYNC = NULL;
   int *SYNC = &_SYNC;
+  char error_code;
+  img->id = NOIMAGE;
+  img->handle = NOIMAGE;
 
-  for (int i = 0; i < img_count; i++)
+  if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC, &img->handle, &error_code))
+    if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC, img->handle, fpath, fname, NULL, &img->id, &error_code))
+      if (error_code)
+        img->handle = NOIMAGE;
+}
+
+void UnLoadImages(DISP_OBJ_BRIGHT *disp_obj)
+{
+  int _SYNC = NULL;
+  int *SYNC = &_SYNC;
+  char error_code;
+
+  ImageID_Free(disp_obj->image_id);
+
+  for (int i = 0; i < LAST_ICN; i++)
   {
-    img = &disp_obj->Images[i];
-    img->ImageID = NOIMAGE;
-    img->ImageHandle = NOIMAGE;
-    if (!fstat(FILE_PATH, ImageName[i], 0))
-      if (!REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE(SYNC, &img->ImageHandle, &error_code))
-        if (!REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(SYNC, img->ImageHandle, FILE_PATH, (wchar_t *)ImageName[i], 0, &img->ImageID, &error_code))
-          if (error_code)
-            img->ImageHandle = NOIMAGE;
+    if (disp_obj->images[i].id != NOIMAGE)
+      REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, disp_obj->images[i].handle, 0, 0, disp_obj->images[i].id, 1, &error_code);
   }
 }
 
-void UnregisterImage(DISP_OBJ_BRIGHT *disp_obj)
+void LoadImages(DISP_OBJ_BRIGHT *disp_obj)
 {
-  IMG *img;
-  char error_code;
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
+  const wchar_t *image_list[LAST_ICN] = {
+      L"Background.png",
+      L"Level_Normal.png",
+      L"Level_Up_Max.png",
+      L"Level_Down_Max.png"};
 
-  for (int i = 0; i < img_count; i++)
+  for (int i = 0; i < LAST_ICN; i++)
   {
-    img = &disp_obj->Images[i];
-    if (img->ImageID != NOIMAGE)
-      REQUEST_IMAGEHANDLER_INTERNAL_UNREGISTER(SYNC, img->ImageHandle, 0, 0, img->ImageID, 1, &error_code);
+    if (FSX_IsFileExists(CONFIG_PATH, (wchar_t *)image_list[i]))
+    {
+      RegisterImage(&disp_obj->images[i], CONFIG_PATH, (wchar_t *)image_list[i]);
+    }
+    else
+    {
+      disp_obj->images[i].id = NOIMAGE;
+    }
   }
 }
 
@@ -154,76 +153,63 @@ int Bright_onCreate(DISP_OBJ_BRIGHT *disp_obj)
 {
   disp_obj->bright = Display_GetBrightness(UIDisplay_Main);
   disp_obj->cstep = 1;
-  disp_obj->text = EMPTY_TEXTID;
+  disp_obj->text_id = EMPTY_TEXTID;
 
-  RegisterImage(disp_obj);
+  LoadImages(disp_obj);
 
   disp_obj->data = (FILE_DATA *)malloc(sizeof(FILE_DATA));
   ReadConfig(disp_obj->data);
 
-  if (disp_obj->bright == 100)
-    disp_obj->image = disp_obj->Images[2].ImageID;
-  else if (disp_obj->bright == 0)
-    disp_obj->image = disp_obj->Images[3].ImageID;
+  if (disp_obj->bright == BRIGHT_MAX)
+    disp_obj->image_id = disp_obj->images[LEVEL_UP_ICN].id;
+  else if (disp_obj->bright == BRIGHT_MIN)
+    disp_obj->image_id = disp_obj->images[LEVEL_DOWN_ICN].id;
   else
-    disp_obj->image = disp_obj->Images[1].ImageID;
+    disp_obj->image_id = disp_obj->images[LEVEL_NORMAL_ICN].id;
 
   return 1;
 }
 
 void Bright_onClose(DISP_OBJ_BRIGHT *disp_obj)
 {
-  UnregisterImage(disp_obj);
-
-  if (disp_obj->text != EMPTY_TEXTID)
-    TextID_Destroy(disp_obj->text);
-
+  UnLoadImages(disp_obj);
+  TextID_Destroy(disp_obj->text_id);
   mfree(disp_obj->data);
 }
 
-void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2, int y2, uint32_t tcolor, uint32_t ocolor)
+void DrawString_Params(TEXTID text, int font, int align, int x1, int y1, int x2, int y2, uint32_t t_color, uint32_t o_color)
 {
   int font_height = y1 + (font & 0xFF);
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  dll_DrawString(font, text, align, x1 + 1, y1, x2, font_height, ocolor);
-  dll_DrawString(font, text, align, x1, y1 + 1, x2, font_height, ocolor);
-  dll_DrawString(font, text, align, x1 - 1, y1, x2, font_height, ocolor);
-  dll_DrawString(font, text, align, x1, y1 - 1, x2, font_height, ocolor);
-  dll_DrawString(font, text, align, x1, y1, x2, y2, tcolor);
+  dll_DrawString(font, text, align, x1 + 1, y1, x2, font_height, o_color);
+  dll_DrawString(font, text, align, x1, y1 + 1, x2, font_height, o_color);
+  dll_DrawString(font, text, align, x1 - 1, y1, x2, font_height, o_color);
+  dll_DrawString(font, text, align, x1, y1 - 1, x2, font_height, o_color);
+  dll_DrawString(font, text, align, x1, y1, x2, y2, t_color);
 #else
   SetFont(font);
-  DrawString(text, align, x1 + 1, y1, x2, font_height, 0, 0, ocolor, 0);
-  DrawString(text, align, x1, y1 + 1, x2, font_height, 0, 0, ocolor, 0);
-  DrawString(text, align, x1 - 1, y1, x2, font_height, 0, 0, ocolor, 0);
-  DrawString(text, align, x1, y1 - 1, x2, font_height, 0, 0, ocolor, 0);
-  DrawString(text, align, x1, y1, x2, y2, 0, 0, tcolor, 0);
+  DrawString(text, align, x1 + 1, y1, x2, font_height, 0, 0, o_color, 0);
+  DrawString(text, align, x1, y1 + 1, x2, font_height, 0, 0, o_color, 0);
+  DrawString(text, align, x1 - 1, y1, x2, font_height, 0, 0, o_color, 0);
+  DrawString(text, align, x1, y1 - 1, x2, font_height, 0, 0, o_color, 0);
+  DrawString(text, align, x1, y1, x2, y2, 0, 0, t_color, 0);
 #endif
 }
 
 void Bright_onRedraw(DISP_OBJ_BRIGHT *disp_obj, int, int, int)
 {
-#if defined(A1) || defined(DB3150v1)
-  GC_DrawImage(disp_obj->data->Icon_Background_x, disp_obj->data->Icon_Background_y, disp_obj->Images[0].ImageID);
-  GC_DrawImage(disp_obj->data->Icon_Level_x, disp_obj->data->Icon_Level_y, disp_obj->image);
+  GC *gc = get_DisplayGC();
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+  dll_GC_PutChar(gc, disp_obj->data->Icon_Background_x, disp_obj->data->Icon_Background_y, 0, 0, disp_obj->images[BACKGROUND_ICN].id);
+  dll_GC_PutChar(gc, disp_obj->data->Icon_Level_x, disp_obj->data->Icon_Level_y, 0, 0, disp_obj->image_id);
 #else
-  GC *pGC = get_DisplayGC();
-  dll_GC_PutChar(pGC,
-                 disp_obj->data->Icon_Background_x,
-                 disp_obj->data->Icon_Background_y,
-                 0,
-                 0,
-                 disp_obj->Images[0].ImageID);
-  dll_GC_PutChar(pGC,
-                 disp_obj->data->Icon_Level_x,
-                 disp_obj->data->Icon_Level_y,
-                 0,
-                 0,
-                 disp_obj->image);
+  GC_PutChar(gc, disp_obj->data->Icon_Background_x, disp_obj->data->Icon_Background_y, 0, 0, disp_obj->images[BACKGROUND_ICN].id);
+  GC_PutChar(gc, disp_obj->data->Icon_Level_x, disp_obj->data->Icon_Level_y, 0, 0, disp_obj->image_id);
 #endif
 
-  TextID_Destroy(disp_obj->text);
-  disp_obj->text = TextID_CreateIntegerID(disp_obj->bright);
-  DrawString_Params(disp_obj->text,
+  TextID_Destroy(disp_obj->text_id);
+  disp_obj->text_id = TextID_CreateIntegerID(disp_obj->bright);
+  DrawString_Params(disp_obj->text_id,
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
                     disp_obj->data->Percent_Text_Font + (disp_obj->data->Percent_Text_Bold << 8) + (disp_obj->data->Percent_Text_Italic << 9),
 #else
@@ -269,22 +255,22 @@ void Bright_onKey(DISP_OBJ_BRIGHT *disp_obj, int key, int unk, int repeat, int m
     switch (key)
     {
     case KEY_UP:
-      if ((disp_obj->bright += disp_obj->cstep) >= 100)
+      if ((disp_obj->bright += disp_obj->cstep) >= BRIGHT_MAX)
       {
-        disp_obj->bright = 100;
-        disp_obj->image = disp_obj->Images[2].ImageID;
+        disp_obj->bright = BRIGHT_MAX;
+        disp_obj->image_id = disp_obj->images[LEVEL_UP_ICN].id;
       }
       else
-        disp_obj->image = disp_obj->Images[1].ImageID;
+        disp_obj->image_id = disp_obj->images[LEVEL_NORMAL_ICN].id;
       break;
     case KEY_DOWN:
-      if ((disp_obj->bright -= disp_obj->cstep) <= 0)
+      if ((disp_obj->bright -= disp_obj->cstep) <= BRIGHT_MIN)
       {
-        disp_obj->bright = 0;
-        disp_obj->image = disp_obj->Images[3].ImageID;
+        disp_obj->bright = BRIGHT_MIN;
+        disp_obj->image_id = disp_obj->images[LEVEL_DOWN_ICN].id;
       }
       else
-        disp_obj->image = disp_obj->Images[1].ImageID;
+        disp_obj->image_id = disp_obj->images[LEVEL_NORMAL_ICN].id;
       break;
     }
 
@@ -322,7 +308,7 @@ GUI_BRIGHT *Create_GUIBright(BOOK *book)
   if (!GUIObject_Create(gui, Bright_destr, Bright_constr, book, Bright_CallBack, UIDisplay_Main, sizeof(GUI_BRIGHT)))
   {
     mfree(gui);
-    return 0;
+    return NULL;
   }
 
   if (book)
@@ -334,36 +320,36 @@ GUI_BRIGHT *Create_GUIBright(BOOK *book)
 
 void Bright_LongClose(BOOK *book, GUI *gui)
 {
-  SetBook *pSetBook = (SetBook *)book;
-  SetBrightness((int)pSetBook->bright);
+  SetBook *set_book = (SetBook *)book;
+  SetBrightness((int)set_book->bright);
   UI_Event(RETURN_TO_STANDBY_EVENT);
 }
 
 void Bright_Close(BOOK *book, GUI *gui)
 {
-  SetBook *pSetBook = (SetBook *)book;
-  SetBrightness((int)pSetBook->bright);
-  FreeBook(pSetBook);
+  SetBook *set_book = (SetBook *)book;
+  SetBrightness((int)set_book->bright);
+  FreeBook(set_book);
 }
 
 void Bright_Save(BOOK *book, GUI *gui)
 {
-  SetBook *pSetBook = (SetBook *)book;
-  FreeBook(pSetBook);
+  SetBook *set_book = (SetBook *)book;
+  FreeBook(set_book);
 }
 
 extern "C" int VisualBrightness(void *data, BOOK *book)
 {
-  SetBook *pSetBook = (SetBook *)book;
-  pSetBook->bright = (char *)Display_GetBrightness(UIDisplay_Main);
+  SetBook *set_book = (SetBook *)book;
+  set_book->bright = (char *)Display_GetBrightness(UIDisplay_Main);
 
-  if (pSetBook->gui = Create_GUIBright(pSetBook))
+  if (set_book->gui = Create_GUIBright(set_book))
   {
-    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_LONG_BACK, Bright_LongClose);
-    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_BACK, Bright_Close);
-    GUIObject_SoftKeys_SetAction(pSetBook->gui, ACTION_SELECT1, Bright_Save);
-    GUIObject_SoftKeys_SetText(pSetBook->gui, ACTION_SELECT1, TEXTID_SAVE);
-    GUIObject_Show(pSetBook->gui);
+    GUIObject_SoftKeys_SetAction(set_book->gui, ACTION_LONG_BACK, Bright_LongClose);
+    GUIObject_SoftKeys_SetAction(set_book->gui, ACTION_BACK, Bright_Close);
+    GUIObject_SoftKeys_SetAction(set_book->gui, ACTION_SELECT1, Bright_Save);
+    GUIObject_SoftKeys_SetText(set_book->gui, ACTION_SELECT1, TEXTID_SAVE);
+    GUIObject_Show(set_book->gui);
   }
   return 1;
 }

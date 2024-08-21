@@ -128,6 +128,8 @@ a       EQU     b
         defadr BookObj_CallPage,0x142BBA14+1
         defadr FindBook,0x143ACB90+1
         defadr BookObj_SetFocus,0x140E51D0+1
+        defadr ListMenu_SetItemTextScroll,0x142105DC+1
+        defadr ListMenu_SetNoItemText,0x141DEE9C+1
 
         EXTERN FlashmenuPicker
 

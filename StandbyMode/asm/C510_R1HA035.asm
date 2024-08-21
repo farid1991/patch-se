@@ -799,9 +799,11 @@ a       equ b
         defadr old_StatusRow_onRedraw,0x1414A51C+1
         defadr old_Softkeys_onRedraw,0x1417AD04+1
 
-        defadr old_StatusIndication_onRedraw, 0x144165FC+1
-        defadr old_StatusIndication_onCreate, 0x142E3C1C+1
-        defadr old_StatusIndication_onClose,  0x15400010+1
+        defadr old_StatusIndication_onRedraw,0x144165FC+1
+        defadr old_StatusIndication_onCreate,0x142E3C1C+1
+        defadr old_StatusIndication_onClose,0x15400010+1
+        defadr old_StatusIndication_onMethod06,0x14150724+1
+        defadr old_StatusIndication_onMethod0A,0x140B9DA4+1
         defadr old_MainInput_onKey,0x14278920+1
 
         EXTERN  New_StatusRow_onRedraw
@@ -809,6 +811,8 @@ a       equ b
         EXTERN  New_StatusIndication_onRedraw
         EXTERN  New_StatusIndication_onCreate
         EXTERN  New_StatusIndication_onClose
+        EXTERN  New_StatusIndication_onMethod06
+        EXTERN  New_StatusIndication_onMethod0A
         EXTERN  New_MainInput_onKey
 
         EXTERN  Start_CallStateTimer

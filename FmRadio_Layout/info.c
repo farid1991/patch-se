@@ -1,11 +1,13 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
-#include "main.h"
+#include "..\\include\book\FmRadio_Book.h"
+
 #include "data.h"
 #include "info.h"
+#include "main.h"
 
 void Get_Channel(FmRadio_Data *Data)
 {

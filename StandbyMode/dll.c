@@ -24,8 +24,10 @@ void dll_SetFont(int font, IFont **ppFont)
   pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
-  pFontManager->Release();
-  pFontFactory->Release();
+  if (pFontFactory)
+    pFontFactory->Release();
+  if (pFontManager)
+    pFontManager->Release();
 }
 
 // DrawString ----------------------------------------------------
@@ -38,28 +40,30 @@ void dll_DrawString(int font, TEXTID text_id, int align, int x1, int y1, int x2,
 {
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
-  IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions = NULL;
+  IUIRichTextLayoutOptions *pRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
-  IRichText *pIRichText = NULL;
-  IUnknown *pICanvas = NULL;
+  IRichText *pRichText = NULL;
+  IUnknown *pCanvas = NULL;
   IFont *pFont = NULL;
 
   Get_TextRenderingManager(&pTextRenderingManager);
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
-  pTextRenderingFactory->CreateRichText(&pIRichText);
-  pTextRenderingFactory->CreateRichTextLayoutOptions(&pIUIRichTextLayoutOptions);
-  pTextRenderingFactory->CreateRichTextLayout(pIRichText, 0, 0, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichText(&pRichText);
+  pTextRenderingFactory->CreateRichTextLayoutOptions(&pRichTextLayoutOptions);
+  pTextRenderingFactory->CreateRichTextLayout(pRichText, NULL, pRichTextLayoutOptions, &pRichTextLayout);
 
   dll_SetFont(font, &pFont);
 
-  TextObject_SetText(pIRichText, text_id);
-  TextObject_SetFont(pIRichText, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pIRichText->SetTextColor(pen_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pIRichText->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pIRichText->SetUnderline((TUILineStyle)underline, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  pIRichText->SetUnderlineColor(u_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  TextObject_SetText(pRichText, text_id);
+  TextObject_SetFont(pRichText, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetTextColor(pen_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetUnderline((TUILineStyle)underline, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
+  pRichText->SetUnderlineColor(u_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 
-  pIUIRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
+  pRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
+
+  DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
 
   TUIRectangle rect;
   rect.Point.X = x1;
@@ -67,17 +71,22 @@ void dll_DrawString(int font, TEXTID text_id, int align, int x1, int y1, int x2,
   rect.Size.Width = x2 - x1;
   rect.Size.Height = y2 - y1;
   pRichTextLayout->Compose(rect.Size.Width);
+  pRichTextLayout->Display(pCanvas, x1, y1, &rect);
 
-  DisplayGC_AddRef(get_DisplayGC(), &pICanvas);
-  pRichTextLayout->Display(pICanvas, x1, y1, &rect);
-
-  pTextRenderingManager->Release();
-  pTextRenderingFactory->Release();
-  pIUIRichTextLayoutOptions->Release();
-  pRichTextLayout->Release();
-  pIRichText->Release();
-  pICanvas->Release();
-  pFont->Release();
+  if (pTextRenderingManager)
+    pTextRenderingManager->Release();
+  if (pTextRenderingFactory)
+    pTextRenderingFactory->Release();
+  if (pRichTextLayoutOptions)
+    pRichTextLayoutOptions->Release();
+  if (pRichTextLayout)
+    pRichTextLayout->Release();
+  if (pRichText)
+    pRichText->Release();
+  if (pCanvas)
+    pCanvas->Release();
+  if (pFont)
+    pFont->Release();
 }
 
 int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
@@ -85,13 +94,13 @@ int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
-  IRichText *pIRichText = NULL;
+  IRichText *pRichText = NULL;
   IFont *pFont = NULL;
 
   Get_TextRenderingManager(&pTextRenderingManager);
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
-  pTextRenderingFactory->CreateRichText(&pIRichText);
-  pTextRenderingFactory->CreateRichTextLayout(pIRichText, NULL, NULL, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichText(&pRichText);
+  pTextRenderingFactory->CreateRichTextLayout(pRichText, NULL, NULL, &pRichTextLayout);
 
   dll_SetFont(font, &pFont);
 
@@ -111,11 +120,16 @@ int dll_Disp_GetTextIDWidth(int font, TEXTID strid, int len)
   int text_width = RichTextLayout_GetTextWidth(temp_strid, pRichTextLayout, pFont);
   TextID_Destroy(temp_strid);
 
-  pTextRenderingManager->Release();
-  pTextRenderingFactory->Release();
-  pRichTextLayout->Release();
-  pIRichText->Release();
-  pFont->Release();
+  if (pTextRenderingManager)
+    pTextRenderingManager->Release();
+  if (pTextRenderingFactory)
+    pTextRenderingFactory->Release();
+  if (pRichTextLayout)
+    pRichTextLayout->Release();
+  if (pRichText)
+    pRichText->Release();
+  if (pFont)
+    pFont->Release();
 
   return (text_width);
 }
@@ -131,6 +145,7 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID image_i
   IUIImageManager *pIUIImageManager = NULL;
   IUIImage *pUIImage = NULL;
   IUnknown *pCanvas = NULL;
+
   Get_IUIImageManager(&pIUIImageManager);
   pIUIImageManager->CreateFromIcon(image_id, &pUIImage);
 
@@ -142,9 +157,12 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID image_i
   rect.Size.Height = height;
   pIUIImageManager->Draw(pUIImage, pCanvas, rect);
 
-  pIUIImageManager->Release();
-  pUIImage->Release();
-  pCanvas->Release();
+  if (pCanvas)
+    pCanvas->Release();
+  if (pUIImage)
+    pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 }
 
 // GetImageWidthHeight ----------------------------------------------------
@@ -157,10 +175,13 @@ int dll_GetImageWidth(IMAGEID image_id)
   pIUIImageManager->CreateFromIcon(image_id, &pUIImage);
   int image_width;
   int image_height;
-  pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
+  if (pIUIImageManager->CreateFromIcon(image_id, &pUIImage) >= 0)
+    pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
 
-  pIUIImageManager->Release();
-  pUIImage->Release();
+  if (pUIImage)
+    pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_width;
 }
@@ -174,10 +195,13 @@ int dll_GetImageHeight(IMAGEID image_id)
   pIUIImageManager->CreateFromIcon(image_id, &pUIImage);
   int image_width;
   int image_height;
-  pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
+  if (pIUIImageManager->CreateFromIcon(image_id, &pUIImage) >= 0)
+    pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
 
-  pIUIImageManager->Release();
-  pUIImage->Release();
+  if (pUIImage)
+    pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_height;
 }
@@ -189,19 +213,23 @@ void DrawImageFromPath(wchar_t *fname, int x, int y)
   IUnknown *pCanvas = NULL;
 
   Get_IUIImageManager(&pIUIImageManager);
-  pIUIImageManager->CreateFromPath(L"/usb/other/ZBin/Config/Widget/Music", fname, "image/png", 9, &pUIImage);
+  if (pIUIImageManager->CreateFromPath(L"/usb/other/ZBin/Config/Widget/Music", fname, "image/png", 9, &pUIImage) >= 0)
+  {
+    DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
+    TUIRectangle rect;
+    rect.Point.X = x;
+    rect.Point.Y = y;
+    rect.Size.Width = 0;
+    rect.Size.Height = 0;
+    pIUIImageManager->Draw(pUIImage, pCanvas, rect);
+  }
 
-  DisplayGC_AddRef(get_DisplayGC(), &pCanvas);
-  TUIRectangle rect;
-  rect.Point.X = x;
-  rect.Point.Y = y;
-  rect.Size.Width = 0;
-  rect.Size.Height = 0;
-  pIUIImageManager->Draw(pUIImage, pCanvas, rect);
-
-  pIUIImageManager->Release();
-  pUIImage->Release();
-  pCanvas->Release();
+  if (pCanvas)
+    pCanvas->Release();
+  if (pUIImage)
+    pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 }
 #endif
 
@@ -249,7 +277,9 @@ void Get_IClock(IClock **ppIClock)
   IClockManager *pIClockManager = NULL;
   CoCreateInstance(CID_CClockManager, IID_IClockManager, PPINTERFACE(&pIClockManager));
   pIClockManager->CreateClock(ppIClock);
-  pIClockManager->Release();
+
+  if (pIClockManager)
+    pIClockManager->Release();
 }
 
 void Get_IAlarm(IAlarmItem **ppIAlarmItem, IAlarmRecurrent **ppIAlarmRecurrent)
@@ -258,5 +288,7 @@ void Get_IAlarm(IAlarmItem **ppIAlarmItem, IAlarmRecurrent **ppIAlarmRecurrent)
   CoCreateInstance(CID_CAlarmManager, IID_IAlarmManager, PPINTERFACE(&pIAlarmManager));
   pIAlarmManager->CreateAlarmItem(ppIAlarmItem);
   pIAlarmManager->CreateAlarmRecurrent(ppIAlarmRecurrent);
-  pIAlarmManager->Release();
+
+  if (pIAlarmManager)
+    pIAlarmManager->Release();
 }

@@ -6,9 +6,9 @@
 #include "..\\Colors.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
-#include "..\\Function.h"
 
 #include "..\\Pages\Equalizer.h"
+
 #include "Clearbass.h"
 
 #ifndef CLEARAUDIO

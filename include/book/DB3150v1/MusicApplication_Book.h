@@ -1,7 +1,7 @@
 #ifndef _MUSICAPPLICATION_BOOK_H_
 #define _MUSICAPPLICATION_BOOK_H_
 
-#include "..\..\classes\IMusicServer.h"
+#include "..\..\classes\classes.h"
 
 typedef struct _PLAYING_TIME_DATA
 {

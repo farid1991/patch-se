@@ -3,7 +3,8 @@
 
 #include "..\\include\classes\classes.h"
 
-void dll_SetFont(int font_size, uint16_t font_style, IFont **ppFont);
-void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color);
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
+void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, unsigned pen_color);
+#endif
 
 #endif

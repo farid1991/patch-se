@@ -3,7 +3,8 @@
 
 #define A2
 #define DB3350
-#define HAS_ELF
+#define REV1
+// #define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/other/ZBin"
 
@@ -20,7 +21,7 @@
 #define TYPES_TITLE_TXT 0x12C6     // L"Type"
 #define SHC_SET_MM 0x2238          // Set to main menu
 #define SHC_SET_SHORTCUT_SK 0x1D39 // add shortcut
-#define DELETEQ_TXT 0x222F         //delete shortcut
+#define DELETEQ_TXT 0x222F         // delete shortcut
 
 #define OPEN_TXT 0x6D1
 #define SELECT_TXT 0xD9D

@@ -1,6 +1,8 @@
 #ifndef _DATA_H_
 #define _DATA_H_
 
+#include "..\\include\classes\classes.h"
+
 #define FILE_PATH L"/usb/other/ZBin/Config/DBPlayer"
 #define FILE_NAME L"DBPlayer.cfg"
 
@@ -130,8 +132,6 @@ typedef struct _DBP_DATA
   wchar_t *fullpath;
 
   SETTING_DATA setting;
-
-  // FILE_INFO file;
   TEMP_DATA temp;
   IMG Image[IMG_LAST];
 
@@ -146,18 +146,18 @@ typedef struct _DBP_DATA
 
   int total_fonts, cur_pos;
 
-  bool HasCoverArt;
-  int CoverSize;
-  IMAGEID CoverArtID;
+  bool has_cover_art;
+  int cover_size;
+  IMAGEID cover_art_id;
 
   TMMETime track_time;
   int full_track_time;
   TMMETime elapsed_time;
   int full_elapsed_time;
 
-  uint32_t SampleRate;
-  uint8_t AudioOutput;
-  uint8_t fileFormatType;
+  uint32_t samplerate;
+  uint8_t audio_output;
+  uint8_t file_format_type;
 
   wchar_t buf[64];
 

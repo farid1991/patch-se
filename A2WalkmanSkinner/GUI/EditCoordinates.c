@@ -7,7 +7,6 @@
 #include "..\\Colors.h"
 #include "..\\Draw.h"
 #include "..\\main.h"
-#include "..\\Function.h"
 #include "..\\SaveLoad.h"
 
 #include "EditCoordinates.h"

@@ -1,8 +1,6 @@
 #ifndef __UIRECT_TYPES_H__
 #define __UIRECT_TYPES_H__
 
-#include "Basic_types.h"
-
 /**
  *  Used for dimension, e.g width and height
  */

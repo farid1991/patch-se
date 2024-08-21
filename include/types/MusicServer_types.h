@@ -1,9 +1,5 @@
-#ifndef __MUSICSERVERTYPES_H__
-#define __MUSICSERVERTYPES_H__
-
-#include "Time_types.h"
-
-#include "..\classes\IMMEPlayer.h"
+#ifndef __MUSICSERVER_TYPES_H__
+#define __MUSICSERVER_TYPES_H__
 
 //////////////////////////////////////////////////////////////////////
 /// @name Types

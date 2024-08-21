@@ -634,14 +634,14 @@ extern "C" void New_StatusIndication_onClose(DISP_OBJ *disp_obj)
   old_StatusIndication_onClose(disp_obj);
 }
 
-extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int cnt, int repeat, int mode)
+extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int count, int repeat, int mode)
 {
   StandbyBook *standby_book = (StandbyBook *)Find_StandbyBook();
 
   STANDBY_DATA *standby_data = Get_StandbyData();
   if (!standby_data)
   {
-    old_MainInput_onKey(disp_obj, key, cnt, repeat, mode);
+    old_MainInput_onKey(disp_obj, key, count, repeat, mode);
     return;
   }
 
@@ -693,10 +693,12 @@ extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int cnt, int re
     }
   }
 
+  InvalidateAll();
+
   if (standby_data->count < SECRET_CODES)
   {
     standby_data->edit_mode = FALSE;
-    old_MainInput_onKey(disp_obj, key, cnt, repeat, mode);
+    old_MainInput_onKey(disp_obj, key, count, repeat, mode);
   }
   else
   {

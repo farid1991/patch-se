@@ -1,85 +1,69 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "main.h"
 #include "strlib.h"
 #include "utils.h"
 
 #ifdef HAS_ELF
-__arm void StartElf(wchar_t *Name)
+__arm void StartElf(wchar_t *elfname)
 {
-  elfload(Name, NULL, NULL, NULL);
+  elfload(elfname, NULL, NULL, NULL);
 }
 #endif
 
-#if defined(A1)
 void *SHORTCUT_DESC_Init(wchar_t *param)
 {
+#if defined(A1)
   SHORTCUT_DESC *desc = (SHORTCUT_DESC *)malloc(sizeof(SHORTCUT_DESC));
   memset(desc, NULL, sizeof(SHORTCUT_DESC));
   wstrcpy(desc->name, param);
-  if (!wstrcmp(desc->name, L"MainMenu"))
-  {
-    desc->shortcut_state = SC_State_MainMenu;
-  }
-  else
-  {
-    desc->shortcut_state = SC_State_Activated;
-  }
-  return (desc);
-}
+  desc->shortcut_state = !wstrcmp(desc->name, L"MainMenu") ? SC_State_MainMenu : SC_State_Activated;
+  return desc;
 #elif defined(A2)
-void *SHORTCUT_DESC_A2_Init(wchar_t *param)
-{
   SHORTCUT_DESC_A2 *desc = (SHORTCUT_DESC_A2 *)malloc(sizeof(SHORTCUT_DESC_A2));
   memset(desc, NULL, sizeof(SHORTCUT_DESC_A2));
   wstrcpy(desc->name, param);
-  if (!wstrcmp(desc->name, L"MainMenu"))
-  {
-    desc->item_type = SC_Type_MainMenu;
-  }
-  else
-  {
-    desc->item_type = SC_Type_Standard;
-  }
-  return (desc);
-}
+  desc->item_type = !wstrcmp(desc->name, L"MainMenu") ? SC_Type_MainMenu : SC_Type_Standard;
+  return desc;
 #endif
+}
 
 #ifdef USE_JAVA
 void StartJava_ByName(wchar_t *name)
 {
   wchar_t *buff;
-  char jDialog;
-  void *Javadesc;
+  char java_dialog;
+  void *java_desc;
 
-  JavaDialog_Open(0, &jDialog, &Javadesc);
-  if (!JavaAppDesc_GetFirstApp(Javadesc))
+  JavaDialog_Open(0, &java_dialog, &java_desc);
+
+  if (!JavaAppDesc_GetFirstApp(java_desc))
   {
-    int result = 0;
-    while (!result)
+    int next = 0;
+    while (!next)
     {
-      JavaAppDesc_GetJavaAppInfo(Javadesc, JAVA_APP_NAME, &buff);
+      JavaAppDesc_GetJavaAppInfo(java_desc, JAVA_APP_NAME, &buff);
       if (!wstrcmp(buff, name))
       {
-        int AppID = JavaAppDesc_GetJavaAppID(Javadesc);
+        int app_id = JavaAppDesc_GetJavaAppID(java_desc);
         char flag;
 
         int _ASYNC = 1;
         int *ASYNC = &_ASYNC;
-        REQUEST_UI_OAF_START_APPLICATION(ASYNC, AppID + 0x10000, &flag);
+        REQUEST_UI_OAF_START_APPLICATION(ASYNC, app_id + 0x10000, &flag);
         break;
       }
       else
       {
-        result = JavaAppDesc_GetNextApp(Javadesc);
+        next = JavaAppDesc_GetNextApp(java_desc);
       }
       mfree(buff);
     }
   }
-  JavaDialog_Close(jDialog);
+  JavaDialog_Close(java_dialog);
 }
 #endif
 
@@ -145,132 +129,135 @@ void RunShortcut(SC_LIST_ELEM *ShortcutItem)
   }
 }
 
-int ItemFilter(void *elem)
+int list_item_filter(void *elem)
 {
   return (elem != NULL);
 }
 
-void FreeList(LIST *&List, void (*FreeProc)(void *Item))
+void list_destroy(LIST *&list, void (*list_free_elem)(void *item))
 {
-  if (List)
+  if (list)
   {
-    List_DestroyElements(List, ItemFilter, FreeProc);
-    List_Destroy(List);
-    List = NULL;
+    List_DestroyElements(list, list_item_filter, list_free_elem);
+    List_Destroy(list);
+    list = NULL;
   }
 }
 
 #ifdef USE_JAVA
-void JavaFree(void *item)
+void java_list_free_item(void *item)
 {
-  JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)item;
-  if (elem)
+  JAVA_LIST_ELEM *j_elem = (JAVA_LIST_ELEM *)item;
+  if (j_elem)
   {
-    mfree(elem->name);
-    mfree(elem->fullpath);
-    if (elem->image_id)
-      ImageID_Free(elem->image_id);
-    mfree(elem);
+    mfree(j_elem->name);
+    mfree(j_elem->fullpath);
+
+    if (j_elem->image_id != NOIMAGE)
+      ImageID_Free(j_elem->image_id);
+
+    mfree(j_elem);
   }
 }
 
-JAVA_LIST_ELEM *CreateElem(void *JavaDesc)
+JAVA_LIST_ELEM *java_list_create_elem(void *java_desc)
 {
-  JAVA_LIST_ELEM *elem = (JAVA_LIST_ELEM *)malloc(sizeof(JAVA_LIST_ELEM));
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_NAME, &elem->name);
-  JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_FULLPATH, &elem->fullpath);
-  JavaApp_LogoImageID_Get(elem->fullpath, &elem->image_id);
-  return elem;
+  JAVA_LIST_ELEM *j_elem = (JAVA_LIST_ELEM *)malloc(sizeof(JAVA_LIST_ELEM));
+  JavaAppDesc_GetJavaAppInfo(java_desc, JAVA_APP_NAME, &j_elem->name);
+  JavaAppDesc_GetJavaAppInfo(java_desc, JAVA_APP_FULLPATH, &j_elem->fullpath);
+  JavaApp_LogoImageID_Get(j_elem->fullpath, &j_elem->image_id);
+  return j_elem;
 }
 
-LIST *Create_JavaList()
+LIST *java_list_create()
 {
   LIST *java_list = List_Create();
 
-  char jDialog;
+  char java_dialog;
   wchar_t *semclet;
-  void *JavaDesc;
-  JavaDialog_Open(0, &jDialog, &JavaDesc);
+  void *java_desc;
 
-  if (!JavaAppDesc_GetFirstApp(JavaDesc))
+  JavaDialog_Open(0, &java_dialog, &java_desc);
+
+  if (!JavaAppDesc_GetFirstApp(java_desc))
   {
-    int result = 0;
-    while (!result)
+    int next = 0;
+    while (!next)
     {
-      JavaAppDesc_GetJavaAppInfo(JavaDesc, JAVA_APP_SEMCLET, &semclet);
+      JavaAppDesc_GetJavaAppInfo(java_desc, JAVA_APP_SEMCLET, &semclet);
       if (semclet[0])
       {
-        List_InsertLast(java_list, CreateElem(JavaDesc));
+        List_InsertLast(java_list, java_list_create_elem(java_desc));
       }
-      WStringFree(semclet);
-      result = JavaAppDesc_GetNextApp(JavaDesc);
+      mfree(semclet);
+      next = JavaAppDesc_GetNextApp(java_desc);
     }
   }
-  JavaDialog_Close(jDialog);
+  JavaDialog_Close(java_dialog);
   return java_list;
 }
 #endif
 
-void SaveConfig(LIST *List)
+void SaveConfig(LIST *list)
 {
-  int File = _fopen(F_PATH, CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+  int file = _fopen(F_PATH, CONFIG_NAME, FSX_O_TRUNC | FSX_O_RDWR, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
 
-  if (File >= 0)
+  if (file >= 0)
   {
-    int CaptionLen = 0;
-    int sDataLen = 0;
+    int text_len = 0;
+    int link_len = 0;
+    uint16_t list_count = List_GetCount(list);
 
-    fwrite(File, &List->FirstFree, sizeof(uint16_t));
+    fwrite(file, &list_count, sizeof(uint16_t));
 
-    int i;
-    for (i = 0; i < List_GetCount(List); i++)
+    for (int i = 0; i < list_count; i++)
     {
-      SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(List, i);
-      fwrite(File, &Shortcut->ShortcutType, sizeof(char));
-      sDataLen = wstrlen(Shortcut->ShortcutLink);
-      fwrite(File, &sDataLen, sizeof(int));
-      fwrite(File, Shortcut->ShortcutLink, sDataLen * sizeof(wchar_t));
-      CaptionLen = wstrlen(Shortcut->ShortcutText);
-      fwrite(File, &CaptionLen, sizeof(int));
-      fwrite(File, Shortcut->ShortcutText, CaptionLen * sizeof(wchar_t));
-      fwrite(File, &Shortcut->ShortcutIcon, sizeof(IMAGEID));
+      SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(list, i);
+      fwrite(file, &Shortcut->ShortcutType, sizeof(char));
+      link_len = wstrlen(Shortcut->ShortcutLink);
+      fwrite(file, &link_len, sizeof(int));
+      fwrite(file, Shortcut->ShortcutLink, link_len * sizeof(wchar_t));
+      text_len = wstrlen(Shortcut->ShortcutText);
+      fwrite(file, &text_len, sizeof(int));
+      fwrite(file, Shortcut->ShortcutText, text_len * sizeof(wchar_t));
+      fwrite(file, &Shortcut->ShortcutIcon, sizeof(IMAGEID));
     }
-    fclose(File);
+    fclose(file);
   }
 }
 
 LIST *LoadConfig()
 {
-  LIST *Ret = List_Create();
+  LIST *list = List_Create();
 
   if (FSX_IsFileExists(F_PATH, CONFIG_NAME))
   {
-    int File = _fopen(F_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
-    if (File >= 0)
+    int file = _fopen(F_PATH, CONFIG_NAME, FSX_O_RDONLY, FSX_S_IRUSR | FSX_S_IWUSR, NULL);
+    if (file >= 0)
     {
-      int CaptionLen = 0;
-      int sDataLen = 0;
-      u16 Count;
+      int text_len = 0;
+      int link_len = 0;
+      uint16_t list_count;
 
-      fread(File, &Count, sizeof(uint16_t));
+      fread(file, &list_count, sizeof(uint16_t));
 
       int i = 0;
-      while (i < Count)
+      while (i < list_count)
       {
         SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)malloc(sizeof(SC_LIST_ELEM));
-        fread(File, &Shortcut->ShortcutType, sizeof(char));
-        fread(File, &sDataLen, sizeof(int));
-        Shortcut->ShortcutLink = WStringAlloc(sDataLen);
-        fread(File, Shortcut->ShortcutLink, sDataLen * sizeof(wchar_t));
-        fread(File, &CaptionLen, sizeof(int));
-        Shortcut->ShortcutText = WStringAlloc(CaptionLen);
-        fread(File, Shortcut->ShortcutText, CaptionLen * sizeof(wchar_t));
-        fread(File, &Shortcut->ShortcutIcon, sizeof(IMAGEID));
-        List_InsertLast(Ret, Shortcut);
+        fread(file, &Shortcut->ShortcutType, sizeof(char));
+        fread(file, &link_len, sizeof(int));
+        Shortcut->ShortcutLink = WStringAlloc(link_len);
+        fread(file, Shortcut->ShortcutLink, link_len * sizeof(wchar_t));
+        fread(file, &text_len, sizeof(int));
+        Shortcut->ShortcutText = WStringAlloc(text_len);
+        fread(file, Shortcut->ShortcutText, text_len * sizeof(wchar_t));
+        fread(file, &Shortcut->ShortcutIcon, sizeof(IMAGEID));
+        List_InsertLast(list, Shortcut);
         i++;
       }
-      fclose(File);
+      fclose(file);
     }
   }
-  return (Ret);
+  return (list);
 }

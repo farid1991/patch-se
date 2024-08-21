@@ -1,8 +1,8 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#include "Lib.h"
 #include "lang.h"
 #include "setting.h"
 
@@ -137,58 +137,79 @@ TEXTID TextID_Global(int text_id)
     break;
 #endif
   }
-  return TextID_Create(str, ENC_LAT1, strlen(str));
+  return TextID_Create(str, ENC_LAT1, TEXTID_ANY_LEN);
 }
 
 TEXTID TextID_Setting(int id)
 {
+  TEXTID text_id;
   switch (id)
   {
   case ITEM_ARTIST:
-    return TextID_Global(ID_ARTIST);
+    text_id = TextID_Global(ID_ARTIST);
+    break;
   case ITEM_TITLE:
-    return TextID_Global(ID_TITLE);
+    text_id = TextID_Global(ID_TITLE);
+    break;
   case ITEM_ALBUM:
-    return TextID_Global(ID_ALBUM); 
+    text_id = TextID_Global(ID_ALBUM);
+    break;
   case ITEM_YEAR:
-    return TextID_Global(ID_YEAR);
+    text_id = TextID_Global(ID_YEAR);
+    break;
   case ITEM_GENRE:
-    return TextID_Global(ID_GENRE);
+    text_id = TextID_Global(ID_GENRE);
+    break;
   case ITEM_FILETYPE:
-    return TextID_Global(ID_FILETYPE);
+    text_id = TextID_Global(ID_FILETYPE);
+    break;
   case ITEM_TOTAL:
-    return TextID_Global(ID_TOTAL);
+    text_id = TextID_Global(ID_TOTAL);
+    break;
   case ITEM_ELAPSED:
-    return TextID_Global(ID_ELAPSED);
+    text_id = TextID_Global(ID_ELAPSED);
+    break;
   case ITEM_REMAINING:
-    return TextID_Global(ID_REMAINING);
+    text_id = TextID_Global(ID_REMAINING);
+    break;
   case ITEM_BITRATE:
-    return TextID_Global(ID_BITRATE);
+    text_id = TextID_Global(ID_BITRATE);
   case ITEM_SAMPLERATE:
-    return TextID_Global(ID_SAMPLERATE);
+    text_id = TextID_Global(ID_SAMPLERATE);
+    break;
   case ITEM_AUDIOOUTPUT:
-    return TextID_Global(ID_AUDIOOUTPUT);
+    text_id = TextID_Global(ID_AUDIOOUTPUT);
+    break;
   case ITEM_TIME_PROGRESS:
-    return TextID_Global(ID_TIME_PROGRESS);
+    text_id = TextID_Global(ID_TIME_PROGRESS);
+    break;
   case ITEM_VOLUME_PROGRESS:
-    return TextID_Global(ID_VOLUME_PROGRESS);
+    text_id = TextID_Global(ID_VOLUME_PROGRESS);
+    break;
   case ITEM_COVERART:
-    return TextID_Global(ID_COVERART);
+    text_id = TextID_Global(ID_COVERART);
+    break;
   case ITEM_FRAME:
-    return TextID_Global(ID_FRAME);
+    text_id = TextID_Global(ID_FRAME);
+    break;
   case ITEM_ARTIST_ICN:
-    return TextID_Global(ID_ARTIST_ICN);
+    text_id = TextID_Global(ID_ARTIST_ICN);
+    break;
   case ITEM_TITLE_ICN:
-    return TextID_Global(ID_TITLE_ICN);
+    text_id = TextID_Global(ID_TITLE_ICN);
+    break;
   case ITEM_ALBUM_ICN:
-    return TextID_Global(ID_ALBUM_ICN);
+    text_id = TextID_Global(ID_ALBUM_ICN);
+    break;
   case ITEM_PLAYERSTATE_ICN:
-    return TextID_Global(ID_PLAYERSTATE_ICN);
+    text_id = TextID_Global(ID_PLAYERSTATE_ICN);
+    break;
   case ITEM_BACKROUND:
-    return TextID_Global(ID_BACKGROUND);
+    text_id = TextID_Global(ID_BACKGROUND);
+    break;
   case ITEM_ADDITIONAL:
-    return TextID_Global(ID_ADDITIONAL);
-  default:
-    return EMPTY_TEXTID;
+    text_id = TextID_Global(ID_ADDITIONAL);
+    break;
   }
+  return text_id;
 }

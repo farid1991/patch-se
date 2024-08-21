@@ -3,10 +3,9 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
 
+#include "dll.h"
 #include "Editor.h"
-#include "Function.h"
 #include "LNG.h"
 #include "main.h"
 #include "SaveLoad.h"

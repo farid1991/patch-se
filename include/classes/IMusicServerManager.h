@@ -1,7 +1,5 @@
-#ifndef _IMUSIC_SERVER_H_
-#define _IMUSIC_SERVER_H_
-
-#include "IUnknown.h"
+#ifndef _IMUSICSERVERMANAGER_H_
+#define _IMUSICSERVERMANAGER_H_
 
 #include "..\types\Basic_types.h"
 #include "..\types\MusicServer_types.h"

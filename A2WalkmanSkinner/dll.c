@@ -2,9 +2,7 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
-#include "..\\include\classes\classes.h"
 
-#include "Function.h"
 #include "dll.h"
 #include "main.h"
 
@@ -27,37 +25,37 @@ void dll_SetFont(int font, IFont **ppFont)
   pFontData.emphasis = (TUIEmphasisStyle)font_style;
   pFontFactory->CreateDefaultFont(&pFontData, ppFont);
 
-  if (pFontManager)
-    pFontManager->Release();
   if (pFontFactory)
     pFontFactory->Release();
+  if (pFontManager)
+    pFontManager->Release();
 }
 
 // DrawString ----------------------------------------------------
-void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int text_color)
+void dll_DrawString(int font, TEXTID text_id, int align, int x1, int y1, int x2, int y2, int text_color)
 {
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
-  IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions = NULL;
+  IUIRichTextLayoutOptions *pRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
   IRichText *pRichText = NULL;
   IUnknown *pCanvas = NULL;
   IFont *pFont = NULL;
 
-  dll_SetFont(font, &pFont);
-
   CoCreateInstance(CID_CTextRenderingManager, IID_ITextRenderingManager, PPINTERFACE(&pTextRenderingManager));
   pTextRenderingManager->GetTextRenderingFactory(&pTextRenderingFactory);
   pTextRenderingFactory->CreateRichText(&pRichText);
-  pTextRenderingFactory->CreateRichTextLayoutOptions(&pIUIRichTextLayoutOptions);
-  pTextRenderingFactory->CreateRichTextLayout(pRichText, NULL, pIUIRichTextLayoutOptions, &pRichTextLayout);
+  pTextRenderingFactory->CreateRichTextLayoutOptions(&pRichTextLayoutOptions);
+  pTextRenderingFactory->CreateRichTextLayout(pRichText, NULL, pRichTextLayoutOptions, &pRichTextLayout);
 
-  TextObject_SetText(pRichText, text);
+  dll_SetFont(font, &pFont);
+
+  TextObject_SetText(pRichText, text_id);
   TextObject_SetFont(pRichText, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pRichText->SetTextColor(text_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pRichText->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 
-  pIUIRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
+  pRichTextLayoutOptions->SetLineBreakModel(UILineBreakBit_OK_To_Break_On_Glyph);
 
   TUIRectangle rect;
   rect.Point.X = x1;
@@ -72,6 +70,8 @@ void dll_DrawString(int font, TEXTID text, int align, int x1, int y1, int x2, in
     pTextRenderingManager->Release();
   if (pTextRenderingFactory)
     pTextRenderingFactory->Release();
+  if (pRichTextLayoutOptions)
+    pRichTextLayoutOptions->Release();
   if (pRichTextLayout)
     pRichTextLayout->Release();
   if (pRichText)
@@ -151,12 +151,12 @@ void dll_GC_PutChar(GC *gc, int x, int y, int width, int height, IMAGEID image_i
   DisplayGC_AddRef(gc, &pCanvas);
   pIUIImageManager->Draw(pUIImage, pCanvas, rect);
 
-  if (pIUIImageManager)
-    pIUIImageManager->Release();
-  if (pUIImage)
-    pUIImage->Release();
   if (pCanvas)
     pCanvas->Release();
+  if (pUIImage)
+    pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 }
 
 int dll_GetImageWidth(IMAGEID image_id)
@@ -168,13 +168,12 @@ int dll_GetImageWidth(IMAGEID image_id)
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(image_id, &pUIImage) >= 0)
-  {
     pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
-    pIUIImageManager->Release();
-  }
 
   if (pUIImage)
     pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_width;
 }
@@ -188,12 +187,12 @@ int dll_GetImageHeight(IMAGEID image_id)
 
   Get_IUIImageManager(&pIUIImageManager);
   if (pIUIImageManager->CreateFromIcon(image_id, &pUIImage) >= 0)
-  {
     pUIImage->GetDimensions(&image_width, 0, &image_height, 0);
-    pIUIImageManager->Release();
-  }
+
   if (pUIImage)
     pUIImage->Release();
+  if (pIUIImageManager)
+    pIUIImageManager->Release();
 
   return image_height;
 }

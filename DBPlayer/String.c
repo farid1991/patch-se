@@ -1,23 +1,23 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
 
-#ifndef DB3150v1
 #include "dll.h"
-#endif
-
-#include "Lib.h"
 #include "main.h"
 #include "String.h"
 
 //==============================================================================
 
-int GetTextIDWidth(int font, TEXTID text, int len)
+int GetTextIDWidth(int font, TEXTID text_id, int len)
 {
+  if (text_id == EMPTY_TEXTID)
+    return 0;
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  return dll_Disp_GetTextIDWidth(font, text, TextID_GetLength(len));
+  return dll_Disp_GetTextIDWidth(font, text_id, len);
 #else
-  return Disp_GetTextIDWidth(text, TextID_GetLength(len));
+  SetFont(font);
+  return Disp_GetTextIDWidth(text_id, len);
 #endif
 }
 

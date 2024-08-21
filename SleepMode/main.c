@@ -2,9 +2,9 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
+#include "..\\include\Function.h"
 
 #include "dll.h"
-#include "Lib.h"
 #include "main.h"
 
 __thumb void *malloc(int size)

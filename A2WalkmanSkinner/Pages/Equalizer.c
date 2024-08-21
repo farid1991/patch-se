@@ -13,7 +13,6 @@
 
 #include "..\\dll.h"
 #include "..\\main.h"
-#include "..\\Function.h"
 
 #include "..\\GUI\Clearbass.h"
 #include "Equalizer.h"

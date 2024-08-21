@@ -2,13 +2,9 @@
 
 #include "..\\include\Types.h"
 #include "..\\include\Color.h"
-#include "..\\include\classes\classes.h"
+#include "..\\include\Function.h"
 
-#ifndef DB3150v1
 #include "dll.h"
-#endif
-
-#include "Lib.h"
 #include "setting.h"
 #include "data.h"
 #include "draw.h"
@@ -33,7 +29,7 @@ void SetActivate(BOOK *book, int count)
   DBP_DATA *data = GetData();
   int item = ListMenu_GetSelectedItem(setbook->sub_menu);
 
-  TEXTID text = EMPTY_TEXTID;
+  TEXTID text;
   if (item == 0)
   {
     if (data->temp.activate1)
@@ -65,9 +61,9 @@ void SetActivate(BOOK *book, int count)
     if (data->temp.activate3)
     {
       if (setbook->element == ITEM_TIME_PROGRESS)
-        text = TextID_Global(ID_PTYPE_1);
+        {text = TextID_Global(ID_PTYPE_1);}
       else if (setbook->element == ITEM_VOLUME_PROGRESS)
-        text = TextID_Global(ID_PTYPE_1);
+        {text = TextID_Global(ID_PTYPE_1);}
       else
         text = TEXT_OFF;
       data->temp.activate3 = FALSE;
@@ -115,7 +111,7 @@ void Align_OnSelect(BOOK *book, GUI *gui)
   SETTING_BOOK *setbook = (SETTING_BOOK *)book;
   DBP_DATA *data = GetData();
   data->temp.align = OneOfMany_GetSelected(setbook->options_menu);
-  TEXTID text = EMPTY_TEXTID;
+  TEXTID text;
   if (data->temp.align == AlignLeft)
   {
     text = TextID_Global(ID_ALIGN_LEFT);
@@ -223,8 +219,8 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
   scr_w = rc_old.x2 - x1;
   scr_h = rc_old.y2 - y1;
 
-  column_height = scr_h - (f_size << 1);
-  column_width = scr_w >> 3;
+  column_height = scr_h - f_size - f_size;
+  column_width = scr_w / 9;
   DrawRect(x1, y1, x1 + scr_w, y1 + scr_h, clWhite, clWhite);
 
   if (disp_obj->need_str)
@@ -248,7 +244,7 @@ void Color_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
   for (int i = 0; i != 4; i++)
   {
     start_column = column_width + 2 * i * column_width + 4;
-    column_height++; // Какая то фигня с DrawRect, координаты не совпадают с DrawLine. Оно и понятно, DrawRect не GC_.
+    column_height++;
     if (disp_obj->current_column == i)
       DrawRect(x1 + start_column - 2, y1 + f_size - 2 + 50, x1 + start_column + column_width + 2, y1 + f_size + column_height + 2, clBlack, clWhite); // Столбик
     DrawRect(x1 + start_column, y1 + f_size + 50, x1 + start_column + column_width, y1 + f_size + column_height, clBlack, colors[i]);                 // Рамка
@@ -468,7 +464,7 @@ void SetColor(BOOK *book, int type)
   GUIObject_SetTitleText(setbook->color_picker, TEXT_COLOR);
   GUIObject_SetTitleType(setbook->color_picker, UI_TitleMode_Small);
   GUIObject_SoftKeys_SetAction(setbook->color_picker, ACTION_SELECT1, Color_OnSelect);
-  GUIObject_SoftKeys_SetText(setbook->color_picker, ACTION_SELECT1, TextID_Create("OK", ENC_LAT1, 2));
+  GUIObject_SoftKeys_SetText(setbook->color_picker, ACTION_SELECT1, TEXT_SAVE);
   GUIObject_SoftKeys_SetAction(setbook->color_picker, ACTION_BACK, Color_OnBack);
   GUIObject_Show(setbook->color_picker);
 }
@@ -510,25 +506,24 @@ void SetActiveSoftkeys(BOOL mode)
 wchar_t *Font_GetNameByFontId(int font_size)
 {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  wchar_t *font_name = (wchar_t *)malloc(16 * sizeof(wchar_t)); // Allocate memory
+  wchar_t *font_name = (wchar_t *)malloc(16 * sizeof(wchar_t));
 
-  // Handle memory allocation error
   if (font_name == NULL)
     return NULL;
 
   switch (font_size >> 8)
   {
   case UIFontStylePlain:
-    snwprintf(font_name, 16, L"%d_R", font_size);
+    snwprintf(font_name, 16, L"%dR", font_size);
     break;
   case UIFontStyleBold:
-    snwprintf(font_name, 16, L"%d_B", FONTHEIGHT(font_size));
+    snwprintf(font_name, 16, L"%dB", FONTHEIGHT(font_size));
     break;
   case UIFontStyleItalic:
-    snwprintf(font_name, 16, L"%d_I", FONTHEIGHT(font_size));
+    snwprintf(font_name, 16, L"%dI", FONTHEIGHT(font_size));
     break;
   case UIFontStyleBoldItalic:
-    snwprintf(font_name, 16, L"%d_B_I", FONTHEIGHT(font_size));
+    snwprintf(font_name, 16, L"%dBI", FONTHEIGHT(font_size));
     break;
   }
   return font_name;

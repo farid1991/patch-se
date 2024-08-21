@@ -4,71 +4,28 @@
 #include "..\types\Basic_types.h"
 #include "..\types\OPA_types.h"
 #include "..\types\UIRect_types.h"
+#include "..\types\UIRichText_types.h"
 
 class IRichText;
 
-const FSint32 FSINT32_MIN = 0x8000000A;
-const FSint32 FSINT32_MAX = 0x7FFFFFF5;
-
-const FSint32 UITEXTSTYLE_START_OF_TEXT = FSINT32_MIN;
-const FSint32 UITEXTSTYLE_END_OF_TEXT = FSINT32_MAX;
-
-/**
- * Macro for container size.
- */
 const FSint32 UIRICHTEXTLAYOUT_CONTAINER_NO_SIZE_LIMIT = FSINT32_MAX;
-
-/**
- * Max line width that could be use in compose.
- */
 const FSint32 UIRICHTEXTLAYOUT_MAX_LINE_WIDTH = 0x00007FFF;
-
-typedef enum
-{
-  UIEncoding_Encoding_Not_Specified = 0,
-  UIEncoding_ASCII, ///< plain ASCII text
-  UIEncoding_UTF8,  ///< text encoded in UTF-8
-  UIEncoding_UTF16, ///< text encoded in UTF-16
-  UIEncoding_UTF32  ///< text encoded in UTF-32
-} TUIEncoding;
-
-typedef enum
-{
-  UILineSpacing_Single_Line,        ///< single spacing
-  UILineSpacing_150_Line,           ///< one and a half line spacing
-  UILineSpacing_Double_Line,        ///< double spacing
-  UILineSpacing_Exact_Line_Spacing, ///< line spacing set to lineSpacingAmount
-  UILineSpacing_Multiple_Line       ///< line spacing set to multiple of line spacing * lineSpacingAmount
-} TUILineSpacing;
-
-typedef enum
-{
-  UIText_alignLeft,        ///< left aligned
-  UIText_alignRight,       ///< center aligned
-  UIText_alignCenter,      ///< right aligned
-  UIText_alignLeftDynamic, ///< left aligned but first character can override
-  UIText_alignRightDynamic ///< right aligned but first character can override
-} TUITextAlignment;
-
-typedef enum
-{
-  UITextDirection_Netural, ///< text with no inherent direction
-  UITextDirection_LTR,     ///< left-to-right text
-  UITextDirection_RTL      ///< right-to-left text
-} TUITextDirection;
-
-typedef enum
-{
-  UILine_None,       ///< no line
-  UILine_SingleSolid ///< single solid line
-} TUILineStyle;
 
 typedef struct
 {
-  float xAdvance;           ///< x-dimension advance width
-  float yAdvance;           ///< y-dimension advance width
-  TUIRectangle boundingBox; ///< bounding box of image, with respect to its origin
-} TUIInlineObjectMetrics;
+  FSint32 numLines;          ///< number of lines in the layout
+  FSint32 numContainersUsed; ///< number of containers actually used
+  TUIRectangle boundingBox;  ///< text layout bounding box
+  TUIRectangle advanceBox;   ///< text layout advance box
+} TUILayoutInfo;
+
+typedef struct
+{
+  FSint32 numLines;         ///< count of lines in the container
+  FSint32 firstLineNumber;  ///< index of first line in container
+  TUIRectangle boundingBox; ///< text container bounding box
+  TUIRectangle advanceBox;  ///< text container advance box
+} TUIContainerInfo;
 
 typedef struct
 {
@@ -94,22 +51,6 @@ typedef struct
   TUIPosition y;            ///< the y coordinate relative to the line's origin
   TUIRectangle boundingBox; ///< bounding box relative to the glyph's position (x,y)
 } TUIGlyphInfo;
-
-typedef struct
-{
-  FSint32 numLines;          ///< number of lines in the layout
-  FSint32 numContainersUsed; ///< number of containers actually used
-  TUIRectangle boundingBox;  ///< text layout bounding box
-  TUIRectangle advanceBox;   ///< text layout advance box
-} TUILayoutInfo;
-
-typedef struct
-{
-  FSint32 numLines;         ///< count of lines in the container
-  FSint32 firstLineNumber;  ///< index of first line in container
-  TUIRectangle boundingBox; ///< text container bounding box
-  TUIRectangle advanceBox;  ///< text container advance box
-} TUIContainerInfo;
 
 // IUIRichTextLayoutOptions ----------------------------------------------------
 

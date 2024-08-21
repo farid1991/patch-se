@@ -33,7 +33,7 @@
 #define TEXT_COVER 0x13EF      // L"Обложка альб."
 #define TEXT_BACKROUND 0x10C8  // L"Фоновый рисунок"
 #define TEXT_ADDITIONAL 0x7D   // L"Дополнительно"
-// #define TEXT_ACTIVATE 0xCD7    // L"Показать"
+#define TEXT_ACTIVATE 0xCD7    // L"Показать"
 #define TEXT_COLOR 0x1D18      // L"Цвет"
 #define TEXT_COLOR_TEXT 0x1D64 // L"Цвет текста"
 #define TEXT_PTYPE 0x103F      // L"Тип"
@@ -111,7 +111,7 @@
 #define VAR_ARG_YESNO_QUESTION (char *)0x45C4BDC0
 #define VAR_SOME (char *)0x45C4BDB4
 
-//#define VAR_BOOK (char*)0x15CAB83E
+// #define VAR_BOOK (char*)0x15CAB83E
 #define VAR_HEADER_TEXT (char *)0x15CAB89E
 #define VAR_OK_PROC (char *)0x15CAB82C
 #define VAR_PREV_ACTION_PROC (char *)0x15CAB888
@@ -129,7 +129,7 @@
 #define VAR_STRINP_MIN_INT_VAL (char *)0x15CAB87A
 #define VAR_STRINP_MAX_INT_VAL (char *)0x15CAB872
 #define VAR_YESNO_PRE_QUESTION (char *)0x15CAB858
-//#define VAR_YESNO_QUESTION (char*)0x15CAB88A
+// #define VAR_YESNO_QUESTION (char*)0x15CAB88A
 #define VAR_YESNO_YES_ACTION (char *)0x15CAB8A4
 #define VAR_YESNO_NO_ACTION (char *)0x15CAB880
 #define VAR_PERINP_ROWNUM (char *)0x15CAB892
@@ -619,7 +619,7 @@
 #define UI_MESSAGING_SMS_SENDING_ERROR_EVENT 0x3BD2
 #define UI_MESSAGING_SMS_SENDING_EVENT 0x3BD1
 #define UI_MESSAGING_SMS_SENT_EVENT 0x3BD0
-//#define UI_NEW_CALL_CONNECTED_EVENT UNDEFINED
+// #define UI_NEW_CALL_CONNECTED_EVENT UNDEFINED
 #define UI_OBEX_ACCEPT_FILE_REQUEST_EVENT 0x4C92
 #define UI_OBEX_CONNECTING_STATE_EVENT 0x4C9D
 #define UI_OBEX_FILE_ACCEPTED_EVENT 0x4C93
@@ -687,7 +687,7 @@
 #define VOLUMEUPKEY_REPEAT_EVENT 0x62
 #define VOLUMEUPKEY_SHORT_PRESS_EVENT 0x60
 
-//unused ----------------------
+// unused ----------------------
 #define CAMERAONOFFKEY_LONG_PRESS_EVENT 0x4E
 #define CAMERAONOFFKEY_LONG_RELEASE_EVENT 0x4F
 #define CAMERAONOFFKEY_PRESSED_EVENT 0x4C

@@ -1,8 +1,6 @@
 #ifndef _IMMEPLAYER_H_
 #define _IMMEPLAYER_H_
 
-#include "IUnknown.h"
-
 #include "..\types\Basic_types.h"
 #include "..\types\IMMETypes.h"
 #include "..\types\UIRect_types.h"
