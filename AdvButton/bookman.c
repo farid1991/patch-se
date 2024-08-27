@@ -273,9 +273,7 @@ TEXTID GetJavaName(BOOK *book)
 
 BOOL IsBookManager(BOOK *book)
 {
-  if (book->onClose == BookManager_onClose)
-    return TRUE;
-  return FALSE;
+  return (book->onClose == BookManager_onClose ? TRUE : FALSE);
 }
 
 int GetActiveTab(BOOK *book)

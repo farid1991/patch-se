@@ -160,6 +160,7 @@ a       equ b
         EXTERN  Patch_QuickAccess
         EXTERN  Patch_BookManager
         EXTERN  Patch_NextBook
+        EXTERN  Patch_Screenshoter
 
         RSEG    PATCH_FIX_MPKEY
         CODE16
@@ -193,7 +194,7 @@ _cam_button:
         BNE     _def_button
         CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
-        BL      Patch_NextBook
+        BL      Patch_Screenshoter
         POP	{PC}
 
 _def_button:

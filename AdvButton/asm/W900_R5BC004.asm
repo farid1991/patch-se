@@ -96,7 +96,7 @@ a       equ b
         defadr Shortcut_Get_MenuItemIconID,0x20721FA0+1
         defadr MenuBook_Desktop,0x20720F54+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x20721EF4+1
-        
+
         defadr ConnectionManager_Connection_GetState,0x20B334B0+1
         defadr GetSilent,0x2063599C+1
         defadr Bluetooth_GetState,0x20794294+1
@@ -191,7 +191,7 @@ a       equ b
         RSEG    PATCH_FIX_IKEY
         CODE16
         POP     {R3,R4,PC}
-        
+
         RSEG    PATCH_FIX_VCKEY
         CODE16
         POP     {R3,R4,PC}
@@ -203,28 +203,28 @@ a       equ b
         RSEG  CODE
         CODE16
 keyhandler:
-	PUSH	{LR}
-        CMP	R0, #KEY_INTERNET
-	BNE	_vc_button
-	CMP	R2, #KBD_SHORT_RELEASE
-	BNE	_def_button
+	PUSH    {LR}
+        CMP     R0, #KEY_INTERNET
+	BNE     _vc_button
+	CMP     R2, #KBD_SHORT_RELEASE
+	BNE     _def_button
 	BL      Patch_BookManager
-	POP	{PC}
+	POP     {PC}
 
 _vc_button:
         CMP     R0, #KEY_VIDEOCALL
         BNE     _def_button
-        CMP	R2, #KBD_SHORT_RELEASE
-	BNE	_def_button
+        CMP     R2, #KBD_SHORT_RELEASE
+	BNE     _def_button
         BL      Patch_NextBook
-        POP	{PC}
+        POP     {PC}
 
 _def_button:
         BL      _default
-	POP	{PC}
+	POP     {PC}
 
 _default:
-        LDR	R3, =0x20467004+1
-	BX	R3
+        LDR     R3, =0x20467004+1
+	BX      R3
 
         END
