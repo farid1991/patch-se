@@ -5,11 +5,11 @@
 #include "..\\include\Color.h"
 
 #include "dll.h"
-#include "Data.h"
-#include "Editor.h"
-#include "EditColor.h"
+#include "edit_color.h"
 #include "LNG.h"
 #include "main.h"
+#include "standby_data.h"
+#include "editor.h"
 
 TEXTID TextID_Setting(int item_id)
 {
@@ -244,8 +244,8 @@ TEXTID Get_SecondlineVisual(STANDBY_DATA *standby_data)
 {
   wchar_t ustr[64];
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  int font_size_styled = standby_data->temp.font_size;
-  int font_style = font_size_styled >> 8;
+  int font_size = standby_data->temp.font_size;
+  int font_style = font_size >> 8;
   switch (font_style)
   {
   case UIFontStylePlain:
@@ -255,7 +255,7 @@ TEXTID Get_SecondlineVisual(STANDBY_DATA *standby_data)
               standby_data->temp.XPos,
               standby_data->temp.YPos,
               Get_Align(standby_data->temp.align),
-              font_size_styled);
+              font_size);
     break;
   case UIFontStyleBold:
     snwprintf(ustr,
@@ -264,7 +264,7 @@ TEXTID Get_SecondlineVisual(STANDBY_DATA *standby_data)
               standby_data->temp.XPos,
               standby_data->temp.YPos,
               Get_Align(standby_data->temp.align),
-              font_size_styled & 0xFF);
+              font_size & 0xFF);
     break;
   case UIFontStyleItalic:
     snwprintf(ustr,
@@ -273,7 +273,7 @@ TEXTID Get_SecondlineVisual(STANDBY_DATA *standby_data)
               standby_data->temp.XPos,
               standby_data->temp.YPos,
               Get_Align(standby_data->temp.align),
-              font_size_styled & 0xFF);
+              font_size & 0xFF);
     break;
   case UIFontStyleBoldItalic:
     snwprintf(ustr,
@@ -282,7 +282,7 @@ TEXTID Get_SecondlineVisual(STANDBY_DATA *standby_data)
               standby_data->temp.XPos,
               standby_data->temp.YPos,
               Get_Align(standby_data->temp.align),
-              font_size_styled & 0xFF);
+              font_size & 0xFF);
     break;
   }
 #endif
@@ -704,12 +704,12 @@ void SettingsBook_onClose(BOOK *book)
   DESTROY_GUI(SBYSettings_Book->Dialog);
   DESTROY_GUI(SBYSettings_Book->OptionMenu);
   DESTROY_GUI(SBYSettings_Book->ColorEditor);
-  SBYSettings_Book->selected_item = 0;
-  SBYSettings_Book->selected_subitem = 0;
-  SBYSettings_Book->changed = 0;
-  SBYSettings_Book->item_type = 0;
+  SBYSettings_Book->selected_item = NULL;
+  SBYSettings_Book->selected_subitem = NULL;
+  SBYSettings_Book->changed = NULL;
+  SBYSettings_Book->item_type = NULL;
 
-  InvalidateAll();
+  invalidate_all(Get_StandbyData());
 }
 
 BOOK *Create_SBYSettings_Book()
@@ -721,15 +721,15 @@ BOOK *Create_SBYSettings_Book()
     mfree(SBYSettings_Book);
     return NULL;
   }
-  SBYSettings_Book->MainMenu = 0;
-  SBYSettings_Book->SubMenu = 0;
-  SBYSettings_Book->Dialog = 0;
-  SBYSettings_Book->OptionMenu = 0;
-  SBYSettings_Book->ColorEditor = 0;
-  SBYSettings_Book->selected_item = 0;
-  SBYSettings_Book->selected_subitem = 0;
-  SBYSettings_Book->changed = 0;
-  SBYSettings_Book->item_type = 0;
+  SBYSettings_Book->MainMenu = NULL;
+  SBYSettings_Book->SubMenu = NULL;
+  SBYSettings_Book->Dialog = NULL;
+  SBYSettings_Book->OptionMenu = NULL;
+  SBYSettings_Book->ColorEditor = NULL;
+  SBYSettings_Book->selected_item = NULL;
+  SBYSettings_Book->selected_subitem = NULL;
+  SBYSettings_Book->changed = NULL;
+  SBYSettings_Book->item_type = NULL;
   return SBYSettings_Book;
 }
 

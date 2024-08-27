@@ -5,18 +5,17 @@
 #include "..\\include\Color.h"
 
 #include "dll.h"
-#include "Data.h"
-#include "Draw.h"
+#include "draw.h"
 #include "main.h"
 
-void DrawIconsArray(int align, int x, int y, IMAGEID *icons, int len, int width)
+void DrawIconsArray(GC* gc, int align, int x, int y, IMAGEID *icons, int len, int width)
 {
   if (align == AlignLeft)
   {
     int new_x = x;
     for (int i = 0; i < len; i++)
     {
-      DrawIcon(new_x, y, icons[i], 0);
+      DrawIcon(gc, new_x, y, icons[i], 0);
       new_x = new_x + width;
     }
   }
@@ -25,7 +24,7 @@ void DrawIconsArray(int align, int x, int y, IMAGEID *icons, int len, int width)
     int new_x = x - width;
     for (int i = len - 1; i >= 0; i--)
     {
-      DrawIcon(new_x, y, icons[i], 0);
+      DrawIcon(gc, new_x, y, icons[i], 0);
       new_x = new_x - width;
     }
   }
@@ -35,13 +34,13 @@ void DrawIconsArray(int align, int x, int y, IMAGEID *icons, int len, int width)
     int new_x = x + ((240 - x - full_width) >> 1);
     for (int i = 0; i < len; i++)
     {
-      DrawIcon(new_x, y, icons[i], 0);
+      DrawIcon(gc, new_x, y, icons[i], 0);
       new_x = new_x + width;
     }
   }
 }
 
-void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int MaxXPos, int MaxYPos, int t_color, int h_color, int highlight, bool underline, int u_color)
+void draw_string_with_params(int font, TEXTID text, int align, int XPos, int YPos, int MaxXPos, int MaxYPos, int t_color, int h_color, int highlight, bool underline, int u_color)
 {
   if (text == EMPTY_TEXTID)
     return;
@@ -72,12 +71,12 @@ void DrawString_Params(int font, TEXTID text, int align, int XPos, int YPos, int
   }
 }
 
-void DrawTexts(int font, TEXTID text, int align, int XPos, int YPos, int Width, int t_color)
+void draw_string_no_style(int font, TEXTID text, int align, int XPos, int YPos, int Width, int t_color)
 {
   if (text == EMPTY_TEXTID)
     return;
 
-  dll_DrawString(font, text, align, XPos, YPos, XPos + Width, YPos + Disp_GetItemHeight(font), t_color, UILine_None, clEmpty);
+  dll_DrawString(font, text, align, XPos, YPos, XPos + Width, YPos + font_get_height(font), t_color, UILine_None, clEmpty);
 }
 
 void DrawItem(TEXT_ITEM_DATA *item, TEXTID text_id, int height_start)
@@ -87,33 +86,33 @@ void DrawItem(TEXT_ITEM_DATA *item, TEXTID text_id, int height_start)
 
   if ((*item).align == AlignRight)
   {
-    DrawString_Params((*item).font_size,
-                      text_id,
-                      (*item).align,
-                      0, ((*item).YPos) - height_start,
-                      (*item).XPos, disp_height,
-                      (*item).t_color,
-                      (*item).h_color,
-                      (*item).highlight,
-                      (*item).underline,
-                      (*item).u_color);
+    draw_string_with_params((*item).font_size,
+                            text_id,
+                            (*item).align,
+                            0, ((*item).YPos) - height_start,
+                            (*item).XPos, disp_height,
+                            (*item).t_color,
+                            (*item).h_color,
+                            (*item).highlight,
+                            (*item).underline,
+                            (*item).u_color);
   }
   else
   {
-    DrawString_Params((*item).font_size,
-                      text_id,
-                      (*item).align,
-                      (*item).XPos, ((*item).YPos) - height_start,
-                      disp_width, disp_height,
-                      (*item).t_color,
-                      (*item).h_color,
-                      (*item).highlight,
-                      (*item).underline,
-                      (*item).u_color);
+    draw_string_with_params((*item).font_size,
+                            text_id,
+                            (*item).align,
+                            (*item).XPos, ((*item).YPos) - height_start,
+                            disp_width, disp_height,
+                            (*item).t_color,
+                            (*item).h_color,
+                            (*item).highlight,
+                            (*item).underline,
+                            (*item).u_color);
   }
 }
 
-int Disp_GetItemHeight(int font_size)
+int font_get_height(int font_size)
 {
   return font_size & 0xFF;
 }
@@ -146,7 +145,7 @@ void Disp_GetItemOffset(int font_size, TEXTID text_id, IMAGEID image_id, int ali
   }
 }
 
-void DrawItemWithIcon(TEXT_ITEM_DATA *item, TEXTID text_id, IMAGEID image_id, int height_start)
+void DrawItemWithIcon(GC* gc, TEXT_ITEM_DATA *item, TEXTID text_id, IMAGEID image_id, int height_start)
 {
   if (text_id == EMPTY_TEXTID)
     return;
@@ -160,78 +159,54 @@ void DrawItemWithIcon(TEXT_ITEM_DATA *item, TEXTID text_id, IMAGEID image_id, in
 
   if ((*item).align == AlignRight)
   {
-    DrawString_Params((*item).font_size,
-                      text_id,
-                      (*item).align,
-                      0, (*item).YPos - height_start,
-                      (*item).XPos + txt_offset, disp_height,
-                      (*item).t_color,
-                      (*item).h_color,
-                      (*item).highlight,
-                      (*item).underline,
-                      (*item).u_color);
+    draw_string_with_params((*item).font_size,
+                            text_id,
+                            (*item).align,
+                            0, (*item).YPos - height_start,
+                            (*item).XPos + txt_offset, disp_height,
+                            (*item).t_color,
+                            (*item).h_color,
+                            (*item).highlight,
+                            (*item).underline,
+                            (*item).u_color);
   }
   else
   {
-    DrawString_Params((*item).font_size,
-                      text_id,
-                      (*item).align,
-                      (*item).XPos + txt_offset, (*item).YPos - height_start,
-                      disp_width, disp_height,
-                      (*item).t_color,
-                      (*item).h_color,
-                      (*item).highlight,
-                      (*item).underline,
-                      (*item).u_color);
+    draw_string_with_params((*item).font_size,
+                            text_id,
+                            (*item).align,
+                            (*item).XPos + txt_offset, (*item).YPos - height_start,
+                            disp_width, disp_height,
+                            (*item).t_color,
+                            (*item).h_color,
+                            (*item).highlight,
+                            (*item).underline,
+                            (*item).u_color);
   }
 
   if ((*item).align == AlignCenter)
   {
-    DrawIcon(((*item).XPos / 2) + icn_offset,
+    DrawIcon(gc, ((*item).XPos / 2) + icn_offset,
              (*item).YPos,
              image_id,
              height_start);
   }
   else
   {
-    DrawIcon((*item).XPos + icn_offset,
+    DrawIcon(gc, (*item).XPos + icn_offset,
              (*item).YPos,
              image_id,
              height_start);
   }
 }
 
-void DrawIcon(int XPos, int YPos, IMAGEID image_id, int height_start)
+void DrawIcon(GC* gc, int XPos, int YPos, IMAGEID image_id, int height_start)
 {
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  dll_GC_PutChar(get_DisplayGC(),
-                 XPos, YPos - height_start,
-                 0, 0,
-                 image_id);
+  dll_GC_PutChar(gc, XPos, YPos - height_start, 0, 0, image_id);
 #else
-  GC_PutChar(get_DisplayGC(),
-             XPos, YPos - height_start,
-             0, 0,
-             image_id);
+  GC_PutChar(gc, XPos, YPos - height_start, 0, 0, image_id);
 #endif
-}
-
-void DrawRectangle(int x, int y, int w, int h, int border_color, int fill_color)
-{
-  DrawRect(x, y, x + w, y + h, border_color, fill_color);
-}
-
-void DrawString_onRect(int font, TEXTID textid, int text_color, int rect_x, int rect_y, int rect_w, int rect_h, int fill_color)
-{
-  DrawRectangle(rect_x, rect_y, rect_w, rect_h, clEmpty, fill_color);
-
-  DrawTexts(font,
-            textid,
-            AlignCenter,
-            rect_x,
-            rect_y + ((rect_h - Disp_GetItemHeight(font)) / 2),
-            rect_w,
-            text_color);
 }
 
 void DrawSlider(int value, int max_value, RECT rect, int Color_ProgressBarOutline, int Color_ProgressBar, IMAGEID thumb)
@@ -254,26 +229,25 @@ void DrawSlider(int value, int max_value, RECT rect, int Color_ProgressBarOutlin
     int thumb_x = nx2 - thumb_w;
     int thumb_y = (rect.y1 - thumb_h) + ((rect.y2 - rect.y1) / 2);
 
-    DrawIcon(thumb, thumb_x, thumb_y, 0);
+    DrawIcon(get_DisplayGC(), thumb, thumb_x, thumb_y, 0);
   }
 }
 
-void Draw_SliderItem(int value, int max_value, int y_pos, int height, TEXTID textid, int text_color, int cursor_color, int outline_color, int slider_color)
+void DrawString_onRect(int font, TEXTID text_id, int text_color, int rect_x, int rect_y, int rect_w, int rect_h, int fill_color)
 {
-  DrawRectangle(0, y_pos, 240, height, clEmpty, cursor_color); // selected
+  DrawRect(rect_x, rect_y, rect_x + rect_w, rect_y + rect_h, clEmpty, fill_color);
+  draw_string_no_style(font, text_id, AlignCenter, rect_x, rect_y + ((rect_h - font_get_height(font)) / 2), rect_w, text_color);
+}
 
-  DrawTexts(FONT_E_18R,
-            textid,
-            AlignLeft,
-            10,
-            y_pos + 3,
-            220,
-            text_color);
+void Draw_SliderItem(int value, int max_value, int y_pos, int height, TEXTID text_id, int text_color, int cursor_color, int outline_color, int slider_color)
+{
+  DrawRect(0, y_pos, 240, y_pos + height, clEmpty, cursor_color); // selected
+  draw_string_no_style(FONT_E_18R, text_id, AlignLeft, 10, y_pos + 3, 220, text_color);
 
   RECT rect;
   rect.x1 = 10;
   rect.x2 = 230;
-  rect.y1 = y_pos + 3 + Disp_GetItemHeight(FONT_E_18R) + 8;
-  rect.y2 = y_pos + 3 + Disp_GetItemHeight(FONT_E_18R) + 8 + 2;
+  rect.y1 = y_pos + 3 + font_get_height(FONT_E_18R) + 8;
+  rect.y2 = y_pos + 3 + font_get_height(FONT_E_18R) + 8 + 2;
   DrawSlider(value, max_value, rect, outline_color, slider_color, 0x7F2);
 }

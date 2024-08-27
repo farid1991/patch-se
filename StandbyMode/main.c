@@ -4,32 +4,24 @@
 #include "..\\include\Function.h"
 #include "..\\include\Color.h"
 
-#if defined(DB3150v1)
-#include "..\\include\book\DB3150v1\MusicApplication_Book.h"
-#elif defined(DB3150v2)
-#include "..\\include\book\DB3150v2\MusicApplication_Book.h"
-#elif defined(DB3200) || defined(DB3210)
-#include "..\\include\book\DB3210\MusicApplication_Book.h"
-#endif
-
 #include "..\\include\book\StandbyBook.h"
 
 #include "dll.h"
-#include "Data.h"
-#include "Draw.h"
-#include "Editor.h"
-#include "ItemText.h"
+#include "draw.h"
+#include "editor.h"
+#include "item_text.h"
 #include "LNG.h"
+#include "standby_data.h"
 #include "main.h"
 
 __thumb void *malloc(int size)
 {
 #if defined(DB2020)
-  return memalloc(0, size, 1, 5, EMP_NAME, NULL);
+  return memalloc(0, size, 1, 5, EMP_NAME, 0);
 #elif defined(A2)
-  return memalloc(0xFFFFFFFF, size, 1, 5, EMP_NAME, NULL);
+  return memalloc(0xFFFFFFFF, size, 1, 5, EMP_NAME, 0);
 #else
-  return memalloc(size, 1, 5, EMP_NAME, NULL);
+  return memalloc(size, 1, 5, EMP_NAME, 0);
 #endif
 }
 
@@ -37,60 +29,86 @@ __thumb void mfree(void *mem)
 {
   if (mem)
 #if defined(DB2020)
-    memfree(NULL, mem, EMP_NAME, NULL);
+    memfree(0, mem, EMP_NAME, 0);
 #elif defined(A2)
-    memfree(NULL, mem, EMP_NAME, NULL);
+    memfree(0, mem, EMP_NAME, 0);
 #else
-    memfree(mem, EMP_NAME, NULL);
+    memfree(mem, EMP_NAME, 0);
 #endif
 }
 
 extern "C" void Start_CallStateTimer()
 {
   STANDBY_DATA *standby_data = Get_StandbyData();
-  standby_data->CallState = TRUE;
+  standby_data->call_state = true;
 }
 
 extern "C" void Stop_CallStateTimer()
 {
   STANDBY_DATA *standby_data = Get_StandbyData();
-  standby_data->CallState = FALSE;
+  standby_data->call_state = false;
 }
 
-void InvalidateAll()
+bool IsInStandby()
 {
-  STANDBY_DATA *standby_data = Get_StandbyData();
-
-  DISP_OBJ *pStatusRow = *StatusRow_p();
-  DISP_OBJ *pStatusIndication = standby_data->StatusIndication;
-  DISP_OBJ *pSoftkeys = DispObject_SoftKeys_Get();
-
-  if (pStatusRow)
-    DispObject_InvalidateRect(pStatusRow, NULL);
-  if (pStatusIndication)
-    DispObject_InvalidateRect(pStatusIndication, NULL);
-  if (pSoftkeys)
-    DispObject_InvalidateRect(pSoftkeys, NULL);
+  return (Display_GetTopBook(UIDisplay_Main) == Find_StandbyBook());
 }
 
-void onRedrawTimer(uint16_t timerID, STANDBY_DATA *standby_data)
+void invalidate_all(STANDBY_DATA *standby_data)
 {
-  InvalidateAll();
-  Timer_ReSet(&standby_data->refresh_timer, REFRESH_TIMER, MKTIMERPROC(onRedrawTimer), standby_data);
-}
+  DISP_OBJ *status_row = *StatusRow_p();
+  DISP_OBJ *softkeys = DispObject_SoftKeys_Get();
 
-void Start_RedrawTimer(STANDBY_DATA *standby_data)
-{
-  standby_data->refresh_timer = Timer_Set(REFRESH_TIMER, MKTIMERPROC(onRedrawTimer), standby_data);
-}
+  if (status_row)
+    DispObject_InvalidateRect(status_row, NULL);
 
-void Stop_RedrawTimer(STANDBY_DATA *standby_data)
-{
-  if (standby_data->refresh_timer)
+  if (IsInStandby())
   {
-    Timer_Kill(&standby_data->refresh_timer);
-    standby_data->refresh_timer = NULL;
+    if (standby_data->status_indication)
+      DispObject_InvalidateRect(standby_data->status_indication, NULL);
   }
+
+  if (softkeys)
+    DispObject_InvalidateRect(softkeys, NULL);
+}
+
+void update_datetime(STANDBY_DATA *standby_data)
+{
+  IClock *pClock = NULL;
+  Get_IClock(&pClock);
+  pClock->GetDateAndTime(standby_data->now);
+  pClock->Release();
+  if (standby_data->temp_date->day != standby_data->now->date.day)
+  {
+    standby_data->temp_date = &standby_data->now->date;
+    standby_data->current_day = Get_WeekDay(standby_data);
+    standby_data->current_date = Date2ID(standby_data->temp_date, standby_data->settings.date.mode, 1);
+  }
+}
+
+void update_heap_info(STANDBY_DATA *standby_data)
+{
+  standby_data->free_heap = Get_FreeHeap(standby_data);
+}
+
+void update_battery_info(STANDBY_DATA *standby_data)
+{
+  int _SYNC = NULL;
+  int *SYNC = &_SYNC;
+  GetBatteryState(SYNC, standby_data->battery_data);
+}
+
+void update_redraw(uint16_t timerID, STANDBY_DATA *standby_data)
+{
+  update_datetime(standby_data);
+
+  if ((standby_data->settings.heap.state || standby_data->edit_mode) && IsInStandby())
+    update_heap_info(standby_data);
+
+  update_battery_info(standby_data);
+  invalidate_all(standby_data);
+
+  Timer_ReSet(&standby_data->refresh_timer, REFRESH_TIMER, MKTIMERPROC(update_redraw), standby_data);
 }
 
 void FreeStatusRow(STANDBY_DATA *standby_data)
@@ -126,7 +144,7 @@ void UpdateStatusInfo(STANDBY_DATA *standby_data)
   for (index = 0; index < List_GetCount(standby_data->status_list); index++)
   {
     status_item = (STATUS_ITEM_LIST *)List_Get(standby_data->status_list, index);
-    standby_data->status_bar[i][j++] = status_item->imageID;
+    standby_data->status_bar[i][j++] = status_item->image_id;
     if (j >= MAX_COLOMN)
     {
       standby_data->status_icn_count[i++] = j;
@@ -183,7 +201,7 @@ void DrawMusicWidget(STANDBY_DATA *standby_data, int y_pos_start)
   int YPos = standby_data->settings.music.YPos;
   DrawImageFromPath(L"appwidget_bg.png", XPos, YPos - y_pos_start);
 
-  MusicApplication_Book *MusicBook = (MusicApplication_Book *)FindBook(IsAudioPlayerBook);
+  BOOK *MusicBook = FindBook(IsAudioPlayerBook);
   if (MusicBook)
   {
     if (standby_data->widget_mode)
@@ -209,11 +227,11 @@ void DrawMusicWidget(STANDBY_DATA *standby_data, int y_pos_start)
 
     TEXTID text_id;
     text_id = Get_TitleTag(MusicBook);
-    DrawTexts(FONT_E_18R, text_id, AlignLeft, XPos + 53, (YPos + 18) - y_pos_start, XPos + 148, clBlack);
+    draw_string_no_style(FONT_E_18R, text_id, AlignLeft, XPos + 53, (YPos + 18) - y_pos_start, XPos + 148, clBlack);
     TextID_Destroy(text_id);
 
     text_id = Get_ArtistTag(MusicBook);
-    DrawTexts(FONT_E_18R, text_id, AlignLeft, XPos + 53, (YPos + 41) - y_pos_start, XPos + 148, clBlack);
+    draw_string_no_style(FONT_E_18R, text_id, AlignLeft, XPos + 53, (YPos + 41) - y_pos_start, XPos + 148, clBlack);
     TextID_Destroy(text_id);
   }
   else
@@ -246,6 +264,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   STANDBY_DATA *standby_data = Get_StandbyData();
   bool edit_mode = standby_data->edit_mode;
   TEXTID text_id;
+  GC *gc = get_DisplayGC();
 
   // statusrow icon;
   if (standby_data->settings.status.state || edit_mode)
@@ -267,7 +286,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
       int offset = 0 - y_pos_start;
       for (int i = 0; i < standby_data->row_count; i++)
       {
-        DrawIconsArray(standby_data->settings.status.align,
+        DrawIconsArray(gc, standby_data->settings.status.align,
                        standby_data->settings.status.XPos,
                        standby_data->settings.status.YPos + offset,
                        &standby_data->status_bar[i][0],
@@ -281,13 +300,13 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // network_icn;
   if (standby_data->settings.net_icn.state || edit_mode)
   {
-    DrawIcon(standby_data->settings.net_icn.XPos, standby_data->settings.net_icn.YPos, standby_data->CurrentIconIDNet, y_pos_start);
+    DrawIcon(gc, standby_data->settings.net_icn.XPos, standby_data->settings.net_icn.YPos, standby_data->current_network, y_pos_start);
   }
 
   // batt_icn;
   if (standby_data->settings.batt_icn.state || edit_mode)
   {
-    DrawIcon(standby_data->settings.batt_icn.XPos, standby_data->settings.batt_icn.YPos, standby_data->CurrentIconIDBatt, y_pos_start);
+    DrawIcon(gc, standby_data->settings.batt_icn.XPos, standby_data->settings.batt_icn.YPos, standby_data->current_battery, y_pos_start);
   }
 
   // music widget;
@@ -299,7 +318,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // standbyclock;
   if ((standby_data->settings.standbyclock.state && IsStandby) || edit_mode)
   {
-    text_id = Get_Time(standby_data, standby_data->settings.standbyclock.mode);
+    text_id = Time2ID(&standby_data->now->time, standby_data->settings.standbyclock.mode, FALSE);
     DrawItem(&standby_data->settings.standbyclock, text_id, y_pos_start);
     TextID_Destroy(text_id);
   }
@@ -307,7 +326,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // statusclock;
   if ((standby_data->settings.statusclock.state && !IsStandby) || edit_mode)
   {
-    text_id = Get_Time(standby_data, standby_data->settings.statusclock.mode);
+    text_id = Time2ID(&standby_data->now->time, standby_data->settings.statusclock.mode, FALSE);
     DrawItem(&standby_data->settings.statusclock, text_id, y_pos_start);
     TextID_Destroy(text_id);
   }
@@ -315,17 +334,13 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // date;
   if ((standby_data->settings.date.state && IsStandby) || edit_mode)
   {
-    text_id = Get_Date(standby_data, standby_data->settings.date.mode);
-    DrawItem(&standby_data->settings.date, text_id, y_pos_start);
-    TextID_Destroy(text_id);
+    DrawItem(&standby_data->settings.date, standby_data->current_date, y_pos_start);
   }
 
   // weekday;
   if ((standby_data->settings.weekday.state && IsStandby) || edit_mode)
   {
-    text_id = TextID_Copy(Get_WeekDay(standby_data, standby_data->settings.weekday.mode));
-    DrawItem(&standby_data->settings.weekday, text_id, y_pos_start);
-    TextID_Destroy(text_id);
+    DrawItem(&standby_data->settings.weekday, standby_data->current_day, y_pos_start);
   }
 
   // alarm;
@@ -344,7 +359,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
         snwprintf(ustr, MAXELEMS(ustr), L"%02d:%02d", alarm.hour, alarm.min);
         text_id = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
       }
-      DrawItemWithIcon(&standby_data->settings.alarm, text_id, ALARM_ON_ICN, y_pos_start);
+      DrawItemWithIcon(gc, &standby_data->settings.alarm, text_id, ALARM_ON_ICN, y_pos_start);
       TextID_Destroy(text_id);
     }
   }
@@ -360,9 +375,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // heap;
   if ((standby_data->settings.heap.state && IsStandby) || edit_mode)
   {
-    text_id = Get_FreeHeap(standby_data->settings.heap.mode);
-    DrawItem(&standby_data->settings.heap, text_id, y_pos_start);
-    TextID_Destroy(text_id);
+    DrawItem(&standby_data->settings.heap, standby_data->free_heap, y_pos_start);
   }
 
   // timer;
@@ -380,7 +393,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
       {
         text_id = TextID_Copy(TEXTID_TIMER_MASK);
       }
-      DrawItemWithIcon(&standby_data->settings.timer, text_id, TIMER_ACTIVE_ICN, y_pos_start);
+      DrawItemWithIcon(gc, &standby_data->settings.timer, text_id, TIMER_ACTIVE_ICN, y_pos_start);
       TextID_Destroy(text_id);
     }
   }
@@ -388,9 +401,19 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // calltime;
   if ((standby_data->settings.calltime.state && IsStandby) || edit_mode)
   {
-    text_id = Get_CallTimeInfo();
-    DrawItemWithIcon(&standby_data->settings.calltime, text_id, UMTS_CALL_ICN, y_pos_start);
-    TextID_Destroy(text_id);
+    if (standby_data->call_state || edit_mode)
+    {
+      if (standby_data->call_state)
+      {
+        text_id = Get_CallTimeInfo();
+      }
+      else
+      {
+        text_id = TextID_Copy(TEXTID_TIMER_MASK);
+      }
+      DrawItemWithIcon(gc, &standby_data->settings.calltime, text_id, UMTS_CALL_ICN, y_pos_start);
+      TextID_Destroy(text_id);
+    }
   }
 
   // signal quality;
@@ -412,7 +435,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // battery;
   if (standby_data->settings.battery.state || edit_mode)
   {
-    text_id = Get_BatteryCapacity(standby_data->settings.battery.mode);
+    text_id = Get_BatteryCapacity(standby_data);
     DrawItem(&standby_data->settings.battery, text_id, y_pos_start);
     TextID_Destroy(text_id);
   }
@@ -420,9 +443,9 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // charger current;
   if ((standby_data->settings.charge.state && IsStandby) || edit_mode)
   {
-    if (standby_data->IsCharging || edit_mode)
+    if (standby_data->is_charging || edit_mode)
     {
-      text_id = Get_ChargerCurrent();
+      text_id = Get_ChargerCurrent(standby_data->battery_data->ChargerCurrent);
       DrawItem(&standby_data->settings.charge, text_id, y_pos_start);
       TextID_Destroy(text_id);
     }
@@ -431,7 +454,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // batttemp;
   if ((standby_data->settings.batttemp.state && IsStandby) || edit_mode)
   {
-    text_id = Get_BatteryTemp();
+    text_id = Get_BatteryTemp(standby_data->battery_data->BatteryTemperature);
     DrawItem(&standby_data->settings.batttemp, text_id, y_pos_start);
     TextID_Destroy(text_id);
   }
@@ -439,7 +462,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   // systemp;
   if ((standby_data->settings.systemp.state && IsStandby) || edit_mode)
   {
-    text_id = Get_SystemTemp();
+    text_id = Get_SystemTemp(standby_data->battery_data->SystemTemperature);
     DrawItem(&standby_data->settings.systemp, text_id, y_pos_start);
     TextID_Destroy(text_id);
   }
@@ -448,7 +471,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   if ((standby_data->settings.phone.state && IsStandby) || edit_mode)
   {
     text_id = Get_PhoneVolumeSize(standby_data->settings.phone.mode);
-    DrawItemWithIcon(&standby_data->settings.phone, text_id, DB_2ROW_PHONE_ICN, y_pos_start);
+    DrawItemWithIcon(gc, &standby_data->settings.phone, text_id, DB_2ROW_PHONE_ICN, y_pos_start);
     TextID_Destroy(text_id);
   }
 
@@ -456,7 +479,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   if ((standby_data->settings.card.state && IsStandby) || edit_mode)
   {
     text_id = Get_CardVolumeSize(standby_data->settings.card.mode);
-    DrawItemWithIcon(&standby_data->settings.card, text_id, DB_LIST_M2_ICN, y_pos_start);
+    DrawItemWithIcon(gc, &standby_data->settings.card, text_id, DB_LIST_M2_ICN, y_pos_start);
     TextID_Destroy(text_id);
   }
 
@@ -486,8 +509,8 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
   {
     wchar_t ustr[64];
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-    int font_size_styled = standby_data->temp.font_size;
-    int font_style = font_size_styled >> 8;
+    int font_size = standby_data->temp.font_size;
+    int font_style = font_size >> 8;
     switch (font_style)
     {
     case UIFontStylePlain:
@@ -497,7 +520,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
                 standby_data->temp.XPos,
                 standby_data->temp.YPos,
                 Get_Align(standby_data->temp.align),
-                font_size_styled);
+                font_size);
       break;
     case UIFontStyleBold:
       snwprintf(ustr,
@@ -506,7 +529,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
                 standby_data->temp.XPos,
                 standby_data->temp.YPos,
                 Get_Align(standby_data->temp.align),
-                Disp_GetItemHeight(font_size_styled));
+                font_get_height(font_size));
       break;
     case UIFontStyleItalic:
       snwprintf(ustr,
@@ -515,7 +538,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
                 standby_data->temp.XPos,
                 standby_data->temp.YPos,
                 Get_Align(standby_data->temp.align),
-                Disp_GetItemHeight(font_size_styled));
+                font_get_height(font_size));
       break;
     case UIFontStyleBoldItalic:
       snwprintf(ustr,
@@ -524,7 +547,7 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
                 standby_data->temp.XPos,
                 standby_data->temp.YPos,
                 Get_Align(standby_data->temp.align),
-                Disp_GetItemHeight(font_size_styled));
+                font_get_height(font_size));
       break;
     }
 #endif
@@ -537,15 +560,9 @@ void DrawItemsOnScreen(int y_pos_start, int height_max, bool IsStandby)
     text_id = TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
   }
 
-  DrawRectangle(0, 246, 240, 248 + Disp_GetItemHeight(FONT_E_18R) + 2, clBlack, 0x35FFFFFF);
+  DrawRect(0, 246, 240, 246 + font_get_height(FONT_E_18R) + 2, clBlack, 0x35FFFFFF);
 
-  DrawTexts(FONT_E_18R,
-            text_id,
-            AlignCenter,
-            1,
-            248,
-            238,
-            clBlack);
+  draw_string_no_style(FONT_E_18R, text_id, AlignCenter, 1, 248, 238, clBlack);
   TextID_Destroy(text_id);
 }
 
@@ -559,11 +576,6 @@ int StatusIndication_GetMax_Height()
   return Display_GetHeight(UIDisplay_Main) - DispObject_GetWindowHeight(DispObject_SoftKeys_Get());
 }
 
-bool IsInStandby(BOOK *pTopBook)
-{
-  return (pTopBook == Find_StandbyBook());
-}
-
 extern "C" void New_StatusRow_onRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
   BOOK *pTopBook = Display_GetTopBook(UIDisplay_Main);
@@ -571,11 +583,10 @@ extern "C" void New_StatusRow_onRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
     return;
 
   int WindowHeight = DispObject_GetWindowHeight(Display_GetFocusedDispObject(UIDisplay_Main));
-  BOOL IsInStandbyBook = IsInStandby(pTopBook);
 
-  if (IsInStandbyBook || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
+  if (IsInStandby() || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
   {
-    DrawItemsOnScreen(0, StatusRow_GetMax_Height(), IsInStandbyBook);
+    DrawItemsOnScreen(0, StatusRow_GetMax_Height(), IsInStandby());
   }
 }
 
@@ -583,13 +594,12 @@ extern "C" void New_StatusIndication_onRedraw(DISP_OBJ *disp_obj, int a, int b, 
 {
   BOOK *pTopBook = Display_GetTopBook(UIDisplay_Main);
   int WindowHeight = DispObject_GetWindowHeight(Display_GetFocusedDispObject(UIDisplay_Main));
-  BOOL IsInStandbyBook = IsInStandby(pTopBook);
 
   if (BookObj_GetDisplayOrientation(pTopBook) == UIDisplayOrientationMode_Vertical)
   {
-    if (IsInStandbyBook || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
+    if (IsInStandby() || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
     {
-      DrawItemsOnScreen(StatusRow_GetMax_Height(), StatusIndication_GetMax_Height(), IsInStandbyBook);
+      DrawItemsOnScreen(StatusRow_GetMax_Height(), StatusIndication_GetMax_Height(), IsInStandby());
     }
   }
   old_StatusIndication_onRedraw(disp_obj, a, b, c);
@@ -599,13 +609,12 @@ extern "C" void New_Softkeys_onRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
 {
   BOOK *pTopBook = Display_GetTopBook(UIDisplay_Main);
   int WindowHeight = DispObject_GetWindowHeight(Display_GetFocusedDispObject(UIDisplay_Main));
-  BOOL IsInStandbyBook = IsInStandby(pTopBook);
 
   if (BookObj_GetDisplayOrientation(pTopBook) == UIDisplayOrientationMode_Vertical)
   {
-    if (IsInStandbyBook || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
+    if (IsInStandby() || (WindowHeight < Display_GetHeight(UIDisplay_Main)))
     {
-      DrawItemsOnScreen(StatusIndication_GetMax_Height(), Display_GetHeight(UIDisplay_Main), IsInStandbyBook);
+      DrawItemsOnScreen(StatusIndication_GetMax_Height(), Display_GetHeight(UIDisplay_Main), IsInStandby());
     }
   }
   old_Softkeys_onRedraw(disp_obj, a, b, c);
@@ -616,20 +625,30 @@ extern "C" int New_StatusIndication_onCreate(DISP_OBJ *disp_obj)
   old_StatusIndication_onCreate(disp_obj);
 
   STANDBY_DATA *standby_data = Get_StandbyData();
-  standby_data->StatusIndication = disp_obj;
+  standby_data->status_indication = disp_obj;
   standby_data->scr_w = Display_GetWidth(UIDisplay_Main);
   standby_data->scr_h = Display_GetHeight(UIDisplay_Main);
   LoadData(standby_data);
 
-  Start_RedrawTimer(standby_data);
+  standby_data->refresh_timer = Timer_Set(REFRESH_TIMER, MKTIMERPROC(update_redraw), standby_data);
+
   return 1;
 }
 
 extern "C" void New_StatusIndication_onClose(DISP_OBJ *disp_obj)
 {
   STANDBY_DATA *standby_data = Get_StandbyData();
-  standby_data->StatusIndication = NULL;
-  Stop_RedrawTimer(standby_data);
+
+  if (standby_data->refresh_timer)
+  {
+    Timer_Kill(&standby_data->refresh_timer);
+    standby_data->refresh_timer = 0;
+  }
+
+  mfree(standby_data->status_indication);
+  mfree(standby_data->battery_data);
+  mfree(standby_data->now);
+  mfree(standby_data->temp_date);
 
   old_StatusIndication_onClose(disp_obj);
 }
@@ -653,7 +672,7 @@ extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int count, int 
       {
         standby_data->count += 1;
       }
-      else if (key == KEY_UP)
+      else if (key == KEY_UP && standby_data->settings.music.state)
       {
         standby_data->widget_mode = TRUE;
         standby_data->flag = TRUE;
@@ -692,8 +711,6 @@ extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int count, int 
       }
     }
   }
-
-  InvalidateAll();
 
   if (standby_data->count < SECRET_CODES)
   {
@@ -875,7 +892,7 @@ extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int count, int 
         standby_data->temp.font_size = ((standby_data->cur_pos + 1) * FONT_STEP) + (standby_data->style_bold << 8) + (standby_data->style_italic << 9);
         standby_data->font_style = standby_data->temp.font_size >> 8;
 
-        standby_data->temp.MaxHeight = standby_data->temp.YPos + Disp_GetItemHeight(standby_data->temp.font_size);
+        standby_data->temp.MaxHeight = standby_data->temp.YPos + font_get_height(standby_data->temp.font_size);
       }
 
       if (mode == KBD_LONG_RELEASE)
@@ -886,23 +903,21 @@ extern "C" void New_MainInput_onKey(DISP_OBJ *disp_obj, int key, int count, int 
       {
         SaveData(FALSE, standby_data->selected_item);
       }
-      InvalidateAll();
+      invalidate_all(standby_data);
     }
   }
 }
 
 int status_item_cmp(void *item0, void *item1)
 {
-  if (((STATUS_ITEM_LIST *)item0)->imageID == ((STATUS_ITEM_LIST *)item1)->imageID)
-    return FALSE;
-  return TRUE;
+  return ((STATUS_ITEM_LIST *)item0)->image_id != ((STATUS_ITEM_LIST *)item1)->image_id;
 }
 
-void RemoveIcon(LIST *status_list, IMAGEID imageID)
+void RemoveIcon(LIST *status_list, IMAGEID image_id)
 {
   STATUS_ITEM_LIST temp_si;
 
-  temp_si.imageID = imageID;
+  temp_si.image_id = image_id;
   int pos = List_Find(status_list, &temp_si, status_item_cmp);
   if (pos != LIST_ERROR)
   {
@@ -928,49 +943,49 @@ void Remove3G(LIST *status_list)
   RemoveIcon(status_list, C_UI_HSUPA_LOADING_ICN);
 }
 
-extern "C" bool New_SetTrayIcon(IMAGEID imageID, char state)
+extern "C" bool New_SetTrayIcon(IMAGEID image_id, char state)
 {
-  if (imageID == NOIMAGE)
+  if (image_id == NOIMAGE)
   {
     return FALSE;
   }
 
   STANDBY_DATA *standby_data = Get_StandbyData();
 
-  if ((imageID >= C_UI_BATTERY_LEV9_ICN) && (imageID <= C_UI_BATTERY_LEV0_ICN))
+  if ((image_id >= C_UI_BATTERY_LEV9_ICN) && (image_id <= C_UI_BATTERY_LEV0_ICN))
   {
     if (state)
     {
-      standby_data->CurrentIconIDBatt = imageID;
+      standby_data->current_battery = image_id;
     }
     return state;
   }
 
-  if (imageID == C_UI_BATTERY_CHARGING_ICN)
+  if (image_id == C_UI_BATTERY_CHARGING_ICN)
   {
-    standby_data->IsCharging = state;
+    standby_data->is_charging = state;
     return state;
   }
 
-  if (((imageID >= C_UI_EDGE_ATT_LEV0_ICN) && (imageID <= C_UI_EDGE_ATT_LEV4_ICN)) ||
-      ((imageID >= C_UI_EDGE_ATT_LEV5_ICN) && (imageID <= C_UI_EDGE_AVAIL_LEV4_ICN)) ||
-      ((imageID >= C_UI_EDGE_AVAIL_LEV5_ICN) && (imageID <= C_UI_GPRS_ATT_LEV4_ICN)) ||
-      ((imageID >= C_UI_GPRS_ATT_LEV5_ICN) && (imageID <= C_UI_GPRS_DET_LEV8_ICN)) ||
-      ((imageID >= C_UI_RSSI_LEV0_ICN) && (imageID <= C_UI_RSSI_LEV1_ICN)) ||
-      ((imageID >= C_UI_RSSI_LEV2_ICN) && (imageID <= C_UI_UMA_ATT_LEV1_ICN)) ||
-      ((imageID >= C_UI_UMA_ATT_LEV2_ICN) && (imageID <= C_UI_UMA_ATT_LEV5_ICN)) ||
-      (imageID == C_UI_GPRS_DET_LEV9_ICN) || (imageID == FMODE_RSSI_INDICATION_ICN))
+  if (((image_id >= C_UI_EDGE_ATT_LEV0_ICN) && (image_id <= C_UI_EDGE_ATT_LEV4_ICN)) ||
+      ((image_id >= C_UI_EDGE_ATT_LEV5_ICN) && (image_id <= C_UI_EDGE_AVAIL_LEV4_ICN)) ||
+      ((image_id >= C_UI_EDGE_AVAIL_LEV5_ICN) && (image_id <= C_UI_GPRS_ATT_LEV4_ICN)) ||
+      ((image_id >= C_UI_GPRS_ATT_LEV5_ICN) && (image_id <= C_UI_GPRS_DET_LEV8_ICN)) ||
+      ((image_id >= C_UI_RSSI_LEV0_ICN) && (image_id <= C_UI_RSSI_LEV1_ICN)) ||
+      ((image_id >= C_UI_RSSI_LEV2_ICN) && (image_id <= C_UI_UMA_ATT_LEV1_ICN)) ||
+      ((image_id >= C_UI_UMA_ATT_LEV2_ICN) && (image_id <= C_UI_UMA_ATT_LEV5_ICN)) ||
+      (image_id == C_UI_GPRS_DET_LEV9_ICN) || (image_id == FMODE_RSSI_INDICATION_ICN))
   {
     if (state)
     {
-      standby_data->CurrentIconIDNet = imageID;
+      standby_data->current_network = image_id;
     }
     return state;
   }
 
   STATUS_ITEM_LIST temp_si;
 
-  switch (imageID)
+  switch (image_id)
   {
     // 3G
   case C_UI_3G_ICN:
@@ -991,7 +1006,7 @@ extern "C" bool New_SetTrayIcon(IMAGEID imageID, char state)
 #endif
   }
 
-  temp_si.imageID = imageID;
+  temp_si.image_id = image_id;
   int pos = List_Find(standby_data->status_list, &temp_si, status_item_cmp);
   if (state)
   {
@@ -1000,7 +1015,7 @@ extern "C" bool New_SetTrayIcon(IMAGEID imageID, char state)
       return state;
     }
     STATUS_ITEM_LIST *si = (STATUS_ITEM_LIST *)malloc(sizeof(STATUS_ITEM_LIST));
-    si->imageID = imageID;
+    si->image_id = image_id;
     List_InsertLast(standby_data->status_list, si);
     standby_data->status_was_changed = TRUE;
 

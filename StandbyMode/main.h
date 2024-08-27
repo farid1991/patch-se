@@ -1,6 +1,8 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#include "standby_data.h"
+
 #define MUSICWIDGET_PATH L"/usb/other/ZBin/Config/Widget/Music"
 
 #define SECRET_CODES 6
@@ -66,10 +68,10 @@ enum
 
 typedef struct
 {
-  IMAGEID imageID;
+  IMAGEID image_id;
 } STATUS_ITEM_LIST;
 
-void InvalidateAll();
+void invalidate_all(STANDBY_DATA *standby_data);
 wchar_t *Get_Align(int align);
 
 extern "C"
@@ -83,7 +85,7 @@ extern "C"
   void old_StatusIndication_onMethod0A(DISP_OBJ *disp_obj);
   void old_MainInput_onKey(DISP_OBJ *disp_obj, int key, int unk, int repeat, int mode);
 
-  bool New_SetTrayIcon(IMAGEID imageID, char mode);
+  bool New_SetTrayIcon(IMAGEID image_id, char mode);
   TEXTID INetworkServices_GetNetworkName();
   int CallInfo_Get(const int *SYNC, int CallType, CALLINFO *, signed char *error);
 

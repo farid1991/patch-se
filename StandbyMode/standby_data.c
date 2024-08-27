@@ -3,24 +3,52 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
-#include "Data.h"
+#include "standby_data.h"
 #include "dll.h"
 #include "Editor.h"
 #include "main.h"
 
+BATT *data_battery_create()
+{
+  BATT *batt = (BATT *)malloc(sizeof(BATT));
+  memset(batt, 0, sizeof(BATT));
+  return batt;
+}
+
+DATE *data_date_create()
+{
+  DATE *date = (DATE *)malloc(sizeof(DATE));
+  memset(date, 0, sizeof(DATE));
+  return date;
+}
+
+DATETIME *data_datetime_create()
+{
+  DATETIME *datetime = (DATETIME *)malloc(sizeof(DATETIME));
+  memset(datetime, 0, sizeof(DATETIME));
+  return datetime;
+}
+
+void data_init(STANDBY_DATA *standby_data)
+{
+  standby_data->status_list = List_Create();
+  standby_data->battery_data = data_battery_create();
+  standby_data->now = data_datetime_create();
+  standby_data->temp_date = data_date_create();
+}
+
 STANDBY_DATA *Create_StandbyData()
 {
   STANDBY_DATA *standby_data = (STANDBY_DATA *)malloc(sizeof(STANDBY_DATA));
-  memset(standby_data, NULL, sizeof(STANDBY_DATA));
-  set_envp(NULL, EMP_NAME, (OSADDRESS)standby_data);
-
-  standby_data->status_list = List_Create();
+  memset(standby_data, 0, sizeof(STANDBY_DATA));
+  set_envp(0, EMP_NAME, (OSADDRESS)standby_data);
+  data_init(standby_data);
   return standby_data;
 }
 
 STANDBY_DATA *Get_StandbyData()
 {
-  STANDBY_DATA *standby_data = (STANDBY_DATA *)get_envp(NULL, EMP_NAME);
+  STANDBY_DATA *standby_data = (STANDBY_DATA *)get_envp(0, EMP_NAME);
   if (standby_data)
     return standby_data;
   return Create_StandbyData();

@@ -1,11 +1,5 @@
-// #include "classes.h"
-#ifdef USEPNG
-#include "png.h"
-#endif
-
-#ifdef USEZLIB
-#include "zlib.h"
-#endif
+#ifndef _FUNCTION_H_
+#define _FUNCTION_H_
 
 __thumb void *malloc(int size);
 __thumb void mfree(void *mem);
@@ -1058,3 +1052,5 @@ extern "C"
   // int inet_pton(int af, const char *src, void *dst);
   // char *inet_ntop(int af, const void *src, char *dst, int size);
 };
+
+#endif

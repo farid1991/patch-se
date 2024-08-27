@@ -832,26 +832,24 @@
     </file>
   </group>
   <file>
-    <name>$PROJ_DIR$\Data.c</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\dll.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\Draw.c</name>
+    <name>$PROJ_DIR$\draw.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\EditColor.c</name>
+    <name>$PROJ_DIR$\edit_color.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\Editor.c</name>
+    <name>$PROJ_DIR$\editor.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\ItemText.c</name>
+    <name>$PROJ_DIR$\item_text.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\standby_data.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
 </project>
-
-

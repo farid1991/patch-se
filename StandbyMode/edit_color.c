@@ -5,8 +5,8 @@
 #include "..\\include\Color.h"
 
 #include "dll.h"
-#include "Draw.h"
-#include "EditColor.h"
+#include "draw.h"
+#include "edit_color.h"
 #include "LNG.h"
 #include "main.h"
 
@@ -49,7 +49,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
                   (disp_obj->current_row == ROW_1) ? clAlpha : clBlueMidDark,
                   (disp_obj->current_row == ROW_1) ? clBlueMidDark : clAlpha,
                   clCyan,
-                  clTheta);
+                  clRed);
 
   disp_obj->g_textid = GetText(L"GREEN: %d (%02X)", disp_obj->g);
   Draw_SliderItem(disp_obj->g, MAX_COLOR,
@@ -58,7 +58,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
                   (disp_obj->current_row == ROW_2) ? clAlpha : clBlueMidDark,
                   (disp_obj->current_row == ROW_2) ? clBlueMidDark : clAlpha,
                   clCyan,
-                  clTheta);
+                  clGreen);
 
   disp_obj->b_textid = GetText(L"BLUE: %d (%02X)", disp_obj->b);
   Draw_SliderItem(disp_obj->b, MAX_COLOR,
@@ -67,7 +67,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
                   (disp_obj->current_row == ROW_3) ? clAlpha : clBlueMidDark,
                   (disp_obj->current_row == ROW_3) ? clBlueMidDark : clAlpha,
                   clCyan,
-                  clTheta);
+                  clBlue);
 
   disp_obj->a_textid = GetText(L"ALPHA: %d (%02X)", disp_obj->a);
   Draw_SliderItem(disp_obj->a, MAX_COLOR,
@@ -76,7 +76,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int, int, int)
                   (disp_obj->current_row == ROW_4) ? clAlpha : clBlueMidDark,
                   (disp_obj->current_row == ROW_4) ? clBlueMidDark : clAlpha,
                   clCyan,
-                  clTheta);
+                  clOrangeMidDark);
 
   DrawString_onRect(FONT_E_30R,
                     disp_obj->t_textid,

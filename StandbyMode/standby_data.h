@@ -1,5 +1,5 @@
-#ifndef _DATA_H_
-#define _DATA_H_
+#ifndef _STANDBYDATA_H_
+#define _STANDBYDATA_H_
 
 #define REFRESH_TIMER 1000
 
@@ -123,15 +123,16 @@ typedef struct
   bool edit_text;
   bool edit_icon;
   bool edit_status;
-  int selected_item;
+  char selected_item;
+  int total_fonts;
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
-  int total_fonts, cur_pos;
+  int cur_pos;
   int cstep;
   char style;
   bool style_bold;
   bool style_italic;
-#endif
   int font_style;
+#endif
 
   uint16_t refresh_timer;
 
@@ -141,22 +142,26 @@ typedef struct
   int status_icn_count[STATUS_ICN_ROW_MAX];
   int row_count;
 
-  IMAGEID CurrentIconIDNet;
-  IMAGEID CurrentIconIDBatt;
-
-  bool IsCharging;
-  int CallEnd;
-  bool CallState;
-  DISP_OBJ *StatusIndication;
+  bool is_charging;
+  bool call_state;
+  DISP_OBJ *status_indication;
 
   uint16_t scr_w;
   uint16_t scr_h;
 
   SETTINGS_DATA settings;
   TEMP_DATA temp;
+  BATT *battery_data;
+  DATETIME *now;
+  DATE *temp_date;
+  TEXTID current_date;
+  TEXTID current_day;
+  IMAGEID current_network;
+  IMAGEID current_battery;
+  TEXTID free_heap;
 
   bool widget_mode;
-  int widget_pos;
+  int8_t widget_pos;
 } STANDBY_DATA;
 
 STANDBY_DATA *Get_StandbyData();

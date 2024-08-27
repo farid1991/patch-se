@@ -14,41 +14,15 @@
 #include "..\\include\book\StandbyBook.h"
 #include "..\\include\book\TimerBook.h"
 
-#include "Data.h"
 #include "dll.h"
 #include "main.h"
-#include "ItemText.h"
-
-// Time format
-// 0: 12-hour
-// 1: 24-hour
-TEXTID Get_Time(STANDBY_DATA *standby_data, int mode)
-{
-  TIME time;
-  IClock *pClock = NULL;
-  Get_IClock(&pClock);
-  pClock->GetTime(&time);
-  pClock->Release();
-  return Time2ID(&time, mode, FALSE);
-}
-
-// Date format
-// 0: "DD-MM-YYYY"
-// 1: "MM/DD/YYYY"
-TEXTID Get_Date(STANDBY_DATA *standby_data, int dateformat)
-{
-  DATE date;
-  IClock *pClock = NULL;
-  Get_IClock(&pClock);
-  pClock->GetDate(&date);
-  pClock->Release();
-  return Date2ID(&date, dateformat + 1, 1);
-}
+#include "standby_data.h"
+#include "item_text.h"
 
 // Weekday
 // 0: Shortname; eg: Mon
 // 1: Fullname; eg: Monday
-TEXTID Get_WeekDay(STANDBY_DATA *standby_data, int mode)
+TEXTID Get_WeekDay(STANDBY_DATA *standby_data)
 {
   const TEXTID fulldays[7] = {
       TEXTID_FULLDAY_1,
@@ -70,16 +44,10 @@ TEXTID Get_WeekDay(STANDBY_DATA *standby_data, int mode)
       TEXTID_SHDAY_7,
   };
 
-  DATE date;
-  IClock *pClock = NULL;
-  Get_IClock(&pClock);
-  pClock->GetDate(&date);
-  pClock->Release();
-
   char weekday;
-  DATE_GetWeekDay(&date, &weekday);
+  DATE_GetWeekDay(&standby_data->now->date, &weekday);
 
-  if (mode == 1)
+  if (standby_data->settings.weekday.mode == 1)
     return fulldays[weekday];
   return shortdays[weekday];
 }
@@ -129,26 +97,20 @@ int Alarm_GetCurrentAlarmTime(STANDBY_DATA *standby_data, TIME *alarm_time)
       status = pAlarmRecurrent->GetRecurrent(&alarm_week, alarm_id);
       if (status >= 0)
       {
-        DATETIME dt;
-        IClock *pClock = NULL;
-        Get_IClock(&pClock);
-        pClock->GetDateAndTime(&dt);
-        pClock->Release();
-
         char weekday;
-        DATE_GetWeekDay(&dt.date, &weekday);
+        DATE_GetWeekDay(&standby_data->now->date, &weekday);
         char next_weekday = (weekday + 1) % 7;
 
         if (alarm_week.days[weekday])
         {
-          if (!alarm_week.days[next_weekday] && timecmp(&dt.time, alarm_time) >= 0)
+          if (!alarm_week.days[next_weekday] && timecmp(&standby_data->now->time, alarm_time) >= 0)
           {
             status = -1;
           }
         }
         else
         {
-          if (!alarm_week.days[next_weekday] || timecmp(&dt.time, alarm_time) >= 0)
+          if (!alarm_week.days[next_weekday] || timecmp(&standby_data->now->time, alarm_time) >= 0)
           {
             status = -1;
           }
@@ -182,11 +144,11 @@ TEXTID Get_ProfileName()
   return TextID_Create(GetProfile.ptr, ENC_UCS2, GetProfile.lenght);
 }
 
-TEXTID Get_FreeHeap(int mode)
+TEXTID Get_FreeHeap(STANDBY_DATA *standby_data)
 {
   int heap = GetFreeBytesOnHeap();
   wchar_t ustr[32];
-  if (mode == 0)
+  if (standby_data->settings.heap.mode == 0)
   {
     snwprintf(ustr, MAXELEMS(ustr), L"HEAP:%dKB", heap / 1024);
   }
@@ -211,16 +173,16 @@ void GetTimerTime(BOOK *timer, TIME *time)
   }
   int remaining_time = timer_duration - elapsed_time;
 
-  int devider = 3600000;
-  time->hour = remaining_time / devider;
-  remaining_time = remaining_time % devider;
+  int divider = 3600000;
+  time->hour = remaining_time / divider;
+  remaining_time = remaining_time % divider;
 
-  devider = 60000;
-  time->min = remaining_time / devider;
-  remaining_time = remaining_time % devider;
+  divider = 60000;
+  time->min = remaining_time / divider;
+  remaining_time = remaining_time % divider;
 
-  devider = 1000;
-  time->sec = remaining_time / devider;
+  divider = 1000;
+  time->sec = remaining_time / divider;
   time->msec = 0;
 }
 
@@ -306,69 +268,45 @@ TEXTID Get_SignalQuality()
   return EMPTY_TEXTID;
 }
 
-TEXTID Get_BatteryCapacity(int mode)
+TEXTID Get_BatteryCapacity(STANDBY_DATA *standby_data)
 {
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
-
-  BATT batt;
-  GetBatteryState(SYNC, &batt);
-
   wchar_t ustr[32];
-  if (mode == 0)
+  if (standby_data->settings.battery.mode == 0)
   {
-    snwprintf(ustr, MAXELEMS(ustr), L"%02d%%", batt.RemainingCapacityInPercent);
+    snwprintf(ustr, MAXELEMS(ustr), L"%02d%%", standby_data->battery_data->RemainingCapacityInPercent);
   }
   else
   {
-    snwprintf(ustr, MAXELEMS(ustr), L"%d mAH", batt.RemainingCapacity);
+    snwprintf(ustr, MAXELEMS(ustr), L"%d mAH", standby_data->battery_data->RemainingCapacity);
   }
   return TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-TEXTID Get_ChargerCurrent()
+TEXTID Get_ChargerCurrent(int charger_current)
 {
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
-
-  BATT batt;
-  GetBatteryState(SYNC, &batt);
-
   wchar_t ustr[32];
-  snwprintf(ustr, MAXELEMS(ustr), L"%d mAH", batt.ChargerCurrent);
+  snwprintf(ustr, MAXELEMS(ustr), L"%d mA", charger_current / 10);
   return TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-TEXTID Get_BatteryTemp()
+TEXTID Get_BatteryTemp(int battery_temp)
 {
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
-
-  BATT batt;
-  GetBatteryState(SYNC, &batt);
-
   wchar_t ustr[32];
-  snwprintf(ustr, MAXELEMS(ustr), L"%02d°C", batt.BatteryTemperature);
+  snwprintf(ustr, MAXELEMS(ustr), L"%02d°C", battery_temp);
   return TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
-TEXTID Get_SystemTemp()
+TEXTID Get_SystemTemp(int system_temp)
 {
-  int _SYNC = NULL;
-  int *SYNC = &_SYNC;
-
-  BATT batt;
-  GetBatteryState(SYNC, &batt);
-
   wchar_t ustr[32];
-  snwprintf(ustr, MAXELEMS(ustr), L"%02d°C", batt.SystemTemperature);
+  snwprintf(ustr, MAXELEMS(ustr), L"%02d°C", system_temp);
   return TextID_Create(ustr, ENC_UCS2, TEXTID_ANY_LEN);
 }
 
 TEXTID Get_PhoneVolumeSize(int mode)
 {
   VOLUMESIZE_A2 vol;
-  GetVolumeSize(L"/usb", &vol);
+  GetVolumeSize(DIR_USB, &vol);
 
   wchar_t ustr[32];
   if (mode == 0)
@@ -388,7 +326,7 @@ TEXTID Get_CardVolumeSize(int mode)
     return TEXTID_M2_NOTINSERTED;
 
   VOLUMESIZE_A2 vol;
-  GetVolumeSize(L"/card", &vol);
+  GetVolumeSize(DIR_CARD, &vol);
 
   wchar_t ustr[32];
   if (mode == 0)

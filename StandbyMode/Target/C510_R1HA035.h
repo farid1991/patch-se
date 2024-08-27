@@ -37,6 +37,9 @@
 
 #define StatusRow_p() ((DISP_OBJ **)0x4BA2B924)
 
+#define DIR_USB (wchar_t *)0x1589D6F8
+#define DIR_CARD (wchar_t *)0x15A41298
+
 #define STATUS_ICN_WIDTH 25
 #define STATUS_ICN_HEIGHT 22
 
