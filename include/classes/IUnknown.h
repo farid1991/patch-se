@@ -24,7 +24,7 @@ public:
   virtual int ReleaseInterfacesInMsg();
   virtual int IsKindOfInterface();
   virtual int InvalidateCallbackInterface();
-  virtual int GetCallerExecutionShell(IUnknown** ppIExecutionShell);
+  virtual int GetCallerExecutionShell(IUnknown **ppIExecutionShell);
 };
 
 #endif

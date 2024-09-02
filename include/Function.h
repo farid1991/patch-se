@@ -69,12 +69,14 @@ extern "C"
   void *memset(void *mem, char chr, int size);
   int memcpy(void *dest, const void *source, int cnt);
   int sprintf(char *buf, const char *fmt, ...);
+  int snprintf(char *buffer, int size, const char *fmt, ...);
   int snwprintf(wchar_t *buffer, int size, const wchar_t *fmt, ...);
   int _fopen(const wchar_t *filpath, const wchar_t *filname, unsigned int mode, unsigned int rights, FILELISTITEM *destfname);
   int fclose(int file);
   int fread(int file, void *ptr, int size);
   int fwrite(int file, const void *ptr, int size);
   int fstat(const wchar_t *path, const wchar_t *fname, FSTAT *fstat_stuct);
+  int fflush(int file);
   DIR_HANDLE *AllocDirHandle(const wchar_t *path);
   FILELISTITEM *GetFname(DIR_HANDLE *, FILELISTITEM *);
   void *DataBrowserDesc_Create(void);
@@ -336,32 +338,11 @@ extern "C"
   void GC_DrawFRect(GC *gc, int color, int x1, int y1, int x2, int y2);
   int GC_WritePixels(GC *gc, int x1, int y1, int x2, int y2, int *bmp);
 
-#ifdef USEPNG
-  png_structp png_create_read_struct_2(png_const_charp user_png_ver, png_voidp error_ptr, png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr, png_malloc_ptr malloc_fn, png_free_ptr free_fn);
-  void png_destroy_read_struct(png_structpp png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr);
-  png_infop png_create_info_struct(png_structp png_ptr);
-  void png_destroy_info_struct(png_structp png_ptr, png_infopp info_ptr_ptr);
-  void png_set_progressive_read_fn(png_structp png_ptr, png_voidp progressive_ptr, png_progressive_info_ptr info_fn, png_progressive_row_ptr row_fn, png_progressive_end_ptr end_fn);
-  void png_process_data(png_structp png_ptr, png_infop info_ptr, png_bytep buffer, png_size_t buffer_size);
-  void png_read_update_info(png_structp png_ptr, png_infop info_ptr);
-  png_voidp png_get_progressive_ptr(png_structp png_ptr);
-  png_uint_32 png_get_IHDR(png_structp png_ptr, png_infop info_ptr, png_uint_32 *width, png_uint_32 *height, int *bit_depth, int *color_type, int *interlace_method, int *compression_method, int *filter_method);
-  void png_set_strip_16(png_structp png_ptr);
-  void png_set_gray_1_2_4_to_8(png_structp png_ptr);
-  void png_set_gray_to_rgb(png_structp png_ptr);
-  png_uint_32 png_get_valid(png_structp png_ptr, png_infop info_ptr, png_uint_32 flag);
-  void png_set_tRNS_to_alpha(png_structp png_ptr);
-  void png_set_filler(png_structp png_ptr, png_uint_32 filler, int flags);
-  void png_set_palette_to_rgb(png_structp png_ptr);
-  png_uint_32 png_get_rowbytes(png_structp png_ptr, png_infop info_ptr);
-  void png_progressive_combine_row(png_structp png_ptr, png_bytep old_row, png_bytep new_row);
-  int png_sig_cmp(png_bytep sig, png_size_t start, png_size_t num_to_check);
-#endif
-
   int memcmp(const void *m1, const void *m2, int n);
   int strncmp(const char *s1, const char *s2, int len);
   char *strncpy(char *dest, const char *source, int maxlen);
   char *strcat(char *dest, const char *src);
+  char *strncat(char *dest, const char *src, int n);
   void GUIObject_SetTitleType(GUI *, int type);
   void GUIonMessage_SetItemDisabled(GUI_MESSAGE *msg, BOOL);
   int REQUEST_IMAGEHANDLER_INTERNAL_REGISTER(const int *sync, u16 ImageHandler, wchar_t *path, wchar_t *fname, int unk, IMAGEID *, char *error);

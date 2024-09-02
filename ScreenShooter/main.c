@@ -11,13 +11,13 @@
 
 void *malloc(int size)
 {
-  return memalloc(0xFFFFFFFF, size, 1, 5, "SS", NULL);
+  return memalloc(0xFFFFFFFF, size, 1, 5, DEF_PNG_LIBPNG_VER_STRING, NULL);
 }
 
 void mfree(void *mem)
 {
   if (mem)
-    memfree(NULL, mem, "SS", NULL);
+    memfree(NULL, mem, DEF_PNG_LIBPNG_VER_STRING, NULL);
 }
 
 wchar_t *wstr_alloc(int lenght)
@@ -39,7 +39,7 @@ void *my_png_malloc(png_structp png_ptr, png_size_t size)
   return malloc(size);
 }
 
-void my_png_free(png_structp png_ptr, void *ptr)
+void my_png_free(png_structp png_ptr, png_voidp ptr)
 {
   mfree(ptr);
 }
@@ -58,73 +58,82 @@ void my_png_flush(png_structp png_ptr)
 
 int save_as_png(wchar_t *path, wchar_t *name, char *bookname, int width, int height, uint8_t *display_buffer, TDisplayManagerInfo *display_info)
 {
-  int file = _fopen(path, name, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL);
-  if (file >= 0)
+  int file = _fopen(path, name, FSX_O_WRONLY | FSX_O_CREAT, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  if (file < 0)
   {
-    png_structp png_ptr;
-    png_infop info_ptr;
-
-    png_ptr = png_create_write_struct_2(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL, NULL, my_png_malloc, my_png_free);
-    if (!png_ptr)
-    {
-      fclose(file);
-      return 0;
-    }
-
-    info_ptr = png_create_info_struct(png_ptr);
-    if (!info_ptr)
-    {
-      png_destroy_write_struct(&png_ptr, NULL);
-      fclose(file);
-      return 0;
-    }
-
-    png_set_IHDR(png_ptr, info_ptr, width, height,
-                 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE,
-                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-
-    png_set_bgr(png_ptr);
-
-    char *driver_version = (char *)malloc(DISPLAY_VERSION_LEN);
-    wstr2strn(driver_version, display_info->driver_version, DISPLAY_VERSION_LEN);
-
-    png_text text_ptr[4];
-    text_ptr[0].key = "x-author";
-    text_ptr[0].text = "(c) farid";
-    text_ptr[0].compression = PNG_TEXT_COMPRESSION_zTXt;
-    text_ptr[1].key = "x-desc";
-    text_ptr[1].text = "PNG Screenshooter";
-    text_ptr[1].compression = PNG_TEXT_COMPRESSION_zTXt;
-    text_ptr[2].key = "x-driver";
-    text_ptr[2].text = driver_version;
-    text_ptr[2].compression = PNG_TEXT_COMPRESSION_zTXt;
-    text_ptr[3].key = "x-book";
-    text_ptr[3].text = bookname;
-    text_ptr[3].compression = PNG_TEXT_COMPRESSION_zTXt;
-    png_set_text(png_ptr, info_ptr, text_ptr, 4);
-
-    png_set_write_fn(png_ptr, &file, my_png_write, my_png_flush);
-
-    png_set_compression_level(png_ptr, 6);
-
-    png_write_info(png_ptr, info_ptr);
-
-    int size = png_get_rowbytes(png_ptr, info_ptr);
-    for (int y = 0; y < height; y++)
-    {
-      png_byte *ptr = (png_byte *)(display_buffer + y * size);
-      png_write_row(png_ptr, ptr);
-    }
-
-    png_write_end(png_ptr, info_ptr);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-
-    mfree(driver_version);
-
-    fclose(file);
-    return 1;
+    return 0;
   }
-  return 0;
+
+  png_structp png_ptr;
+  png_infop info_ptr;
+
+  png_ptr = png_create_write_struct_2(DEF_PNG_LIBPNG_VER_STRING,
+                                      NULL, NULL, NULL, NULL,
+                                      my_png_malloc, my_png_free);
+  if (!png_ptr)
+  {
+    fclose(file);
+    return 0;
+  }
+
+  info_ptr = png_create_info_struct(png_ptr);
+  if (!info_ptr)
+  {
+    png_destroy_write_struct(&png_ptr, NULL);
+    fclose(file);
+    return 0;
+  }
+
+  png_set_IHDR(png_ptr, info_ptr, width, height,
+               8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
+               PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+
+  char *driver_version = (char *)malloc(DISPLAY_VERSION_LEN);
+  wstr2strn(driver_version, display_info->driver_version, DISPLAY_VERSION_LEN);
+
+  png_text text_ptr[4];
+  text_ptr[0].key = "x-author";
+  text_ptr[0].text = "(c) farid";
+  text_ptr[0].compression = PNG_TEXT_COMPRESSION_zTXt;
+  text_ptr[1].key = "x-app";
+  text_ptr[1].text = "XScreenShooter";
+  text_ptr[1].compression = PNG_TEXT_COMPRESSION_zTXt;
+  text_ptr[2].key = "x-driver";
+  text_ptr[2].text = driver_version;
+  text_ptr[2].compression = PNG_TEXT_COMPRESSION_zTXt;
+  text_ptr[3].key = "x-taken-from";
+  text_ptr[3].text = bookname;
+  text_ptr[3].compression = PNG_TEXT_COMPRESSION_zTXt;
+  png_set_text(png_ptr, info_ptr, text_ptr, 4);
+
+  png_set_write_fn(png_ptr, &file, my_png_write, my_png_flush);
+
+  png_write_info(png_ptr, info_ptr);
+
+  png_byte *row = (png_byte *)malloc(width * 3);
+  for (int y = 0; y < height; y++)
+  {
+    uint8_t *src = display_buffer + y * width * 4;
+    uint8_t *dst = row;
+    for (int x = 0; x < width; x++)
+    {
+      dst[0] = src[2]; // Blue
+      dst[1] = src[1]; // Green
+      dst[2] = src[0]; // Red
+      src += 4;
+      dst += 3;
+    }
+    png_write_row(png_ptr, row);
+  }
+  mfree(row);
+
+  png_write_end(png_ptr, info_ptr);
+  png_destroy_write_struct(&png_ptr, &info_ptr);
+
+  mfree(driver_version);
+
+  fclose(file);
+  return 1;
 }
 
 BMP_HEADER *bmp_header_create(int width, int height)
@@ -145,7 +154,7 @@ BMP_HEADER *bmp_header_create(int width, int height)
 
 int save_as_bmp(wchar_t *path, wchar_t *name, int width, int height, uint8_t *display_buffer)
 {
-  int file = _fopen(path, name, FSX_O_RDWR | FSX_O_TRUNC, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+  int file = _fopen(path, name, FSX_O_WRONLY | FSX_O_CREAT, FSX_S_IREAD | FSX_S_IWRITE, NULL);
   if (file >= NULL)
   {
     BMP_HEADER *hdr = bmp_header_create(width, height);

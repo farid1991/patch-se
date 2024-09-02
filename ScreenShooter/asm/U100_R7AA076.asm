@@ -172,9 +172,7 @@ a       equ b
         defadr png_create_info_struct,0x1002FD1C+1
         defadr png_create_write_struct_2,0x104488DC+1
         defadr png_destroy_write_struct,0x10448C40+1
-        defadr png_do_swap,0x104481BC+1
         defadr png_get_io_ptr,0x1021B338+1
-        defadr png_get_rowbytes,0x146D7FB2+1
         defadr png_info_destroy,0x1002FD80+1
         defadr png_set_compression_level,0x10448F58+1
         defadr png_set_bgr,0x1002F54C+1

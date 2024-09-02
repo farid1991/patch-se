@@ -754,6 +754,8 @@ typedef struct png_info_struct
    png_byte srgb_intent; /* sRGB rendering intent [0, 1, 2, or 3] */
 #endif
 
+   png_uint_32 unknown_field; /* unknown field on Sony Ericsson phone */
+
 #if defined(PNG_TEXT_SUPPORTED)
    /* The tEXt, and zTXt chunks contain human-readable textual data in
     * uncompressed, compressed, and optionally compressed forms, respectively.
@@ -1487,10 +1489,10 @@ extern PNG_EXPORT(int,png_reset_zstream) PNGARG((png_structp png_ptr));
 
 /* New functions added in libpng-1.0.2 (not enabled by default until 1.2.0) */
 #ifdef PNG_USER_MEM_SUPPORTED
-//extern PNG_EXPORT(png_structp,png_create_read_struct_2)
-//   PNGARG((png_const_charp user_png_ver, png_voidp error_ptr,
-//   png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr,
-//   png_malloc_ptr malloc_fn, png_free_ptr free_fn));
+extern PNG_EXPORT(png_structp,png_create_read_struct_2)
+  PNGARG((png_const_charp user_png_ver, png_voidp error_ptr,
+  png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr,
+  png_malloc_ptr malloc_fn, png_free_ptr free_fn));
 extern PNG_EXPORT(png_structp,png_create_write_struct_2)
    PNGARG((png_const_charp user_png_ver, png_voidp error_ptr,
    png_error_ptr error_fn, png_error_ptr warn_fn, png_voidp mem_ptr,
@@ -1711,8 +1713,8 @@ extern PNG_EXPORT(void,png_write_flush) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(void,png_start_read_image) PNGARG((png_structp png_ptr));
 
 /* optional call to update the users info structure */
-//extern PNG_EXPORT(void,png_read_update_info) PNGARG((png_structp png_ptr,
-//   png_infop info_ptr));
+extern PNG_EXPORT(void,png_read_update_info) PNGARG((png_structp png_ptr,
+  png_infop info_ptr));
 
 #ifndef PNG_NO_SEQUENTIAL_READ_SUPPORTED
 /* read one or more rows of image data. */
@@ -1756,12 +1758,12 @@ extern PNG_EXPORT(void,png_read_end) PNGARG((png_structp png_ptr,
 #endif
 
 /* free any memory associated with the png_info_struct */
-//extern PNG_EXPORT(void,png_destroy_info_struct) PNGARG((png_structp png_ptr,
-//   png_infopp info_ptr_ptr));
+extern PNG_EXPORT(void,png_destroy_info_struct) PNGARG((png_structp png_ptr,
+  png_infopp info_ptr_ptr));
 
 /* free any memory associated with the png_struct and the png_info_structs */
-//extern PNG_EXPORT(void,png_destroy_read_struct) PNGARG((png_structpp
-//   png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr));
+extern PNG_EXPORT(void,png_destroy_read_struct) PNGARG((png_structpp
+  png_ptr_ptr, png_infopp info_ptr_ptr, png_infopp end_info_ptr_ptr));
 
 /* free all memory used by the read (old method - NOT DLL EXPORTED) */
 extern void png_read_destroy PNGARG((png_structp png_ptr, png_infop info_ptr,
@@ -2266,10 +2268,10 @@ extern PNG_EXPORT(void,png_set_hIST) PNGARG((png_structp png_ptr,
    png_infop info_ptr, png_uint_16p hist));
 #endif
 
-//extern PNG_EXPORT(png_uint_32,png_get_IHDR) PNGARG((png_structp png_ptr,
-//   png_infop info_ptr, png_uint_32 *width, png_uint_32 *height,
-//   int *bit_depth, int *color_type, int *interlace_method,
-//   int *compression_method, int *filter_method));
+extern PNG_EXPORT(png_uint_32,png_get_IHDR) PNGARG((png_structp png_ptr,
+  png_infop info_ptr, png_uint_32 *width, png_uint_32 *height,
+  int *bit_depth, int *color_type, int *interlace_method,
+  int *compression_method, int *filter_method));
 
 extern PNG_EXPORT(void,png_set_IHDR) PNGARG((png_structp png_ptr,
    png_infop info_ptr, png_uint_32 width, png_uint_32 height, int bit_depth,
