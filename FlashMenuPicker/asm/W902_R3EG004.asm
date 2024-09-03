@@ -196,7 +196,8 @@ a       EQU     b
         defadr CreateURI,0x10E191EC+1
         defadr FreeURI,0x10E19340+1
         defadr Browser_OpenURI,0x10784B0C+1
-        
+        defadr wstrncpy,0x10D6E64C+1
+
         EXTERN FlashmenuPicker
 
         RSEG   PATCH_FD_SOFTKEYS

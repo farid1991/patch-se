@@ -115,7 +115,6 @@ a       EQU     b
         defadr Timer_ReSet,0x142D9A34+1
         defadr DynamicMenu_GetElementMsg,0x141532B4+1
         defadr DynamicMenu_SetElement_SecondLineText,0x1456914C+1
-
         defadr GUIObject_GetDispObject,0x140481D4+1
         defadr DispObject_GetOnKey,0x14461410+1
         defadr DispObject_GetDESC,0x15042944+1
@@ -136,14 +135,11 @@ a       EQU     b
         defadr JavaAppDesc_GetJavaAppInfo,0x144EA900+1
         defadr JavaApp_LogoImageID_Get,0x142B5E58+1
         defadr JavaSession_GetName,0x1510ECE0+1
-
         defadr Request_ICA_ShutdownAllConnections,0x1037C2B8+1
         defadr ConnectionManager_Connection_GetState_int,0x144BC970+1
         defadr Display_GetBrightness,0x14DAAD60+1
-
         defadr NewEvents_GetCount,0x14F87144+1
         defadr iconidname2id,0x1435775C+1
-
         defadr MessageBox,0x1580AD20+1
         defadr manifest_GetParam,0x14335B5C+1
         defadr GetFreeBytesOnHeap,0x4BA30740
@@ -151,16 +147,16 @@ a       EQU     b
         defadr REQUEST_SYSTEM_RESTART,0x10482584+1
         defadr FlightMode_GetState,0x141534E8+1
         defadr FlightMode_SetState,0x14D49AEC+1
-
         defadr ThemeImage_Apply,0x140B581C+1
         defadr MainMenu_SetFromUserTheme,0x14DF482C+1
         defadr OSE_GetShell,0x142DA478+1
         defadr CoCreateInstance,0x141505B4+1
-
         defadr GetURIScheme,0x145B15D8+1
         defadr CreateURI,0x145B1050+1
         defadr Browser_OpenURI,0x14242E04+1
         defadr FreeURI,0x1437D840+1
+        defadr getFileExtention,0x143583DC+1
+        defadr List_InsertLast,0x142D9AB0+1
 
         EXTERN FlashmenuPicker
 

@@ -1,36 +1,32 @@
-#ifndef T707_R1FA035
-#define T707_R1FA035
+#ifndef C902_R3EG004AO
+#define C902_R3EG004AO
 
 #define A2
-#define DB3210
+#define DB3150v2
 
-#define DEFAULT_FLASH_PATH (wchar_t *)0x15989188
+#define DEFAULT_FLASH_PATH (wchar_t *)0x11BE0894
 #define INT_FLASH_PATH L"/usb/picture/flash"
 #define EXT_FLASH_PATH L"/card/picture/flash"
 
-#define FD_IMAGE (wchar_t *)0x1591AA7C
-#define SETTINGS_PATH (wchar_t *)0x15987454
+#define MAINMENU_TXT 0xDDD
+#define SUBMENU_TXT 0x22DA
+#define PREVIEW_SK_TXT 0xB48
+#define EMPTY_LIST_TXT 0x1B18
 
-#define MAINMENU_TXT 0x790
-#define SUBMENU_TXT 0x1C5B
-#define PREVIEW_SK_TXT 0x8FD
-#define EMPTY_LIST_TXT 0x612
+#define ITEM_SYS_TXT 0x326
+#define ITEM_INT_TXT 0x32D
+#define ITEM_EXT_TXT 0x329
 
-#define ITEM_SYS_TXT 0x1862
-#define ITEM_INT_TXT 0x2D0
-#define ITEM_EXT_TXT 0x2CF
+#define ITEM_SYS_ICN 0xECA4
+#define ITEM_INT_ICN 0xF844
+#define ITEM_EXT_ICN 0xF845
+#define DB_FLASH_ICN 0xEA5F
 
-#define ITEM_SYS_ICN 0x24D
-#define ITEM_INT_ICN 0x657
-#define ITEM_EXT_ICN 0x64A
-
-#define DB_FLASH_ICN 0x184
-
-#define KBD_SHORT_PRESS 0x0
 #define KBD_LONG_PRESS 0x1
-#define KBD_REPEAT 0x2
-#define KBD_SHORT_RELEASE 0x3
 #define KBD_LONG_RELEASE 0x4
+#define KBD_REPEAT 0x2
+#define KBD_SHORT_PRESS 0x0
+#define KBD_SHORT_RELEASE 0x3
 
 #define KEY_STAR 0x22
 #define KEY_DIEZ 0x23

@@ -219,6 +219,7 @@ a       EQU     b
         defadr CreateURI,0x10E134C0+1
         defadr FreeURI,0x10E13614+1
         defadr Browser_OpenURI,0x1077CCD4+1
+        defadr wstrncpy,0x106F79AC
 
         EXTERN FlashmenuPicker
 

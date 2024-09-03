@@ -130,6 +130,13 @@ a       equ b
         defadr BookObj_ReturnPage,0x4529F648+1
         defadr BookObj_SetFocus,0x4529F994+1
         defadr GetThemeColor,0x45532A30+1
+        defadr wstrncpy,0x44E25CE8+1
+        defadr List_DestroyElements,0x4527F3B4+1
+        defadr List_Destroy,0x4527EFC4+1
+        defadr List_Create,0x4527EFAC+1
+        defadr getFileExtention,0x455B6DC0+1
+        defadr List_InsertLast,0x4527F0D0+1
+        defadr GUIonMessage_GetBook,0x45171380+1
 
         EXTERN FlashmenuPicker
 

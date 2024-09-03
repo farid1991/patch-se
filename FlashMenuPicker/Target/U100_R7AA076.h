@@ -25,7 +25,7 @@
 #define ITEM_INT_ICN 0xFF2
 #define ITEM_EXT_ICN 0xFEE
 
-#define DB_FLASH_ICN 0xF84C
+#define DB_FLASH_ICN 0x09C2
 
 #define KBD_LONG_PRESS    0x1
 #define KBD_LONG_RELEASE  0x4

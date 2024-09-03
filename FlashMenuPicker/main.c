@@ -3,6 +3,7 @@
 #include "..\\include\Types.h"
 #include "..\\include\Function.h"
 
+#include "file_list.h"
 #include "main.h"
 
 void *malloc(int size)
@@ -28,48 +29,13 @@ void mfree(void *mem)
 #endif
 }
 
-MM_DATA *CreateData()
-{
-  MM_DATA *data = (MM_DATA *)malloc(sizeof(MM_DATA));
-  memset(data, NULL, sizeof(MM_DATA));
-  set_envp(NULL, EMP_NAME, (OSADDRESS)data);
-  return data;
-}
-
-MM_DATA *GetData()
-{
-  MM_DATA *data = (MM_DATA *)get_envp(NULL, EMP_NAME);
-  if (data)
-    return data;
-  return CreateData();
-}
-
 #if defined(W550_R4CB020) || defined(W900_R5BC004)
 BOOL FSX_IsFileExists(const wchar_t *fpath, const wchar_t *fname)
 {
   FSTAT fs;
-  if (!fstat(fpath, fname, &fs))
-    return TRUE;
-  return FALSE;
+  return fstat(fpath, fname, &fs) == 0;
 }
 #endif
-
-BOOL isDirectory(const wchar_t *name)
-{
-  W_FSTAT fs;
-  if (w_fstat(name, &fs) != -1)
-    return fs.attr & FSX_O_CHKPATH;
-  else
-    return FALSE;
-}
-
-wchar_t *WStringAlloc(int lenght)
-{
-  int size = (lenght + 1) * sizeof(wchar_t);
-  wchar_t *wstr = (wchar_t *)malloc(size);
-  memset(wstr, NULL, size);
-  return (wstr);
-}
 
 #if defined(DB3200) || defined(DB3210) || defined(DB3350)
 void Set_SWF_AsFlashMenu(const wchar_t *fpath, const wchar_t *fname, int *error)
@@ -79,204 +45,16 @@ void Set_SWF_AsFlashMenu(const wchar_t *fpath, const wchar_t *fname, int *error)
 }
 #endif
 
-void Free_FLIST(void)
-{
-  MM_DATA *fdata = GetData();
-  FILELIST *flist = (FILELIST *)fdata->fltop;
-  fdata->fltop = NULL;
-
-  while (flist)
-  {
-    FILELIST *fl_prev = flist;
-    mfree(fl_prev->fullname);
-    mfree(fl_prev->name);
-    flist = (FILELIST *)flist->next;
-    mfree(fl_prev);
-  }
-}
-
-FILELIST *AddToFList(const wchar_t *full_name, const wchar_t *name, int is_folder)
-{
-  MM_DATA *fdata = GetData();
-
-  FILELIST *flist;
-  FILELIST *fl_next = (FILELIST *)malloc(sizeof(FILELIST));
-
-  fl_next->fullname = WStringAlloc(wstrlen(full_name));
-  fl_next->name = WStringAlloc(wstrlen(name));
-
-  wstrcpy(fl_next->fullname, full_name);
-  wstrcpy(fl_next->name, name);
-  fl_next->is_folder = is_folder;
-  fl_next->next = NULL;
-  flist = (FILELIST *)fdata->fltop;
-  if (flist)
-  {
-    FILELIST *fl_prev;
-    fl_prev = (FILELIST *)&fdata->fltop;
-    while (wstrcmpi(flist->name, fl_next->name) < 0)
-    {
-      fl_prev = flist;
-      flist = (FILELIST *)flist->next;
-
-      if (!flist)
-        break;
-    }
-    fl_next->next = flist;
-    fl_prev->next = fl_next;
-  }
-  else
-  {
-    fdata->fltop = fl_next;
-  }
-  return fl_next;
-}
-
-int FindFiles(wchar_t *str, int type) // type == 0 SelectFolder, type == 1 SelectFile
-{
-  Free_FLIST();
-
-  int i, c, n = 0;
-
-  wchar_t *path = WStringAlloc(255);
-  wchar_t *name = WStringAlloc(255);
-
-  wchar_t *rev = NULL, *d = name, *s = str;
-
-  while ((c = *s++))
-  {
-    *d = c;
-    if (c == '/' && *s != '\0')
-      rev = d;
-    d++;
-  }
-  if (rev)
-  {
-    if (rev == name)
-      *(rev + 1) = 0;
-    else
-      *rev = 0;
-  }
-  void *dir = w_diropen(str);
-  if (dir)
-  {
-    wchar_t *next;
-    w_chdir(str);
-    while (next = w_dirread(dir))
-    {
-      W_FSTAT fstat;
-      w_fstat(next, &fstat);
-      i = wstrlen(str);
-      wstrcpy(path, str);
-      if (rev)
-      {
-        path[i++] = '/';
-      }
-      wstrcpy(path + i, next);
-      if (fstat.attr & FSX_O_CHKPATH)
-      {
-        snwprintf(name, 63, L"%ls", next);
-        AddToFList(path, name, ITEM_FOLDER);
-        n++;
-      }
-      else
-      {
-        if (type == SEL_FILE)
-        {
-          if (wstrcmp(CUSTOM_NAME, next))
-          {
-            AddToFList(path, next, ITEM_FILE);
-            n++;
-          }
-        }
-      }
-    }
-    w_dirclose(dir);
-  }
-  mfree(path);
-  mfree(name);
-  return n;
-}
-
-FILELIST *FindFLISTtByNS(int *index, int type)
-{
-  MM_DATA *fdata = GetData();
-
-  FILELIST *flist;
-  flist = (FILELIST *)fdata->fltop;
-  while (flist)
-  {
-    if (flist->is_folder == type)
-    {
-      if (!(*index))
-        return flist;
-      (*index)--;
-    }
-    flist = (FILELIST *)flist->next;
-  }
-  return flist;
-}
-
-FILELIST *FindFLISTtByN(int index)
-{
-  FILELIST *flist;
-
-  flist = FindFLISTtByNS(&index, ITEM_FOLDER);
-  if (!index && flist)
-    return flist;
-
-  flist = FindFLISTtByNS(&index, ITEM_FILE);
-
-  if (!index && flist)
-    return flist;
-
-  return flist;
-}
-
-int Generate_Flist(wchar_t *path)
-{
-  wchar_t *ustr = WStringAlloc(wstrlen(path));
-  wchar_t *wchar;
-
-  wstrcpy(ustr, path);
-  path = ustr;
-
-  int f = 0;
-  do
-  {
-    if (isDirectory(ustr))
-    {
-      f = 1;
-      break;
-    }
-    wchar = wstrrchr(ustr, L'/');
-
-    if (wchar == ustr)
-      break;
-
-    if (wchar)
-      *wchar = NULL;
-  } while (wchar);
-
-  if (!f)
-    path = L"/";
-
-  int count = FindFiles(path, SEL_FILE);
-  mfree(ustr);
-
-  return count;
-}
-
 int FlashMenuPicker_Pick_OnMessage(GUI_MESSAGE *msg)
 {
-  FILELIST *flist;
+  FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)GUIonMessage_GetBook(msg);
   switch (GUIonMessage_GetMsg(msg))
   {
   case LISTMSG_GetItem:
     int index = GUIonMessage_GetCreatedItemIndex(msg);
-    flist = FindFLISTtByN(index);
-    TEXTID Textid = TextID_Create(flist->name, ENC_UCS2, TEXTID_ANY_LEN);
-    GUIonMessage_SetMenuItemText(msg, Textid);
+    FILELIST_ELEM *flist = (FILELIST_ELEM *)List_Get(fmbk->flist, index);
+    TEXTID text_id = TextID_Create(flist->name, ENC_UCS2, TEXTID_ANY_LEN);
+    GUIonMessage_SetMenuItemText(msg, text_id);
     GUIonMessage_SetMenuItemIcon(msg, AlignLeft, DB_FLASH_ICN);
     break;
   }
@@ -286,9 +64,10 @@ int FlashMenuPicker_Pick_OnMessage(GUI_MESSAGE *msg)
 void FlashMenuPicker_Pick_Select(BOOK *book, GUI *gui)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  int item = ListMenu_GetSelectedItem(fmbk->SubMenu);
+  int item = ListMenu_GetSelectedItem(fmbk->sub_menu);
+  TEXTID text_id;
 
-  FILELIST *flist = FindFLISTtByN(item);
+  FILELIST_ELEM *flist = (FILELIST_ELEM *)List_Get(fmbk->flist, item);
   if (flist)
   {
     if (FSX_IsFileExists(DEFAULT_FLASH_PATH, CUSTOM_NAME))
@@ -298,16 +77,16 @@ void FlashMenuPicker_Pick_Select(BOOK *book, GUI *gui)
 
     if (fmbk->type == ITEM_SYS)
     {
-      FileCopy(DEFAULT_FLASH_PATH, flist->name, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
+      FileCopy(DEFAULT_FLASH_PATH, flist->filename, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
     }
     else if (fmbk->type == ITEM_INT)
     {
-      FileCopy(INT_FLASH_PATH, flist->name, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
+      FileCopy(INT_FLASH_PATH, flist->filename, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
     }
 #ifdef EXT_FLASH_PATH
     else if (fmbk->type == ITEM_EXT)
     {
-      FileCopy(EXT_FLASH_PATH, flist->name, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
+      FileCopy(EXT_FLASH_PATH, flist->filename, DEFAULT_FLASH_PATH, CUSTOM_NAME, NULL);
     }
 #endif
 
@@ -316,37 +95,39 @@ void FlashMenuPicker_Pick_Select(BOOK *book, GUI *gui)
     MainMenu_SetFromUserTheme(TRUE);
 #endif
 
-    wchar_t buf[256];
-    snwprintf(buf, MAXELEMS(buf), L"%ls", flist->name);
-    TEXTID Textid = TextID_Create(buf, ENC_UCS2, TEXTID_ANY_LEN);
-    MessageBox(EMPTY_TEXTID, Textid, DB_FLASH_ICN, 1, 1000, fmbk);
-
-    FreeBook(fmbk);
+    text_id = TextID_Create(flist->name, ENC_UCS2, TEXTID_ANY_LEN);
+    MessageBox(EMPTY_TEXTID, text_id, DB_FLASH_ICN, 1, 1000, fmbk);
   }
+  else
+  {
+    text_id = TextID_Create(L"Can not set SWF as Flash Menu", ENC_UCS2, TEXTID_ANY_LEN);
+    MessageBox(EMPTY_TEXTID, text_id, DB_FLASH_ICN, 1, 1000, fmbk);
+  }
+  FreeBook(fmbk);
 }
 
 void FlashMenuPicker_Pick_Preview(BOOK *book, GUI *gui)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  int item = ListMenu_GetSelectedItem(fmbk->SubMenu);
+  int item = ListMenu_GetSelectedItem(fmbk->sub_menu);
 
-  FILELIST *flist = FindFLISTtByN(item);
+  FILELIST_ELEM *flist = (FILELIST_ELEM *)List_Get(fmbk->flist, item);
   if (flist)
   {
     char *uri;
     char *uri_scheme = GetURIScheme(file);
     if (fmbk->type == ITEM_SYS)
     {
-      uri = CreateURI(DEFAULT_FLASH_PATH, flist->name, uri_scheme);
+      uri = CreateURI(DEFAULT_FLASH_PATH, flist->filename, uri_scheme);
     }
     else if (fmbk->type == ITEM_INT)
     {
-      uri = CreateURI(INT_FLASH_PATH, flist->name, uri_scheme);
+      uri = CreateURI(INT_FLASH_PATH, flist->filename, uri_scheme);
     }
 #ifdef EXT_FLASH_PATH
     else if (fmbk->type == ITEM_EXT)
     {
-      uri = CreateURI(EXT_FLASH_PATH, flist->name, uri_scheme);
+      uri = CreateURI(EXT_FLASH_PATH, flist->filename, uri_scheme);
     }
 #endif
     if (Browser_OpenURI(NULL, uri, URI_MODE))
@@ -360,49 +141,56 @@ void FlashMenuPicker_Pick_Preview(BOOK *book, GUI *gui)
 void FlashMenuPicker_Pick_Exit(BOOK *book, GUI *gui)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
+  file_list_destroy(fmbk->flist, file_list_remove_item);
   BookObj_ReturnPage(fmbk, PREVIOUS_EVENT);
 }
 
 int pg_FlashMenuPicker_Pick_EnterEvent(void *data, BOOK *book)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  FREE_GUI(fmbk->SubMenu);
+  FREE_GUI(fmbk->sub_menu);
 
-  int count;
+  if (fmbk->flist)
+  {
+    file_list_destroy(fmbk->flist, file_list_remove_item);
+  }
+
   if (fmbk->type == ITEM_SYS)
   {
-    count = Generate_Flist(DEFAULT_FLASH_PATH);
+    fmbk->flist = file_list_create(DEFAULT_FLASH_PATH);
   }
   else if (fmbk->type == ITEM_INT)
   {
-    count = Generate_Flist(INT_FLASH_PATH);
+    fmbk->flist = file_list_create(INT_FLASH_PATH);
   }
 #ifdef EXT_FLASH_PATH
   else if (fmbk->type == ITEM_EXT)
   {
-    count = Generate_Flist(EXT_FLASH_PATH);
+    fmbk->flist = file_list_create(EXT_FLASH_PATH);
   }
 #endif
-  if (fmbk->SubMenu = CreateListMenu(fmbk, UIDisplay_Main))
+  int count = List_GetCount(fmbk->flist);
+
+  if (fmbk->sub_menu = CreateListMenu(fmbk, UIDisplay_Main))
   {
-    GUIObject_SetTitleText(fmbk->SubMenu, SUBMENU_TXT);
-    ListMenu_SetItemCount(fmbk->SubMenu, count);
-    ListMenu_SetCursorToItem(fmbk->SubMenu, 0);
-    ListMenu_SetOnMessage(fmbk->SubMenu, FlashMenuPicker_Pick_OnMessage);
-    ListMenu_SetHotkeyMode(fmbk->SubMenu, LKHM_SHORTCUT);
-    ListMenu_SetItemTextScroll(fmbk->SubMenu, 1);
+    GUIObject_SetTitleText(fmbk->sub_menu, SUBMENU_TXT);
+    ListMenu_SetItemCount(fmbk->sub_menu, count);
+    ListMenu_SetCursorToItem(fmbk->sub_menu, 0);
+    ListMenu_SetOnMessage(fmbk->sub_menu, FlashMenuPicker_Pick_OnMessage);
+    ListMenu_SetHotkeyMode(fmbk->sub_menu, LKHM_SHORTCUT);
+    ListMenu_SetItemTextScroll(fmbk->sub_menu, 1);
 #if defined(DB2020) || defined(A2)
-    ListMenu_SetNoItemText(fmbk->SubMenu, EMPTY_LIST_TXT);
+    ListMenu_SetNoItemText(fmbk->sub_menu, EMPTY_LIST_TXT);
 #endif
     if (count)
     {
-      GUIObject_SoftKeys_SetText(fmbk->SubMenu, 0, PREVIEW_SK_TXT);
-      GUIObject_SoftKeys_SetAction(fmbk->SubMenu, 0, FlashMenuPicker_Pick_Preview);
-      GUIObject_SoftKeys_SetAction(fmbk->SubMenu, ACTION_SELECT1, FlashMenuPicker_Pick_Select);
+      GUIObject_SoftKeys_SetText(fmbk->sub_menu, 0, PREVIEW_SK_TXT);
+      GUIObject_SoftKeys_SetAction(fmbk->sub_menu, 0, FlashMenuPicker_Pick_Preview);
+      GUIObject_SoftKeys_SetAction(fmbk->sub_menu, ACTION_SELECT1, FlashMenuPicker_Pick_Select);
     }
-    GUIObject_SoftKeys_SetAction(fmbk->SubMenu, ACTION_BACK, FlashMenuPicker_Pick_Exit);
-    GUIObject_SoftKeys_SetAction(fmbk->SubMenu, ACTION_LONG_BACK, FlashMenuPicker_Pick_Exit);
-    GUIObject_Show(fmbk->SubMenu);
+    GUIObject_SoftKeys_SetAction(fmbk->sub_menu, ACTION_BACK, FlashMenuPicker_Pick_Exit);
+    GUIObject_SoftKeys_SetAction(fmbk->sub_menu, ACTION_LONG_BACK, FlashMenuPicker_Pick_Exit);
+    GUIObject_Show(fmbk->sub_menu);
   }
   return 1;
 }
@@ -410,7 +198,7 @@ int pg_FlashMenuPicker_Pick_EnterEvent(void *data, BOOK *book)
 int pg_FlashMenuPicker_Pick_ExitEvent(void *data, BOOK *book)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  FREE_GUI(fmbk->SubMenu);
+  FREE_GUI(fmbk->sub_menu);
   return 1;
 }
 
@@ -419,7 +207,7 @@ int pg_FlashMenuPicker_Pick_ExitEvent(void *data, BOOK *book)
 void FlashMenuPicker_SelectAction(BOOK *book, GUI *gui)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  fmbk->type = ListMenu_GetSelectedItem(fmbk->MainMenu);
+  fmbk->type = ListMenu_GetSelectedItem(fmbk->main_menu);
 
   BookObj_CallPage(fmbk, &FlashMenuPicker_Pick_Page);
 }
@@ -456,20 +244,20 @@ int FlashMenuPicker_onMessage(GUI_MESSAGE *msg)
 int pg_FlashMenuPicker_EnterEvent(void *data, BOOK *book)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  FREE_GUI(fmbk->MainMenu);
+  FREE_GUI(fmbk->main_menu);
 
-  if (fmbk->MainMenu = CreateListMenu(fmbk, UIDisplay_Main))
+  if (fmbk->main_menu = CreateListMenu(fmbk, UIDisplay_Main))
   {
-    GUIObject_SetTitleText(fmbk->MainMenu, MAINMENU_TXT);
-    ListMenu_SetItemCount(fmbk->MainMenu, ITEM_LAST);
-    ListMenu_SetOnMessage(fmbk->MainMenu, FlashMenuPicker_onMessage);
-    ListMenu_SetCursorToItem(fmbk->MainMenu, ITEM_SYS);
-    ListMenu_SetHotkeyMode(fmbk->MainMenu, LKHM_SHORTCUT);
+    GUIObject_SetTitleText(fmbk->main_menu, MAINMENU_TXT);
+    ListMenu_SetItemCount(fmbk->main_menu, ITEM_LAST);
+    ListMenu_SetOnMessage(fmbk->main_menu, FlashMenuPicker_onMessage);
+    ListMenu_SetCursorToItem(fmbk->main_menu, ITEM_SYS);
+    ListMenu_SetHotkeyMode(fmbk->main_menu, LKHM_SHORTCUT);
 
-    GUIObject_SoftKeys_SetAction(fmbk->MainMenu, ACTION_SELECT1, FlashMenuPicker_SelectAction);
-    GUIObject_SoftKeys_SetAction(fmbk->MainMenu, ACTION_BACK, FlashMenuPicker_ExitAction);
-    GUIObject_SoftKeys_SetAction(fmbk->MainMenu, ACTION_LONG_BACK, FlashMenuPicker_ExitAction);
-    GUIObject_Show(fmbk->MainMenu);
+    GUIObject_SoftKeys_SetAction(fmbk->main_menu, ACTION_SELECT1, FlashMenuPicker_SelectAction);
+    GUIObject_SoftKeys_SetAction(fmbk->main_menu, ACTION_BACK, FlashMenuPicker_ExitAction);
+    GUIObject_SoftKeys_SetAction(fmbk->main_menu, ACTION_LONG_BACK, FlashMenuPicker_ExitAction);
+    GUIObject_Show(fmbk->main_menu);
   }
   return 1;
 }
@@ -477,7 +265,7 @@ int pg_FlashMenuPicker_EnterEvent(void *data, BOOK *book)
 int pg_FlashMenuPicker_ExitEvent(void *data, BOOK *book)
 {
   FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
-  FREE_GUI(fmbk->MainMenu);
+  FREE_GUI(fmbk->main_menu);
   return 1;
 }
 
@@ -490,17 +278,15 @@ int pg_FlashMenuPicker_CancelEvent(void *data, BOOK *book)
 
 void FlashMenuPicker_onClose(BOOK *book)
 {
-  FlashMenuPickerBook *mbk = (FlashMenuPickerBook *)book;
-  FREE_GUI(mbk->MainMenu);
-  FREE_GUI(mbk->SubMenu);
-  Free_FLIST();
+  FlashMenuPickerBook *fmbk = (FlashMenuPickerBook *)book;
+  FREE_GUI(fmbk->main_menu);
+  FREE_GUI(fmbk->sub_menu);
+  file_list_destroy(fmbk->flist, file_list_remove_item);
 }
 
 BOOL IsFlashMenuPickerBook(BOOK *book)
 {
-  if (book->onClose == FlashMenuPicker_onClose)
-    return TRUE;
-  return FALSE;
+  return book->onClose == FlashMenuPicker_onClose;
 }
 
 FlashMenuPickerBook *Create_FlashMenuPickerBook()
@@ -512,8 +298,9 @@ FlashMenuPickerBook *Create_FlashMenuPickerBook()
     mfree(fmbk);
     return NULL;
   }
-  fmbk->MainMenu = NULL;
-  fmbk->SubMenu = NULL;
+  fmbk->main_menu = NULL;
+  fmbk->sub_menu = NULL;
+  fmbk->flist = NULL;
   fmbk->type = NULL;
   return fmbk;
 }

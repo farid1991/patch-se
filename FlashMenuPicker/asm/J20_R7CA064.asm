@@ -95,6 +95,15 @@ a       equ     b
         defadr GUIObject_SetTitleText,0x14054A00+1
         defadr GUIObject_SetStyle,0x143FFB48+1
         defadr GUIObject_Destroy,0x145681C0+1
+        defadr wstrncpy,0x145D9EFE+1
+        defadr List_DestroyElements,0x1456E73C+1
+        defadr List_Destroy,0x1404FE2C+1
+        defadr List_Create,0x142D7608+1
+        defadr getFileExtention,0x145CF48C+1
+        defadr List_InsertLast,0x1446C81C+1
+        defadr GUIonMessage_GetBook,0x1437A1F0+1
+        defadr List_Get,0x1446C690+1
+        defadr List_GetCount,0x1446C708+1
 
         EXTERN FlashmenuPicker
 

@@ -755,7 +755,6 @@ a       EQU     b
         defadr ThemeImage_Apply,0x14074BA4+1
         defadr MainMenu_SetFromUserTheme,0x142A92AC+1
         defadr FreeURI,0x140D5948+1
-        
         defadr List_GetCount,0x140CC074+1
         defadr List_RemoveFirst,0x1430DCFC+1
         defadr List_RemoveLast,0x1430E428+1

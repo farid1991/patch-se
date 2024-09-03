@@ -57,6 +57,15 @@ a       EQU     b
         defadr BookObj_ReturnPage,0x142499AC+1
         defadr GUIObject_SoftKeys_SetText,0x1412C884+1
         defadr GUIObject_SoftKeys_SetAction,0x141A02B0+1
+        defadr wstrncpy,0x1435C6B4+1
+        defadr List_DestroyElements,0x14251F44+1
+        defadr List_Destroy,0x140268E4+1
+        defadr List_Create,0x142DD444+1
+        defadr getFileExtention,0x1435C38C+1
+        defadr List_InsertLast,0x142DD2FC+1
+        defadr GUIonMessage_GetBook,0x1412E298+1
+        defadr List_Get,0x140484A0+1
+        defadr List_GetCount,0x14313C04+1
 
         EXTERN FlashmenuPicker
 

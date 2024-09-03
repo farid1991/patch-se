@@ -159,6 +159,13 @@ a       EQU     b
         defadr Browser_OpenURI,0x1530D3D8+1
         defadr ThemeImage_Apply,0x140D1800+1
         defadr MainMenu_SetFromUserTheme,0x153F0C40+1
+        defadr wstrncpy,0x1481DAEA+1
+        defadr List_DestroyElements,0x141F01D8+1
+        defadr List_Destroy,0x142754E4+1
+        defadr List_Create,0x142751FC+1
+        defadr List_InsertLast,0x1427292C+1
+        defadr List_Get,0x143D2C98+1
+        defadr List_GetCount,0x143D2D10+1
 
         EXTERN FlashmenuPicker
 

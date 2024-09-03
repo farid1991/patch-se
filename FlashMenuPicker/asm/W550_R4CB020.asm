@@ -61,6 +61,15 @@ a       equ b
         defadr GUIObject_Show,0x450C04AC+1
         defadr GUIObject_SoftKeys_SetAction,0x450C7B44+1
         defadr GUIObject_SoftKeys_SetText,0x450C7C2C+1
+        defadr wstrncpy,0x44D59BB8+1
+        defadr List_DestroyElements,0x451A6904+1
+        defadr List_Destroy,0x451A6514+1
+        defadr List_Create,0x451A64FC+1
+        defadr getFileExtention,0x454E57E8+1
+        defadr List_InsertLast,0x451A6620+1
+        defadr GUIonMessage_GetBook,0x4509DA6C+1
+        defadr List_Get,0x451A67A0+1
+        defadr List_GetCount,0x451A6778+1
 
         EXTERN FlashmenuPicker
 

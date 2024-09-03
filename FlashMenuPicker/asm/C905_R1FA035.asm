@@ -130,6 +130,15 @@ a       EQU     b
         defadr BookObj_SetFocus,0x140E51D0+1
         defadr ListMenu_SetItemTextScroll,0x142105DC+1
         defadr ListMenu_SetNoItemText,0x141DEE9C+1
+        defadr wstrncpy,0x14B78524+1
+        defadr List_DestroyElements,0x140ED2EC+1
+        defadr List_Destroy,0x143AF55C+1
+        defadr List_Create,0x143AD564+1
+        defadr getFileExtention,0x14262A40+1
+        defadr List_InsertLast,0x143AD6D4+1
+        defadr GUIonMessage_GetBook,0x14396910+1
+        defadr List_Get,0x143ACA10+1
+        defadr List_GetCount,0x143ACB8C+1
 
         EXTERN FlashmenuPicker
 

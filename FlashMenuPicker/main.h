@@ -27,36 +27,11 @@ enum
   ITEM_LAST
 };
 
-enum FILEFOLDERTYPES
-{
-  ITEM_FOLDER,
-  ITEM_FILE
-};
-
-enum SELF
-{
-  SEL_FOLDER,
-  SEL_FILE
-};
-
-typedef struct FILELIST
-{
-  void *next;
-  int is_folder;
-  wchar_t *fullname;
-  wchar_t *name;
-} FILELIST;
-
-typedef struct _MM_DATA
-{
-  int type;
-  FILELIST *fltop;
-} MM_DATA;
-
 typedef struct FlashMenuPickerBook : BOOK
 {
-  GUI_LIST *MainMenu;
-  GUI_LIST *SubMenu;
+  GUI_LIST *main_menu;
+  GUI_LIST *sub_menu;
+  LIST *flist;
   int type;
 } FlashMenuPickerBook;
 
@@ -72,9 +47,6 @@ typedef struct FlashDesktopBook : BOOK
     GUIObject_Destroy(g); \
     g = NULL;             \
   }
-
-__thumb void *malloc(int size);
-__thumb void mfree(void *mem);
 
 int pg_FlashMenuPicker_EnterEvent(void *data, BOOK *book);
 int pg_FlashMenuPicker_ExitEvent(void *data, BOOK *book);
