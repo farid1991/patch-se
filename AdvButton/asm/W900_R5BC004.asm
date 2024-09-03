@@ -9,6 +9,7 @@ a       equ b
         defadr memalloc,0x2062C09C+1
         defadr memfree,0x2062D0CC+1
         defadr memset,0x211E97E4+1
+        defadr memcpy,0x20139F3C
         defadr debug_printf,0x211A8D30+1
         defadr sprintf,0x211EA31C+1
         defadr snwprintf,0x211EAA10+1
@@ -185,8 +186,17 @@ a       equ b
         defadr CreateMessageBox,0x2071A384+1
         defadr MessageBox,0x2071A338+1
 
+        defadr Display_GetHeight,0x2072E8EC+1
+        defadr Display_GetWidth,0x2072E8FC+1
+        defadr PlaySystemSound,0x20B78D10+1
+        defadr IsAudioPlayerBook,0x206054E0+1
+        defadr OSE_GetShell,0x20AB9A00+1
+        defadr REQUEST_DATEANDTIME_GET,0x2078A248+1
+
+        defadr default_keyhandler,0x20467004+1
+
         EXTERN  Patch_BookManager
-        EXTERN  Patch_NextBook
+        EXTERN  Patch_Screenshoter
 
         RSEG    PATCH_FIX_IKEY
         CODE16
@@ -216,7 +226,7 @@ _vc_button:
         BNE     _def_button
         CMP     R2, #KBD_SHORT_RELEASE
 	BNE     _def_button
-        BL      Patch_NextBook
+        BL      Patch_Screenshoter
         POP     {PC}
 
 _def_button:
@@ -224,7 +234,7 @@ _def_button:
 	POP     {PC}
 
 _default:
-        LDR     R3, =0x20467004+1
+        LDR     R3, =default_keyhandler
 	BX      R3
 
         END

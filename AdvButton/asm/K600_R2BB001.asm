@@ -9,6 +9,7 @@ a       equ b
         defadr memalloc,0x20363C0C+1
         defadr memfree,0x20364D24+1
         defadr memset,0x20D66768+1
+        defadr memcpy,0x200A5000
         defadr debug_printf,0x20D28E84+1
         defadr sprintf,0x20D672A0+1
         defadr snwprintf,0x20D67990+1
@@ -167,9 +168,27 @@ a       equ b
         defadr REQUEST_UI_OAF_START_APPLICATION,0x204F5CFC+1
         defadr manifest_GetParam,0x20458AFC+1
 
+        defadr Display_GetHeight,0x2042E144+1
+        defadr Display_GetWidth,0x2042E154+1
+        defadr PlaySystemSound,0x207562CC+1
+        defadr IsAudioPlayerBook,0x2033F3EC+1
+        defadr OSE_GetShell,0x206BE70C+1
+        defadr REQUEST_DATEANDTIME_GET,0x204BD5DC+1
+
+        defadr png_get_io_ptr,0x209BC64C+1
+        defadr png_create_write_struct_2,0x209C1E80+1
+        defadr png_create_info_struct,0x209BC568+1
+        defadr png_destroy_write_struct,0x209C2030+1
+        defadr png_set_IHDR,0x209C19EC+1
+        defadr png_set_write_fn,0x209C1DC4+1
+        defadr png_write_info,0x209C1E20+1
+        defadr png_write_row,0x209C1FA4+1
+        defadr png_write_end,0x209C1E54+1
+
         EXTERN  Patch_QuickAccess
         EXTERN  Patch_BookManager
         EXTERN  Patch_NextBook
+        EXTERN  Patch_Screenshoter
 
         RSEG    PATCH_FIX_VCKEY
         CODE16
@@ -203,7 +222,7 @@ _vc_button:
         BNE     _def_button
         CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
-        BL      Patch_NextBook
+        BL      Patch_Screenshoter
         POP	{PC}
 
 _def_button:

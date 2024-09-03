@@ -22,9 +22,9 @@ __thumb void mfree(void *mem)
 
 TEXTID GetFreeHeap()
 {
-  wchar_t buff[64];
-  snwprintf(buff, MAXELEMS(buff), L"Heap: %d KB", GetFreeBytesOnHeap() >> 10);
-  return TextID_Create(buff, ENC_UCS2, TEXTID_ANY_LEN);
+  char buff[16];
+  sprintf(buff, "Heap: %d KB", GetFreeBytesOnHeap() >> 10);
+  return TextID_Create(buff, ENC_LAT1, TEXTID_ANY_LEN);
 }
 
 extern "C" void Patch_QuickAccess()

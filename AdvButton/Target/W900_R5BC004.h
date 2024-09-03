@@ -3,11 +3,13 @@
 
 #define A1
 #define DB2000
+#define USE_IDISPLAY_MANAGER
 
 #define BOOKMAN_PATH L"/usb/other/ini"
 #define BCFG_PATH L"/usb/other/ZBin/BcfgEdit.elf"
 
-#define get_VBUFFER (int *)0
+#define CID_CDisplayManager (PUUID)0x211FDE80
+#define IID_IDisplayManager (PUUID)0x21229110
 
 #define LastExtDB (DB_EXT *)0x2140E5FC
 #define CONFIG_PATH (wchar_t *)0x215D944C

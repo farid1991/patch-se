@@ -8,9 +8,7 @@
 
 BOOL IsQuickAccessBook(BOOK *book)
 {
-  if (book->onClose == QuickAccess_Book_onClose)
-    return TRUE;
-  return FALSE;
+  return book->onClose == QuickAccess_Book_onClose;
 }
 
 void Menu_Back(BOOK *book, GUI *gui)

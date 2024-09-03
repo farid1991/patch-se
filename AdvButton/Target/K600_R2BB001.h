@@ -3,23 +3,28 @@
 
 #define A1
 #define DB2000
+#define USE_PNG
+#define USE_IDISPLAY_MANAGER
 
 #define BOOKMAN_PATH L"/tpa/user/other/ini"
 #define BCFG_PATH L"/tpa/user/other/ZBin/BcfgEdit.elf"
 
-#define get_VBUFFER (int*)0
+#define CID_CDisplayManager (PUUID)0x20D76558
+#define IID_IDisplayManager (PUUID)0x20DAF3FC
+
+#define DEF_PNG_LIBPNG_VER_STRING (char *)0x20DBF398 // "1.2.4"
 
 #define LastExtDB (DB_EXT *)0x20F1E174
-#define CONFIG_PATH (wchar_t*)0x21161C44
-#define SYNC (int*)0x20F3F914
+#define CONFIG_PATH (wchar_t *)0x21161C44
+#define SYNC (int *)0x20F3F914
 
 #define JAVA_STR (char *)0x2143620C
 #define FOREIGNAPP (char *)0x2117F060
 #define MAINMENU_ID (wchar_t *)0x20F89C4A
 
-#define SELECT_PROFILE_ID (wchar_t*)0x21184A6E
-#define SETTINGS_BT_ID (wchar_t*)0x2118380C
-#define SETTINGS_IR_ID (wchar_t*)0x21184C2E
+#define SELECT_PROFILE_ID (wchar_t *)0x21184A6E
+#define SETTINGS_BT_ID (wchar_t *)0x2118380C
+#define SETTINGS_IR_ID (wchar_t *)0x21184C2E
 
 #define NIL_EVENT 0
 #define BOOK_DESTROYED_EVENT 4

@@ -205,13 +205,13 @@ void DestroyAllGUIs(BOOK *book)
 
 int read_config_file(const wchar_t *name, void **cfg_buffer)
 {
-  int file;
   void *buffer = NULL;
   int size = NULL;
   FSTAT _fstat;
   if (!fstat(BOOKMAN_PATH, name, &_fstat))
   {
-    if ((file = _fopen(BOOKMAN_PATH, name, FSX_O_RDONLY, FSX_S_IREAD | FSX_S_IWRITE, NULL)) >= NULL)
+    int file = _fopen(BOOKMAN_PATH, name, FSX_O_RDWR | FSX_O_APPEND, FSX_S_IREAD | FSX_S_IWRITE, NULL);
+    if (file >= NULL)
     {
       size = _fstat.fsize;
       buffer = (char *)malloc(size + 1);
