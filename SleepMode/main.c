@@ -70,7 +70,7 @@ extern "C" void KillRefreshTimer()
 
 void DrawText(int font, TEXTID text, int align, int x1, int y1, int x2, int y2, int pen_color)
 {
-#if defined(DB3200) || defined(DB3210)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
   dll_DrawString(font, text, align, x1, y1, x2, y2 + (font & 0xFF), pen_color);
 #else
   SetFont(font);
@@ -117,7 +117,7 @@ extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
   int x = 0;
   for (i = 0; i < (p - missed); i++)
   {
-#if defined(DB3200) || defined(DB3210)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
     x = x + dll_GetImageWidth(missed[i]);
 #else
     x = x + GetImageWidth(missed[i]);
@@ -127,7 +127,7 @@ extern "C" void New_SleepMode_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c)
   x = (disp_width - (x + (i - 1) * 10)) / 2;
   for (i = 0; i < (p - missed); i++)
   {
-#if defined(DB3200) || defined(DB3210)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
     dll_GC_PutChar(x, MISSED_Y, 0, 0, missed[i]);
     x = x + 10 + dll_GetImageWidth(missed[i]);
 #else

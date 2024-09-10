@@ -5,7 +5,7 @@
 
 #include "dll.h"
 
-#if defined(DB3200) || defined(DB3210)
+#if defined(DB3200) || defined(DB3210) || defined(DB3350)
 // SetFont ----------------------------------------------------
 void dll_SetFont(int font, IFont **ppFont)
 {
