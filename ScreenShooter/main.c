@@ -110,22 +110,15 @@ int save_as_png(wchar_t *path, wchar_t *name, char *bookname, int width, int hei
 
   png_write_info(png_ptr, info_ptr);
 
-  png_byte *row = (png_byte *)malloc(width * 3);
+  png_set_filler(png_ptr, 0, PNG_FILLER_AFTER);
+
+  png_set_bgr(png_ptr);
+
   for (int y = 0; y < height; y++)
   {
     uint8_t *src = display_buffer + y * width * 4;
-    uint8_t *dst = row;
-    for (int x = 0; x < width; x++)
-    {
-      dst[0] = src[2]; // Blue
-      dst[1] = src[1]; // Green
-      dst[2] = src[0]; // Red
-      src += 4;
-      dst += 3;
-    }
-    png_write_row(png_ptr, row);
+    png_write_row(png_ptr, src);
   }
-  mfree(row);
 
   png_write_end(png_ptr, info_ptr);
   png_destroy_write_struct(&png_ptr, &info_ptr);

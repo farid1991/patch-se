@@ -1615,8 +1615,8 @@ extern PNG_EXPORT(void,png_set_invert_alpha) PNGARG((png_structp png_ptr));
 
 #if defined(PNG_READ_FILLER_SUPPORTED) || defined(PNG_WRITE_FILLER_SUPPORTED)
 /* Add a filler byte to 8-bit Gray or 24-bit RGB images. */
-//extern PNG_EXPORT(void,png_set_filler) PNGARG((png_structp png_ptr,
-//   png_uint_32 filler, int flags));
+extern PNG_EXPORT(void,png_set_filler) PNGARG((png_structp png_ptr,
+  png_uint_32 filler, int flags));
 /* The values of the PNG_FILLER_ defines should NOT be changed */
 #define PNG_FILLER_BEFORE 0
 #define PNG_FILLER_AFTER 1

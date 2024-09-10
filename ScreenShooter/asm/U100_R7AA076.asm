@@ -11,7 +11,7 @@ a       equ b
         defadr memfree,0x4BC003BC
         defadr memset,0x145F06B2+1
         defadr memcpy,0x145F05D2+1
-        defadr snprintf,+1
+        defadr snprintf,0x147EBE80+1
         defadr snwprintf,0x147EBEBC+1
         defadr get_envp,0x10297144+1
         defadr set_envp,0x10297158+1
@@ -24,7 +24,7 @@ a       equ b
         defadr fread,0x141AA3A8+1
         defadr fstat,0x141E5250+1
         defadr lseek,0x14115288+1
-        defadr fflush,0x10280824
+        defadr fflush,0x1461F2D4+1
         defadr w_fopen,0x10146854+1
         defadr w_fwrite,0x101AAC94+1
         defadr w_fclose,0x10243A90+1
@@ -176,6 +176,7 @@ a       equ b
         defadr png_info_destroy,0x1002FD80+1
         defadr png_set_compression_level,0x10448F58+1
         defadr png_set_bgr,0x1002F54C+1
+        defadr png_set_filler,0x1002F3B4+1
         defadr png_set_IHDR,0x1010F498+1 
         defadr png_set_text,0x102099D0+1 
         defadr png_set_write_fn,0x104483F4+1
