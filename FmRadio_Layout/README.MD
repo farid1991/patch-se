@@ -71,4 +71,4 @@ Change layout of FmRadio GUI
 ![NewSoftkeys](snapshots/scr03-00-20.png)
 ![Editor](snapshots/scr02-59-42.png)
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

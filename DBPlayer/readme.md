@@ -170,4 +170,4 @@ Example:
 ![player-edit-mode](snapshots/scr22-49-53.png)
 ![goto-time](snapshots/scr22-54-37.png)
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

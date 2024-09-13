@@ -48,4 +48,4 @@ Add more info about PNG in file information window
 ### libpng License
 `PNGInfo` use `libpng`. For the full libpng license, see [libpng.org](http://www.libpng.org/pub/png/libpng.html).
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

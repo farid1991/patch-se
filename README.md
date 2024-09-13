@@ -99,12 +99,16 @@ VKP (V_Klay Patch) is format for patch file on Siemens and Sony Ericsson phones 
 
 ### List
 * [A2 Walkman Skinner](A2WalkmanSkinner/readme.md)
+* [Book Manager Mod](BookManagerMod/readme.md)
 * [DBPlayer A2](DBPlayer/readme.md)
 * [Flash Menu Picker](FlashMenuPicker/readme.md)
-* [FM Radio Layout](FMRadio_Layout/readme.md)
+* [FM Radio Layout](FmRadio_Layout/readme.md)
+* [Goto Shortcut](Goto_Shortcut/readme.md)
+* [ManualEqualizer on DB3350](ManualEqualizer_DB3350/readme.md)
 * [PNG Info](PNGinfo/readme.md)
 * [Screen Shooter](Screenshooter/readme.md)
 * [Shutdown Menu DB3350](ShutdownMenu_DB3350/readme.md)
+* [Volume Redraw](VolumeRedraw/readme.md)
 * **more patches added soon**
 
 ### Structure

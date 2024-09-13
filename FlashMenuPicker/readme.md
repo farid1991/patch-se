@@ -53,4 +53,4 @@ Put SWF on correct directory.
 ![MsgBox](snapshots/ss-MessageBoxBook-11-51-01.png)
 ![Preview](<snapshots/ss-Browser Book-11-50-57.png>)
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

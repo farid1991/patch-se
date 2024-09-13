@@ -273,4 +273,4 @@ Example:
 ![shortcuts-gui](snapshots/scr18-17-43.png)
 ![shortcuts-list](snapshots/scr18-17-47.png)
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

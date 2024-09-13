@@ -28,4 +28,4 @@ Added Free Heap on menu title.
 ![restart](snapshots/ss-SetBook-09-29-11.png) 
 ![flightmode](snapshots/ss-SetBook-09-29-17.png)
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)

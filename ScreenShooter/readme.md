@@ -36,4 +36,4 @@ Add ability to take screenshot with button Game A&B
 ## libpng License
 `ScreenShooter` use `libpng`. For the full libpng license, see [libpng.org](http://www.libpng.org/pub/png/libpng.html).
 
-## [Go Back](/readme.md)
+## [Go Back](../readme.md)
