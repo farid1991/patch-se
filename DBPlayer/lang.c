@@ -174,6 +174,7 @@ TEXTID TextID_Setting(int id)
     break;
   case ITEM_BITRATE:
     text_id = TextID_Global(ID_BITRATE);
+    break;
   case ITEM_SAMPLERATE:
     text_id = TextID_Global(ID_SAMPLERATE);
     break;

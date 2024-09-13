@@ -996,9 +996,7 @@ GUI_DBPLAYER *CreateGUI(BOOK *book)
   if (!data->setting.soft)
     GUIObject_SoftKeys_Hide(gui_dbp);
 
-#ifdef DB3350
-  GUIObject_SetAnimationApp(gui_dbp, L"FromStatusrow");
-#else
+#ifndef DB3350
   if (data->setting.animation)
     DispObject_SetAnimation(GUIObject_GetDispObject(gui_dbp), 0x60021000);
 #endif
