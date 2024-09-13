@@ -66,8 +66,8 @@ Change layout of FmRadio GUI
 - OK : Change text overlay
 
 ### Screenshot
-![108MHz](snapshots/scr03-00-05.png) 
 ![87.5MHz](snapshots/scr03-00-07.png) 
+![108MHz](snapshots/scr03-00-05.png) 
 ![NewSoftkeys](snapshots/scr03-00-20.png)
 ![Editor](snapshots/scr02-59-42.png)
 
