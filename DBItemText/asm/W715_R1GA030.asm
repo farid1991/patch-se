@@ -14,7 +14,7 @@ a       EQU b
         defadr TextID_CreateIntegerID,0x1401F994+1
         defadr TextID_CreateCharacterID,0x14020084+1
 
-        EXTERN SetSecondlineItemText
+        EXTERN db_set_secondline_text
 
         RSEG PATCH_SECONDLINE_FM
         CODE16
@@ -26,7 +26,7 @@ a       EQU b
 SetItemText:
         ADD     R0, R5, #0
         ADD     R1, R6, #0
-        BL      SetSecondlineItemText
+        BL      db_set_secondline_text
         STR     R0, [R4,#0]
 	LDR	R3, =0x15855730+1
 	BX	R3

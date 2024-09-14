@@ -19,7 +19,7 @@ git clone https://github.com/farid1991/patch-se.git
 
 ### Compile patch from source
 <details>
-<summary><B>using IAR IDE</B></summary>
+<summary>using IAR IDE</summary>
 
 * Open root projects directory
 * Open iar project file (.eww) and compile to elf with iccarm (IAR Embedded Workbench 4.2)
@@ -28,7 +28,7 @@ git clone https://github.com/farid1991/patch-se.git
 
 </details>
 <details>
-<summary><B>using VSCode</B></summary>
+<summary>using VSCode</summary>
 
 * install vscode extension [IAR For Visual Studio Code v1.3.1](https://marketplace.visualstudio.com/items?itemName=pluyckx.iar-vsc)
 * Configure the extension and set the IAR directory in "iarvsc.iarInstallDirectories".
@@ -39,11 +39,17 @@ git clone https://github.com/farid1991/patch-se.git
 </details>
 
 Convert elf to vkp using [elf2vkpex 1.03 (c) den_po](https://justdanpo.ru/data/projects/gsm/elf2vkpex.zip)  
-`elf2vkp -eELFNAME.ELF -fFIRMWAREFILE.EXT`
+`elf2vkp -eELFNAME.ELF -fFIRMWAREFILE.EXT` 
+``` 
+supported firmware formats:
+- raw
+- mbn/ssw/babe
+- cxc
+```
 
 ### Installation
 <details>
-<summary><B>A1 Platform</B></summary>
+<summary>A1 Platform</summary>
 
 * DB2000 and DB2010 [Tutorial]()
 * DB2012, DB2020, and PNX5230 [Tutorial](https://mobilefree.justdanpo.ru/newbb_plus/viewtopic.php?topic_id=3592)
@@ -51,7 +57,7 @@ Convert elf to vkp using [elf2vkpex 1.03 (c) den_po](https://justdanpo.ru/data/p
 </details>
 
 <details>
-<summary><B>A2 Platform</B></summary>
+<summary>A2 Platform</summary>
 
 * DB3150, DB32XX, and DB3350 [Tutorial]()
 
@@ -59,7 +65,7 @@ Convert elf to vkp using [elf2vkpex 1.03 (c) den_po](https://justdanpo.ru/data/p
 
 ### Project Structure
 <details>
-<summary><B>Details</B></summary>
+<summary>Details</summary>
 
 ```
 .
@@ -100,13 +106,14 @@ VKP (V_Klay Patch) is format for patch file on Siemens and Sony Ericsson phones 
 ### List
 * [A2 Walkman Skinner](A2WalkmanSkinner/readme.md)
 * [Book Manager Mod](BookManagerMod/readme.md)
+* [DBItemText](DBItemText/readme.md)
 * [DBPlayer A2](DBPlayer/readme.md)
 * [Flash Menu Picker](FlashMenuPicker/readme.md)
 * [FM Radio Layout](FmRadio_Layout/readme.md)
 * [Goto Shortcut](Goto_Shortcut/readme.md)
 * [ManualEqualizer on DB3350](ManualEqualizer_DB3350/readme.md)
 * [PNG Info](PNGinfo/readme.md)
-* [Screen Shooter](Screenshooter/readme.md)
+* [Screen Shooter](ScreenShooter/readme.md)
 * [Shutdown Menu DB3350](ShutdownMenu_DB3350/readme.md)
 * [Volume Redraw](VolumeRedraw/readme.md)
 * **more patches added soon**
