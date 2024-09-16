@@ -86,9 +86,8 @@ Add advanced display information when playing music on File Manager
 ### Structure:
 ```
 /usb/other/ZBin/Config/DBPlayer/
-??? DBPlayer.cfg
-??? *.png
-
+├── DBPlayer.cfg
+└── *.png
 ```
 
 ### Images Name:
@@ -117,31 +116,31 @@ MUTE_ICN.png
 ## Management Key:
 
 ### General
-- **UP** / **DOWN** : Volume Up/Down
-- **#** : Mute sound
-- **Enter** : Play Pause
+- `Up` / `Down` : Volume Up/Down
+- `#` : Mute sound
+- `Enter` : Play Pause
 
 ### NowPlaying tab
-- **RIGHT** : Switch to Lyric tab
-- **#** (*short press*): Minimize MusicApplication
-- **RIGHT** (*long press*): Fast Forward current track
-- **LEFT** (*long press*): Rewind current track
-- **Star** : KeyLock
+- `Right` : Switch to Lyric tab
+- `#` (*short press*): Minimize MusicApplication
+- `Right` (*long press*): Fast Forward current track
+- `Left` (*long press*): Rewind current track
+- `*` : KeyLock
 
 ### Lyric tab
-- **4** (*short press*) : Switch to Player tab
-- **5** : Centering lyric text
-- **0** : Show/Hide inactive text
-- **Star** : Show/Hide lyric text
+- `4` (*short press*) : Switch to Player tab
+- `5` : Centering lyric text
+- `0` : Show/Hide inactive text
+- `*` : Show/Hide lyric text
 
 ### Edit mode
-- **2** / **8** : move x pos of item
-- **4** / **6** : move y pos of item
-- **3** : change text overlay
-- **Up** / **Down** : change font size
-- **Del** : change font style (DB32XX and DB3350 only)
-- **5** : Save settings
-- **0** : Cancel editing
+- `2` / `8` : move x pos of item
+- `4` / `6` : move y pos of item
+- `3` : change text overlay
+- `Up` / `Down` : change font size
+- `C` : change font style (DB32XX and DB3350 only)
+- `5` : Save settings
+- `0` : Cancel editing
 
 ## Other
 ### Lyric

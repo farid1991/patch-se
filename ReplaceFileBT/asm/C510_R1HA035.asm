@@ -4,7 +4,7 @@ defadr  MACRO   a,b
         PUBLIC  a
 a       equ     b
         ENDM
-        
+
         defadr memalloc,0x4BA32698
         defadr memfree,0x4BA326C0
         defadr memset,0x14B31C80
@@ -756,42 +756,39 @@ a       equ     b
         defadr DataBrowser_ItemDesc_CheckFileToCopyMove,0x14DDA4CC+1
         defadr FSX_IsFileExists,0x14411678+1
         defadr DataDownloadBook_onClose,0x14EF13A8+1
-        
-        RSEG   DDB_Question
+
+        EXTERN  Patch_ReplaceFile_Page
+        EXTERN  New_ReplaceFile
+        EXTERN  Close_DataDownloadBook
+
+        RSEG DDB_Question
         CODE16
-        ldr     r3, =_DDB_Question+1
+        ldr     r3, =_DDB_Question
         bx      r3
-        
-        RSEG   DDB_File
+
+        RSEG DDB_File
         CODE16
-        ldr     r3, =_File+1
+        ldr     r3, =_File
         bx      r3
-        
+
         RSEG   DDB_Close
         DATA
-        dcd Close
-        
-        RSEG   CODE
-        DATA
+        DCD     Close_DataDownloadBook
+
+        RSEG CODE
+        CODE16
 _DDB_Question:
-        ; mov     r1, r4
-        ; add     r1, #0x18
-        ; ldr     r1, [r1,#4]
-        mov     r0, r4
-        bl      Question
+        add     r0, r4, #0
+        bl      Patch_ReplaceFile_Page
         ldr     r3, =0x14CB7000+1
         bx      r3
-        
+
 _File:
-        bl      File
+        bl      New_ReplaceFile
         ldr     r0, [r5,#0]
         ldr     r3, =FILEITEM_GetPath
         blx     r3
         ldr     r3, =0x14DDAB02+1
         bx      r3
-        
-        EXTERN  Question
-        EXTERN  File
-        EXTERN  Close
 
         END

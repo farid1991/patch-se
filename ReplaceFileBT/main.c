@@ -1,111 +1,104 @@
 #include "temp\target.h"
 
 #include "..\\include\Types.h"
+#include "..\\include\Function.h"
+
 #include "..\\include\book\DataDownloadBook.h"
 
-#include "Lib.h"
 #include "main.h"
 
-/*
-;Add the question of replacing the file after taking over Bluetooth
-;(c) E1kolyan
-*/
-
-FILE_DATA *GetData()
+FILE_DATA *get_env_data()
 {
-  FILE_DATA *fd = (FILE_DATA *)get_envp(NULL, EMP_NAME);
-  if (!fd)
+  FILE_DATA *fdata = (FILE_DATA *)get_envp(NULL, EMP_NAME);
+  if (!fdata)
   {
-    fd = (FILE_DATA *)memalloc(0xFFFFFFFF, sizeof(FILE_DATA), 1, 5, VALUE_NAME, 0);
-    memset(fd, NULL, sizeof(FILE_DATA));
-    set_envp(NULL, EMP_NAME, (OSADDRESS)fd);
+    fdata = (FILE_DATA *)memalloc(-1, sizeof(FILE_DATA), 1, 5, MEM_NAME, NULL);
+    memset(fdata, NULL, sizeof(FILE_DATA));
+    set_envp(NULL, EMP_NAME, (OSADDRESS)fdata);
   }
-  return fd;
+  return fdata;
 }
 
-void DeleteData()
+void destroy_env_data()
 {
-  FILE_DATA *fd = (FILE_DATA *)get_envp(NULL, EMP_NAME);
-  if (fd)
+  FILE_DATA *fdata = (FILE_DATA *)get_envp(NULL, EMP_NAME);
+  if (fdata)
   {
-    fd->mode = NULL;
-    memfree(0, fd, VALUE_NAME, 0);
+    memfree(NULL, fdata, MEM_NAME, NULL);
     set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }
 }
 
-void Question_OnYes(BOOK *book, GUI *gui)
+void pg_ReplaceFile_onYes(BOOK *book, GUI *gui)
 {
-  FILE_DATA *fd = GetData();
-  fd->mode = true;
+  FILE_DATA *fdata = get_env_data();
+  fdata->state = true;
 
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
-  FREE_GUI(pDDBook->gui);
-  BookObj_GotoPage(pDDBook, DataDownload_Main_Page);
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
+  GUIObject_Destroy(dl_book->gui);
+  BookObj_GotoPage(dl_book, DataDownload_Main_Page);
 }
 
-void Question_OnNo(BOOK *book, GUI *gui)
+void pg_ReplaceFile_onNo(BOOK *book, GUI *gui)
 {
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
-  BookObj_GotoPage(pDDBook, DataDownload_Main_Page);
-  FREE_GUI(pDDBook->gui);
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
+  BookObj_GotoPage(dl_book, DataDownload_Main_Page);
+  GUIObject_Destroy(dl_book->gui);
 }
 
-int Question_Enter(void *data, BOOK *book)
+int pg_ReplaceFile_EnterEvent(void *data, BOOK *book)
 {
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
-  FREE_GUI(pDDBook->gui);
-
-  if (pDDBook->gui = CreateYesNoQuestion(pDDBook, UIDisplay_Main))
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
+  if (dl_book->gui = CreateYesNoQuestion(dl_book, UIDisplay_Main))
   {
-    YesNoQuestion_SetDescriptionText(pDDBook->gui, DescriptionText);
-    YesNoQuestion_SetQuestionText(pDDBook->gui, QuestionText);
-    GUIObject_SoftKeys_SetAction(pDDBook->gui, ACTION_YES, Question_OnYes);
-    GUIObject_SoftKeys_SetAction(pDDBook->gui, ACTION_NO, Question_OnNo);
-    GUIObject_Show(pDDBook->gui);
+    YesNoQuestion_SetDescriptionText(dl_book->gui, DescriptionText);
+    YesNoQuestion_SetQuestionText(dl_book->gui, QuestionText);
+    GUIObject_SoftKeys_SetAction(dl_book->gui, ACTION_YES, pg_ReplaceFile_onYes);
+    GUIObject_SoftKeys_SetAction(dl_book->gui, ACTION_NO, pg_ReplaceFile_onNo);
+    GUIObject_Show(dl_book->gui);
   }
   return 1;
 }
 
-int Question_Exit(void *data, BOOK *book)
+int pg_ReplaceFile_ExitEvent(void *data, BOOK *book)
 {
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
-  FREE_GUI(pDDBook->gui);
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
+  GUIObject_Destroy(dl_book->gui);
   return 1;
 }
 
-const PAGE_MSG evtlst_DataDownload_ReplaceFile[] =
-    {
-        PAGE_ENTER_EVENT, Question_Enter,
-        PAGE_EXIT_EVENT, Question_Exit,
-        NIL_EVENT, NULL};
-
-const PAGE_DESC DataDownload_ReplaceFile_Page = {"DataDownload_ReplaceFile_Page", NULL, evtlst_DataDownload_ReplaceFile};
-
-extern "C" void Question(BOOK *book)
+extern "C" void Patch_ReplaceFile_Page(BOOK *book)
 {
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
 
-  if (FSX_IsFileExists(FILEITEM_GetPath(pDDBook->fi), FILEITEM_GetFname(pDDBook->fi)))
-    BookObj_GotoPage(pDDBook, &DataDownload_ReplaceFile_Page);
+  if (FSX_IsFileExists(FILEITEM_GetPath(dl_book->fi), FILEITEM_GetFname(dl_book->fi)))
+  {
+    BookObj_GotoPage(dl_book, &DataDownload_ReplaceFile_Page);
+  }
   else
-    BookObj_GotoPage(pDDBook, DataDownload_Main_Page);
+  {
+    BookObj_GotoPage(dl_book, DataDownload_Main_Page);
+  }
 }
 
-extern "C" void File(FILEITEM *fi)
+extern "C" void New_ReplaceFile(FILEITEM *fileitem)
 {
-  FILE_DATA *fd = GetData();
+  FILE_DATA *fd = get_env_data();
 
-  if (fd->mode)
-    FileDelete(FILEITEM_GetPath(fi), FILEITEM_GetFname(fi), NULL);
+  if (fd->state)
+  {
+    FileDelete(FILEITEM_GetPath(fileitem), FILEITEM_GetFname(fileitem), NULL);
+  }
   else
-    DataBrowser_ItemDesc_CheckFileToCopyMove(fi);
+  {
+    DataBrowser_ItemDesc_CheckFileToCopyMove(fileitem);
+  }
 }
 
-extern "C" void Close(BOOK *book)
+extern "C" void Close_DataDownloadBook(BOOK *book)
 {
-  DeleteData();
+  destroy_env_data();
 
-  DataDownloadBook *pDDBook = (DataDownloadBook *)book;
-  DataDownloadBook_onClose(pDDBook);
+  DataDownloadBook *dl_book = (DataDownloadBook *)book;
+  DataDownloadBook_onClose(dl_book);
 }

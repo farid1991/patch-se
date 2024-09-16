@@ -10,7 +10,6 @@ Added Free Heap on menu title.
 ### Devices
 - **J20 R7CA064**
 - **J108 R7EA011**
-- **U10 R1BA049**
 - **U10 R7AA071**
 - **U100 R7AA076**
 - ...

@@ -56,14 +56,14 @@ Change layout of FmRadio GUI
     18. ARROW_DOWN_ACTIVE_ICN.png
 
 ### Management Key:
-- **2** / **8** : to move up / down
-- **4** / **6** : move left / right
-- **5** : save changes
-- **0** : undo changes
-- **C** : change font style (**Bold**, *Italic*, ***Bold Italic***) DB32XX Only
-- Navigation **Up** / **Down** : increase / decrease the font size and the frequency indicator
-- Navigation **left** / **right** : increase / decrease the width frequency indicator and Text
-- OK : Change text overlay
+- `2` / `8` : to move up / down
+- `4` / `6` : move left / right
+- `5` : save changes
+- `0` : undo changes
+- `C` : change font style (**Bold**, *Italic*, ***Bold Italic***) DB32XX Only
+- `Up` / `Down` : increase / decrease the font size and the frequency indicator
+- `Left` / `Right` : increase / decrease the width frequency indicator and Text
+- `Enter` : Change text overlay
 
 ### Screenshot
 ![87.5MHz](snapshots/scr03-00-07.png) 

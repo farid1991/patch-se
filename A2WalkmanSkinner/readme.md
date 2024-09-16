@@ -188,27 +188,27 @@ BAR_PLUS3.png
 
 ## Management Key:
 ### Now playing
-- **0** - **9** : Configurable at `Settings->Shortcuts`
-- **#** (*short press*): Minimize MusicApplication
-- **#** (*long press*): Close MusicApplication
-- **Star** : KeyLock
+- `0` - `9` : Configurable at `Settings->Shortcuts`
+- `#` (*short press*): Minimize MusicApplication
+- `#` (*long press*): Close MusicApplication
+- `*` : KeyLock
 
 ### Lyric GUI
-- **2** / **8** : volume Up/Down
-- **4** / **6** (*short press*) : Prev / Next track
-- **4** / **6** (*long press*) : FasrForward / Rewind current track
-- **5** : Centering lyric text
-- **0** : Show/Hide inactive text
-- **Enter** : Play/Pause player
+- `2` / `8` : volume Up/Down
+- `4` / `6` (*short press*) : Prev / Next track
+- `4` / `6` (*long press*) : FasrForward / Rewind current track
+- `5` : Centering lyric text
+- `0` : Show/Hide inactive text
+- `Enter` : Play/Pause player
 
 ### EditCoordinates GUI
-- **2** / **UP** : Move Up cursor
-- **8** / **DOWN** : Move Down cursor
-- **4** / **LEFT** Move Left cursor
-- **6** / **RIGHT** Move Right cursor
-- **RightSoftkeys** : Change orientation
-- **End** : Cancel editing
-- **Enter** : OK
+- `2` / `UP` : Move Up cursor
+- `8` / `DOWN` : Move Down cursor
+- `4` / `LEFT` Move Left cursor
+- `6` / `RIGHT` Move Right cursor
+- `RightSoftkeys` : Change orientation
+- `End` : Cancel editing
+- `Enter` : OK
 
 ## Other
 ### Lyric
