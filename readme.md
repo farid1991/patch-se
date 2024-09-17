@@ -109,6 +109,7 @@ VKP (V_Klay Patch) is format for patch file on Siemens and Sony Ericsson phones 
 * [Book Manager Mod](BookManagerMod/readme.md)
 * [DBItemText](DBItemText/readme.md)
 * [DBPlayer A2](DBPlayer/readme.md)
+* [EXIF Info](EXIFinfo/readme.md)
 * [Flash Menu Picker](FlashMenuPicker/readme.md)
 * [FM Radio Layout](FmRadio_Layout/readme.md)
 * [Goto Shortcut](Goto_Shortcut/readme.md)
