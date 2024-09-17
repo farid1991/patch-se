@@ -11,9 +11,9 @@ Add more info about PNG in file information window
     User Text info
 
 ### Devices
-- **C510 R1HA035** ([*libpng 1.2.20*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.20/))
-- **K600 R2BB001** ([*libpng 1.2.4*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.4/))
-- **U100 R7AA076** ([*libpng 1.2.16*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.16/))
+- **C510 R1HA035**[^3]
+- **K600 R2BB001**[^1]
+- **U100 R7AA076**[^2]
 - ...
 
 ### Patch Info
@@ -47,5 +47,11 @@ Add more info about PNG in file information window
 
 ### libpng License
 `PNGInfo` use `libpng`. For the full libpng license, see [libpng.org](http://www.libpng.org/pub/png/libpng.html).
+
+[^1]: [*libpng 1.2.4*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.4/)
+
+[^2]: [*libpng 1.2.16*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.16/)
+
+[^3]: [*libpng 1.2.20*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.20/)
 
 ## [Go Back](../readme.md)

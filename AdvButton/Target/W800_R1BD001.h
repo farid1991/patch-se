@@ -3,23 +3,26 @@
 
 #define A1
 #define DB2010
+#define USE_LIBPNG
 
 #define BOOKMAN_PATH L"/tpa/user/other/ini"
-#define BCFG_PATH L"/tpa/user/other/ZBin/BcfgEdit.elf"
+#define BCFGEDIT_PATH L"/tpa/user/other/ZBin/BcfgEdit.elf"
 
-#define get_VBUFFER (int*)0x4C08EA4C
+#define CID_CDisplayManager (PUUID)0x441588D8
+#define IID_IDisplayManager (PUUID)0x4417C728
 
+#define get_VBUFFER (int *)0x4C08EA4C
 #define LastExtDB (DB_EXT *)0x4422C7A0
-#define CONFIG_PATH (wchar_t*)0x443FB238
-#define SYNC (int*)0x4424CAF0
+#define SYNC (int *)0x4424CAF0
 
-#define JAVA_STR (char *)0x446917F8
-#define FOREIGNAPP (char *)0x4441AF2C
-#define MAINMENU_ID (wchar_t *)0x4441A8F0
-
-#define SELECT_PROFILE_ID (wchar_t*)0x442A1116
-#define SETTINGS_BT_ID (wchar_t*)0x4420D724
-#define SETTINGS_IR_ID (wchar_t*)0x442A2E8A
+#define DEF_LIBPNG_VER_STRING (char *)0x443D8882 // "1.2.4"
+#define CONFIG_PATH (wchar_t *)0x443FB238        // L"/tpa/system/settings"
+#define JAVA_STR (char *)0x446917F8              // "Java"
+#define FOREIGNAPP (char *)0x4441AF2C            // "Foreign app "
+#define MAINMENU_ID (wchar_t *)0x4441A8F0        // L"MainMenu"
+#define SELECT_PROFILE_ID (wchar_t *)0x442A1116  // L"SelectProfile_Id"
+#define SETTINGS_BT_ID (wchar_t *)0x4420D724     // L"MenuItem_Bt_Activation"
+#define SETTINGS_IR_ID (wchar_t *)0x442A2E8A     // L"Settings_IR_Id"
 
 #define NIL_EVENT 0
 #define BOOK_DESTROYED_EVENT 4

@@ -787,7 +787,7 @@ int Elf_OpenFile(const wchar_t *filepath, const wchar_t *filename)
 {
   W_FSTAT _wstat;
 
-  if (!w_fstat(BCFG_PATH, &_wstat))
+  if (!w_fstat(BCFGEDIT_PATH, &_wstat))
   {
   }
   else
@@ -798,7 +798,7 @@ int Elf_OpenFile(const wchar_t *filepath, const wchar_t *filename)
   if (!filepath || !filename)
     return BCFG_FOUND; // success
 
-  openWithBcfgEdit(BCFG_PATH, filepath, filename);
+  openWithBcfgEdit(BCFGEDIT_PATH, filepath, filename);
   return BCFG_DEFAULT;
 }
 

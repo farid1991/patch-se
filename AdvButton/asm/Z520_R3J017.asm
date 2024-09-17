@@ -154,7 +154,18 @@ a       equ b
         defadr IsAudioPlayerBook,0x44F29D68+1
         defadr IsExternalDisplay,0x44D058E4+1
         defadr REQUEST_DATEANDTIME_GET,0x4508C684+1
-
+        defadr OSE_GetShell,0x44C70B08+1
+        defadr png_get_io_ptr,0x448BDFB8+1
+        defadr png_create_write_struct_2,0x448C37EC+1
+        defadr png_create_info_struct,0x448BDED4+1
+        defadr png_destroy_write_struct,0x448C399C+1
+        defadr png_set_IHDR,0x448C3358+1
+        defadr png_set_bgr,0x448C35AC+1
+        defadr png_set_filler,0x448C35F0+1
+        defadr png_set_write_fn,0x448C3730+1
+        defadr png_write_info,0x448C378C+1
+        defadr png_write_row,0x448C3910+1
+        defadr png_write_end,0x448C37C0+1
         defadr def_Keyhandler,0x44E4FA58+1
 
         EXTERN  Patch_QuickAccess

@@ -151,7 +151,18 @@ a       equ b
         defadr CreateMessageBox,0x450592F8+1
         defadr get_system_langID,0x44D2A018+1
         defadr lang_get_name,0x44ECB4CC+1
-
+        defadr OSE_GetShell,0x44C97478+1
+        defadr png_get_io_ptr,0x449597E0+1
+        defadr png_create_write_struct_2,0x448A8CEC+1
+        defadr png_create_info_struct,0x448A33D4+1
+        defadr png_destroy_write_struct,0x448A8E9C+1
+        defadr png_set_IHDR,0x448A8858+1
+        defadr png_set_bgr,0x448A8AAC+1
+        defadr png_set_filler,0x448A8AF0+1
+        defadr png_set_write_fn,0x448A8C30+1
+        defadr png_write_info,0x448A8C8C+1
+        defadr png_write_row,0x448A8E10+1
+        defadr png_write_end,0x448A8CC0+1
         defadr def_Keyhandler,0x44E79E48+1
 
         EXTERN  Patch_QuickAccess

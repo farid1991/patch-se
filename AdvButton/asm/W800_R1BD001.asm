@@ -191,6 +191,18 @@ a       equ b
         defadr BookObj_SoftKeys_SetText,0x4505BEF8+1
         defadr Shortcut_Get_MenuItemName,0x44D49280+1
         defadr Shortcut_Get_MenuItemIconID,0x44D49E90+1
+        defadr OSE_GetShell,0x44CA1814+1
+        defadr png_get_io_ptr,0x449597E0+1
+        defadr png_create_write_struct_2,0x4495F014+1
+        defadr png_create_info_struct,0x449596FC+1
+        defadr png_destroy_write_struct,0x4495F1C4+1
+        defadr png_set_IHDR,0x4495EB80+1
+        defadr png_set_bgr,0x4495EDD4+1
+        defadr png_set_filler,0x4495EE18+1
+        defadr png_set_write_fn,0x4495EF58+1
+        defadr png_write_info,0x4495EFB4+1
+        defadr png_write_row,0x4495F138+1
+        defadr png_write_end,0x4495EFE8+1
         defadr def_Keyhandler,0x44E823EC+1
 
         EXTERN  Patch_QuickAccess

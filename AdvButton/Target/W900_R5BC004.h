@@ -3,25 +3,26 @@
 
 #define A1
 #define DB2000
+#define USE_LIBPNG
 #define USE_IDISPLAY_MANAGER
 
 #define BOOKMAN_PATH L"/usb/other/ini"
-#define BCFG_PATH L"/usb/other/ZBin/BcfgEdit.elf"
+#define BCFGEDIT_PATH L"/usb/other/ZBin/BcfgEdit.elf"
 
 #define CID_CDisplayManager (PUUID)0x211FDE80
 #define IID_IDisplayManager (PUUID)0x21229110
 
 #define LastExtDB (DB_EXT *)0x2140E5FC
-#define CONFIG_PATH (wchar_t *)0x215D944C
 #define SYNC (int *)0x2142D1B8
 
-#define JAVA_STR (char *)0x21A47BF0
-#define FOREIGNAPP (char *)0x215F85F0
-#define MAINMENU_ID (wchar_t *)0x2148A6D0
-
-#define SELECT_PROFILE_ID (wchar_t *)0x2148E5D8
-#define SETTINGS_IR_ID (wchar_t *)0x21490222
-#define SETTINGS_BT_ID (wchar_t*)0x213EF68C
+#define DEF_LIBPNG_VER_STRING (char *)0x2156D354 // "1.2.4"
+#define CONFIG_PATH (wchar_t *)0x215D944C        // L"/tpa/system/settings"
+#define JAVA_STR (char *)0x21A47BF0              // "Java"
+#define FOREIGNAPP (char *)0x215F85F0            // "Foreign app "
+#define MAINMENU_ID (wchar_t *)0x2148A6D0        // L"MainMenu"
+#define SELECT_PROFILE_ID (wchar_t *)0x2148E5D8  // L"SelectProfile_Id"
+#define SETTINGS_IR_ID (wchar_t *)0x21490222     // L"Settings_IR_Id"
+#define SETTINGS_BT_ID (wchar_t *)0x213EF68C     // L"MenuItem_Bt_Activation"
 
 #define NIL_EVENT 0
 #define BOOK_DESTROYED_EVENT 4

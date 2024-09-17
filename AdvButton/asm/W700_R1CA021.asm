@@ -191,6 +191,18 @@ a       equ b
         defadr manifest_GetParam,0x45095244+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x45106CDC+1
         defadr PlaySystemSound,0x44D41864+1
+        defadr OSE_GetShell,0x44CA5B28+1
+        defadr png_get_io_ptr,0x448AEE80+1
+        defadr png_create_write_struct_2,0x448B46B4+1
+        defadr png_create_info_struct,0x448AED9C+1
+        defadr png_destroy_write_struct,0x448B4864+1
+        defadr png_set_IHDR,0x448B4220+1
+        defadr png_set_bgr,0x448B4474+1
+        defadr png_set_filler,0x448B44B8+1
+        defadr png_set_write_fn,0x448B45F8+1
+        defadr png_write_info,0x448B4654+1
+        defadr png_write_row,0x448B47D8+1
+        defadr png_write_end,0x448B4688+1
         defadr def_Keyhandler,0x44E88484+1
 
         EXTERN  Patch_QuickAccess

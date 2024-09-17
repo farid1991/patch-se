@@ -11,13 +11,25 @@
 
 __thumb void *malloc(int size)
 {
-  return memalloc(size, 1, 5, "mem", NULL);
+#if defined(DB2020)
+  return memalloc(0, size, 1, 5, "btn", 0);
+#elif defined(A2)
+  return memalloc(0xFFFFFFFF, size, 1, 5, "btn", 0);
+#else
+  return memalloc(size, 1, 5, "btn", 0);
+#endif
 }
 
 __thumb void mfree(void *mem)
 {
   if (mem)
-    memfree(mem, "mem", NULL);
+#if defined(DB2020)
+    memfree(0, mem, "btn", 0);
+#elif defined(A2)
+    memfree(0, mem, "btn", 0);
+#else
+    memfree(mem, "btn", 0);
+#endif
 }
 
 TEXTID GetFreeHeap()

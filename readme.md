@@ -105,6 +105,7 @@ VKP (V_Klay Patch) is format for patch file on Siemens and Sony Ericsson phones 
 
 ### List
 * [A2 Walkman Skinner](A2WalkmanSkinner/readme.md)
+* [AdvButton](AdvButton/readme.md)
 * [Book Manager Mod](BookManagerMod/readme.md)
 * [DBItemText](DBItemText/readme.md)
 * [DBPlayer A2](DBPlayer/readme.md)
@@ -124,8 +125,11 @@ VKP (V_Klay Patch) is format for patch file on Siemens and Sony Ericsson phones 
 ;Device and Firmware
 ;Patch name
 ;Patch description
+;(i) `Additional info`          ;optional
+;(!) `Conflict with Patch xxx`  ;optional
 ;(c) Patch creator
 ;(p) Patch porter
+;(e) Patch editor
 ;pAtChFiLe=/boot/phone_app.cxc  ;optional
 +base_address                   ;optional
 patch_address: old_bytes new_bytes
@@ -134,7 +138,7 @@ patch_address: old_bytes new_bytes
 ```
 ;C510 SW-R1HA035
 ;Fix int2strID, Str2ID
-;(!) Needed by some patches and elves (eg: BookManager)
+;(i) Needed by some patches and elves (eg: BookManager)
 ;(c) IronMaster
 ;pAtChFiLe=/boot/phone_app.cxc
 1401F5C2: 0D1C 0025
@@ -148,7 +152,7 @@ Open PR to request port a patch to certain device
 Feature requests are welcome. Please provide as much detail and context as possible.
 
 ### TODO
-Migrate the projects using [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) from IAR Build Tools for Arm
+Migrate the projects to [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) from IAR Build Tools for Arm
 
 ### License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

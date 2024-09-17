@@ -153,9 +153,23 @@ a       equ b
         defadr PlaySystemSound,0x44FCB25C+1
         defadr IsAudioPlayerBook,0x4529F19C+1
         defadr REQUEST_DATEANDTIME_GET,0x4540EB0C+1
+        defadr OSE_GetShell,0x44F18430+1
+        defadr png_get_io_ptr,0x44ABB4E4+1
+        defadr png_create_write_struct_2,0x44AC0D10+1
+        defadr png_create_info_struct,0x44ABB400+1
+        defadr png_destroy_write_struct,0x44AC0EC0+1
+        defadr png_set_IHDR,0x44AC087C+1
+        defadr png_set_bgr,0x44AC0AD0+1
+        defadr png_set_filler,0x44AC0B14+1
+        defadr png_set_write_fn,0x44AC0C54+1
+        defadr png_write_info,0x44AC0CB0+1
+        defadr png_write_row,0x44AC0E34+1
+        defadr png_write_end,0x44AC0CE4+1
         defadr def_Keyhandler,0x4511315C+1
 
+        EXTERN  Patch_QuickAccess
         EXTERN  Patch_BookManager
+        EXTERN  Patch_Screenshoter
 
         RSEG    PATCH_FIX_MPKEY
         CODE16
@@ -173,7 +187,7 @@ keyhandler:
         BNE     _def_button
         CMP	R2, #KBD_SHORT_RELEASE
 	BNE	_def_button
-        BL      Patch_BookManager
+        BL      Patch_Screenshoter
         POP	{PC}
 
 _def_button:

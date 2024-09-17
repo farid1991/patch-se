@@ -9,7 +9,7 @@ Add ability to take screenshot with Game A & Game B button.
 - BMP and PNG saved on `/usb/picture/snapshots/`
 
 ### Devices
-- **U100 R7AA076** ([*libpng 1.2.16*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.16/))
+- **U100 R7AA076**[^1]
 - ...
 
 ### Patch Info
@@ -37,5 +37,7 @@ Add ability to take screenshot with Game A & Game B button.
 
 ## libpng License
 `ScreenShooter` use `libpng`. For the full libpng license, see [libpng.org](http://www.libpng.org/pub/png/libpng.html).
+
+[^1]: [*libpng 1.2.16*](https://sourceforge.net/projects/libpng/files/libpng12/older-releases/1.2.16/)
 
 ## [Go Back](../readme.md)

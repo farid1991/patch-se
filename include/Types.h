@@ -977,6 +977,8 @@ void **PPINTERFACE(T **pp)
 #define PPINTERFACE(v) (void **)v
 #endif
 
+#define SUCCEEDED(res) res >= 0
+
 // softkeys --------------------------------------------------------------------
 
 typedef void (*SKACTIONPROC)(BOOK *, GUI *);

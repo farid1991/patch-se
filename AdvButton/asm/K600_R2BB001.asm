@@ -167,19 +167,19 @@ a       equ b
         defadr JavaAppDesc_GetJavaAppID,0x2064D36C+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x204F5CFC+1
         defadr manifest_GetParam,0x20458AFC+1
-
         defadr Display_GetHeight,0x2042E144+1
         defadr Display_GetWidth,0x2042E154+1
         defadr PlaySystemSound,0x207562CC+1
         defadr IsAudioPlayerBook,0x2033F3EC+1
         defadr OSE_GetShell,0x206BE70C+1
         defadr REQUEST_DATEANDTIME_GET,0x204BD5DC+1
-
         defadr png_get_io_ptr,0x209BC64C+1
         defadr png_create_write_struct_2,0x209C1E80+1
         defadr png_create_info_struct,0x209BC568+1
         defadr png_destroy_write_struct,0x209C2030+1
         defadr png_set_IHDR,0x209C19EC+1
+        defadr png_set_bgr,0x209C1C40+1
+        defadr png_set_filler,0x209C1C84+1
         defadr png_set_write_fn,0x209C1DC4+1
         defadr png_write_info,0x209C1E20+1
         defadr png_write_row,0x209C1FA4+1
