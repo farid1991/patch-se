@@ -66,7 +66,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int r1, int r2, int r3)
 {
   DisplayText(disp_obj);
 
-  DrawSlider(disp_obj->r, MAX_COLOR,
+  DrawSlider(disp_obj->r, MAX_COLOR_VAL,
              (disp_obj->rect_height * 1), disp_obj->rect_height,
              disp_obj->r_textid,
              FONT_E_16R,
@@ -76,7 +76,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int r1, int r2, int r3)
              SELECTED_SLIDER_COLOR,
              SELECTED_THUMB_COLOR);
 
-  DrawSlider(disp_obj->g, MAX_COLOR,
+  DrawSlider(disp_obj->g, MAX_COLOR_VAL,
              (disp_obj->rect_height * 2), disp_obj->rect_height,
              disp_obj->g_textid,
              FONT_E_16R,
@@ -86,7 +86,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int r1, int r2, int r3)
              SELECTED_SLIDER_COLOR,
              SELECTED_THUMB_COLOR);
 
-  DrawSlider(disp_obj->b, MAX_COLOR,
+  DrawSlider(disp_obj->b, MAX_COLOR_VAL,
              (disp_obj->rect_height * 3), disp_obj->rect_height,
              disp_obj->b_textid,
              FONT_E_16R,
@@ -96,7 +96,7 @@ void EditColor_OnRedraw(DISP_OBJ_COLOR *disp_obj, int r1, int r2, int r3)
              SELECTED_SLIDER_COLOR,
              SELECTED_THUMB_COLOR);
 
-  DrawSlider(disp_obj->a, MAX_COLOR,
+  DrawSlider(disp_obj->a, MAX_COLOR_VAL,
              (disp_obj->rect_height * 4), disp_obj->rect_height,
              disp_obj->a_textid,
              FONT_E_16R,
@@ -138,19 +138,19 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int count, int repeat, i
       {
       case ROW_1:
         if ((--disp_obj->r) < 0)
-          disp_obj->r = MAX_COLOR;
+          disp_obj->r = MAX_COLOR_VAL;
         break;
       case ROW_2:
         if ((--disp_obj->g) < 0)
-          disp_obj->g = MAX_COLOR;
+          disp_obj->g = MAX_COLOR_VAL;
         break;
       case ROW_3:
         if ((--disp_obj->b) < 0)
-          disp_obj->b = MAX_COLOR;
+          disp_obj->b = MAX_COLOR_VAL;
         break;
       case ROW_4:
         if ((--disp_obj->a) < 0)
-          disp_obj->a = MAX_COLOR;
+          disp_obj->a = MAX_COLOR_VAL;
         break;
       }
     }
@@ -159,19 +159,19 @@ void EditColor_OnKey(DISP_OBJ_COLOR *disp_obj, int key, int count, int repeat, i
       switch (disp_obj->current_row)
       {
       case ROW_1:
-        if (++disp_obj->r > MAX_COLOR)
+        if (++disp_obj->r > MAX_COLOR_VAL)
           disp_obj->r = 0;
         break;
       case ROW_2:
-        if (++disp_obj->g > MAX_COLOR)
+        if (++disp_obj->g > MAX_COLOR_VAL)
           disp_obj->g = 0;
         break;
       case ROW_3:
-        if (++disp_obj->b > MAX_COLOR)
+        if (++disp_obj->b > MAX_COLOR_VAL)
           disp_obj->b = 0;
         break;
       case ROW_4:
-        if (++disp_obj->a > MAX_COLOR)
+        if (++disp_obj->a > MAX_COLOR_VAL)
           disp_obj->a = 0;
         break;
       }
