@@ -6,7 +6,7 @@ typedef struct OBEX_REFRESH_RECEIVE_PROGRESS_DATA
 {
   char dummy[0x28];
   int received_bytes;
-} OBEX_REFRESH_RECEIVE_PROGRESS_EVENT;
+} OBEX_REFRESH_RECEIVE_PROGRESS_DATA;
 
 #if defined(DB2010)
 typedef struct ObExReceiveBook : BOOK
@@ -14,8 +14,7 @@ typedef struct ObExReceiveBook : BOOK
   void *unk_18;              // 0x18
   GUI *ProgressBar;          // 0x1C
   int unk_24;                // 0x20
-  wchar_t file_name[0xFC];   // 0x24
-  wchar_t file_path[0xFC];   // 0x21C
+  BT_FILE_2010 bt_file;      // 0x24
   wchar_t sender_name[0xFC]; // 0x414
   int file_size;             // 0x60C
   int free_memory;           // 0x610

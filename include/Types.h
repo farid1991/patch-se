@@ -75,19 +75,18 @@ typedef struct
 	TIME time;
 } CALLINFO;
 
-typedef struct
-{
-	char dummy[0x24];
-	TIME time;
-	int full;
-	int sec;
-} TIMERBOOK;
-
 typedef struct POINT
 {
 	int x;
 	int y;
 } POINT;
+
+typedef struct POINT3D
+{
+	int x;
+	int y;
+	int z;
+} POINT3D;
 
 typedef struct RECT
 {
@@ -248,7 +247,7 @@ LISTFINDCALLBACK MKLISTFINDCALLBACK(int (*param)(T, T2))
 typedef int (*DISP_OBJ_ONCREATE_METHOD)(DISP_OBJ *);
 typedef void (*DISP_OBJ_ONCLOSE_METHOD)(DISP_OBJ *);
 typedef void (*DISP_OBJ_ONREDRAW_METHOD)(DISP_OBJ *, int, int, int);
-typedef void (*DISP_OBJ_ONKEY_METHOD)(DISP_OBJ *, int scan_code, int unk, int repeat_num, int key_mode);
+typedef void (*DISP_OBJ_ONKEY_METHOD)(DISP_OBJ *, int scan_code, int count, int repeat_num, int key_mode);
 typedef void (*DISP_OBJ_ONCONFIG_METHOD)(DISP_OBJ *, int unk, int DisplayWidth, int DisplayHeight);
 typedef void (*DISP_OBJ_ONLAYOUT_METHOD)(DISP_OBJ *, void *layoutstruct);
 typedef void (*DISP_OBJ_METHOD)(DISP_OBJ *);
@@ -276,22 +275,61 @@ typedef struct DISP_DESC
 	char field_3B;
 } DISP_DESC;
 
-typedef struct DISP_OBJ
+#if defined(DB2000)
+typedef struct DISP_OBJ // For DB2000 platform
 {
-#if defined(DB2010)
-#ifdef OLD_PLAYER
-	char dummy[0xBC];
-#else
-	char dummy[0xB8];
-#endif
-#elif defined(DB2020)
-	char dummy[0xB4];
-#elif defined(DB3150v2)
-	char dummy[0x120];
-#else
-	char dummy[0x16C];
-#endif
+	char dummy[0xC4];
 } DISP_OBJ;
+
+#elif defined(DB2010)
+#ifdef OLD_PLAYER
+typedef struct DISP_OBJ // For OLD DB2010 platform
+{
+	char dummy[0xBC];
+} DISP_OBJ;
+#else
+typedef struct DISP_OBJ // For DB201X platform
+{
+	char dummy[0xB8];
+} DISP_OBJ;
+#endif
+
+#elif defined(DB2020) || defined(PNX5230)
+typedef struct DISP_OBJ // For DB2020 and PNX5230 platform
+{
+	char dummy[0xB4];
+} DISP_OBJ;
+
+#elif defined(DB3150v1)
+typedef struct DISP_OBJ // For DB3150v1 platform
+{
+	char dummy[0x110];
+} DISP_OBJ;
+
+#elif defined(DB3150v2)
+typedef struct DISP_OBJ // For DB3150v2 platform
+{
+	char dummy[0x120];
+} DISP_OBJ;
+
+#elif defined(DB3200)
+typedef struct DISP_OBJ // For DB3200 platform
+{
+	char dummy[0x168];
+} DISP_OBJ;
+
+#elif defined(DB3210)
+typedef struct DISP_OBJ // For DB3210 platform
+{
+	char dummy[0x16C];
+} DISP_OBJ;
+
+#else
+typedef struct DISP_OBJ // For DB3350 platform
+{
+	char dummy[0x200];
+} DISP_OBJ;
+#endif
 
 #define EMPTY_REDRAW_METHOD (DISP_OBJ_ONREDRAW_METHOD) - 1
 
@@ -651,24 +689,43 @@ typedef struct DISP_OBJ_STRING_INPUT
 
 typedef void *PCANVAS;
 
+typedef struct CANVAS_DESC
+{
+	int unk0;
+	int unk1;
+	int width;
+	int height;
+	uint8_t *pixel_data;
+	int size;
+} CANVAS_DESC;
+
 typedef struct GC
 {
 	PCANVAS *pcanvas;
-	char unk1[0xC];
+	char unk1[0x8];
+	PCANVAS *pcanvas_pen;
 	int pen_color;
-	u16 unk2;
-	char unk3;
-	char unk4[0x5];
-	void *unk5;
+	char unk3[0x4];
+	PCANVAS *pcanvas_brush;
 	int brush_color;
-	char GC_XX;
-	char unk6[0x3];
+	uint8_t XX;
+	char unk[0x3];
 	PCANVAS *pcanvas_text;
-	int unk7;
+	int unk2;
 	PCANVAS *pcanvas_icon;
-	char unk8[0x4];
-	int unk9;
 } GC;
+
+typedef struct GVI_BITMAP
+{
+	int unk0;
+	int unk1;
+	int unk2;
+	void *unk3;
+	void *unk4;
+	CANVAS_DESC *pcanvas_desc;
+	int unk6;
+	int unk7;
+} GVI_BITMAP;
 
 typedef void *GVI_OBJ;
 typedef GVI_OBJ GVI_GC;

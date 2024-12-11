@@ -1,18 +1,24 @@
 #ifndef ObExSendBook_H
 #define ObExSendBook_H
 
+typedef struct OBEX_REFRESH_SEND_PROGRESS_DATA
+{
+  char dummy[0x24];
+  int sent_bytes;
+} OBEX_REFRESH_SEND_PROGRESS_DATA;
+
 #if defined(DB2010)
 typedef struct ObExSendBook : BOOK
 {
   GUI *ProgressBar;        // 0x18
-  char dummy1[0x18];       // 0x1C
-  wchar_t file_name[0xFC]; // 0x34
-  wchar_t file_path[0xFC]; // 0x22C
-  char dummy2[0x10];       // 0x424
+  void *unk_1C;            // 0x1C Interface
+  char unk_20[0x14];       // 0x20
+  BT_FILE_2010 bt_file;    // 0x34
+  char unk_424[0x10];      // 0x424
   int file_sent;           // 0x434
   int file_size;           // 0x438
   u16 timer_id;            // 0x43C
-  u16 unk_3C;              // 0x43E
+  u16 unk_43E;             // 0x43E
   int current_percent;     // 0x440
   IMAGEID Receiver_ICN;    // 0x444
   wchar_t short_name[0xE]; // 0x446
@@ -21,20 +27,19 @@ typedef struct ObExSendBook : BOOK
 #elif defined(DB3150v1)
 typedef struct ObExSendBook : BOOK
 {
-  GUI *ProgressBar;         // 0x18
+  GUI *ProgressBar; // 0x18
 } ObExSendBook;
 
 #elif defined(DB3150v2) || defined(DB3200) || defined(DB3210)
 typedef struct ObExSendBook : BOOK
 {
   GUI *ProgressBar;         // 0x18
-  char dummy1[0x1C];        // 0x1C
-  wchar_t file_name[0xFF];  // 0x38
-  wchar_t file_path[0xFF];  // 0x236
-  char dummy2[0x10];        // 0x434
+  char unk_1C[0x1C];        // 0x1C
+  BT_FILE_2020 bt_file;     // 0x38
+  char unk_434[0x10];       // 0x434
   int file_sent;            // 0x444
   int file_size;            // 0x448
-  char dummy3[0x8];         // 0x44C
+  char unk_44C[0x8];        // 0x44C
   IMAGEID Receiver_ICN;     // 0x454
   wchar_t short_name[0x1F]; // 0x456
 } ObExSendBook;

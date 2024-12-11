@@ -139,29 +139,23 @@ const uint16_t ENABLE_ALTERNATIVE_FREQUENCY = 0x04; // bin: 0000 0000 0000 0100
  */
 const uint16_t ENABLE_TRAFFIC_ANNOUNCEMENTS = 0x08; // bin: 0000 0000 0000 1000
 
-typedef struct DISP_OBJ_FMRADIO
+typedef struct DISP_OBJ_FMRADIO : DISP_OBJ
 {
-#if defined(DB2010)
-  char dummy_1[0xE0];
-#elif defined(DB2020)
-  char dummy_1[0xDC];
-#elif defined(DB3150v1)
-  char dummy_1[0x138];
-#elif defined(DB3150v2)
-  char dummy_1[0x148];
-#elif defined(DB3200) || defined(DB3210)
-  char dummy_1[0x194];
-#endif
-  uint16_t key_pressed;
-  char key_mode;
+  uint8_t channel;      // 0x0
+  char dummy_1[0x23];   // 0x1
+  TEXTID text_id;       // 0x24
+  uint16_t key_pressed; // 0x28
+  uint8_t key_mode;     // 0x2A
+  uint8_t unk_2B;       // 0x2B
+  RECT rect;            // 0x2C
+  uint32_t pen_color;   // 0x34
+  uint32_t brush_color; // 0x38
 } DISP_OBJ_FMRADIO;
 
 typedef struct FmRadio_Settings
 {
   bool SpeakerMode;
   bool StereoReception; // true=stereo //false=mono
-  char FmRadio_Settings_3;
-  char FmRadio_Settings_4;
 } FmRadio_Settings;
 
 typedef struct FmRadio_Channel
@@ -175,32 +169,32 @@ typedef struct FmRadio_Channel
 typedef struct _FmRadio_Book : BOOK
 {
   GUI *FmRadio_Gui;                                     // 0x18
-  int unk_0x1C;                                         // 0x1C
+  int unk_1C;                                           // 0x1C
   GUI *FmRadio_Gui_Submenu1;                            // 0x20
   GUI *FmRadio_Gui_Submenu2;                            // 0x24
-  int unk_0x24;                                         // 0x28
+  int unk_24;                                           // 0x28
   char CurrentChannel;                                  // 0x2C
-  char unk_0x29;                                        // 0x2D
+  char unk_29;                                          // 0x2D
   uint16_t CurrentFrequency;                            // 0x2E
-  uint16_t unk_0x2C;                                    // 0x30
+  uint16_t unk_2C;                                      // 0x30
   wchar_t ProgramServiceName[NBR_OF_PS_NAME_CHARS + 1]; // 0x32
-  uint16_t unk_0x40;                                    // 0x44
+  uint16_t unk_40;                                      // 0x44
   FmRadio_Channel Channel[20];                          // 0x46
-  uint16_t unk_0x33E;                                   // 0x33E
+  uint16_t unk_33E;                                     // 0x33E
   int RadioVal;                                         // 0x340
-  int unk_0x344;                                        // 0x344
-  int unk_0x348;                                        // 0x348
+  int unk_344;                                          // 0x344
+  int unk_348;                                          // 0x348
   void *pIAudioControl;                                 // 0x34C
-  int unk_0x350;                                        // 0x350
+  int unk_350;                                          // 0x350
   void *pIFMRadio;                                      // 0x354
-  int unk_0x358;                                        // 0x358
+  int unk_358;                                          // 0x358
   void *pIAccessoryServer;                              // 0x35C
   FmRadio_Settings Settings;                            // 0x360
   uint16_t unk_0x366;                                   // 0x364
   uint16_t TimerID;                                     // 0x366
   uint16_t FrequencySearch;                             // 0x368
-  uint16_t unk_0x36A;                                   // 0x36A
-  char dummy_4[0x2E];                                   // 0x36C
+  uint16_t unk_36A;                                     // 0x36A
+  char unk_36C[0x2E];                                   // 0x36C
   bool RDS;                                             // 0x39A
   bool AF;                                              // 0x39B
   char unk_0x39C;                                       // 0x39C
@@ -211,32 +205,33 @@ typedef struct _FmRadio_Book : BOOK
   GUI *FmRadio_Gui;                                     // 0x18
   GUI *FmRadio_Gui_Submenu1;                            // 0x1C
   GUI *FmRadio_Gui_Submenu2;                            // 0x20
-  int unk_0x24;                                         // 0x24
+  int parent_book_id;                                   // 0x24
   char CurrentChannel;                                  // 0x28
-  char unk_0x29;                                        // 0x29
+  char unk_29;                                          // 0x29
   uint16_t CurrentFrequency;                            // 0x2A
-  uint16_t unk_0x2C;                                    // 0x2C
+  uint16_t unk_2C;                                      // 0x2C
   wchar_t ProgramServiceName[NBR_OF_PS_NAME_CHARS + 1]; // 0x2E
-  uint16_t unk_0x40;                                    // 0x40
+  uint16_t unk_40;                                      // 0x40
   FmRadio_Channel Channel[20];                          // 0x42
-  uint16_t unk_0x33A;                                   // 0x33A
+  uint16_t unk_33A;                                     // 0x33A
   int RadioVal;                                         // 0x33C
-  int unk_0x340;                                        // 0x340
-  int unk_0x344;                                        // 0x344
+  int unk_340;                                          // 0x340
+  int unk_344;                                          // 0x344
   void *pIAudioControl;                                 // 0x348
-  int unk_0x34C;                                        // 0x34C
+  int unk_34C;                                          // 0x34C
   void *pIFMRadio;                                      // 0x350
-  int unk_0x354;                                        // 0x354
+  int unk_354;                                          // 0x354
   void *pIAccessoryServer;                              // 0x358
   FmRadio_Settings Settings;                            // 0x35C
-  uint16_t unk_0x362;                                   // 0x360
-  uint16_t TimerID;                                     // 0x362
+  uint16_t TimerID;                                     // 0x35E
+  uint16_t unk_360;                                     // 0x360
+  uint16_t unk_362;                                     // 0x362
   uint16_t FrequencySearch;                             // 0x364
-  uint16_t unk_0x366;                                   // 0x366
-  char dummy_4[0x2E];                                   // 0x368
+  uint16_t unk_366;                                     // 0x366
+  char unk_368[0x2E];                                   // 0x368
   bool RDS;                                             // 0x396
   bool AF;                                              // 0x397
-  char unk_0x398;                                       // 0x398
+  char unk_398;                                         // 0x398
 } FmRadio_Book;
 #endif
 

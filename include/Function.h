@@ -18,13 +18,16 @@ extern "C"
 #else
   void *memalloc(int size, int f1, int f2, const char *fname, int fline);
   void memfree(void *mem, const char *fname, int fline);
+  void *zeromem(size_t size, size_t count, int f1, int f2);
 #endif
 
 #if defined(A1)
   void *MetaData_Desc_Create(wchar_t *path, wchar_t *name);
   void MetaData_Desc_Destroy(void *MetaData_Desc);
+  bool MetaData_Desc_HasCover(void *MetaData_Desc);
   int MetaData_Desc_GetCoverInfo(void *MetaData_Desc, char *cover_type, int *size, int *cover_offset);
   wchar_t *MetaData_Desc_GetTags(void *MetaData_Desc, int tagID);
+
   void Display_SetBrightness(int display, int brightness);
 
   int AB_READSTRING(AB_STR_ITEM *, int rec_num, int field_ID);
@@ -138,6 +141,7 @@ extern "C"
   wchar_t *str2wstr(wchar_t *wstr, const char *str);
   int strcmp(const char *str1, const char *str2);
   int strlen(const char *str);
+  wchar_t *str2wstrn(wchar_t *wstr, const char *str, int maxlen);
   char *wstr2strn(char *str, const wchar_t *wstr, int maxlen);
 
   TEXTID TextID_CreateIntegerID(int num);
@@ -768,6 +772,7 @@ extern "C"
   void DispObject_SetTitleIconHasPriority(DISP_OBJ *, BOOL titleIconHasPrio);
   void DispObject_SetTitleAlignment(DISP_OBJ *, char titleAlignment);
   int DispObject_GetTitleAlignment(DISP_OBJ *);
+  void DispObject_SetSecondRowTitleText(DISP_OBJ *, TEXTID);
 
   void DispObject_SetBacklightMode(DISP_OBJ *, int mode); // 0 - on; 1 - off; 2 - blink; 3 - timeout; 4 - restore;
   void DispObject_SetBacklightTimeout(DISP_OBJ *, int timeout);
@@ -857,8 +862,8 @@ extern "C"
   int GUIObject_GetStyle(GUI *);
   int GUIObject_GetTitleType(GUI *);
   void GUIObject_SetTitleIconHasPriority(GUI *, BOOL titleIconHasPrio);
-  void GUIObject_SetTitleAlignment(GUI *, char titleAlignment);
-  int GUIObject_GetTitleAlignment(GUI *);
+  void GUIObject_SetTitleTextAlign(GUI *, char titleAlignment);
+  int GUIObject_GetTitleTextAlign(GUI *);
   void GUIObject_BacklightOn(GUI *);
   void GUIObject_BacklightOff(GUI *);
   void GUIObject_BacklightTimeout(GUI *);
@@ -1008,6 +1013,13 @@ extern "C"
 
   char ToLower(char c);
   char ToUpper(char c);
+
+  int count_digit(int value);
+  int itow(int value, wchar_t *buffer, int len);
+
+  int strftime(int begin_time, int end_time, int __zero1, int format, void *out_str, int __one);
+  TEXTID TextID_CreateFromTextIterator(void *str, TEXT_ENCODING flag, int len);
+  int arm_int_div(int a, int b);
 
   // Socket function ----------------------------------------------------
   // int socket_create(int domain, int type, int protocol);

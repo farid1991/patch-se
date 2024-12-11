@@ -1,12 +1,12 @@
 #ifndef _COLOR_H
 #define _COLOR_H
 
-#define MAX_COLOR 255
-#define COLOR_GET_A(x) ((unsigned int)x >> 24)
-#define COLOR_GET_R(x) (((unsigned int)x >> 16) & 0xFF)
-#define COLOR_GET_G(x) (((unsigned int)x >> 8) & 0xFF)
-#define COLOR_GET_B(x) ((unsigned int)x & 0xFF)
-#define COLOR_RGBA(r, g, b, a) (((unsigned int)r << 16) | ((unsigned int)g << 8) | ((unsigned int)b) | ((unsigned int)a << 24))
+#define MAX_COLOR_VAL 255
+#define COLOR_GET_R(c) (((c) & 0x000000FF) >> 0)
+#define COLOR_GET_G(c) (((c) & 0x0000FF00) >> 8)
+#define COLOR_GET_B(c) (((c) & 0x00FF0000) >> 16)
+#define COLOR_GET_A(c) (((c) & 0xFF000000) >> 24)
+#define COLOR_RGBA(r, g, b, a) ((((r) & MAX_COLOR_VAL)) | (((g) & MAX_COLOR_VAL) << 8) | (((b) & MAX_COLOR_VAL) << 16) | (((a) & MAX_COLOR_VAL) << 24))
 
 #define clEmpty 0x00000000
 #define clBlack 0xFF000000

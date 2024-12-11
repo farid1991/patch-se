@@ -1,10 +1,22 @@
-#ifndef _Main_h
-#define _Main_h
+#ifndef _Main_h_
+#define _Main_h_
+
+#ifdef DEBUG
+#define DBG(...) debug_printf(__VA_ARGS__);
+#else
+#define DBG(...)
+#endif
+
+#define FREE_GUI(gui) \
+  if (gui)            \
+    GUIObject_Destroy(gui);
 
 extern "C"
 {
+  bool MediaPlayer_SoftKeys_Validate(GUI* gui);
   int MediaPlayer_Audio_OnCreate(DISP_OBJ *disp_obj);
   void MediaPlayer_Audio_OnClose(DISP_OBJ *disp_obj);
+  void MediaPlayer_Audio_OnRefresh(DISP_OBJ *disp_obj);
   int MediaPlayer_NowPlaying_OnCreate(DISP_OBJ *disp_obj);
   void MediaPlayer_NowPlaying_OnClose(DISP_OBJ *disp_obj);
   void MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c);
@@ -19,37 +31,18 @@ extern "C"
   int pg_MediaPlayer_Audio_Bk_PrevEvent(void *data, BOOK *book);
   int pg_MediaPlayer_Audio_Bk_CancelEvent(void *data, BOOK *book);
 
-  int pg_MM_Browser_Toplevel_Bk_NowPlayingStartedByChild_Cancel(void *data, BOOK *book);
-  int pg_MM_Browser_Toplevel_Bk_NowPlayingStartedByChild_Start(void *data, BOOK *book);
-  int pg_MM_Browser_Toplevel_Bk_Videos(void *data, BOOK *book);
+  int pg_MM_Browser_Toplevel_Bk_Cancel(void *data, BOOK *book);
+  int pg_MM_Browser_Toplevel_Bk_Start(void *data, BOOK *book);
+  int pg_MM_Browser_Toplevel_Bk_Destroy(void *data, BOOK *book);
+  int pg_MM_Browser_Toplevel_Bk_AlbumsPage_ExitEvent(void *data, BOOK *book);
+#if defined(DB2010)
+  int Call_MM_BrowserAlbumsMain(int book_id, wchar_t *wstr, void **pShell);
+#elif defined(DB2020)
+  int Call_MM_BrowserAlbumsMain(int book_id, wchar_t *wstr, int one, void **pShell);
+#endif
+  char MediaPlayer_State_Get(void *state);
 
-  int Call_MM_BrowserAlbumsMain(int book_id, void *__zero, void **pIShell);
+  void GUIObject_SetAnimation(GUI *, int type);
 };
-
-#define FREE_GUI(gui)       \
-  if (gui)                  \
-  {                         \
-    GUIObject_Destroy(gui); \
-    gui = NULL;             \
-  };
-
-#define IMAGE_FREE(img)             \
-  if (img != NOIMAGE)               \
-  {                                 \
-    ImageID_Free(img);              \
-  }
-
-#define TEXT_FREE(text)               \
-  if (text != EMPTY_TEXTID)           \
-  {                                   \
-    TextID_Destroy(text);             \
-  }
-
-
-void *malloc(int size);
-void mfree(void *mem);
-
-int UnLoadSkinImage(ADVPLAYER_DATA *data);
-void LoadSkinImage(ADVPLAYER_DATA *data, wchar_t *skinpath);
 
 #endif

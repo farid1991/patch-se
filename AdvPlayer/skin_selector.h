@@ -1,18 +1,5 @@
-#ifndef SkinSelect_h
-#define SkinSelect_h
-
-enum FILEFOLDERTYPES
-{
-  ITEM_BACK,
-  ITEM_FOLDER,
-  ITEM_FILE
-};
-
-enum SELF
-{
-  SFOLDER,
-  SFILE
-};
+#ifndef _SkinSelect_h_
+#define _SkinSelect_h_
 
 int pg_MediaPlayer_SkinSelector_EnterEvent(void *data, BOOK *book);
 int pg_MediaPlayer_SkinSelector_ExitEvent(void *data, BOOK *book);
