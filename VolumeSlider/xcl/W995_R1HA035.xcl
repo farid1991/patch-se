@@ -1,0 +1,4 @@
+//W995_R1HA035
+-carm
+-Z(CODE)CODE,DATA_C=15D49150
+-Z(CODE)PATCH_VolumeFunc=15C4DD18-15C4DD1B // UI_Ringvolume_Setting_Id
