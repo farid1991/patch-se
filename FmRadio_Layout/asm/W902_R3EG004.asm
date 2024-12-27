@@ -72,6 +72,7 @@ a       EQU     b
 
         defadr FreeBook,0x10DF8D20+1
         defadr FindBook,0x10DF68D8+1
+        defadr IsFmRadioBook,0x10FAF718+1
         defadr FreeAllBook,0x10E2F450+1
         defadr CreateBook,0x10DF86A0+1
         defadr UI_Event,0x10DF7440+1
@@ -249,10 +250,6 @@ a       EQU     b
         RSEG PATCH_FmRadio_OnKey
         DATA
         DCD New_FmRadio_Gui_OnKey
-
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 

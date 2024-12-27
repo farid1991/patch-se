@@ -18,6 +18,8 @@ a       EQU     b
         defadr BookObj_GotoPage,0x1404570C+1
         defadr BookObj_ReturnPage,0x142CAC50+1
         defadr FreeBook,0x1413366C+1
+        defadr FindBook,0x1416E4E0+1
+        defadr IsFmRadioBook,0x14F9EB20+1
         defadr GUIObject_SetTitleText,0x141103BC+1
         defadr GUIObject_Show,0x144AC9FC+1
         defadr ListMenu_SetCursorToItem,0x14132758+1

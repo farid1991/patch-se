@@ -154,6 +154,7 @@ a       EQU     b
         defadr BookObj_SetFocus,0x115D2E10+1
         defadr FreeBook,0x115D317C+1
         defadr FindBook,0x115D26C8+1
+        defadr IsFmRadioBook,0x113065DC+1
         defadr UI_Event,0x115D19B8+1
         defadr FreeAllBook,0x1145A330+1
         defadr IsAudioPlayerBook,0x11584528+1
@@ -273,10 +274,6 @@ a       EQU     b
         RSEG PATCH_FmRadio_OnKey
         DATA
         DCD New_FmRadio_Gui_OnKey
-
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 

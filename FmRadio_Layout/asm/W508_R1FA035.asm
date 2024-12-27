@@ -23,6 +23,8 @@ a       equ	b
         defadr BookObj_GotoPage,0x14027124+1
         defadr BookObj_ReturnPage,0x14247260+1
         defadr FreeBook,0x14366418+1
+        defadr FindBook,0x143111F8+1
+        defadr IsFmRadioBook,0x143C6264+1
         defadr GUIObject_GetBook,0x1419E1BC+1
         defadr GUIObject_GetDispObject,0x14048B1C+1
         defadr GUIObject_SetTitleText,0x142E6810+1
@@ -126,9 +128,7 @@ a       equ	b
         DATA
         DCD New_FmRadio_Gui_OnKey
 
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
+//------------------------------------------------------------------------------
 
         RSEG PATCH_FmRadio_DeleteData
         CODE16

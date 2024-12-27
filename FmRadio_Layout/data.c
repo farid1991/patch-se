@@ -11,29 +11,26 @@
 #include "lang.h"
 #include "editor.h"
 
-FmRadio_Data *CreateData()
-{
-  FmRadio_Data *Data = (FmRadio_Data *)malloc(sizeof(FmRadio_Data));
-  memset(Data, NULL, sizeof(FmRadio_Data));
-  set_envp(get_bid(current_process()), EMP_NAME, (OSADDRESS)Data);
-  return Data;
-}
-
 FmRadio_Data *GetData()
 {
-  FmRadio_Data *Data = (FmRadio_Data *)get_envp(get_bid(current_process()), EMP_NAME);
-  if (Data)
-    return Data;
-  return CreateData();
+  FmRadio_Data *data = (FmRadio_Data *)get_envp(NULL, EMP_NAME);
+  if (!data)
+  {
+    data = (FmRadio_Data *)malloc(sizeof(FmRadio_Data));
+    memset(data, NULL, sizeof(FmRadio_Data));
+    set_envp(NULL, EMP_NAME, (OSADDRESS)data);
+    return data;
+  }
+  return data;
 }
 
 extern "C" void DeleteData()
 {
-  FmRadio_Data *data = (FmRadio_Data *)get_envp(get_bid(current_process()), EMP_NAME);
+  FmRadio_Data *data = (FmRadio_Data *)get_envp(NULL, EMP_NAME);
   if (data)
   {
     mfree(data);
-    set_envp(get_bid(current_process()), EMP_NAME, OSADDRESS(NULL));
+    set_envp(NULL, EMP_NAME, OSADDRESS(NULL));
   }
 }
 
@@ -153,12 +150,12 @@ void SaveData(bool save, int item)
     data->setting.background.pos.x = data->temp.x1;
     data->setting.background.pos.y = data->temp.y1;
   }
-  //else if (item == ITEM_ADDITIONAL)
+  // else if (item == ITEM_ADDITIONAL)
   //{
-  //data->setting.screen = data->temp.activate1;
-  //data->setting.soft = data->temp.activate2;
-  //data->setting.animation = data->temp.activate3;
-  //}
+  // data->setting.screen = data->temp.activate1;
+  // data->setting.soft = data->temp.activate2;
+  // data->setting.animation = data->temp.activate3;
+  // }
 
   if (save)
   {

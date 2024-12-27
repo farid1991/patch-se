@@ -58,6 +58,8 @@ a       EQU b
         defadr BookObj_AddGUIObject,0x10DEFD64+1
         defadr GUIObject_SetTitleType,0x109D0640+1
         defadr FreeBook,0x10DF0054+1
+        defadr FindBook,0x10DEDC1C+1
+        defadr IsFmRadioBook,0x10FAFB24+1
         defadr TextID_CreateIntegerID,0x10F683EC+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_GETHANDLE,0x107A25F0+1
         defadr REQUEST_IMAGEHANDLER_INTERNAL_REGISTER,0x107A2668+1
@@ -119,10 +121,6 @@ a       EQU b
         RSEG PATCH_FmRadio_OnKey
         DATA
         DCD New_FmRadio_Gui_OnKey
-
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 

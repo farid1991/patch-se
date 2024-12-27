@@ -53,6 +53,8 @@ a       equ b
         defadr GUIObject_SetAnimation,0x451533E0+1
         defadr CreateBook,0x4529F750+1
         defadr FreeBook,0x4529FC78+1
+        defadr FindBook,0x45531160+1
+        defadr IsFmRadioBook,0x456002A4+1
         defadr BookObj_GotoPage,0x4529F4CC+1
         defadr BookObj_CallPage,0x4529F5DC+1
         defadr BookObj_GetBookID,0x4529FD0C+1
@@ -178,10 +180,6 @@ a       equ b
         RSEG PATCH_FmRadio_OnConfig
         DATA
         DCD New_FmRadio_Gui_OnConfig
-
-        RSEG PATCH_FmRadio_MainPage_Enter
-        DATA
-        DCD New_FmRadio_Main__PAGE_ENTER_EVENT
 
 //------------------------------------------------------------------------------
 

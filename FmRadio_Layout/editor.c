@@ -543,7 +543,7 @@ void Create_GUIEditor(BOOK *book)
 
   FreeBook(FMSettings_Book);
 
-  FmRadio_Book *FMbook = (FmRadio_Book *)data->FmRadioBook;
+  FmRadio_Book *FMbook = (FmRadio_Book *)FindBook(IsFmRadioBook);
   GUIObject_SoftKeys_SetVisible(FMbook->FmRadio_Gui, ACTION_BACK, FALSE);
   FmRadio_SetActiveSoftKeys(FMbook, FALSE);
 }

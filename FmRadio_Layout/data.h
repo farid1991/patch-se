@@ -106,7 +106,6 @@ typedef struct _IMG
 
 typedef struct _FmRadio_Data
 {
-  BOOK *FmRadioBook;
   DISP_OBJ *DispObj_FmRadio;
 
   TEMP_DATA temp;
