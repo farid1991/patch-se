@@ -541,7 +541,7 @@ typedef struct AudioPlayerBook : BOOK
   int unk_6C;                  // 0x6C
   int ElapsedTime;             // 0x70
   int unk_74;                  // 0x74
-  BOOK_PLAYER_TRACK_DESC *dsc; // 0x78
+  MEDIAPLAYER_TRACK_DESC *dsc; // 0x78
   uint16_t unk_7C;             // 0x7C
   uint16_t current_track_id;   // 0x7E
   uint16_t selected_track_id;  // 0x80
@@ -626,7 +626,6 @@ typedef struct DISP_OBJ_NOWPLAYING : DISP_OBJ
   uint8_t unk_153;           // 0x153
 } DISP_OBJ_NOWPLAYING;
 
-#if defined(W710_R1JC002)
 typedef struct AudioPlayerBook : BOOK
 {
   MEDIAPLAYER_STATE player;     // 0x18
@@ -679,31 +678,6 @@ typedef struct AudioPlayerBook : BOOK
   IPlaylist *pPlaylist;         // 0xA8
   uint32_t playlist_id;         // 0xAC
 } AudioPlayerBook;
-#else
-typedef struct AudioPlayerBook : BOOK
-{
-  MEDIAPLAYER_STATE player;    // 0x18
-  GUI *Gui_NowPlaying;         // 0x1C
-  GUI *Gui_SubMenu;            // 0x20
-  GUI *unk;                    // 0x24
-  int dummy28;                 // 0x28
-  int dummy2C;                 // 0x2C
-  int sample_rate;             // 0x30
-  char dummy34[0x28];          // 0x34
-  wchar_t pos;                 // 0x5C
-  char dummy1[0xE];            // 0x5E
-  int ElapsedTime;             // 0x6C
-  char dummy2[0x4];            // 0x70
-  MEDIAPLAYER_TRACK_DESC *dsc; // 0x74
-  char dummy3[2];              // 0x78
-  wchar_t pos2;                // 0x7A
-  wchar_t pos3;                // 0x7C
-  char dummy4[0x16];           // 0x7E
-  int total_tracks;            // 0x94
-  bool Loop;                   // 0x95
-  bool Random;                 // 0x96
-} AudioPlayerBook;
-#endif
 
 #endif
 

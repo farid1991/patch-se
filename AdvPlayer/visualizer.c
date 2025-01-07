@@ -18,6 +18,9 @@ void visualizer_image_register()
 {
   ADVPLAYER_DATA *data = env_data_get();
 
+  if (data->viz_image.id != NOIMAGE)
+    return;
+
   data->viz_image.handle = NOIMAGE;
   data->viz_image.id = NOIMAGE;
   data->viz_image.exist = FALSE;

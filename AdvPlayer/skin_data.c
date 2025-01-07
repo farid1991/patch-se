@@ -93,7 +93,7 @@ SKIN_CONFIG *skin_data_config_get(wchar_t *cfg_path, wchar_t *cfg_name)
 
   FSTAT fs;
   fstat(cfg_path, cfg_name, &fs);
-  if (fs.fsize != 512)
+  if (fs.fsize != sizeof(SKIN_CONFIG))
   {
     wstrcpy(skin_cfg->path, DEFAULT_SKIN_PATH);
     return skin_cfg;

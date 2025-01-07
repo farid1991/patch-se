@@ -203,7 +203,10 @@ extern "C" int New_MediaPlayer_NowPlaying_OnCreate(DISP_OBJ_NOWPLAYING *disp_obj
   visualizer_image_register();
   visualizer_init();
 
-  data->wait_timer = Timer_Set(0, MKTIMERPROC(wait_for_player), data);
+  KILL_TIMER(data->wait_timer);
+  KILL_TIMER(data->viz_timer);
+
+  data->wait_timer = Timer_Set(1000, MKTIMERPROC(wait_for_player), data);
 #endif
 
   return 1;
@@ -382,9 +385,11 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
     case EqPreset_Bass:
       draw_image(disp_gc, data->skin_data->icon_eq_x, data->skin_data->icon_eq_y, data->skin_images[MP_EQ_BASS_ICN].id);
       break;
+#ifdef MEGABASS
     case EqPreset_Megabass:
       draw_image(disp_gc, data->skin_data->icon_eq_x, data->skin_data->icon_eq_y, data->skin_images[MP_EQ_MEGABASS_ICN].id);
       break;
+#endif
     case EqPreset_TrebleBoost:
       draw_image(disp_gc, data->skin_data->icon_eq_x, data->skin_data->icon_eq_y, data->skin_images[MP_EQ_TREBLEBOOST_ICN].id);
       break;
@@ -601,7 +606,7 @@ extern "C" int New_UI_MEDIAPLAYER_CREATED_EVENT(void *audio_data, AudioPlayerBoo
 {
   int ret = pg_MEDIAPLAYER_CREATED_EVENT(audio_data, audio_book);
 
-#ifdef DB2020
+#ifdef W710_R1JC002
   GetTrackInfo(audio_book);
 #endif
   GetPlayerState(audio_book);
