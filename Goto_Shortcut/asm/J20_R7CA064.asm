@@ -147,6 +147,9 @@ a       equ     b
         defadr List_Create,0x142D7608+1
         defadr List_Get,0x1446CD44+1
         defadr List_GetCount,0x1446C708+1
+        defadr Display_GetTopBook,0x14052680+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x14C243C0+1
+	defadr DataBrowserDesc_SetActions,0x14CE42B4+1
 
         EXTERN GotoShortcut
 

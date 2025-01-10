@@ -5,6 +5,10 @@
 #define PNX5230
 #define USE_JAVA
 
+#define HAS_ELF
+#define ELFS_INT_PATH L"/tpa/user/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
+
 #define F_PATH (wchar_t *)0x213F8278
 
 #define ACTION_ACCEPT 0xFAC
@@ -68,5 +72,9 @@
 #define DB_LIST_JAVA_ICN 0xEA0D
 #define GUI_UNAVAILABLE_ICN 0xEB4C
 #define DB_LIST_FOLDER_ICN 0xEA0A
+
+#define DB_CMD_DELETE 0x9
+#define DB_CMD_LAST 0x4D
+#define DB_CMD_RUN 0x1
 
 #endif

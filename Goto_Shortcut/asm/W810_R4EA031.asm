@@ -137,6 +137,9 @@ a       EQU b
         defadr StringInput_MenuItem_SetPriority,0x451665CC+1
         defadr StringInput_DispObject_SetText,0x452C42D0+1
         defadr CreateMessageBox,0x45533CE0+1
+        defadr Display_GetTopBook,0x4529F01C+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x4524A5C4+1
+	defadr DataBrowserDesc_SetActions,0x4524A530+1
 
         EXTERN GotoShortcut
 

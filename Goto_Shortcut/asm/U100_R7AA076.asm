@@ -72,6 +72,7 @@ a       EQU     b
         defadr BookObj_GotoPage,0x1457B000+1
         defadr BookObj_Hide,0x14639F38+1
         defadr BookObj_ReturnPage,0x140FE388+1
+        defadr Display_GetTopBook,0x1438B588+1
         defadr GUIObject_Create,0x1438D998+1
         defadr BookObj_AddGUIObject,0x1463A46C+1
         defadr GUIObject_GetDispObject,0x145D0C08+1
@@ -169,12 +170,15 @@ a       EQU     b
         defadr DataBrowser_isFileInListExt,0x141AAC60+1
         defadr DataBrowserDesc_Create,0x14593510+1
         defadr DataBrowserDesc_SetHeaderText,0x145935B4+1
+        defadr DataBrowserDesc_SetActions,0x14593610+1
         defadr DataBrowserDesc_SetBookID,0x14593450+1
         defadr DataBrowserDesc_SetFolders,0x145935AC+1
         defadr DataBrowserDesc_SetFoldersNumber,0x14593460+1
         defadr DataBrowserDesc_SetSelectAction,0x145935A4+1
+        defadr DataBrowserDesc_SetSelectActionOnFolders,0x14F524C0+1
         defadr DataBrowserDesc_SetFileExtList,0x14F52774+1
         defadr DataBrowserDesc_SetItemFilter,0x14F52AE8+1
+        defadr DataBrowserDesc_SetOpenEmptyFolder,0x152F5BF0+1
         defadr DataBrowserDesc_Menu_AddFSFunctions,0x14FC4D78+1
         defadr DataBrowserDesc_Menu_AddNewFolder,0x14593508+1
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x14593458+1

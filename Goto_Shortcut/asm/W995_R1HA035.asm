@@ -295,6 +295,9 @@ a       equ b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x1426BE90+1
         defadr DataBrowser_Create,0x1444B574+1
         defadr DataBrowserDesc_Destroy,0x1426BE18+1
+        defadr Display_GetTopBook,0x14F78C3C+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x14F5FE64+1
+	defadr DataBrowserDesc_SetActions,0x1426BE84+1
 
         EXTERN GotoShortcut
 

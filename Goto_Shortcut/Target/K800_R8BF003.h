@@ -83,4 +83,8 @@
 #define ACTION_UNCHECK 0xFC3
 #define ACTION_YES 0xFC5
 
+#define DB_CMD_DELETE 0x9
+#define DB_CMD_LAST 0x4D
+#define DB_CMD_RUN 0x1
+
 #endif

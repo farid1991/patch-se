@@ -168,4 +168,8 @@
 #define VAR_ARG_STRINP_NEW_LINE (char *)0x44960001
 #define VAR_ARG_STRINP_TEXT (char *)0x4495FFF7
 
+#define DB_CMD_DELETE 0x3
+#define DB_CMD_LAST 0x44
+#define DB_CMD_RUN 0x1
+
 #endif

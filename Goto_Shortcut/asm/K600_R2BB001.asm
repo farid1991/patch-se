@@ -133,6 +133,8 @@ a       equ b
         defadr List_RemoveFirst,0x20231FBC+1
         defadr List_InsertFirst,0x20231F34+1
         defadr List_RemoveAt,0x20231EBC+1
+        defadr Display_GetTopBook,0x2025C83C+1
+	defadr DataBrowserDesc_SetActions,0x201FF5F0+1
 
         EXTERN GotoShortcut
 

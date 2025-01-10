@@ -143,6 +143,9 @@ a       EQU b
         defadr YesNoQuestion_SetDescriptionText,0x11649C24+1
         defadr YesNoQuestion_SetIcon,0x11649C44+1
         defadr ImageID_Free,0x10F6F53C+1
+        defadr Display_GetTopBook,0x115971B0+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x10FCBD8C+1
+	defadr DataBrowserDesc_SetActions,0x10FCBCC8+1
 
         EXTERN GotoShortcut
 

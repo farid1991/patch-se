@@ -52,4 +52,8 @@
 #define PAGE_EXIT_EVENT 0x11
 #define RETURN_TO_STANDBY_EVENT 0x840
 
+#define DB_CMD_DELETE 0x8
+#define DB_CMD_LAST 0x45
+#define DB_CMD_RUN 0x1
+
 #endif

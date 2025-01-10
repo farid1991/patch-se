@@ -4,7 +4,8 @@
 #define A2
 #define DB3350
 #define REV1
-// #define HAS_ELF
+
+#define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/other/ZBin"
 
@@ -56,5 +57,12 @@
 #define PAGE_ENTER_EVENT 0x10
 #define PAGE_EXIT_EVENT 0x11
 #define RETURN_TO_STANDBY_EVENT 0x840
+
+#define DB_CMD_DELETE 0x9
+#define DB_CMD_INFO 0x1E
+#define DB_CMD_LAST 0x4A
+#define DB_CMD_EDIT 0x7
+#define DB_CMD_RENAME 0xD
+#define DB_CMD_RUN 0x1
 
 #endif

@@ -4,6 +4,7 @@
 #define A2
 #define DB3150v2
 #define USE_JAVA
+
 #define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/other/ZBin"
@@ -52,5 +53,9 @@
 #define DB_LIST_JAVA_ICN 0xF875
 #define GUI_UNAVAILABLE_ICN 0xF8A6
 #define DB_LIST_FOLDER_ICN 0xF3BB
+
+#define DB_CMD_DELETE 0x9
+#define DB_CMD_LAST 0x4C
+#define DB_CMD_RUN 0x1
 
 #endif

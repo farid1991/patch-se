@@ -59,4 +59,8 @@
 #define GUI_UNAVAILABLE_ICN 0xF8A6
 #define DB_LIST_FOLDER_ICN 0xEA4B
 
+#define DB_CMD_DELETE 0x9
+#define DB_CMD_LAST 0x4C
+#define DB_CMD_RUN 0x1
+
 #endif

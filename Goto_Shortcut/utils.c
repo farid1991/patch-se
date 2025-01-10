@@ -75,7 +75,7 @@ void ExecuteEvent(wchar_t *name)
 
 void OpenFolder(const wchar_t *folders)
 {
-  BOOK *book = FindBook(IsGotoShortcutBook);
+  BOOK *book = Display_GetTopBook(UIDisplay_Main);//FindBook(IsGotoShortcutBook);
   if (!book)
     return;
 
@@ -90,10 +90,20 @@ void OpenFolder(const wchar_t *folders)
     DataBrowserDesc_SetBookID(DBDesc, bookID);
     DataBrowserDesc_SetFolders(DBDesc, Folders);
     DataBrowserDesc_SetFoldersNumber(DBDesc, 1);
-    DataBrowserDesc_SetSelectAction(DBDesc, 0);
-    DataBrowserDesc_Menu_AddFSFunctions(DBDesc, TRUE);
+    DataBrowserDesc_SetSelectAction(DBDesc, 1);
+    DataBrowserDesc_SetSelectActionOnFolders(DBDesc, 1);
+    DataBrowserDesc_Menu_AddFSFunctions(DBDesc, 0);
     DataBrowserDesc_Menu_AddNewFolder(DBDesc, TRUE);
     DataBrowserDesc_Menu_AddMarkFiles(DBDesc, TRUE);
+#ifndef DB2000
+    DataBrowserDesc_SetOpenEmptyFolder(DBDesc, TRUE);
+#endif
+    char actions[4];
+    actions[0] = DB_CMD_RUN;
+    actions[1] = DB_CMD_DELETE;
+    actions[2] = DB_CMD_LAST;
+    DataBrowserDesc_SetActions(DBDesc, actions);
+  
     DataBrowser_Create(DBDesc);
     DataBrowserDesc_Destroy(DBDesc);
   }

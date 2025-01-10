@@ -184,6 +184,8 @@ a       EQU b
         defadr DataBrowserDesc_Menu_AddFSFunctions,0x450BEE48+1
         defadr DataBrowserDesc_Menu_AddNewFolder,0x450BEEC0+1
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x450BEE9C+1
+        defadr DataBrowserDesc_SetOpenEmptyFolder,0x450BEF6C+1
+	defadr DataBrowserDesc_SetActions,0x450BEED8+1
         defadr DataBrowser_Create,0x450BE4E0+1
         defadr DataBrowserDesc_Destroy,0x450BF014+1
         defadr CreateStringInputVA,0x44FDCF50+1

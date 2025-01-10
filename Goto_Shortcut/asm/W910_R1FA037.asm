@@ -267,20 +267,16 @@ a       EQU b
         defadr JavaDialog_Close,0x10FD14A4+1
         defadr JavaAppDesc_GetJavaAppID,0x10FD15C4+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x110B8218+1
-
         defadr Set_SWF_AsFlashMenu,0x1123896C+1
         defadr GetURIScheme,0x11473A1C+1
         defadr CreateURI,0x11473EB8+1
         defadr Browser_OpenURI,0x10F6EC70+1
-
         defadr MenuBook_Desktop,0x11695CD4+1
         defadr Shortcut_Get_MenuItemIconID,0x11695EC4+1
         defadr MenuBook_Desktop_GetSelectedItemID,0x11695328+1
         defadr Shortcut_Get_MenuItemName,0x116A1154+1
-
         defadr BookObj_SoftKeys_SetAction,0x1168A0C4+1
         defadr BookObj_SoftKeys_SetText,0x1168A0FC+1
-
         defadr DataBrowser_isFileInListExt,0x10FB18F0+1
         defadr DataBrowserDesc_Create,0x10FFA470+1
         defadr DataBrowserDesc_SetHeaderText,0x10FFA720+1
@@ -295,7 +291,6 @@ a       EQU b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x10FFA6DC+1
         defadr DataBrowser_Create,0x10FF6980+1
         defadr DataBrowserDesc_Destroy,0x10FFA520+1
-
         defadr CreateStringInput,0x1160550C+1
         defadr StringInput_SetMode,0x11605DAC+1
         defadr StringInput_SetText,0x11605FBC+1
@@ -306,11 +301,13 @@ a       EQU b
         defadr StringInput_SetActionBack,0x11605E00+1
         defadr StringInput_GetStringAndLen,0x11605E38+1
         defadr StringInput_MenuItem_SetPriority,0x11605F8C+1
-
         defadr CreateYesNoQuestion,0x11684F84+1
         defadr YesNoQuestion_SetQuestionText,0x11685308+1
         defadr YesNoQuestion_SetDescriptionText,0x11685318+1
         defadr YesNoQuestion_SetIcon,0x11685338+1
+        defadr Display_GetTopBook,0x115D26E4+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x10FFA7A8+1
+	defadr DataBrowserDesc_SetActions,0x10FFA6E4+1
 
         EXTERN GotoShortcut
 

@@ -90,16 +90,22 @@ a       EQU b
         defadr ListMenu_SetNoItemText,0x1535CE50+1
         defadr GUIObject_SoftKeys_SetVisible,0x143A94C0+1
         defadr CreateBook,0x1415DBEC+1
+        defadr Display_GetTopBook,0x143A1868+1
         defadr UI_Event,0x14274868+1
         defadr UI_Event_toBookID,0x1463FD98+1
+        defadr DataBrowser_isFileInListExt,0x141B2E04+1
         defadr DataBrowserDesc_Create,0x145B2E18+1
 	defadr DataBrowserDesc_SetHeaderText,0x145B2EBC+1
+	defadr DataBrowserDesc_SetActions,0x145B2F18+1
 	defadr DataBrowserDesc_SetBookID,0x145B2D58+1
+	defadr DataBrowserDesc_SetFileExtList,0x1513D308+1
 	defadr DataBrowserDesc_SetFolders,0x145B2EB4+1
 	defadr DataBrowserDesc_SetFoldersNumber,0x145B2D68+1
+	defadr DataBrowserDesc_SetItemFilter,0x1513D67C+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x159513D8+1
         defadr DataBrowserDesc_SetSelectAction,0x145B2EAC+1
 	defadr DataBrowserDesc_Menu_AddFSFunctions,0x151B81E8+1
-	defadr DataBrowserDesc_Menu_AddNewFolder, 0x145B2E10+1
+	defadr DataBrowserDesc_Menu_AddNewFolder,0x145B2E10+1
 	defadr DataBrowserDesc_Menu_AddMarkFiles,0x145B2D60+1
 	defadr DataBrowser_Create,0x1416C6CC+1
 	defadr DataBrowserDesc_Destroy,0x145B2EC4+1
@@ -113,6 +119,8 @@ a       EQU b
 	defadr fstat,0x141F09F0+1
         defadr List_Create,0x142751FC+1
         defadr List_InsertLast,0x1427292C+1
+        defadr FILEITEM_GetFname,0x146CAC1C+1
+        defadr FILEITEM_GetPath,0x146CA88C+1
 
 ////////
 

@@ -171,6 +171,9 @@ a       EQU     b
         defadr List_RemoveAt,0x452BF72C+1
         defadr List_InsertFirst,0x452BF7A0+1
         defadr List_RemoveFirst,0x452BF7F8+1
+        defadr Display_GetTopBook,0x453AE040+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x44FD22E8+1
+	defadr DataBrowserDesc_SetActions,0x44FD21EC+1
 
         EXTERN GotoShortcut
 

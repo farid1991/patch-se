@@ -4,6 +4,7 @@
 #define A1
 #define DB2010
 #define USE_JAVA
+
 #define HAS_ELF
 #define ELFS_INT_PATH L"/usb/other/ZBin"
 #define ELFS_EXT_PATH L"/card/MSSEMC/Media files/other/ZBin"
@@ -83,5 +84,9 @@
 #define VAR_ARG_STRINP_MODE (char *)0x4484BDCF
 #define VAR_ARG_STRINP_NEW_LINE (char *)0x4484BDC1
 #define VAR_ARG_STRINP_TEXT (char *)0x4484BDB7
+
+#define DB_CMD_DELETE 0x3
+#define DB_CMD_LAST 0x44
+#define DB_CMD_RUN 0x1
 
 #endif

@@ -43,6 +43,7 @@ a       equ b
         defadr TextID_CreateIntegerID,0x210EBAD0+1
         defadr TextID_Copy,0x210EBE10+1
         defadr Display_GetWidth,0x211170B4+1
+        defadr Display_GetTopBook,0x210548A8+1
         defadr MainDisplay_GetTopBook,0x210548A4+1
         defadr GUIObject_GetDispObject,0x21103F38+1
         defadr Display_GetHeight,0x211170A8+1
@@ -183,6 +184,8 @@ a       equ b
         defadr DataBrowserDesc_Menu_AddFSFunctions,0x20CC1CD8+1
         defadr DataBrowserDesc_Menu_AddNewFolder,0x20CC1D4C+1
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x20CC1D54+1
+        defadr DataBrowserDesc_SetOpenEmptyFolder,0x20CC1E24+1
+	defadr DataBrowserDesc_SetActions,0x20CC1D6C+1
         defadr DataBrowser_Create,0x20CBE5BC+1
         defadr DataBrowserDesc_Destroy,0x20CC1B94+1
 

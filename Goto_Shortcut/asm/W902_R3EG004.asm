@@ -243,6 +243,9 @@ a       EQU     b
         defadr JavaDialog_Close,0x10B1F7F4+1
         defadr JavaApp_LogoImageID_Get,0x10C388BC+1
         defadr REQUEST_UI_OAF_START_APPLICATION,0x10C4408C+1
+        defadr Display_GetTopBook,0x10DF8184+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x11814DF8+1
+	defadr DataBrowserDesc_SetActions,0x11814D34+1
 
         EXTERN GotoShortcut
 

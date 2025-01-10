@@ -168,7 +168,9 @@ a       EQU b
         defadr GUIObject_SoftKeys_SetAction,0x1080D414+1
         defadr GUIObject_SoftKeys_SetText,0x1080D48C+1
         defadr GUIObject_SoftKeys_SetVisible,0x1080D510+1
-
+        defadr Display_GetTopBook,0x10DEF4C0+1
+	defadr DataBrowserDesc_SetOpenEmptyFolder,0x118007F8+1
+	defadr DataBrowserDesc_SetActions,0x11800734+1
 
         EXTERN GotoShortcut
 
