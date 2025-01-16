@@ -69,6 +69,11 @@ a       equ b
         defadr DispObject_SetThemeImage,0x453444E8+1
         defadr DispObject_SetTitleType,0x45341780+1
         defadr DispObject_SetSecondRowTitleText,0x453416E0+1
+        defadr DispObject_SetBackgroundImage,0x452F8A84+1
+        defadr DispObject_SetListBackgroundImage,0x452F8904+1
+        defadr DispObject_SetListTextColor,0x452F8AAC+1
+        defadr DispObject_SetTitleTextColor,0x45341A84+1
+        defadr DispObject_SetTitleBackgroundImage,0x45341A24+1
         defadr GetThemeColor,0x4536BFC4+1
         defadr GUIObject_SoftKeys_SetAction,0x453693C4+1
         defadr GUIObject_SoftKeys_SetText,0x4536943C+1

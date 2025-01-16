@@ -13,7 +13,7 @@
 
 wchar_t *skin_images_getname(int index)
 {
-  wchar_t *icons[MP_LAST_IMG] =
+  wchar_t *icons[MP_LAST_ICN] =
       {
           L"MP_BACKGROUND_ICN.png",
           L"MP_COVERART_ICN.png",
@@ -37,6 +37,10 @@ wchar_t *skin_images_getname(int index)
           L"MP_EQ_TREBLEBOOST_ICN.png",
           L"MP_EQ_VOICE_ICN.png",
           L"MP_PROGRESS_INDICATOR_ICN.png",
+#ifdef DB2020
+          L"MP_PLAYLIST_BG_ICN.png",
+          L"MP_PLAYLIST_TITLE_ICN.png",
+#endif
           L"WALKMAN_ICN.png"};
 
   return icons[index];
@@ -46,7 +50,7 @@ void skin_image_unload()
 {
   ADVPLAYER_DATA *data = env_data_get();
 
-  for (int i = 0; i < MP_LAST_IMG; i++)
+  for (int i = 0; i < MP_LAST_ICN; i++)
   {
     image_unregister(&data->skin_images[i]);
   }
@@ -57,7 +61,7 @@ void skin_image_load(wchar_t *skin_path)
 {
   ADVPLAYER_DATA *data = env_data_get();
 
-  for (int i = 0; i < MP_LAST_IMG; i++)
+  for (int i = 0; i < MP_LAST_ICN; i++)
   {
     if (FSX_IsFileExists(skin_path, skin_images_getname(i)))
     {
@@ -164,7 +168,6 @@ void skin_data_read(SKIN_DATA *skin_data, wchar_t *skin_path)
       {
         int value = parse_value(param);
         skin_data->text_artist_color = value;
-        DBG("\n[ArtistColor]: 0x%X", value);
         mfree(param);
       }
       if (param = manifest_GetParam(buf, "[ArtistIcon]", 0))
@@ -285,7 +288,6 @@ void skin_data_read(SKIN_DATA *skin_data, wchar_t *skin_path)
       if (param = manifest_GetParam(buf, "[FulltimePos]", 0))
       {
         int values[4];
-
         parse_values(param, values);
         skin_data->text_fulltime_x = values[0];
         skin_data->text_fulltime_y = values[1];
@@ -375,7 +377,6 @@ void skin_data_read(SKIN_DATA *skin_data, wchar_t *skin_path)
       {
         int value = parse_value(param);
         skin_data->text_samplerate_color = value;
-        DBG("\n[SampleRateColor]: 0x%X", value);
         mfree(param);
       }
 
@@ -481,6 +482,27 @@ void skin_data_read(SKIN_DATA *skin_data, wchar_t *skin_path)
         skin_data->PB_color_e = value;
         mfree(param);
       }
+
+#ifdef DB2020
+      if (param = manifest_GetParam(buf, "[PlaylistItemColor]", 0))
+      {
+        int value = parse_value(param);
+        skin_data->PL_item_color = value;
+        mfree(param);
+      }
+      if (param = manifest_GetParam(buf, "[PlaylistHighlightColor]", 0))
+      {
+        int value = parse_value(param);
+        skin_data->PL_highlight_color = value;
+        mfree(param);
+      }
+      if (param = manifest_GetParam(buf, "[PlaylistTitleColor]", 0))
+      {
+        int value = parse_value(param);
+        skin_data->PL_title_color = value;
+        mfree(param);
+      }
+#endif
 
       if (param = manifest_GetParam(buf, "[WALKMAN]", 0))
       {

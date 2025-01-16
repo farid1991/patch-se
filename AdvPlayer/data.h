@@ -31,7 +31,7 @@ typedef struct
 
   TRACK_DESC *current_track;
 
-  IMAGE_DESC skin_images[MP_LAST_IMG];
+  IMAGE_DESC skin_images[MP_LAST_ICN];
   IMAGE_DESC cover_image;
   bool has_coverart;
 

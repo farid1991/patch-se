@@ -111,6 +111,7 @@ a       EQU     b
         defadr GUIObject_SoftKeys_SetInfoText,0x45480744+1
         defadr GUIObject_SoftKeys_SetItemAsSubItem,0x45480838+1
         defadr GUIObject_SoftKeys_RemoveBackground,0x45480A7C+1
+        defadr GUIObject_SetTitleBackgroundImage,0x454643F0+1
         defadr DispObject_SoftKeys_RemoveBackground,0x4547D5CC+1
         defadr List_Create,0x452BF5F0+1
         defadr List_Destroy,0x452BF62C+1
@@ -152,7 +153,12 @@ a       EQU     b
 
         defadr UI_Event,0x453AD25C+1
         defadr DispObject_SetAnimation,0x4545BF98+1
-        defadr GUIObject_SetTitleBackgroundImage,0x454643F0+1
+        defadr DispObject_SetTitleTextColor,0x454590C0+1
+        defadr DispObject_SetTitleBackgroundImage,0x454590E0+1
+        defadr DispObject_SetListBackgroundImage,0x45410824+1
+        defadr DispObject_SetBackgroundImage,0x454109A4+1
+        defadr DispObject_SetListTextColor,0x454109CC+1
+        defadr DispObject_ListMenu_SetItemStyle,0x454052E8+1
         defadr BookObj_GetBookID,0x453AEEB0+1
         defadr Shortcut_Run,0x4548D810+1
 
@@ -302,12 +308,13 @@ mp_audio_setstyle:
         CODE16
 mp_playqueue_settitle:
         LDR     R0, [R5, #0]
-        LDR	R3, =DispObject_SetTitleText
- 	BLX     R3
-        LDR     R0, [R5, #0]
         BL      New_MediaPlayer_PlayQueue_SetTitle
         LDR     R0, [R5, #0]
-        LDR	R3, =0x4503DFF0+1
+        MOV     R1, #0
+        MOV     R2, #0
+        LDR	R3, =0x4547CFDC+1
+ 	BLX     R3
+        LDR	R3, =0x4503E01A+1
  	BX      R3
 
         RSEG    PATCH_MediaPlayer_PlayQueue_SetStyle
@@ -315,20 +322,20 @@ mp_playqueue_settitle:
         LDR	R3, =mp_playqueue_setstyle
  	BX	R3
 
-         RSEG  CODE
-         CODE16
+        RSEG  CODE
+        CODE16
  mp_playqueue_setstyle:
         LDR     R0, [R7,#0x68]
         BL      New_MediaPlayer_PlayQueue_SetStyle
         LDR	R3, =0x4503E1BE+1
  	BX      R3
 
-        RSEG    PATCH_MediaPlayer_PlayQueue_RemoveStyle
-	CODE16
-	NOP
-	NOP
-	NOP
-	NOP
+        ;RSEG    PATCH_MediaPlayer_PlayQueue_RemoveStyle
+	;CODE16
+	;NOP
+	;NOP
+	;NOP
+	;NOP
 
 ;====================OnClose Book=============================
 

@@ -757,7 +757,10 @@ extern "C"
   int ListMenu_DispObject_SetItemIcon(DISP_OBJ *, u16 Item, u16 unk_FFFF, int mode, IMAGEID);
   void ListMenu_DispObject_SetItemUnavailableState(DISP_OBJ *, u16 Item, u16 unk_FFFF, char state);
   void ListMenu_DispObject_SetItemUnavailableText(DISP_OBJ *, u16 Item, u16 unk_FFFF, TEXTID);
-  void ListMenu_Disp_Object_SetItemSecondLineText(DISP_OBJ *, int elem_num, TEXTID);
+  void ListMenu_DispObject_SetItemSecondLineText(DISP_OBJ *, int elem_num, TEXTID);
+
+  void ListMenu_SetBackgroundImage(GUI *, IMAGEID);
+  void DispObject_SetListBackgroundImage(DISP_OBJ *, IMAGEID);
 
   void DispObject_StatusIndication_SetItemText(DISP_OBJ *, int ID, TEXTID);
 

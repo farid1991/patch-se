@@ -164,10 +164,25 @@ void WalkmanDisplay_SetSize(DISP_OBJ *disp_obj)
   DispObject_WindowSetSize(disp_obj, data->disp_w, height);
 }
 
-extern "C" void New_MediaPlayer_PlayQueue_SetStyle(DISP_OBJ *disp_obj)
+extern "C" void New_MediaPlayer_PlayQueue_SetStyle(DISP_OBJ *disp_obj, RECT *rc)
 {
-  WalkmanDisplay_SetSize(disp_obj);
-  New_MediaPlayer_Audio_SetStyle(disp_obj);
+  ADVPLAYER_DATA *data = env_data_get();
+
+  DispObject_WindowSetSize(disp_obj, data->disp_w, data->disp_h);
+#ifdef DB2010
+  int style = data->skin_data->fullscreen ? UI_OverlayStyle_FullScreenNoStatus : UI_OverlayStyle_Default;
+#else
+  int style = data->skin_data->fullscreen ? UI_OverlayStyle_FullScreenNoStatus : UI_OverlayStyle_FullScreen;
+#endif
+  DispObject_SetStyle(disp_obj, style);
+#ifdef DB2020
+  DispObject_SetListBackgroundImage(disp_obj, data->skin_images[MP_PL_BG_ICN].id);
+  DispObject_SetListTextColor(disp_obj,
+                              0, data->skin_data->PL_item_color,
+                              0, 0,
+                              data->skin_data->PL_highlight_color, 0,
+                              0);
+#endif
 }
 
 extern "C" void New_MediaPlayer_PlayQueue_SetTitle(DISP_OBJ *disp_obj)
@@ -185,6 +200,10 @@ extern "C" void New_MediaPlayer_PlayQueue_SetTitle(DISP_OBJ *disp_obj)
     DispObject_SetSecondRowTitleText(disp_obj, EMPTY_TEXTID);
   }
   DispObject_SetTitleText(disp_obj, MP_BR_LISTNOWPLAYING_TXT);
+#ifdef DB2020
+  DispObject_SetTitleTextColor(disp_obj, data->skin_data->PL_title_color);
+  DispObject_SetTitleBackgroundImage(disp_obj, data->skin_images[MP_PL_TITLE_ICN].id);
+#endif
 }
 
 extern "C" void New_MediaPlayer_NowPlaying_SetSize(DISP_OBJ *disp_obj)
@@ -233,16 +252,19 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
       int cv_width = GetImageWidth(data->cover_image.id);
       int cv_height = GetImageHeight(data->cover_image.id);
 
+      int canvas_width = (cv_width <= RESIZED_CANVAS && cv_height <= RESIZED_CANVAS) ? cv_width : RESIZED_CANVAS;
+      int canvas_height = (cv_width <= RESIZED_CANVAS && cv_height <= RESIZED_CANVAS) ? cv_height : RESIZED_CANVAS;
+
       if (data->cv_gvi == NULL)
       {
-        data->cv_canvas = GC_CreateMemoryGC(cv_width, cv_height, 16, 0, NULL, 0);
+        data->cv_canvas = GC_CreateMemoryGC(canvas_width, canvas_height, 16, 0, NULL, 0);
         CANVAS_Get_GviGC(data->cv_canvas->pcanvas, &data->cv_gvi);
 
         GVI_BRUSH backbrush = GVI_CreateSolidBrush(clBlack);
-        GVI_FillRectangle(data->cv_gvi, 0, 0, cv_width, cv_height, backbrush);
+        GVI_FillRectangle(data->cv_gvi, 0, 0, canvas_width, canvas_height, backbrush);
         GVI_Delete_GVI_Object(&backbrush);
 
-        draw_image_ex(data->cv_canvas, 0, 0, cv_width, cv_height, data->cover_image.id);
+        draw_image_ex(data->cv_canvas, 0, 0, canvas_width, canvas_height, data->cover_image.id);
       }
 
       CANVAS_Get_GviGC(disp_gc->pcanvas, &data->disp_gvi);
@@ -251,7 +273,7 @@ extern "C" void New_MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ_NOWPLAYING *disp_ob
                      data->skin_data->coverart_w, data->skin_data->coverart_h,
                      data->cv_gvi,
                      0, 0,
-                     cv_width, cv_height,
+                     canvas_width, canvas_height,
                      204, 0, 0, 0);
     }
 #ifdef ENABLE_VISUALIZER
@@ -576,7 +598,7 @@ void GetPlayerState(AudioPlayerBook *audio_book)
 {
   ADVPLAYER_DATA *data = env_data_get();
   data->player_state = audio_book->player.state;
-  data->is_playing = (data->player_state == TMusicState_Playing) ? true : false;
+  data->is_playing = (audio_book->player.state == TMusicState_Playing) ? true : false;
 
   if (audio_book->dsc)
   {
@@ -606,9 +628,6 @@ extern "C" int New_UI_MEDIAPLAYER_CREATED_EVENT(void *audio_data, AudioPlayerBoo
 {
   int ret = pg_MEDIAPLAYER_CREATED_EVENT(audio_data, audio_book);
 
-#ifdef W710_R1JC002
-  GetTrackInfo(audio_book);
-#endif
   GetPlayerState(audio_book);
   return ret;
 }

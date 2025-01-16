@@ -13,10 +13,9 @@
 -Z(CODE)PATCH_MediaPlayer_NowPlaying_OnRedraw=4503F678
 -Z(CODE)PATCH_MediaPlayer_NowPlaying_SetSize=4503E338
 
--Z(CODE)PATCH_MediaPlayer_PlayQueue_SetTitle=4503DFE8
+-Z(CODE)PATCH_MediaPlayer_PlayQueue_SetTitle=4503E010
 -Z(CODE)PATCH_MediaPlayer_PlayQueue_SetStyle=4503E1B4
 -Z(CODE)PATCH_MediaPlayer_PlayQueue_RemoveStyle=4503E1CC
--Z(CODE)PATCH_MediaPlayer_ScrollText_SetSize=
 
 -Z(CODE)PATCH_GUI_MEDIAPLAYER=4503FBE0
 -Z(CODE)PATCH_GUI_PLAYMODE=45046360

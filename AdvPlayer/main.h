@@ -7,6 +7,8 @@
 #define DBG(...)
 #endif
 
+#define RESIZED_CANVAS 640
+
 #define FREE_GUI(gui) \
   if (gui)            \
     GUIObject_Destroy(gui);
@@ -17,6 +19,7 @@ extern "C"
   int MediaPlayer_Audio_OnCreate(DISP_OBJ *disp_obj);
   void MediaPlayer_Audio_OnClose(DISP_OBJ *disp_obj);
   void MediaPlayer_Audio_OnRefresh(DISP_OBJ *disp_obj);
+  int MediaPlayer_Audio_OnDestroy(void* r0, AudioPlayerBook* audiobook);
   int MediaPlayer_NowPlaying_OnCreate(DISP_OBJ *disp_obj);
   void MediaPlayer_NowPlaying_OnClose(DISP_OBJ *disp_obj);
   void MediaPlayer_NowPlaying_OnRedraw(DISP_OBJ *disp_obj, int a, int b, int c);

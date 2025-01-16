@@ -86,7 +86,7 @@ int pg_MediaPlayer_SkinSelector_EnterEvent(void *r0, BOOK *book)
 
     GUIObject_SetTitleTextAlign(audio_book->Gui_SubMenu, AlignLeft);
     GUIObject_SetSecondRowTitleText(audio_book->Gui_SubMenu, GetTitleText(count));
-    GUIObject_SetStyle(audio_book->Gui_SubMenu, UI_OverlayStyle_FullScreenNoStatus);
+    GUIObject_SetStyle(audio_book->Gui_SubMenu, UI_OverlayStyle_TrueFullScreen);
     if (count)
     {
       ListMenu_SetOnMessage(audio_book->Gui_SubMenu, SkinSelect_OnMessage);

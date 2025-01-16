@@ -138,6 +138,12 @@ typedef struct _SKIN_DATA
   uint32_t PB_color_b;
   uint32_t PB_color_e;
 
+#ifdef DB2020
+  uint32_t PL_title_color;
+  uint32_t PL_item_color;
+  uint32_t PL_highlight_color;
+#endif
+
   bool icon_walkman_enable;
   uint16_t icon_walkman_x;
   uint16_t icon_walkman_y;

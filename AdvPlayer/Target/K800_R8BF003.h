@@ -3,7 +3,6 @@
 
 #define A1
 #define DB2020
-#define ENABLE_VISUALIZER
 
 #define STATUSBAR_H 24
 #define SOFTKEYS_H 30
