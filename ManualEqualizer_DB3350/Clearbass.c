@@ -198,32 +198,25 @@ void ClearbassGUI_OnClose(DISP_OBJ_CLEARBASS *disp_obj)
 
 void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS *disp_obj, int r1, int r2, int r3)
 {
-  DrawImage(0,
-            22,
+  DrawImage(0, 22,
             disp_obj->Background.ImageID);
 
-  DrawImage(14,
-            96,
+  DrawImage(14, 96,
             disp_obj->Boost_Image[disp_obj->boost_level].ImageID);
 
-  DrawImage(75,
-            96,
+  DrawImage(75, 96,
             disp_obj->Bar_Image[disp_obj->bar1_level].ImageID);
 
-  DrawImage(106,
-            96,
+  DrawImage(106, 96,
             disp_obj->Bar_Image[disp_obj->bar2_level].ImageID);
 
-  DrawImage(137,
-            96,
+  DrawImage(137, 96,
             disp_obj->Bar_Image[disp_obj->bar3_level].ImageID);
 
-  DrawImage(168,
-            96,
+  DrawImage(168, 96,
             disp_obj->Bar_Image[disp_obj->bar4_level].ImageID);
 
-  DrawImage(199,
-            96,
+  DrawImage(199, 96,
             disp_obj->Bar_Image[disp_obj->bar5_level].ImageID);
 
   DrawRect(redrect_positions[disp_obj->cursor][0],
@@ -232,14 +225,7 @@ void ClearbassGUI_OnRedraw(DISP_OBJ_CLEARBASS *disp_obj, int r1, int r2, int r3)
            redrect_positions[disp_obj->cursor][1] + redrect_positions[disp_obj->cursor][3],
            clEmpty, 0xFFF23F22);
 
-  dll_DrawString(FONT_E_20R,
-                 EQUALIZER_TXT,
-                 AlignCenter,
-                 0,
-                 40,
-                 disp_obj->width,
-                 60,
-                 clWhite);
+  dll_DrawString(FONT_E_20R, EQUALIZER_TXT, AlignCenter, 0, 40, disp_obj->width, 60, clWhite);
 }
 
 void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int repeat, int mode)
@@ -356,7 +342,7 @@ void ClearbassGUI_OnKey(DISP_OBJ_CLEARBASS *disp_obj, int key, int count, int re
 
 void ClearbassGUI_OnLayout(DISP_OBJ_CLEARBASS *disp_obj, void *layoutstruct)
 {
-  DispObject_SetLayerColor(disp_obj, clBlack);
+  DispObject_SetLayerColor(disp_obj, clEmpty);
 }
 
 void ClearbassGUI_constr(DISP_DESC *desc)
@@ -390,6 +376,7 @@ GUI *Create_ClearbassGUI(BOOK *book)
     BookObj_AddGUIObject(book, gui_cb);
 
   GUIObject_SetTitleType(gui_cb, UI_TitleMode_None);
+  GUIObject_SetStyle(gui_cb, UI_OverlayStyle_FullScreenNoStatus);
   GUIObject_SoftKeys_RemoveBackground(gui_cb);
 
   return gui_cb;

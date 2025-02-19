@@ -360,7 +360,8 @@ a       EQU b
         defadr _REQUEST_OAF_START_APPLICATION,0x14103BF8+1
         defadr FSX_GetInvalidChar,0x144CF6CC+1
         defadr DataBrowserDesc_SetFoldersNumber,0x141AF62C+1
-        defadr DataBrowserDesc_SetActions,0x141AF608+1
+        defadr DataBrowserDesc_SetActions,0x141AF3A8+1
+	defadr DataBrowserDesc_SetDefaultActions,0x141AF608+1
         defadr DataBrowserDesc_SetSelectAction,0x141AF634+1
         defadr DataBrowserDesc_SetSelectActionOnFolders,0x14EA0D44+1
         defadr DataBrowserDesc_SetBookID,0x141AF3B4+1

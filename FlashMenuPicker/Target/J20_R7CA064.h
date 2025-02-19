@@ -3,7 +3,7 @@
 
 #define A2
 #define DB3350
-#define REV2
+#define DB3350_R2
 
 #define INT_FLASH_PATH L"/usb/picture/flash"
 #define EXT_FLASH_PATH L"/card/picture/flash"

@@ -186,6 +186,7 @@ a       equ b
         defadr DataBrowserDesc_Menu_AddMarkFiles,0x20CC1D54+1
         defadr DataBrowserDesc_SetOpenEmptyFolder,0x20CC1E24+1
 	defadr DataBrowserDesc_SetActions,0x20CC1D6C+1
+	defadr DataBrowserDesc_SetDefaultActions,+1
         defadr DataBrowser_Create,0x20CBE5BC+1
         defadr DataBrowserDesc_Destroy,0x20CC1B94+1
 

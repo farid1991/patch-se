@@ -47,19 +47,23 @@ typedef enum
 
 typedef struct
 {
-  float size;                ///< height in ppem (20.0 ppem)
-  float width;               ///< width in ppem; (0 - treated as equal to size)
-  float skew;                ///< skew angle (0)
-  float orientation;         ///< glyph rotation, degrees clockwise (0.0)
-  float bold_pct;            ///< boldness value (0)
-  float stroke_pct;          ///< stroke width (0)
-  float edgeThickness;       ///< edge thickness in pixels (0)
-  float shadowLength_x;      ///< x-direction length of shadow in pixels (0)
-  float shadowLength_y;      ///< y-direction length of shadow in pixels (0)
-  TUIEmphasisStyle emphasis; ///< emphasis such as bold/italics (UI_Emphasis_Normal)
-  TUIBaselineStyle baseline; ///< text baseline style (UI_Baseline_Normal)
-  TUIEdgeStyle edge;         ///< text edge style (UI_Edge_Normal)
-  TUIRenderStyle render;     ///< rendering style (UI_Render_Default)
+  float size;           ///< height in ppem (20.0 ppem)
+  float width;          ///< width in ppem; (0 - treated as equal to size)
+  float skew;           ///< skew angle (0)
+  float orientation;    ///< glyph rotation, degrees clockwise (0.0)
+  float bold_pct;       ///< boldness value (0)
+  float stroke_pct;     ///< stroke width (0)
+  float edgeThickness;  ///< edge thickness in pixels (0)
+  float shadowLength_x; ///< x-direction length of shadow in pixels (0)
+  float shadowLength_y; ///< y-direction length of shadow in pixels (0)
+#ifdef DB3350_R2
+  float unk1;
+  float unk2;
+#endif
+  uint16_t emphasis; ///< emphasis such as bold/italics (UI_Emphasis_Normal)
+  uint16_t baseline; ///< text baseline style (UI_Baseline_Normal)
+  uint16_t edge;     ///< text edge style (UI_Edge_Normal)
+  uint16_t render;   ///< rendering style (UI_Render_Default)
 } TUIFontData;
 
 typedef FUint8 TUIFontStyle;

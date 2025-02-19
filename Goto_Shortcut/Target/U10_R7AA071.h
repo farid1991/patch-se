@@ -3,7 +3,6 @@
 
 #define A2
 #define DB3350
-#define REV1
 #define CLEARAUDIO
 
 #define HAS_ELF

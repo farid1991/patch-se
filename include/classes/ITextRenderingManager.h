@@ -22,7 +22,7 @@ public:
   virtual int GetLength(FSint32 *pLength);                                                                         // 0x40 Returns the text length in characters.
   virtual int GetChar(FSint32 index, FUint32 *pChar);                                                              // 0x44 Returns the character at a given index as a UTF32 value.
 #ifdef DB3350
-  virtual void *unk_0x48();
+  virtual int GetTextHeight(FSint32 index, FUint32 *height);
 #endif
   virtual int SetAlignment(TUITextAlignment align, FSint32 startIndex, FSint32 endIndex); // 0x48 0x4C Sets the paragraph alignment attribute.
   virtual int SetBackgroundColor(FUint32 color, FSint32 startIndex, FSint32 endIndex);    // 0x4C 0x50 Sets background color attribute.
@@ -48,7 +48,7 @@ public:
   virtual int SetSpaceBefore(TFloat value, FSint32 startIndex, FSint32 endIndex);         // 0x9C 0xA0
   virtual int SetStrikeout(TUILineStyle value, FSint32 startIndex, FSint32 endIndex);     // 0xA0 0xA4
   virtual int SetStrikeoutColor(FUint32 color, FSint32 startIndex, FSint32 endIndex);     // 0xA4 0xA8
-#if defined(DB3350) && defined(REV2)
+#ifdef DB3350_R2
   virtual void *unk_0xAC();
   virtual void *unk_0xB0();
 #endif

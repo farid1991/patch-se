@@ -3,6 +3,11 @@
 
 #define A2
 #define DB3350
+#define USE_JAVA
+
+#define HAS_ELF
+#define ELFS_INT_PATH L"/usb/other/ZBin"
+#define ELFS_EXT_PATH L"/card/other/ZBin"
 
 #define F_PATH (wchar_t *)0x157F4D18
 
@@ -18,6 +23,7 @@
 #define SHC_SET_MM 0x227F          // Set to main menu
 #define SHC_SET_SHORTCUT_SK 0x1D7E // add shortcut
 #define DELETEQ_TXT 0x2276         // delete shortcut
+#define JAVA_APP_TXT 0x7AC         // Java
 
 #define OPEN_TXT 0x702
 #define SELECT_TXT 0xDCE

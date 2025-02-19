@@ -100,13 +100,9 @@ void Menu_ModifyItem(BOOK *book, GUI *gui)
 {
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   if (List_GetCount(mbk->ShortcutList))
-  {
     EditorRun(mbk, EDITING_MODE);
-  }
   else
-  {
     CreateMessageBox(EMPTY_TEXTID, EMPTY_LIST_TXT, 1, 0, mbk);
-  }
 }
 
 void Menu_About(BOOK *book, GUI *gui)
@@ -120,9 +116,7 @@ void Menu_Select(BOOK *book, GUI *gui)
   GotoShortcut_Book *mbk = (GotoShortcut_Book *)book;
   SC_LIST_ELEM *Shortcut = (SC_LIST_ELEM *)List_Get(mbk->ShortcutList, ListMenu_GetSelectedItem(mbk->MainMenu));
   if (Shortcut)
-  {
     RunShortcut(Shortcut);
-  }
 
   FreeBook(mbk);
 }

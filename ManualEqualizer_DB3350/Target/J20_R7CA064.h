@@ -3,7 +3,7 @@
 
 #define A2
 #define DB3350
-#define REV2
+#define DB3350_R2
 
 #define CID_CUIImageManager (PUUID)0x15836E14
 #define IID_IUIImageManager (PUUID)0x15870424
@@ -20,7 +20,7 @@
 #define PAGE_EXIT_EVENT 0x11
 #define UI_MEDIAPLAYER_UPDATE_EVENT 0x40EC
 
-#define EQUALIZER_TXT 0x167D
+#define EQUALIZER_TXT 0x167F
 
 #define page_MusicApplication_ShowMessage (PAGE_DESC*)0x157A0140
 

@@ -69,8 +69,7 @@ void StartJava_ByName(wchar_t *name)
 
 void ExecuteEvent(wchar_t *name)
 {
-  int event = wstr2h(name, wstrlen(name));
-  UI_Event(event);
+  UI_Event(wstr2h(name, wstrlen(name)));
 }
 
 void OpenFolder(const wchar_t *folders)
@@ -90,20 +89,16 @@ void OpenFolder(const wchar_t *folders)
     DataBrowserDesc_SetBookID(DBDesc, bookID);
     DataBrowserDesc_SetFolders(DBDesc, Folders);
     DataBrowserDesc_SetFoldersNumber(DBDesc, 1);
-    DataBrowserDesc_SetSelectAction(DBDesc, 1);
-    DataBrowserDesc_SetSelectActionOnFolders(DBDesc, 1);
-    DataBrowserDesc_Menu_AddFSFunctions(DBDesc, 0);
+    DataBrowserDesc_SetSelectAction(DBDesc, FALSE);
+    // DataBrowserDesc_SetSelectActionOnFolders(DBDesc, 1);
+    DataBrowserDesc_Menu_AddFSFunctions(DBDesc, TRUE);
     DataBrowserDesc_Menu_AddNewFolder(DBDesc, TRUE);
     DataBrowserDesc_Menu_AddMarkFiles(DBDesc, TRUE);
 #ifndef DB2000
     DataBrowserDesc_SetOpenEmptyFolder(DBDesc, TRUE);
 #endif
-    char actions[4];
-    actions[0] = DB_CMD_RUN;
-    actions[1] = DB_CMD_DELETE;
-    actions[2] = DB_CMD_LAST;
-    DataBrowserDesc_SetActions(DBDesc, actions);
-  
+    DataBrowserDesc_SetDefaultActions(DBDesc, TRUE);
+
     DataBrowser_Create(DBDesc);
     DataBrowserDesc_Destroy(DBDesc);
   }
@@ -196,9 +191,8 @@ LIST *java_list_create()
     {
       JavaAppDesc_GetJavaAppInfo(java_desc, JAVA_APP_SEMCLET, &semclet);
       if (semclet[0])
-      {
         List_InsertLast(java_list, java_list_create_elem(java_desc));
-      }
+
       mfree(semclet);
       next = JavaAppDesc_GetNextApp(java_desc);
     }

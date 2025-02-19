@@ -170,11 +170,8 @@ typedef enum
 } UITextAlignment_t;
 
 // images ----------------------------------------------------------------------
-#ifdef DB3350
-typedef uint32_t IMAGEID;
-#else
 typedef wchar_t IMAGEID;
-#endif
+
 #define NOIMAGE 0xFFFF
 
 // OSE -------------------------------------------------------------------------

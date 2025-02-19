@@ -134,13 +134,14 @@ a       equ b
         defadr List_InsertFirst,0x20231F34+1
         defadr List_RemoveAt,0x20231EBC+1
         defadr Display_GetTopBook,0x2025C83C+1
-	defadr DataBrowserDesc_SetActions,0x201FF5F0+1
+        defadr DataBrowserDesc_SetActions,0x201FF5F0+1
+        defadr DataBrowserDesc_SetDefaultActions,0x201FF514+1
 
         EXTERN GotoShortcut
 
         RSEG STANDBY_SOFTKEY_LEFT
         DATA
-	DCD TITLE_TXT
+        DCD TITLE_TXT
 
         RSEG STANDBY_LINK_LEFT
         DATA

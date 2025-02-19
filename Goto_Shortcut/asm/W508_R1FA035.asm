@@ -132,6 +132,7 @@ a       EQU b
         defadr Display_GetTopBook,0x14ED9DE0+1
 	defadr DataBrowserDesc_SetOpenEmptyFolder,0x14EC4484+1
 	defadr DataBrowserDesc_SetActions,0x141AE384+1
+	defadr DataBrowserDesc_SetDefaultActions,+1
 
         EXTERN GotoShortcut
 

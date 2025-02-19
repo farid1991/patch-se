@@ -387,6 +387,7 @@ extern "C"
   wchar_t *FSX_GetInvalidChar(wchar_t *name);
   void DataBrowserDesc_SetFoldersNumber(void *DataBrowserDesc, int state);
   void DataBrowserDesc_SetActions(void *DataBrowserDesc, char *actions);
+  void DataBrowserDesc_SetDefaultActions(void *DataBrowserDesc, BOOL state);
   void DataBrowserDesc_SetSelectAction(void *DataBrowserDesc, int state);
   void DataBrowserDesc_SetSelectActionOnFolders(void *DataBrowserDesc, int state);
   void DataBrowserDesc_SetBookID(void *DataBrowserDesc, int BookID);

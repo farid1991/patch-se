@@ -367,6 +367,7 @@ a       EQU     b
         defadr FSX_isNameInvalid,0x44E8A634+1
         defadr DataBrowserDesc_SetFoldersNumber,0x44EC54A4+1
         defadr DataBrowserDesc_SetActions,0x44EC547C+1
+	defadr DataBrowserDesc_SetDefaultActions,+1
         defadr DataBrowserDesc_SetSelectAction,0x44EC53F4+1
         defadr DataBrowserDesc_SetSelectActionOnFolders,0x44EC53FC+1
         defadr DataBrowserDesc_SetBookID,0x44EC53D0+1

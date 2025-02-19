@@ -153,7 +153,10 @@ Open PR to request port a patch to certain device
 Feature requests are welcome. Please provide as much detail and context as possible.
 
 ### TODO
-Migrate the projects to [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) from IAR Build Tools for Arm
+~~Migrate the projects to [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain) from IAR Build Tools for Arm~~
+
+
+New repo with CMake and GCC build [new-patch-se](https://github.com/farid1991/new-patch-se)
 
 ### License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

@@ -33,7 +33,7 @@ void dll_DrawString(int font_size, TEXTID text_id, int align, int x1, int y1, in
 {
   ITextRenderingManager *pTextRenderingManager = NULL;
   ITextRenderingFactory *pTextRenderingFactory = NULL;
-  IUIRichTextLayoutOptions * pIUIRichTextLayoutOptions = NULL;
+  IUIRichTextLayoutOptions *pIUIRichTextLayoutOptions = NULL;
   IRichTextLayout *pRichTextLayout = NULL;
   IRichText *pTextObject = NULL;
   IUnknown *pGC = NULL;
@@ -51,7 +51,7 @@ void dll_DrawString(int font_size, TEXTID text_id, int align, int x1, int y1, in
 
   TextObject_SetText(pTextObject, text_id);
   TextObject_SetFont(pTextObject, pFont, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
-  
+
   pTextObject->SetTextColor(pen_color, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
   pTextObject->SetAlignment((TUITextAlignment)align, UITEXTSTYLE_START_OF_TEXT, UITEXTSTYLE_END_OF_TEXT);
 

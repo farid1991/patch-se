@@ -96,7 +96,8 @@ a       EQU b
         defadr DataBrowser_isFileInListExt,0x141B2E04+1
         defadr DataBrowserDesc_Create,0x145B2E18+1
 	defadr DataBrowserDesc_SetHeaderText,0x145B2EBC+1
-	defadr DataBrowserDesc_SetActions,0x145B2F18+1
+	defadr DataBrowserDesc_SetActions,+1
+	defadr DataBrowserDesc_SetDefaultActions,0x145B2F18+1
 	defadr DataBrowserDesc_SetBookID,0x145B2D58+1
 	defadr DataBrowserDesc_SetFileExtList,0x1513D308+1
 	defadr DataBrowserDesc_SetFolders,0x145B2EB4+1

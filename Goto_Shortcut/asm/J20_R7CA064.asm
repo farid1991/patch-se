@@ -150,6 +150,23 @@ a       equ     b
         defadr Display_GetTopBook,0x14052680+1
 	defadr DataBrowserDesc_SetOpenEmptyFolder,0x14C243C0+1
 	defadr DataBrowserDesc_SetActions,0x14CE42B4+1
+	defadr DataBrowserDesc_SetDefaultActions,0x14CE4118+1
+	defadr DataBrowserDesc_SetFileExtList,0x14CE4518+1
+	defadr DataBrowserDesc_SetItemFilter,0x14CE42BC+1
+	defadr DataBrowserDesc_SetSelectActionOnFolders,0x14A0FF50+1
+	defadr DataBrowser_isFileInListExt,0x14568F10+1
+	defadr FILEITEM_GetFname,0x140217D0+1
+	defadr FILEITEM_GetPath,0x140216D4+1
+	defadr FSX_MakeFullPath,0x145CE068+1
+	defadr JavaDialog_Open,0x14330AFC+1
+	defadr JavaDialog_Close,0x141ABC80+1
+	defadr JavaAppDesc_GetFirstApp,0x1404B1F0+1
+	defadr JavaAppDesc_GetJavaAppInfo,0x141AC90C+1
+	defadr JavaAppDesc_GetJavaAppID,0x141ACC48+1
+	defadr JavaAppDesc_GetNextApp,0x1447DC60+1
+	defadr JavaApp_LogoImageID_Get,0x14B140CC+1
+	defadr REQUEST_UI_OAF_START_APPLICATION,0x146168C4+1
+	defadr ImageID_Free,0x140233F0+1
 
         EXTERN GotoShortcut
 
