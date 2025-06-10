@@ -18,9 +18,6 @@
         g = NULL;             \
     }
 
-__thumb void *malloc(int size);
-__thumb void mfree(void *mem);
-
 typedef struct
 {
   TEXTID book_name;

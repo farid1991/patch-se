@@ -310,7 +310,7 @@ BOOK *CreateBacklightControlBook()
 {
   BacklightControlBook *BCBook = (BacklightControlBook *)malloc(sizeof(BacklightControlBook));
   memset(BCBook, NULL, sizeof(BacklightControlBook));
-  CreateBook(BCBook, BacklightControlBook_Destroy, &BacklightControlBook_Base_Page, "BacklightControlBook", -1, 0);
+  CreateBook(BCBook, BacklightControlBook_Destroy, &BacklightControlBook_Base_Page, "BacklightControlBook", NO_BOOK_ID, NULL);
   BCBook->main_menu = NULL;
   BCBook->books_list = NULL;
   BCBook->string_input = NULL;

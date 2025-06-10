@@ -5,7 +5,7 @@
 
 #include "main.h"
 
-int FindNameFromData(char *name, FILEDATA fdata[], int count)
+int FindNameFromData(char *name, FILEDATA *fdata, int count)
 {
   for (int i = 0; i < count; i++)
   {
@@ -66,17 +66,17 @@ void DeleteData(int num, BOOK *book, int count)
   }
 }
 
-char *GetNameFromData(FILEDATA fdata[], int index)
+char *GetNameFromData(FILEDATA *fdata, int index)
 {
   return (fdata[index].bookname);
 }
 
-int GetTimeFromData(FILEDATA fdata[], int index)
+int GetTimeFromData(FILEDATA *fdata, int index)
 {
   return (fdata[index].time);
 }
 
-int GetBrightFromData(FILEDATA fdata[], int index)
+int GetBrightFromData(FILEDATA *fdata, int index)
 {
   return (fdata[index].bright);
 }
