@@ -1,4 +1,5 @@
 //W890_R1FA035
+#include "target.h"
 
 defadr  MACRO a,b
         PUBLIC a
@@ -856,7 +857,7 @@ next_:
         POP     {R4,R5,PC}
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
 
@@ -877,5 +878,6 @@ next_:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
+#endif
 
         END

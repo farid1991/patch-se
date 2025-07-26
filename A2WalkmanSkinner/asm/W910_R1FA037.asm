@@ -433,7 +433,7 @@ next_:
         POP     {R4,R5,PC}
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
 

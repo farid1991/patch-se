@@ -1,4 +1,5 @@
 //K630_R1FA032
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -418,5 +419,29 @@ next_:
 	BLX	R3
         BL      refresh_gui
         POP     {R4,R5,PC}
+
+//------------------------------------------------------------------------------
+#ifndef STANDART_EQ
+        EXTERN New_MusicApplication_Equalizer_EnterEvent
+        EXTERN New_MusicApplication_Equalizer_CancelEvent
+
+        EXTERN New_SetEqualizerGain
+
+        RSEG PATCH_Equalizer_EnterEvent
+        DATA
+        DCD New_MusicApplication_Equalizer_EnterEvent
+
+        RSEG PATCH_Equalizer_CancelEvent
+        DATA
+        DCD New_MusicApplication_Equalizer_CancelEvent
+
+        RSEG PATCH_SetEqualizerGain
+        CODE16
+        PUSH    {LR}
+        LDR     R3,=New_SetEqualizerGain
+        BLX     R3
+        MOV     R0, #1
+        POP     {PC}
+#endif
 
         END

@@ -3,6 +3,8 @@
 
 #define A2
 #define DB3150v1
+
+// Uncomment for std equalizer gui
 #define STANDART_EQ
 
 #define GetFontDesc (FONT_DESC *)0x2A27E5B0

@@ -1,4 +1,5 @@
 //W508_R1FA035
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -7,8 +8,8 @@ a       EQU     b
 
         defadr memalloc,0x4BA30DE8
         defadr memfree,0x4BA30E10
-        defadr memset,0x14092910+1
-        defadr memcpy,0x14044020+1
+        defadr memset,0x14C23C5C
+        defadr memcpy,0x144B0880
         defadr debug_printf,0x14C39CD0
         defadr strstr,0x141EB45C+1
         defadr strlen,0x140922D8+1
@@ -430,7 +431,7 @@ _loop_fix:
 	BX      R3
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
         
@@ -451,5 +452,6 @@ _loop_fix:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
+#endif
 
         END

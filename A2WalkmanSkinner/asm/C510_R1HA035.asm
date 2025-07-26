@@ -1,4 +1,5 @@
 //C510_R1HA035
+#include "target.h"
 
 defadr MACRO a,b
         PUBLIC  a
@@ -987,20 +988,20 @@ _loop_fix:
 	BX      R3
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
-        
+
         EXTERN New_SetEqualizerGain
 
         RSEG PATCH_Equalizer_EnterEvent
         DATA
         DCD New_MusicApplication_Equalizer_EnterEvent
-        
+
         RSEG PATCH_Equalizer_CancelEvent
         DATA
         DCD New_MusicApplication_Equalizer_CancelEvent
-        
+
         RSEG PATCH_SetEqualizerGain
         CODE16
         PUSH    {LR}
@@ -1008,5 +1009,6 @@ _loop_fix:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
+#endif
 
         END

@@ -1,4 +1,5 @@
 //C702_R3EF001
+#include "target.h"
 
 defadr  MACRO   a,b
         PUBLIC  a
@@ -403,7 +404,7 @@ _shuffle_fix:
 	BX      R3
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
 
@@ -424,5 +425,6 @@ _shuffle_fix:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
+#endif
 
         END

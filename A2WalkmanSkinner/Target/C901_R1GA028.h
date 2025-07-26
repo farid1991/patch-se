@@ -4,6 +4,9 @@
 #define A2
 #define DB3210
 
+// Uncomment for std equalizer gui
+// #define STANDART_EQ
+
 #define CID_CMetaData (PUUID)0x15A83A90
 #define IID_IMetaData (PUUID)0x15AC7D0C
 #define CID_CUIFontManager (PUUID)0x15AA6DF4

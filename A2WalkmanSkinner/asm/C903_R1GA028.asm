@@ -417,7 +417,7 @@ _loop_fix:
 	BX      R3
 
 //------------------------------------------------------------------------------
-
+#ifndef STANDART_EQ
         EXTERN New_MusicApplication_Equalizer_EnterEvent
         EXTERN New_MusicApplication_Equalizer_CancelEvent
 
@@ -438,5 +438,6 @@ _loop_fix:
         BLX     R3
         MOV     R0, #1
         POP     {PC}
+#endif
 
         END
